@@ -1,0 +1,2401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ribbit — OOSH ESL Reading</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary:#bada55; --primary-dark:#8fb832; --primary-light:#f0f7d0;
+      --primary-mid:#d4ec96; --accent:#f9ad3b; --accent-light:#fef3d6;
+      --accent-dark:#d4831a; --red:#E05C5C; --red-light:#FDEAEA;
+      --bg:#f8faf0; --card:#FFFFFF; --text:#151515; --text-muted:#5e6648;
+      --text-light:#9aaa72; --border:#deeab8;
+      --shadow-sm:0 1px 4px rgba(143,184,50,.1);
+      --shadow:0 4px 20px rgba(143,184,50,.16);
+      --shadow-lg:0 8px 40px rgba(143,184,50,.22);
+      --radius-sm:10px; --radius:16px; --radius-lg:24px;
+      --font-head:'Etna Sans Serif','Josefin Sans',sans-serif;
+      --font-body:'Glacial Indifference','Nunito',sans-serif;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+    h1,h2,h3,h4{font-family:var(--font-head)}
+    button{font-family:var(--font-body);cursor:pointer;border:none;outline:none}
+    #app{max-width:520px;margin:0 auto;min-height:100vh;position:relative;overflow-x:hidden}
+    .screen{animation:fadeSlideIn .3s ease both}
+    @keyframes fadeSlideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+    /* NAV BAR */
+    .nav-bar{display:flex;align-items:center;gap:12px;padding:16px 20px 12px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .nav-bar h2{font-size:1.1rem;color:var(--text);flex:1}
+    .back-btn{width:36px;height:36px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+    .back-btn:hover{background:var(--primary-mid)}
+
+    /* HOME */
+    .home-screen{display:flex;flex-direction:column;align-items:center;padding:40px 20px 32px;min-height:100vh;background:linear-gradient(160deg,#f0f7d0 0%,#f8faf0 50%,#fef3d6 100%)}
+    .logo-block{text-align:center;margin-bottom:32px}
+    .frog-logo{width:96px;height:96px;margin:0 auto 14px;filter:drop-shadow(0 8px 24px rgba(143,184,50,.25))}
+    .logo-block h1{font-size:2.8rem;color:var(--primary-dark);letter-spacing:-1px;line-height:1}
+    .logo-block p{font-size:1rem;color:var(--text-muted);margin-top:6px}
+    .streak-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);color:var(--accent-dark);font-weight:700;font-size:.9rem;border-radius:99px;padding:8px 18px;margin-bottom:24px;border:1px solid #f9ad3b}
+    .home-stats{display:flex;gap:12px;margin-bottom:24px;width:100%}
+    .home-stat-card{flex:1;background:var(--card);border-radius:var(--radius);padding:16px;text-align:center;box-shadow:var(--shadow-sm);border:1px solid var(--border)}
+    .home-stat-card .big{font-size:2rem;font-weight:800;color:var(--primary-dark);line-height:1;font-family:var(--font-head)}
+    .home-stat-card .label{font-size:.78rem;color:var(--text-muted);margin-top:4px}
+    .xp-wrap{width:100%;margin-bottom:24px}
+    .xp-meta{display:flex;justify-content:space-between;margin-bottom:6px;font-size:.8rem;color:var(--text-muted)}
+    .xp-bar-wrap{height:8px;background:var(--primary-light);border-radius:99px;overflow:hidden}
+    .xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:99px;transition:width .6s ease}
+    .home-cta{width:100%;padding:18px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1.1rem;font-weight:700;box-shadow:0 6px 24px rgba(143,184,50,.35);transition:transform .15s,box-shadow .15s;margin-bottom:12px}
+    .home-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(143,184,50,.4)}
+    .home-secondary{width:100%;padding:14px;background:var(--card);color:var(--primary-dark);border-radius:var(--radius);font-size:1rem;font-weight:600;border:2px solid var(--border);transition:border-color .2s,background .2s}
+    .home-secondary:hover{border-color:var(--primary);background:var(--primary-light)}
+
+    /* LEVEL SELECT */
+    .levels-grid{padding:16px;display:flex;flex-direction:column;gap:12px;padding-bottom:32px}
+    .level-card{background:var(--card);border-radius:var(--radius);padding:18px 20px;border:2px solid var(--border);cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden}
+    .level-card:hover{border-color:var(--primary);box-shadow:var(--shadow);transform:translateY(-2px)}
+    .level-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:0 3px 3px 0}
+    .level-card[data-lv="1"]::before{background:#d4ec96}
+    .level-card[data-lv="2"]::before{background:#bada55}
+    .level-card[data-lv="3"]::before{background:#8fb832}
+    .level-card[data-lv="4"]::before{background:#f9ad3b}
+    .level-card[data-lv="5"]::before{background:#d4831a}
+    .level-card[data-lv="6"]::before{background:#151515}
+    .level-num{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:800;font-family:var(--font-head);flex-shrink:0}
+    .level-card[data-lv="1"] .level-num{background:#f0f7d0;color:#6b8a1e}
+    .level-card[data-lv="2"] .level-num{background:#e4f3a8;color:#6b8a1e}
+    .level-card[data-lv="3"] .level-num{background:#d4ec96;color:#5a7218}
+    .level-card[data-lv="4"] .level-num{background:#fef3d6;color:#d4831a}
+    .level-card[data-lv="5"] .level-num{background:#fde8c0;color:#a0580e}
+    .level-card[data-lv="6"] .level-num{background:#e8e8e8;color:#151515}
+    .level-info{flex:1}
+    .level-info h3{font-size:1.05rem;margin-bottom:2px}
+    .level-meta{font-size:.78rem;color:var(--text-muted);margin-bottom:6px}
+    .tag{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:99px}
+    .tag-green{background:var(--primary-light);color:var(--primary-dark)}
+    .tag-amber{background:var(--accent-light);color:var(--accent-dark)}
+    .tag-red{background:var(--red-light);color:#A03030}
+    .level-progress{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+    .level-stars{font-size:.9rem}
+    .level-count{font-size:.75rem;color:var(--text-muted)}
+    .level-card-complete{border-color:#f9ad3b;background:linear-gradient(135deg,var(--card),#fef9ec)}
+    .level-card-complete:hover{border-color:#d4831a;box-shadow:0 4px 20px rgba(249,173,59,.2)}
+    .level-badge{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:700;color:#7a4800;background:#fef3d6;border:1px solid #f9ad3b;border-radius:99px;padding:2px 8px;margin-top:4px}
+
+    /* SUB-LEVEL SELECT */
+    .sublevel-hero{padding:20px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white}
+    .sublevel-hero h2{font-size:1.3rem;margin-bottom:4px}
+    .sublevel-hero p{font-size:.85rem;opacity:.85}
+    .sublevel-hero .badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .hero-badge{font-size:.75rem;font-weight:600;background:rgba(255,255,255,.2);color:white;padding:3px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.3)}
+    .sublevels-grid{padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-bottom:32px}
+    .sublevel-card{background:var(--card);border-radius:var(--radius);padding:14px;border:2px solid var(--border);cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;text-align:center}
+    .sublevel-card:hover{border-color:var(--primary);box-shadow:var(--shadow);transform:translateY(-2px)}
+    .sublevel-card.complete{border-color:var(--primary-mid);background:var(--primary-light)}
+    .sublevel-card .sl-num{font-size:1.6rem;font-weight:900;color:var(--primary-dark);font-family:var(--font-head);line-height:1;margin-bottom:4px}
+    .sublevel-card .sl-label{font-size:.82rem;color:var(--text);font-weight:600;margin-bottom:6px}
+    .sublevel-card .sl-meta{font-size:.72rem;color:var(--text-muted)}
+    .sublevel-card .sl-stars{font-size:.85rem;margin-top:4px}
+
+    /* STORY BROWSER */
+    .stories-list{padding:12px 16px;display:flex;flex-direction:column;gap:12px;padding-bottom:32px}
+    .story-card{background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid var(--border);cursor:pointer;transition:box-shadow .2s,transform .15s,border-color .2s;display:flex;gap:14px;align-items:flex-start}
+    .story-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);border-color:var(--primary-mid)}
+    .story-card.done{border-color:var(--primary-mid)}
+    .story-emoji{font-size:2.2rem;line-height:1;flex-shrink:0;margin-top:2px}
+    .story-info{flex:1}
+    .story-info h3{font-size:1rem;margin-bottom:4px}
+    .story-info p{font-size:.82rem;color:var(--text-muted);margin-bottom:8px;line-height:1.5}
+    .story-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .meta-chip{font-size:.75rem;color:var(--text-muted)}
+    .story-action{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+    .read-btn{padding:8px 18px;background:var(--primary);color:white;border-radius:99px;font-size:.85rem;font-weight:700;transition:background .2s}
+    .read-btn:hover{background:var(--primary-dark)}
+    .done-badge{font-size:.75rem;color:var(--primary);font-weight:700}
+
+    /* READER */
+    .reader-screen{padding-bottom:120px}
+    .reader-prog-bar{height:4px;background:var(--primary-light)}
+    .reader-prog-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .4s ease}
+    .reader-header{padding:12px 20px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+    .reader-header h3{font-size:1rem;flex:1;text-align:center;padding:0 8px}
+    .icon-btn{width:36px;height:36px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .2s}
+    .icon-btn:hover{background:var(--primary-mid)}
+    .reader-story-meta{padding:16px 24px 8px;display:flex;gap:10px;flex-wrap:wrap}
+    .meta-pill{display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--text-muted);background:var(--primary-light);padding:4px 12px;border-radius:99px}
+    .reader-body{padding:8px 24px 24px}
+    .reader-body p{font-size:1.1rem;line-height:1.9;color:var(--text);margin-bottom:1.2em}
+    .tappable{display:inline;border-bottom:1.5px dotted var(--primary-mid);cursor:pointer;border-radius:2px;transition:background .15s,color .15s}
+    .tappable:hover{background:var(--primary-light);color:var(--primary-dark)}
+    .tappable.hl{background:var(--accent-light);color:var(--accent-dark);border-bottom-color:var(--accent)}
+    /* Vocab highlight mode — story vocabulary (green) */
+    .tappable-hl{background:#d4ec96;color:var(--primary-dark);border-bottom:2px solid var(--primary);padding:0 2px;border-radius:3px}
+    .tappable-hl:hover{background:var(--primary-light)}
+    .tappable-hl.hl{background:var(--accent-light);color:var(--accent-dark);border-bottom-color:var(--accent)}
+    /* Above-level words from CEFR word lists (blue) */
+    .tappable-challenge{background:#EFF6FF;color:#1D4ED8;border-bottom:2px solid #93C5FD;padding:0 2px;border-radius:3px;cursor:pointer}
+    .tappable-challenge:hover{background:#DBEAFE}
+    .tappable-challenge.hl{background:#DBEAFE;color:#1E40AF}
+    /* Level badge in popup */
+    .wp-level-badge{font-size:.72rem;font-weight:800;background:#EFF6FF;color:#1D4ED8;border:1px solid #93C5FD;padding:2px 8px;border-radius:99px;margin-left:8px}
+    .wp-challenge-note{font-size:.82rem;color:#1D4ED8;background:#EFF6FF;border-radius:8px;padding:8px 10px;margin-bottom:10px;border:1px solid #BFDBFE}
+    .vocab-section{margin:8px 0 24px;padding:16px;background:var(--primary-light);border-radius:var(--radius);border:1px solid var(--primary-mid)}
+    .vocab-section h4{font-size:.82rem;color:var(--primary-dark);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+    .vocab-chips{display:flex;flex-wrap:wrap;gap:8px}
+    .vocab-chip{padding:4px 12px;background:var(--card);border:1px solid var(--primary-mid);color:var(--primary-dark);border-radius:99px;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .2s,color .2s}
+    .vocab-chip:hover{background:var(--primary-dark);color:white}
+    .reader-bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:var(--card);border-top:1px solid var(--border);padding:12px 20px 20px;z-index:100}
+    .finish-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(143,184,50,.3);transition:transform .15s,box-shadow .15s}
+    .finish-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(143,184,50,.4)}
+    .step-counter{text-align:center;font-size:.8rem;color:var(--text-muted);margin-bottom:6px;font-family:'Glacial Indifference',sans-serif}
+    .step-new{animation:stepIn .4s ease both}
+    @keyframes stepIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .reader-sentence{padding:4px 0}
+
+    /* WORD POPUP */
+    .word-popup{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:488px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-lg);border:1px solid var(--border);padding:18px;z-index:200;animation:popIn .25s cubic-bezier(.34,1.56,.64,1) both}
+    @keyframes popIn{from{opacity:0;transform:translateX(-50%) translateY(20px) scale(.95)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
+    .word-popup.hiding{animation:popOut .2s ease both}
+    @keyframes popOut{to{opacity:0;transform:translateX(-50%) translateY(12px)}}
+    .wp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .wp-word{font-size:1.3rem;font-weight:800;color:var(--primary-dark);font-family:var(--font-head)}
+    .wp-pos{font-size:.78rem;color:var(--text-muted);background:var(--primary-light);padding:2px 8px;border-radius:99px;font-weight:600;margin-left:8px}
+    .wp-close{width:28px;height:28px;border-radius:50%;background:var(--bg);color:var(--text-muted);font-size:.9rem;display:flex;align-items:center;justify-content:center}
+    .wp-def{font-size:.95rem;color:var(--text);line-height:1.5;margin-bottom:8px}
+    .wp-translation{min-height:22px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .wp-tl-loading{font-size:.78rem;color:var(--text-light);font-style:italic}
+    .wp-tl-lang{font-size:.68rem;font-weight:700;background:var(--primary-light);color:var(--primary-dark);padding:2px 6px;border-radius:99px}
+    .wp-tl-text{font-size:1rem;font-weight:700;color:var(--primary-dark);font-family:var(--font-head)}
+    .wp-actions{display:flex;flex-direction:column;gap:8px}
+    .wp-translate-btn{width:100%;padding:10px 14px;border-radius:var(--radius);font-size:.85rem;font-weight:700;background:#fef9ec;color:#7a4800;border:1px solid #fde8b0;transition:background .2s,color .2s;text-align:center}
+    .wp-translate-btn:hover{background:#fde8b0;color:#5a3200}
+    .wp-translate-btn:disabled{opacity:.6;cursor:default}
+    .wp-fc-btn{width:100%;padding:10px 14px;border-radius:var(--radius);font-size:.85rem;font-weight:700;background:var(--primary-light);color:var(--primary-dark);transition:background .2s,color .2s;text-align:center}
+    .wp-fc-btn:hover{background:var(--primary);color:white}
+    .wp-fc-btn.in-deck{background:var(--primary);color:white}
+    .wp-save{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--primary);font-weight:700;background:none;padding:0;transition:color .2s}
+    .wp-save:hover{color:var(--primary-dark)}
+    .wp-save.saved{color:var(--accent-dark)}
+
+    /* QUIZ */
+    .quiz-progress{padding:12px 20px;display:flex;align-items:center;gap:12px}
+    .q-label{font-size:.82rem;color:var(--text-muted);font-weight:600;white-space:nowrap}
+    .q-dots{display:flex;gap:6px}
+    .q-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:background .3s}
+    .q-dot.cur{background:var(--primary);transform:scale(1.2)}
+    .q-dot.ok{background:var(--primary)}
+    .q-dot.bad{background:var(--red)}
+    .quiz-body{padding:8px 20px 20px}
+    .quiz-qnum{font-size:.78rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+    .quiz-question{font-size:1.2rem;color:var(--text);line-height:1.5;margin-bottom:24px;font-family:var(--font-head)}
+    .quiz-options{display:flex;flex-direction:column;gap:10px}
+    .q-opt{padding:14px 18px;background:var(--card);border:2px solid var(--border);border-radius:var(--radius);font-size:.95rem;text-align:left;cursor:pointer;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:12px}
+    .q-opt:hover:not(:disabled){border-color:var(--primary);background:var(--primary-light)}
+    .q-opt:disabled{cursor:default}
+    .q-opt.ok{border-color:var(--primary);background:var(--primary-light);color:var(--primary-dark);font-weight:700}
+    .q-opt.bad{border-color:var(--red);background:var(--red-light);color:#A03030}
+    .opt-letter{width:28px;height:28px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0}
+    .q-opt.ok .opt-letter{background:var(--primary);border-color:var(--primary);color:white}
+    .q-opt.bad .opt-letter{background:var(--red);border-color:var(--red);color:white}
+    .quiz-fb{margin-top:16px;padding:14px 16px;border-radius:var(--radius-sm);font-size:.9rem;line-height:1.5;animation:fadeSlideIn .25s ease both;display:none}
+    .quiz-fb.ok{background:var(--primary-light);color:var(--primary-dark);border:1px solid var(--primary-mid)}
+    .quiz-fb.bad{background:var(--red-light);color:#A03030;border:1px solid #FACACA}
+    .quiz-next{margin-top:20px;width:100%;padding:15px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(143,184,50,.25);transition:transform .15s;display:none}
+    .quiz-next.vis{display:block}
+    .quiz-next:hover{transform:translateY(-1px)}
+
+    /* RESULTS */
+    .results-screen{padding:32px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;min-height:100vh;background:linear-gradient(160deg,var(--primary-light) 0%,var(--bg) 60%)}
+    .res-emoji{font-size:5rem;line-height:1;margin-bottom:16px;display:block;animation:bounceIn .6s cubic-bezier(.34,1.56,.64,1) both}
+    @keyframes bounceIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+    .results-screen h2{font-size:2rem;color:var(--primary-dark);margin-bottom:6px}
+    .res-score{font-size:3.5rem;font-weight:900;color:var(--primary);font-family:var(--font-head);margin:8px 0}
+    .res-cards{display:flex;gap:12px;width:100%;margin:16px 0 28px}
+    .res-card{flex:1;background:var(--card);border-radius:var(--radius);padding:16px 12px;border:1px solid var(--border);box-shadow:var(--shadow-sm)}
+    .res-card .rc-icon{font-size:1.5rem;margin-bottom:6px}
+    .res-card .rc-val{font-size:1.5rem;font-weight:800;color:var(--text);font-family:var(--font-head)}
+    .res-card .rc-label{font-size:.75rem;color:var(--text-muted);margin-top:3px}
+    .res-continue{width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1.05rem;font-weight:700;box-shadow:0 4px 20px rgba(143,184,50,.3);margin-bottom:12px;transition:transform .15s}
+    .res-continue:hover{transform:translateY(-2px)}
+    .res-again{width:100%;padding:14px;background:var(--card);color:var(--primary-dark);border-radius:var(--radius);font-size:.95rem;font-weight:600;border:2px solid var(--border);transition:border-color .2s;margin-bottom:10px}
+    .res-again:hover{border-color:var(--primary)}
+    .res-reread{width:100%;padding:12px;background:none;color:var(--text-muted);border-radius:var(--radius);font-size:.88rem;font-weight:600;border:1px solid var(--border)}
+    .sublevel-unlock{background:linear-gradient(135deg,#fef3d6,#fde8b0);border:1px solid #f9ad3b;border-radius:var(--radius);padding:12px 16px;text-align:center;font-weight:700;color:#7a4800;margin:12px 0;font-size:.9rem;animation:stepIn .4s ease both}
+
+    /* WORDLIST */
+    .wl-empty{text-align:center;padding:48px 20px;color:var(--text-muted)}
+    .wl-empty .we-icon{font-size:3rem;margin-bottom:12px}
+    .wl-items{padding:12px 16px;display:flex;flex-direction:column;gap:10px;padding-bottom:100px}
+    .wl-item{background:var(--card);border-radius:var(--radius);padding:14px 16px;border:1px solid var(--border);display:flex;align-items:center;gap:12px}
+    .wl-word{font-size:1.05rem;font-weight:700;color:var(--primary-dark);font-family:var(--font-head)}
+    .wl-def{font-size:.82rem;color:var(--text-muted);line-height:1.4;margin-top:2px}
+    .wl-del{color:var(--text-light);font-size:1rem;background:none;transition:color .2s;padding:4px 8px}
+    .wl-del:hover{color:var(--red)}
+    /* Daily goal ring */
+    .daily-goal-wrap{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;width:100%}
+    .goal-ring{width:72px;height:72px;flex-shrink:0}
+    .daily-goal-title{font-size:1rem;font-weight:700;color:var(--text);font-family:var(--font-head)}
+    .daily-goal-sub{font-size:.85rem;color:var(--text-muted);margin-top:2px}
+    .daily-goal-done{font-size:.82rem;color:var(--accent-dark);font-weight:700;margin-top:4px}
+    /* Font size */
+    .font-large .reader-body p{font-size:1.3rem;line-height:2.1}
+    .font-large .fc-front-word{font-size:2.7rem}
+    .font-large .fc-back-word{font-size:1.8rem}
+    .font-large .fc-back-def{font-size:1.05rem}
+    .font-size-toggle{display:flex;gap:10px;margin-bottom:4px}
+    .fs-btn{width:56px;height:56px;border-radius:var(--radius);border:2px solid var(--border);background:var(--card);color:var(--text-muted);font-weight:800;font-size:1rem;transition:all .2s}
+    .fs-btn-large{font-size:1.5rem}
+    .fs-active{border-color:var(--primary);background:var(--primary-light);color:var(--primary-dark)}
+    /* TTS — Text-to-Speech bar */
+    .tts-bar{display:flex;align-items:center;gap:8px;padding:8px 20px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid);position:sticky;top:57px;z-index:49}
+    .tts-play-btn{width:34px;height:34px;border-radius:50%;background:var(--primary);color:white;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+    .tts-play-btn:hover{background:var(--primary-dark)}
+    .tts-play-btn.paused{background:var(--accent);color:white}
+    .tts-stop-btn{width:34px;height:34px;border-radius:50%;background:var(--card);color:var(--text-muted);font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border);transition:background .2s}
+    .tts-stop-btn:hover{background:var(--border)}
+    .tts-rate-group{display:flex;gap:4px;margin-left:auto}
+    .tts-rate-btn{padding:4px 10px;border-radius:99px;font-size:.75rem;font-weight:700;background:var(--card);color:var(--text-muted);border:1px solid var(--border);transition:all .2s;cursor:pointer}
+    .tts-rate-btn.tts-rate-active{background:var(--primary);color:white;border-color:var(--primary)}
+    .tts-label{font-size:.78rem;font-weight:700;color:var(--primary-dark);white-space:nowrap}
+    /* TTS word highlight */
+    .tts-w{transition:background .1s}
+    .tts-word-hl{background:#f9ad3b !important;color:#151515 !important;border-radius:3px;padding:0 1px}
+    .icon-btn.tts-active{background:var(--primary);color:white}
+    /* Reader bottom row with back + next */
+    .reader-bottom-row{display:flex;align-items:center;gap:10px;padding:0}
+    .reader-back-btn{padding:14px 18px;background:var(--bg);color:var(--text-muted);border:1px solid var(--border);border-radius:var(--radius);font-size:.95rem;font-weight:700;white-space:nowrap;transition:background .2s}
+    .reader-back-btn:hover{background:var(--border)}
+    .reader-next-btn{flex:1}
+    /* Flash card Got it / Still learning */
+    .fc-got-btn{flex:1;padding:14px;border-radius:var(--radius);font-size:.95rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 4px 16px rgba(143,184,50,.3)}
+    .fc-hard-btn{flex:1;padding:14px;border-radius:var(--radius);font-size:.95rem;font-weight:700;background:var(--bg);color:var(--text);border:1px solid var(--border)}
+    /* Flash card summary */
+    .fc-summary{padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:12px}
+    .fc-sum-emoji{font-size:3.5rem;margin-bottom:4px}
+    .fc-sum-row{width:100%;display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px}
+    .fc-sum-got{font-weight:700;color:var(--primary-dark)}
+    .fc-sum-hard{font-weight:700;color:#7a4800}
+    .fc-sum-num{font-size:1.4rem;font-weight:800;color:var(--text)}
+    .fc-sum-perfect{color:var(--primary-dark);font-weight:700;font-size:1rem}
+    .fc-play-btn-outline{background:none!important;border:2px solid var(--primary);color:var(--primary-dark)!important;box-shadow:none!important;margin-top:4px}
+    /* Settings / language picker */
+    .home-settings{width:100%;padding:12px;background:none;color:var(--text-muted);font-size:.85rem;font-weight:600;border:1px solid var(--border);border-radius:var(--radius);margin-top:8px;transition:background .2s}
+    .home-settings:hover{background:var(--bg)}
+    .lang-picker-screen{display:flex;flex-direction:column;padding-bottom:32px}
+    .lang-picker-hero{text-align:center;padding:40px 24px 20px}
+    .lang-picker-emoji{font-size:3rem;margin-bottom:12px}
+    .lang-picker-hero h2{margin-bottom:8px}
+    .lang-picker-hero p{color:var(--text-muted);font-size:.9rem}
+    .lang-list{display:flex;flex-direction:column;gap:8px;padding:8px 16px 32px}
+    .lang-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:border-color .2s,background .2s;text-align:left}
+    .lang-item:hover{border-color:var(--primary);background:var(--primary-light)}
+    .lang-selected{border-color:var(--primary)!important;background:var(--primary-light)!important}
+    .lang-flag{font-size:1.5rem;width:32px;text-align:center}
+    .lang-name{flex:1;font-size:.95rem;font-weight:600;color:var(--text)}
+    .lang-check{color:var(--primary);font-size:1.1rem;font-weight:800}
+    .settings-section{padding:16px}
+    .settings-label{font-size:.75rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+    .settings-desc{font-size:.85rem;color:var(--text-muted);margin-bottom:14px;line-height:1.5}
+    /* Flash card list */
+    .fc-list-actions{padding:16px 16px 4px}
+    .fc-play-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(143,184,50,.3)}
+    .fc-item{flex-direction:row;align-items:flex-start}
+    .fc-item-left{flex:1}
+    .fc-item-tl{font-size:.82rem;color:var(--primary);margin-top:4px}
+    .fc-item-actions{display:flex;align-items:center}
+    /* Flash card play */
+    .fc-play-screen{padding-bottom:100px}
+    .fc-card-wrap{padding:24px 20px;display:flex;justify-content:center}
+    .fc-card{width:100%;max-width:400px;height:260px;perspective:900px;cursor:pointer}
+    .fc-card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+    .fc-card-inner.flipped{transform:rotateY(180deg)}
+    .fc-face{position:absolute;inset:0;border-radius:18px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;box-shadow:0 8px 32px rgba(0,0,0,.10);border:1px solid var(--border)}
+    .fc-front{background:var(--card)}
+    .fc-back{background:linear-gradient(135deg,var(--primary-light),#e4f3a8);transform:rotateY(180deg)}
+    .fc-front-word{font-size:2.2rem;font-weight:800;color:var(--primary-dark);font-family:var(--font-head);text-align:center}
+    .fc-tap-hint{font-size:.8rem;color:var(--text-muted);margin-top:16px}
+    .fc-back-word{font-size:1.5rem;font-weight:800;color:var(--primary-dark);font-family:var(--font-head);text-align:center}
+    .fc-back-pos{font-size:.75rem;color:var(--text-muted);background:white;padding:2px 10px;border-radius:99px;margin:6px 0 10px}
+    .fc-back-tl-block{display:flex;align-items:center;gap:8px;background:#fef9ec;border:1px solid #fde8b0;border-radius:99px;padding:6px 14px;margin:4px 0 8px}
+    .fc-back-tl-lang{font-size:.65rem;font-weight:800;color:#7a4800;background:#fde8b0;padding:2px 6px;border-radius:99px}
+    .fc-back-tl-text{font-size:1.15rem;font-weight:800;color:#5a3200;font-family:var(--font-head)}
+    .fc-back-tl-fetch{background:#fef9ec;color:#7a4800;border:1px solid #fde8b0;border-radius:99px;padding:6px 16px;font-size:.82rem;font-weight:700;margin:4px 0 8px;transition:background .2s}
+    .fc-back-tl-fetch:hover{background:#fde8b0}
+    .fc-back-divider{width:80%;height:1px;background:rgba(0,0,0,.08);margin:8px 0}
+    .fc-back-def{font-size:.9rem;color:var(--text);text-align:center;line-height:1.5}
+    .fc-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:var(--card);border-top:1px solid var(--border);padding:12px 20px 20px;gap:12px;z-index:100}
+    .fc-prev,.fc-next{flex:1;padding:14px;border-radius:var(--radius);font-size:1rem;font-weight:700;transition:background .2s}
+    .fc-prev{background:var(--bg);color:var(--text);border:1px solid var(--border)}
+    .fc-next{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 4px 16px rgba(143,184,50,.3)}
+    .fc-done{background:linear-gradient(135deg,var(--accent),var(--accent-dark))!important}
+
+    /* BOTTOM TAB BAR */
+    .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:200;padding-bottom:env(safe-area-inset-bottom,0)}
+    .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 0 12px;background:none;border:none;cursor:pointer;transition:color .15s}
+    .tab-btn .tab-icon{font-size:1.3rem;line-height:1}
+    .tab-btn .tab-label{font-size:.65rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+    .tab-btn.active .tab-label,.tab-btn.active .tab-icon{color:var(--primary-dark)}
+    .tab-btn:not(.active) .tab-label,.tab-btn:not(.active) .tab-icon{color:var(--text-muted)}
+    /* WORLD JOURNEY HUB */
+    .journey-hero{padding:24px 20px 16px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid);text-align:center}
+    .journey-hero h2{font-size:1.3rem;margin-bottom:4px;color:var(--text)}
+    .journey-hero p{font-size:.85rem;color:var(--text-muted)}
+    .dest-card-row{padding:14px 16px;display:flex;flex-direction:column;gap:10px;padding-bottom:32px}
+    .dest-hub-card{background:var(--card);border-radius:var(--radius);border:2px solid var(--border);padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .2s,transform .15s}
+    .dest-hub-card:hover{border-color:var(--primary);transform:translateY(-1px)}
+    .dest-hub-card.active-dest{border-color:var(--primary);background:var(--primary-light)}
+    .dest-hub-card.locked-dest{opacity:.55;cursor:default}
+    .dest-hub-card.stamped-dest{border-color:var(--accent);background:#fef9ec}
+    .dest-emoji{font-size:2rem;flex-shrink:0;line-height:1}
+    .dest-hub-info{flex:1}
+    .dest-hub-info h3{font-size:1rem;margin-bottom:2px}
+    .dest-hub-info .dest-country{font-size:.78rem;color:var(--text-muted);margin-bottom:6px}
+    .dest-hub-prog{height:5px;background:var(--primary-light);border-radius:99px;overflow:hidden;margin-top:4px}
+    .dest-hub-prog-fill{height:100%;background:var(--primary);border-radius:99px;transition:width .5s}
+    .dest-hub-badge{font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:99px}
+    .dhb-open{background:var(--primary-light);color:var(--primary-dark)}
+    .dhb-locked{background:var(--bg);color:var(--text-muted);border:1px solid var(--border)}
+    .dhb-stamped{background:#fef3d6;color:var(--accent-dark);border:1px solid var(--accent)}
+    /* DESTINATION DETAIL */
+    .dest-detail-hero{padding:20px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid)}
+    .dest-detail-hero h2{font-size:1.2rem;margin-bottom:4px}
+    .dest-detail-hero p{font-size:.82rem;color:var(--text-muted);line-height:1.5}
+    .activity-track{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:14px 16px;margin:0 16px 10px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .2s}
+    .activity-track:hover:not(.locked-track){border-color:var(--primary)}
+    .activity-track.locked-track{opacity:.55;cursor:default}
+    .activity-track.done-track{border-color:var(--primary);background:var(--primary-light)}
+    .at-icon{font-size:1.6rem;flex-shrink:0}
+    .at-info{flex:1}
+    .at-info h3{font-size:.95rem;margin-bottom:2px}
+    .at-info .at-sub{font-size:.78rem;color:var(--text-muted)}
+    .at-prog{height:4px;background:var(--border);border-radius:99px;overflow:hidden;margin-top:5px}
+    .at-prog-fill{height:100%;background:var(--primary);border-radius:99px}
+    .at-count{font-size:.78rem;color:var(--text-muted);flex-shrink:0;white-space:nowrap}
+    .locked-story{opacity:.5;cursor:default!important}
+    /* Bust silhouette icon — pure CSS */
+    .bust-icon{width:22px;height:22px;position:relative;display:flex;align-items:flex-end;justify-content:center}
+    .bust-icon::before{content:'';width:10px;height:10px;border-radius:50%;background:currentColor;position:absolute;top:0;left:50%;transform:translateX(-50%)}
+    .bust-icon::after{content:'';width:20px;height:11px;border-radius:10px 10px 0 0;background:currentColor;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+    /* Screens with tab bar need bottom padding so content isn't hidden */
+    .has-tab-bar{padding-bottom:70px}
+
+    /* PROFILE PAGE */
+    .profile-hero{padding:28px 20px 20px;text-align:center;background:var(--primary-light);border-bottom:1px solid var(--primary-mid)}
+    .profile-avatar{width:80px;height:80px;border-radius:50%;background:var(--primary);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .profile-avatar::before{content:'';width:34px;height:34px;border-radius:50%;background:var(--card);position:absolute;top:10px;left:50%;transform:translateX(-50%)}
+    .profile-avatar::after{content:'';width:60px;height:38px;border-radius:30px 30px 0 0;background:var(--card);position:absolute;bottom:-4px;left:50%;transform:translateX(-50%)}
+    .profile-name{font-size:1.2rem;font-weight:800;color:var(--text);font-family:var(--font-head);margin-bottom:4px}
+    .profile-sub{font-size:.82rem;color:var(--text-muted)}
+    .profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 20px}
+    .pstat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 8px;text-align:center}
+    .pstat .pval{font-size:1.6rem;font-weight:900;color:var(--primary-dark);font-family:var(--font-head);line-height:1}
+    .pstat .plabel{font-size:.68rem;color:var(--text-muted);margin-top:4px}
+    .profile-section{padding:4px 20px 16px}
+    .profile-section-title{font-size:.72rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;padding-top:12px}
+    /* Level progress bars */
+    .lv-prog-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .lv-prog-badge{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:800;font-family:var(--font-head);flex-shrink:0}
+    .lv-prog-info{flex:1}
+    .lv-prog-name{font-size:.82rem;font-weight:700;color:var(--text)}
+    .lv-prog-bar-wrap{height:6px;background:var(--primary-light);border-radius:99px;overflow:hidden;margin-top:4px}
+    .lv-prog-bar-fill{height:100%;background:var(--primary);border-radius:99px;transition:width .5s ease}
+    .lv-prog-count{font-size:.72rem;color:var(--text-muted);flex-shrink:0;white-space:nowrap}
+    /* Badge grid */
+    .badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .badge-item{display:flex;flex-direction:column;align-items:center;gap:5px}
+    .badge-circle{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;border:2px solid var(--border)}
+    .badge-circle.earned{background:var(--primary-light);border-color:var(--primary-mid)}
+    .badge-circle.locked{background:var(--bg);filter:grayscale(1);opacity:.4}
+    .badge-name{font-size:.62rem;color:var(--text-muted);text-align:center;line-height:1.3}
+
+    /* CONFETTI */
+    .confetti{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:300;overflow:hidden}
+    .confetti-dot{position:absolute;animation:cFall linear both}
+    @keyframes cFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<script src="ribbit-stories.js"></script>
+<script src="ribbit-wordlists.js"></script>
+<script>
+// ── STATE ──────────────────────────────────────────────────
+const state = {
+  screen:'home',
+  levelId:null,      // 1-6
+  subLevel:null,     // 0-9 (0-indexed)
+  storyId:null,
+  readerStep:0,      // current revealed step index in stepped reader
+  quizIndex:0,
+  quizAnswers:[],
+  lastScore:0, lastCorrect:0, lastTotal:0, lastXP:0, lastSubLevelUnlocked:null, lastLevelId:null,
+  nativeLang:      localStorage.getItem('rbt_lang')||null,
+  fontSize:        localStorage.getItem('rbt_fontsize')||'normal',
+  vocabHighlight:  localStorage.getItem('rbt_highlight')!=='off',
+  dailyGoal:       parseInt(localStorage.getItem('rbt_goal')||'3'),
+  todayCount:      0,   // stories completed today (recalculated on load)
+  lastStoryId:     localStorage.getItem('rbt_laststory')||null,
+  savedWords: JSON.parse(localStorage.getItem('rbt_words')||'{}'),
+  flashCards: JSON.parse(localStorage.getItem('rbt_fc')   ||'{}'),
+  fcStudyIndex: 0,   // current card index in play mode
+  fcOrder: [],       // shuffled card keys for play mode
+  fcHard: [],        // cards marked 'still learning' this round
+  progress:   JSON.parse(localStorage.getItem('rbt_prog') ||'{}'),
+  xp:         parseInt(localStorage.getItem('rbt_xp')   ||'0'),
+  streak:     parseInt(localStorage.getItem('rbt_streak')||'0'),
+  lastRead:   localStorage.getItem('rbt_lastread')||null,
+};
+
+function save(){
+  if(state.nativeLang)   localStorage.setItem('rbt_lang',       state.nativeLang);
+  if(state.lastStoryId)  localStorage.setItem('rbt_laststory',  state.lastStoryId);
+  localStorage.setItem('rbt_fontsize',  state.fontSize);
+  localStorage.setItem('rbt_highlight', state.vocabHighlight ? 'on' : 'off');
+  localStorage.setItem('rbt_goal',      state.dailyGoal);
+  localStorage.setItem('rbt_words',    JSON.stringify(state.savedWords));
+  localStorage.setItem('rbt_fc',       JSON.stringify(state.flashCards));
+  localStorage.setItem('rbt_prog',     JSON.stringify(state.progress));
+  localStorage.setItem('rbt_xp',       state.xp);
+  localStorage.setItem('rbt_streak',   state.streak);
+  localStorage.setItem('rbt_lastread', state.lastRead||'');
+}
+// Safety net — save whenever the user closes or navigates away
+window.addEventListener('beforeunload', save);
+
+function calcTodayCount(){
+  const today=new Date().toDateString();
+  state.todayCount=Object.values(state.progress).filter(p=>new Date(p.at).toDateString()===today).length;
+}
+
+function updateStreak(){
+  const today=new Date().toDateString();
+  const yesterday=new Date(Date.now()-86400000).toDateString();
+  if(state.lastRead===today) return;
+  state.streak = state.lastRead===yesterday ? state.streak+1 : 1;
+  state.lastRead=today; save();
+}
+
+// ── LEVELS META ────────────────────────────────────────────
+const LEVELS=[
+  {id:1,name:'Beginner',    cefr:'Pre-A1',oxford:'Pre-Starters',ages:'5–7',
+   desc:'Short, simple sentences with everyday words.'},
+  {id:2,name:'Elementary',  cefr:'A1',    oxford:'Starters',    ages:'7–9',
+   desc:'Short stories and basic vocabulary.'},
+  {id:3,name:'Pre-Intermediate',cefr:'A2',oxford:'Movers',      ages:'9–11',
+   desc:'Simple narratives with dialogue.'},
+  {id:4,name:'Intermediate',cefr:'B1',    oxford:'Flyers',      ages:'11–13',
+   desc:'Multi-paragraph stories with varied tenses.'},
+  {id:5,name:'Upper-Intermediate',cefr:'B2',oxford:'KET/PET',   ages:'13–15',
+   desc:'Opinion and descriptive writing.'},
+  {id:6,name:'Advanced',    cefr:'C1',    oxford:'FCE',         ages:'15+',
+   desc:'Analytical texts with academic vocabulary.'},
+];
+
+const SUBLEVEL_LABELS=['1','2','3','4','5','6','7','8','9','10'];
+
+// ── WORLD JOURNEY DESTINATIONS ───────────────────────────────────────────────
+// JOURNEY_STORIES is defined in ribbit-stories.js
+const DESTINATIONS=[
+  {
+    id:'tokyo',
+    name:'Tokyo',
+    country:'Japan',
+    emoji:'🗼',
+    description:'A city of ancient shrines and neon towers, fresh fish markets and bullet trains.',
+    cefr:'A2',
+    storyCount:4,
+    localWords:[
+      {word:'sakura',   def:'The Japanese word for cherry blossom — the pink flowers that bloom in spring.',       pos:'noun'},
+      {word:'bento',    def:'A packed meal in a box, usually with rice, fish or meat, and vegetables.',             pos:'noun'},
+      {word:'origami',  def:'The traditional Japanese art of folding paper into decorative shapes.',               pos:'noun'},
+      {word:'torii',    def:'A traditional gate marking the entrance to a Shinto shrine.',                         pos:'noun'},
+      {word:'shinkansen',def:'Japan\'s high-speed bullet train network, connecting cities across the country.',    pos:'noun'},
+      {word:'manga',    def:'Japanese comic books or graphic novels, read by children and adults alike.',          pos:'noun'},
+    ],
+    cultureQuiz:[
+      {question:'What does "sakura" mean?',
+       options:['Cherry blossom','Paper crane','Bullet train','Rice ball'],
+       correct:0, feedback:'"Sakura" is the Japanese word for cherry blossom. The spring blooming season is celebrated across the whole country.'},
+      {question:'Which station is officially the busiest in the world?',
+       options:['Tokyo Station','Shibuya','Shinjuku Station','Ueno'],
+       correct:2, feedback:'Shinjuku Station in Tokyo handles around 3.5 million passengers every day — more than any other station on Earth.'},
+      {question:'What is origami?',
+       options:['A type of Japanese noodle soup','The art of paper folding','A traditional drum ceremony','A style of Japanese garden'],
+       correct:1, feedback:'Origami is the art of folding paper into shapes without using scissors or glue. The crane (tsuru) is the most famous design.'},
+      {question:'What is a torii?',
+       options:['A Japanese packed lunch box','A high-speed train','A gate at the entrance to a Shinto shrine','A type of Japanese comic book'],
+       correct:2, feedback:'A torii marks the boundary between the ordinary world and a sacred space. You will find them at the entrance to every Shinto shrine in Japan.'},
+      {question:'What is a shinkansen?',
+       options:['A Japanese fish market','A type of cherry blossom','A traditional folded paper crane','A Japanese bullet train'],
+       correct:3, feedback:'The shinkansen network connects cities across Japan at speeds of up to 320 km/h. The first line opened in 1964 for the Tokyo Olympics.'},
+    ],
+    postcard:{
+      fact:'Tokyo has more Michelin-starred restaurants than any other city in the world — over 200 at the last count.',
+      bonusWords:['ramen','sushi','onsen'],
+    },
+    unlockAfter:null, // first destination — always available
+  },
+  {
+    id:'australia',
+    name:'Australia',
+    country:'Australia',
+    emoji:'🦘',
+    description:'A vast continent of coral reefs, red desert, and cities where the coffee is taken very seriously.',
+    cefr:'A2',
+    storyCount:4,
+    localWords:[
+      {word:'outback',    def:'The remote, arid interior of Australia — vast, flat, and very far from cities.',                          pos:'noun'},
+      {word:'billabong',  def:'An isolated pool of water left when a river changes course, common in the outback.',                     pos:'noun'},
+      {word:'boomerang',  def:'A curved throwing tool developed by Aboriginal Australians, designed to travel in an arc.',              pos:'noun'},
+      {word:'didgeridoo', def:'A long wooden wind instrument played by Aboriginal Australians, producing a deep, droning sound.',      pos:'noun'},
+      {word:'barramundi', def:'A large freshwater fish native to Australia, popular in cooking.',                                       pos:'noun'},
+      {word:'arvo',       def:'Australian informal word for "afternoon" — widely used in everyday speech.',                            pos:'noun'},
+    ],
+    cultureQuiz:[
+      {question:'What is the outback?',
+       options:['A type of Australian beach','The remote, arid interior of Australia far from cities','The name for Australian rainforests','A national park near Sydney'],
+       correct:1, feedback:'The outback covers most of Australia\'s interior — a vast, mostly flat landscape of red soil, scrub, and wide skies. Very few people live there.'},
+      {question:'What is a billabong?',
+       options:['An Australian word for a swimming pool','A type of eucalyptus tree','An isolated pool of water left when a river changes course','A small kangaroo'],
+       correct:2, feedback:'Billabongs form when a river floods and leaves behind a cut-off section of water. They are important water sources for wildlife in the outback.'},
+      {question:'What is the didgeridoo?',
+       options:['A type of Australian bread','A wind instrument played by Aboriginal Australians','A dance performed at festivals','A curved throwing tool'],
+       correct:1, feedback:'The didgeridoo is one of the oldest musical instruments in the world, developed by Aboriginal Australians. It produces a deep, continuous droning sound.'},
+      {question:'What does "arvo" mean in Australian English?',
+       options:['Morning','Lunch','Afternoon','Evening'],
+       correct:2, feedback:'"Arvo" is one of many Australian shortened words — Australians also say "brekky" for breakfast, "servo" for service station, and "maccas" for McDonald\'s.'},
+      {question:'Australia is unique because it is the only country that is also what?',
+       options:['An island','An entire continent','Completely surrounded by coral reefs','Home to more than 100 unique species'],
+       correct:1, feedback:'Australia is the only nation that occupies an entire continent. It is also the sixth-largest country in the world by total area.'},
+    ],
+    postcard:{
+      fact:'Australia is home to more than 80% of its plant and animal species found nowhere else on Earth — including the platypus, which lays eggs despite being a mammal.',
+      bonusWords:['koala','platypus','eucalyptus'],
+    },
+    unlockAfter:'tokyo',
+  },
+  {
+    id:'england',
+    name:'England',
+    country:'England',
+    emoji:'🎡',
+    description:'Rolling green hills, red telephone boxes, very strong opinions about tea — and a queue for absolutely everything.',
+    cefr:'A2',
+    storyCount:4,
+    localWords:[
+      {word:'pub',          def:'Short for "public house" — a place to buy drinks and food, often the social heart of a village or neighbourhood.',  pos:'noun'},
+      {word:'quid',         def:'British slang for a pound (£1). "Five quid" means five pounds.',                                                     pos:'noun'},
+      {word:'brolly',       def:'British informal word for an umbrella.',                                                                             pos:'noun'},
+      {word:'fortnight',    def:'A period of two weeks. Widely used in British English where Americans might say "two weeks".',                        pos:'noun'},
+      {word:'chippy',       def:'British informal word for a fish and chip shop.',                                                                    pos:'noun'},
+      {word:'bank holiday', def:'A public holiday in the United Kingdom when banks and many businesses are closed.',                                  pos:'noun'},
+    ],
+    cultureQuiz:[
+      {question:'What is Bonfire Night, celebrated on 5 November?',
+       options:['A harvest festival with fireworks','A celebration marking the failure of the Gunpowder Plot in 1605','The anniversary of the Great Fire of London','A medieval tradition welcoming winter'],
+       correct:1, feedback:'Bonfire Night marks the failure of Guy Fawkes and the Gunpowder Plot — a plan to blow up the Houses of Parliament in 1605. Bonfires and fireworks have been lit across England every 5 November since.'},
+      {question:'What does "fortnight" mean?',
+       options:['A strong castle','One week','Two weeks','A type of British festival'],
+       correct:2, feedback:'"Fortnight" comes from the Old English "fourteen nights". It is used naturally in everyday British English — "I\'ll see you in a fortnight" means in two weeks.'},
+      {question:'Which sport\'s most famous tournament is held at Wimbledon each summer?',
+       options:['Cricket','Football','Tennis','Rugby'],
+       correct:2, feedback:'The Wimbledon Championships, held in London every June and July, is the oldest and most prestigious tennis tournament in the world, dating back to 1877.'},
+      {question:'What is a "brolly"?',
+       options:['A type of bread roll','An umbrella','A cricket bat','A pub quiz team'],
+       correct:1, feedback:'"Brolly" is British slang for umbrella — very useful in England, where it can rain at any time of year, often without warning.'},
+      {question:'What is a "bank holiday" in England?',
+       options:['The day banks count their money','A day when everyone must visit a bank','A public holiday when most businesses close','A holiday only for bank workers'],
+       correct:2, feedback:'England has eight bank holidays a year — days like Easter Monday, the late May bank holiday, and Boxing Day (26 December). Most shops and services close or run reduced hours.'},
+    ],
+    postcard:{
+      fact:'The London Underground, known as the Tube, is the world\'s oldest underground railway — the first section opened on 10 January 1863, over 160 years ago.',
+      bonusWords:['scone','cricket','Stonehenge'],
+    },
+    unlockAfter:'australia',
+  },
+  {
+    id:'brazil',
+    name:'Brazil',
+    country:'Brazil',
+    emoji:'🌿',
+    description:'The Amazon, the samba, the churrasco, and the most passionate football culture on Earth.',
+    cefr:'A2',
+    storyCount:4,
+    localWords:[
+      {word:'samba',     def:'A lively Brazilian music and dance style, central to Carnaval celebrations.',                                        pos:'noun'},
+      {word:'carnaval',  def:'Brazil\'s famous annual festival before Lent — four days of music, dancing, and elaborate parades.',               pos:'noun'},
+      {word:'capoeira',  def:'A Brazilian martial art that combines dance, acrobatics, and music, developed by enslaved Africans in Brazil.',     pos:'noun'},
+      {word:'açaí',      def:'A small dark purple berry from the Amazon region, widely eaten in Brazil as a bowl topped with granola and fruit.',pos:'noun'},
+      {word:'churrasco', def:'A Brazilian barbecue tradition where meat is cooked on skewers over an open fire.',                                 pos:'noun'},
+      {word:'futebol',   def:'The Brazilian Portuguese word for football — Brazil has won the FIFA World Cup more times than any other country.', pos:'noun'},
+    ],
+    cultureQuiz:[
+      {question:'What is capoeira?',
+       options:['A type of Brazilian street food','A martial art combining dance, acrobatics, and music','A traditional Brazilian drum','A river fish from the Amazon'],
+       correct:1, feedback:'Capoeira was developed by enslaved Africans in Brazil as a way of disguising self-defence as dance. It is now practiced worldwide and is a UNESCO Intangible Cultural Heritage.'},
+      {question:'Which city is most famous for its Carnaval celebrations?',
+       options:['São Paulo','Brasília','Manaus','Rio de Janeiro'],
+       correct:3, feedback:'Rio de Janeiro\'s Carnaval is the largest in the world, attracting over two million people to the streets each day. Elaborate samba school parades take place in the Sambadrome stadium.'},
+      {question:'What is açaí?',
+       options:['A type of Brazilian barbecue','A dark purple berry from the Amazon, eaten as a bowl with toppings','A Brazilian percussion instrument','A type of Brazilian bread'],
+       correct:1, feedback:'Açaí berries grow on palms in the Amazon rainforest. In Brazil they are blended into a thick, cold paste served in bowls and topped with granola, banana, and honey.'},
+      {question:'How many times has Brazil won the FIFA World Cup?',
+       options:['Three','Four','Five','Six'],
+       correct:2, feedback:'Brazil has won the FIFA World Cup five times — in 1958, 1962, 1970, 1994, and 2002 — more than any other country. Pelé is considered the greatest player in Brazilian football history.'},
+      {question:'The Amazon rainforest produces approximately what share of the world\'s oxygen?',
+       options:['5%','10%','20%','40%'],
+       correct:2, feedback:'The Amazon is often called "the lungs of the Earth" — it produces around 20% of the world\'s oxygen and contains about 10% of all species on the planet.'},
+    ],
+    postcard:{
+      fact:'Brazil is the largest country in South America and the fifth largest in the world. It is the only Portuguese-speaking country in the Americas.',
+      bonusWords:['jaguar','piranha','orchid'],
+    },
+    unlockAfter:'england',
+  },
+  {
+    id:'egypt',
+    name:'Egypt',
+    country:'Egypt',
+    emoji:'🏺',
+    description:'Ancient pyramids, the eternal Nile, a bazaar that has traded for seven centuries — and hieroglyphics carved into stone that took two thousand years to decode.',
+    cefr:'A2',
+    storyCount:4,
+    localWords:[
+      {word:'pharaoh',       def:'A ruler of ancient Egypt, considered both a king and a god by the Egyptian people.',                              pos:'noun'},
+      {word:'hieroglyphics', def:'The ancient Egyptian writing system using pictures and symbols to represent words and sounds.',                   pos:'noun'},
+      {word:'felucca',       def:'A traditional wooden sailing boat with a triangular sail, used on the Nile River.',                              pos:'noun'},
+      {word:'bazaar',        def:'A covered market with many small stalls, common in Egypt and across the Middle East.',                           pos:'noun'},
+      {word:'sphinx',        def:'The ancient statue near Giza with a human head and a lion\'s body, carved over 4,500 years ago.',               pos:'noun'},
+      {word:'oasis',         def:'A fertile area in a desert where underground water reaches the surface, allowing plants to grow.',               pos:'noun'},
+    ],
+    cultureQuiz:[
+      {question:'What is the Great Pyramid of Giza?',
+       options:['The largest pyramid in Mexico','The only one of the Seven Wonders of the Ancient World still standing','A pyramid built during the Roman period','The burial place of Tutankhamun'],
+       correct:1, feedback:'The Great Pyramid of Khufu at Giza is the oldest of the Seven Wonders of the Ancient World — and the only one still standing today. It was built around 2560 BCE and held the record for the world\'s tallest structure for over 3,800 years.'},
+      {question:'What is the Nile River famous for?',
+       options:['Being the fastest river in the world','Being the widest river in the world','Being the longest river in the world','Having the most waterfalls of any river'],
+       correct:2, feedback:'The Nile is the world\'s longest river at approximately 6,650 kilometres. It flows northward through eleven countries before emptying into the Mediterranean Sea. Ancient Egyptian civilisation developed along its banks.'},
+      {question:'What was the Rosetta Stone used for?',
+       options:['Marking the border between Upper and Lower Egypt','Recording the names of all the pharaohs','Allowing scholars to decode ancient Egyptian hieroglyphics','Measuring the flooding of the Nile'],
+       correct:2, feedback:'The Rosetta Stone, discovered in 1799, carried the same text in hieroglyphics, a simpler Egyptian script, and ancient Greek. Because scholars could read Greek, they were able to work out the meaning of hieroglyphics for the first time.'},
+      {question:'What is a felucca?',
+       options:['An ancient Egyptian burial jar','A traditional wooden sailing boat used on the Nile','A type of Egyptian flatbread','A decorated column at a temple entrance'],
+       correct:1, feedback:'Feluccas have been used on the Nile for centuries. With a single triangular sail and no engine, they move silently on the water and are still used today for transport and tourist trips.'},
+      {question:'Egypt sits at the corner of which two continents?',
+       options:['Asia and Europe','Africa and Asia','Africa and Europe','Europe and the Middle East'],
+       correct:1, feedback:'Egypt is mostly in Africa but the Sinai Peninsula is geographically part of Asia — making Egypt one of the few countries that spans two continents. The Suez Canal, which cuts through Egypt, connects the Mediterranean and Red Seas.'},
+    ],
+    postcard:{
+      fact:'The Great Pyramid of Giza contains an estimated 2.3 million stone blocks, some weighing up to 80 tonnes — and it was built without modern machinery over approximately 20 years.',
+      bonusWords:['scarab','papyrus','mummy'],
+    },
+    unlockAfter:'brazil',
+  },
+  {
+    id:'china',
+    name:'China',
+    country:'China',
+    emoji:'🏮',
+    description:'The Great Wall, ancient tea houses, glowing lanterns on New Year\'s Eve — and the hutong alleyways of Beijing, hiding whole worlds behind grey brick walls.',
+    cefr:'A2',
+    storyCount:4,
+    localWords:[
+      {word:'mandarin',    def:'The official language of China, spoken by more people than any other language in the world.',                        pos:'noun'},
+      {word:'chopsticks',  def:'A pair of thin sticks used to pick up food, traditionally used across East and South-East Asia.',                   pos:'noun'},
+      {word:'pagoda',      def:'A tower with several storeys and upward-curving roofs, found at temples and historic sites across East Asia.',      pos:'noun'},
+      {word:'hutong',      def:'A narrow traditional alleyway in Beijing, formed between courtyard houses.',                                        pos:'noun'},
+      {word:'dim sum',     def:'A style of Chinese meal with many small dishes, shared at the table, traditionally eaten at brunch.',               pos:'noun'},
+      {word:'tai chi',     def:'A slow, flowing form of exercise from China, practised for balance, relaxation, and health.',                       pos:'noun'},
+    ],
+    cultureQuiz:[
+      {question:'How long is the Great Wall of China?',
+       options:['About 2,000 kilometres','About 21,000 kilometres','About 500 kilometres','About 8,000 kilometres'],
+       correct:1, feedback:'The Great Wall of China stretches approximately 21,196 kilometres in total — though not all sections are connected or intact. It was built over many centuries by different dynasties, mainly to protect against invasions from the north.'},
+      {question:'What is the Lantern Festival?',
+       options:['The first day of Chinese New Year','A festival held in summer to mark the harvest','The fifteenth and final day of Chinese New Year, celebrated with lanterns and sky lanterns','A festival honouring the moon, held in autumn'],
+       correct:2, feedback:'The Lantern Festival falls on the fifteenth day of the first lunar month — the last day of the Chinese New Year celebrations. People carry paper lanterns, release sky lanterns, and make wishes as they drift upward.'},
+      {question:'What does the word "hutong" come from?',
+       options:['Cantonese, meaning narrow road','Mandarin, meaning courtyard gate','Mongolian, from the time of the Yuan Dynasty','A Ming Dynasty term for city alleyway'],
+       correct:2, feedback:'The word "hutong" comes from Mongolian and dates to the Yuan Dynasty, when the Mongols ruled China. Beijing\'s hutongs were later expanded under the Ming Dynasty and are now protected as important cultural heritage.'},
+      {question:'Which invention did China NOT give the world?',
+       options:['Paper','The printing press','The compass','The steam engine'],
+       correct:3, feedback:'China gave the world paper, the compass, gunpowder, and printing — known as the "Four Great Inventions." The steam engine, however, was developed in Britain during the Industrial Revolution in the 18th century.'},
+      {question:'What is Mandarin?',
+       options:['A type of orange grown only in China','The official language of China, spoken by more people than any other language','A form of calligraphy used in ancient China','The writing system used before the modern alphabet'],
+       correct:1, feedback:'Mandarin Chinese is the official language of China and the most spoken language in the world by native speakers — with approximately 930 million people speaking it as a first language. It is one of six official languages of the United Nations.'},
+    ],
+    postcard:{
+      fact:'China is one of the world\'s oldest continuous civilisations, with a recorded history stretching back over 3,500 years. It invented paper, printing, the compass, and gunpowder — four discoveries that changed the world.',
+      bonusWords:['dumpling','lantern','bamboo'],
+    },
+    unlockAfter:'egypt',
+  },
+];
+
+// ── WORLD JOURNEY STATE HELPERS ──────────────────────────────────────────────
+function getJourneyState(destId){
+  if(!state.journey) state.journey={};
+  if(!state.journey[destId]) state.journey[destId]={
+    storiesDone:[],     // array of story ids completed
+    wordsDone:[],       // array of words marked learned
+    quizScore:null,     // null = not attempted; number = score out of 5
+    stamped:false,      // true when all three tracks complete
+  };
+  return state.journey[destId];
+}
+
+function journeyStoryDone(destId, storyId){
+  return getJourneyState(destId).storiesDone.includes(storyId);
+}
+
+function journeyWordDone(destId, word){
+  return getJourneyState(destId).wordsDone.includes(word);
+}
+
+function journeyAllStoriesDone(destId){
+  const dest=DESTINATIONS.find(d=>d.id===destId);
+  if(!dest) return false;
+  const js=getJourneyState(destId);
+  return (JOURNEY_STORIES[destId]||[]).every(s=>js.storiesDone.includes(s.id));
+}
+
+function journeyAllWordsDone(destId){
+  const dest=DESTINATIONS.find(d=>d.id===destId);
+  if(!dest) return false;
+  const js=getJourneyState(destId);
+  return dest.localWords.every(w=>js.wordsDone.includes(w.word));
+}
+
+function journeyQuizDone(destId){
+  return getJourneyState(destId).quizScore !== null;
+}
+
+function journeyComplete(destId){
+  return journeyAllStoriesDone(destId) && journeyAllWordsDone(destId) && journeyQuizDone(destId);
+}
+
+function markJourneyStoryDone(destId, storyId){
+  const js=getJourneyState(destId);
+  if(!js.storiesDone.includes(storyId)) js.storiesDone.push(storyId);
+  save();
+}
+
+function markJourneyWordDone(destId, word){
+  const dest=DESTINATIONS.find(d=>d.id===destId);
+  const js=getJourneyState(destId);
+  if(!js.wordsDone.includes(word)) js.wordsDone.push(word);
+  // Auto-add to flash card deck
+  const wObj=dest.localWords.find(w=>w.word===word);
+  if(wObj && !state.flashCards[word]){
+    state.flashCards[word]={def:wObj.def, pos:wObj.pos, lang:null, translation:null};
+  }
+  save();
+}
+
+// STORIES is defined in ribbit-stories.js:
+// STORIES[levelId][subLevelIndex] = [array of 5 story objects]
+
+// ── HELPERS ────────────────────────────────────────────────
+function navigate(screen,data={}){
+  // Stop TTS when leaving the reader
+  if(state.screen==='reader' && screen!=='reader' && typeof speechSynthesis!=='undefined'){
+    speechSynthesis.cancel(); tts.active=false; tts.paused=false;
+  }
+  // Reset reader step whenever navigating to a new story
+  if(screen==='reader' && data.storyId && data.storyId!==state.storyId) data.readerStep=0;
+  if(screen==='journeyreaderpage' && data.journeyStoryId && data.journeyStoryId!==state.journeyStoryId) data.readerStep=0;
+  // Track last story opened
+  if(data.storyId) state.lastStoryId=data.storyId;
+  Object.assign(state,data,{screen});
+  applyFontSize();
+  applyVocabHighlight();
+  render(); window.scrollTo(0,0);
+}
+function applyFontSize(){
+  document.body.classList.toggle('font-large', state.fontSize==='large');
+}
+function applyVocabHighlight(){
+  document.body.classList.toggle('vocab-highlight', state.vocabHighlight);
+}
+
+function getStory(){ return findStory(state.storyId); }
+function findStory(id){
+  for(const lv in STORIES) for(const sl in STORIES[lv]){
+    const f=STORIES[lv][sl].find(s=>s.id===id); if(f) return f;
+  }
+  return null;
+}
+
+function storyDone(id){ return !!state.progress[id]; }
+function subLevelDone(lv,sl){
+  const stories=STORIES[lv]&&STORIES[lv][sl]||[];
+  return stories.length>0 && stories.every(s=>storyDone(s.id));
+}
+function levelDoneCount(lv){
+  let c=0;
+  for(let sl=0;sl<10;sl++) if(subLevelDone(lv,sl)) c++;
+  return c;
+}
+function subLevelAvailable(lv,sl){
+  if(sl===0) return true;
+  return subLevelDone(lv,sl-1);
+}
+function hasStoriesFor(lv,sl){ return !!(STORIES[lv]&&STORIES[lv][sl]&&STORIES[lv][sl].length); }
+
+function storyXP(story,score){ const sl=story.levelId===6?story.subLevel:story.subLevel+1; return Math.round(story.levelId*5*sl*score); }
+
+function makeWordTappable(text,vocab){
+  return text.split(/(\s+)/).map(part=>{
+    const clean=part.replace(/[^a-zA-Z'-]/g,'').toLowerCase();
+    if(!clean) return part;
+    // Story vocabulary word — green highlight
+    if(vocab[clean]){
+      return `<span class="tappable${state.vocabHighlight?' tappable-hl':''}" data-word="${clean}">${part}</span>`;
+    }
+    // Above-level word from CEFR word lists — blue highlight
+    if(state.vocabHighlight && typeof getChallengeLevel==='function'){
+      const lvl=getChallengeLevel(clean, state.levelId||1);
+      if(lvl) return `<span class="tappable tappable-challenge" data-challenge="${lvl}" data-word="${clean}">${part}</span>`;
+    }
+    return part;
+  }).join('');
+}
+
+function starsFor(storyId){
+  const p=state.progress[storyId]; if(!p) return '☆☆☆';
+  return p.score>=.9?'★★★':p.score>=.6?'★★☆':'★☆☆';
+}
+
+function renderGoalRing(){
+  const pct=Math.min(1, state.todayCount/state.dailyGoal);
+  const r=30, cx=40, cy=40;
+  const circ=2*Math.PI*r;
+  const dash=circ*pct;
+  const done=state.todayCount>=state.dailyGoal;
+  const color=done?'#f9ad3b':'#bada55';
+  return `<svg class="goal-ring" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#f0f7d0" stroke-width="7"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="7"
+      stroke-dasharray="${dash} ${circ}" stroke-dashoffset="${circ/4}"
+      stroke-linecap="round" style="transition:stroke-dasharray .6s ease"/>
+    <text x="${cx}" y="${cy+5}" text-anchor="middle" font-size="18" font-weight="800"
+      fill="${color}" font-family="var(--font-head)">${done?'🎯':state.todayCount}</text>
+  </svg>`;
+}
+
+// ── RENDER: HOME ───────────────────────────────────────────
+function renderHome(){
+  calcTodayCount();
+  const done=Object.keys(state.progress).length;
+  const total=Object.values(STORIES).reduce((a,lv)=>a+Object.values(lv).reduce((b,sl)=>b+sl.length,0),0);
+  const xpPct=Math.min(100,(state.xp%500)/500*100);
+  document.getElementById('app').innerHTML=`
+  <div class="screen home-screen has-tab-bar">
+    <div class="logo-block">
+      <img class="frog-logo" src="OOSH_Logo_Square.png" alt="OOSH Ribbit frog logo"/>
+      <h1>Ribbit</h1>
+      <p>Read your way to English fluency</p>
+    </div>
+    ${state.streak>0?`<div class="streak-badge">🔥 ${state.streak}-day streak!</div>`:''}
+    <div class="daily-goal-wrap">
+      ${renderGoalRing()}
+      <div class="daily-goal-info">
+        <div class="daily-goal-title">Today's Goal</div>
+        <div class="daily-goal-sub">${Math.min(state.todayCount,state.dailyGoal)} / ${state.dailyGoal} stories</div>
+        ${state.todayCount>=state.dailyGoal?'<div class="daily-goal-done">✓ Goal reached!</div>':''}
+      </div>
+    </div>
+    <div class="home-stats">
+      <div class="home-stat-card"><div class="big">${done}</div><div class="label">Stories read</div></div>
+      <div class="home-stat-card"><div class="big">${state.xp}</div><div class="label">Total XP</div></div>
+      <div class="home-stat-card"><div class="big">${Object.keys(state.flashCards).length}</div><div class="label">Flash cards</div></div>
+    </div>
+    <div class="xp-wrap">
+      <div class="xp-meta"><span>XP Progress</span><span>${state.xp%500}/500</span></div>
+      <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:${xpPct}%"></div></div>
+    </div>
+    ${state.lastStoryId?`<button class="home-cta" onclick="navigate('reader',{storyId:'${state.lastStoryId}'})">▶ Continue Reading</button>`:''}
+    <button class="${state.lastStoryId?'home-secondary':'home-cta'}" onclick="navigate('levels')">📚 ${state.lastStoryId?'All Stories':'Start Reading'}</button>
+    <button class="home-settings" onclick="navigate('settings')">⚙️ Settings</button>
+  </div>
+  ${tabBar()}`;
+}
+
+// ── RENDER: LANGUAGE PICKER (first launch + settings) ──────
+function renderLangPicker(isSettings=false){
+  const current=getUserLang();
+  const langItems=LANGUAGES.map(l=>`
+    <button class="lang-item${l.code===current?' lang-selected':''}" onclick="selectLang('${l.code}',${isSettings})">
+      <span class="lang-flag">${l.flag}</span>
+      <span class="lang-name">${l.name}</span>
+      ${l.code===current?'<span class="lang-check">✓</span>':''}
+    </button>`).join('');
+
+  if(isSettings){
+    const isLarge=state.fontSize==='large';
+    document.getElementById('app').innerHTML=`
+    <div class="screen">
+      <div class="nav-bar"><button class="back-btn" onclick="navigate('home')">←</button><h2>⚙️ Settings</h2></div>
+      <div class="settings-section">
+        <div class="settings-label">Text Size</div>
+        <p class="settings-desc">Make the reading text larger if it's hard to see.</p>
+        <div class="font-size-toggle">
+          <button class="fs-btn${!isLarge?' fs-active':''}" onclick="setFontSize('normal')">A</button>
+          <button class="fs-btn fs-btn-large${isLarge?' fs-active':''}" onclick="setFontSize('large')">A</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-label">Daily Reading Goal</div>
+        <p class="settings-desc">How many stories do you want to read each day?</p>
+        <div class="font-size-toggle">
+          ${[1,2,3,5].map(n=>`<button class="fs-btn${state.dailyGoal===n?' fs-active':''}" onclick="setDailyGoal(${n})">${n}</button>`).join('')}
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-label">Vocabulary Highlights</div>
+        <p class="settings-desc">Highlight vocabulary words in green while reading so they're easy to spot and tap.</p>
+        <div class="font-size-toggle">
+          <button class="fs-btn${state.vocabHighlight?' fs-active':''}" onclick="setVocabHighlight(true)">On</button>
+          <button class="fs-btn${!state.vocabHighlight?' fs-active':''}" onclick="setVocabHighlight(false)">Off</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-label">Translation Language</div>
+        <p class="settings-desc">Choose the language words are translated into when you tap Translate or study flash cards.</p>
+        <div class="lang-list">${langItems}</div>
+      </div>
+    </div>`;
+  } else {
+    // First-launch full-screen picker
+    document.getElementById('app').innerHTML=`
+    <div class="screen lang-picker-screen">
+      <div class="lang-picker-hero">
+        <div class="lang-picker-emoji">🌐</div>
+        <h2>Choose your language</h2>
+        <p>Words will be translated into this language when you study.</p>
+      </div>
+      <div class="lang-list">${langItems}</div>
+    </div>`;
+  }
+}
+
+function selectLang(code, isSettings=false){
+  state.nativeLang=code;
+  save();
+  navigate(isSettings?'home':'home');
+}
+
+function setFontSize(size){
+  state.fontSize=size; save(); applyFontSize(); navigate('settings');
+}
+function setVocabHighlight(on){
+  state.vocabHighlight=on; save(); applyVocabHighlight(); navigate('settings');
+}
+function setDailyGoal(n){
+  state.dailyGoal=n; save(); navigate('settings');
+}
+
+// ── RENDER: LEVELS ─────────────────────────────────────────
+function renderLevels(){
+  const cards=LEVELS.map(lv=>{
+    const done=levelDoneCount(lv.id);
+    const complete=done>=10;
+    const cls=lv.cefr.includes('A')?'tag-green':lv.cefr.includes('B')?'tag-amber':'tag-red';
+    const stars=complete?'★★★':done>=5?'★★☆':done>0?'★☆☆':'☆☆☆';
+    const badge=complete?`<div class="level-badge">🏆 Complete!</div>`:'';
+    return `<div class="level-card${complete?' level-card-complete':''}" data-lv="${lv.id}" onclick="navigate('sublevels',{levelId:${lv.id}})">
+      <div class="level-num">${lv.id}</div>
+      <div class="level-info">
+        <h3>${lv.name}</h3>
+        <div class="level-meta">${lv.ages} · Oxford ${lv.oxford}</div>
+        <span class="tag ${cls}">${lv.cefr}</span>
+        ${badge}
+      </div>
+      <div class="level-progress">
+        <div class="level-stars">${stars}</div>
+        <div class="level-count">${done}/10 sub-levels</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('app').innerHTML=`
+  <div class="screen">
+    <div class="nav-bar"><button class="back-btn" onclick="navigate('home')">←</button><h2>Choose a Level</h2></div>
+    <div class="levels-grid">${cards}</div>
+  </div>`;
+}
+
+// ── RENDER: SUB-LEVELS ─────────────────────────────────────
+function renderSubLevels(){
+  const lv=LEVELS.find(l=>l.id===state.levelId);
+  const cards=Array.from({length:10},(_,i)=>{
+    const sl=i;
+    const hasSt=hasStoriesFor(state.levelId,sl);
+    const done=subLevelDone(state.levelId,sl);
+    const avail=subLevelAvailable(state.levelId,sl);
+    const locked=!avail&&!done;
+    const stories=STORIES[state.levelId]&&STORIES[state.levelId][sl]||[];
+    const doneCount=stories.filter(s=>storyDone(s.id)).length;
+    return `<div class="sublevel-card${done?' complete':''}"
+      style="${locked||!hasSt?'opacity:.45;cursor:not-allowed':''}"
+      onclick="${locked||!hasSt?'':(`navigate('stories',{levelId:${state.levelId},subLevel:${sl}})`)}">
+      <div class="sl-num">${i+1}</div>
+      <div class="sl-label">${lv.name} ${i+1}</div>
+      <div class="sl-meta">${hasSt?`${doneCount}/5 stories`:'Coming soon'}</div>
+      <div class="sl-stars">${done?'★★★':doneCount>2?'★★☆':doneCount>0?'★☆☆':'☆☆☆'}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('app').innerHTML=`
+  <div class="screen">
+    <div class="nav-bar"><button class="back-btn" onclick="navigate('levels')">←</button><h2>${lv.name}</h2></div>
+    <div class="sublevel-hero">
+      <h2>${lv.name}</h2>
+      <p>${lv.desc}</p>
+      <div class="badges">
+        <span class="hero-badge">${lv.cefr}</span>
+        <span class="hero-badge">Oxford ${lv.oxford}</span>
+        <span class="hero-badge">Ages ${lv.ages}</span>
+        <span class="hero-badge">10 sub-levels</span>
+      </div>
+    </div>
+    <div class="sublevels-grid">${cards}</div>
+  </div>`;
+}
+
+// ── RENDER: STORIES ────────────────────────────────────────
+function renderStories(){
+  const lv=LEVELS.find(l=>l.id===state.levelId);
+  const sl=state.subLevel;
+  const stories=(STORIES[state.levelId]&&STORIES[state.levelId][sl])||[];
+  const cards=stories.map(s=>`
+    <div class="story-card${storyDone(s.id)?' done':''}" onclick="navigate('reader',{storyId:'${s.id}'})">
+      <div class="story-emoji">${s.emoji}</div>
+      <div class="story-info">
+        <h3>${s.title}</h3>
+        <p>${s.blurb}</p>
+        <div class="story-meta">
+          <span class="meta-chip">🏷 ${s.genre}</span>
+          <span class="meta-chip">📖 ${s.wordCount}w</span>
+          <span class="meta-chip">⏱ ~${s.readMins}m</span>
+        </div>
+      </div>
+      <div class="story-action">
+        <button class="read-btn" onclick="event.stopPropagation();navigate('reader',{storyId:'${s.id}'})">
+          ${storyDone(s.id)?'Re-read':'Read'}
+        </button>
+        ${storyDone(s.id)?`<div class="done-badge">✓ ${starsFor(s.id)}</div>`:''}
+      </div>
+    </div>`).join('');
+  document.getElementById('app').innerHTML=`
+  <div class="screen">
+    <div class="nav-bar"><button class="back-btn" onclick="navigate('sublevels',{levelId:${state.levelId}})">←</button><h2>${lv.name} ${sl+1}</h2></div>
+    <div class="sublevel-hero">
+      <h2>${lv.name} ${sl+1}</h2>
+      <p>5 stories — ${lv.desc}</p>
+      <div class="badges"><span class="hero-badge">${lv.cefr}</span><span class="hero-badge">Ages ${lv.ages}</span></div>
+    </div>
+    <div class="stories-list">${cards||'<p style="padding:20px;color:var(--text-muted)">Stories coming soon!</p>'}</div>
+  </div>`;
+}
+
+// ── RENDER: READER ─────────────────────────────────────────
+// Split a paragraph text into individual sentences for sentence-by-sentence mode
+function splitSentences(text){
+  // Protect abbreviations and decimals so they don't cause false splits
+  const PLACEHOLDER='\x01';
+  let safe=text
+    // Common titles / abbreviations
+    .replace(/\b(Mr|Mrs|Ms|Dr|Prof|St|Ave|Rd|Blvd|Jr|Sr|vs|etc|approx|inc|ltd|govt|dept)\./gi, m=>m.replace('.',PLACEHOLDER))
+    // Initials like A. B. Smith or U.S.A.
+    .replace(/\b([A-Z])\./g, (_,c)=>c+PLACEHOLDER)
+    // Decimal numbers  3.14  £1.50
+    .replace(/(\d+)\.(\d+)/g, (_,a,b)=>a+PLACEHOLDER+b)
+    // Ellipsis — treat as single pause, not a split
+    .replace(/\.{2,}/g, m=>m.replace(/\./g,PLACEHOLDER));
+
+  // Split on sentence-ending punctuation followed by whitespace/end
+  const raw=safe.match(/[^.!?]*[.!?]+["']?(?=\s|$)/g)||[safe];
+
+  return raw
+    .map(s=>s.replace(new RegExp(PLACEHOLDER,'g'),'.').trim())
+    .filter(s=>s.length>2);
+}
+
+// ── TTS — Text-to-Speech Engine ──────────────────────────────────────────────
+const tts={active:false,paused:false,rate:1.0,utterance:null};
+
+function ttsSupported(){ return 'speechSynthesis' in window; }
+
+function ttsGetPlainText(){
+  const el=document.getElementById('rbody');
+  if(!el) return '';
+  return (el.innerText||el.textContent||'').replace(/\s+/g,' ').trim();
+}
+
+// After renderReader(), walk DOM in #rbody and tag every word span with its
+// character offset in the plain text — used by onboundary for highlighting.
+function addTTSWordSpans(){
+  const rbody=document.getElementById('rbody');
+  if(!rbody) return;
+  const walker=document.createTreeWalker(rbody,NodeFilter.SHOW_TEXT,null,false);
+  const nodes=[];
+  let n; while((n=walker.nextNode())) nodes.push(n);
+  let charOffset=0;
+  nodes.forEach(textNode=>{
+    const text=textNode.nodeValue;
+    const frag=document.createDocumentFragment();
+    const re=/(\s+|[^\s]+)/g; let m;
+    while((m=re.exec(text))!==null){
+      const tok=m[0];
+      if(/\s/.test(tok)){
+        frag.appendChild(document.createTextNode(tok));
+      } else {
+        const sp=document.createElement('span');
+        sp.className='tts-w';
+        sp.dataset.tts=charOffset;
+        sp.textContent=tok;
+        frag.appendChild(sp);
+      }
+      charOffset+=tok.length;
+    }
+    textNode.parentNode.replaceChild(frag,textNode);
+  });
+}
+
+function ttsClearHL(){
+  document.querySelectorAll('.tts-word-hl').forEach(el=>el.classList.remove('tts-word-hl'));
+}
+
+function updateTTSUI(){
+  const btn=document.getElementById('tts-play-btn');
+  const spkBtn=document.getElementById('tts-icon-btn');
+  if(btn){
+    if(tts.active && !tts.paused){ btn.textContent='⏸'; btn.classList.add('paused'); }
+    else { btn.textContent='▶'; btn.classList.remove('paused'); }
+  }
+  if(spkBtn){
+    if(tts.active) spkBtn.classList.add('tts-active');
+    else spkBtn.classList.remove('tts-active');
+  }
+  document.querySelectorAll('.tts-rate-btn').forEach(b=>{
+    b.classList.toggle('tts-rate-active', parseFloat(b.dataset.rate)===tts.rate);
+  });
+}
+
+function ttsSpeak(){
+  if(!ttsSupported()) return;
+  speechSynthesis.cancel();
+  const text=ttsGetPlainText();
+  if(!text) return;
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-GB'; u.rate=tts.rate;
+
+  u.onboundary=function(e){
+    if(e.name!=='word') return;
+    ttsClearHL();
+    const ci=e.charIndex;
+    const spans=document.querySelectorAll('#rbody span[data-tts]');
+    let best=null, bestStart=-1;
+    spans.forEach(sp=>{
+      const s=parseInt(sp.dataset.tts);
+      if(s<=ci && s>bestStart){ bestStart=s; best=sp; }
+    });
+    if(best) best.classList.add('tts-word-hl');
+  };
+
+  u.onend=function(){
+    tts.active=false; tts.paused=false;
+    ttsClearHL(); updateTTSUI();
+    // Auto-advance to next step
+    const story=getStory(); if(!story) return;
+    const steps=getReaderSteps(story);
+    if(state.readerStep<steps.length-1){
+      state.readerStep++; renderReader();
+      setTimeout(ttsSpeak,500);
+    }
+  };
+
+  u.onerror=function(){ tts.active=false; tts.paused=false; ttsClearHL(); updateTTSUI(); };
+
+  tts.utterance=u; tts.active=true; tts.paused=false;
+  speechSynthesis.speak(u);
+  updateTTSUI();
+}
+
+function ttsToggle(){
+  if(!ttsSupported()){ alert('Sorry, your browser does not support text-to-speech.'); return; }
+  if(!tts.active) ttsSpeak();
+  else if(tts.paused){ speechSynthesis.resume(); tts.paused=false; updateTTSUI(); }
+  else { speechSynthesis.pause(); tts.paused=true; updateTTSUI(); }
+}
+
+function ttsStop(){
+  if(!ttsSupported()) return;
+  speechSynthesis.cancel();
+  tts.active=false; tts.paused=false;
+  ttsClearHL(); updateTTSUI();
+}
+
+function ttsSetRate(r){
+  tts.rate=r;
+  const wasActive=tts.active;
+  if(wasActive){ speechSynthesis.cancel(); tts.active=false; }
+  updateTTSUI();
+  if(wasActive) setTimeout(ttsSpeak,100);
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Build the flat list of "steps" for a story depending on level
+function getReaderSteps(story){
+  // Merge only genuine fragments — 1–2 words, which are always bad splits
+  // Short but complete sentences (3+ words with end punctuation) stay as-is
+  const FRAG_WORDS=3;
+
+  function mergeFragments(arr){
+    const out=[];
+    arr.forEach(s=>{
+      const wc=s.trim().split(/\s+/).length;
+      if(out.length>0 && wc<FRAG_WORDS){
+        // Clearly a fragment — attach to the previous step
+        out[out.length-1]+=' '+s;
+      } else {
+        out.push(s);
+      }
+    });
+    // Final item still a fragment? Fold into previous
+    if(out.length>1 && out[out.length-1].trim().split(/\s+/).length<FRAG_WORDS){
+      const last=out.pop();
+      out[out.length-1]+=' '+last;
+    }
+    return out.filter(s=>s.trim().length>0);
+  }
+
+  if(story.levelId<=2){
+    // Sentence-by-sentence for Beginner / Elementary
+    const raw=[];
+    story.paragraphs.forEach(p=>splitSentences(p).forEach(s=>raw.push(s)));
+    return mergeFragments(raw);
+
+  } else {
+    // Paragraph-by-paragraph for levels 3–6
+    const raw=story.paragraphs.filter(p=>p&&p.trim().length>0);
+    return mergeFragments(raw);
+  }
+}
+
+function renderReader(){
+  const story=getStory(); if(!story){navigate('home');return;}
+  const lv=LEVELS.find(l=>l.id===story.levelId);
+  const steps=getReaderSteps(story);
+  const step=Math.min(state.readerStep, steps.length-1);
+  const pct=Math.round((step+1)/steps.length*100);
+  const isLast=(step>=steps.length-1);
+
+  // Show only the current step
+  const chips=Object.keys(story.vocabulary).map(w=>`<button class="vocab-chip" onclick="showPopup('${w}',null,null)">${w}</button>`).join('');
+
+  const text=makeWordTappable(steps[step],story.vocabulary);
+  const cls=story.levelId<=2?'reader-sentence step-new':'step-new';
+  const revealedHTML=`<p class="${cls}">${text}</p>`;
+
+  // Show vocab + quiz button only after last step
+  const backBtn=step>0?`<button class="reader-back-btn" onclick="stepBack()">← Back</button>`:'';
+  const bottomHTML=isLast
+    ? `<div class="vocab-section"><h4>📘 Key Words — tap to learn</h4><div class="vocab-chips">${chips}</div></div>
+       <div class="reader-bottom">
+         ${backBtn?`<div class="reader-bottom-row">${backBtn}<button class="finish-btn reader-next-btn" onclick="startQuiz()">Start Quiz →</button></div>`:`<button class="finish-btn" onclick="startQuiz()">Start Quiz →</button>`}
+       </div>`
+    : `<div class="reader-bottom">
+         ${backBtn?`<div class="reader-bottom-row">${backBtn}<button class="finish-btn reader-next-btn" onclick="advanceReader()">Next →</button></div>`:`<button class="finish-btn" onclick="advanceReader()">Next →</button>`}
+         <div class="step-counter">${step+1} / ${steps.length}</div>
+       </div>`;
+
+  // TTS bar — always visible in reader
+  const ttsBar=`
+    <div class="tts-bar" id="tts-bar">
+      <button id="tts-play-btn" class="tts-play-btn${tts.active&&!tts.paused?' paused':''}" onclick="ttsToggle()" title="${tts.active&&!tts.paused?'Pause':'Play'}">${tts.active&&!tts.paused?'⏸':'▶'}</button>
+      <button class="tts-stop-btn" onclick="ttsStop()" title="Stop">■</button>
+      <span class="tts-label">🔊 Listen</span>
+      <div class="tts-rate-group">
+        <button class="tts-rate-btn${tts.rate===0.75?' tts-rate-active':''}" data-rate="0.75" onclick="ttsSetRate(0.75)">0.75×</button>
+        <button class="tts-rate-btn${tts.rate===1?' tts-rate-active':''}" data-rate="1" onclick="ttsSetRate(1)">1×</button>
+        <button class="tts-rate-btn${tts.rate===1.5?' tts-rate-active':''}" data-rate="1.5" onclick="ttsSetRate(1.5)">1.5×</button>
+        <button class="tts-rate-btn${tts.rate===2?' tts-rate-active':''}" data-rate="2" onclick="ttsSetRate(2)">2×</button>
+      </div>
+    </div>`;
+
+  document.getElementById('app').innerHTML=`
+  <div class="screen reader-screen">
+    <div class="reader-prog-bar"><div class="reader-prog-fill" id="rpf" style="width:${pct}%"></div></div>
+    <div class="reader-header">
+      <button class="back-btn" onclick="ttsStop();navigate('stories',{levelId:${story.levelId},subLevel:${story.subLevel}})">←</button>
+      <h3>${story.title}</h3>
+      <button id="tts-icon-btn" class="icon-btn${tts.active?' tts-active':''}" onclick="ttsToggle()">🔊</button>
+    </div>
+    ${ttsBar}
+    <div class="reader-story-meta">
+      <span class="meta-pill">📖 ${story.wordCount}w</span>
+      <span class="meta-pill">⏱ ~${story.readMins}m</span>
+      <span class="meta-pill">🏷 ${story.genre}</span>
+      <span class="meta-pill">${lv.name} ${story.levelId===6 ? story.subLevel : story.subLevel+1}</span>
+    </div>
+    <div class="reader-body" id="rbody">${revealedHTML}</div>
+    ${bottomHTML}
+  </div>`;
+  document.querySelectorAll('.tappable').forEach(el=>{
+    el.addEventListener('click',function(e){
+      if(this.dataset.challenge) showChallengePopup(this.dataset.word, this.dataset.challenge, e, this);
+      else showPopup(this.dataset.word,e,this);
+    });
+  });
+  // Tag every word in the current step for TTS boundary highlighting
+  addTTSWordSpans();
+}
+
+function advanceReader(){
+  const story=getStory(); if(!story) return;
+  const steps=getReaderSteps(story);
+  if(state.readerStep<steps.length-1){
+    speechSynthesis.cancel(); tts.active=false; tts.paused=false;
+    state.readerStep++; renderReader();
+  }
+}
+function stepBack(){
+  if(state.readerStep>0){
+    speechSynthesis.cancel(); tts.active=false; tts.paused=false;
+    state.readerStep--; renderReader();
+  }
+}
+
+// Detect the user's OS language code (e.g. "es", "fr", "ko")
+function getUserLang(){
+  // Use saved preference, fall back to Japanese (primary target market)
+  return state.nativeLang || 'ja';
+}
+
+// All supported translation languages
+const LANGUAGES = [
+  { code:'ja', name:'Japanese',            flag:'🇯🇵' },
+  { code:'ko', name:'Korean',              flag:'🇰🇷' },
+  { code:'zh', name:'Chinese (Simplified)',flag:'🇨🇳' },
+  { code:'zh-TW', name:'Chinese (Traditional)', flag:'🇹🇼' },
+  { code:'th', name:'Thai',                flag:'🇹🇭' },
+  { code:'vi', name:'Vietnamese',          flag:'🇻🇳' },
+  { code:'id', name:'Indonesian',          flag:'🇮🇩' },
+  { code:'es', name:'Spanish',             flag:'🇪🇸' },
+  { code:'fr', name:'French',              flag:'🇫🇷' },
+  { code:'pt', name:'Portuguese',          flag:'🇧🇷' },
+  { code:'ar', name:'Arabic',              flag:'🇸🇦' },
+  { code:'hi', name:'Hindi',               flag:'🇮🇳' },
+  { code:'tr', name:'Turkish',             flag:'🇹🇷' },
+];
+
+// Translate using Google Translate unofficial API (CORS-enabled, no key needed)
+async function translateWord(word, targetLang){
+  try {
+    const url=`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLang}&dt=t&q=${encodeURIComponent(word)}`;
+    const r=await fetch(url);
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const j=await r.json();
+    // Response format: [[[translatedText, originalText, ...],...],...]
+    const t=j?.[0]?.[0]?.[0];
+    return (t && t.toLowerCase()!==word.toLowerCase()) ? t : null;
+  } catch(err){
+    console.error('Translation error:', err);
+    return null;
+  }
+}
+
+function showPopup(word,e,el){
+  const story=getStory(); if(!story) return;
+  const def=story.vocabulary[word]; if(!def) return;
+  document.getElementById('wp')?.remove();
+  document.querySelectorAll('.tappable.hl').forEach(x=>x.classList.remove('hl'));
+  if(el) el.classList.add('hl');
+  const inDeck=!!state.flashCards[word];
+  // If we already have a cached translation for this word (from flash card), show it
+  const cached=state.flashCards[word]?.translation||null;
+  const lang=getUserLang();
+  const d=document.createElement('div');
+  d.id='wp'; d.className='word-popup';
+  d.innerHTML=`
+    <div class="wp-header">
+      <div><span class="wp-word">${word}</span><span class="wp-pos">${def.pos}</span></div>
+      <button class="wp-close" onclick="closePopup()">✕</button>
+    </div>
+    <div class="wp-def">${def.def}</div>
+    <div class="wp-translation" id="wpt">${cached?`<span class="wp-tl-lang">${lang.toUpperCase()}</span><span class="wp-tl-text">${cached}</span>`:''}</div>
+    <div class="wp-actions">
+      <button class="wp-translate-btn" id="wptbtn" onclick="doTranslate('${word}')" ${cached?'style="display:none"':''}>🌐 Translate</button>
+      <button class="wp-fc-btn${inDeck?' in-deck':''}" id="wps" onclick="toggleFlashCard('${word}','${def.def.replace(/'/g,"\\'")}','${def.pos}')">
+        ${inDeck?'✓ In Flash Cards':'＋ Add to Flash Cards'}
+      </button>
+    </div>`;
+  document.body.appendChild(d);
+  setTimeout(()=>document.addEventListener('click',popupOutside),100);
+}
+
+async function doTranslate(word){
+  const btn=document.getElementById('wptbtn');
+  const tl=document.getElementById('wpt');
+  if(!btn||!tl) return;
+  btn.textContent='Translating…';
+  btn.disabled=true;
+  const lang=getUserLang();
+  const tr=await translateWord(word, lang);
+  if(tl){
+    if(tr){
+      tl.innerHTML=`<span class="wp-tl-lang">${lang.toUpperCase()}</span><span class="wp-tl-text">${tr}</span>`;
+      if(btn) btn.style.display='none';
+    } else {
+      tl.innerHTML=`<span class="wp-tl-loading">No translation available — check your internet connection</span>`;
+      if(btn){ btn.textContent='🌐 Try again'; btn.disabled=false; }
+    }
+  }
+  // Cache translation on flash card if it's already in the deck
+  if(state.flashCards[word]){ state.flashCards[word].translation=tr; save(); }
+}
+// Popup for above-level words from CEFR word lists (no story definition — just level badge + translate)
+function showChallengePopup(word, level, e, el){
+  document.getElementById('wp')?.remove();
+  document.querySelectorAll('.tappable.hl').forEach(x=>x.classList.remove('hl'));
+  if(el) el.classList.add('hl');
+  const inDeck=!!state.flashCards[word];
+  const cached=state.flashCards[word]?.translation||null;
+  const lang=getUserLang();
+  const label=CEFR_LABELS?.[level]||level.toUpperCase();
+  const d=document.createElement('div');
+  d.id='wp'; d.className='word-popup';
+  d.innerHTML=`
+    <div class="wp-header">
+      <div><span class="wp-word">${word}</span><span class="wp-level-badge">${label}</span></div>
+      <button class="wp-close" onclick="closePopup()">✕</button>
+    </div>
+    <div class="wp-challenge-note">This word is above your current level — a great one to learn!</div>
+    <div class="wp-translation" id="wpt">${cached?`<span class="wp-tl-lang">${lang.toUpperCase()}</span><span class="wp-tl-text">${cached}</span>`:''}</div>
+    <div class="wp-actions">
+      <button class="wp-translate-btn" id="wptbtn" onclick="doTranslate('${word}')" ${cached?'style="display:none"':''}>🌐 Translate</button>
+      <button class="wp-fc-btn${inDeck?' in-deck':''}" id="wps" onclick="toggleFlashCard('${word}','${label} level word','noun')">
+        ${inDeck?'✓ In Flash Cards':'＋ Add to Flash Cards'}
+      </button>
+    </div>`;
+  document.body.appendChild(d);
+  setTimeout(()=>document.addEventListener('click',popupOutside),100);
+}
+
+function popupOutside(e){
+  const p=document.getElementById('wp');
+  if(p&&!p.contains(e.target)&&!e.target.classList.contains('tappable')&&!e.target.classList.contains('vocab-chip')){
+    closePopup(); document.removeEventListener('click',popupOutside);
+  }
+}
+function closePopup(){
+  const p=document.getElementById('wp');
+  if(p){p.classList.add('hiding');setTimeout(()=>p.remove(),200);}
+  document.querySelectorAll('.tappable.hl').forEach(x=>x.classList.remove('hl'));
+}
+function toggleWord(w,def){
+  if(state.savedWords[w]) delete state.savedWords[w]; else state.savedWords[w]=def;
+  save();
+  const b=document.getElementById('wps');
+  if(b){const s=!!state.savedWords[w];b.textContent=s?'★ Saved':'☆ Save to Word List';b.classList.toggle('saved',s);}
+}
+function toggleFlashCard(word, def, pos){
+  if(state.flashCards[word]){
+    delete state.flashCards[word];
+  } else {
+    const lang=getUserLang();
+    // Store card with cached translation if already fetched, else fetch again
+    state.flashCards[word]={def, pos, lang, translation:null};
+    translateWord(word, lang).then(tr=>{
+      if(state.flashCards[word]) state.flashCards[word].translation=tr;
+      save();
+    });
+  }
+  save();
+  const b=document.getElementById('wps');
+  if(b){
+    const inDeck=!!state.flashCards[word];
+    b.textContent=inDeck?'✓ In Flash Cards':'＋ Add to Flash Cards';
+    b.classList.toggle('in-deck',inDeck);
+  }
+}
+
+// ── RENDER: QUIZ ───────────────────────────────────────────
+function startQuiz(){ ttsStop(); updateStreak(); navigate('quiz',{quizIndex:0,quizAnswers:[]}); }
+
+function renderQuiz(){
+  const story=getStory(); if(!story){navigate('home');return;}
+  const q=story.quiz[state.quizIndex]; const total=story.quiz.length;
+  const dots=story.quiz.map((_,i)=>`<div class="q-dot${i<state.quizIndex?(state.quizAnswers[i]?.correct?' ok':' bad'):i===state.quizIndex?' cur':''}"></div>`).join('');
+  const opts=q.options.map((o,i)=>`<button class="q-opt" data-i="${i}" onclick="pick(${i})">
+    <span class="opt-letter">${'ABCD'[i]}</span>${o}</button>`).join('');
+  document.getElementById('app').innerHTML=`
+  <div class="screen">
+    <div class="nav-bar"><button class="back-btn" onclick="navigate('reader',{storyId:'${story.id}'})">←</button><h2>Quick Quiz</h2></div>
+    <div class="quiz-progress"><span class="q-label">Q${state.quizIndex+1}/${total}</span><div class="q-dots">${dots}</div></div>
+    <div class="quiz-body">
+      <div class="quiz-qnum">Question ${state.quizIndex+1}</div>
+      <div class="quiz-question">${q.question}</div>
+      <div class="quiz-options">${opts}</div>
+      <div class="quiz-fb" id="qfb"></div>
+      <button class="quiz-next" id="qnxt" onclick="nextQ()">${state.quizIndex+1<total?'Next →':'See Results →'}</button>
+    </div>
+  </div>`;
+}
+
+function pick(i){
+  const story=getStory(); const q=story.quiz[state.quizIndex];
+  document.querySelectorAll('.q-opt').forEach(b=>b.disabled=true);
+  const ok=i===q.correct;
+  document.querySelectorAll('.q-opt')[i].classList.add(ok?'ok':'bad');
+  if(!ok) document.querySelectorAll('.q-opt')[q.correct].classList.add('ok');
+  state.quizAnswers.push({selected:i,correct:ok});
+  const fb=document.getElementById('qfb');
+  fb.style.display='block'; fb.className='quiz-fb '+(ok?'ok':'bad');
+  fb.innerHTML=(ok?'✓ <strong>Correct!</strong> ':'✗ <strong>Not quite.</strong> ')+q.feedback;
+  const n=document.getElementById('qnxt'); if(n) n.classList.add('vis');
+}
+
+function nextQ(){
+  const story=getStory();
+  if(state.quizIndex+1>=story.quiz.length) finishQuiz();
+  else{state.quizIndex++;renderQuiz();}
+}
+
+function finishQuiz(){
+  const story=getStory();
+  const correct=state.quizAnswers.filter(a=>a.correct).length;
+  const total=story.quiz.length; const score=correct/total;
+  const earned=storyXP(story,score);
+  const wasNew=!state.progress[story.id];
+  if((state.progress[story.id]?.score||0)<score)
+    state.progress[story.id]={score,at:new Date().toISOString()};
+  state.xp+=earned;
+  calcTodayCount();
+  save();
+  // Check if this story completion finishes a sub-level for the first time
+  // L1–L5 use 0-indexed subLevel; L6 uses 1-indexed — normalise to 0-indexed array key
+  const sl=story.levelId===6 ? story.subLevel-1 : story.subLevel;
+  const justUnlocked=wasNew && subLevelDone(story.levelId, sl);
+  navigate('results',{lastScore:score,lastCorrect:correct,lastTotal:total,lastXP:earned,lastSubLevelUnlocked:justUnlocked?sl:null,lastLevelId:story.levelId});
+}
+
+// ── RENDER: RESULTS ────────────────────────────────────────
+function renderResults(){
+  const story=getStory();
+  const pct=Math.round(state.lastScore*100);
+  const emoji=pct===100?'🏆':pct>=75?'🌟':pct>=50?'👍':'📖';
+  const msg=pct===100?'Perfect!':pct>=75?'Great work!':pct>=50?'Good effort!':'Keep going!';
+  if(pct===100) confetti();
+  const unlockBadge=state.lastSubLevelUnlocked!==null
+    ? `<div class="sublevel-unlock">🎉 Sub-level ${state.lastSubLevelUnlocked+1} complete! Next level unlocked!</div>` : '';
+  document.getElementById('app').innerHTML=`
+  <div class="screen results-screen">
+    <span class="res-emoji">${emoji}</span>
+    <h2>${msg}</h2>
+    <p style="color:var(--text-muted)">${story?.title||''}</p>
+    <div class="res-score">${state.lastCorrect}/${state.lastTotal}</div>
+    <p style="color:var(--text-muted);font-size:.9rem">${pct}% correct</p>
+    ${unlockBadge}
+    <div class="res-cards">
+      <div class="res-card"><div class="rc-icon">⚡</div><div class="rc-val">+${state.lastXP}</div><div class="rc-label">XP earned</div></div>
+      <div class="res-card"><div class="rc-icon">🔥</div><div class="rc-val">${state.streak}</div><div class="rc-label">Day streak</div></div>
+      <div class="res-card"><div class="rc-icon">🃏</div><div class="rc-val">${Object.keys(state.flashCards).length}</div><div class="rc-label">Flash cards</div></div>
+    </div>
+    <button class="res-continue" onclick="navigate('sublevels',{levelId:${story?.levelId||1}})">📚 More Stories</button>
+    <button class="res-again" onclick="navigate('quiz',{quizIndex:0,quizAnswers:[]})">🔄 Retry Quiz</button>
+    <button class="res-reread" onclick="navigate('reader',{storyId:'${story?.id||''}',readerStep:0})">📖 Read Again</button>
+  </div>`;
+  if(state.lastSubLevelUnlocked!==null) confetti();
+}
+
+// ── RENDER: FLASH CARDS LIST ───────────────────────────────
+function renderFlashCards(){
+  const cards=Object.entries(state.flashCards);
+  document.getElementById('app').innerHTML=`
+  <div class="screen has-tab-bar">
+    <div class="nav-bar"><h2>🃏 Flash Cards (${cards.length})</h2></div>
+    ${cards.length===0
+      ? `<div class="wl-empty">
+           <div class="we-icon">🃏</div>
+           <p>No flash cards yet.<br>Tap any underlined word while reading<br>and add it to your deck!</p>
+         </div>`
+      : `<div class="fc-list-actions">
+           <button class="fc-play-btn" onclick="startFlashCardPlay()">▶ Study Now (${cards.length} cards)</button>
+         </div>
+         <div class="wl-items" id="fc-list">
+           ${cards.map(([w,c])=>`
+             <div class="wl-item fc-item" id="fci-${w}">
+               <div class="fc-item-left">
+                 <div class="wl-word">${w}</div>
+                 <div class="wl-def">${c.def}</div>
+                 ${c.translation?`<div class="fc-item-tl">${c.lang?c.lang.toUpperCase()+': ':''}<strong>${c.translation}</strong></div>`:''}
+               </div>
+               <div class="fc-item-actions">
+                 <button class="wl-del" onclick="deleteFlashCard('${w}')">✕</button>
+               </div>
+             </div>`).join('')}
+         </div>`}
+  </div>
+  ${tabBar()}`;
+}
+
+function deleteFlashCard(word){
+  delete state.flashCards[word];
+  save();
+  renderFlashCards();
+}
+
+// ── FLASH CARD PLAY MODE ───────────────────────────────────
+function startFlashCardPlay(hardOnly=false){
+  const keys=hardOnly && state.fcHard?.length ? [...state.fcHard] : Object.keys(state.flashCards);
+  if(!keys.length) return;
+  // Fisher-Yates shuffle
+  const order=[...keys];
+  for(let i=order.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [order[i],order[j]]=[order[j],order[i]];
+  }
+  navigate('fcplay',{fcOrder:order,fcStudyIndex:0,fcHard:[]});
+}
+
+function renderFlashCardPlay(){
+  const order=state.fcOrder;
+  const idx=state.fcStudyIndex;
+  if(!order||!order.length){navigate('flashcards');return;}
+
+  // End of deck — show summary
+  if(idx>=order.length){
+    const hard=state.fcHard||[];
+    const got=order.length-hard.length;
+    document.getElementById('app').innerHTML=`
+    <div class="screen fc-play-screen">
+      <div class="nav-bar"><button class="back-btn" onclick="navigate('flashcards')">←</button><h2>Round Complete!</h2></div>
+      <div class="fc-summary">
+        <div class="fc-sum-emoji">🎉</div>
+        <div class="fc-sum-row"><span class="fc-sum-got">✓ Got it</span><span class="fc-sum-num">${got}</span></div>
+        <div class="fc-sum-row"><span class="fc-sum-hard">↩ Still learning</span><span class="fc-sum-num">${hard.length}</span></div>
+        ${hard.length>0
+          ? `<button class="fc-play-btn" style="margin-top:20px" onclick="startFlashCardPlay(true)">↩ Practise ${hard.length} tricky card${hard.length>1?'s':''}</button>`
+          : `<p class="fc-sum-perfect">Perfect round! 🏆</p>`}
+        <button class="fc-play-btn fc-play-btn-outline" onclick="startFlashCardPlay(false)">Shuffle all again</button>
+        <button class="home-settings" onclick="navigate('flashcards')">Back to deck</button>
+      </div>
+    </div>`;
+    if(!hard.length) confetti();
+    return;
+  }
+
+  const word=order[idx];
+  const card=state.flashCards[word];
+  if(!card){navigate('flashcards');return;}
+  const total=order.length;
+  const pct=Math.round((idx/total)*100);
+
+  document.getElementById('app').innerHTML=`
+  <div class="screen fc-play-screen">
+    <div class="reader-prog-bar"><div class="reader-prog-fill" style="width:${pct}%"></div></div>
+    <div class="nav-bar">
+      <button class="back-btn" onclick="navigate('flashcards')">←</button>
+      <h2>Study</h2>
+      <span class="step-counter" style="margin:0">${idx+1}/${total}</span>
+    </div>
+    <div class="fc-card-wrap">
+      <div class="fc-card" id="fc-card" onclick="flipCard()">
+        <div class="fc-card-inner" id="fc-card-inner">
+          <div class="fc-face fc-front">
+            <div class="fc-front-word">${word}</div>
+            <div class="fc-tap-hint">Tap to reveal</div>
+          </div>
+          <div class="fc-face fc-back">
+            <div class="fc-back-word">${word}</div>
+            <div class="fc-back-pos">${card.pos}</div>
+            ${card.translation
+              ? `<div class="fc-back-tl-block">
+                   <span class="fc-back-tl-lang">${(card.lang||'').toUpperCase()}</span>
+                   <span class="fc-back-tl-text">${card.translation}</span>
+                 </div>`
+              : `<button class="fc-back-tl-fetch" id="fc-tl-btn" onclick="fetchCardTranslation('${word}',event)">🌐 Translate</button>`}
+            <div class="fc-back-divider"></div>
+            <div class="fc-back-def">${card.def}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-nav" id="fc-nav" style="display:none">
+      <button class="fc-hard-btn" onclick="fcMark('hard')">↩ Still learning</button>
+      <button class="fc-got-btn"  onclick="fcMark('got')">✓ Got it</button>
+    </div>
+  </div>`;
+}
+
+function flipCard(){
+  const inner=document.getElementById('fc-card-inner');
+  if(!inner) return;
+  if(!inner.classList.contains('flipped')){
+    inner.classList.add('flipped');
+    const nav=document.getElementById('fc-nav');
+    if(nav) nav.style.display='flex';
+  }
+}
+
+function fcMark(result){
+  if(!state.fcHard) state.fcHard=[];
+  const word=state.fcOrder[state.fcStudyIndex];
+  if(result==='hard' && !state.fcHard.includes(word)) state.fcHard.push(word);
+  state.fcStudyIndex++;
+  renderFlashCardPlay();
+}
+
+function fcStep(dir){
+  const next=state.fcStudyIndex+dir;
+  if(next<0||next>=state.fcOrder.length) return;
+  state.fcStudyIndex=next;
+  renderFlashCardPlay();
+}
+
+async function fetchCardTranslation(word, e){
+  if(e) e.stopPropagation(); // don't flip card
+  const btn=document.getElementById('fc-tl-btn');
+  if(btn){ btn.textContent='Translating…'; btn.disabled=true; }
+  const lang=getUserLang();
+  const tr=await translateWord(word, lang);
+  if(state.flashCards[word]){
+    state.flashCards[word].translation = tr||'';
+    state.flashCards[word].lang = lang;
+    save();
+  }
+  // Replace the button with the translation display
+  const container=btn?.parentElement;
+  if(container && tr){
+    const div=document.createElement('div');
+    div.className='fc-back-tl-block';
+    div.innerHTML=`<span class="fc-back-tl-lang">${lang.toUpperCase()}</span><span class="fc-back-tl-text">${tr}</span>`;
+    container.replaceChild(div, btn);
+  } else if(btn){
+    btn.textContent='🌐 Translate';
+    btn.disabled=false;
+  }
+}
+
+// ── CONFETTI ───────────────────────────────────────────────
+function confetti(){
+  const c=document.createElement('div'); c.className='confetti'; document.body.appendChild(c);
+  const cols=['#bada55','#f9ad3b','#E05C5C','#5BAEE0','#A06BE0'];
+  for(let i=0;i<60;i++){
+    const d=document.createElement('div'); d.className='confetti-dot';
+    d.style.cssText=`left:${Math.random()*100}%;top:-10px;background:${cols[i%5]};
+      animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.8}s;
+      width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:50%`;
+    c.appendChild(d);
+  }
+  setTimeout(()=>c.remove(),4000);
+}
+
+// ── BOTTOM TAB BAR ─────────────────────────────────────────
+const TAB_SCREENS=['home','levels','sublevels','stories','flashcards','profile','journey','destination','journeyreader','journeywords','journeyquiz','journeydone'];
+function tabBar(){
+  const s=state.screen;
+  const onHome=['home','levels','sublevels','stories'].includes(s);
+  const onJourney=['journey','destination','journeyreader','journeywords','journeyquiz','journeydone'].includes(s);
+  const onProfile=s==='profile';
+  return `<div class="tab-bar">
+    <button class="tab-btn${onHome?' active':''}" onclick="navigate('home')" aria-label="Home">
+      <span class="tab-icon">🏠</span>
+      <span class="tab-label">Home</span>
+    </button>
+    <button class="tab-btn${onJourney?' active':''}" onclick="navigate('journey')" aria-label="World Journey">
+      <span class="tab-icon">🌍</span>
+      <span class="tab-label">Journey</span>
+    </button>
+    <button class="tab-btn${s==='flashcards'?' active':''}" onclick="navigate('flashcards')" aria-label="Flash cards">
+      <span class="tab-icon">🃏</span>
+      <span class="tab-label">Cards</span>
+    </button>
+    <button class="tab-btn${onProfile?' active':''}" onclick="navigate('profile')" aria-label="Profile">
+      <span class="bust-icon tab-icon" aria-hidden="true"></span>
+      <span class="tab-label">Profile</span>
+    </button>
+  </div>`;
+}
+
+// ── JOURNEY COMPLETION ─────────────────────────────────────
+function renderJourneyDone(){
+  const dest=DESTINATIONS.find(d=>d.id===state.destId);
+  if(!dest){navigate('journey');return;}
+  const js=getJourneyState(dest.id);
+
+  // Award stamp + XP if not already done
+  if(!js.stamped){
+    js.stamped=true;
+    state.xp=(state.xp||0)+200;
+    state.totalXP=(state.totalXP||0)+200;
+    save();
+    launchConfetti();
+  }
+
+  const bonusWords=dest.postcard.bonusWords.map(w=>`
+    <span style="display:inline-block;background:var(--primary-light);color:var(--primary-dark);border:1px solid var(--primary-mid);border-radius:99px;padding:4px 12px;font-size:.85rem;font-weight:700;margin:4px">${w}</span>
+  `).join('');
+
+  document.getElementById('app').innerHTML=`
+  <div class="screen has-tab-bar" style="padding:32px 20px;text-align:center">
+    <div style="font-size:4rem;margin-bottom:12px;animation:bounceIn .6s cubic-bezier(.34,1.56,.64,1) both">${dest.emoji}</div>
+    <h2 style="font-size:1.8rem;color:var(--primary-dark);margin-bottom:4px">${dest.name} — stamped!</h2>
+    <p style="color:var(--text-muted);margin-bottom:24px">You've completed all three activities.</p>
+
+    <div style="background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius);padding:20px;margin-bottom:20px;text-align:left">
+      <div style="font-size:.75rem;font-weight:700;color:var(--accent-dark);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">📮 Postcard from ${dest.name}</div>
+      <p style="font-size:.95rem;color:var(--text);line-height:1.6;margin:0 0 12px">"${dest.postcard.fact}"</p>
+      <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:6px">3 bonus words added to your flash cards:</div>
+      <div>${bonusWords}</div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:24px">
+      <div style="background:var(--primary-light);border-radius:var(--radius);padding:14px 20px;text-align:center">
+        <div style="font-size:1.5rem;font-weight:800;color:var(--primary-dark)">+200</div>
+        <div style="font-size:.72rem;color:var(--text-muted)">XP earned</div>
+      </div>
+      <div style="background:#fef3d6;border-radius:var(--radius);padding:14px 20px;text-align:center">
+        <div style="font-size:1.5rem">🪪</div>
+        <div style="font-size:.72rem;color:var(--text-muted)">Passport stamp</div>
+      </div>
+      <div style="background:var(--primary-light);border-radius:var(--radius);padding:14px 20px;text-align:center">
+        <div style="font-size:1.5rem;font-weight:800;color:var(--primary-dark)">${dest.localWords.length+3}</div>
+        <div style="font-size:.72rem;color:var(--text-muted)">Words saved</div>
+      </div>
+    </div>
+
+    <button onclick="navigate('journey')" style="width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;border:none;cursor:pointer;margin-bottom:10px">
+      Back to World Journey
+    </button>
+    <button onclick="navigate('profile')" style="width:100%;padding:14px;background:var(--card);color:var(--primary-dark);border-radius:var(--radius);font-size:.95rem;font-weight:600;border:2px solid var(--border);cursor:pointer">
+      View my passport
+    </button>
+  </div>
+  ${tabBar()}`;
+
+  // Auto-add bonus words to flash cards
+  dest.postcard.bonusWords.forEach(w=>{
+    if(!state.flashCards[w]) state.flashCards[w]={def:'A bonus word from '+dest.name+'.',pos:'noun',lang:null,translation:null};
+  });
+  save();
+}
+
+// ── JOURNEY LOCAL WORDS ────────────────────────────────────
+function renderJourneyWords(){
+  const dest=DESTINATIONS.find(d=>d.id===state.destId);
+  if(!dest){navigate('journey');return;}
+  const js=getJourneyState(dest.id);
+
+  const items=dest.localWords.map(w=>{
+    const done=js.wordsDone.includes(w.word);
+    return `<div class="wl-item" style="${done?'background:var(--primary-light);border-color:var(--primary-mid)':''}">
+      <div style="flex:1">
+        <div class="wl-word">${w.word}</div>
+        <div class="wl-def">${w.def}</div>
+        <div style="font-size:.72rem;color:var(--text-muted);margin-top:2px;font-style:italic">${w.pos}</div>
+      </div>
+      ${done
+        ?`<span style="color:var(--primary);font-size:1rem;font-weight:700">✓</span>`
+        :`<button onclick="learnJourneyWord('${dest.id}','${w.word}')"
+            style="padding:7px 14px;background:var(--primary);color:white;border-radius:99px;font-size:.82rem;font-weight:700;border:none;cursor:pointer;flex-shrink:0">
+            Learn +
+          </button>`}
+    </div>`;
+  }).join('');
+
+  const allDone=journeyAllWordsDone(dest.id);
+
+  document.getElementById('app').innerHTML=`
+  <div class="screen has-tab-bar">
+    <div class="nav-bar">
+      <button class="back-btn" onclick="navigate('destination',{destId:'${dest.id}'})">←</button>
+      <h2>🃏 ${dest.name} Words</h2>
+    </div>
+    <div style="padding:12px 16px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid)">
+      <p style="font-size:.85rem;color:var(--text-muted);margin:0">Tap <strong>Learn +</strong> to add each word to your flash card deck. Words you learn here stay in your deck forever.</p>
+    </div>
+    <div class="wl-items">${items}</div>
+    ${allDone?`<div style="padding:16px"><div style="background:var(--primary-light);border:1px solid var(--primary-mid);border-radius:var(--radius);padding:14px;text-align:center;font-weight:700;color:var(--primary-dark)">✓ All ${dest.localWords.length} words learned!</div></div>`:''}
+  </div>
+  ${tabBar()}`;
+}
+
+function learnJourneyWord(destId, word){
+  markJourneyWordDone(destId, word);
+  renderJourneyWords();
+}
+
+// ── JOURNEY CULTURE QUIZ ────────────────────────────────────
+function renderJourneyQuiz(){
+  const dest=DESTINATIONS.find(d=>d.id===state.destId);
+  if(!dest){navigate('journey');return;}
+  if(!journeyAllStoriesDone(dest.id)||!journeyAllWordsDone(dest.id)){
+    navigate('destination',{destId:dest.id}); return;
+  }
+  const qIdx=state.journeyQuizIndex||0;
+  const q=dest.cultureQuiz[qIdx];
+  const answered=state.journeyQuizAnswer!==undefined && state.journeyQuizAnswer!==null;
+  const correct=answered && state.journeyQuizAnswer===q.correct;
+
+  const opts=q.options.map((o,i)=>{
+    let cls='q-opt';
+    if(answered){
+      if(i===q.correct) cls+=' ok';
+      else if(i===state.journeyQuizAnswer) cls+=' bad';
+    }
+    return `<button class="${cls}" ${answered?'disabled':''} onclick="answerJourneyQuiz(${i})">
+      <span class="opt-letter">${String.fromCharCode(65+i)}</span>${o}
+    </button>`;
+  }).join('');
+
+  const isLast=qIdx>=dest.cultureQuiz.length-1;
+
+  document.getElementById('app').innerHTML=`
+  <div class="screen">
+    <div class="nav-bar">
+      <button class="back-btn" onclick="navigate('destination',{destId:'${dest.id}'})">←</button>
+      <h2>🧠 Culture Quiz</h2>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-qnum">Question ${qIdx+1} of ${dest.cultureQuiz.length}</div>
+      <div class="quiz-question">${q.question}</div>
+      <div class="quiz-options">${opts}</div>
+      ${answered?`<div class="quiz-fb ${correct?'ok':'bad'}" style="display:block">${correct?'✓ Correct!':'✗ Not quite — '}${q.feedback}</div>`:''}
+      ${answered?`<button class="quiz-next vis" onclick="${isLast?`finishJourneyQuiz()`:`nextJourneyQuestion()`}">${isLast?'See results →':'Next →'}</button>`:''}
+    </div>
+  </div>`;
+}
+
+function answerJourneyQuiz(idx){
+  state.journeyQuizAnswer=idx;
+  if(!state.journeyQuizCorrect) state.journeyQuizCorrect=0;
+  const dest=DESTINATIONS.find(d=>d.id===state.destId);
+  if(idx===dest.cultureQuiz[state.journeyQuizIndex||0].correct) state.journeyQuizCorrect++;
+  renderJourneyQuiz();
+}
+
+function nextJourneyQuestion(){
+  state.journeyQuizIndex=(state.journeyQuizIndex||0)+1;
+  state.journeyQuizAnswer=null;
+  renderJourneyQuiz();
+}
+
+function finishJourneyQuiz(){
+  const score=state.journeyQuizCorrect||0;
+  const js=getJourneyState(state.destId);
+  js.quizScore=score;
+  save();
+  // Reset temp state
+  state.journeyQuizIndex=0; state.journeyQuizAnswer=null; state.journeyQuizCorrect=0;
+  navigate('destination',{destId:state.destId});
+}
+
+// ── JOURNEY STORY READER ───────────────────────────────────
+function renderJourneyReader(){
+  const dest=DESTINATIONS.find(d=>d.id===state.destId);
+  if(!dest){navigate('journey');return;}
+  const stories=JOURNEY_STORIES[dest.id]||[];
+  const js=getJourneyState(dest.id);
+
+  const cards=stories.map((story,i)=>{
+    const done=js.storiesDone.includes(story.id);
+    // Sequential unlock: story unlocks when previous is done (or it's first)
+    const locked=i>0 && !js.storiesDone.includes(stories[i-1].id);
+    return `<div class="story-card${done?' done':''}${locked?' locked-story':''}"
+      ${locked?'':` onclick="navigate('journeyreaderpage',{destId:'${dest.id}',journeyStoryId:'${story.id}'})"`}>
+      <div class="story-emoji">${story.emoji}</div>
+      <div class="story-info">
+        <h3>${story.title}</h3>
+        <p>${story.blurb}</p>
+        <div class="story-meta">
+          <span class="meta-chip">📖 ${story.wordCount}w</span>
+          <span class="meta-chip">⏱ ~${story.readMins}m</span>
+          ${done?'<span class="meta-chip" style="color:var(--primary);font-weight:700">✓ Done</span>':''}
+          ${locked?'<span class="meta-chip">🔒 Read story ${i} first</span>':''}
+        </div>
+      </div>
+      ${!locked?`<div class="story-action">
+        <button class="read-btn" onclick="event.stopPropagation();navigate('journeyreaderpage',{destId:'${dest.id}',journeyStoryId:'${story.id}'})">${done?'Reread':'Read'}</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('app').innerHTML=`
+  <div class="screen has-tab-bar">
+    <div class="nav-bar">
+      <button class="back-btn" onclick="navigate('destination',{destId:'${dest.id}'})">←</button>
+      <h2>📖 ${dest.name} Stories</h2>
+    </div>
+    <div class="stories-list">${cards}</div>
+  </div>
+  ${tabBar()}`;
+}
+
+// ── JOURNEY STORY PAGE (reader) ─────────────────────────────
+function renderJourneyReaderPage(){
+  // Uses the same reader engine — we just swap in the journey story object
+  const story=JOURNEY_STORIES[state.destId]?.find(s=>s.id===state.journeyStoryId);
+  if(!story){navigate('journeyreader',{destId:state.destId});return;}
+
+  const steps=story.paragraphs; // always paragraph mode for journey stories
+  const step=Math.min(state.readerStep||0, steps.length-1);
+  const pct=Math.round((step+1)/steps.length*100);
+  const isLast=step>=steps.length-1;
+  const text=makeWordTappable(steps[step],story.vocabulary);
+  const chips=Object.keys(story.vocabulary).map(w=>`<button class="vocab-chip" onclick="showPopup('${w}',null,null)">${w}</button>`).join('');
+  const backBtn=step>0?`<button class="reader-back-btn" onclick="journeyStepBack()">← Back</button>`:'';
+
+  const bottomHTML=isLast
+    ?`<div class="vocab-section"><h4>📘 Key Words — tap to learn</h4><div class="vocab-chips">${chips}</div></div>
+      <div class="reader-bottom">
+        ${backBtn?`<div class="reader-bottom-row">${backBtn}<button class="finish-btn reader-next-btn" onclick="finishJourneyStory()">Done ✓</button></div>`
+        :`<button class="finish-btn" onclick="finishJourneyStory()">Done ✓</button>`}
+      </div>`
+    :`<div class="reader-bottom">
+        ${backBtn?`<div class="reader-bottom-row">${backBtn}<button class="finish-btn reader-next-btn" onclick="journeyStepNext()">Next →</button></div>`
+        :`<button class="finish-btn" onclick="journeyStepNext()">Next →</button>`}
+        <div class="step-counter">${step+1} / ${steps.length}</div>
+      </div>`;
+
+  const ttsBar=`<div class="tts-bar" id="tts-bar">
+    <button id="tts-play-btn" class="tts-play-btn${tts.active&&!tts.paused?' paused':''}" onclick="ttsToggle()">${tts.active&&!tts.paused?'⏸':'▶'}</button>
+    <button class="tts-stop-btn" onclick="ttsStop()">■</button>
+    <span class="tts-label">🔊 Listen</span>
+    <div class="tts-rate-group">
+      <button class="tts-rate-btn${tts.rate===0.75?' tts-rate-active':''}" data-rate="0.75" onclick="ttsSetRate(0.75)">0.75×</button>
+      <button class="tts-rate-btn${tts.rate===1?' tts-rate-active':''}" data-rate="1" onclick="ttsSetRate(1)">1×</button>
+      <button class="tts-rate-btn${tts.rate===1.5?' tts-rate-active':''}" data-rate="1.5" onclick="ttsSetRate(1.5)">1.5×</button>
+      <button class="tts-rate-btn${tts.rate===2?' tts-rate-active':''}" data-rate="2" onclick="ttsSetRate(2)">2×</button>
+    </div>
+  </div>`;
+
+  document.getElementById('app').innerHTML=`
+  <div class="screen reader-screen">
+    <div class="reader-prog-bar"><div class="reader-prog-fill" style="width:${pct}%"></div></div>
+    <div class="reader-header">
+      <button class="back-btn" onclick="ttsStop();navigate('journeyreader',{destId:'${state.destId}'})">←</button>
+      <h3>${story.title}</h3>
+      <button id="tts-icon-btn" class="icon-btn${tts.active?' tts-active':''}" onclick="ttsToggle()">🔊</button>
+    </div>
+    ${ttsBar}
+    <div class="reader-body" id="rbody"><p class="step-new">${text}</p></div>
+    ${bottomHTML}
+  </div>`;
+  document.querySelectorAll('.tappable').forEach(el=>{
+    el.addEventListener('click',function(e){
+      if(this.dataset.challenge) showChallengePopup(this.dataset.word,this.dataset.challenge,e,this);
+      else showPopup(this.dataset.word,e,this);
+    });
+  });
+  addTTSWordSpans();
+}
+function journeyStepNext(){
+  const story=JOURNEY_STORIES[state.destId]?.find(s=>s.id===state.journeyStoryId);
+  if(!story) return;
+  if((state.readerStep||0)<story.paragraphs.length-1){
+    speechSynthesis.cancel(); tts.active=false; tts.paused=false;
+    state.readerStep=(state.readerStep||0)+1; renderJourneyReaderPage();
+  }
+}
+function journeyStepBack(){
+  if((state.readerStep||0)>0){
+    speechSynthesis.cancel(); tts.active=false; tts.paused=false;
+    state.readerStep=(state.readerStep||0)-1; renderJourneyReaderPage();
+  }
+}
+function finishJourneyStory(){
+  ttsStop();
+  markJourneyStoryDone(state.destId, state.journeyStoryId);
+  navigate('journeyreader',{destId:state.destId});
+}
+
+// ── WORLD JOURNEY HUB ──────────────────────────────────────
+function renderJourneyHub(){
+  const cards=DESTINATIONS.map((dest,i)=>{
+    const js=getJourneyState(dest.id);
+    const stories=JOURNEY_STORIES[dest.id]||[];
+    const totalTasks=stories.length + dest.localWords.length + 1; // +1 for quiz
+    const doneTasks=js.storiesDone.length + js.wordsDone.length + (js.quizScore!==null?1:0);
+    const pct=totalTasks?Math.round(doneTasks/totalTasks*100):0;
+
+    // Unlock logic: locked if previous destination not stamped
+    const prevDest=i>0?DESTINATIONS[i-1]:null;
+    const locked=prevDest && !getJourneyState(prevDest.id).stamped;
+    const stamped=js.stamped;
+
+    const cls=stamped?'stamped-dest':locked?'locked-dest':'active-dest';
+    const badge=stamped
+      ?`<span class="dest-hub-badge dhb-stamped">✓ Stamped</span>`
+      :locked
+        ?`<span class="dest-hub-badge dhb-locked">🔒 Locked</span>`
+        :`<span class="dest-hub-badge dhb-open">Open</span>`;
+    const onclick=locked||stamped?'':`onclick="navigate('destination',{destId:'${dest.id}'})"`;
+
+    return `<div class="dest-hub-card ${cls}" ${onclick}>
+      <span class="dest-emoji">${dest.emoji}</span>
+      <div class="dest-hub-info">
+        <h3>${dest.name}</h3>
+        <div class="dest-country">${dest.country}</div>
+        <div class="dest-hub-prog"><div class="dest-hub-prog-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:.72rem;color:var(--text-muted);margin-top:3px">${doneTasks} / ${totalTasks} tasks</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        ${badge}
+        ${stamped?`<span style="font-size:1.4rem">🪪</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('app').innerHTML=`
+  <div class="screen has-tab-bar">
+    <div class="journey-hero">
+      <h2>🌍 World Journey</h2>
+      <p>Read, learn words, and take the culture quiz to earn your passport stamp.</p>
+    </div>
+    <div class="dest-card-row">${cards}</div>
+  </div>
+  ${tabBar()}`;
+}
+
+// ── DESTINATION DETAIL ──────────────────────────────────────
+function renderDestination(){
+  const dest=DESTINATIONS.find(d=>d.id===state.destId);
+  if(!dest){navigate('journey');return;}
+  const js=getJourneyState(dest.id);
+  const stories=JOURNEY_STORIES[dest.id]||[];
+
+  // Stories track
+  const storiesDone=js.storiesDone.length;
+  const storiesPct=Math.round(storiesDone/stories.length*100);
+
+  // Words track
+  const wordsDone=js.wordsDone.length;
+  const wordsPct=Math.round(wordsDone/dest.localWords.length*100);
+
+  // Quiz track — locked until stories and words complete
+  const quizUnlocked=journeyAllStoriesDone(dest.id) && journeyAllWordsDone(dest.id);
+  const quizDone=js.quizScore!==null;
+  const quizSub=quizDone?`Score: ${js.quizScore}/5`:quizUnlocked?'Ready to take':'Complete stories and words first';
+
+  document.getElementById('app').innerHTML=`
+  <div class="screen has-tab-bar">
+    <div class="nav-bar">
+      <button class="back-btn" onclick="navigate('journey')">←</button>
+      <h2>${dest.emoji} ${dest.name}</h2>
+    </div>
+    <div class="dest-detail-hero">
+      <h2>${dest.name}, ${dest.country}</h2>
+      <p>${dest.description}</p>
+    </div>
+    <div style="padding:14px 0 0">
+      <div class="activity-track${storiesDone===stories.length?' done-track':''}"
+           onclick="navigate('journeyreader',{destId:'${dest.id}'})">
+        <span class="at-icon">📖</span>
+        <div class="at-info">
+          <h3>Stories</h3>
+          <div class="at-sub">${stories.length} stories set in ${dest.name}</div>
+          <div class="at-prog"><div class="at-prog-fill" style="width:${storiesPct}%"></div></div>
+        </div>
+        <span class="at-count">${storiesDone}/${stories.length}</span>
+      </div>
+      <div class="activity-track${wordsDone===dest.localWords.length?' done-track':''}"
+           onclick="navigate('journeywords',{destId:'${dest.id}'})">
+        <span class="at-icon">🃏</span>
+        <div class="at-info">
+          <h3>Local words</h3>
+          <div class="at-sub">${dest.localWords.length} words from ${dest.name}</div>
+          <div class="at-prog"><div class="at-prog-fill" style="width:${wordsPct}%"></div></div>
+        </div>
+        <span class="at-count">${wordsDone}/${dest.localWords.length}</span>
+      </div>
+      <div class="activity-track${quizDone?' done-track':quizUnlocked?'':' locked-track'}"
+           ${quizUnlocked&&!quizDone?`onclick="navigate('journeyquiz',{destId:'${dest.id}'})"`:''}">
+        <span class="at-icon">🧠</span>
+        <div class="at-info">
+          <h3>Culture quiz</h3>
+          <div class="at-sub">${quizSub}</div>
+          ${quizDone?`<div class="at-prog"><div class="at-prog-fill" style="width:100%"></div></div>`:''}
+        </div>
+        <span class="at-count">${quizDone?'✓':'5 Qs'}</span>
+      </div>
+    </div>
+    ${journeyComplete(dest.id)&&!js.stamped?`
+      <div style="padding:16px">
+        <button onclick="navigate('journeydone',{destId:'${dest.id}'})"
+          style="width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;border:none;cursor:pointer">
+          🪪 Claim your stamp!
+        </button>
+      </div>`:''}
+    ${js.stamped?`
+      <div style="padding:16px;text-align:center">
+        <div style="background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius);padding:14px">
+          <div style="font-size:2rem;margin-bottom:4px">🪪</div>
+          <div style="font-weight:700;color:var(--accent-dark)">Passport stamped!</div>
+          <div style="font-size:.82rem;color:var(--text-muted);margin-top:4px">${dest.name} complete</div>
+        </div>
+      </div>`:''}
+  </div>
+  ${tabBar()}`;
+}
+
+// ── PROFILE ────────────────────────────────────────────────
+function renderProfile(){
+  // Totals
+  const totalStories=Object.values(STORIES).reduce((a,lv)=>a+Object.values(lv).reduce((b,sl)=>b+sl.length,0),0);
+  const doneCount=Object.keys(state.progress||{}).length;
+  const pct=Math.round(doneCount/totalStories*100);
+
+  // Per-level progress
+  const lvRows=LEVELS.map(lv=>{
+    const lvStories=Object.values(STORIES[lv.id]||{}).reduce((a,sl)=>a+sl.length,0);
+    const lvDone=Object.values(STORIES[lv.id]||{}).reduce((a,sl)=>
+      a+sl.filter(s=>storyDone(s.id)).length,0);
+    const lvPct=lvStories?Math.round(lvDone/lvStories*100):0;
+    const badges=[
+      {bg:'#f0f7d0',color:'#6b8a1e'},{bg:'#e4f3a8',color:'#6b8a1e'},
+      {bg:'#d4ec96',color:'#5a7218'},{bg:'#fef3d6',color:'#d4831a'},
+      {bg:'#fde8c0',color:'#a0580e'},{bg:'#e8e8e8',color:'#151515'}
+    ];
+    const b=badges[lv.id-1]||badges[0];
+    return `<div class="lv-prog-row">
+      <div class="lv-prog-badge" style="background:${b.bg};color:${b.color}">${lv.id}</div>
+      <div class="lv-prog-info">
+        <div class="lv-prog-name">${lv.name}</div>
+        <div class="lv-prog-bar-wrap"><div class="lv-prog-bar-fill" style="width:${lvPct}%"></div></div>
+      </div>
+      <div class="lv-prog-count">${lvDone}/${lvStories}</div>
+    </div>`;
+  }).join('');
+
+  // Badges — earned vs locked placeholders
+  const earnedBadges=[
+    {e:'🔥',name:'Streak starter',earned:state.streak>=3},
+    {e:'📖',name:'First story',earned:doneCount>=1},
+    {e:'⭐',name:'Quiz ace',earned:false},
+    {e:'🃏',name:'Word collector',earned:Object.keys(state.flashCards||{}).length>=10},
+    {e:'🌟',name:'10 stories',earned:doneCount>=10},
+    {e:'🏆',name:'50 stories',earned:doneCount>=50},
+    {e:'🌍',name:'World traveller',earned:false},
+    {e:'🎓',name:'Level complete',earned:false},
+  ];
+  const badgeGrid=earnedBadges.map(b=>`
+    <div class="badge-item">
+      <div class="badge-circle ${b.earned?'earned':'locked'}">${b.e}</div>
+      <span class="badge-name">${b.name}</span>
+    </div>`).join('');
+
+  // Streak display
+  const streakTxt=state.streak>0?`🔥 ${state.streak}-day streak`:'No streak yet — read today!';
+
+  document.getElementById('app').innerHTML=`
+  <div class="screen has-tab-bar">
+    <div class="profile-hero">
+      <div class="profile-avatar" aria-hidden="true"></div>
+      <div class="profile-name">My Progress</div>
+      <div class="profile-sub">${streakTxt}</div>
+    </div>
+
+    <div class="profile-stats">
+      <div class="pstat">
+        <div class="pval">${doneCount}</div>
+        <div class="plabel">Stories read</div>
+      </div>
+      <div class="pstat">
+        <div class="pval">${state.totalXP||0}</div>
+        <div class="plabel">Total XP</div>
+      </div>
+      <div class="pstat">
+        <div class="pval">${pct}%</div>
+        <div class="plabel">Complete</div>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <div class="profile-section-title">Level progress</div>
+      ${lvRows}
+    </div>
+
+    <div class="profile-section">
+      <div class="profile-section-title">Badges</div>
+      <div class="badge-grid">${badgeGrid}</div>
+    </div>
+
+    <div class="profile-section">
+      <div class="profile-section-title">Flash cards</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:1rem;font-weight:700;color:var(--text)">Saved words</div>
+          <div style="font-size:.82rem;color:var(--text-muted);margin-top:2px">${Object.keys(state.flashCards||{}).length} words in your deck</div>
+        </div>
+        <button onclick="navigate('flashcards')" style="padding:10px 16px;background:var(--primary);color:white;border-radius:99px;font-size:.85rem;font-weight:700;border:none;cursor:pointer">Study →</button>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <div class="profile-section-title">Passport stamps</div>
+      ${DESTINATIONS.some(d=>getJourneyState(d.id).stamped)
+        ? `<div class="badge-grid">
+            ${DESTINATIONS.map(d=>{
+              const stamped=getJourneyState(d.id).stamped;
+              return `<div class="badge-item" onclick="${stamped?`navigate('destination',{destId:'${d.id}'})`:''}" style="${stamped?'cursor:pointer':''}">
+                <div class="badge-circle ${stamped?'earned':'locked'}">${d.emoji}</div>
+                <span class="badge-name">${d.name}${stamped?' ✓':''}</span>
+              </div>`;
+            }).join('')}
+          </div>`
+        : `<div style="background:var(--primary-light);border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;gap:12px">
+            <span style="font-size:1.8rem">🌍</span>
+            <div>
+              <div style="font-size:.9rem;font-weight:700;color:var(--text)">No stamps yet</div>
+              <div style="font-size:.82rem;color:var(--text-muted)">Complete a destination in World Journey to earn your first passport stamp.</div>
+            </div>
+          </div>
+          <button onclick="navigate('journey')" style="width:100%;margin-top:10px;padding:12px;background:var(--primary);color:white;border-radius:var(--radius);font-size:.9rem;font-weight:700;border:none;cursor:pointer">Go to World Journey 🌍</button>`
+      }
+    </div>
+  </div>
+  ${tabBar()}`;
+}
+
+// ── ROUTER ─────────────────────────────────────────────────
+function render(){
+  // Show language picker on very first launch (no language saved yet)
+  if(!state.nativeLang && state.screen==='home'){
+    renderLangPicker(false); return;
+  }
+  switch(state.screen){
+    case'home':      renderHome();      break;
+    case'levels':    renderLevels();    break;
+    case'sublevels': renderSubLevels(); break;
+    case'stories':   renderStories();   break;
+    case'reader':    renderReader();    break;
+    case'quiz':      renderQuiz();      break;
+    case'results':    renderResults();       break;
+    case'flashcards': renderFlashCards();        break;
+    case'fcplay':     renderFlashCardPlay();     break;
+    case'settings':   renderLangPicker(true);    break;
+    case'profile':          renderProfile();              break;
+    case'journey':          renderJourneyHub();           break;
+    case'destination':      renderDestination();          break;
+    case'journeyreader':    renderJourneyReader();        break;
+    case'journeyreaderpage':renderJourneyReaderPage();    break;
+    case'journeywords':     renderJourneyWords();         break;
+    case'journeyquiz':      renderJourneyQuiz();          break;
+    case'journeydone':      renderJourneyDone();          break;
+    default:          renderHome();
+  }
+}
+applyFontSize();
+applyVocabHighlight();
+render();
+</script>
+</body>
+</html>
