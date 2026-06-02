@@ -11967,3 +11967,138 @@ JOURNEY_STORIES['china'].push({
      feedback:"'He said it as a person describes a river that has changed course: something happened, the landscape is different, this is what remains.'"}
   ]
 });
+
+// ── INDIA ────────────────────────────────────────────────────────────────
+JOURNEY_STORIES['india'] = [];
+
+JOURNEY_STORIES['india'].push({
+  id:"j-india-1", journeyId:"india", order:1,
+  title:"The Dabbawalas", emoji:"🍱", genre:"Culture / Everyday Life",
+  wordCount:294, readMins:3,
+  blurb:"Every day in Mumbai, thousands of lunch boxes travel from home kitchens to office workers across the city — carried by the dabbawalas.",
+  paragraphs:[
+    "At half past nine every morning, a man named Suresh collected twelve metal lunch boxes from the same twelve addresses in Dadar. Each box was labelled with a code of numbers and colours — not a name, but a route. Suresh could not read, but he knew every code by sight, and he had never delivered the wrong box.",
+    "The dabbawalas had been doing this in Mumbai since the 1890s. The word meant box-carrier in Marathi, the local language. At its busiest, the system moved around two hundred thousand lunch boxes every day, using trains, bicycles, and handcarts — and almost no technology at all.",
+    "By eleven o'clock, Suresh's boxes were at the local sorting point. Other dabbawalas had brought boxes from different neighbourhoods. The men sorted them quickly by destination — each dabbawala knew his section of the city. They stacked the boxes on wooden crates balanced on their heads or loaded onto bicycles. Then they moved.",
+    "The boxes arrived at offices across the city in time for the one o'clock lunch hour. Inside each one was a home-cooked meal — rice, dal, vegetables, sometimes a small container of pickle. The food was still warm. Workers said it tasted different from a canteen meal, and it was different: someone's mother or wife had made it that morning.",
+    "By three o'clock, the empty boxes were on their way back. By six, Suresh had returned every box to its original address. If a box was damaged on the route, he set it aside and reported it at the sorting point; the family was told the next morning. He had done this six days a week for nineteen years. He said the only difficult days were when there was heavy rain and the trains ran late."
+  ],
+  vocabulary:{
+    "dabbawala":{def:"A person in Mumbai who collects and delivers home-cooked lunch boxes to workers in offices across the city.",pos:"noun"},
+    "sorting":{def:"Arranging things into groups or order according to a system.",pos:"verb"},
+    "handcart":{def:"A small cart pushed or pulled by hand, used for transporting goods.",pos:"noun"},
+    "dal":{def:"A thick dish made from cooked lentils or other pulses, common in South Asian cooking.",pos:"noun"},
+    "canteen":{def:"A place in a workplace or school where food and drinks are sold.",pos:"noun"},
+    "destination":{def:"The place where someone or something is going.",pos:"noun"},
+    "crate":{def:"A large container made of wood or plastic used for storing or carrying things.",pos:"noun"}
+  },
+  quiz:[
+    {question:"How did Suresh know which box to deliver to which address?",options:["He memorised every customer's name and address","He used a mobile phone app to track deliveries","He recognised each box by a code of numbers and colours","He read the written labels on each box"],correct:2,
+     feedback:"'Each box was labelled with a code of numbers and colours — not a name, but a route. Suresh could not read, but he knew every code by sight.'"},
+    {question:"When did the dabbawala system begin in Mumbai?",options:["In the 1960s","In the 1890s","After Indian independence in 1947","In the early 2000s"],correct:1,
+     feedback:"'The dabbawalas had been doing this in Mumbai since the 1890s.'"},
+    {question:"Why did office workers prefer their dabbawala lunch to a canteen meal?",options:["The dabbawala meals were cheaper","The food arrived faster","It was a home-cooked meal made that morning by someone who cared","The canteen food was always cold"],correct:2,
+     feedback:"'Workers said it tasted different from a canteen meal, and it was different: someone's mother or wife had made it that morning.'"},
+    {question:"What did Suresh say were the only difficult days?",options:["Days when customers moved to new offices","Days when the lunch boxes were damaged","Days of heavy rain when trains ran late","Days during festivals when fewer workers came in"],correct:2,
+     feedback:"'He said the only difficult days were when there was heavy rain and the trains ran late.'"}
+  ]
+});
+
+JOURNEY_STORIES['india'].push({
+  id:"j-india-2", journeyId:"india", order:2,
+  title:"The Colour That Runs", emoji:"🎨", genre:"Festivals / Culture",
+  wordCount:263, readMins:3,
+  blurb:"Priya celebrates Holi in her grandmother's village for the first time — and learns why the festival is messier and more serious than it looks.",
+  paragraphs:[
+    "Priya had seen photographs of Holi all her life. Clouds of pink and yellow powder over laughing crowds. It looked like chaos, but her grandmother said it had rules, like everything else. The most important rule was: once the colour starts, you accept it.",
+    "Her grandmother's village began early. By eight in the morning, boys were already running through the lanes with handfuls of gulal — dry, bright powder made from flowers, though now mostly from synthetic dye. Priya got hit twice before she reached the square. Her white kurta, which her grandmother had told her to wear deliberately, was already orange.",
+    "In the square, a fire had been burning since the night before. This was Holika Dahan — the burning of Holika, a figure from Hindu mythology who tried to harm the good prince Prahlad but was destroyed by her own fire. The ash was still warm. Women were circling it slowly, singing.",
+    "Her grandmother explained that Holi celebrated the end of winter and the beginning of spring, and also the victory of good over evil. It was the day when social rules relaxed: younger people could throw colour at elders, and ordinary formality melted away. Her grandmother had powder on her sari and was laughing.",
+    "By noon, Priya was entirely unrecognisable. Her hair was green, her face was pink, and her feet were purple up to the ankles. She ate gujiya — sweet pastries filled with coconut and dried fruit — and drank thandai, a cold spiced milk drink. Her grandmother said this was the correct ending to a correct Holi."
+  ],
+  vocabulary:{
+    "gulal":{def:"Brightly coloured dry powder thrown during the Holi festival, traditionally made from flowers.",pos:"noun"},
+    "synthetic":{def:"Made from artificial chemical substances rather than natural materials.",pos:"adjective"},
+    "Holika Dahan":{def:"The bonfire lit on the eve of Holi, representing the burning of evil and the victory of good.",pos:"noun"},
+    "mythology":{def:"A collection of traditional stories about gods, heroes, and the origins of the world.",pos:"noun"},
+    "formality":{def:"Behaviour that follows strict social rules and customs, often between people of different status.",pos:"noun"},
+    "gujiya":{def:"A sweet fried pastry filled with coconut and dried fruit, traditionally eaten at Holi.",pos:"noun"},
+    "thandai":{def:"A cold drink made from milk, sugar, and spices such as cardamom and rose, served at Holi.",pos:"noun"}
+  },
+  quiz:[
+    {question:"What was the most important rule of Holi according to Priya's grandmother?",options:["You must wear white at the start","You must not throw colour at elders","Once the colour starts, you accept it","Only children may throw colour before noon"],correct:2,
+     feedback:"'The most important rule was: once the colour starts, you accept it.'"},
+    {question:"What is Holika Dahan?",options:["The name of the powder used during Holi","A bonfire representing the burning of evil and the victory of good","A cold drink served at Holi celebrations","The name for the first day of spring in India"],correct:1,
+     feedback:"'Holika Dahan — the burning of Holika, a figure from Hindu mythology who tried to harm the good prince Prahlad but was destroyed by her own fire.'"},
+    {question:"Why did Priya's grandmother tell her to wear white?",options:["White is the traditional Holi colour","So she could be easily found in the crowd","It was deliberate — so the colour would show up clearly on it","White clothing was cheapest to replace"],correct:2,
+     feedback:"'Her white kurta, which her grandmother had told her to wear deliberately, was already orange.'"},
+    {question:"What happened to social rules on Holi?",options:["They became stricter to keep order in large crowds","Younger people had to show extra respect to elders","Social rules relaxed — younger people could throw colour at elders and ordinary formality melted away","Only adults could participate in the colour-throwing"],correct:2,
+     feedback:"'It was the day when social rules relaxed: younger people could throw colour at elders, and ordinary formality melted away.'"}
+  ]
+});
+
+JOURNEY_STORIES['india'].push({
+  id:"j-india-3", journeyId:"india", order:3,
+  title:"Night Train to Mysuru", emoji:"🚂", genre:"Adventure / Travel",
+  wordCount:276, readMins:3,
+  blurb:"Arjun takes an overnight train from Bengaluru to Mysuru and finds that the best part of the journey is not arriving.",
+  paragraphs:[
+    "The train left Bengaluru at half past ten at night. Arjun had taken this route before, but always in the daytime. His uncle had told him that night trains were different, and he had not believed it until he was sitting in his berth with the lights dimmed and the countryside moving past in the dark outside the window.",
+    "His berth was on the upper level of a three-tier sleeper carriage. Below him, a family was arranging themselves for the night — a man folding a shawl into a pillow, a child already asleep with her mouth open, a woman distributing food from a bag: a container of rice, a small packet of biscuits, a thermos of tea. She offered some to Arjun. He accepted the biscuits.",
+    "The train stopped at four stations between Bengaluru and Mysuru. At each stop, the platform outside appeared briefly — bright lights, vendors with chai and snacks, passengers hurrying in both directions — and then it disappeared again and there was only darkness and the rhythm of the wheels.",
+    "Arjun could not sleep. He lay on his berth and looked at the ceiling and listened to the sound of the train. There was a particular combination of sounds that only existed in Indian train carriages at night: metal on metal, distant conversation, someone's phone playing a film with the volume low, the soft snoring of strangers.",
+    "They arrived at Mysuru at quarter past one. Arjun stepped onto the platform into warm night air that smelled of jasmine from the garlands sold at the entrance. He stood still for a moment before moving. He was not quite ready to stop travelling."
+  ],
+  vocabulary:{
+    "berth":{def:"A fixed bed on a train, ship, or other vehicle for sleeping during a journey.",pos:"noun"},
+    "sleeper carriage":{def:"A railway carriage fitted with beds or berths for overnight travel.",pos:"noun"},
+    "vendor":{def:"A person who sells goods, often from a stall or moving cart.",pos:"noun"},
+    "chai":{def:"Spiced tea made with milk, common across South Asia.",pos:"noun"},
+    "garland":{def:"A ring or string of flowers worn or hung as a decoration.",pos:"noun"},
+    "rhythm":{def:"A regular repeated pattern of sounds or movements.",pos:"noun"},
+    "distributing":{def:"Giving out something to several people.",pos:"verb"}
+  },
+  quiz:[
+    {question:"What surprised Arjun about taking the train at night rather than in the daytime?",options:["The train was much faster at night","His uncle had been right — night trains were different, and he found himself noticing more","The train was quieter and he slept the whole way","The price of a night ticket was much lower"],correct:1,
+     feedback:"'His uncle had told him that night trains were different, and he had not believed it until he was sitting in his berth with the lights dimmed.'"},
+    {question:"What did the woman in the berth below offer Arjun?",options:["Tea and rice","Biscuits, which he accepted","A shawl to use as a pillow","A spare berth for the child to sleep in"],correct:1,
+     feedback:"'She offered some to Arjun. He accepted the biscuits.'"},
+    {question:"What happened at each of the four stations along the route?",options:["The train stopped for twenty minutes and passengers could walk outside","The platform appeared briefly with vendors and passengers, then disappeared into darkness again","Arjun got off to buy food and reboarded","The lights in the carriage were turned off completely"],correct:1,
+     feedback:"'At each stop, the platform outside appeared briefly — bright lights, vendors with chai and snacks, passengers hurrying in both directions — and then it disappeared again.'"},
+    {question:"What did Arjun do when he arrived at Mysuru platform?",options:["He immediately called his family to say he had arrived","He looked for a taxi to his hotel","He stood still for a moment, not quite ready to stop travelling","He bought a garland of jasmine from the entrance"],correct:2,
+     feedback:"'He stood still for a moment before moving. He was not quite ready to stop travelling.'"}
+  ]
+});
+
+JOURNEY_STORIES['india'].push({
+  id:"j-india-4", journeyId:"india", order:4,
+  title:"The Stepwell", emoji:"🪜", genre:"History / Architecture",
+  wordCount:292, readMins:3,
+  blurb:"On a school trip to Rani ki Vav in Gujarat, Meera discovers that the most impressive thing about the stepwell is not the carvings — it is the idea.",
+  paragraphs:[
+    "From the road, Rani ki Vav looked like a rectangular hole in the ground. Meera's teacher had told them it was on the UNESCO World Heritage list, which meant very little to Meera until she walked to the edge and looked down.",
+    "The stepwell was twenty-seven metres deep and sixty-four metres long. Steps ran down all four sides in wide, even tiers, leading to the water at the bottom. But the steps were not plain — every surface was carved. Columns, arches, figures of gods and dancers and heavenly beings, all cut from the same pale sandstone, layer after layer going down into the earth.",
+    "Her teacher explained that Rani ki Vav was built in the eleventh century as a memorial to a king. The queen had it constructed so that the memory of his name would last. In Gujarat, where rainfall was seasonal and you could not always depend on it, a stepwell was not just architecture — it was a water storage system that people depended on. The carvings made a functional thing beautiful.",
+    "Meera walked down as far as the first platform and looked up. From below, the well was like an inverted temple — the light came from above, through seven tiers of carved stone. Her teacher pointed out that each tier was slightly narrower than the one above it. This gave the whole structure a regular, careful shape, like a pattern repeated on purpose all the way down to the water.",
+    "She had a question: if the well was built as a memorial, and if the water was the practical reason, which one was it really for? Her teacher said that was the right question, and that the best buildings were always for both things at once."
+  ],
+  vocabulary:{
+    "stepwell":{def:"A well or reservoir with a staircase leading down to the water level, built in India for water storage and as a gathering place.",pos:"noun"},
+    "tier":{def:"A row or level in a structure, with other rows above or below it.",pos:"noun"},
+    "sandstone":{def:"A soft rock formed from grains of sand, often used in historic buildings.",pos:"noun"},
+    "memorial":{def:"Something built or created to remember and honour a person or event.",pos:"noun"},
+    "seasonal":{def:"Happening or available only during a particular time of year.",pos:"adjective"},
+    "inverted":{def:"Turned upside down or in the opposite direction.",pos:"adjective"},
+    "functional":{def:"Designed to be practical and useful, rather than decorative.",pos:"adjective"}
+  },
+  quiz:[
+    {question:"What was Meera's first impression of Rani ki Vav from the road?",options:["She was immediately struck by how beautiful it was","It looked like a rectangular hole in the ground","She recognised it from a photo in her history book","It looked like a traditional Hindu temple"],correct:1,
+     feedback:"'From the road, Rani ki Vav looked like a rectangular hole in the ground.'"},
+    {question:"Why was a stepwell especially important in Gujarat?",options:["Gujarat had no rivers, so wells were the only water source","Rainfall was seasonal and you could not always depend on it, so water storage was essential","The climate was too cold for surface water in winter","The government required every town to have one"],correct:1,
+     feedback:"'In Gujarat, where rainfall was seasonal and you could not always depend on it, a stepwell was not just architecture — it was a water storage system that people depended on.'"},
+    {question:"What did Meera see when she looked up from the first platform?",options:["A narrow circle of sky with no decoration","Seven tiers of carved stone with light coming from above, like an inverted temple","Workers restoring the upper carvings","The faces of her classmates peering down from the top"],correct:1,
+     feedback:"'From below, the well was like an inverted temple — the light came from above, through seven tiers of carved stone.'"},
+    {question:"What question did Meera ask her teacher about the stepwell?",options:["How long did it take to build?","Which god were the carvings dedicated to?","If it was built as a memorial and the water was the practical reason, which one was it really for?","How deep was the water at the bottom?"],correct:2,
+     feedback:"'She had a question: if the well was built as a memorial, and if the water was the practical reason, which one was it really for?'"}
+  ]
+});

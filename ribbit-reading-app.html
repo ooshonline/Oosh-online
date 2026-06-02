@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>@font-face{font-family:'Etna Sans Serif';font-display:swap}@font-face{font-family:'Glacial Indifference';font-display:swap}</style>
   <style>
     :root {
       --primary:#bada55; --primary-dark:#8fb832; --primary-light:#f0f7d0;
@@ -25,7 +26,7 @@
     html{scroll-behavior:smooth}
     body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
     h1,h2,h3,h4{font-family:var(--font-head)}
-    button{font-family:var(--font-body);cursor:pointer;border:none;outline:none}
+    button{font-family:var(--font-body);cursor:pointer;border:none;outline:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
     #app{max-width:520px;margin:0 auto;min-height:100vh;position:relative;overflow-x:hidden}
     .screen{animation:fadeSlideIn .3s ease both}
     @keyframes fadeSlideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -33,7 +34,7 @@
     /* NAV BAR */
     .nav-bar{display:flex;align-items:center;gap:12px;padding:16px 20px 12px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
     .nav-bar h2{font-size:1.1rem;color:var(--text);flex:1}
-    .back-btn{width:36px;height:36px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+    .back-btn{width:44px;height:44px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
     .back-btn:hover{background:var(--primary-mid)}
 
     /* HOME */
@@ -125,12 +126,13 @@
     .reader-prog-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .4s ease}
     .reader-header{padding:12px 20px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
     .reader-header h3{font-size:1rem;flex:1;text-align:center;padding:0 8px}
-    .icon-btn{width:36px;height:36px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .2s}
+    .icon-btn{width:44px;height:44px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .2s}
     .icon-btn:hover{background:var(--primary-mid)}
     .reader-story-meta{padding:16px 24px 8px;display:flex;gap:10px;flex-wrap:wrap}
     .meta-pill{display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--text-muted);background:var(--primary-light);padding:4px 12px;border-radius:99px}
     .reader-body{padding:8px 24px 24px}
-    .reader-body p{font-size:1.1rem;line-height:1.9;color:var(--text);margin-bottom:1.2em}
+    .reader-body p{font-size:1.1rem;line-height:1.75;color:var(--text);margin-bottom:1.2em}
+    .level-early .reader-body p{font-size:1.2rem;line-height:1.9}
     .tappable{display:inline;border-bottom:1.5px dotted var(--primary-mid);cursor:pointer;border-radius:2px;transition:background .15s,color .15s}
     .tappable:hover{background:var(--primary-light);color:var(--primary-dark)}
     .tappable.hl{background:var(--accent-light);color:var(--accent-dark);border-bottom-color:var(--accent)}
@@ -168,6 +170,9 @@
     .wp-pos{font-size:.78rem;color:var(--text-muted);background:var(--primary-light);padding:2px 8px;border-radius:99px;font-weight:600;margin-left:8px}
     .wp-close{width:28px;height:28px;border-radius:50%;background:var(--bg);color:var(--text-muted);font-size:.9rem;display:flex;align-items:center;justify-content:center}
     .wp-def{font-size:.95rem;color:var(--text);line-height:1.5;margin-bottom:8px}
+    .wp-section-label{font-size:.68rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;margin-top:10px}
+    .wp-native-def{font-size:1rem;font-weight:700;color:var(--primary-dark);font-family:var(--font-head);line-height:1.4;margin-bottom:4px;min-height:0}
+    .wp-example{font-size:.88rem;color:var(--text-muted);line-height:1.5;font-style:italic;margin-bottom:8px;background:var(--bg);border-radius:8px;padding:8px 10px}
     .wp-translation{min-height:22px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
     .wp-tl-loading{font-size:.78rem;color:var(--text-light);font-style:italic}
     .wp-tl-lang{font-size:.68rem;font-weight:700;background:var(--primary-light);color:var(--primary-dark);padding:2px 6px;border-radius:99px}
@@ -194,8 +199,8 @@
     .quiz-body{padding:8px 20px 20px}
     .quiz-qnum{font-size:.78rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
     .quiz-question{font-size:1.2rem;color:var(--text);line-height:1.5;margin-bottom:24px;font-family:var(--font-head)}
-    .quiz-options{display:flex;flex-direction:column;gap:10px}
-    .q-opt{padding:14px 18px;background:var(--card);border:2px solid var(--border);border-radius:var(--radius);font-size:.95rem;text-align:left;cursor:pointer;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:12px}
+    .quiz-options{display:flex;flex-direction:column;gap:16px}
+    .q-opt{padding:18px 18px;background:var(--card);border:2px solid var(--border);border-radius:var(--radius);font-size:.95rem;text-align:left;cursor:pointer;transition:border-color .2s,background .2s;display:flex;align-items:center;gap:12px}
     .q-opt:hover:not(:disabled){border-color:var(--primary);background:var(--primary-light)}
     .q-opt:disabled{cursor:default}
     .q-opt.ok{border-color:var(--primary);background:var(--primary-light);color:var(--primary-dark);font-weight:700}
@@ -214,6 +219,7 @@
     .results-screen{padding:32px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;min-height:100vh;background:linear-gradient(160deg,var(--primary-light) 0%,var(--bg) 60%)}
     .res-emoji{font-size:5rem;line-height:1;margin-bottom:16px;display:block;animation:bounceIn .6s cubic-bezier(.34,1.56,.64,1) both}
     @keyframes bounceIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+    @keyframes stampDrop{from{opacity:0;transform:scale(2) rotate(-15deg)}to{opacity:1;transform:scale(1) rotate(0deg)}}
     .results-screen h2{font-size:2rem;color:var(--primary-dark);margin-bottom:6px}
     .res-score{font-size:3.5rem;font-weight:900;color:var(--primary);font-family:var(--font-head);margin:8px 0}
     .res-cards{display:flex;gap:12px;width:100%;margin:16px 0 28px}
@@ -245,6 +251,7 @@
     .daily-goal-done{font-size:.82rem;color:var(--accent-dark);font-weight:700;margin-top:4px}
     /* Font size */
     .font-large .reader-body p{font-size:1.3rem;line-height:2.1}
+    .font-large.level-early .reader-body p{font-size:1.45rem;line-height:2.2}
     .font-large .fc-front-word{font-size:2.7rem}
     .font-large .fc-back-word{font-size:1.8rem}
     .font-large .fc-back-def{font-size:1.05rem}
@@ -254,10 +261,10 @@
     .fs-active{border-color:var(--primary);background:var(--primary-light);color:var(--primary-dark)}
     /* TTS — Text-to-Speech bar */
     .tts-bar{display:flex;align-items:center;gap:8px;padding:8px 20px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid);position:sticky;top:57px;z-index:49}
-    .tts-play-btn{width:34px;height:34px;border-radius:50%;background:var(--primary);color:white;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+    .tts-play-btn{width:44px;height:44px;border-radius:50%;background:var(--primary);color:white;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
     .tts-play-btn:hover{background:var(--primary-dark)}
-    .tts-play-btn.paused{background:var(--accent);color:white}
-    .tts-stop-btn{width:34px;height:34px;border-radius:50%;background:var(--card);color:var(--text-muted);font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border);transition:background .2s}
+    .tts-play-btn.paused{background:var(--accent);color:var(--text)}
+    .tts-stop-btn{width:44px;height:44px;border-radius:50%;background:var(--card);color:var(--text-muted);font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border);transition:background .2s}
     .tts-stop-btn:hover{background:var(--border)}
     .tts-rate-group{display:flex;gap:4px;margin-left:auto}
     .tts-rate-btn{padding:4px 10px;border-radius:99px;font-size:.75rem;font-weight:700;background:var(--card);color:var(--text-muted);border:1px solid var(--border);transition:all .2s;cursor:pointer}
@@ -736,6 +743,45 @@ const DESTINATIONS=[
     },
     unlockAfter:'egypt',
   },
+  {
+    id:'india',
+    name:'India',
+    country:'India',
+    emoji:'🇮🇳',
+    description:'A country of extraordinary variety — from the colour and noise of Holi festivals and the quiet logic of Mumbai\'s lunch-box delivery network, to overnight trains through the dark and ancient stepwells carved deep into the earth.',
+    cefr:'A2',
+    storyCount:4,
+    localWords:[
+      {word:'dabbawala',  def:'A person in Mumbai who collects and delivers home-cooked lunch boxes to office workers across the city each day.',  pos:'noun'},
+      {word:'chai',       def:'Spiced tea made with milk, common across South Asia and often sold at railway stations.',                            pos:'noun'},
+      {word:'gulal',      def:'Brightly coloured dry powder thrown during the Holi festival, traditionally made from flowers.',                    pos:'noun'},
+      {word:'sari',       def:'A long piece of cloth worn by women in South Asia, draped around the body in various styles.',                      pos:'noun'},
+      {word:'rangoli',    def:'A decorative pattern made on the floor or ground using coloured powder, rice, or flower petals.',                   pos:'noun'},
+      {word:'rupee',      def:'The unit of currency used in India.',                                                                               pos:'noun'},
+    ],
+    cultureQuiz:[
+      {question:'What is the Holi festival celebrating?',
+       options:['The harvest season and the rains','The end of winter, the start of spring, and the victory of good over evil','The birthday of the god Krishna only','The new year in the Hindu lunar calendar'],
+       correct:1, feedback:'Holi celebrates the arrival of spring and the triumph of good over evil, rooted in the story of Prahlad and Holika from Hindu mythology. It is one of the most widely celebrated Hindu festivals.'},
+      {question:'How many official languages does India have?',
+       options:['2','14','22','47'],
+       correct:2, feedback:'India has 22 officially recognised languages under its constitution, including Hindi, Bengali, Tamil, Telugu, Marathi, and many others. Hindi and English are used as official languages of the central government.'},
+      {question:'What is the Taj Mahal?',
+       options:['A fort built by the Mughal emperor Akbar','A mosque in Old Delhi','A white marble mausoleum built by Emperor Shah Jahan as a memorial to his wife','A palace used by the British during colonial rule'],
+       correct:2, feedback:'The Taj Mahal in Agra was built between 1632 and 1653 by the Mughal emperor Shah Jahan as a memorial to his wife Mumtaz Mahal. It is a UNESCO World Heritage Site and one of the most visited buildings in the world.'},
+      {question:'What game was invented in India and spread around the world?',
+       options:['Football','Chess','Tennis','Polo'],
+       correct:1, feedback:'Chess originated in India around the 6th century AD, where it was called chaturanga. It spread through Persia and the Islamic world before reaching Europe, where the rules evolved into the modern game.'},
+      {question:'What is special about India\'s rail network?',
+       options:['It is the world\'s fastest rail network','It runs entirely on electricity','It is one of the largest rail networks in the world, carrying millions of passengers every day','It was built entirely in the twentieth century'],
+       correct:2, feedback:'Indian Railways is one of the largest railway networks in the world, with over 67,000 kilometres of track and more than 13 million passengers travelling each day. It employs over a million people, making it one of the largest employers on Earth.'},
+    ],
+    postcard:{
+      fact:'India is the world\'s most populous democracy and home to one of the oldest civilisations on Earth. The number zero was invented in India, and chess was first played there over 1,400 years ago.',
+      bonusWords:['monsoon','yoga','spice'],
+    },
+    unlockAfter:'china',
+  },
 ];
 
 // ── WORLD JOURNEY STATE HELPERS ──────────────────────────────────────────────
@@ -819,6 +865,7 @@ function navigate(screen,data={}){
 }
 function applyFontSize(){
   document.body.classList.toggle('font-large', state.fontSize==='large');
+  document.body.classList.toggle('level-early', !!(state.levelId && state.levelId<=2));
 }
 function applyVocabHighlight(){
   document.body.classList.toggle('vocab-highlight', state.vocabHighlight);
@@ -1276,9 +1323,18 @@ function getReaderSteps(story){
   }
 
   if(story.levelId<=2){
-    // Sentence-by-sentence for Beginner / Elementary
+    // Adaptive chunked-sentence mode for Beginner / Elementary.
+    // Flattens all sentences across paragraphs, then groups them uniformly
+    // to target exactly 5 steps per story (chunk = ceil(total ÷ 5), min 2).
+    // Paragraph boundaries are intentionally crossed — at L1–L2 they are
+    // short, simple, and don't carry strong thematic separation.
+    const allSents=[];
+    story.paragraphs.forEach(p=>splitSentences(p).filter(s=>s.trim()).forEach(s=>allSents.push(s)));
+    const CHUNK=Math.max(2,Math.ceil(allSents.length/5));
     const raw=[];
-    story.paragraphs.forEach(p=>splitSentences(p).forEach(s=>raw.push(s)));
+    for(let i=0;i<allSents.length;i+=CHUNK){
+      raw.push(allSents.slice(i,i+CHUNK).join(' '));
+    }
     return mergeFragments(raw);
 
   } else {
@@ -1306,7 +1362,7 @@ function renderReader(){
   // Show vocab + quiz button only after last step
   const backBtn=step>0?`<button class="reader-back-btn" onclick="stepBack()">← Back</button>`:'';
   const bottomHTML=isLast
-    ? `<div class="vocab-section"><h4>📘 Key Words — tap to learn</h4><div class="vocab-chips">${chips}</div></div>
+    ? `<div class="vocab-section"><h4>${t('keyWords')}</h4><div class="vocab-chips">${chips}</div></div>
        <div class="reader-bottom">
          ${backBtn?`<div class="reader-bottom-row">${backBtn}<button class="finish-btn reader-next-btn" onclick="startQuiz()">Start Quiz →</button></div>`:`<button class="finish-btn" onclick="startQuiz()">Start Quiz →</button>`}
        </div>`
@@ -1372,10 +1428,173 @@ function stepBack(){
   }
 }
 
+// ── UI STRINGS (native language UI) ─────────────────────────────────────
+const UI_STRINGS = {
+  en: {
+    tabHome:'Home', tabJourney:'Journey', tabCards:'Cards', tabProfile:'Profile',
+    startQuiz:'Start Quiz →', next:'Next →', back:'← Back', readAgain:'Read Again',
+    moreStories:'More Stories', retryQuiz:'Retry Quiz', continueBtn:'Continue →',
+    gotIt:'✓ Got it', stillLearning:'Still Learning',
+    study:'Study', addToCards:'＋ Add to Flash Cards', inCards:'✓ In Flash Cards',
+    translate:'🌐 Translate', translating:'Translating…', noTranslation:'No translation available',
+    quizTitle:'Quick Quiz', quizCorrect:'✓ Correct!',
+    quizNotQuite:'✗ Not quite — re-read step {n} and try again.',
+    definition:'Definition', nativeDef:'In your language', example:'Example',
+    keyWords:'📘 Key Words — tap to learn',
+    tapToLearn:'Tap any word to look it up',
+    claimStamp:'🪪 Claim your stamp!',
+    backToJourney:'Back to World Journey',
+    viewPassport:'View my passport',
+    stamped:'— stamped!',
+    completedAll:'You\'ve completed all three activities.',
+    xpEarned:'XP earned', destComplete:'Destination complete', wordsSaved:'Words saved',
+    postcardFrom:'📮 Postcard from',
+    bonusAdded:'3 bonus words added to your flash cards:',
+    noCards:'No flash cards yet — tap words in stories to add them.',
+    settings:'Settings', fontSize:'Text size', language:'Translation language',
+    streakDays:'day streak',
+  },
+  ja: {
+    tabHome:'ホーム', tabJourney:'旅', tabCards:'カード', tabProfile:'プロフィール',
+    startQuiz:'クイズへ →', next:'次へ →', back:'← 戻る', readAgain:'もう一度読む',
+    moreStories:'他のお話', retryQuiz:'やり直す', continueBtn:'続ける →',
+    gotIt:'✓ 覚えた', stillLearning:'もう少し',
+    study:'学習する', addToCards:'＋ カードに追加', inCards:'✓ カードに追加済み',
+    translate:'🌐 翻訳する', translating:'翻訳中…', noTranslation:'翻訳できませんでした',
+    quizTitle:'クイズ', quizCorrect:'✓ 正解！',
+    quizNotQuite:'✗ 惜しい！ステップ{n}を読み直して、もう一度試してみよう。',
+    definition:'意味（英語）', nativeDef:'日本語の意味', example:'例文',
+    keyWords:'📘 重要な言葉 — タップして確認',
+    tapToLearn:'単語をタップして調べよう',
+    claimStamp:'🪪 スタンプをもらう！',
+    backToJourney:'世界の旅へ戻る',
+    viewPassport:'パスポートを見る',
+    stamped:'— スタンプ完了！',
+    completedAll:'3つのアクティビティをすべてクリアしました！',
+    xpEarned:'獲得XP', destComplete:'目的地クリア', wordsSaved:'保存した単語',
+    postcardFrom:'📮 絵はがき：',
+    bonusAdded:'ボーナス単語3つをカードに追加しました：',
+    noCards:'まだカードがありません。お話の中の単語をタップして追加しよう。',
+    settings:'設定', fontSize:'文字の大きさ', language:'翻訳言語',
+    streakDays:'日連続',
+  },
+  ko: {
+    tabHome:'홈', tabJourney:'여행', tabCards:'카드', tabProfile:'프로필',
+    startQuiz:'퀴즈 시작 →', next:'다음 →', back:'← 뒤로', readAgain:'다시 읽기',
+    moreStories:'다른 이야기', retryQuiz:'다시 풀기', continueBtn:'계속 →',
+    gotIt:'✓ 알겠어요', stillLearning:'더 공부할게요',
+    study:'학습하기', addToCards:'＋ 카드에 추가', inCards:'✓ 카드에 추가됨',
+    translate:'🌐 번역', translating:'번역 중…', noTranslation:'번역할 수 없습니다',
+    quizTitle:'퀴즈', quizCorrect:'✓ 정답!',
+    quizNotQuite:'✗ 아쉬워요! {n}단계를 다시 읽고 도전해보세요.',
+    definition:'뜻 (영어)', nativeDef:'한국어 뜻', example:'예문',
+    keyWords:'📘 핵심 단어 — 탭해서 확인',
+    tapToLearn:'단어를 탭해서 알아보세요',
+    claimStamp:'🪪 스탬프 받기!',
+    backToJourney:'세계 여행으로 돌아가기',
+    viewPassport:'여권 보기',
+    stamped:'— 스탬프 완료!',
+    completedAll:'세 가지 활동을 모두 완료했습니다!',
+    xpEarned:'획득 XP', destComplete:'목적지 완료', wordsSaved:'저장한 단어',
+    postcardFrom:'📮 엽서：',
+    bonusAdded:'보너스 단어 3개가 카드에 추가되었습니다：',
+    noCards:'아직 카드가 없어요. 이야기 속 단어를 탭해서 추가하세요.',
+    settings:'설정', fontSize:'글자 크기', language:'번역 언어',
+    streakDays:'일 연속',
+  },
+  zh: {
+    tabHome:'主页', tabJourney:'旅行', tabCards:'单词卡', tabProfile:'个人',
+    startQuiz:'开始测验 →', next:'下一步 →', back:'← 返回', readAgain:'再读一遍',
+    moreStories:'更多故事', retryQuiz:'重新测验', continueBtn:'继续 →',
+    gotIt:'✓ 记住了', stillLearning:'还需练习',
+    study:'学习', addToCards:'＋ 加入单词卡', inCards:'✓ 已加入',
+    translate:'🌐 翻译', translating:'翻译中…', noTranslation:'无法翻译',
+    quizTitle:'测验', quizCorrect:'✓ 正确！',
+    quizNotQuite:'✗ 差一点！重读第{n}步再试试。',
+    definition:'英文释义', nativeDef:'中文解释', example:'例句',
+    keyWords:'📘 重点词汇 — 点击查看',
+    tapToLearn:'点击单词查看释义',
+    claimStamp:'🪪 领取印章！',
+    backToJourney:'返回世界之旅',
+    viewPassport:'查看护照',
+    stamped:'— 已盖章！',
+    completedAll:'您已完成全部三项活动！',
+    xpEarned:'获得XP', destComplete:'目的地完成', wordsSaved:'保存单词',
+    postcardFrom:'📮 明信片：',
+    bonusAdded:'3个奖励词已加入单词卡：',
+    noCards:'还没有单词卡。点击故事中的单词来添加。',
+    settings:'设置', fontSize:'字体大小', language:'翻译语言',
+    streakDays:'天连续',
+  },
+  es: {
+    tabHome:'Inicio', tabJourney:'Viaje', tabCards:'Tarjetas', tabProfile:'Perfil',
+    startQuiz:'Iniciar quiz →', next:'Siguiente →', back:'← Volver', readAgain:'Leer de nuevo',
+    moreStories:'Más historias', retryQuiz:'Reintentar', continueBtn:'Continuar →',
+    gotIt:'✓ Lo tengo', stillLearning:'Sigo aprendiendo',
+    study:'Estudiar', addToCards:'＋ Añadir a tarjetas', inCards:'✓ En tarjetas',
+    translate:'🌐 Traducir', translating:'Traduciendo…', noTranslation:'Sin traducción disponible',
+    quizTitle:'Quiz', quizCorrect:'✓ ¡Correcto!',
+    quizNotQuite:'✗ Casi — vuelve al paso {n} e inténtalo de nuevo.',
+    definition:'Definición (inglés)', nativeDef:'En español', example:'Ejemplo',
+    keyWords:'📘 Palabras clave — toca para aprender',
+    tapToLearn:'Toca una palabra para buscarla',
+    claimStamp:'🪪 ¡Reclamar sello!',
+    backToJourney:'Volver al Viaje Mundial',
+    viewPassport:'Ver mi pasaporte',
+    stamped:'— ¡sellado!',
+    completedAll:'Has completado las tres actividades.',
+    xpEarned:'XP ganado', destComplete:'Destino completado', wordsSaved:'Palabras guardadas',
+    postcardFrom:'📮 Postal de',
+    bonusAdded:'3 palabras extra añadidas a tus tarjetas:',
+    noCards:'Sin tarjetas todavía — toca palabras en las historias para añadirlas.',
+    settings:'Ajustes', fontSize:'Tamaño de letra', language:'Idioma de traducción',
+    streakDays:'días seguidos',
+  },
+  fr: {
+    tabHome:'Accueil', tabJourney:'Voyage', tabCards:'Fiches', tabProfile:'Profil',
+    startQuiz:'Commencer le quiz →', next:'Suivant →', back:'← Retour', readAgain:'Relire',
+    moreStories:'Plus d\'histoires', retryQuiz:'Réessayer', continueBtn:'Continuer →',
+    gotIt:'✓ Compris', stillLearning:'À revoir',
+    study:'Étudier', addToCards:'＋ Ajouter aux fiches', inCards:'✓ Dans les fiches',
+    translate:'🌐 Traduire', translating:'Traduction…', noTranslation:'Traduction indisponible',
+    quizTitle:'Quiz', quizCorrect:'✓ Correct !',
+    quizNotQuite:'✗ Pas tout à fait — relis l\'étape {n} et réessaie.',
+    definition:'Définition (anglais)', nativeDef:'En français', example:'Exemple',
+    keyWords:'📘 Mots clés — appuyez pour apprendre',
+    tapToLearn:'Appuie sur un mot pour le chercher',
+    claimStamp:'🪪 Obtenir mon tampon !',
+    backToJourney:'Retour au Voyage Mondial',
+    viewPassport:'Voir mon passeport',
+    stamped:'— tamponné !',
+    completedAll:'Vous avez terminé les trois activités.',
+    xpEarned:'XP gagnés', destComplete:'Destination complète', wordsSaved:'Mots sauvegardés',
+    postcardFrom:'📮 Carte postale de',
+    bonusAdded:'3 mots bonus ajoutés à vos fiches :',
+    noCards:'Pas encore de fiches — appuyez sur des mots dans les histoires pour en ajouter.',
+    settings:'Paramètres', fontSize:'Taille du texte', language:'Langue de traduction',
+    streakDays:'jours de suite',
+  },
+};
+
+function t(key, vars={}){
+  const lang=getUserLang();
+  const set=UI_STRINGS[lang]||UI_STRINGS['en'];
+  let str=set[key]||UI_STRINGS['en'][key]||key;
+  Object.keys(vars).forEach(k=>{ str=str.replace('{'+k+'}',vars[k]); });
+  return str;
+}
+
 // Detect the user's OS language code (e.g. "es", "fr", "ko")
 function getUserLang(){
-  // Use saved preference, fall back to Japanese (primary target market)
-  return state.nativeLang || 'ja';
+  if(state.nativeLang) return state.nativeLang; // manual override (settings) or auto-saved on first launch
+  // Fallback: detect from browser/device language
+  const full = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+  // Handle Chinese variants explicitly
+  if(full.startsWith('zh-tw')||full.startsWith('zh-hk')) return 'zh-TW';
+  if(full.startsWith('zh')) return 'zh';
+  const base = full.split('-')[0];
+  const supported = LANGUAGES.map(l=>l.code.split('-')[0]);
+  return supported.includes(base) ? base : 'en';
 }
 
 // All supported translation languages
@@ -1418,9 +1637,25 @@ function showPopup(word,e,el){
   document.querySelectorAll('.tappable.hl').forEach(x=>x.classList.remove('hl'));
   if(el) el.classList.add('hl');
   const inDeck=!!state.flashCards[word];
-  // If we already have a cached translation for this word (from flash card), show it
   const cached=state.flashCards[word]?.translation||null;
+  const cachedDef=state.flashCards[word]?.nativeDef||null;
   const lang=getUserLang();
+
+  // Extract example sentence from story paragraphs
+  let exampleSentence='';
+  if(story.paragraphs){
+    for(const para of story.paragraphs){
+      const sentences=para.match(/[^.!?]+[.!?]+/g)||[para];
+      for(const s of sentences){
+        if(s.toLowerCase().includes(word.toLowerCase())){
+          exampleSentence=s.trim();
+          break;
+        }
+      }
+      if(exampleSentence) break;
+    }
+  }
+
   const d=document.createElement('div');
   d.id='wp'; d.className='word-popup';
   d.innerHTML=`
@@ -1428,12 +1663,15 @@ function showPopup(word,e,el){
       <div><span class="wp-word">${word}</span><span class="wp-pos">${def.pos}</span></div>
       <button class="wp-close" onclick="closePopup()">✕</button>
     </div>
+    <div class="wp-section-label">${t('definition')}</div>
     <div class="wp-def">${def.def}</div>
-    <div class="wp-translation" id="wpt">${cached?`<span class="wp-tl-lang">${lang.toUpperCase()}</span><span class="wp-tl-text">${cached}</span>`:''}</div>
+    <div class="wp-section-label" id="wpnl-label" style="${cachedDef?'':'display:none'}">${t('nativeDef')}</div>
+    <div class="wp-native-def" id="wpnl">${cachedDef||''}</div>
+    ${exampleSentence?`<div class="wp-section-label">${t('example')}</div><div class="wp-example">"${exampleSentence}"</div>`:''}
     <div class="wp-actions">
-      <button class="wp-translate-btn" id="wptbtn" onclick="doTranslate('${word}')" ${cached?'style="display:none"':''}>🌐 Translate</button>
+      <button class="wp-translate-btn" id="wptbtn" onclick="doTranslate('${word}')" ${(cached&&cachedDef)?'style="display:none"':''}>🌐 ${t('translate').replace('🌐 ','')}</button>
       <button class="wp-fc-btn${inDeck?' in-deck':''}" id="wps" onclick="toggleFlashCard('${word}','${def.def.replace(/'/g,"\\'")}','${def.pos}')">
-        ${inDeck?'✓ In Flash Cards':'＋ Add to Flash Cards'}
+        ${inDeck?t('inCards'):t('addToCards')}
       </button>
     </div>`;
   document.body.appendChild(d);
@@ -1442,23 +1680,41 @@ function showPopup(word,e,el){
 
 async function doTranslate(word){
   const btn=document.getElementById('wptbtn');
-  const tl=document.getElementById('wpt');
-  if(!btn||!tl) return;
-  btn.textContent='Translating…';
+  if(!btn) return;
+  const story=getStory();
+  const def=story?.vocabulary[word];
+  btn.textContent=t('translating');
   btn.disabled=true;
   const lang=getUserLang();
-  const tr=await translateWord(word, lang);
-  if(tl){
-    if(tr){
-      tl.innerHTML=`<span class="wp-tl-lang">${lang.toUpperCase()}</span><span class="wp-tl-text">${tr}</span>`;
-      if(btn) btn.style.display='none';
-    } else {
-      tl.innerHTML=`<span class="wp-tl-loading">No translation available — check your internet connection</span>`;
-      if(btn){ btn.textContent='🌐 Try again'; btn.disabled=false; }
-    }
+
+  // Translate the word and the definition in parallel
+  const [wordTr, defTr] = await Promise.all([
+    translateWord(word, lang),
+    def ? translateWord(def.def, lang) : Promise.resolve(null)
+  ]);
+
+  // Show word translation (already shown in popup header area — add below word)
+  const nlLabel=document.getElementById('wpnl-label');
+  const nl=document.getElementById('wpnl');
+  if(nl && defTr){
+    if(nlLabel) nlLabel.style.display='';
+    nl.textContent=defTr;
+  } else if(nl && wordTr){
+    if(nlLabel) nlLabel.style.display='';
+    nl.textContent=wordTr;
+  } else if(nl){
+    if(nlLabel) nlLabel.style.display='';
+    nl.textContent=t('noTranslation');
   }
-  // Cache translation on flash card if it's already in the deck
-  if(state.flashCards[word]){ state.flashCards[word].translation=tr; save(); }
+
+  if(btn) btn.style.display='none';
+
+  // Cache on flash card
+  if(state.flashCards[word]){
+    state.flashCards[word].translation=wordTr;
+    state.flashCards[word].nativeDef=defTr||wordTr;
+    save();
+  }
 }
 // Popup for above-level words from CEFR word lists (no story definition — just level badge + translate)
 function showChallengePopup(word, level, e, el){
@@ -1558,7 +1814,8 @@ function pick(i){
   state.quizAnswers.push({selected:i,correct:ok});
   const fb=document.getElementById('qfb');
   fb.style.display='block'; fb.className='quiz-fb '+(ok?'ok':'bad');
-  fb.innerHTML=(ok?'✓ <strong>Correct!</strong> ':'✗ <strong>Not quite.</strong> ')+q.feedback;
+  const stepHint=state.quizIndex+1;
+  fb.innerHTML=(ok?'<strong>'+t('quizCorrect')+'</strong> ':'<strong>'+t('quizNotQuite',{n:stepHint})+'</strong> ')+q.feedback;
   const n=document.getElementById('qnxt'); if(n) n.classList.add('vis');
 }
 
@@ -1808,19 +2065,19 @@ function tabBar(){
   return `<div class="tab-bar">
     <button class="tab-btn${onHome?' active':''}" onclick="navigate('home')" aria-label="Home">
       <span class="tab-icon">🏠</span>
-      <span class="tab-label">Home</span>
+      <span class="tab-label">${t('tabHome')}</span>
     </button>
     <button class="tab-btn${onJourney?' active':''}" onclick="navigate('journey')" aria-label="World Journey">
       <span class="tab-icon">🌍</span>
-      <span class="tab-label">Journey</span>
+      <span class="tab-label">${t('tabJourney')}</span>
     </button>
     <button class="tab-btn${s==='flashcards'?' active':''}" onclick="navigate('flashcards')" aria-label="Flash cards">
       <span class="tab-icon">🃏</span>
-      <span class="tab-label">Cards</span>
+      <span class="tab-label">${t('tabCards')}</span>
     </button>
     <button class="tab-btn${onProfile?' active':''}" onclick="navigate('profile')" aria-label="Profile">
       <span class="bust-icon tab-icon" aria-hidden="true"></span>
-      <span class="tab-label">Profile</span>
+      <span class="tab-label">${t('tabProfile')}</span>
     </button>
   </div>`;
 }
@@ -1846,40 +2103,55 @@ function renderJourneyDone(){
 
   document.getElementById('app').innerHTML=`
   <div class="screen has-tab-bar" style="padding:32px 20px;text-align:center">
-    <div style="font-size:4rem;margin-bottom:12px;animation:bounceIn .6s cubic-bezier(.34,1.56,.64,1) both">${dest.emoji}</div>
-    <h2 style="font-size:1.8rem;color:var(--primary-dark);margin-bottom:4px">${dest.name} — stamped!</h2>
-    <p style="color:var(--text-muted);margin-bottom:24px">You've completed all three activities.</p>
 
-    <div style="background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius);padding:20px;margin-bottom:20px;text-align:left">
+    <div style="font-size:5rem;margin-bottom:8px;animation:bounceIn .7s cubic-bezier(.34,1.56,.64,1) both">${dest.emoji}</div>
+    <div style="font-size:2.8rem;animation:stampDrop .5s cubic-bezier(.34,1.56,.64,1) .3s both">🪪</div>
+    <h2 style="font-size:1.8rem;color:var(--primary-dark);margin:12px 0 4px">${dest.name} ${t('stamped')}</h2>
+    <p style="color:var(--text-muted);margin-bottom:28px">${t('completedAll')}</p>
+
+    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:24px">
+      <div style="background:var(--primary-light);border-radius:var(--radius);padding:14px 20px;text-align:center;flex:1;animation:fadeSlideIn .4s .5s both">
+        <div id="xp-counter" style="font-size:1.6rem;font-weight:800;color:var(--primary-dark)">+0</div>
+        <div style="font-size:.72rem;color:var(--text-muted)">${t('xpEarned')}</div>
+      </div>
+      <div style="background:#fef3d6;border-radius:var(--radius);padding:14px 20px;text-align:center;flex:1;animation:fadeSlideIn .4s .65s both">
+        <div style="font-size:1.5rem">🌍</div>
+        <div style="font-size:.72rem;color:var(--text-muted)">${t('destComplete')}</div>
+      </div>
+      <div style="background:var(--primary-light);border-radius:var(--radius);padding:14px 20px;text-align:center;flex:1;animation:fadeSlideIn .4s .8s both">
+        <div style="font-size:1.6rem;font-weight:800;color:var(--primary-dark)">${dest.localWords.length+3}</div>
+        <div style="font-size:.72rem;color:var(--text-muted)">${t('wordsSaved')}</div>
+      </div>
+    </div>
+
+    <div style="background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius);padding:20px;margin-bottom:24px;text-align:left;animation:fadeSlideIn .5s .9s both">
       <div style="font-size:.75rem;font-weight:700;color:var(--accent-dark);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">📮 Postcard from ${dest.name}</div>
       <p style="font-size:.95rem;color:var(--text);line-height:1.6;margin:0 0 12px">"${dest.postcard.fact}"</p>
       <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:6px">3 bonus words added to your flash cards:</div>
       <div>${bonusWords}</div>
     </div>
 
-    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:24px">
-      <div style="background:var(--primary-light);border-radius:var(--radius);padding:14px 20px;text-align:center">
-        <div style="font-size:1.5rem;font-weight:800;color:var(--primary-dark)">+200</div>
-        <div style="font-size:.72rem;color:var(--text-muted)">XP earned</div>
-      </div>
-      <div style="background:#fef3d6;border-radius:var(--radius);padding:14px 20px;text-align:center">
-        <div style="font-size:1.5rem">🪪</div>
-        <div style="font-size:.72rem;color:var(--text-muted)">Passport stamp</div>
-      </div>
-      <div style="background:var(--primary-light);border-radius:var(--radius);padding:14px 20px;text-align:center">
-        <div style="font-size:1.5rem;font-weight:800;color:var(--primary-dark)">${dest.localWords.length+3}</div>
-        <div style="font-size:.72rem;color:var(--text-muted)">Words saved</div>
-      </div>
-    </div>
-
-    <button onclick="navigate('journey')" style="width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;border:none;cursor:pointer;margin-bottom:10px">
-      Back to World Journey
+    <button onclick="navigate('journey')" style="width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;border:none;cursor:pointer;margin-bottom:10px;animation:fadeSlideIn .4s 1.1s both">
+      ${t('backToJourney')}
     </button>
-    <button onclick="navigate('profile')" style="width:100%;padding:14px;background:var(--card);color:var(--primary-dark);border-radius:var(--radius);font-size:.95rem;font-weight:600;border:2px solid var(--border);cursor:pointer">
-      View my passport
+    <button onclick="navigate('profile')" style="width:100%;padding:14px;background:var(--card);color:var(--primary-dark);border-radius:var(--radius);font-size:.95rem;font-weight:600;border:2px solid var(--border);cursor:pointer;animation:fadeSlideIn .4s 1.2s both">
+      ${t('viewPassport')}
     </button>
   </div>
   ${tabBar()}`;
+
+  // Animate XP counter from 0 to 200
+  const xpEl=document.getElementById('xp-counter');
+  if(xpEl){
+    let xpCount=0; const target=200; const dur=900; const start=Date.now();
+    const tick=()=>{
+      const elapsed=Date.now()-start;
+      xpCount=Math.min(target,Math.round(target*(elapsed/dur)));
+      xpEl.textContent='+'+xpCount;
+      if(xpCount<target) requestAnimationFrame(tick);
+    };
+    setTimeout(()=>requestAnimationFrame(tick),500);
+  }
 
   // Auto-add bonus words to flash cards
   dest.postcard.bonusWords.forEach(w=>{
@@ -1968,7 +2240,7 @@ function renderJourneyQuiz(){
       <div class="quiz-qnum">Question ${qIdx+1} of ${dest.cultureQuiz.length}</div>
       <div class="quiz-question">${q.question}</div>
       <div class="quiz-options">${opts}</div>
-      ${answered?`<div class="quiz-fb ${correct?'ok':'bad'}" style="display:block">${correct?'✓ Correct!':'✗ Not quite — '}${q.feedback}</div>`:''}
+      ${answered?`<div class="quiz-fb ${correct?'ok':'bad'}" style="display:block">${correct?t('quizCorrect'):t('quizNotQuite',{n:state.journeyQuizIndex+1})} ${q.feedback}</div>`:''}
       ${answered?`<button class="quiz-next vis" onclick="${isLast?`finishJourneyQuiz()`:`nextJourneyQuestion()`}">${isLast?'See results →':'Next →'}</button>`:''}
     </div>
   </div>`;
@@ -2054,7 +2326,7 @@ function renderJourneyReaderPage(){
   const backBtn=step>0?`<button class="reader-back-btn" onclick="journeyStepBack()">← Back</button>`:'';
 
   const bottomHTML=isLast
-    ?`<div class="vocab-section"><h4>📘 Key Words — tap to learn</h4><div class="vocab-chips">${chips}</div></div>
+    ?`<div class="vocab-section"><h4>${t('keyWords')}</h4><div class="vocab-chips">${chips}</div></div>
       <div class="reader-bottom">
         ${backBtn?`<div class="reader-bottom-row">${backBtn}<button class="finish-btn reader-next-btn" onclick="finishJourneyStory()">Done ✓</button></div>`
         :`<button class="finish-btn" onclick="finishJourneyStory()">Done ✓</button>`}
@@ -2230,7 +2502,7 @@ function renderDestination(){
     ${journeyComplete(dest.id)&&!js.stamped?`
       <div style="padding:16px">
         <button onclick="navigate('journeydone',{destId:'${dest.id}'})"
-          style="width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;border:none;cursor:pointer">
+          style="width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:var(--text);border-radius:var(--radius);font-size:1rem;font-weight:700;border:none;cursor:pointer">
           🪪 Claim your stamp!
         </button>
       </div>`:''}
@@ -2367,9 +2639,20 @@ function renderProfile(){
 
 // ── ROUTER ─────────────────────────────────────────────────
 function render(){
-  // Show language picker on very first launch (no language saved yet)
-  if(!state.nativeLang && state.screen==='home'){
-    renderLangPicker(false); return;
+  // On first launch (no saved language), auto-detect from device and save.
+  // This eliminates any first-launch language picker — detection is silent and immediate.
+  if(!state.nativeLang){
+    const full=(navigator.language||navigator.userLanguage||'en').toLowerCase();
+    let detected='en';
+    if(full.startsWith('zh-tw')||full.startsWith('zh-hk')) detected='zh-TW';
+    else if(full.startsWith('zh')) detected='zh';
+    else {
+      const base=full.split('-')[0];
+      const match=LANGUAGES.find(l=>l.code.split('-')[0]===base);
+      if(match) detected=match.code;
+    }
+    state.nativeLang=detected;
+    save();
   }
   switch(state.screen){
     case'home':      renderHome();      break;
