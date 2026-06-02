@@ -442,7 +442,6 @@ const state = {
   quizIndex:0,
   quizAnswers:[],
   lastScore:0, lastCorrect:0, lastTotal:0, lastXP:0, lastSubLevelUnlocked:null, lastLevelId:null,
-  uiLang:          localStorage.getItem('rbt_uilang')||null,
   nativeLang:      localStorage.getItem('rbt_lang')||null,
   fontSize:        localStorage.getItem('rbt_fontsize')||'normal',
   vocabHighlight:  localStorage.getItem('rbt_highlight')!=='off',
@@ -461,7 +460,6 @@ const state = {
 };
 
 function save(){
-  if(state.uiLang)       localStorage.setItem('rbt_uilang',     state.uiLang);
   if(state.nativeLang)   localStorage.setItem('rbt_lang',       state.nativeLang);
   if(state.lastStoryId)  localStorage.setItem('rbt_laststory',  state.lastStoryId);
   localStorage.setItem('rbt_fontsize',  state.fontSize);
@@ -1586,38 +1584,17 @@ function t(key, vars={}){
   return str;
 }
 
-// Detect the user's UI language (auto-detect from device on first launch)
+// Detect the user's OS language code (e.g. "es", "fr", "ko")
 function getUserLang(){
-  if(state.uiLang) return state.uiLang; // manual override in settings
-  // Auto-detect from browser/device language on first launch
+  if(state.nativeLang) return state.nativeLang; // manual override (settings) or auto-saved on first launch
+  // Fallback: detect from browser/device language
   const full = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
   // Handle Chinese variants explicitly
-  if(full.startsWith('zh-tw')||full.startsWith('zh-hk')) {
-    state.uiLang = 'zh-TW';
-    save();
-    return 'zh-TW';
-  }
-  if(full.startsWith('zh')) {
-    state.uiLang = 'zh';
-    save();
-    return 'zh';
-  }
+  if(full.startsWith('zh-tw')||full.startsWith('zh-hk')) return 'zh-TW';
+  if(full.startsWith('zh')) return 'zh';
   const base = full.split('-')[0];
-  const supportedCodes = ['en','ja','ko','zh','es','fr','th','vi','id','pt','ar','hi','tr','zh-TW'];
-  if(supportedCodes.includes(base)) {
-    state.uiLang = base;
-    save();
-    return base;
-  }
-  // Default to English if not supported
-  state.uiLang = 'en';
-  save();
-  return 'en';
-}
-
-// Get translation language (separate from UI language)
-function getTranslationLang(){
-  return state.nativeLang || getUserLang(); // fallback to UI lang if no translation lang set
+  const supported = LANGUAGES.map(l=>l.code.split('-')[0]);
+  return supported.includes(base) ? base : 'en';
 }
 
 // All supported translation languages
