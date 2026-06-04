@@ -38,7 +38,8 @@ STORIES[1][0].push({
      feedback:"The story says 'This is a cat.'"},
     {question:"What is the cat like?",options:["Small","Sad","Fat","Wet"],correct:2,
      feedback:"The story says 'The cat is fat.'"}
-  ]
+  ],
+  images:['images/b1/b1_a_cat_1.webp','images/b1/b1_a_cat_2.webp','images/b1/b1_a_cat_3.webp']
 });
 
 // B1·1 — Story 2
@@ -62,7 +63,8 @@ STORIES[1][0].push({
      feedback:"The story says 'This is my dog.'"},
     {question:"What can the dog do?",options:["Fly","Swim","Sing","Run"],correct:3,
      feedback:"The story says 'The dog can run.'"}
-  ]
+  ],
+  images:['images/b1/b1_my_dog_1.webp','images/b1/b1_my_dog_2.webp','images/b1/b1_my_dog_3.webp']
 });
 
 // B1·1 — Story 3
@@ -86,7 +88,8 @@ STORIES[1][0].push({
      feedback:"The story says 'The sun is hot.'"},
     {question:"Can I see the sun?",options:["No, it is dark","Yes, I can see it","No, it is gone","Yes, but it is small"],correct:1,
      feedback:"The story says 'I can see the sun.'"}
-  ]
+  ],
+  images:['images/b1/b1_the_sun_1.webp','images/b1/b1_the_sun_2.webp','images/b1/b1_the_sun_3.webp']
 });
 
 // B1·1 — Story 4
@@ -110,7 +113,8 @@ STORIES[1][0].push({
      feedback:"The story says 'The bag is red.'"},
     {question:"What is the bag like?",options:["Small","Old","Heavy","Big"],correct:3,
      feedback:"The story says 'It is big.'"}
-  ]
+  ],
+  images:['images/b1/b1_my_bag_1.webp','images/b1/b1_my_bag_2.webp','images/b1/b1_my_bag_3.webp']
 });
 
 // B1·1 — Story 5
@@ -134,7 +138,8 @@ STORIES[1][0].push({
      feedback:"The story says 'This is a bed.'"},
     {question:"What do I do in my bed?",options:["Eat","Play","Run","Sleep"],correct:3,
      feedback:"The story says 'I sleep in my bed.'"}
-  ]
+  ],
+  images:['images/b1/b1_my_bed_1.webp','images/b1/b1_my_bed_2.webp','images/b1/b1_my_bed_3.webp']
 });
 
 // ── Sub-level 2 · 4–6 sentences · Basic adjectives · Colours ──
