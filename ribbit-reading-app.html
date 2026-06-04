@@ -121,7 +121,7 @@
     .done-badge{font-size:.75rem;color:var(--primary);font-weight:700}
 
     /* READER */
-    .reader-screen{padding-bottom:120px}
+    .reader-screen{padding-bottom:140px}
     .reader-prog-bar{height:4px;background:var(--primary-light)}
     .reader-prog-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .4s ease}
     .reader-header{padding:12px 20px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
@@ -159,7 +159,7 @@
     .step-new{animation:stepIn .4s ease both}
     @keyframes stepIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .reader-sentence{padding:4px 0}
-    .story-image-wrap{width:100%;max-width:320px;margin:0 auto 18px;aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;background:var(--primary-light)}
+    .story-image-wrap{width:100%;max-width:320px;max-height:200px;margin:0 auto 18px;aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;background:var(--primary-light)}
     .story-image-wrap img{width:100%;height:100%;object-fit:cover;display:block}
     .story-image-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;opacity:.4}
 
@@ -1159,6 +1159,10 @@ function renderStories(){
 }
 
 // ── RENDER: READER ─────────────────────────────────────────
+// Fallback handler for story images that fail to load
+function imgLoadError(el, emoji){
+  el.parentNode.innerHTML='<div class="story-image-placeholder">'+(emoji||'📖')+'</div>';
+}
 // Split a paragraph text into individual sentences for sentence-by-sentence mode
 function splitSentences(text){
   // Protect abbreviations and decimals so they don't cause false splits
@@ -1370,7 +1374,7 @@ function renderReader(){
   // Story illustration — lazy loaded, only for current step
   const imgIndex=story.images?Math.min(step,story.images.length-1):-1;
   const imageHTML=imgIndex>=0
-    ?`<div class="story-image-wrap step-new"><img src="${story.images[imgIndex]}" alt="" loading="lazy" onerror="this.parentNode.innerHTML='<div class=\"story-image-placeholder\">${story.emoji||'📖'}</div>'"></div>`
+    ?`<div class="story-image-wrap step-new"><img src="${story.images[imgIndex]}" alt="" loading="lazy" onerror="imgLoadError(this,'${story.emoji||'📖'}')"></div>`
     :'';
 
   // Vocab shown on every step; nav at bottom
