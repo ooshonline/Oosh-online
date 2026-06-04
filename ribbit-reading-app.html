@@ -955,29 +955,29 @@ function renderHome(){
     <div class="logo-block">
       <img class="frog-logo" src="OOSH_Logo_Square.png" alt="OOSH Ribbit frog logo"/>
       <h1>Ribbit</h1>
-      <p>Read your way to English fluency</p>
+      <p>英語力を高める読書アプリ</p>
     </div>
-    ${state.streak>0?`<div class="streak-badge">🔥 ${state.streak}-day streak!</div>`:''}
+    ${state.streak>0?`<div class="streak-badge">🔥 ${state.streak}日連続！</div>`:''}
     <div class="daily-goal-wrap">
       ${renderGoalRing()}
       <div class="daily-goal-info">
-        <div class="daily-goal-title">Today's Goal</div>
-        <div class="daily-goal-sub">${Math.min(state.todayCount,state.dailyGoal)} / ${state.dailyGoal} stories</div>
-        ${state.todayCount>=state.dailyGoal?'<div class="daily-goal-done">✓ Goal reached!</div>':''}
+        <div class="daily-goal-title">今日の目標</div>
+        <div class="daily-goal-sub">${Math.min(state.todayCount,state.dailyGoal)} / ${state.dailyGoal} 話</div>
+        ${state.todayCount>=state.dailyGoal?'<div class="daily-goal-done">✓ 目標達成！</div>':''}
       </div>
     </div>
     <div class="home-stats">
-      <div class="home-stat-card"><div class="big">${done}</div><div class="label">Stories read</div></div>
-      <div class="home-stat-card"><div class="big">${state.xp}</div><div class="label">Total XP</div></div>
+      <div class="home-stat-card"><div class="big">${done}</div><div class="label">読んだ話</div></div>
+      <div class="home-stat-card"><div class="big">${state.xp}</div><div class="label">合計XP</div></div>
       <div class="home-stat-card"><div class="big">${Object.keys(state.flashCards).length}</div><div class="label">フラッシュカード</div></div>
     </div>
     <div class="xp-wrap">
-      <div class="xp-meta"><span>XP Progress</span><span>${state.xp%500}/500</span></div>
+      <div class="xp-meta"><span>XP進捗</span><span>${state.xp%500}/500</span></div>
       <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:${xpPct}%"></div></div>
     </div>
-    ${state.lastStoryId?`<button class="home-cta" onclick="navigate('reader',{storyId:'${state.lastStoryId}'})">▶ Continue Reading</button>`:''}
-    <button class="${state.lastStoryId?'home-secondary':'home-cta'}" onclick="navigate('levels')">📚 ${state.lastStoryId?'All Stories':'Start Reading'}</button>
-    <button class="home-settings" onclick="navigate('settings')">⚙️ Settings</button>
+    ${state.lastStoryId?`<button class="home-cta" onclick="navigate('reader',{storyId:'${state.lastStoryId}'})">▶ 続きを読む</button>`:''}
+    <button class="${state.lastStoryId?'home-secondary':'home-cta'}" onclick="navigate('levels')">📚 ${state.lastStoryId?'すべての話':'読み始める'}</button>
+    <button class="home-settings" onclick="navigate('settings')">⚙️ 設定</button>
   </div>
   ${tabBar()}`;
 }
@@ -996,33 +996,33 @@ function renderLangPicker(isSettings=false){
     const isLarge=state.fontSize==='large';
     document.getElementById('app').innerHTML=`
     <div class="screen">
-      <div class="nav-bar"><button class="back-btn" onclick="navigate('home')">←</button><h2>⚙️ Settings</h2></div>
+      <div class="nav-bar"><button class="back-btn" onclick="navigate('home')">←</button><h2>⚙️ 設定</h2></div>
       <div class="settings-section">
-        <div class="settings-label">Text Size</div>
-        <p class="settings-desc">Make the reading text larger if it's hard to see.</p>
+        <div class="settings-label">文字の大きさ</div>
+        <p class="settings-desc">文字が見づらい場合は大きくしてください。</p>
         <div class="font-size-toggle">
           <button class="fs-btn${!isLarge?' fs-active':''}" onclick="setFontSize('normal')">A</button>
           <button class="fs-btn fs-btn-large${isLarge?' fs-active':''}" onclick="setFontSize('large')">A</button>
         </div>
       </div>
       <div class="settings-section">
-        <div class="settings-label">Daily Reading Goal</div>
-        <p class="settings-desc">How many stories do you want to read each day?</p>
+        <div class="settings-label">毎日の読書目標</div>
+        <p class="settings-desc">毎日何話読みたいですか？</p>
         <div class="font-size-toggle">
           ${[1,2,3,5].map(n=>`<button class="fs-btn${state.dailyGoal===n?' fs-active':''}" onclick="setDailyGoal(${n})">${n}</button>`).join('')}
         </div>
       </div>
       <div class="settings-section">
-        <div class="settings-label">Vocabulary Highlights</div>
-        <p class="settings-desc">Highlight vocabulary words in green while reading so they're easy to spot and tap.</p>
+        <div class="settings-label">単語のハイライト</div>
+        <p class="settings-desc">読書中の単語を緑でハイライトして、タップしやすくします。</p>
         <div class="font-size-toggle">
-          <button class="fs-btn${state.vocabHighlight?' fs-active':''}" onclick="setVocabHighlight(true)">On</button>
-          <button class="fs-btn${!state.vocabHighlight?' fs-active':''}" onclick="setVocabHighlight(false)">Off</button>
+          <button class="fs-btn${state.vocabHighlight?' fs-active':''}" onclick="setVocabHighlight(true)">オン</button>
+          <button class="fs-btn${!state.vocabHighlight?' fs-active':''}" onclick="setVocabHighlight(false)">オフ</button>
         </div>
       </div>
       <div class="settings-section">
-        <div class="settings-label">Translation Language</div>
-        <p class="settings-desc">Choose the language words are translated into when you tap Translate or study flash cards.</p>
+        <div class="settings-label">翻訳言語</div>
+        <p class="settings-desc">単語をタップしたり、フラッシュカードで学習するときの翻訳言語を選んでください。</p>
         <div class="lang-list">${langItems}</div>
       </div>
     </div>`;
@@ -1032,8 +1032,8 @@ function renderLangPicker(isSettings=false){
     <div class="screen lang-picker-screen">
       <div class="lang-picker-hero">
         <div class="lang-picker-emoji">🌐</div>
-        <h2>Choose your language</h2>
-        <p>Words will be translated into this language when you study.</p>
+        <h2>言語を選んでください</h2>
+        <p>学習中の単語はこの言語で翻訳されます。</p>
       </div>
       <div class="lang-list">${langItems}</div>
     </div>`;
@@ -1063,7 +1063,7 @@ function renderLevels(){
     const complete=done>=10;
     const cls=lv.cefr.includes('A')?'tag-green':lv.cefr.includes('B')?'tag-amber':'tag-red';
     const stars=complete?'★★★':done>=5?'★★☆':done>0?'★☆☆':'☆☆☆';
-    const badge=complete?`<div class="level-badge">🏆 Complete!</div>`:'';
+    const badge=complete?`<div class="level-badge">🏆 クリア！</div>`:'';
     return `<div class="level-card${complete?' level-card-complete':''}" data-lv="${lv.id}" onclick="navigate('sublevels',{levelId:${lv.id}})">
       <div class="level-num">${lv.id}</div>
       <div class="level-info">
@@ -1074,13 +1074,13 @@ function renderLevels(){
       </div>
       <div class="level-progress">
         <div class="level-stars">${stars}</div>
-        <div class="level-count">${done}/10 sub-levels</div>
+        <div class="level-count">${done}/10 レベル</div>
       </div>
     </div>`;
   }).join('');
   document.getElementById('app').innerHTML=`
   <div class="screen">
-    <div class="nav-bar"><button class="back-btn" onclick="navigate('home')">←</button><h2>Choose a Level</h2></div>
+    <div class="nav-bar"><button class="back-btn" onclick="navigate('home')">←</button><h2>レベルを選ぼう</h2></div>
     <div class="levels-grid">${cards}</div>
   </div>`;
 }
@@ -1101,7 +1101,7 @@ function renderSubLevels(){
       onclick="${locked||!hasSt?'':(`navigate('stories',{levelId:${state.levelId},subLevel:${sl}})`)}">
       <div class="sl-num">${i+1}</div>
       <div class="sl-label">${lv.name} ${i+1}</div>
-      <div class="sl-meta">${hasSt?`${doneCount}/5 stories`:'Coming soon'}</div>
+      <div class="sl-meta">${hasSt?`${doneCount}/5 話`:'近日公開'}</div>
       <div class="sl-stars">${done?'★★★':doneCount>2?'★★☆':doneCount>0?'★☆☆':'☆☆☆'}</div>
     </div>`;
   }).join('');
@@ -1115,7 +1115,7 @@ function renderSubLevels(){
         <span class="hero-badge">${lv.cefr}</span>
         <span class="hero-badge">Oxford ${lv.oxford}</span>
         <span class="hero-badge">Ages ${lv.ages}</span>
-        <span class="hero-badge">10 sub-levels</span>
+        <span class="hero-badge">10 サブレベル</span>
       </div>
     </div>
     <div class="sublevels-grid">${cards}</div>
@@ -1141,7 +1141,7 @@ function renderStories(){
       </div>
       <div class="story-action">
         <button class="read-btn" onclick="event.stopPropagation();navigate('reader',{storyId:'${s.id}'})">
-          ${storyDone(s.id)?'Re-read':'Read'}
+          ${storyDone(s.id)?'もう一度読む':'読む'}
         </button>
         ${storyDone(s.id)?`<div class="done-badge">✓ ${starsFor(s.id)}</div>`:''}
       </div>
@@ -1151,7 +1151,7 @@ function renderStories(){
     <div class="nav-bar"><button class="back-btn" onclick="navigate('sublevels',{levelId:${state.levelId}})">←</button><h2>${lv.name} ${sl+1}</h2></div>
     <div class="sublevel-hero">
       <h2>${lv.name} ${sl+1}</h2>
-      <p>5 stories — ${lv.desc}</p>
+      <p>5話 — ${lv.desc}</p>
       <div class="badges"><span class="hero-badge">${lv.cefr}</span><span class="hero-badge">Ages ${lv.ages}</span></div>
     </div>
     <div class="stories-list">${cards||'<p style="padding:20px;color:var(--text-muted)">Stories coming soon!</p>'}</div>
@@ -1726,7 +1726,7 @@ function renderFlashCards(){
     ${cards.length===0
       ? `<div class="wl-empty">
            <div class="we-icon">🃏</div>
-           <p>No flash cards yet.<br>Tap any underlined word while reading<br>and add it to your deck!</p>
+           <p>フラッシュカードがまだありません。<br>読書中に下線付きの単語をタップして<br>デッキに追加しましょう！</p>
          </div>`
       : `<div class="fc-list-actions">
            <button class="fc-play-btn" onclick="startFlashCardPlay()">▶ 今すぐ学習 (${cards.length}枚)</button>
@@ -1778,15 +1778,15 @@ function renderFlashCardPlay(){
     const got=order.length-hard.length;
     document.getElementById('app').innerHTML=`
     <div class="screen fc-play-screen">
-      <div class="nav-bar"><button class="back-btn" onclick="navigate('flashcards')">←</button><h2>Round Complete!</h2></div>
+      <div class="nav-bar"><button class="back-btn" onclick="navigate('flashcards')">←</button><h2>ラウンド完了！</h2></div>
       <div class="fc-summary">
         <div class="fc-sum-emoji">🎉</div>
-        <div class="fc-sum-row"><span class="fc-sum-got">✓ Got it</span><span class="fc-sum-num">${got}</span></div>
-        <div class="fc-sum-row"><span class="fc-sum-hard">↩ Still learning</span><span class="fc-sum-num">${hard.length}</span></div>
+        <div class="fc-sum-row"><span class="fc-sum-got">✓ 覚えた</span><span class="fc-sum-num">${got}</span></div>
+        <div class="fc-sum-row"><span class="fc-sum-hard">↩ もう少し</span><span class="fc-sum-num">${hard.length}</span></div>
         ${hard.length>0
-          ? `<button class="fc-play-btn" style="margin-top:20px" onclick="startFlashCardPlay(true)">↩ Practise ${hard.length} tricky card${hard.length>1?'s':''}</button>`
-          : `<p class="fc-sum-perfect">Perfect round! 🏆</p>`}
-        <button class="fc-play-btn fc-play-btn-outline" onclick="startFlashCardPlay(false)">Shuffle all again</button>
+          ? `<button class="fc-play-btn" style="margin-top:20px" onclick="startFlashCardPlay(true)">↩ ${hard.length}枚を練習する</button>`
+          : `<p class="fc-sum-perfect">パーフェクト！🏆</p>`}
+        <button class="fc-play-btn fc-play-btn-outline" onclick="startFlashCardPlay(false)">全部シャッフルする</button>
         <button class="home-settings" onclick="navigate('flashcards')">デッキに戻る</button>
       </div>
     </div>`;
@@ -1805,7 +1805,7 @@ function renderFlashCardPlay(){
     <div class="reader-prog-bar"><div class="reader-prog-fill" style="width:${pct}%"></div></div>
     <div class="nav-bar">
       <button class="back-btn" onclick="navigate('flashcards')">←</button>
-      <h2>Study</h2>
+      <h2>学習</h2>
       <span class="step-counter" style="margin:0">${idx+1}/${total}</span>
     </div>
     <div class="fc-card-wrap">
@@ -1813,7 +1813,7 @@ function renderFlashCardPlay(){
         <div class="fc-card-inner" id="fc-card-inner">
           <div class="fc-face fc-front">
             <div class="fc-front-word">${word}</div>
-            <div class="fc-tap-hint">Tap to reveal</div>
+            <div class="fc-tap-hint">タップして確認</div>
           </div>
           <div class="fc-face fc-back">
             <div class="fc-back-word">${word}</div>
@@ -1831,8 +1831,8 @@ function renderFlashCardPlay(){
       </div>
     </div>
     <div class="fc-nav" id="fc-nav" style="display:none">
-      <button class="fc-hard-btn" onclick="fcMark('hard')">↩ Still learning</button>
-      <button class="fc-got-btn"  onclick="fcMark('got')">✓ Got it</button>
+      <button class="fc-hard-btn" onclick="fcMark('hard')">↩ もう少し</button>
+      <button class="fc-got-btn"  onclick="fcMark('got')">✓ 覚えた</button>
     </div>
   </div>`;
 }
@@ -1865,7 +1865,7 @@ function fcStep(dir){
 async function fetchCardTranslation(word, e){
   if(e) e.stopPropagation(); // don't flip card
   const btn=document.getElementById('fc-tl-btn');
-  if(btn){ btn.textContent='Translating…'; btn.disabled=true; }
+  if(btn){ btn.textContent='翻訳中…'; btn.disabled=true; }
   const lang='ja';
   const tr=await translateWord(word, lang);
   if(state.flashCards[word]){
@@ -1970,9 +1970,9 @@ function renderJourneyDone(){
     </div>
 
     <div style="background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius);padding:20px;margin-bottom:24px;text-align:left;animation:fadeSlideIn .5s .9s both">
-      <div style="font-size:.75rem;font-weight:700;color:var(--accent-dark);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">📮 Postcard from ${dest.name}</div>
+      <div style="font-size:.75rem;font-weight:700;color:var(--accent-dark);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">📮 ${dest.name}からのポストカード</div>
       <p style="font-size:.95rem;color:var(--text);line-height:1.6;margin:0 0 12px">"${dest.postcard.fact}"</p>
-      <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:6px">3 bonus words added to your flash cards:</div>
+      <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:6px">3つのボーナス単語がフラッシュカードに追加されました：</div>
       <div>${bonusWords}</div>
     </div>
 
@@ -2023,7 +2023,7 @@ function renderJourneyWords(){
         ?`<span style="color:var(--primary);font-size:1rem;font-weight:700">✓</span>`
         :`<button onclick="learnJourneyWord('${dest.id}','${w.word}')"
             style="padding:7px 14px;background:var(--primary);color:white;border-radius:99px;font-size:.82rem;font-weight:700;border:none;cursor:pointer;flex-shrink:0">
-            Learn +
+            学ぶ＋
           </button>`}
     </div>`;
   }).join('');
@@ -2034,13 +2034,13 @@ function renderJourneyWords(){
   <div class="screen has-tab-bar">
     <div class="nav-bar">
       <button class="back-btn" onclick="navigate('destination',{destId:'${dest.id}'})">←</button>
-      <h2>🃏 ${dest.name} Words</h2>
+      <h2>🃏 ${dest.name}の単語</h2>
     </div>
     <div style="padding:12px 16px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid)">
-      <p style="font-size:.85rem;color:var(--text-muted);margin:0">Tap <strong>Learn +</strong> to add each word to your flash card deck. Words you learn here stay in your deck forever.</p>
+      <p style="font-size:.85rem;color:var(--text-muted);margin:0">単語をタップして<strong>学ぶ＋</strong>をクリックするとフラッシュカードデッキに追加されます。ここで学んだ単語はデッキに残ります。</p>
     </div>
     <div class="wl-items">${items}</div>
-    ${allDone?`<div style="padding:16px"><div style="background:var(--primary-light);border:1px solid var(--primary-mid);border-radius:var(--radius);padding:14px;text-align:center;font-weight:700;color:var(--primary-dark)">✓ All ${dest.localWords.length} words learned!</div></div>`:''}
+    ${allDone?`<div style="padding:16px"><div style="background:var(--primary-light);border:1px solid var(--primary-mid);border-radius:var(--radius);padding:14px;text-align:center;font-weight:700;color:var(--primary-dark)">✓ ${dest.localWords.length}個の単語をすべて学びました！</div></div>`:''}
   </div>
   ${tabBar()}`;
 }
@@ -2082,11 +2082,11 @@ function renderJourneyQuiz(){
       <h2>🧠 Culture Quiz</h2>
     </div>
     <div class="quiz-body">
-      <div class="quiz-qnum">Question ${qIdx+1} of ${dest.cultureQuiz.length}</div>
+      <div class="quiz-qnum">問題 ${qIdx+1} / ${dest.cultureQuiz.length}</div>
       <div class="quiz-question">${q.question}</div>
       <div class="quiz-options">${opts}</div>
       ${answered?`<div class="quiz-fb ${correct?'ok':'bad'}" style="display:block">${correct?'✓ 正解！':'✗ 惜しい！ステップ'+(state.journeyQuizIndex+1)+'を読み直して、もう一度試してみよう。'} ${q.feedback}</div>`:''}
-      ${answered?`<button class="quiz-next vis" onclick="${isLast?`finishJourneyQuiz()`:`nextJourneyQuestion()`}">${isLast?'See results →':'次へ →'}</button>`:''}
+      ${answered?`<button class="quiz-next vis" onclick="${isLast?`finishJourneyQuiz()`:`nextJourneyQuestion()`}">${isLast?'結果を見る →':'次へ →'}</button>`:''}
     </div>
   </div>`;
 }
@@ -2135,12 +2135,12 @@ function renderJourneyReader(){
         <div class="story-meta">
           <span class="meta-chip">📖 ${story.wordCount}w</span>
           <span class="meta-chip">⏱ ~${story.readMins}m</span>
-          ${done?'<span class="meta-chip" style="color:var(--primary);font-weight:700">✓ Done</span>':''}
-          ${locked?'<span class="meta-chip">🔒 Read story ${i} first</span>':''}
+          ${done?'<span class="meta-chip" style="color:var(--primary);font-weight:700">✓ 完了</span>':''}
+          ${locked?'<span class="meta-chip">🔒 先に${i}話を読もう</span>':''}
         </div>
       </div>
       ${!locked?`<div class="story-action">
-        <button class="read-btn" onclick="event.stopPropagation();navigate('journeyreaderpage',{destId:'${dest.id}',journeyStoryId:'${story.id}'})">${done?'Reread':'Read'}</button>
+        <button class="read-btn" onclick="event.stopPropagation();navigate('journeyreaderpage',{destId:'${dest.id}',journeyStoryId:'${story.id}'})">${done?'もう一度読む':'読む'}</button>
       </div>`:''}
     </div>`;
   }).join('');
@@ -2149,7 +2149,7 @@ function renderJourneyReader(){
   <div class="screen has-tab-bar">
     <div class="nav-bar">
       <button class="back-btn" onclick="navigate('destination',{destId:'${dest.id}'})">←</button>
-      <h2>📖 ${dest.name} Stories</h2>
+      <h2>📖 ${dest.name}のお話</h2>
     </div>
     <div class="stories-list">${cards}</div>
   </div>
@@ -2249,10 +2249,10 @@ function renderJourneyHub(){
 
     const cls=stamped?'stamped-dest':locked?'locked-dest':'active-dest';
     const badge=stamped
-      ?`<span class="dest-hub-badge dhb-stamped">✓ Stamped</span>`
+      ?`<span class="dest-hub-badge dhb-stamped">✓ スタンプ済み</span>`
       :locked
-        ?`<span class="dest-hub-badge dhb-locked">🔒 Locked</span>`
-        :`<span class="dest-hub-badge dhb-open">Open</span>`;
+        ?`<span class="dest-hub-badge dhb-locked">🔒 ロック中</span>`
+        :`<span class="dest-hub-badge dhb-open">開放中</span>`;
     const onclick=locked||stamped?'':`onclick="navigate('destination',{destId:'${dest.id}'})"`;
 
     return `<div class="dest-hub-card ${cls}" ${onclick}>
@@ -2261,7 +2261,7 @@ function renderJourneyHub(){
         <h3>${dest.name}</h3>
         <div class="dest-country">${dest.country}</div>
         <div class="dest-hub-prog"><div class="dest-hub-prog-fill" style="width:${pct}%"></div></div>
-        <div style="font-size:.72rem;color:var(--text-muted);margin-top:3px">${doneTasks} / ${totalTasks} tasks</div>
+        <div style="font-size:.72rem;color:var(--text-muted);margin-top:3px">${doneTasks} / ${totalTasks} タスク</div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
         ${badge}
@@ -2273,8 +2273,8 @@ function renderJourneyHub(){
   document.getElementById('app').innerHTML=`
   <div class="screen has-tab-bar">
     <div class="journey-hero">
-      <h2>🌍 World Journey</h2>
-      <p>Read, learn words, and take the culture quiz to earn your passport stamp.</p>
+      <h2>🌍 世界の旅</h2>
+      <p>読んで、単語を学び、文化クイズに挑戦してパスポートスタンプをゲットしよう。</p>
     </div>
     <div class="dest-card-row">${cards}</div>
   </div>
@@ -2299,7 +2299,7 @@ function renderDestination(){
   // Quiz track — locked until stories and words complete
   const quizUnlocked=journeyAllStoriesDone(dest.id) && journeyAllWordsDone(dest.id);
   const quizDone=js.quizScore!==null;
-  const quizSub=quizDone?`Score: ${js.quizScore}/5`:quizUnlocked?'Ready to take':'Complete stories and words first';
+  const quizSub=quizDone?`スコア：${js.quizScore}/5`:quizUnlocked?'受験可能':'先にお話と単語を完了しよう';
 
   document.getElementById('app').innerHTML=`
   <div class="screen has-tab-bar">
@@ -2316,8 +2316,8 @@ function renderDestination(){
            onclick="navigate('journeyreader',{destId:'${dest.id}'})">
         <span class="at-icon">📖</span>
         <div class="at-info">
-          <h3>Stories</h3>
-          <div class="at-sub">${stories.length} stories set in ${dest.name}</div>
+          <h3>お話</h3>
+          <div class="at-sub">${dest.name}を舞台にした${stories.length}話</div>
           <div class="at-prog"><div class="at-prog-fill" style="width:${storiesPct}%"></div></div>
         </div>
         <span class="at-count">${storiesDone}/${stories.length}</span>
@@ -2326,8 +2326,8 @@ function renderDestination(){
            onclick="navigate('journeywords',{destId:'${dest.id}'})">
         <span class="at-icon">🃏</span>
         <div class="at-info">
-          <h3>Local words</h3>
-          <div class="at-sub">${dest.localWords.length} words from ${dest.name}</div>
+          <h3>現地の言葉</h3>
+          <div class="at-sub">${dest.name}の単語${dest.localWords.length}個</div>
           <div class="at-prog"><div class="at-prog-fill" style="width:${wordsPct}%"></div></div>
         </div>
         <span class="at-count">${wordsDone}/${dest.localWords.length}</span>
@@ -2336,26 +2336,26 @@ function renderDestination(){
            ${quizUnlocked&&!quizDone?`onclick="navigate('journeyquiz',{destId:'${dest.id}'})"`:''}">
         <span class="at-icon">🧠</span>
         <div class="at-info">
-          <h3>Culture quiz</h3>
+          <h3>文化クイズ</h3>
           <div class="at-sub">${quizSub}</div>
           ${quizDone?`<div class="at-prog"><div class="at-prog-fill" style="width:100%"></div></div>`:''}
         </div>
-        <span class="at-count">${quizDone?'✓':'5 Qs'}</span>
+        <span class="at-count">${quizDone?'✓':'5問'}</span>
       </div>
     </div>
     ${journeyComplete(dest.id)&&!js.stamped?`
       <div style="padding:16px">
         <button onclick="navigate('journeydone',{destId:'${dest.id}'})"
           style="width:100%;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:var(--text);border-radius:var(--radius);font-size:1rem;font-weight:700;border:none;cursor:pointer">
-          🪪 Claim your stamp!
+          🪪 スタンプをゲット！
         </button>
       </div>`:''}
     ${js.stamped?`
       <div style="padding:16px;text-align:center">
         <div style="background:var(--accent-light);border:1px solid var(--accent);border-radius:var(--radius);padding:14px">
           <div style="font-size:2rem;margin-bottom:4px">🪪</div>
-          <div style="font-weight:700;color:var(--accent-dark)">Passport stamped!</div>
-          <div style="font-size:.82rem;color:var(--text-muted);margin-top:4px">${dest.name} complete</div>
+          <div style="font-weight:700;color:var(--accent-dark)">パスポートにスタンプ済み！</div>
+          <div style="font-size:.82rem;color:var(--text-muted);margin-top:4px">${dest.name}クリア</div>
         </div>
       </div>`:''}
   </div>
@@ -2393,14 +2393,14 @@ function renderProfile(){
 
   // Badges — earned vs locked placeholders
   const earnedBadges=[
-    {e:'🔥',name:'Streak starter',earned:state.streak>=3},
-    {e:'📖',name:'First story',earned:doneCount>=1},
-    {e:'⭐',name:'Quiz ace',earned:false},
-    {e:'🃏',name:'Word collector',earned:Object.keys(state.flashCards||{}).length>=10},
-    {e:'🌟',name:'10 stories',earned:doneCount>=10},
-    {e:'🏆',name:'50 stories',earned:doneCount>=50},
-    {e:'🌍',name:'World traveller',earned:false},
-    {e:'🎓',name:'Level complete',earned:false},
+    {e:'🔥',name:'連続スタート',earned:state.streak>=3},
+    {e:'📖',name:'最初のお話',earned:doneCount>=1},
+    {e:'⭐',name:'クイズの達人',earned:false},
+    {e:'🃏',name:'単語コレクター',earned:Object.keys(state.flashCards||{}).length>=10},
+    {e:'🌟',name:'10話クリア',earned:doneCount>=10},
+    {e:'🏆',name:'50話クリア',earned:doneCount>=50},
+    {e:'🌍',name:'世界の旅人',earned:false},
+    {e:'🎓',name:'レベルクリア',earned:false},
   ];
   const badgeGrid=earnedBadges.map(b=>`
     <div class="badge-item">
@@ -2409,38 +2409,38 @@ function renderProfile(){
     </div>`).join('');
 
   // Streak display
-  const streakTxt=state.streak>0?`🔥 ${state.streak}-day streak`:'No streak yet — read today!';
+  const streakTxt=state.streak>0?`🔥 ${state.streak}-day streak`:'まだ連続なし — 今日読もう！';
 
   document.getElementById('app').innerHTML=`
   <div class="screen has-tab-bar">
     <div class="profile-hero">
       <div class="profile-avatar" aria-hidden="true"></div>
-      <div class="profile-name">My Progress</div>
+      <div class="profile-name">マイ進捗</div>
       <div class="profile-sub">${streakTxt}</div>
     </div>
 
     <div class="profile-stats">
       <div class="pstat">
         <div class="pval">${doneCount}</div>
-        <div class="plabel">Stories read</div>
+        <div class="plabel">読んだ話</div>
       </div>
       <div class="pstat">
         <div class="pval">${state.totalXP||0}</div>
-        <div class="plabel">Total XP</div>
+        <div class="plabel">合計XP</div>
       </div>
       <div class="pstat">
         <div class="pval">${pct}%</div>
-        <div class="plabel">Complete</div>
+        <div class="plabel">完了</div>
       </div>
     </div>
 
     <div class="profile-section">
-      <div class="profile-section-title">Level progress</div>
+      <div class="profile-section-title">レベル進捗</div>
       ${lvRows}
     </div>
 
     <div class="profile-section">
-      <div class="profile-section-title">Badges</div>
+      <div class="profile-section-title">バッジ</div>
       <div class="badge-grid">${badgeGrid}</div>
     </div>
 
@@ -2448,15 +2448,15 @@ function renderProfile(){
       <div class="profile-section-title">フラッシュカード</div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;justify-content:space-between">
         <div>
-          <div style="font-size:1rem;font-weight:700;color:var(--text)">Saved words</div>
-          <div style="font-size:.82rem;color:var(--text-muted);margin-top:2px">${Object.keys(state.flashCards||{}).length} words in your deck</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--text)">保存した単語</div>
+          <div style="font-size:.82rem;color:var(--text-muted);margin-top:2px">${Object.keys(state.flashCards||{}).length}個の単語がデッキにあります</div>
         </div>
-        <button onclick="navigate('flashcards')" style="padding:10px 16px;background:var(--primary);color:white;border-radius:99px;font-size:.85rem;font-weight:700;border:none;cursor:pointer">Study →</button>
+        <button onclick="navigate('flashcards')" style="padding:10px 16px;background:var(--primary);color:white;border-radius:99px;font-size:.85rem;font-weight:700;border:none;cursor:pointer">学習 →</button>
       </div>
     </div>
 
     <div class="profile-section">
-      <div class="profile-section-title">Passport stamps</div>
+      <div class="profile-section-title">パスポートスタンプ</div>
       ${DESTINATIONS.some(d=>getJourneyState(d.id).stamped)
         ? `<div class="badge-grid">
             ${DESTINATIONS.map(d=>{
@@ -2470,11 +2470,11 @@ function renderProfile(){
         : `<div style="background:var(--primary-light);border-radius:var(--radius);padding:14px 16px;display:flex;align-items:center;gap:12px">
             <span style="font-size:1.8rem">🌍</span>
             <div>
-              <div style="font-size:.9rem;font-weight:700;color:var(--text)">No stamps yet</div>
-              <div style="font-size:.82rem;color:var(--text-muted)">Complete a destination in World Journey to earn your first passport stamp.</div>
+              <div style="font-size:.9rem;font-weight:700;color:var(--text)">まだスタンプなし</div>
+              <div style="font-size:.82rem;color:var(--text-muted)">世界の旅で目的地を完了して最初のパスポートスタンプをゲットしよう。</div>
             </div>
           </div>
-          <button onclick="navigate('journey')" style="width:100%;margin-top:10px;padding:12px;background:var(--primary);color:white;border-radius:var(--radius);font-size:.9rem;font-weight:700;border:none;cursor:pointer">Go to World Journey 🌍</button>`
+          <button onclick="navigate('journey')" style="width:100%;margin-top:10px;padding:12px;background:var(--primary);color:white;border-radius:var(--radius);font-size:.9rem;font-weight:700;border:none;cursor:pointer">世界の旅へ 🌍</button>`
       }
     </div>
   </div>
