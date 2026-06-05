@@ -159,7 +159,7 @@
     .step-new{animation:stepIn .4s ease both}
     @keyframes stepIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .reader-sentence{padding:4px 0}
-    .story-image-wrap{width:100%;max-width:320px;max-height:200px;margin:0 auto 18px;aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;background:var(--primary-light)}
+    .story-image-wrap{width:100%;max-width:320px;margin:0 auto 18px;aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;background:var(--primary-light)}
     .story-image-wrap img{width:100%;height:100%;object-fit:cover;display:block}
     .story-image-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;opacity:.4}
 
@@ -438,10 +438,10 @@
 <div id="app"></div>
 <script src="ribbit-stories.js"></script>
 <script src="ribbit-wordlists.js"></script>
+<script src="ribbit-ja-translations.js"></script>
 <script>
 // ── STATE ──────────────────────────────────────────────────
 const state = {
-  jaCache: JSON.parse(localStorage.getItem('rbt_ja')||'{}'),
   screen:'home',
   levelId:null,      // 1-6
   subLevel:null,     // 0-9 (0-indexed)
@@ -1448,7 +1448,7 @@ function stepBack(){
 }
 
 
-// ── WORD POPUP (Japanese-first, auto-fetch, no translate button) ────────────
+// ── WORD POPUP (hardcoded Japanese translations) ─────────────────────────────
 function showPopup(word, e, el){
   const story=getStory(); if(!story) return;
   const def=story.vocabulary[word]; if(!def) return;
@@ -1457,8 +1457,9 @@ function showPopup(word, e, el){
   if(el) el.classList.add('hl');
 
   const inDeck=!!state.flashCards[word];
-  // Check cached Japanese data
-  const cachedJa=state.flashCards[word]?.jaWord||state.jaCache?.[word];
+  const jaData=JA_TRANSLATIONS[word]||{};
+  const jaWord=jaData.w||'';
+  const jaDef=jaData.d||'';
 
   // Find English example sentence from story paragraphs
   let exEn='';
@@ -1479,12 +1480,11 @@ function showPopup(word, e, el){
       <div>
         <span class="wp-word">${word}</span>
         <span class="wp-pos">${def.pos}</span>
-        ${cachedJa?`<span class="wp-ja-word" id="wpjaw">${cachedJa}</span>`:`<span class="wp-ja-word" id="wpjaw" style="opacity:.4">…</span>`}
+        ${jaWord?`<span class="wp-ja-word">${jaWord}</span>`:''}
       </div>
       <button class="wp-close" onclick="closePopup()">✕</button>
     </div>
-    <div class="wp-section-label">日本語の意味</div>
-    <div class="wp-ja-def" id="wpjd">${cachedJa?state.jaCache?.[word+'_def']||'':''}</div>
+    ${jaDef?`<div class="wp-section-label">日本語の意味</div><div class="wp-ja-def">${jaDef}</div>`:''}
     <div class="wp-section-label">意味（英語）</div>
     <div class="wp-def">${def.def}</div>
     ${exEn?`<div class="wp-section-label">例文</div><div class="wp-example">"${exEn}"</div>`:''}
@@ -1494,30 +1494,7 @@ function showPopup(word, e, el){
       </button>
     </div>`;
   document.body.appendChild(d);
-
-  // Auto-fetch Japanese if not cached
-  if(!cachedJa) autoFetchJa(word, def.def);
-
   setTimeout(()=>document.addEventListener('click',popupOutside),100);
-}
-
-async function autoFetchJa(word, englishDef){
-  try {
-    const [wordTr, defTr] = await Promise.all([
-      fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|ja`).then(r=>r.json()).then(j=>j?.responseData?.translatedText||null),
-      fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(englishDef)}&langpair=en|ja`).then(r=>r.json()).then(j=>j?.responseData?.translatedText||null)
-    ]);
-    // Cache
-    if(!state.jaCache) state.jaCache={};
-    if(wordTr) state.jaCache[word]=wordTr;
-    if(defTr)  state.jaCache[word+'_def']=defTr;
-    localStorage.setItem('rbt_ja',JSON.stringify(state.jaCache));
-    // Update popup if still open
-    const jaw=document.getElementById('wpjaw');
-    const jd=document.getElementById('wpjd');
-    if(jaw && wordTr){ jaw.textContent=wordTr; jaw.style.opacity=''; }
-    if(jd  && defTr)  jd.textContent=defTr;
-  } catch(e){ /* silent fail */ }
 }
 
 function popupOutside(e){
@@ -1535,7 +1512,7 @@ function toggleFlashCard(word, def, pos){
   if(state.flashCards[word]){
     delete state.flashCards[word];
   } else {
-    const jaWord=state.jaCache?.[word]||null;
+    const jaWord=(JA_TRANSLATIONS[word]||{}).w||null;
     state.flashCards[word]={def, pos, jaWord};
   }
   save();

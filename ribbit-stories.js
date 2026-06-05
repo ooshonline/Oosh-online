@@ -149,6 +149,7 @@ STORIES[1][1] = [];
 STORIES[1][1].push({
   id:"l1.2s1", levelId:1, subLevel:1,
   title:"The Red Apple", emoji:"🍎", genre:"Food",
+  images:['images/b2/b2_the_red_apple_1.webp','images/b2/b2_the_red_apple_2.webp'],
   wordCount:22, readMins:1,
   blurb:"A round, red apple — sweet and good to eat!",
   paragraphs:[
@@ -177,6 +178,7 @@ STORIES[1][1].push({
 STORIES[1][1].push({
   id:"l1.2s2", levelId:1, subLevel:1,
   title:"My Blue Pen", emoji:"🖊️", genre:"School",
+  images:['images/b2/b2_my_blue_pen_1.webp','images/b2/b2_my_blue_pen_2.webp'],
   wordCount:21, readMins:1,
   blurb:"A blue pen for writing — let's learn!",
   paragraphs:[
@@ -202,6 +204,7 @@ STORIES[1][1].push({
 STORIES[1][1].push({
   id:"l1.2s3", levelId:1, subLevel:1,
   title:"A Big Tree", emoji:"🌳", genre:"Nature",
+  images:['images/b2/b2_the_big_tree_1.webp','images/b2/b2_the_big_tree_2.webp'],
   wordCount:22, readMins:1,
   blurb:"Look at the big green tree!",
   paragraphs:[
@@ -227,6 +230,7 @@ STORIES[1][1].push({
 STORIES[1][1].push({
   id:"l1.2s4", levelId:1, subLevel:1,
   title:"The Yellow Ball", emoji:"🟡", genre:"Play",
+  images:['images/b2/b2_the_yellow_ball_1.webp','images/b2/b2_the_yellow_ball_2.webp'],
   wordCount:23, readMins:1,
   blurb:"A small yellow ball — perfect for playing!",
   paragraphs:[
@@ -254,6 +258,7 @@ STORIES[1][1].push({
 STORIES[1][1].push({
   id:"l1.2s5", levelId:1, subLevel:1,
   title:"A White Cat", emoji:"🤍", genre:"Animals",
+  images:['images/b2/b2_a_white_cat_1.webp','images/b2/b2_a_white_cat_2.webp'],
   wordCount:22, readMins:1,
   blurb:"A soft, white cat — so lovely!",
   paragraphs:[
@@ -282,6 +287,7 @@ STORIES[1][2] = [];
 STORIES[1][2].push({
   id:"l1.3s1", levelId:1, subLevel:2,
   title:"My Mum", emoji:"👩", genre:"Family",
+  images:['images/b3/b3_my_mum_1.webp','images/b3/b3_my_mum_2.webp','images/b3/b3_my_mum_3.webp'],
   wordCount:28, readMins:1,
   blurb:"Meet a kind mum with long hair!",
   paragraphs:[
@@ -312,6 +318,7 @@ STORIES[1][2].push({
 STORIES[1][2].push({
   id:"l1.3s2", levelId:1, subLevel:2,
   title:"My Room", emoji:"🛏️", genre:"Home",
+  images:['images/b3/b3_my_room_1.webp','images/b3/b3_my_room_2.webp','images/b3/b3_my_room_3.webp'],
   wordCount:30, readMins:1,
   blurb:"A cosy room with a bed, a chair, and a desk.",
   paragraphs:[
@@ -342,6 +349,7 @@ STORIES[1][2].push({
 STORIES[1][2].push({
   id:"l1.3s3", levelId:1, subLevel:2,
   title:"Dad's Hat", emoji:"🎩", genre:"Family",
+  images:['images/b3/b3_dads_hat_1.webp','images/b3/b3_dads_hat_2.webp','images/b3/b3_dads_hat_3.webp'],
   wordCount:29, readMins:1,
   blurb:"Dad has a big brown hat. Where is he going?",
   paragraphs:[
@@ -372,6 +380,7 @@ STORIES[1][2].push({
 STORIES[1][2].push({
   id:"l1.3s4", levelId:1, subLevel:2,
   title:"My Sister", emoji:"👧", genre:"Family",
+  images:['images/b3/b3_my_sister_1.webp','images/b3/b3_my_sister_2.webp','images/b3/b3_my_sister_3.webp'],
   wordCount:27, readMins:1,
   blurb:"A little sister who loves her toys!",
   paragraphs:[
@@ -402,6 +411,7 @@ STORIES[1][2].push({
 STORIES[1][2].push({
   id:"l1.3s5", levelId:1, subLevel:2,
   title:"Our Dog Rex", emoji:"🐕", genre:"Animals",
+  images:['images/b3/b3_our_dog_rex_1.webp','images/b3/b3_our_dog_rex_2.webp','images/b3/b3_our_dog_rex_3.webp'],
   wordCount:30, readMins:1,
   blurb:"Rex is the family dog — big, brown, and fast!",
   paragraphs:[
