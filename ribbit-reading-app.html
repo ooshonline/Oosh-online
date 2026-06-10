@@ -223,22 +223,20 @@
     .quiz-next:hover{transform:translateY(-1px)}
 
     /* RESULTS */
-    .results-screen{padding:32px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;min-height:100vh;background:linear-gradient(160deg,var(--primary-light) 0%,var(--bg) 60%)}
-    .res-emoji{font-size:5rem;line-height:1;margin-bottom:16px;display:block;animation:bounceIn .6s cubic-bezier(.34,1.56,.64,1) both}
+    .results-screen{padding:16px 16px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;min-height:100dvh;max-height:100dvh;overflow-y:auto;box-sizing:border-box;background:linear-gradient(160deg,var(--primary-light) 0%,var(--bg) 60%)}
+    .res-emoji{font-size:3rem;line-height:1;margin-bottom:6px;display:block;animation:bounceIn .6s cubic-bezier(.34,1.56,.64,1) both}
     @keyframes bounceIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
     @keyframes stampDrop{from{opacity:0;transform:scale(2) rotate(-15deg)}to{opacity:1;transform:scale(1) rotate(0deg)}}
-    .results-screen h2{font-size:2rem;color:var(--primary-dark);margin-bottom:6px}
-    .res-score{font-size:3.5rem;font-weight:900;color:var(--primary);font-family:var(--font-head);margin:8px 0}
-    .res-cards{display:flex;gap:12px;width:100%;margin:16px 0 28px}
-    .res-card{flex:1;background:var(--card);border-radius:var(--radius);padding:16px 12px;border:1px solid var(--border);box-shadow:var(--shadow-sm)}
-    .res-card .rc-icon{font-size:1.5rem;margin-bottom:6px}
-    .res-card .rc-val{font-size:1.5rem;font-weight:800;color:var(--text);font-family:var(--font-head)}
-    .res-card .rc-label{font-size:.75rem;color:var(--text-muted);margin-top:3px}
-    .res-continue{width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1.05rem;font-weight:700;box-shadow:0 4px 20px rgba(143,184,50,.3);margin-bottom:12px;transition:transform .15s}
+    .results-screen h2{font-size:1.4rem;color:var(--primary-dark);margin-bottom:2px}
+    .res-score{font-size:2.4rem;font-weight:900;color:var(--primary);font-family:var(--font-head);margin:4px 0}
+    .res-card .rc-icon{font-size:.95rem;margin-bottom:1px}
+    .res-card .rc-val{font-size:1rem;font-weight:800;color:var(--text);font-family:var(--font-head)}
+    .res-card .rc-label{font-size:.6rem;color:var(--text-muted);margin-top:1px}
+    .res-continue{width:100%;padding:13px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 20px rgba(143,184,50,.3);margin-bottom:8px;transition:transform .15s}
     .res-continue:hover{transform:translateY(-2px)}
-    .res-again{width:100%;padding:14px;background:var(--card);color:var(--primary-dark);border-radius:var(--radius);font-size:.95rem;font-weight:600;border:2px solid var(--border);transition:border-color .2s;margin-bottom:10px}
+    .res-again{width:100%;padding:11px;background:var(--card);color:var(--primary-dark);border-radius:var(--radius);font-size:.9rem;font-weight:600;border:2px solid var(--border);transition:border-color .2s;margin-bottom:6px}
     .res-again:hover{border-color:var(--primary)}
-    .res-reread{width:100%;padding:12px;background:none;color:var(--text-muted);border-radius:var(--radius);font-size:.88rem;font-weight:600;border:1px solid var(--border)}
+    .res-reread{width:100%;padding:10px;background:none;color:var(--text-muted);border-radius:var(--radius);font-size:.84rem;font-weight:600;border:1px solid var(--border)}
     .sublevel-unlock{background:linear-gradient(135deg,#fef3d6,#fde8b0);border:1px solid #f9ad3b;border-radius:var(--radius);padding:12px 16px;text-align:center;font-weight:700;color:#7a4800;margin:12px 0;font-size:.9rem;animation:stepIn .4s ease both}
 
     /* WORDLIST */
@@ -432,6 +430,53 @@
     .confetti{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:300;overflow:hidden}
     .confetti-dot{position:absolute;animation:cFall linear both}
     @keyframes cFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+    /* ── GAMIFICATION ─────────────────────────────────────── */
+    /* COMBO OVERLAY */
+    .combo-overlay{position:fixed;inset:0;z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;user-select:none}
+    .combo-inner{position:relative;z-index:1;text-align:center;padding:14px 22px;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-radius:22px;box-shadow:0 8px 36px rgba(0,0,0,.18);pointer-events:auto;animation:comboPop .42s cubic-bezier(.34,1.56,.64,1) both}
+    @keyframes comboPop{from{opacity:0;transform:scale(.3) rotate(-10deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+    .combo-inner.combo-exit{animation:comboExit .22s ease both}
+    @keyframes comboExit{to{opacity:0;transform:scale(.82) translateY(-10px)}}
+    .combo-frog-em{font-size:3.5rem;display:block;animation:frogHop .5s cubic-bezier(.34,1.56,.64,1) both .05s;line-height:1.1}
+    @keyframes frogHop{0%{transform:translateY(20px) scale(.75)}55%{transform:translateY(-14px) scale(1.15)}100%{transform:translateY(0) scale(1)}}
+    .combo-label{font-family:var(--font-head);font-size:1.5rem;font-weight:900;line-height:1;margin:6px 0 4px;letter-spacing:-.5px;text-transform:uppercase}
+    .combo-label.is-correct{color:#5a8a00}
+    .combo-label.is-wrong{color:#E05C5C}
+    .combo-pts-pill{display:inline-block;background:var(--accent);color:#fff;font-family:var(--font-head);font-size:1rem;font-weight:900;padding:4px 16px;border-radius:99px;box-shadow:0 3px 12px rgba(249,173,59,.5);animation:ptsPop .4s cubic-bezier(.34,1.56,.64,1) both .15s;margin-top:2px}
+    @keyframes ptsPop{from{opacity:0;transform:scale(.5) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .combo-streak-line{font-size:.8rem;color:var(--text-muted);margin-top:5px;font-family:var(--font-body)}
+
+    /* POINTS GAUGE — lily pad track */
+    /* POINTS GAUGE */
+    .pts-gauge-wrap{width:100%;margin:8px 0 4px;padding:12px 14px;background:linear-gradient(145deg,#e4f5c8,#f2fbe0);border-radius:var(--radius);border:1px solid var(--primary-mid);display:flex;flex-direction:column;gap:10px}
+    .pts-gauge-top{display:flex;align-items:stretch;gap:12px}
+    /* left: life-cycle card */
+    .pts-life-track{background:white;border-radius:12px;border:2px solid var(--primary-mid);padding:8px 6px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;flex-shrink:0;width:68px;box-shadow:0 2px 8px rgba(143,184,50,.15)}
+    .pts-life-stage{font-size:1.9rem;line-height:1;opacity:.18;filter:grayscale(.7);transition:opacity .4s,transform .35s,filter .4s}
+    .pts-life-stage.lit{opacity:1;filter:none;transform:scale(1.12)}
+    /* right: numbers */
+    .pts-gauge-right{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0}
+    .pts-round-line{display:flex;align-items:baseline;gap:5px;line-height:1;margin-bottom:4px}
+    .pts-round-prefix,.pts-round-num{font-family:var(--font-head);font-size:2.6rem;font-weight:900;color:var(--primary-dark);line-height:1}
+    .pts-round-pts-label{font-family:var(--font-head);font-size:1.3rem;font-weight:800;color:var(--primary-dark);margin-left:2px}
+    .pts-total-label{font-family:var(--font-head);font-size:.8rem;font-weight:800;color:var(--primary-dark);opacity:.7;margin-top:6px}
+    .pts-total-num{font-family:var(--font-head);font-size:3rem;font-weight:900;color:var(--primary-dark);line-height:1.05}
+    .pts-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+    .pts-perfect-badge,.pts-fast-badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-head);font-size:.78rem;font-weight:800;padding:5px 11px;border-radius:8px}
+    .pts-perfect-badge{background:var(--primary-dark);color:white}
+    .pts-fast-badge{background:var(--primary-dark);color:white}
+    /* stat cards — full-width bottom row */
+    .pts-stat-cards{display:flex;gap:6px;width:100%}
+    .res-card{flex:1;background:white;border-radius:10px;padding:10px 4px;border:1px solid var(--border);text-align:center;opacity:0;transform:scale(.5)}
+    @keyframes cardBurst{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+    .res-card.burst{animation:cardBurst .4s cubic-bezier(.34,1.56,.64,1) both;opacity:1;transform:scale(1)}
+
+    /* PROFILE POINTS BANNER */
+    .profile-pts-banner{margin:0 20px 0;padding:16px 20px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:var(--radius);color:white;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}
+    .ppb-left .ppb-label{font-size:.72rem;font-weight:700;opacity:.8;text-transform:uppercase;letter-spacing:.05em}
+    .ppb-left .ppb-val{font-family:var(--font-head);font-size:2.4rem;font-weight:900;line-height:1;margin-top:2px}
+    .ppb-right{font-size:2.5rem;opacity:.85}
   </style>
 </head>
 <body>
@@ -465,6 +510,11 @@ const state = {
   xp:         parseInt(localStorage.getItem('rbt_xp')   ||'0'),
   streak:     parseInt(localStorage.getItem('rbt_streak')||'0'),
   lastRead:   localStorage.getItem('rbt_lastread')||null,
+  points:     parseInt(localStorage.getItem('rbt_points')||'0'),
+  comboStreak: 0,
+  lastRoundPoints: 0,
+  _questionStartTime: 0,
+  _answerTime: 0,
 };
 
 function save(){
@@ -479,6 +529,7 @@ function save(){
   localStorage.setItem('rbt_xp',       state.xp);
   localStorage.setItem('rbt_streak',   state.streak);
   localStorage.setItem('rbt_lastread', state.lastRead||'');
+  localStorage.setItem('rbt_points',   state.points);
 }
 // Safety net — save whenever the user closes or navigates away
 window.addEventListener('beforeunload', save);
@@ -789,6 +840,45 @@ const DESTINATIONS=[
       bonusWords:['monsoon','yoga','spice'],
     },
     unlockAfter:'china',
+  },
+  {
+    id:'mexico',
+    name:'Mexico',
+    country:'Mexico',
+    emoji:'🇲🇽',
+    description:'From the pre-dawn chaos of an Oaxacan market to the coloured alleyways of Guanajuato, Mexico is a country that lives loudly and eats seriously. Ancient traditions sit beside modern cities, and every neighbourhood has a story.',
+    cefr:'A2',
+    storyCount:4,
+    localWords:[
+      {word:'mercado', def:'A large covered market where fresh food, goods, and street food are sold.', pos:'noun'},
+      {word:'ofrenda', def:'An altar built during Día de los Muertos to welcome the spirits of deceased family members.', pos:'noun'},
+      {word:'cempasúchil', def:'The Mexican marigold flower used during Día de los Muertos; its scent is believed to guide spirits home.', pos:'noun'},
+      {word:'luchador', def:'A wrestler in lucha libre; the word means "fighter" in Spanish.', pos:'noun'},
+      {word:'callejón', def:'A narrow alleyway between buildings; a common feature of colonial Mexican cities.', pos:'noun'},
+      {word:'mole', def:'A rich Mexican sauce made from chillies, spices, and sometimes chocolate, used in traditional dishes.', pos:'noun'},
+    ],
+    cultureQuiz:[
+      {question:'What is Día de los Muertos?',
+       options:['A harvest festival celebrated at the start of October','A two-day celebration to honour and remember the dead, held on 1–2 November','A national holiday marking Mexican independence from Spain','A winter festival with fireworks and music'],
+       correct:1, feedback:'Día de los Muertos is celebrated on 1–2 November. Families build ofrendas with photographs, food, and flowers to welcome the spirits of loved ones home. It combines indigenous Aztec traditions with the Catholic feast of All Saints\' Day.'},
+      {question:'What is lucha libre?',
+       options:['A traditional Mexican board game played at festivals','A style of music from northern Mexico','A style of professional wrestling featuring masked wrestlers and high-flying moves','A form of folk dancing from the Yucatán Peninsula'],
+       correct:2, feedback:'Lucha libre is a Mexican style of professional wrestling known for its colourful masks, fast-paced action, and theatrical style. The masks are a central part of a wrestler\'s identity — losing your mask in the ring is considered a great humiliation.'},
+      {question:'Which ancient civilisation built the Pyramid of the Sun at Teotihuacán?',
+       options:['The Aztecs','The Teotihuacanos, a pre-Aztec civilisation whose identity is still debated','The Mayans','The Spanish colonists'],
+       correct:1, feedback:'Teotihuacán was built by a pre-Aztec civilisation whose identity historians still debate. At its height, around 400 AD, it was one of the largest cities in the world. The Aztecs later named it Teotihuacán, meaning "place where the gods were created."'},
+      {question:'What crop has been central to Mexican food and culture for thousands of years?',
+       options:['Rice','Wheat','Maize (corn)','Potato'],
+       correct:2, feedback:'Maize has been cultivated in Mexico for around 9,000 years. It is the basis of tortillas, tamales, pozole, and hundreds of other dishes. In 2010, Mexican cuisine was added to UNESCO\'s list of Intangible Cultural Heritage, partly due to the central role of maize.'},
+      {question:'What is special about the city of Guanajuato?',
+       options:['It is built entirely underground in a network of tunnels','It is a colonial city built into a hillside, famous for its coloured buildings and narrow alleyways','It is the oldest continuously inhabited city in the Americas','It is built on an island in a large lake in central Mexico'],
+       correct:1, feedback:'Guanajuato is a UNESCO World Heritage city built into a steep hillside in central Mexico. It is famous for its brightly painted buildings, winding callejones (alleyways), and a network of underground roads originally built to prevent flooding. The Callejón del Beso — Alley of the Kiss — is one of its most famous landmarks.'},
+    ],
+    postcard:{
+      fact:'Mexico is home to 35 UNESCO World Heritage Sites and the world\'s largest pyramid by volume — the Great Pyramid of Cholula, which has a church built on top of it.',
+      bonusWords:['tortilla','tequila','cenote'],
+    },
+    unlockAfter:'france',
   },
 ];
 
@@ -1525,7 +1615,7 @@ function toggleFlashCard(word, def, pos){
 }
 
 // ── RENDER: QUIZ ───────────────────────────────────────────
-function startQuiz(){ ttsStop(); updateStreak(); navigate('quiz',{quizIndex:0,quizAnswers:[]}); }
+function startQuiz(){ ttsStop(); updateStreak(); navigate('quiz',{quizIndex:0,quizAnswers:[],comboStreak:0,lastRoundPoints:0,quizStartTime:Date.now(),_quizBusy:false}); }
 
 // ── Quiz type helpers ──────────────────────────────────────
 // Each story has MC questions in quiz[]. We derive FITB and type-the-word
@@ -1611,6 +1701,8 @@ function renderQuiz(){
   </div>`;
   // Focus text input if present
   setTimeout(()=>document.getElementById('fitb-input')?.focus(),100);
+  // Record when this question was shown (for speed bonus)
+  state._questionStartTime = Date.now();
 }
 
 function pick(i){
@@ -1619,6 +1711,7 @@ function pick(i){
   const ok=i===q.correct;
   document.querySelectorAll('.q-opt')[i].classList.add(ok?'ok':'bad');
   if(!ok) document.querySelectorAll('.q-opt')[q.correct].classList.add('ok');
+  state._answerTime = Date.now();
   state.quizAnswers.push({selected:i,correct:ok});
   const fb=document.getElementById('qfb');
   fb.style.display='block'; fb.className='quiz-fb '+(ok?'ok':'bad');
@@ -1634,6 +1727,7 @@ function checkFITB(){
   const ok=answer===q.answer.toLowerCase();
   input.disabled=true;
   document.querySelector('.quiz-fitb-btn').disabled=true;
+  state._answerTime = Date.now();
   state.quizAnswers.push({selected:answer,correct:ok});
   const fb=document.getElementById('qfb');
   fb.style.display='block'; fb.className='quiz-fb '+(ok?'ok':'bad');
@@ -1642,9 +1736,74 @@ function checkFITB(){
 }
 
 function nextQ(){
+  if(state._quizBusy) return;
+  state._quizBusy=true;
   const story=getStory();
-  if(state.quizIndex+1>=story.quiz.length) finishQuiz();
-  else{state.quizIndex++;renderQuiz();}
+  const lastAnswer=state.quizAnswers[state.quizAnswers.length-1];
+  const correct=lastAnswer?.correct||false;
+
+  // Update combo streak
+  if(correct){ state.comboStreak=(state.comboStreak||0)+1; }
+  else { state.comboStreak=0; }
+
+  // Calculate points for this question
+  const elapsed=(state._answerTime||Date.now())-(state._questionStartTime||Date.now());
+  const multiplier=Math.min(Math.max(state.comboStreak,1),5);
+  let pts=0;
+  if(correct){
+    pts=10*multiplier;
+    if(elapsed<4000) pts+=5; // speed bonus: answered within 4 seconds
+  }
+  state.lastRoundPoints=(state.lastRoundPoints||0)+pts;
+
+  const isLast=state.quizIndex+1>=story.quiz.length;
+
+  // Show combo overlay, then proceed
+  showComboOverlay(correct, pts, state.comboStreak, ()=>{
+    state._quizBusy=false;
+    if(isLast) finishQuiz();
+    else{ state.quizIndex++; renderQuiz(); }
+  });
+}
+
+// ── COMBO OVERLAY ──────────────────────────────────────────
+function showComboOverlay(correct, pts, streak, callback){
+  const app=document.getElementById('app');
+  const overlay=document.createElement('div');
+  overlay.className='combo-overlay';
+  const isCombo=correct && streak>=2;
+  const multiplier=Math.min(streak,5);
+
+  let label;
+  if(isCombo) label=`×${multiplier} COMBO!`;
+  else if(correct) label='CORRECT!';
+  else label='WRONG!';
+
+  const frogEmoji=correct?(streak>=3?'🐸✨':'🐸'):'😔';
+  const ptsHtml=pts>0
+    ?`<div class="combo-pts-pill">+${pts} pts</div>` : '';
+  const streakHtml=isCombo
+    ?`<div class="combo-streak-line">🔥 ${streak} in a row!</div>` : '';
+
+  overlay.innerHTML=`
+    <div class="combo-inner">
+      <span class="combo-frog-em">${frogEmoji}</span>
+      <div class="combo-label ${correct?'is-correct':'is-wrong'}">${label}</div>
+      ${ptsHtml}
+      ${streakHtml}
+    </div>`;
+
+  app.appendChild(overlay);
+  let gone=false;
+  const dismiss=()=>{
+    if(gone) return; gone=true;
+    const inner=overlay.querySelector('.combo-inner');
+    if(inner) inner.classList.add('combo-exit');
+    setTimeout(()=>{ overlay.remove(); callback(); }, 240);
+  };
+  overlay.addEventListener('click', dismiss);
+  // Auto-dismiss: shorter since it's no longer blocking
+  setTimeout(dismiss, isCombo ? 1400 : 1000);
 }
 
 function finishQuiz(){
@@ -1653,16 +1812,42 @@ function finishQuiz(){
   const total=story.quiz.length; const score=correct/total;
   const earned=storyXP(story,score);
   const wasNew=!state.progress[story.id];
+
+  // Previous best points for this story (0 if never played)
+  const prevBestPts=state.progress[story.id]?.pts||0;
+
   if((state.progress[story.id]?.score||0)<score)
-    state.progress[story.id]={score,at:new Date().toISOString()};
+    state.progress[story.id]={...(state.progress[story.id]||{}),score,at:new Date().toISOString()};
   state.xp+=earned;
+
+  // Perfect round bonus
+  const perfect=correct===total;
+  if(perfect) state.lastRoundPoints=(state.lastRoundPoints||0)+25;
+
+  // Super Fast bonus: avg under 10s per question
+  const elapsed=Date.now()-(state.quizStartTime||Date.now());
+  const fast=elapsed/total<10000;
+  if(fast) state.lastRoundPoints=(state.lastRoundPoints||0)+15;
+
+  const roundPts=state.lastRoundPoints||0;
+
+  // Only add the improvement delta — retries can't re-earn already-banked points
+  const pointsToAdd=Math.max(0, roundPts-prevBestPts);
+  state.points=(state.points||0)+pointsToAdd;
+
+  // Save new best if improved
+  if(roundPts>prevBestPts)
+    state.progress[story.id]={...(state.progress[story.id]||{}),pts:roundPts};
+
+  state.comboStreak=0;
   calcTodayCount();
   save();
   // Check if this story completion finishes a sub-level for the first time
-  // L1–L5 use 0-indexed subLevel; L6 uses 1-indexed — normalise to 0-indexed array key
   const sl=story.levelId===6 ? story.subLevel-1 : story.subLevel;
   const justUnlocked=wasNew && subLevelDone(story.levelId, sl);
-  navigate('results',{lastScore:score,lastCorrect:correct,lastTotal:total,lastXP:earned,lastSubLevelUnlocked:justUnlocked?sl:null,lastLevelId:story.levelId});
+  navigate('results',{lastScore:score,lastCorrect:correct,lastTotal:total,lastXP:earned,
+    lastSubLevelUnlocked:justUnlocked?sl:null,lastLevelId:story.levelId,
+    lastRoundPoints:roundPts,lastPointsAdded:pointsToAdd,lastWasPerfect:perfect,lastWasFast:fast});
 }
 
 // ── RENDER: RESULTS ────────────────────────────────────────
@@ -1674,24 +1859,104 @@ function renderResults(){
   if(pct===100) confetti();
   const unlockBadge=state.lastSubLevelUnlocked!==null
     ? `<div class="sublevel-unlock">🎉 サブレベル${state.lastSubLevelUnlocked+1}クリア！次のレベルが解放されました！</div>` : '';
+
+  const roundPts=state.lastRoundPoints||0;
+  const totalQ=story?.quiz?.length||5;
+  const gaugeHtml=buildPointsGauge(roundPts, state.lastWasPerfect||false, state.lastWasFast||false);
+
   document.getElementById('app').innerHTML=`
   <div class="screen results-screen">
     <span class="res-emoji">${emoji}</span>
     <h2>${msg}</h2>
-    <p style="color:var(--text-muted)">${story?.title||''}</p>
+    <p style="color:var(--text-muted);margin:0 0 2px;font-size:.85rem">${story?.title||''}</p>
     <div class="res-score">${state.lastCorrect}/${state.lastTotal}</div>
-    <p style="color:var(--text-muted);font-size:.9rem">${pct}% 正解</p>
+    <p style="color:var(--text-muted);font-size:.82rem;margin:0 0 4px">${pct}% 正解</p>
     ${unlockBadge}
-    <div class="res-cards">
-      <div class="res-card"><div class="rc-icon">⚡</div><div class="rc-val">+${state.lastXP}</div><div class="rc-label">獲得XP</div></div>
-      <div class="res-card"><div class="rc-icon">🔥</div><div class="rc-val">${state.streak}</div><div class="rc-label">日連続</div></div>
-      <div class="res-card"><div class="rc-icon">🃏</div><div class="rc-val">${Object.keys(state.flashCards).length}</div><div class="rc-label">フラッシュカード</div></div>
-    </div>
+    ${gaugeHtml}
     <button class="res-continue" onclick="navigate('sublevels',{levelId:${story?.levelId||1}})">📚 他のお話</button>
-    <button class="res-again" onclick="navigate('quiz',{quizIndex:0,quizAnswers:[]})">🔄 やり直す</button>
+    <button class="res-again" onclick="navigate('quiz',{quizIndex:0,quizAnswers:[],comboStreak:0,lastRoundPoints:0,_quizBusy:false,quizStartTime:Date.now()})">🔄 やり直す</button>
     <button class="res-reread" onclick="navigate('reader',{storyId:'${story?.id||''}',readerStep:0})">📖 もう一度読む</button>
   </div>`;
   if(state.lastSubLevelUnlocked!==null) confetti();
+  // Animate the gauge after render
+  requestAnimationFrame(()=>animatePointsGauge(roundPts, totalQ, state.lastWasPerfect||false, state.lastWasFast||false));
+}
+
+// ── POINTS GAUGE helpers ───────────────────────────────────
+function buildPointsGauge(roundPts, perfect, fast){
+  const perfectBadge=perfect?`<div class="pts-perfect-badge">⭐ Perfect Round +25</div>`:'';
+  const fastBadge=fast?`<div class="pts-fast-badge">⚡ Speedy +15</div>`:'';
+  const badgesHtml=(perfect||fast)?`<div class="pts-badges">${perfectBadge}${fastBadge}</div>`:'';
+  // Life-cycle stages: eggs → tadpole → froglet → juvenile → adult (bottom→top order, rendered top→bottom)
+  const stages=['🐸','🐸','🦎','🐟','🫧'];
+  const stagesHtml=stages.map((s,i)=>`<div class="pts-life-stage" id="life-stage-${4-i}">${s}</div>`).join('');
+  return `<div class="pts-gauge-wrap" id="pts-gauge">
+    <div class="pts-gauge-top">
+      <div class="pts-life-track">${stagesHtml}</div>
+      <div class="pts-gauge-right">
+        <div class="pts-round-line">
+          <span class="pts-round-prefix">+</span><span class="pts-round-num" id="pts-num">0</span>
+          <span class="pts-round-pts-label">Points</span>
+        </div>
+        <div class="pts-total-label">Total Points Earned:</div>
+        <div class="pts-total-num" id="pts-total-disp">${state.points - (state.lastPointsAdded||0)}</div>
+        ${badgesHtml}
+      </div>
+    </div>
+    <div class="pts-stat-cards">
+      <div class="res-card"><div class="rc-icon">⚡</div><div class="rc-val">+${state.lastXP}</div><div class="rc-label">XP</div></div>
+      <div class="res-card"><div class="rc-icon">🔥</div><div class="rc-val">${state.streak}</div><div class="rc-label">連続</div></div>
+      <div class="res-card"><div class="rc-icon">🟢</div><div class="rc-val">${state.points}</div><div class="rc-label">合計</div></div>
+    </div>
+  </div>`;
+}
+
+function animatePointsGauge(roundPts, totalQ, perfect, fast){
+  const ptsNum=document.getElementById('pts-num');
+  const ptsTotalDisp=document.getElementById('pts-total-disp');
+  const lifeStages=[0,1,2,3,4].map(i=>document.getElementById('life-stage-'+i));
+  if(!ptsNum) return;
+
+  // Which life stages to light up (0=eggs … 4=adult frog)
+  const maxPts=(10*5+5)*totalQ+25;
+  const ratio=Math.min(roundPts/Math.max(maxPts*0.75,1),1);
+  const activeStage=Math.min(Math.floor(ratio*5),4);
+
+  setTimeout(()=>{
+    // Light up stages bottom→top, staggered
+    for(let i=0;i<=activeStage;i++){
+      setTimeout(()=>{ lifeStages[i]?.classList.add('lit'); },i*200);
+    }
+    // Count up round points over 3 seconds (ease-out cubic)
+    const duration=3000;
+    const startTime=performance.now();
+    const tick=setInterval(()=>{
+      const elapsed=performance.now()-startTime;
+      const progress=Math.min(elapsed/duration,1);
+      const eased=1-Math.pow(1-progress,3);
+      if(ptsNum) ptsNum.textContent=Math.round(eased*roundPts);
+      if(progress>=1){
+        clearInterval(tick);
+        if(ptsNum) ptsNum.textContent=roundPts;
+        // Count up total (only by the delta actually added)
+        if(ptsTotalDisp){
+          const pointsAdded=state.lastPointsAdded||0;
+          const startTotal=state.points-pointsAdded;
+          let ct=startTotal;
+          const inc=Math.max(pointsAdded/20,0.1);
+          const totalTick=setInterval(()=>{
+            ct=Math.min(ct+inc,state.points);
+            ptsTotalDisp.textContent=Math.round(ct);
+            if(ct>=state.points){ clearInterval(totalTick); ptsTotalDisp.textContent=state.points; }
+          },40);
+        }
+        // Burst stat cards one by one
+        document.querySelectorAll('.res-card').forEach((card,i)=>{
+          setTimeout(()=>{ card.classList.add('burst'); },i*180+200);
+        });
+      }
+    },40);
+  },350);
 }
 
 // ── RENDER: FLASH CARDS LIST ───────────────────────────────
@@ -2396,13 +2661,21 @@ function renderProfile(){
       <div class="profile-sub">${streakTxt}</div>
     </div>
 
+    <div class="profile-pts-banner">
+      <div class="ppb-left">
+        <div class="ppb-label">Total Points</div>
+        <div class="ppb-val">${(state.points||0).toLocaleString()}</div>
+      </div>
+      <div class="ppb-right">🐸</div>
+    </div>
+
     <div class="profile-stats">
       <div class="pstat">
         <div class="pval">${doneCount}</div>
         <div class="plabel">読んだ話</div>
       </div>
       <div class="pstat">
-        <div class="pval">${state.totalXP||0}</div>
+        <div class="pval">${state.xp||0}</div>
         <div class="plabel">合計XP</div>
       </div>
       <div class="pstat">

@@ -12117,3 +12117,138 @@ JOURNEY_STORIES['india'].push({
      feedback:"'She had a question: if the well was built as a memorial, and if the water was the practical reason, which one was it really for?'"}
   ]
 });
+
+// ── MEXICO 🇲🇽 ────────────────────────────────────────────────────────────────
+JOURNEY_STORIES['mexico'] = JOURNEY_STORIES['mexico'] || [];
+
+JOURNEY_STORIES['mexico'].push({
+  id:"j-mexico-1", journeyId:"mexico", order:1,
+  title:"The Market Before Dawn", emoji:"🌽", genre:"Everyday Life / Culture",
+  wordCount:291, readMins:3,
+  blurb:"Sofia goes with her grandmother to the central market in Oaxaca at five in the morning and discovers that the best part of the day begins before most people are awake.",
+  paragraphs:[
+    "Her grandmother always left for the market at five. Sofia had heard this her whole life but never actually gone with her, until the morning her grandmother said: get up, put on your shoes, and don't eat anything. We're going to the mercado.",
+    "The market in Oaxaca's central district was different at that hour. By eight, it would be full of tourists photographing the chillies and the woven textiles. At five, it belonged to the vendors setting up: women arranging tomatoes by size, a man unloading crates of maize, a girl about Sofia's age lifting bundles of epazote — an herb with a sharp, earthy smell that Sofia knew only from her grandmother's black beans.",
+    "Her grandmother moved quickly and without hesitation, greeting people by name. She squeezed avocados, smelled chillies, held up ears of corn to check the colour of the silk. She bought tlayudas — large, flat, semi-dried tortillas — from a woman who had brought them from a village two hours south. She explained the differences in tortillas from different regions the way a teacher explains grammar: precisely, with examples.",
+    "Sofia carried the bags. They grew heavy. She ate a piece of quesillo — Oaxacan string cheese — that a vendor pressed into her hand without being asked. It was rubbery and salty and tasted like nothing she had eaten from a supermarket.",
+    "By six-thirty they were walking home. The street was beginning to fill with people starting their ordinary days. Sofia felt slightly superior to all of them. She had already done something, and they didn't know it."
+  ],
+  vocabulary:{
+    "mercado":{def:"The Spanish word for market; in Mexico, often a large covered market where fresh food, goods, and street food are sold.",pos:"noun"},
+    "epazote":{def:"A herb native to Mexico with a strong, earthy smell, commonly used in black beans and quesadillas.",pos:"noun"},
+    "tlayuda":{def:"A large, flat, semi-dried tortilla from Oaxaca, typically topped with beans, cheese, and meat.",pos:"noun"},
+    "quesillo":{def:"Oaxacan string cheese made by stretching and winding fresh cheese into a ball; also called queso Oaxaca.",pos:"noun"},
+    "maize":{def:"The cereal plant also known as corn, a staple crop in Mexico for thousands of years.",pos:"noun"},
+    "vendor":{def:"A person who sells goods, especially in a market or on the street.",pos:"noun"},
+    "hesitation":{def:"A pause before doing something, usually because of uncertainty or doubt.",pos:"noun"}
+  },
+  quiz:[
+    {question:"Why did Sofia's grandmother tell her not to eat before going to the market?",options:["The market was far and they needed to walk quickly","She wanted Sofia to try the food at the market","It was a tradition before early-morning shopping in Oaxaca","The grandmother did not explain her reasons"],correct:3,
+     feedback:"The story does not give a reason — Sofia's grandmother simply said 'don't eat anything' without explanation."},
+    {question:"What was different about the market at five in the morning compared to eight?",options:["The prices were lower in the morning","At five, vendors were setting up and it belonged to the workers; by eight it was full of tourists","The market only sold fresh produce in the early morning","At five, only the tortilla vendors had arrived"],correct:1,
+     feedback:"'By eight, it would be full of tourists photographing the chillies and the woven textiles. At five, it belonged to the vendors setting up.'"},
+    {question:"How did Sofia's grandmother explain the differences between tortillas from different regions?",options:["She said they were all essentially the same","She let Sofia taste them without comment","She explained them the way a teacher explains grammar — precisely, with examples","She asked the vendor to explain instead"],correct:2,
+     feedback:"'She explained the differences in tortillas from different regions the way a teacher explains grammar: precisely, with examples.'"},
+    {question:"How did Sofia feel walking home at six-thirty?",options:["Tired and ready to go back to sleep","Hungry because she had not eaten enough","Slightly superior to the people starting their ordinary days, because she had already done something","Disappointed that the trip had ended so quickly"],correct:2,
+     feedback:"'Sofia felt slightly superior to all of them. She had already done something, and they didn't know it.'"}
+  ]
+});
+
+JOURNEY_STORIES['mexico'].push({
+  id:"j-mexico-2", journeyId:"mexico", order:2,
+  title:"The Day of the Dead", emoji:"🌼", genre:"Festivals / Tradition",
+  wordCount:298, readMins:3,
+  blurb:"Miguel helps his family build an ofrenda for his great-uncle on Día de los Muertos and begins to understand what the celebration is really about.",
+  paragraphs:[
+    "Miguel's family started building the ofrenda on the afternoon of the first of November. It was not sad. That was the first thing he wanted visitors to understand when they looked at it — the altar was not a place of grief, it was a place of welcome.",
+    "The table was covered in a cloth embroidered by his grandmother. On it they placed a photograph of his great-uncle Ernesto, who had died three years before. Around the photograph they arranged cempasúchil — marigold flowers, bright orange, with a smell so strong it was almost sweet. According to tradition, the petals guide the spirits of the dead back to their families. Miguel's mother had laid a trail of petals from the front door to the altar.",
+    "On the ofrenda they also placed the things Ernesto had loved in life: a small bottle of mezcal, a packet of the cigarettes he smoked, a bowl of his favourite soup — a dark mole negro with turkey, which had taken his mother two days to prepare. There were photographs from different decades showing a man getting gradually older and rounder, always laughing.",
+    "His cousin asked: but does the spirit actually come? Miguel's father thought about this. He said: whether it comes or not, you have remembered. You have cooked his food and put out his things and said his name out loud. That's what it means.",
+    "That night, the neighbourhood filled with music, candles, and people carrying flowers through the streets. Miguel sat by the ofrenda and ate some of the mole. It tasted, he thought, like the kind of dish that takes a long time to understand."
+  ],
+  vocabulary:{
+    "ofrenda":{def:"An altar built during Día de los Muertos to honour and welcome the spirits of deceased family members.",pos:"noun"},
+    "Día de los Muertos":{def:"A Mexican celebration held on 1–2 November to honour and remember the dead, combining indigenous traditions with Catholic All Saints' Day.",pos:"noun"},
+    "cempasúchil":{def:"The Mexican marigold flower, used extensively during Día de los Muertos; its strong scent is believed to guide spirits home.",pos:"noun"},
+    "mezcal":{def:"A Mexican alcoholic drink made from agave plants, traditionally produced in Oaxaca.",pos:"noun"},
+    "mole negro":{def:"A rich, dark Mexican sauce made from chillies, spices, and chocolate, often served with turkey for special occasions.",pos:"noun"},
+    "altar":{def:"A raised surface or table used for religious or ceremonial purposes.",pos:"noun"},
+    "embroidered":{def:"Decorated with a design sewn using coloured thread.",pos:"adjective"}
+  },
+  quiz:[
+    {question:"What did Miguel want visitors to understand when they looked at the ofrenda?",options:["That it was a place of grief and sadness","That it had taken many days to build","That it was not sad — it was a place of welcome, not grief","That only family members were allowed to approach it"],correct:2,
+     feedback:"'The altar was not a place of grief, it was a place of welcome.'"},
+    {question:"According to tradition, what do the cempasúchil petals do?",options:["They keep evil spirits away from the ofrenda","They guide the spirits of the dead back to their families","They represent the seasons of the year","They are placed as an offering to the gods"],correct:1,
+     feedback:"'According to tradition, the petals guide the spirits of the dead back to their families.'"},
+    {question:"What did Miguel's father say when his cousin asked if the spirit actually comes?",options:["He said he was certain the spirit would come that night","He said nobody could know, so it was better not to ask","Whether it comes or not, you have remembered — you have cooked his food and said his name out loud","He said that question was disrespectful to Ernesto's memory"],correct:2,
+     feedback:"'Whether it comes or not, you have remembered. You have cooked his food and put out his things and said his name out loud. That's what it means.'"},
+    {question:"What did the mole taste like to Miguel?",options:["Sweet and light, like a dessert","Ordinary — he had eaten it many times before","Like the kind of dish that takes a long time to understand","Too dark and bitter for his preference"],correct:2,
+     feedback:"'It tasted, he thought, like the kind of dish that takes a long time to understand.'"}
+  ]
+});
+
+JOURNEY_STORIES['mexico'].push({
+  id:"j-mexico-3", journeyId:"mexico", order:3,
+  title:"The Lucha and the Crowd", emoji:"🤼", genre:"Sport / Culture",
+  wordCount:283, readMins:3,
+  blurb:"On a Saturday night in Mexico City, Valentina goes to her first lucha libre match with her father and finds that the most interesting part is not the wrestling.",
+  paragraphs:[
+    "The Arena México smelled of concrete and fried food. Valentina's father had been coming here since he was a boy, which meant he knew exactly where to sit — near enough to see the ring clearly, far enough to be safe from the wrestlers who sometimes flew into the crowd.",
+    "Lucha libre was not quite like the wrestling Valentina had seen in films. The luchadores wore elaborate masks — silver and red, painted with eagles and serpents, or completely black with a single eye cut out. The masks were not decorative; they were identity. Some wrestlers had worn the same design for their entire careers. To unmask your opponent in the ring was the ultimate humiliation.",
+    "The crowd was as interesting as the match. Around Valentina, people shouted in Spanish she had never heard at school. An old man in the row ahead stood up every time a wrestler fell and shouted the same phrase, over and over. A woman was explaining the history of a particular luchador to her teenage daughter in the patient tone of someone passing down knowledge that genuinely mattered.",
+    "The match lasted forty minutes and involved two teams of three wrestlers each, with rules that were not always immediately clear. What was clear was who the crowd supported. When the técnicos — the honourable fighters — were losing, the noise was anguished. When they rallied, the sound was enormous.",
+    "They bought tostadas from a vendor on the way out. Valentina had not known she was interested in lucha libre before tonight. She had not known a lot of things."
+  ],
+  vocabulary:{
+    "lucha libre":{def:"A style of professional wrestling originating in Mexico, featuring high-flying moves and elaborately masked wrestlers.",pos:"noun"},
+    "luchador":{def:"A wrestler in lucha libre; the word means 'fighter' or 'struggler' in Spanish.",pos:"noun"},
+    "elaborate":{def:"Very detailed and complicated in design; made with great care and many parts.",pos:"adjective"},
+    "unmask":{def:"To remove someone's mask, especially as a sign of defeat or disgrace in lucha libre.",pos:"verb"},
+    "humiliation":{def:"A feeling of shame and loss of dignity caused by being made to look foolish or inferior.",pos:"noun"},
+    "técnicos":{def:"The honourable, rule-following wrestlers in lucha libre, as opposed to the rule-breaking rudos.",pos:"noun"},
+    "anguished":{def:"Expressing severe mental or emotional pain.",pos:"adjective"}
+  },
+  quiz:[
+    {question:"Why were the luchadores' masks not just decorative?",options:["They were made from expensive materials that protected the wrestlers' faces","They were identity — some wrestlers had worn the same design for their entire careers","The masks helped the crowd identify which team each wrestler was on","They were required by the rules of the Arena México"],correct:1,
+     feedback:"'The masks were not decorative; they were identity. Some wrestlers had worn the same design for their entire careers.'"},
+    {question:"What did Valentina's father know because he had been coming to the arena since he was a boy?",options:["The names of every luchador who had ever competed","Exactly where to sit — near enough to see clearly, far enough to be safe","How to get the cheapest tickets on a Saturday night","Which vendor sold the best tostadas after the match"],correct:1,
+     feedback:"'He knew exactly where to sit — near enough to see the ring clearly, far enough to be safe from the wrestlers who sometimes flew into the crowd.'"},
+    {question:"What did unmasking an opponent in the ring represent?",options:["A technical victory that earned extra points","The ultimate humiliation","A way of showing respect to a beaten competitor","It was against the rules and led to disqualification"],correct:1,
+     feedback:"'To unmask your opponent in the ring was the ultimate humiliation.'"},
+    {question:"What did Valentina realise on the way out of the arena?",options:["She preferred watching wrestling on television to live","She had not known she was interested in lucha libre before tonight — and had not known a lot of things","She wanted to come back the following Saturday","She was too tired to enjoy the tostadas they bought"],correct:1,
+     feedback:"'Valentina had not known she was interested in lucha libre before tonight. She had not known a lot of things.'"}
+  ]
+});
+
+JOURNEY_STORIES['mexico'].push({
+  id:"j-mexico-4", journeyId:"mexico", order:4,
+  title:"The Neighbourhood on the Hill", emoji:"🏚️", genre:"Place / Urban Life",
+  wordCount:287, readMins:3,
+  blurb:"A walk through Guanajuato's coloured streets teaches Andrés something about how a city can be built entirely differently from the one he grew up in.",
+  paragraphs:[
+    "Andrés had grown up in a flat city. Everything spread outwards — wide roads, low buildings, space between things. Guanajuato was a different kind of idea: a city built into a hillside, where the streets curved and climbed and sometimes stopped without warning, and where you could look out from one neighbourhood and see another neighbourhood directly above you.",
+    "The callejones — the narrow alleyways — were the part he hadn't expected. Some were wide enough for two people and no more. The buildings on either side were painted in the colours that Guanajuato was known for: yellow, terracotta, deep blue, coral, green. The colours did not match, but they did not clash either. Somebody had made a decision, long ago, to let each owner paint as they chose, and the result looked intentional without being designed.",
+    "In one allejón, he stopped at a small sign explaining the legend of the Callejón del Beso — the Alley of the Kiss. Two houses stood so close together that their balconies were separated by only forty-three centimetres. According to legend, a couple who had been forbidden to meet would lean from their windows and kiss across the gap. The sign said that couples who stood on the third step from the bottom would have seven years of good luck.",
+    "He stood on the third step. He was alone. He stayed there for a moment anyway.",
+    "He walked until his legs were tired and then sat on the steps of a church and ate a corn on the cob with chilli powder and lime from a vendor below. The city spread out below him and above him at the same time. He had never been in a place like this."
+  ],
+  vocabulary:{
+    "callejón":{def:"A narrow alleyway or lane between buildings; a common feature of colonial Mexican cities.",pos:"noun"},
+    "terracotta":{def:"A reddish-brown clay colour, like traditional fired earthenware pottery.",pos:"noun"},
+    "intentional":{def:"Done on purpose; planned or deliberate.",pos:"adjective"},
+    "legend":{def:"A traditional story from the past, which may or may not be true, often explaining a local custom or place name.",pos:"noun"},
+    "colonial":{def:"Relating to a period when a country was ruled by or built under the influence of another, especially referring to Spanish rule in Latin America.",pos:"adjective"},
+    "clash":{def:"(of colours) to look unpleasant together because they do not go well with each other.",pos:"verb"},
+    "forbidden":{def:"Not allowed; prohibited.",pos:"adjective"}
+  },
+  quiz:[
+    {question:"How was Guanajuato different from the flat city where Andrés grew up?",options:["It was much larger and more crowded","It was built into a hillside, where streets curved and climbed and you could see one neighbourhood directly above another","It had no cars — only pedestrian streets throughout","It was entirely modern with no old buildings"],correct:1,
+     feedback:"'Guanajuato was a different kind of idea: a city built into a hillside, where the streets curved and climbed and sometimes stopped without warning.'"},
+    {question:"Why did the differently coloured buildings look intentional even though they did not match?",options:["A city planner had carefully chosen the colour scheme","The owners had all agreed on a limited palette of colours","Long ago, each owner was allowed to paint as they chose, and the result looked intentional without being designed","The colours were all from the same family of warm tones"],correct:2,
+     feedback:"'Somebody had made a decision, long ago, to let each owner paint as they chose, and the result looked intentional without being designed.'"},
+    {question:"According to the legend of the Callejón del Beso, what would happen to couples who stood on the third step?",options:["They would have seven years of bad luck if they argued there","They would have seven years of good luck","They would need to kiss across the gap to complete the tradition","They would be blessed by the church at the end of the alley"],correct:1,
+     feedback:"'The sign said that couples who stood on the third step from the bottom would have seven years of good luck.'"},
+    {question:"What did Andrés do on the third step when he arrived there?",options:["He took a photograph for his family","He kissed someone he had just met","He stood there alone for a moment anyway, even though there was nobody with him","He read the legend aloud from the sign"],correct:2,
+     feedback:"'He stood on the third step. He was alone. He stayed there for a moment anyway.'"}
+  ]
+});

@@ -11,25 +11,26 @@
 
 - 300 stories across 6 CEFR levels (Pre-A1 → C1)
 - World Journey: 7 destinations live, 3 pre-researched (France, Mexico, Kenya), Wednesday auto-builder running
-- Features: flash cards, quizzes, CEFR word highlighting, TTS (Web Speech API), 6 UI languages, daily reading goal, XP, badges, progress ring
+- Features: flash cards, mixed quizzes, TTS (Web Speech API), daily reading goal, XP, badges, progress ring
+- UI: fully Japanese (Japan-first launch), all 2,163 vocab entries have baked-in Japanese translations
 - Hosted: GitHub Pages (free, no server)
+
+### Completed this sprint (June 2026)
+- ✅ **Japanese-only UI** — entire app hardcoded to Japanese; all English UI strings replaced
+- ✅ **Mixed quiz types** — every quiz now generates 2 MC comprehension + 2 fill-in-the-blank + 1 type-the-word automatically from story data (no story rewrites needed)
+- ✅ **Vocab word popup redesign** — shows Japanese word, Japanese definition, English example sentence + Japanese translation; translate button removed
+- ✅ **Japanese vocab baked in** — all 2,163 vocabulary entries across 355 stories have full Japanese data (word, definition, example sentence + translation) hardcoded into ribbit-stories.js
+- ✅ **Reader UX** — removed in-text word highlights; vocab chip list now shows on every step (not just the last), keeping the reading experience clean
 
 ---
 
 ## Now — Weeks 1–4
 
-### 1. Japanese as default UI language
-**Priority:** High | **Effort:** Low (< 1 hour)
-
-Change the fallback UI language from English to Japanese in the `UI_STRINGS` / `t()` helper. Currently auto-detects via `navigator.language` — Japanese speakers on non-Japanese devices default to English. One-line config change.
-
-**Why now:** Small change, immediate strategic clarity. Signals that Ribbit's primary market is Japanese ESL learners — every design decision going forward should be made with that user in mind.
-
-**Flag:** This is a positioning decision, not just a code change. Confirm this is intentional — it affects how you'd market Ribbit, what content you prioritise, and how you'd eventually build OOSH Online.
+### ~~1. Japanese as default UI language~~ ✅ Complete
 
 ---
 
-### 2. Daily & Weekly Quests
+### 1. Daily & Weekly Quests
 **Priority:** High | **Effort:** Medium (1–2 sessions)
 
 A quest system that gives learners a daily and weekly challenge. All state stored in localStorage — no server needed.
@@ -135,7 +136,7 @@ As a solo builder using Claude, realistic output is 2–4 meaningful features pe
 
 | Item | Now/Next/Later | Effort | Impact |
 |---|---|---|---|
-| Japanese default language | Now | Low | High |
+| ~~Japanese default language~~ | ~~Now~~ | ~~Low~~ | ✅ Done |
 | Daily & Weekly Quests | Now | Medium | High |
 | Browse by topic (Story Packs) | Now | Low-Medium | Medium |
 | Images for stories | Next | Medium-High | High |
@@ -145,4 +146,4 @@ As a solo builder using Claude, realistic output is 2–4 meaningful features pe
 
 ---
 
-*Last updated: 2026-06-02*
+*Last updated: 2026-06-03*
