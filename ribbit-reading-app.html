@@ -52,10 +52,32 @@
     .xp-meta{display:flex;justify-content:space-between;margin-bottom:6px;font-size:.8rem;color:var(--text-muted)}
     .xp-bar-wrap{height:8px;background:var(--primary-light);border-radius:99px;overflow:hidden}
     .xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:99px;transition:width .6s ease}
-    .home-cta{width:100%;padding:18px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1.1rem;font-weight:700;box-shadow:0 6px 24px rgba(143,184,50,.35);transition:transform .15s,box-shadow .15s;margin-bottom:12px}
+    .home-cta{width:100%;padding:18px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);border-radius:var(--radius);font-size:1.1rem;font-weight:700;box-shadow:0 6px 24px rgba(143,184,50,.35);transition:transform .15s,box-shadow .15s;margin-bottom:12px}
     .home-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(143,184,50,.4)}
     .home-secondary{width:100%;padding:14px;background:var(--card);color:var(--primary-dark);border-radius:var(--radius);font-size:1rem;font-weight:600;border:2px solid var(--border);transition:border-color .2s,background .2s}
     .home-secondary:hover{border-color:var(--primary);background:var(--primary-light)}
+
+    /* POND MAP HOME */
+    .pond-screen{display:flex;flex-direction:column;min-height:100vh;background:linear-gradient(160deg,#f0f7d0 0%,#f8faf0 55%,#fef3d6 100%)}
+    .pond-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 6px;gap:10px}
+    .pond-header .ph-title{font-family:var(--font-head);font-size:1.2rem;color:var(--primary-dark);line-height:1.2}
+    .pond-header .ph-sub{font-size:.78rem;color:var(--text-muted);margin-top:2px}
+    .pond-level-btn{background:none;border:none;text-align:left;padding:0;cursor:pointer}
+    .pond-level-btn .ph-change{font-size:.72rem;color:var(--accent-dark);font-weight:700;margin-top:2px;display:inline-block}
+    .pond-chips{display:flex;gap:8px;flex-shrink:0;align-items:center}
+    .pond-chip{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);color:var(--accent-dark);font-weight:700;font-size:.8rem;border-radius:99px;padding:6px 12px;border:1px solid #f9ad3b}
+    .pond-chip.goal-done{background:var(--primary-light);color:var(--primary-dark);border-color:var(--primary)}
+    .frog-bubble{display:flex;align-items:flex-end;gap:10px;padding:8px 20px 0}
+    .frog-bubble img{width:52px;height:52px;flex-shrink:0;filter:drop-shadow(0 4px 12px rgba(143,184,50,.3))}
+    .frog-bubble .fb-text{background:var(--card);border:1.5px solid var(--border);border-radius:16px 16px 16px 4px;padding:10px 14px;font-size:.88rem;color:var(--text);line-height:1.5;animation:fadeSlideIn .4s ease both}
+    .pond-map-wrap{flex:1;padding:4px 0 8px;display:flex;justify-content:center}
+    .pond-map{width:100%;max-width:380px;display:block}
+    .pad-group{cursor:pointer}
+    .pad-group.locked{cursor:default}
+    .pad-group circle.pad{transition:transform .15s}
+    .pond-cta-wrap{position:sticky;bottom:64px;padding:10px 20px 14px;background:linear-gradient(to top,rgba(248,250,240,.95),rgba(248,250,240,0));z-index:150}
+    .pond-cta{width:100%;padding:17px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);border-radius:var(--radius);font-size:1.05rem;font-weight:800;box-shadow:0 6px 24px rgba(143,184,50,.35);transition:transform .15s}
+    .pond-cta:hover{transform:translateY(-2px)}
 
     /* LEVEL SELECT */
     .levels-grid{padding:16px;display:flex;flex-direction:column;gap:12px;padding-bottom:32px}
@@ -90,11 +112,11 @@
     .level-badge{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:700;color:#7a4800;background:#fef3d6;border:1px solid #f9ad3b;border-radius:99px;padding:2px 8px;margin-top:4px}
 
     /* SUB-LEVEL SELECT */
-    .sublevel-hero{padding:20px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white}
+    .sublevel-hero{padding:20px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text)}
     .sublevel-hero h2{font-size:1.3rem;margin-bottom:4px}
     .sublevel-hero p{font-size:.85rem;opacity:.85}
     .sublevel-hero .badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-    .hero-badge{font-size:.75rem;font-weight:600;background:rgba(255,255,255,.2);color:white;padding:3px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.3)}
+    .hero-badge{font-size:.75rem;font-weight:600;background:rgba(255,255,255,.35);color:var(--text);padding:3px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.45)}
     .sublevels-grid{padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-bottom:32px}
     .sublevel-card{background:var(--card);border-radius:var(--radius);padding:14px;border:2px solid var(--border);cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;text-align:center}
     .sublevel-card:hover{border-color:var(--primary);box-shadow:var(--shadow);transform:translateY(-2px)}
@@ -116,7 +138,7 @@
     .story-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
     .meta-chip{font-size:.75rem;color:var(--text-muted)}
     .story-action{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-    .read-btn{padding:8px 18px;background:var(--primary);color:white;border-radius:99px;font-size:.85rem;font-weight:700;transition:background .2s}
+    .read-btn{padding:8px 18px;background:var(--primary);color:var(--text);border-radius:99px;font-size:.85rem;font-weight:700;transition:background .2s}
     .read-btn:hover{background:var(--primary-dark)}
     .done-badge{font-size:.75rem;color:var(--primary);font-weight:700}
 
@@ -131,8 +153,9 @@
     .reader-story-meta{padding:16px 24px 8px;display:flex;gap:10px;flex-wrap:wrap}
     .meta-pill{display:flex;align-items:center;gap:5px;font-size:.78rem;color:var(--text-muted);background:var(--primary-light);padding:4px 12px;border-radius:99px}
     .reader-body{padding:8px 24px 24px}
-    .reader-body p{font-size:1.1rem;line-height:1.75;color:var(--text);margin-bottom:1.2em}
-    .level-early .reader-body p{font-size:1.2rem;line-height:1.9}
+    .reader-body p{font-size:1.18rem;line-height:1.75;letter-spacing:.01em;color:var(--text);margin-bottom:1.2em}
+    .level-early .reader-body p{font-size:1.3rem;line-height:1.9;letter-spacing:.015em}
+    .reader-body .tappable{border-bottom:2px solid var(--primary);background:var(--primary-light);padding:0 2px;border-radius:3px;color:var(--primary-dark)}
     .tappable{display:inline;border-bottom:1.5px dotted var(--primary-mid);cursor:pointer;border-radius:2px;transition:background .15s,color .15s}
     .tappable:hover{background:var(--primary-light);color:var(--primary-dark)}
     .tappable.hl{background:var(--accent-light);color:var(--accent-dark);border-bottom-color:var(--accent)}
@@ -151,11 +174,17 @@
     .vocab-section h4{font-size:.82rem;color:var(--primary-dark);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
     .vocab-chips{display:flex;flex-wrap:wrap;gap:8px}
     .vocab-chip{padding:4px 12px;background:var(--card);border:1px solid var(--primary-mid);color:var(--primary-dark);border-radius:99px;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .2s,color .2s}
-    .vocab-chip:hover{background:var(--primary-dark);color:white}
+    .vocab-chip:hover{background:var(--primary-mid);color:var(--text)}
     .reader-bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:var(--card);border-top:1px solid var(--border);padding:12px 20px 20px;z-index:100}
-    .finish-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(143,184,50,.3);transition:transform .15s,box-shadow .15s}
+    .finish-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(143,184,50,.3);transition:transform .15s,box-shadow .15s}
     .finish-btn:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(143,184,50,.4)}
     .step-counter{text-align:center;font-size:.8rem;color:var(--text-muted);margin-bottom:6px;font-family:'Glacial Indifference',sans-serif}
+    .step-dots{display:flex;justify-content:center;gap:6px;margin-bottom:10px}
+    .sdot{width:8px;height:8px;border-radius:50%;background:var(--primary-light);transition:background .3s,transform .3s}
+    .sdot.done{background:var(--primary)}
+    .sdot.cur{background:var(--primary-dark);transform:scale(1.25)}
+    .reader-back-link{display:block;margin:8px auto 0;background:none;border:none;color:var(--text-muted);font-size:.85rem;font-weight:600;padding:6px 16px}
+    .reader-back-link:hover{color:var(--primary-dark)}
     .step-new{animation:stepIn .4s ease both}
     @keyframes stepIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
     .reader-sentence{padding:4px 0}
@@ -198,7 +227,7 @@
     .q-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:background .3s}
     .q-dot.cur{background:var(--primary);transform:scale(1.2)}
     .q-dot.ok{background:var(--primary)}
-    .q-dot.bad{background:var(--red)}
+    .q-dot.bad{background:var(--accent)}
     .quiz-body{padding:8px 20px 20px}
     .quiz-qnum{font-size:.78rem;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
     .quiz-question{font-size:1.2rem;color:var(--text);line-height:1.5;margin-bottom:24px;font-family:var(--font-head)}
@@ -207,18 +236,18 @@
     .q-opt:hover:not(:disabled){border-color:var(--primary);background:var(--primary-light)}
     .q-opt:disabled{cursor:default}
     .q-opt.ok{border-color:var(--primary);background:var(--primary-light);color:var(--primary-dark);font-weight:700}
-    .q-opt.bad{border-color:var(--red);background:var(--red-light);color:#A03030}
+    .q-opt.bad{border-color:var(--accent);background:var(--accent-light);color:#7a4800}
     .opt-letter{width:28px;height:28px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0}
-    .q-opt.ok .opt-letter{background:var(--primary);border-color:var(--primary);color:white}
-    .q-opt.bad .opt-letter{background:var(--red);border-color:var(--red);color:white}
+    .q-opt.ok .opt-letter{background:var(--primary);border-color:var(--primary);color:#151515}
+    .q-opt.bad .opt-letter{background:var(--accent);border-color:var(--accent);color:#151515}
     .quiz-fb{margin-top:16px;padding:14px 16px;border-radius:var(--radius-sm);font-size:.9rem;line-height:1.5;animation:fadeSlideIn .25s ease both;display:none}
     .quiz-fb.ok{background:var(--primary-light);color:var(--primary-dark);border:1px solid var(--primary-mid)}
-    .quiz-fb.bad{background:var(--red-light);color:#A03030;border:1px solid #FACACA}
+    .quiz-fb.bad{background:var(--accent-light);color:#7a4800;border:1px solid #f9ad3b}
     .quiz-fitb-wrap{display:flex;gap:8px;margin-top:12px}
     .quiz-fitb-input{flex:1;padding:12px;border:2px solid var(--border);border-radius:var(--radius);font-size:1rem;font-family:var(--font-body);outline:none}
     .quiz-fitb-input:focus{border-color:var(--primary)}
-    .quiz-fitb-btn{padding:12px 18px;background:var(--primary);color:white;border-radius:var(--radius);font-weight:700;white-space:nowrap}
-    .quiz-next{margin-top:20px;width:100%;padding:15px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(143,184,50,.25);transition:transform .15s;display:none}
+    .quiz-fitb-btn{padding:12px 18px;background:var(--primary);color:var(--text);border-radius:var(--radius);font-weight:700;white-space:nowrap}
+    .quiz-next{margin-top:20px;width:100%;padding:15px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(143,184,50,.25);transition:transform .15s;display:none}
     .quiz-next.vis{display:block}
     .quiz-next:hover{transform:translateY(-1px)}
 
@@ -232,7 +261,7 @@
     .res-card .rc-icon{font-size:.95rem;margin-bottom:1px}
     .res-card .rc-val{font-size:1rem;font-weight:800;color:var(--text);font-family:var(--font-head)}
     .res-card .rc-label{font-size:.6rem;color:var(--text-muted);margin-top:1px}
-    .res-continue{width:100%;padding:13px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 20px rgba(143,184,50,.3);margin-bottom:8px;transition:transform .15s}
+    .res-continue{width:100%;padding:13px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 20px rgba(143,184,50,.3);margin-bottom:8px;transition:transform .15s}
     .res-continue:hover{transform:translateY(-2px)}
     .res-again{width:100%;padding:11px;background:var(--card);color:var(--primary-dark);border-radius:var(--radius);font-size:.9rem;font-weight:600;border:2px solid var(--border);transition:border-color .2s;margin-bottom:6px}
     .res-again:hover{border-color:var(--primary)}
@@ -266,14 +295,14 @@
     .fs-active{border-color:var(--primary);background:var(--primary-light);color:var(--primary-dark)}
     /* TTS — Text-to-Speech bar */
     .tts-bar{display:flex;align-items:center;gap:8px;padding:8px 20px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid);position:sticky;top:57px;z-index:49}
-    .tts-play-btn{width:44px;height:44px;border-radius:50%;background:var(--primary);color:white;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+    .tts-play-btn{width:44px;height:44px;border-radius:50%;background:var(--primary);color:#151515;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
     .tts-play-btn:hover{background:var(--primary-dark)}
     .tts-play-btn.paused{background:var(--accent);color:var(--text)}
     .tts-stop-btn{width:44px;height:44px;border-radius:50%;background:var(--card);color:var(--text-muted);font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border);transition:background .2s}
     .tts-stop-btn:hover{background:var(--border)}
     .tts-rate-group{display:flex;gap:4px;margin-left:auto}
     .tts-rate-btn{padding:4px 10px;border-radius:99px;font-size:.75rem;font-weight:700;background:var(--card);color:var(--text-muted);border:1px solid var(--border);transition:all .2s;cursor:pointer}
-    .tts-rate-btn.tts-rate-active{background:var(--primary);color:white;border-color:var(--primary)}
+    .tts-rate-btn.tts-rate-active{background:var(--primary);color:#151515;border-color:var(--primary)}
     .tts-label{font-size:.78rem;font-weight:700;color:var(--primary-dark);white-space:nowrap}
     /* TTS word highlight */
     .tts-w{transition:background .1s}
@@ -1034,40 +1063,84 @@ function renderGoalRing(){
   </svg>`;
 }
 
-// ── RENDER: HOME ───────────────────────────────────────────
+// ── RENDER: HOME (Pond Map) ────────────────────────────────
+function currentLevelId(){
+  if(state.lastStoryId){const s=findStory(state.lastStoryId); if(s) return s.levelId;}
+  for(const lv of LEVELS){ if(levelDoneCount(lv.id)<10) return lv.id; }
+  return LEVELS[LEVELS.length-1].id;
+}
+function frogGreeting(){
+  if(state.todayCount>=state.dailyGoal) return 'すごい！今日の目標を達成したよ。もう1話読む？🎉';
+  if(state.lastStoryId){const s=findStory(state.lastStoryId); if(s&&!storyDone(s.id)) return `「${s.title}」の続きを読もう！`;}
+  if(state.streak>1) return `${state.streak}日連続！今日も一緒に読もう。`;
+  return 'ようこそ！リリーパッドをタップして読み始めよう。';
+}
+function renderPondMap(lv){
+  const PAD_R=26, W=360, GAP=74, PADS=10;
+  const H=PADS*GAP+50;
+  // First pad that's available but not done = the frog's pad
+  let curIdx=0;
+  for(let i=0;i<PADS;i++){ if(subLevelAvailable(lv,i)&&!subLevelDone(lv,i)){curIdx=i;break;} if(subLevelDone(lv,i)) curIdx=Math.min(i+1,PADS-1); }
+  const pts=Array.from({length:PADS},(_,i)=>({
+    x:Math.round(180+105*Math.sin(i*1.25+0.6)),
+    y:H-40-i*GAP
+  }));
+  const path=pts.map((p,i)=>`${i?'L':'M'}${p.x} ${p.y}`).join(' ');
+  const pads=pts.map((p,i)=>{
+    const done=subLevelDone(lv,i), avail=subLevelAvailable(lv,i), hasSt=hasStoriesFor(lv,i);
+    const isCur=i===curIdx&&avail&&hasSt;
+    const locked=(!avail&&!done)||!hasSt;
+    const stories=STORIES[lv]&&STORIES[lv][i]||[];
+    const dc=stories.filter(s=>storyDone(s.id)).length;
+    const fill=done?'#8fb832':isCur?'#bada55':locked?'#e6e8de':'#f0f7d0';
+    const stroke=done||isCur?'#8fb832':locked?'#c9ccc0':'#d4ec96';
+    const txt=done?'#ffffff':locked?'#9aa093':'#5e6648';
+    const r=isCur?PAD_R+7:PAD_R;
+    const click=locked?'':`onclick="navigate('stories',{levelId:${lv},subLevel:${i}})"`;
+    return `<g class="pad-group${locked?' locked':''}" ${click} role="button" aria-label="サブレベル${i+1}${locked?'（ロック中）':''}">
+      <ellipse cx="${p.x}" cy="${p.y+r-4}" rx="${r*1.15}" ry="7" fill="rgba(143,184,50,.18)"/>
+      <circle class="pad" cx="${p.x}" cy="${p.y}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="3"/>
+      ${isCur?`<image href="OOSH_Logo_Square.png" x="${p.x-22}" y="${p.y-44}" width="44" height="44"/>`:''}
+      <text x="${p.x}" y="${p.y+(isCur?14:6)}" text-anchor="middle" font-size="${isCur?13:15}" font-weight="800" fill="${txt}" font-family="var(--font-head)">${done?'✓':i+1}</text>
+      ${!done&&!locked&&dc>0?`<text x="${p.x}" y="${p.y+r+18}" text-anchor="middle" font-size="11" fill="#5e6648">${dc}/5</text>`:''}
+      ${locked?`<text x="${p.x}" y="${p.y-r-6}" text-anchor="middle" font-size="12">🔒</text>`:''}
+    </g>`;
+  }).join('');
+  return `<svg class="pond-map" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="レベル${lv}の進行マップ">
+    <path d="${path}" fill="none" stroke="#d4ec96" stroke-width="9" stroke-linecap="round" stroke-dasharray="1 16"/>
+    ${pads}
+  </svg>`;
+}
 function renderHome(){
   calcTodayCount();
-  const done=Object.keys(state.progress).length;
-  const total=Object.values(STORIES).reduce((a,lv)=>a+Object.values(lv).reduce((b,sl)=>b+sl.length,0),0);
-  const xpPct=Math.min(100,(state.xp%500)/500*100);
+  const lv=currentLevelId();
+  const lvObj=LEVELS.find(l=>l.id===lv);
+  const goalDone=state.todayCount>=state.dailyGoal;
+  // CTA: continue last unfinished story, else next available sub-level
+  let cta='';
+  const last=state.lastStoryId?findStory(state.lastStoryId):null;
+  if(last&&!storyDone(last.id)) cta=`<button class="pond-cta" onclick="navigate('reader',{storyId:'${last.id}'})">▶ 続きを読む</button>`;
+  else cta=`<button class="pond-cta" onclick="navigate('levels')">📚 ${last?'すべての話':'読み始める'}</button>`;
   document.getElementById('app').innerHTML=`
-  <div class="screen home-screen has-tab-bar">
-    <div class="logo-block">
-      <img class="frog-logo" src="OOSH_Logo_Square.png" alt="OOSH Ribbit frog logo"/>
-      <h1>Ribbit</h1>
-      <p>英語力を高める読書アプリ</p>
-    </div>
-    ${state.streak>0?`<div class="streak-badge">🔥 ${state.streak}日連続！</div>`:''}
-    <div class="daily-goal-wrap">
-      ${renderGoalRing()}
-      <div class="daily-goal-info">
-        <div class="daily-goal-title">今日の目標</div>
-        <div class="daily-goal-sub">${Math.min(state.todayCount,state.dailyGoal)} / ${state.dailyGoal} 話</div>
-        ${state.todayCount>=state.dailyGoal?'<div class="daily-goal-done">✓ 目標達成！</div>':''}
+  <div class="screen pond-screen has-tab-bar">
+    <div class="pond-header">
+      <button class="pond-level-btn" onclick="navigate('levels')" aria-label="レベルを変更">
+        <div class="ph-title">Level ${lv} · ${lvObj.name}</div>
+        <div class="ph-sub">${lvObj.cefr} · ${levelDoneCount(lv)}/10 クリア</div>
+        <span class="ph-change">レベルを変更 ›</span>
+      </button>
+      <div class="pond-chips">
+        ${state.streak>0?`<span class="pond-chip">🔥 ${state.streak}</span>`:''}
+        <span class="pond-chip${goalDone?' goal-done':''}">${goalDone?'✓':'🎯'} ${Math.min(state.todayCount,state.dailyGoal)}/${state.dailyGoal}</span>
+        <button class="icon-btn" onclick="navigate('settings')" aria-label="設定">⚙️</button>
       </div>
     </div>
-    <div class="home-stats">
-      <div class="home-stat-card"><div class="big">${done}</div><div class="label">読んだ話</div></div>
-      <div class="home-stat-card"><div class="big">${state.xp}</div><div class="label">合計XP</div></div>
-      <div class="home-stat-card"><div class="big">${Object.keys(state.flashCards).length}</div><div class="label">フラッシュカード</div></div>
+    <div class="frog-bubble">
+      <img src="OOSH_Logo_Square.png" alt="Ribbitのカエル"/>
+      <div class="fb-text">${frogGreeting()}</div>
     </div>
-    <div class="xp-wrap">
-      <div class="xp-meta"><span>XP進捗</span><span>${state.xp%500}/500</span></div>
-      <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:${xpPct}%"></div></div>
-    </div>
-    ${state.lastStoryId?`<button class="home-cta" onclick="navigate('reader',{storyId:'${state.lastStoryId}'})">▶ 続きを読む</button>`:''}
-    <button class="${state.lastStoryId?'home-secondary':'home-cta'}" onclick="navigate('levels')">📚 ${state.lastStoryId?'すべての話':'読み始める'}</button>
-    <button class="home-settings" onclick="navigate('settings')">⚙️ 設定</button>
+    <div class="pond-map-wrap">${renderPondMap(lv)}</div>
+    <div class="pond-cta-wrap">${cta}</div>
   </div>
   ${tabBar()}`;
 }
@@ -1323,6 +1396,8 @@ function ttsClearHL(){
 function updateTTSUI(){
   const btn=document.getElementById('tts-play-btn');
   const spkBtn=document.getElementById('tts-icon-btn');
+  const bar=document.getElementById('tts-bar');
+  if(bar&&bar.classList.contains('tts-collapsible')) bar.style.display=tts.active?'flex':'none';
   if(btn){
     if(tts.active && !tts.paused){ btn.textContent='⏸'; btn.classList.add('paused'); }
     else { btn.textContent='▶'; btn.classList.remove('paused'); }
@@ -1381,6 +1456,13 @@ function ttsToggle(){
   if(!tts.active) ttsSpeak();
   else if(tts.paused){ speechSynthesis.resume(); tts.paused=false; updateTTSUI(); }
   else { speechSynthesis.pause(); tts.paused=true; updateTTSUI(); }
+}
+
+// Header speaker button: reveal the TTS bar and start reading; tap again to stop
+function ttsHeaderToggle(){
+  if(!ttsSupported()){ alert('Sorry, your browser does not support text-to-speech.'); return; }
+  if(tts.active){ ttsStop(); }
+  else { ttsSpeak(); }
 }
 
 function ttsStop(){
@@ -1454,12 +1536,13 @@ function renderReader(){
   const pct=Math.round((step+1)/steps.length*100);
   const isLast=(step>=steps.length-1);
 
-  // Show only the current step — plain text, no tappable highlights
+  // Vocab review chips — final step only (pre-quiz review).
+  // During reading, vocab words are tappable inline in the step text instead.
   const chips=Object.keys(story.vocabulary).map(w=>`<button class="vocab-chip" onclick="showPopup('${w}')">${w}</button>`).join('');
-  const vocabSection=`<div class="vocab-section"><h4>📘 重要な言葉 — タップして確認</h4><div class="vocab-chips">${chips}</div></div>`;
+  const vocabSection=isLast?`<div class="vocab-section"><h4>📘 重要な言葉 — クイズの前に確認しよう</h4><div class="vocab-chips">${chips}</div></div>`:'';
 
   const cls=story.levelId<=2?'reader-sentence step-new':'step-new';
-  const revealedHTML=`<p class="${cls}">${steps[step]}</p>`;
+  const revealedHTML=`<p class="${cls}">${makeWordTappable(steps[step],story.vocabulary)}</p>`;
 
   // Story illustration — lazy loaded, only for current step
   const imgIndex=story.images?Math.min(step,story.images.length-1):-1;
@@ -1467,22 +1550,21 @@ function renderReader(){
     ?`<div class="story-image-wrap step-new"><img src="${story.images[imgIndex]}" alt="" loading="lazy" onerror="imgLoadError(this,'${story.emoji||'📖'}')"></div>`
     :'';
 
-  // Vocab shown on every step; nav at bottom
-  const backBtn=step>0?`<button class="reader-back-btn" onclick="stepBack()">← 戻る</button>`:'';
-  const bottomHTML=isLast
-    ? `${vocabSection}
-       <div class="reader-bottom">
-         ${backBtn?`<div class="reader-bottom-row">${backBtn}<button class="finish-btn reader-next-btn" onclick="startQuiz()">クイズへ →</button></div>`:`<button class="finish-btn" onclick="startQuiz()">クイズへ →</button>`}
-       </div>`
-    : `${vocabSection}
-       <div class="reader-bottom">
-         ${backBtn?`<div class="reader-bottom-row">${backBtn}<button class="finish-btn reader-next-btn" onclick="advanceReader()">次へ →</button></div>`:`<button class="finish-btn" onclick="advanceReader()">次へ →</button>`}
-         <div class="step-counter">${step+1} / ${steps.length}</div>
-       </div>`;
+  // Bottom bar — single primary CTA, step dots, back demoted to text link
+  const dots=steps.map((_,i)=>`<span class="sdot${i<step?' done':i===step?' cur':''}"></span>`).join('');
+  const backLink=step>0?`<button class="reader-back-link" onclick="stepBack()">← 戻る</button>`:'';
+  const bottomHTML=`${vocabSection}
+    <div class="reader-bottom">
+      <div class="step-dots">${dots}</div>
+      ${isLast
+        ?`<button class="finish-btn" onclick="startQuiz()">クイズへ →</button>`
+        :`<button class="finish-btn" onclick="advanceReader()">次へ →</button>`}
+      ${backLink}
+    </div>`;
 
-  // TTS bar — always visible in reader
+  // TTS bar — hidden until the learner taps the speaker (progressive disclosure)
   const ttsBar=`
-    <div class="tts-bar" id="tts-bar">
+    <div class="tts-bar tts-collapsible" id="tts-bar" style="display:${tts.active?'flex':'none'}">
       <button id="tts-play-btn" class="tts-play-btn${tts.active&&!tts.paused?' paused':''}" onclick="ttsToggle()" title="${tts.active&&!tts.paused?'Pause':'Play'}">${tts.active&&!tts.paused?'⏸':'▶'}</button>
       <button class="tts-stop-btn" onclick="ttsStop()" title="Stop">■</button>
       <span class="tts-label">🔊 聴く</span>
@@ -1500,15 +1582,9 @@ function renderReader(){
     <div class="reader-header">
       <button class="back-btn" onclick="ttsStop();navigate('stories',{levelId:${story.levelId},subLevel:${story.subLevel}})">←</button>
       <h3>${story.title}</h3>
-      <button id="tts-icon-btn" class="icon-btn${tts.active?' tts-active':''}" onclick="ttsToggle()">🔊</button>
+      <button id="tts-icon-btn" class="icon-btn${tts.active?' tts-active':''}" onclick="ttsHeaderToggle()" aria-label="聴く">🔊</button>
     </div>
     ${ttsBar}
-    <div class="reader-story-meta">
-      <span class="meta-pill">📖 ${story.wordCount}w</span>
-      <span class="meta-pill">⏱ ~${story.readMins}m</span>
-      <span class="meta-pill">🏷 ${story.genre}</span>
-      <span class="meta-pill">${lv.name} ${story.levelId===6 ? story.subLevel : story.subLevel+1}</span>
-    </div>
     <div class="reader-body" id="rbody">${imageHTML}${revealedHTML}</div>
     ${bottomHTML}
   </div>`;
@@ -1715,7 +1791,7 @@ function pick(i){
   state.quizAnswers.push({selected:i,correct:ok});
   const fb=document.getElementById('qfb');
   fb.style.display='block'; fb.className='quiz-fb '+(ok?'ok':'bad');
-  fb.innerHTML=(ok?'<strong>✓ 正解！</strong> ':'<strong>✗ 惜しい！</strong> ')+q.feedback;
+  fb.innerHTML=(ok?'<strong>✓ 正解！</strong> ':'<strong>💡 惜しい！もう一度見てみよう。</strong> ')+q.feedback;
   const n=document.getElementById('qnxt'); if(n) n.classList.add('vis');
 }
 
