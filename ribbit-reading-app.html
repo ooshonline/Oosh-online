@@ -246,6 +246,24 @@
     .quiz-fitb-wrap{display:flex;gap:8px;margin-top:12px}
     .quiz-fitb-input{flex:1;padding:12px;border:2px solid var(--border);border-radius:var(--radius);font-size:1rem;font-family:var(--font-body);outline:none}
     .quiz-fitb-input:focus{border-color:var(--primary)}
+    .dnd-bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+    .dnd-tile{padding:10px 14px;background:var(--card);border:2px solid var(--border);border-radius:var(--radius);font-size:.95rem;cursor:grab;font-family:var(--font-body);transition:border-color .15s,background .15s}
+    .dnd-tile.sel{border-color:var(--primary);background:rgba(186,218,85,.25)}
+    .dnd-tile.placed{cursor:pointer;background:rgba(186,218,85,.15)}
+    .dnd-tile:disabled{opacity:.6;cursor:default}
+    .dnd-zone{min-height:52px;border:2px dashed var(--border);border-radius:var(--radius);padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+    .dnd-hint{color:var(--text-muted);font-size:.85rem}
+    .dnd-blank-zone{display:inline-block;min-width:90px;border-bottom:2px dashed var(--primary);text-align:center;padding:0 6px}
+    .dnd-blank-zone.ok{color:var(--primary);border-color:var(--primary);font-weight:bold}
+    .dnd-blank-zone.bad{color:#e05656;border-color:#e05656;font-weight:bold}
+    .dnd-slot{border:2px dashed var(--border);border-radius:var(--radius);padding:8px 12px;min-width:84px;text-align:center;font-size:.9rem;cursor:pointer}
+    .dnd-slot.filled{border-style:solid}
+    .dnd-slot.ok{border-color:var(--primary);background:rgba(186,218,85,.15)}
+    .dnd-slot.bad{border-color:#e05656;background:rgba(224,86,86,.1)}
+    .dnd-match-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+    .dnd-match-def{flex:1;font-size:.9rem;color:var(--text)}
+    .dnd-check-btn{margin-top:14px;padding:12px 22px;background:var(--primary);border:none;border-radius:var(--radius);font-weight:bold;cursor:pointer;font-family:var(--font-body)}
+    .dnd-check-btn:disabled{opacity:.4;cursor:default}
     .quiz-fitb-btn{padding:12px 18px;background:var(--primary);color:var(--text);border-radius:var(--radius);font-weight:700;white-space:nowrap}
     .quiz-next{margin-top:20px;width:100%;padding:15px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(143,184,50,.25);transition:transform .15s;display:none}
     .quiz-next.vis{display:block}
@@ -1694,10 +1712,32 @@ function toggleFlashCard(word, def, pos){
 function startQuiz(){ ttsStop(); updateStreak(); navigate('quiz',{quizIndex:0,quizAnswers:[],comboStreak:0,lastRoundPoints:0,quizStartTime:Date.now(),_quizBusy:false}); }
 
 // ── Quiz type helpers ──────────────────────────────────────
-// Each story has MC questions in quiz[]. We derive FITB and type-the-word
-// questions from story paragraphs + vocab on the fly, cycling through types.
-// Types: 0=MC, 1=FITB, 2=type-the-word
-function getQuizType(qIndex){ return qIndex % 3; }
+// Each story has hand-written MC questions in quiz[]. Other types are derived
+// from story paragraphs + vocab on the fly, gated by level:
+//   L1–2 (Pre-A1/A1): mc, dndblank            — recognition only
+//   L3–4 (A2/B1):     + fitb, dndsent
+//   L5–6 (B2/C1):     + type, dndmatch        — all six types
+// Type order is shuffled deterministically per story (seeded by story id),
+// so each story has its own rhythm but is stable across replays.
+function storySeed(id){ let h=2166136261; for(let i=0;i<id.length;i++){ h^=id.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function seededRand(seed){ return function(){ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function seededShuffle(arr,seed){ const a=arr.slice(), rnd=seededRand(seed); for(let i=a.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); const tmp=a[i]; a[i]=a[j]; a[j]=tmp; } return a; }
+function getQuizType(story,qIndex){
+  const lvl=story.levelId||1;
+  let pool;
+  if(lvl<=2) pool=['mc','dndblank'];
+  else if(lvl<=4) pool=['mc','fitb','dndblank','dndsent'];
+  else pool=['mc','fitb','type','dndblank','dndsent','dndmatch'];
+  const order=seededShuffle(pool,storySeed(story.id));
+  return order[qIndex % order.length];
+}
+function storySentences(story){
+  const out=[];
+  for(const p of (story.paragraphs||[])){
+    for(const s of p.split(/(?<=[.!?])\s+/)){ const t=s.trim(); if(t) out.push(t); }
+  }
+  return out;
+}
 
 function buildFITB(story, qIndex){
   // Pick a vocab word that appears in a paragraph
@@ -1719,15 +1759,59 @@ function buildTypeWord(story, qIndex){
   return {type:'type', question:def, answer:word, feedback:`正解は "${word}" です。`};
 }
 
+// ── Drag-and-drop builders ─────────────────────────────────
+function buildDndBlank(story,qIndex){
+  // Drag the right word into a blank in a story sentence (recognition — OK from L1)
+  const words=Object.keys(story.vocabulary||{});
+  if(words.length<3) return null;
+  const sents=storySentences(story);
+  for(let k=0;k<words.length;k++){
+    const word=words[(qIndex+k)%words.length];
+    const sent=sents.find(s=>s.toLowerCase().includes(word.toLowerCase()));
+    if(!sent) continue;
+    const esc=word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const blank=sent.replace(new RegExp(esc,'i'),'______');
+    const distractors=words.filter(w=>w.toLowerCase()!==word.toLowerCase()).slice(0,3);
+    const tiles=seededShuffle([word].concat(distractors),storySeed(story.id)+qIndex);
+    return {type:'dndblank',question:blank,answer:word,tiles,feedback:`正解は "${word}" です。`};
+  }
+  return null;
+}
+function buildDndSent(story,qIndex){
+  // Rebuild a story sentence from shuffled word tiles
+  const sents=storySentences(story).map(s=>s.replace(/["“”]/g,'').trim())
+    .filter(s=>{const n=s.split(/\s+/).length;return n>=4&&n<=9;});
+  if(!sents.length) return null;
+  const sent=sents[qIndex%sents.length];
+  const wordsArr=sent.split(/\s+/);
+  let tiles=seededShuffle(wordsArr,storySeed(story.id)+qIndex+7);
+  if(tiles.join(' ')===sent) tiles=tiles.slice().reverse();
+  return {type:'dndsent',answer:sent,tiles,feedback:`正解: "${sent}"`};
+}
+function buildDndMatch(story,qIndex){
+  // Drag vocab words onto their English definitions (L5–6 only)
+  const entries=Object.entries(story.vocabulary||{}).filter(e=>e[1]&&e[1].def);
+  if(entries.length<3) return null;
+  const seen=new Set(), pairs=[];
+  for(let k=0;k<entries.length&&pairs.length<3;k++){
+    const e=entries[(qIndex+k)%entries.length];
+    if(!seen.has(e[0])){ seen.add(e[0]); pairs.push({word:e[0],def:e[1].def}); }
+  }
+  if(pairs.length<3) return null;
+  const tiles=seededShuffle(pairs.map(p=>p.word),storySeed(story.id)+qIndex+13);
+  const rows=seededShuffle(pairs,storySeed(story.id)+qIndex+29);
+  return {type:'dndmatch',pairs:rows,tiles,feedback:''};
+}
+
 function renderQuiz(){
   const story=getStory(); if(!story){navigate('home');return;}
   const qIdx=state.quizIndex;
   const total=story.quiz.length;
   const dots=story.quiz.map((_,i)=>`<div class="q-dot${i<qIdx?(state.quizAnswers[i]?.correct?' ok':' bad'):i===qIdx?' cur':''}"></div>`).join('');
-  const qtype=getQuizType(qIdx);
+  const qtype=getQuizType(story,qIdx);
   let qBody='';
 
-  if(qtype===1){
+  if(qtype==='fitb'){
     // Fill in the blank
     const fitb=buildFITB(story,qIdx);
     if(fitb){
@@ -1739,8 +1823,8 @@ function renderQuiz(){
           <input id="fitb-input" class="quiz-fitb-input" type="text" placeholder="答えを入力…" autocomplete="off" autocorrect="off" spellcheck="false">
           <button class="quiz-fitb-btn" onclick="checkFITB()">確認</button>
         </div>`;
-    } else { qtype===0; }
-  } else if(qtype===2){
+    }
+  } else if(qtype==='type'){
     // Type the word from definition
     const tw=buildTypeWord(story,qIdx);
     state._currentQ=tw;
@@ -1751,9 +1835,40 @@ function renderQuiz(){
         <input id="fitb-input" class="quiz-fitb-input" type="text" placeholder="英単語を入力…" autocomplete="off" autocorrect="off" spellcheck="false">
         <button class="quiz-fitb-btn" onclick="checkFITB()">確認</button>
       </div>`;
+  } else if(qtype==='dndblank'){
+    const q=buildDndBlank(story,qIdx);
+    if(q){
+      state._currentQ=q;
+      const qHtml=q.question.replace('______','<span id="dnd-blank-zone" class="dnd-blank-zone" ondragover="dndAllowDrop(event)" ondrop="dndDropBlank(event)">＿＿＿</span>');
+      qBody=`
+        <div class="quiz-qnum">単語をドラッグしよう</div>
+        <div class="quiz-question">${qHtml}</div>
+        <div class="dnd-bank">${q.tiles.map((w,i)=>`<button class="dnd-tile" draggable="true" ondragstart="dndDragStart(event,${i})" onclick="dndBlankPick(${i})">${w}</button>`).join('')}</div>`;
+    }
+  } else if(qtype==='dndsent'){
+    const q=buildDndSent(story,qIdx);
+    if(q){
+      q._placed=[]; state._currentQ=q;
+      qBody=`
+        <div class="quiz-qnum">文を作ろう</div>
+        <div class="quiz-question">単語を正しい順番に並べよう</div>
+        <div class="dnd-zone" id="dnd-sent-row" ondragover="dndAllowDrop(event)" ondrop="dndDropSent(event)"></div>
+        <div class="dnd-bank" id="dnd-sent-bank"></div>
+        <button class="dnd-check-btn" id="dnd-check" onclick="checkDndSent()" disabled>確認</button>`;
+    }
+  } else if(qtype==='dndmatch'){
+    const q=buildDndMatch(story,qIdx);
+    if(q){
+      q._slots={}; q._sel=null; state._currentQ=q;
+      qBody=`
+        <div class="quiz-qnum">単語と意味を合わせよう</div>
+        ${q.pairs.map((p,s)=>`<div class="dnd-match-row"><div class="dnd-slot" id="dnd-slot-${s}" onclick="dndMatchSlotClick(${s})" ondragover="dndAllowDrop(event)" ondrop="dndDropMatch(event,${s})">＿＿＿</div><div class="dnd-match-def">${p.def}</div></div>`).join('')}
+        <div class="dnd-bank" id="dnd-match-bank"></div>
+        <button class="dnd-check-btn" id="dnd-check" onclick="checkDndMatch()" disabled>確認</button>`;
+    }
   }
 
-  if(qtype===0 || !qBody){
+  if(qtype==='mc' || !qBody){
     // Standard MC
     const q=story.quiz[qIdx];
     state._currentQ={type:'mc', ...q};
@@ -1775,10 +1890,112 @@ function renderQuiz(){
       <button class="quiz-next" id="qnxt" onclick="nextQ()">${qIdx+1<total?'次へ →':'結果を見る →'}</button>
     </div>
   </div>`;
+  // Populate dynamic DnD areas
+  if(state._currentQ?.type==='dndsent') renderDndSent();
+  if(state._currentQ?.type==='dndmatch') renderDndMatch();
   // Focus text input if present
   setTimeout(()=>document.getElementById('fitb-input')?.focus(),100);
   // Record when this question was shown (for speed bonus)
   state._questionStartTime = Date.now();
+}
+
+// ── Drag-and-drop interaction ──────────────────────────────
+let _dragTile=null;
+function dndDragStart(e,i){ _dragTile=i; if(e.dataTransfer) e.dataTransfer.setData('text/plain',String(i)); }
+function dndAllowDrop(e){ e.preventDefault(); }
+function dndDropBlank(e){ e.preventDefault(); if(_dragTile!=null) dndBlankPick(_dragTile); _dragTile=null; }
+function dndDropSent(e){ e.preventDefault(); if(_dragTile!=null) dndSentPick(_dragTile); _dragTile=null; }
+function dndDropMatch(e,slot){ e.preventDefault(); if(_dragTile!=null) dndMatchPlace(_dragTile,slot); _dragTile=null; }
+
+function finishDnd(ok,selected,q){
+  state._answerTime=Date.now();
+  state.quizAnswers.push({selected,correct:ok});
+  const fb=document.getElementById('qfb');
+  fb.style.display='block'; fb.className='quiz-fb '+(ok?'ok':'bad');
+  fb.innerHTML=(ok?'<strong>✓ 正解！</strong> ':'<strong>✗ 不正解</strong> ')+q.feedback;
+  const n=document.getElementById('qnxt'); if(n) n.classList.add('vis');
+}
+
+// dndblank: tap or drop a word into the blank — answers immediately
+function dndBlankPick(i){
+  const q=state._currentQ; if(!q||q._done) return; q._done=true;
+  const pickWord=q.tiles[i];
+  const ok=pickWord.toLowerCase()===q.answer.toLowerCase();
+  const zone=document.getElementById('dnd-blank-zone');
+  if(zone){ zone.textContent=pickWord; zone.classList.add(ok?'ok':'bad'); }
+  document.querySelectorAll('.dnd-tile').forEach(b=>b.disabled=true);
+  finishDnd(ok,pickWord,q);
+}
+
+// dndsent: build the sentence tile by tile
+function dndSentPick(i){
+  const q=state._currentQ; if(!q||q._done||q._placed.includes(i)) return;
+  q._placed.push(i); renderDndSent();
+}
+function dndSentRemove(pos){
+  const q=state._currentQ; if(!q||q._done) return;
+  q._placed.splice(pos,1); renderDndSent();
+}
+function renderDndSent(){
+  const q=state._currentQ;
+  const row=document.getElementById('dnd-sent-row');
+  const bank=document.getElementById('dnd-sent-bank');
+  if(!q||!row||!bank) return;
+  row.innerHTML=q._placed.map((ti,pos)=>`<button class="dnd-tile placed" onclick="dndSentRemove(${pos})">${q.tiles[ti]}</button>`).join('')||'<span class="dnd-hint">ここに単語を並べよう（タップでもOK）</span>';
+  bank.innerHTML=q.tiles.map((w,i)=>q._placed.includes(i)?'':`<button class="dnd-tile" draggable="true" ondragstart="dndDragStart(event,${i})" onclick="dndSentPick(${i})">${w}</button>`).join('');
+  const btn=document.getElementById('dnd-check'); if(btn) btn.disabled=q._placed.length!==q.tiles.length;
+}
+function checkDndSent(){
+  const q=state._currentQ; if(!q||q._done) return; q._done=true;
+  const built=q._placed.map(ti=>q.tiles[ti]).join(' ');
+  const norm=s=>s.toLowerCase().replace(/[.,!?'"]/g,'').replace(/\s+/g,' ').trim();
+  const ok=norm(built)===norm(q.answer);
+  const btn=document.getElementById('dnd-check'); if(btn) btn.disabled=true;
+  document.querySelectorAll('.dnd-tile').forEach(b=>b.disabled=true);
+  finishDnd(ok,built,q);
+}
+
+// dndmatch: drag (or tap-select then tap-slot) words onto definitions
+function dndMatchSelect(i){
+  const q=state._currentQ; if(!q||q._done) return;
+  q._sel=(q._sel===i?null:i); renderDndMatch();
+}
+function dndMatchPlace(tileIdx,slot){
+  const q=state._currentQ; if(!q||q._done) return;
+  for(const k in q._slots){ if(q._slots[k]===tileIdx) delete q._slots[k]; }
+  q._slots[slot]=tileIdx; q._sel=null; renderDndMatch();
+}
+function dndMatchSlotClick(slot){
+  const q=state._currentQ; if(!q||q._done) return;
+  if(q._sel!=null) dndMatchPlace(q._sel,slot);
+  else if(q._slots[slot]!=null){ delete q._slots[slot]; renderDndMatch(); }
+}
+function renderDndMatch(){
+  const q=state._currentQ;
+  const bank=document.getElementById('dnd-match-bank');
+  if(!q||!bank) return;
+  const used=Object.values(q._slots);
+  bank.innerHTML=q.tiles.map((w,i)=>used.includes(i)?'':`<button class="dnd-tile${q._sel===i?' sel':''}" draggable="true" ondragstart="dndDragStart(event,${i})" onclick="dndMatchSelect(${i})">${w}</button>`).join('');
+  q.pairs.forEach((p,s)=>{
+    const z=document.getElementById('dnd-slot-'+s); if(!z) return;
+    z.textContent=q._slots[s]!=null?q.tiles[q._slots[s]]:'＿＿＿';
+    z.classList.toggle('filled',q._slots[s]!=null);
+  });
+  const btn=document.getElementById('dnd-check'); if(btn) btn.disabled=Object.keys(q._slots).length!==q.pairs.length;
+}
+function checkDndMatch(){
+  const q=state._currentQ; if(!q||q._done) return; q._done=true;
+  let allOk=true;
+  q.pairs.forEach((p,s)=>{
+    const ok=q.tiles[q._slots[s]]===p.word;
+    if(!ok) allOk=false;
+    const z=document.getElementById('dnd-slot-'+s); if(z) z.classList.add(ok?'ok':'bad');
+  });
+  const btn=document.getElementById('dnd-check'); if(btn) btn.disabled=true;
+  document.querySelectorAll('.dnd-tile').forEach(b=>b.disabled=true);
+  q.feedback=q.pairs.map(p=>`${p.word} = ${p.def}`).join('<br>');
+  const ansStr=q.pairs.map((p,s)=>q.tiles[q._slots[s]]).join(',');
+  finishDnd(allOk,ansStr,q);
 }
 
 function pick(i){
