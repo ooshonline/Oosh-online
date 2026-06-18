@@ -396,11 +396,16 @@
 
     /* BOTTOM TAB BAR */
     .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:200;padding-bottom:env(safe-area-inset-bottom,0)}
-    .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 0 12px;background:none;border:none;cursor:pointer;transition:color .15s}
+    .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 0 12px;background:none;border:none;cursor:pointer;transition:color .15s;position:relative}
     .tab-btn .tab-icon{font-size:1.3rem;line-height:1}
     .tab-btn .tab-label{font-size:.65rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
     .tab-btn.active .tab-label,.tab-btn.active .tab-icon{color:var(--primary-dark)}
     .tab-btn:not(.active) .tab-label,.tab-btn:not(.active) .tab-icon{color:var(--text-muted)}
+    .tab-notif-dot{position:absolute;top:7px;right:calc(50% - 14px);width:8px;height:8px;background:#f9ad3b;border-radius:50%;border:2px solid var(--card);animation:pulse 1.8s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.7}}
+    /* Subtle ticket-ready strip on results */
+    .ticket-ready-strip{display:flex;align-items:center;justify-content:center;gap:6px;background:#fffbf0;border:1.5px solid #f9ad3b;border-radius:8px;padding:8px 14px;font-size:.8rem;font-weight:700;color:#7a4800;margin:10px 0;cursor:pointer;transition:background .15s}
+    .ticket-ready-strip:hover{background:#fdefc8}
     /* WORLD JOURNEY HUB */
     .journey-hero{padding:24px 20px 16px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid);text-align:center}
     .journey-hero h2{font-size:1.3rem;margin-bottom:4px;color:var(--text)}
@@ -411,6 +416,31 @@
     .dest-hub-card.active-dest{border-color:var(--primary);background:var(--primary-light)}
     .dest-hub-card.locked-dest{opacity:.55;cursor:default}
     .dest-hub-card.stamped-dest{border-color:var(--accent);background:#fef9ec}
+    .dest-hub-card.depart-dest{border-color:#f9ad3b;background:#fffbf0;cursor:default}
+    /* Depart button */
+    .depart-btn{width:100%;margin-top:8px;padding:9px 12px;background:linear-gradient(135deg,#f9ad3b,#e8941a);color:#fff;border:none;border-radius:var(--radius);font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:transform .12s,box-shadow .12s;white-space:nowrap}
+    .depart-btn:active{transform:scale(.97)}
+    .depart-btn:disabled{opacity:.45;cursor:default;background:#ccc}
+    /* Ticket counter in journey hub header */
+    .journey-ticket-count{display:inline-flex;align-items:center;gap:5px;background:#fffbf0;border:1.5px solid #f9ad3b;border-radius:20px;padding:4px 12px;font-weight:700;font-size:.85rem;color:#7a4800;margin-top:6px}
+    /* Ticket earned banner — removed; replaced by .ticket-ready-strip */
+    /* Departure animation overlay */
+    .depart-overlay{position:fixed;inset:0;z-index:9999;background:rgba(10,30,60,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;animation:fadeIn .3s ease both}
+    .boarding-pass{background:#fff;border-radius:16px;padding:22px 28px;text-align:center;width:min(300px,88vw);position:relative;box-shadow:0 24px 64px rgba(0,0,0,.45);animation:boardingPassIn .55s cubic-bezier(.22,1,.36,1) both}
+    .boarding-pass::before,.boarding-pass::after{content:'';position:absolute;top:50%;transform:translateY(-50%);width:22px;height:22px;background:rgba(10,30,60,.82);border-radius:50%}
+    .boarding-pass::before{left:-11px}
+    .boarding-pass::after{right:-11px}
+    .bp-airline{font-size:.65rem;letter-spacing:.18em;color:#aaa;text-transform:uppercase;margin-bottom:6px}
+    .bp-dest-emoji{font-size:2.6rem;line-height:1;margin-bottom:4px}
+    .bp-dest-name{font-size:1.6rem;font-weight:900;font-family:var(--font-head);color:var(--primary-dark);margin-bottom:2px}
+    .bp-dest-country{font-size:.78rem;color:#888;margin-bottom:12px}
+    .bp-divider{border:none;border-top:1.5px dashed #ddd;margin:10px 0}
+    .bp-row{display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:#666}
+    .bp-gate{font-weight:700;color:#333;font-size:.82rem}
+    .bp-plane-row{font-size:1.8rem;margin-top:20px;overflow:hidden;width:100%;display:flex;justify-content:flex-start}
+    .bp-plane-fly{display:inline-block;animation:planeFly 1.6s ease-in 0.7s both}
+    @keyframes boardingPassIn{0%{transform:translateY(60px) scale(.9);opacity:0}65%{transform:translateY(-6px) scale(1.02);opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
+    @keyframes planeFly{0%{transform:translateX(0);opacity:0}10%{opacity:1}100%{transform:translateX(calc(100vw + 120px));opacity:1}}
     .dest-emoji{font-size:2rem;flex-shrink:0;line-height:1}
     .dest-hub-info{flex:1}
     .dest-hub-info h3{font-size:1rem;margin-bottom:2px}
@@ -553,13 +583,16 @@ const state = {
   fcStudyIndex: 0,   // current card index in play mode
   fcOrder: [],       // shuffled card keys for play mode
   fcHard: [],        // cards marked 'still learning' this round
-  progress:   JSON.parse(localStorage.getItem('rbt_prog') ||'{}'),
-  xp:         parseInt(localStorage.getItem('rbt_xp')   ||'0'),
-  streak:     parseInt(localStorage.getItem('rbt_streak')||'0'),
-  lastRead:   localStorage.getItem('rbt_lastread')||null,
-  points:     parseInt(localStorage.getItem('rbt_points')||'0'),
+  progress:   JSON.parse(localStorage.getItem('rbt_prog')    ||'{}'),
+  xp:         parseInt(localStorage.getItem('rbt_xp')        ||'0'),
+  streak:     parseInt(localStorage.getItem('rbt_streak')    ||'0'),
+  lastRead:   localStorage.getItem('rbt_lastread')           ||null,
+  points:     parseInt(localStorage.getItem('rbt_points')    ||'0'),
+  tickets:    parseInt(localStorage.getItem('rbt_tickets')   ||'0'),
+  journey:    JSON.parse(localStorage.getItem('rbt_journey') ||'{}'),
   comboStreak: 0,
   lastRoundPoints: 0,
+  lastTicketEarned: false,
   _questionStartTime: 0,
   _answerTime: 0,
 };
@@ -577,6 +610,8 @@ function save(){
   localStorage.setItem('rbt_streak',   state.streak);
   localStorage.setItem('rbt_lastread', state.lastRead||'');
   localStorage.setItem('rbt_points',   state.points);
+  localStorage.setItem('rbt_tickets',  state.tickets||0);
+  localStorage.setItem('rbt_journey',  JSON.stringify(state.journey||{}));
 }
 // Safety net — save whenever the user closes or navigates away
 window.addEventListener('beforeunload', save);
@@ -1015,8 +1050,16 @@ function getJourneyState(destId){
     wordsDone:[],       // array of words marked learned
     quizScore:null,     // null = not attempted; number = score out of 5
     stamped:false,      // true when all three tracks complete
+    departed:false,     // true when player has spent a ticket to unlock this destination
   };
-  return state.journey[destId];
+  const js=state.journey[destId];
+  // Add departed flag if missing (older saved data)
+  if(!js.hasOwnProperty('departed')) js.departed=false;
+  // Migration: if a destination already has progress, treat it as departed
+  if(!js.departed && (js.stamped || js.storiesDone.length>0 || js.wordsDone.length>0 || js.quizScore!==null)){
+    js.departed=true;
+  }
+  return js;
 }
 
 function journeyStoryDone(destId, storyId){
@@ -2212,12 +2255,16 @@ function finishQuiz(){
 
   state.comboStreak=0;
   calcTodayCount();
-  save();
   // Check if this story completion finishes a sub-level for the first time
   const sl=story.levelId===6 ? story.subLevel-1 : story.subLevel;
   const justUnlocked=wasNew && subLevelDone(story.levelId, sl);
+  // Award a travel ticket for each newly completed sub-level
+  const earnedTicket=justUnlocked && story.levelId>=3;
+  if(earnedTicket) state.tickets=(state.tickets||0)+1;
+  save();
   navigate('results',{lastScore:score,lastCorrect:correct,lastTotal:total,lastXP:earned,
     lastSubLevelUnlocked:justUnlocked?sl:null,lastLevelId:story.levelId,
+    lastTicketEarned:earnedTicket,
     lastRoundPoints:roundPts,lastPointsAdded:pointsToAdd,lastWasPerfect:perfect,lastWasFast:fast});
 }
 
@@ -2230,6 +2277,10 @@ function renderResults(){
   if(pct===100) confetti();
   const unlockBadge=state.lastSubLevelUnlocked!==null
     ? `<div class="sublevel-unlock">🎉 サブレベル${state.lastSubLevelUnlocked+1}クリア！次のレベルが解放されました！</div>` : '';
+  const ticketBadge=state.lastTicketEarned
+    ? `<div class="ticket-ready-strip" onclick="navigate('journey')">
+         🎫 旅のチケットをゲット！タブの 旅 から出発しよう。
+       </div>` : '';
 
   const roundPts=state.lastRoundPoints||0;
   const totalQ=story?.quiz?.length||5;
@@ -2243,6 +2294,7 @@ function renderResults(){
     <div class="res-score">${state.lastCorrect}/${state.lastTotal}</div>
     <p style="color:var(--text-muted);font-size:.82rem;margin:0 0 4px">${pct}% 正解</p>
     ${unlockBadge}
+    ${ticketBadge}
     ${gaugeHtml}
     <button class="res-continue" onclick="navigate('sublevels',{levelId:${story?.levelId||1}})">📚 他のお話</button>
     <button class="res-again" onclick="navigate('quiz',{quizIndex:0,quizAnswers:[],comboStreak:0,lastRoundPoints:0,_quizBusy:false,quizStartTime:Date.now()})">🔄 やり直す</button>
@@ -2514,6 +2566,19 @@ function confetti(){
 }
 
 // ── BOTTOM TAB BAR ─────────────────────────────────────────
+function hasAvailableDeparture(){
+  if((state.tickets||0)<1) return false;
+  for(let i=1;i<DESTINATIONS.length;i++){
+    const dest=DESTINATIONS[i];
+    const prev=DESTINATIONS[i-1];
+    const js=getJourneyState(dest.id);
+    if(js.departed) continue;                          // already open
+    const prevJs=getJourneyState(prev.id);
+    if(prevJs.stamped) return true;                    // prev stamped → depart available
+  }
+  return false;
+}
+
 const TAB_SCREENS=['home','levels','sublevels','stories','flashcards','profile','journey','destination','journeyreader','journeywords','journeyquiz','journeydone'];
 function tabBar(){
   const s=state.screen;
@@ -2528,6 +2593,7 @@ function tabBar(){
     <button class="tab-btn${onJourney?' active':''}" onclick="navigate('journey')" aria-label="World Journey">
       <span class="tab-icon">🌍</span>
       <span class="tab-label">旅</span>
+      ${hasAvailableDeparture()?'<span class="tab-notif-dot" aria-hidden="true"></span>':''}
     </button>
     <button class="tab-btn${s==='flashcards'?' active':''}" onclick="navigate('flashcards')" aria-label="Flash cards">
       <span class="tab-icon">🃏</span>
@@ -2848,50 +2914,107 @@ function finishJourneyStory(){
 
 // ── WORLD JOURNEY HUB ──────────────────────────────────────
 function renderJourneyHub(){
+  const tickets=state.tickets||0;
   const cards=DESTINATIONS.map((dest,i)=>{
     const js=getJourneyState(dest.id);
     const stories=JOURNEY_STORIES[dest.id]||[];
-    const totalTasks=stories.length + dest.localWords.length + 1; // +1 for quiz
+    const totalTasks=stories.length + dest.localWords.length + 1;
     const doneTasks=js.storiesDone.length + js.wordsDone.length + (js.quizScore!==null?1:0);
     const pct=totalTasks?Math.round(doneTasks/totalTasks*100):0;
-
-    // Unlock logic: locked if previous destination not stamped
-    const prevDest=i>0?DESTINATIONS[i-1]:null;
-    const locked=prevDest && !getJourneyState(prevDest.id).stamped;
     const stamped=js.stamped;
 
-    const cls=stamped?'stamped-dest':locked?'locked-dest':'active-dest';
-    const badge=stamped
-      ?`<span class="dest-hub-badge dhb-stamped">✓ スタンプ済み</span>`
-      :locked
-        ?`<span class="dest-hub-badge dhb-locked">🔒 ロック中</span>`
-        :`<span class="dest-hub-badge dhb-open">開放中</span>`;
-    const onclick=locked||stamped?'':`onclick="navigate('destination',{destId:'${dest.id}'})"`;
+    // Three-state lock logic
+    const prevDest=i>0?DESTINATIONS[i-1]:null;
+    const prevStamped=!prevDest||getJourneyState(prevDest.id).stamped;
+    const departed=i===0||js.departed;           // first dest always open
+    const canDepart=!departed&&prevStamped;       // ticket gate available
+    const fullyLocked=!departed&&!prevStamped;    // previous not finished yet
+
+    let cls, badge, onclick='', extraContent='';
+    if(stamped){
+      cls='stamped-dest';
+      badge=`<span class="dest-hub-badge dhb-stamped">✓ スタンプ済み</span>`;
+      extraContent=`<span style="font-size:1.4rem">🪪</span>`;
+    } else if(departed){
+      cls='active-dest';
+      badge=`<span class="dest-hub-badge dhb-open">開放中</span>`;
+      onclick=`onclick="navigate('destination',{destId:'${dest.id}'})"`;
+    } else if(canDepart){
+      cls='depart-dest';
+      badge=`<span class="dest-hub-badge" style="background:#fff3cc;color:#7a4800;border:1px solid #f9ad3b">✈️ 出発できる</span>`;
+      extraContent=`<button class="depart-btn" ${tickets>0?`onclick="departTo('${dest.id}')"`:' disabled'}>
+        ${tickets>0?`✈️ Depart &nbsp;🎫×1`:`🎫 No tickets yet`}
+      </button>`;
+    } else {
+      cls='locked-dest';
+      badge=`<span class="dest-hub-badge dhb-locked">🔒 ロック中</span>`;
+    }
 
     return `<div class="dest-hub-card ${cls}" ${onclick}>
       <span class="dest-emoji">${dest.emoji}</span>
-      <div class="dest-hub-info">
+      <div class="dest-hub-info" style="flex:1">
         <h3>${dest.name}</h3>
         <div class="dest-country">${dest.country}</div>
-        <div class="dest-hub-prog"><div class="dest-hub-prog-fill" style="width:${pct}%"></div></div>
-        <div style="font-size:.72rem;color:var(--text-muted);margin-top:3px">${doneTasks} / ${totalTasks} タスク</div>
+        ${departed&&!stamped?`<div class="dest-hub-prog"><div class="dest-hub-prog-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:.72rem;color:var(--text-muted);margin-top:3px">${doneTasks} / ${totalTasks} タスク</div>`:''}
+        ${canDepart?extraContent:''}
       </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
         ${badge}
-        ${stamped?`<span style="font-size:1.4rem">🪪</span>`:''}
+        ${stamped?extraContent:''}
       </div>
     </div>`;
   }).join('');
+
+  const ticketDisplay=tickets>0
+    ?`<div class="journey-ticket-count">🎫 ${tickets} ticket${tickets===1?'':'s'}</div>`
+    :`<div class="journey-ticket-count" style="opacity:.55">🎫 No tickets yet — finish a sub-level to earn one</div>`;
 
   document.getElementById('app').innerHTML=`
   <div class="screen has-tab-bar">
     <div class="journey-hero">
       <h2>🌍 世界の旅</h2>
       <p>読んで、単語を学び、文化クイズに挑戦してパスポートスタンプをゲットしよう。</p>
+      ${ticketDisplay}
     </div>
     <div class="dest-card-row">${cards}</div>
   </div>
   ${tabBar()}`;
+}
+
+function departTo(destId){
+  if((state.tickets||0)<1) return;
+  const dest=DESTINATIONS.find(d=>d.id===destId);
+  if(!dest) return;
+  state.tickets=(state.tickets||0)-1;
+  getJourneyState(destId).departed=true;
+  save();
+  runDepartureAnimation(dest,()=>{ renderJourneyHub(); });
+}
+
+function runDepartureAnimation(dest, callback){
+  const overlay=document.createElement('div');
+  overlay.className='depart-overlay';
+  overlay.innerHTML=`
+    <div class="boarding-pass">
+      <div class="bp-airline">RIBBIT AIR</div>
+      <div class="bp-dest-emoji">${dest.emoji}</div>
+      <div class="bp-dest-name">${dest.name}</div>
+      <div class="bp-dest-country">${dest.country}</div>
+      <hr class="bp-divider">
+      <div class="bp-row">
+        <div><div style="font-size:.6rem;color:#bbb;text-transform:uppercase;letter-spacing:.1em">From</div><div class="bp-gate">🏠 Home</div></div>
+        <div style="font-size:1rem;color:#bbb">— ✈️ —</div>
+        <div><div style="font-size:.6rem;color:#bbb;text-transform:uppercase;letter-spacing:.1em">To</div><div class="bp-gate">${dest.name.toUpperCase()}</div></div>
+      </div>
+    </div>
+    <div class="bp-plane-row"><span class="bp-plane-fly">✈️</span></div>`;
+  document.body.appendChild(overlay);
+  setTimeout(()=>{
+    overlay.style.transition='opacity .45s ease';
+    overlay.style.opacity='0';
+    setTimeout(()=>{ overlay.remove(); if(callback) callback(); },450);
+  },2800);
 }
 
 // ── DESTINATION DETAIL ──────────────────────────────────────
