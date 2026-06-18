@@ -12118,6 +12118,141 @@ JOURNEY_STORIES['india'].push({
   ]
 });
 
+// ── FRANCE 🥐 ─────────────────────────────────────────────────────────────────
+JOURNEY_STORIES['france'] = [];
+
+JOURNEY_STORIES['france'].push({
+  id:"j-france-1", journeyId:"france", order:1,
+  title:"Every Morning, a Baguette", emoji:"🥖", genre:"Food / Daily Life",
+  wordCount:302, readMins:3,
+  blurb:"Léa's morning walk to the village bakery has a routine — until the day the baker has a question for her.",
+  paragraphs:[
+    "Léa left the house at seven-fifteen every school morning to buy bread. The boulangerie was three minutes from her front door, down the hill past the fountain and across the square. By the time she arrived, Monsieur Fabre had already been baking for four hours. The smell of warm bread reached her before she even opened the door.",
+    "Inside, the shelves behind the counter held baguettes, thick sourdough loaves, and the smaller ficelles that her grandmother preferred. Glass cases at the front displayed croissants, pains au chocolat, and glazed fruit tarts that Léa was not allowed to buy on school mornings. Monsieur Fabre greeted every customer by name. He had worked in this boulangerie for thirty-one years.",
+    "Léa ordered a baguette and a pain au chocolat — the same every day. Monsieur Fabre wrapped the baguette in thin paper and placed the pain au chocolat in a small bag. Then he paused. He asked if she had ever tried the bread her grandmother had asked him to make, a long time ago. A small loaf, slightly sweet, with a thin crackled crust. He still baked it occasionally. She said she had not.",
+    "He cut her a small piece without charging for it. It was dense and faintly sweet, different from the baguette — closer to cake but not quite. He said her grandmother had brought him the recipe when he first opened. She had lived in the village for fifty years at that point. Léa ate it slowly, standing at the counter.",
+    "She left with the baguette, the pain au chocolat, and a bread name she could not pronounce. She asked her grandmother about it that evening. Her grandmother looked surprised. Then she laughed and said that was a very long story."
+  ],
+  vocabulary:{
+    "boulangerie":{def:"A French bread shop — by law, a true boulangerie bakes all its bread on the premises each day.",pos:"noun"},
+    "baguette":{def:"The classic long thin French loaf, eaten with almost every meal in France.",pos:"noun"},
+    "pain au chocolat":{def:"A pastry made of flaky dough folded around a stick of dark chocolate — a favourite for breakfast or the after-school goûter.",pos:"noun"},
+    "ficelle":{def:"A thin version of the baguette, lighter and crispier.",pos:"noun"},
+    "glazed":{def:"Covered with a shiny coating — on pastries this is usually made from egg or sugar.",pos:"adjective"},
+    "sourdough":{def:"Bread made with a natural fermented starter instead of commercial yeast, giving it a slightly sour flavour.",pos:"noun"},
+    "counter":{def:"The long surface in a shop where goods are displayed or served across.",pos:"noun"}
+  },
+  quiz:[
+    {question:"Why did Léa go to the boulangerie every morning?",options:["To meet her friends before school","To buy bread for the family before school","To pick up deliveries for Monsieur Fabre","To practise speaking French"],correct:1,
+     feedback:"'Léa left the house at seven-fifteen every school morning to buy bread.'"},
+    {question:"What did Léa order every day without exception?",options:["A croissant and a ficelle","A sourdough loaf and a glazed tart","A baguette and a pain au chocolat","A small sweet loaf and a coffee"],correct:2,
+     feedback:"'Léa ordered a baguette and a pain au chocolat — the same every day.'"},
+    {question:"Where had the recipe for the special bread come from?",options:["Monsieur Fabre had invented it himself","Léa's grandmother had brought it to him when he first opened","A customer had left it behind years ago","It was a traditional recipe from a cookery book"],correct:1,
+     feedback:"'Her grandmother had brought him the recipe when he first opened. She had lived in the village for fifty years at that point.'"},
+    {question:"How did the story end for Léa?",options:["She bought the special bread every morning from then on","She went back the next day to thank Monsieur Fabre","She left with a bread name she couldn't pronounce and a question for her grandmother","She shared the bread with her whole class"],correct:2,
+     feedback:"'She asked her grandmother about it that evening. Her grandmother looked surprised. Then she laughed and said that was a very long story.'"}
+  ]
+});
+
+JOURNEY_STORIES['france'].push({
+  id:"j-france-2", journeyId:"france", order:2,
+  title:"You Do Not Throw", emoji:"🎯", genre:"Sport / Village Life",
+  wordCount:299, readMins:3,
+  blurb:"Hugo's grandparents live in a Provençal village where Sunday afternoons have one purpose — and it doesn't involve sitting still.",
+  paragraphs:[
+    "Hugo arrived at his grandparents' house in Arles on Friday evening. They lived in a wide, low house at the edge of the village, with blue shutters and a garden that smelled of rosemary and dry earth. His grandfather met him at the gate, kissed him on both cheeks — the French way — and told him they had a full weekend planned.",
+    "Sunday was pétanque day. After lunch, Hugo walked with his grandfather to the village square, where a long rectangle of flattened sand had been set into one corner of the ground. Several men were already there, examining their boules — the heavy metal balls used in the game. His grandfather introduced Hugo and handed him three of his own to hold. They were heavier than they looked.",
+    "The game began with throwing a small wooden ball — the cochonnet — to the far end of the sand. Each player then threw their boules in turn, trying to land as close to the cochonnet as possible. It looked simple. It was not simple. Hugo threw his first boule and it landed three metres short and bounced off into the grass.",
+    "His grandfather said nothing. One of the older men — Monsieur Vidal, who had apparently been playing for sixty years — offered a single piece of advice. You do not throw, he said. You place. He demonstrated once, slowly: a low arc, very little force, a soft landing near the cochonnet. Hugo tried again. His boule stopped within half a metre. Monsieur Vidal gave a brief nod.",
+    "They played for two hours. Hugo's team lost, but he was not disappointed. He had not thought he would be allowed to play at all. On the walk home his grandfather said Monsieur Vidal's nod was worth more than winning. Hugo did not completely understand this, but he thought he would by the end of the trip."
+  ],
+  vocabulary:{
+    "pétanque":{def:"A French game played by throwing heavy metal balls as close as possible to a small wooden target ball called a cochonnet.",pos:"noun"},
+    "boules":{def:"The heavy metal balls used in pétanque — each player usually has two or three.",pos:"noun"},
+    "cochonnet":{def:"The small wooden target ball in pétanque — the word means 'little pig' in French.",pos:"noun"},
+    "arc":{def:"A curved path through the air.",pos:"noun"},
+    "demonstrate":{def:"To show someone how to do something by doing it yourself.",pos:"verb"},
+    "rectangle":{def:"A four-sided shape with four right angles — two long sides and two shorter sides.",pos:"noun"},
+    "rival":{def:"A competitor; a person or team you are trying to beat.",pos:"noun"}
+  },
+  quiz:[
+    {question:"What is the cochonnet in pétanque?",options:["The heavy metal ball each player throws","The small wooden target ball","The sand rectangle where the game is played","The player who starts each round"],correct:1,
+     feedback:"'The cochonnet — the small wooden target ball' — players aim to land their boules as close to it as possible."},
+    {question:"Why was Hugo's first throw unsuccessful?",options:["He threw it too hard and it hit a rival boule","His boule landed short and bounced into the grass","He missed the sand rectangle completely","He threw the cochonnet by mistake"],correct:1,
+     feedback:"'Hugo threw his first boule and it landed three metres short and bounced off into the grass.'"},
+    {question:"What did Monsieur Vidal tell Hugo about how to play?",options:["Throw harder and aim further to the right","Keep your elbow closer to your body","You do not throw — you place","Watch the cochonnet, not your boule"],correct:2,
+     feedback:"'You do not throw, he said. You place.' — then he demonstrated once, slowly."},
+    {question:"What did Hugo's grandfather say on the walk home?",options:["That Hugo would be good enough to enter the tournament","That he had been using the wrong boules","Monsieur Vidal's nod was worth more than winning","That they would practise every morning before breakfast"],correct:2,
+     feedback:"'His grandfather said Monsieur Vidal's nod was worth more than winning.'"}
+  ]
+});
+
+JOURNEY_STORIES['france'].push({
+  id:"j-france-3", journeyId:"france", order:3,
+  title:"Before the Tide Comes Back", emoji:"🏰", genre:"History / Travel",
+  wordCount:303, readMins:3,
+  blurb:"Camille and her father have two hours at Mont Saint-Michel — and her father keeps checking his watch.",
+  paragraphs:[
+    "Mont Saint-Michel stood at the edge of the sea, or what would be the sea in a few hours. At low tide, a wide bay of silver sand stretched to the causeway. Camille had seen pictures, but the pictures had not explained how strange it looked in person — a pointed abbey on a rocky island rising out of flat nothing, with a grey autumn sky behind it.",
+    "They crossed the causeway on foot. Her father had explained the tides on the drive up. Mont Saint-Michel has some of the fastest-rising tides in Europe, he had said. When the tide comes in it moves faster than a person can run. This information had seemed distant in the car. Looking at the sand now, Camille thought about it differently.",
+    "The island was smaller than she had expected. They walked up narrow cobbled streets between old houses and souvenir shops, past a man selling galettes in a bakery doorway, to the abbey at the top. Inside it was cool and quiet and much older than anything Camille had stood in before. A guide told a group that pilgrims had been walking to Mont Saint-Michel for over a thousand years — often across the tidal sand before the causeway existed.",
+    "From the upper ramparts, Camille could see the whole bay. The line of the tide was visible at the horizon — still distant, but clearly there, a dark line dividing sea from sky. Her father pointed to it and said that was why they had two hours and not three.",
+    "They left before the tide was close. On the causeway, Camille looked back once. The island looked exactly as it had when they arrived — still, grey, unreachable-looking. In five hours it would be surrounded by sea. She could not quite make this feel real, even having been there."
+  ],
+  vocabulary:{
+    "causeway":{def:"A raised road or path built across water or low, wet ground.",pos:"noun"},
+    "abbey":{def:"A large church or monastery where monks or nuns live and work.",pos:"noun"},
+    "tidal":{def:"Relating to the tides — the regular rise and fall of the sea caused by the pull of the moon.",pos:"adjective"},
+    "ramparts":{def:"Wide defensive walls around a castle or fortified place, often wide enough to walk along the top.",pos:"noun"},
+    "pilgrims":{def:"People who travel to a sacred or important place as an act of religious devotion.",pos:"noun"},
+    "cobbled":{def:"Paved with small rounded stones — many old European streets and lanes are cobbled.",pos:"adjective"},
+    "galette":{def:"A flat, savoury buckwheat pancake from Brittany in France, often filled with egg, cheese, or ham.",pos:"noun"}
+  },
+  quiz:[
+    {question:"What had Camille's father told her about the tides at Mont Saint-Michel?",options:["The island is completely surrounded by water twice a year","The tides are among the fastest-rising in Europe and move faster than a person can run","You could only cross safely at night","The tide came in from both sides at once"],correct:1,
+     feedback:"'Mont Saint-Michel has some of the fastest-rising tides in Europe... when the tide comes in it moves faster than a person can run.'"},
+    {question:"What surprised Camille about the island when she arrived?",options:["The abbey was closed to visitors","It was smaller than she had expected","The causeway was flooded even at low tide","There were almost no other visitors"],correct:1,
+     feedback:"'The island was smaller than she had expected.' She had seen pictures but the reality was different."},
+    {question:"What had pilgrims done before the causeway was built?",options:["Arrived by fishing boat from the mainland","Stayed on the island for weeks at a time","Walked across the tidal sand to reach the island","Climbed up from the sea using fixed ropes"],correct:2,
+     feedback:"'Pilgrims had been walking to Mont Saint-Michel for over a thousand years — often across the tidal sand before the causeway existed.'"},
+    {question:"Why did Camille and her father only have two hours and not three?",options:["The abbey closed at a fixed time","They had a long drive back to Paris","The rising tide meant they had to leave before it was close","The island was crowded and they had timed entry tickets"],correct:2,
+     feedback:"Her father pointed to the line of the tide at the horizon 'and said that was why they had two hours and not three.'"}
+  ]
+});
+
+JOURNEY_STORIES['france'].push({
+  id:"j-france-4", journeyId:"france", order:4,
+  title:"The Maillot Jaune", emoji:"🚴", genre:"Sport / Community",
+  wordCount:301, readMins:3,
+  blurb:"Émile's family have driven an hour to watch the Tour de France pass their spot on the roadside — for approximately nine seconds.",
+  paragraphs:[
+    "They had driven for an hour and parked in a field. Émile's father had chosen a spot on a straight section of road — better to see the riders coming — and brought folding chairs, sandwiches, and a French flag. It was ten in the morning. The race would not pass until early afternoon. Other families were already there. A man nearby had set up a small grill and was cooking sausages.",
+    "Before the race arrived, the caravan came through. This was the advertising parade that travels ahead of the peloton — a long procession of branded vehicles and floats throwing small gifts into the crowd. Émile caught a keyring and a small yellow hat. His sister caught three keyrings and felt this was unfair. Their father pointed out that they had both caught more than he had.",
+    "The noise reached them before the riders did. A deep humming sound that got louder quickly, and then, from down the straight, the first sight of the peloton — a dense, fast-moving mass of colour. Someone nearby began clapping and then everyone was clapping and Émile found himself shouting, though he could not afterwards remember what.",
+    "The riders passed in eight or nine seconds. The maillot jaune was near the front, tucked in among several others, moving too fast to look at properly. Then they were gone. The road was empty. The flags went still. Somewhere behind them a small child was crying because it had been shorter than expected.",
+    "Émile folded his flag while his mother packed the chairs. He had known it would be quick. He had not understood, until it happened, how something so brief could leave such a clear impression — the noise, the speed, the flash of yellow at the front. On the drive home his father played the race commentary on the radio, and Émile followed it differently now, knowing what the road had felt like."
+  ],
+  vocabulary:{
+    "peloton":{def:"The main group of cyclists riding closely together in a road race — from the French word for 'little ball.'",pos:"noun"},
+    "maillot jaune":{def:"The yellow jersey worn by the overall race leader in the Tour de France — maillot means 'jersey' and jaune means 'yellow.'",pos:"noun"},
+    "caravan":{def:"In cycle racing, the parade of sponsor vehicles that travels ahead of the riders.",pos:"noun"},
+    "procession":{def:"A group of people or vehicles moving forward in an organised line.",pos:"noun"},
+    "commentary":{def:"A spoken account of a sports event as it happens, usually on radio or television.",pos:"noun"},
+    "impression":{def:"A strong feeling or image that stays in your mind after an experience.",pos:"noun"},
+    "dense":{def:"Closely packed together with very little space between.",pos:"adjective"}
+  },
+  quiz:[
+    {question:"Why did Émile's father choose a spot on a straight section of road?",options:["It was easier to park nearby","So they could see the riders coming from further away","The road was wider and less crowded","It was the only place spectators were permitted"],correct:1,
+     feedback:"'Émile's father had chosen a spot on a straight section of road — better to see the riders coming.'"},
+    {question:"What happened before the peloton arrived?",options:["Riders who had fallen behind cycled past alone","The advertising caravan came through throwing gifts to the crowd","A local band performed for the spectators","The race director gave a speech"],correct:1,
+     feedback:"'Before the race arrived, the caravan came through. This was the advertising parade... throwing small gifts into the crowd.'"},
+    {question:"How long did the peloton take to pass?",options:["Nearly a minute","About eight or nine seconds","Nearly half a minute","Two or three minutes"],correct:1,
+     feedback:"'The riders passed in eight or nine seconds.'"},
+    {question:"What did Émile understand differently on the drive home?",options:["Why the yellow jersey is yellow","The radio commentary — because he now knew what the road had felt like","Why his father preferred quieter sports","How the riders trained for such a long race"],correct:1,
+     feedback:"'Émile followed it differently now, knowing what the road had felt like.'"}
+  ]
+});
+
 // ── MEXICO 🇲🇽 ────────────────────────────────────────────────────────────────
 JOURNEY_STORIES['mexico'] = JOURNEY_STORIES['mexico'] || [];
 
@@ -12250,5 +12385,134 @@ JOURNEY_STORIES['mexico'].push({
      feedback:"'The sign said that couples who stood on the third step from the bottom would have seven years of good luck.'"},
     {question:"What did Andrés do on the third step when he arrived there?",options:["He took a photograph for his family","He kissed someone he had just met","He stood there alone for a moment anyway, even though there was nobody with him","He read the legend aloud from the sign"],correct:2,
      feedback:"'He stood on the third step. He was alone. He stayed there for a moment anyway.'"}
+  ]
+});
+
+JOURNEY_STORIES['kenya'] = JOURNEY_STORIES['kenya'] || [];
+JOURNEY_STORIES['kenya'].push({
+  id:"j-kenya-1", journeyId:"kenya", order:1,
+  title:"The Long Crossing", emoji:"🦌", genre:"Nature / Wildlife",
+  wordCount:290, readMins:3,
+  blurb:"Amara watches the Great Migration from the bank of the Mara River with her uncle, who has been recording the crossing for over a decade.",
+  paragraphs:[
+    "Uncle Jomo had been coming to the Mara every year since he was Amara's age. He knew which bend of the river the wildebeest preferred. He had set up the folding chairs before dawn, while the grass was still dark with dew, and by the time the sun cleared the acacia trees there were forty tourists along the riverbank and thousands of wildebeest on the plain above it.",
+    "The noise came first. Amara had watched wildlife programmes, but they did not carry sound the way the open air did — a deep, constant lowing that spread across the savannah before anything was visible. Then the wildebeest appeared over the rise: a dark, solid mass moving as if the land itself had begun to flow.",
+    "'They do this every year,' Uncle Jomo said quietly. 'South in October, north in July. Tanzania to Kenya and back. Nobody organises it. Nobody tells them to go.' He had a notebook open on his knee. He had been recording the crossing every year for over a decade, counting roughly and timing the stages.",
+    "The wildebeest reached the bank and stopped, pressing against each other at the water's edge. The Mara River ran brown and fast from the recent rains. Amara noticed a crocodile near the far bank — almost motionless in the water, only its back above the surface.",
+    "Then one animal stepped in. Then another. Then the whole mass moved at once, churning the river white. Some stumbled and were carried downstream before finding their footing. On the far bank, the first animals climbed out, shook themselves, and immediately began to graze, as though crossing a crocodile river in a press of a thousand bodies was simply part of the morning. 'Do they know about the crocodiles?' Amara asked. 'Yes,' her uncle said. 'They cross anyway.'"
+  ],
+  vocabulary:{
+    "wildebeest":{def:"A large African animal with a heavy head and curved horns that migrates in huge herds each year.",pos:"noun"},
+    "savannah":{def:"A flat, open grassland with few trees, found in tropical regions of Africa.",pos:"noun"},
+    "lowing":{def:"The deep, low sound made by cattle and similar animals.",pos:"noun"},
+    "migrate":{def:"To move from one place to another in a regular seasonal pattern.",pos:"verb"},
+    "churned":{def:"Mixed and disturbed something — like water — with great force.",pos:"verb"},
+    "crocodile":{def:"A large reptile that lives in and near water, known for being fast and dangerous.",pos:"noun"}
+  },
+  quiz:[
+    {question:"When did Uncle Jomo set up the folding chairs?",options:["At midday, before the heat arrived","Before dawn, while the grass was still dark with dew","After breakfast, when the light was clear","At sunset the evening before"],correct:1,
+     feedback:"'He had set up the folding chairs before dawn, while the grass was still dark with dew.'"},
+    {question:"What arrived before the animals were visible?",options:["The smell of the savannah","Uncle Jomo's alarm","A deep, constant lowing that spread across the savannah","A loud roar from nearby predators"],correct:2,
+     feedback:"'The noise came first... a deep, constant lowing that spread across the savannah before anything was visible.'"},
+    {question:"What had Uncle Jomo been doing in his notebook for over a decade?",options:["Drawing pictures of the animals","Writing letters to wildlife organisations","Recording the crossing — counting roughly and timing the stages","Keeping a diary of his holidays at the Mara"],correct:2,
+     feedback:"'He had been recording the crossing every year for over a decade, counting roughly and timing the stages.'"},
+    {question:"What did the animals do immediately after reaching the far bank?",options:["Rested on the bank until they were dry","Ran as fast as they could from the river","Called out to the animals still crossing","Began to graze, as though nothing unusual had happened"],correct:3,
+     feedback:"'On the far bank, the first animals climbed out, shook themselves, and immediately began to graze.'"}
+  ]
+});
+
+JOURNEY_STORIES['kenya'].push({
+  id:"j-kenya-2", journeyId:"kenya", order:2,
+  title:"How to Drink Chai", emoji:"☕", genre:"Family / Everyday Life",
+  wordCount:293, readMins:3,
+  blurb:"Amara watches her grandmother make chai and learns that in the highlands, tea is never just a drink.",
+  paragraphs:[
+    "Grandmother Wanjiku began making chai at half past nine, which meant it would be ready at ten, which meant that by ten o'clock the kitchen would be full. This was not a coincidence. Chai in this house was not something you made and drank alone.",
+    "She filled a small saucepan with equal parts water and whole milk, then added three cardamom pods, slightly crushed, and a thumbnail of fresh ginger, grated fine. She set the pan on a low flame. 'You do not boil chai,' she told Amara without looking up. 'You bring it to the edge of boiling and hold it there.'",
+    "Amara watched the liquid shift colour — pale to golden to a deep copper when the loose tea leaves went in. Grandmother Wanjiku added two spoons of sugar without asking. The smell was warm and slightly spiced. Amara had grown up in Mombasa and visited the highlands only a few times a year, but the smell of chai here always felt like arriving home.",
+    "By ten past ten, there were six people in the kitchen. The neighbour from the lane had come with her daughter. An uncle arrived with a bag of oranges. Mzee Gitonga from the end of the road sat near the door with his hands folded, saying nothing and watching everything, the way Mzee Gitonga always did.",
+    "Grandmother Wanjiku poured the chai through a small strainer into cups. She did not ask whether anyone wanted some. If you were in the kitchen at this hour, you were having chai. Amara took her cup and sat by the window. Outside, the street was quiet. Inside, it was not."
+  ],
+  vocabulary:{
+    "chai":{def:"Spiced tea made with milk and sugar, the standard drink of hospitality across Kenya.",pos:"noun"},
+    "cardamom":{def:"A spice with a warm, sweet flavour, often added to chai and other hot drinks.",pos:"noun"},
+    "grated":{def:"Rubbed against a rough surface to make very small pieces or shavings.",pos:"adjective"},
+    "saucepan":{def:"A small pot with a long handle, used for heating liquids on a stove.",pos:"noun"},
+    "strainer":{def:"A small kitchen tool with tiny holes used to separate liquid from solid pieces.",pos:"noun"},
+    "Mzee":{def:"A respectful Swahili title for an older man, showing that he is valued and listened to.",pos:"noun"}
+  },
+  quiz:[
+    {question:"What does Grandmother Wanjiku say you must never do to chai?",options:["Add too much sugar","Use loose tea instead of bags","Boil it","Put in too much cardamom"],correct:2,
+     feedback:"'You do not boil chai. You bring it to the edge of boiling and hold it there.'"},
+    {question:"What colour did the chai turn when the tea leaves were added?",options:["Light yellow","Pale green","Dark brown","Deep copper"],correct:3,
+     feedback:"'...a deep copper when the loose tea leaves went in.'"},
+    {question:"Who sat near the door, saying nothing and watching everything?",options:["Grandmother Wanjiku","The neighbour's daughter","The uncle with the oranges","Mzee Gitonga"],correct:3,
+     feedback:"'Mzee Gitonga from the end of the road sat near the door with his hands folded, saying nothing and watching everything.'"},
+    {question:"Why didn't Grandmother Wanjiku ask if anyone wanted chai?",options:["She had already asked them by telephone","There was not enough for everyone","If you were in the kitchen at that hour, you were having chai","She was too busy and forgot"],correct:2,
+     feedback:"'If you were in the kitchen at this hour, you were having chai.'"}
+  ]
+});
+
+JOURNEY_STORIES['kenya'].push({
+  id:"j-kenya-3", journeyId:"kenya", order:3,
+  title:"The Two O'Clock Mist", emoji:"🌿", genre:"Place / Working Life",
+  wordCount:298, readMins:3,
+  blurb:"Zawadi spends a morning picking tea on her aunt's highland farm and learns something about where Kenyan tea actually goes.",
+  paragraphs:[
+    "The mist arrived every morning at around two o'clock and was still there when Zawadi woke at half past five. Her aunt's farm was on the slope above Kericho, in the part of the highlands where the air was cool enough to grow tea. From the bedroom window you could see the rows — dark green and very even, stretching down the slope and up the next one.",
+    "The picking started at first light. Zawadi's aunt had shown her what to look for: only the top two leaves and the bud, nothing more. The older leaves further down were too bitter and too thick. You reached into the plant, pinched, and dropped the leaves into the basket on your back. The basket was light when you started and very heavy by mid-morning.",
+    "Her aunt picked twice as fast without appearing to rush. 'Speed comes later,' she said. 'First, you learn to see.' The mist lifted slowly as the sun rose behind it. Below the farm, Zawadi could make out the rooftops of the town, and beyond that, a long ridge of darker green that was forest.",
+    "Zawadi asked whether her aunt ever drank the tea they picked. 'We drink chai,' her aunt said. 'The tea from these plants goes to Mombasa and then to England, mostly. The British have been buying tea from these highlands for over a hundred years.' She said this without bitterness — only factually, the way you describe something that has been true for longer than anyone can remember.",
+    "At ten o'clock they stopped. Zawadi's basket was weighed and recorded in a notebook. She had picked three kilograms. Her aunt had picked nine. They walked up to the farmhouse, and her aunt put a small pot on the stove. 'Now we have chai,' she said."
+  ],
+  vocabulary:{
+    "mist":{def:"A light cloud of tiny water droplets near the ground, common in Kenya's cool highland areas.",pos:"noun"},
+    "bud":{def:"The small, closed tip at the end of a plant stem; tea pickers take only the top two leaves and the bud.",pos:"noun"},
+    "highland":{def:"A region of land high above sea level, usually cooler and well-suited for growing tea and coffee.",pos:"noun"},
+    "ridge":{def:"A long, narrow strip of high land, like the top edge of a hill seen from a distance.",pos:"noun"},
+    "bitter":{def:"Having a sharp, unpleasant taste; the older tea leaves are too bitter to use for quality tea.",pos:"adjective"},
+    "factually":{def:"In a way that presents only the facts, without strong emotion or personal opinion.",pos:"adverb"}
+  },
+  quiz:[
+    {question:"What time did the mist usually arrive on the farm?",options:["At sunrise","Around two o'clock in the morning","At midday","Just after sunset"],correct:1,
+     feedback:"'The mist arrived every morning at around two o'clock and was still there when Zawadi woke at half past five.'"},
+    {question:"Which part of the tea plant did Zawadi's aunt say to pick?",options:["Only the very large leaves at the bottom","Any leaves that were dark and healthy-looking","Only the top two leaves and the bud","The thick, older leaves further down the plant"],correct:2,
+     feedback:"'Only the top two leaves and the bud, nothing more.'"},
+    {question:"Where did Zawadi's aunt say most of the tea went?",options:["To Nairobi supermarkets","To tea houses across East Africa","To Mombasa and then to England","It was all sold at the local market in Kericho"],correct:2,
+     feedback:"'The tea from these plants goes to Mombasa and then to England, mostly.'"},
+    {question:"How much tea had Zawadi picked by ten o'clock?",options:["Nine kilograms","One kilogram","Five kilograms","Three kilograms"],correct:3,
+     feedback:"'She had picked three kilograms. Her aunt had picked nine.'"}
+  ]
+});
+
+JOURNEY_STORIES['kenya'].push({
+  id:"j-kenya-4", journeyId:"kenya", order:4,
+  title:"Nyama Choma Friday", emoji:"🔥", genre:"Community / Food",
+  wordCount:296, readMins:3,
+  blurb:"Kofi arrives to find his uncle already at the grill — which means half the street is about to turn up.",
+  paragraphs:[
+    "The smell of smoke reached Kofi before the grill did. He turned the corner and found his uncle Kwame crouched beside a wide metal grill with glowing coals beneath it, turning pieces of goat with a long pair of tongs. Three other men sat on low stools nearby, talking. A woman was chopping tomatoes and red onion at a plastic table set up on the pavement.",
+    "This happened most Fridays. The family did not always plan it — someone would call someone else, word would travel along the road, and by six o'clock there would be fifteen people. Uncle Kwame never announced he was making nyama choma. He simply started the fire, and people arrived.",
+    "Kofi watched his aunt mix the kachumbari — tomatoes, red onion, fresh coriander, lime juice — pressing it with the back of a spoon until the onion had softened. On the other side of the table, a pot of ugali was coming off the stove, thick and steaming, the wooden spoon standing upright in it as if it had been planted there.",
+    "His uncle did not rush the goat. Nyama choma was not fast food. You waited for the fat to brown and the skin to crisp in places, for the smoke to move slowly through the meat. Kofi had once watched a man eat nyama choma in seven minutes at a restaurant. His uncle had spoken about it disapprovingly for the rest of the evening.",
+    "They ate standing up, tearing pieces of meat and dipping them in the kachumbari, scooping ugali by hand, passing the plate between them. There was no table large enough for everyone, and no one seemed to mind. The street was dark and warm. Somewhere nearby, someone had a speaker playing."
+  ],
+  vocabulary:{
+    "nyama choma":{def:"Roasted goat or beef cooked slowly over an open charcoal fire; Kenya's most popular celebratory dish.",pos:"noun"},
+    "ugali":{def:"A thick, stiff porridge made from maize flour and water, eaten by hand alongside meat and vegetables.",pos:"noun"},
+    "kachumbari":{def:"A fresh salad of finely chopped tomatoes, red onion, and coriander with lime juice, served alongside grilled meat.",pos:"noun"},
+    "tongs":{def:"A tool with two long arms used to grip and turn food on a grill without burning your hands.",pos:"noun"},
+    "coriander":{def:"A herb with a fresh, citrusy flavour used in salads and cooked dishes across East Africa.",pos:"noun"},
+    "ember":{def:"A small, glowing piece of coal or wood that continues to produce heat after the main fire has died down.",pos:"noun"}
+  },
+  quiz:[
+    {question:"How did people know to come to Uncle Kwame's nyama choma gathering?",options:["He sent a message to everyone on Friday morning","It was planned weeks in advance","He never announced it — he simply started the fire and people arrived","His wife called all the neighbours personally"],correct:2,
+     feedback:"'Uncle Kwame never announced he was making nyama choma. He simply started the fire, and people arrived.'"},
+    {question:"What is kachumbari made from, according to the story?",options:["Grilled vegetables and oil","Tomatoes, red onion, fresh coriander, and lime juice","Avocado, tomato, and chilli","Boiled maize and cooked onion"],correct:1,
+     feedback:"'Kofi watched his aunt mix the kachumbari — tomatoes, red onion, fresh coriander, lime juice...'"},
+    {question:"Why did Uncle Kwame not rush the goat?",options:["The coals were not hot enough","He was busy talking to his friends","The pieces of meat were very large","Nyama choma was not fast food — you waited for the fat to brown and the smoke to move through"],correct:3,
+     feedback:"'Nyama choma was not fast food. You waited for the fat to brown and the skin to crisp in places, for the smoke to move slowly through the meat.'"},
+    {question:"How did the family eat the nyama choma?",options:["At a large table inside the house","Each person took a plate and found a seat","Standing up, tearing meat and passing the choma plate between them","They used forks and sat in a circle on the pavement"],correct:2,
+     feedback:"'They ate standing up, tearing pieces of meat and dipping them in the kachumbari... passing the plate between them.'"}
   ]
 });
