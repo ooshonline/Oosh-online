@@ -31,6 +31,25 @@
     .screen{animation:fadeSlideIn .3s ease both}
     @keyframes fadeSlideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
+    /* LANDING / SPLASH */
+    .landing-screen{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 28px 40px;background:linear-gradient(175deg,#0d1f0e 0%,#1a3020 55%,#0c1a12 100%);overflow:hidden;text-align:center}
+    .landing-screen::before,.landing-screen::after{content:'';position:absolute;border-radius:50%;background:var(--primary);opacity:.06;pointer-events:none}
+    .landing-screen::before{width:340px;height:340px;top:-120px;left:-100px}
+    .landing-screen::after{width:260px;height:260px;bottom:-90px;right:-80px}
+    .landing-lang-pill{position:absolute;top:18px;right:18px;display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#dfe9c9;font-size:.78rem;font-weight:700;border-radius:99px;padding:8px 14px;z-index:2}
+    .landing-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:340px}
+    .landing-frog{width:130px;height:130px;margin-bottom:18px;filter:drop-shadow(0 12px 28px rgba(0,0,0,.4));animation:float 3s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    .landing-title{font-family:var(--font-head);font-size:3.4rem;color:var(--primary);letter-spacing:-1px;line-height:1}
+    .landing-tagline{font-size:1.05rem;color:#e7f0d4;margin-top:12px;font-weight:600}
+    .landing-subtag{font-size:.82rem;color:#9fb285;margin-top:6px}
+    .landing-ctas{width:100%;margin-top:36px;display:flex;flex-direction:column;gap:12px}
+    .landing-cta-primary{height:56px;width:100%;background:var(--accent);color:#151515;border-radius:var(--radius);font-size:1.05rem;font-weight:800;box-shadow:0 8px 24px rgba(249,173,59,.35);transition:transform .15s,box-shadow .15s}
+    .landing-cta-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(249,173,59,.42)}
+    .landing-cta-secondary{height:50px;width:100%;background:transparent;color:var(--primary);border-radius:var(--radius);font-size:.98rem;font-weight:700;border:2px solid rgba(186,218,85,.5);transition:background .2s,border-color .2s}
+    .landing-cta-secondary:hover{background:rgba(186,218,85,.08);border-color:var(--primary)}
+    .landing-footer{position:relative;z-index:1;margin-top:28px;font-size:.7rem;color:#6f8458;letter-spacing:.04em}
+
     /* NAV BAR */
     .nav-bar{display:flex;align-items:center;gap:12px;padding:16px 20px 12px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
     .nav-bar h2{font-size:1.1rem;color:var(--text);flex:1}
@@ -75,6 +94,11 @@
     .pad-group{cursor:pointer}
     .pad-group.locked{cursor:default}
     .pad-group circle.pad{transition:transform .15s}
+    .pad-group.current circle.pad{animation:glow-pulse-pad 2s ease-in-out infinite}
+    .pulse-ring{pointer-events:none;transform-box:fill-box;transform-origin:center;animation:pulse-ring 1.8s ease-out infinite}
+    .pulse-ring-2{animation-delay:.6s}
+    @keyframes pulse-ring{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.7);opacity:0}}
+    @keyframes glow-pulse-pad{0%,100%{filter:drop-shadow(0 0 3px rgba(249,173,59,.5))}50%{filter:drop-shadow(0 0 9px rgba(249,173,59,.2))}}
     .pond-cta-wrap{position:sticky;bottom:64px;padding:10px 20px 14px;background:linear-gradient(to top,rgba(248,250,240,.95),rgba(248,250,240,0));z-index:150}
     .pond-cta{width:100%;padding:17px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);border-radius:var(--radius);font-size:1.05rem;font-weight:800;box-shadow:0 6px 24px rgba(143,184,50,.35);transition:transform .15s}
     .pond-cta:hover{transform:translateY(-2px)}
@@ -193,35 +217,39 @@
     .story-image-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;opacity:.4}
 
     /* WORD POPUP */
-    .word-popup{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:488px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-lg);border:1px solid var(--border);padding:18px;z-index:200;animation:popIn .25s cubic-bezier(.34,1.56,.64,1) both}
+    .word-popup{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:488px;background:#151515;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.35);padding:14px 18px;z-index:200;animation:popIn .25s cubic-bezier(.34,1.56,.64,1) both}
     @keyframes popIn{from{opacity:0;transform:translateX(-50%) translateY(20px) scale(.95)}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}}
     .word-popup.hiding{animation:popOut .2s ease both}
     @keyframes popOut{to{opacity:0;transform:translateX(-50%) translateY(12px)}}
     .wp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-    .wp-word{font-size:1.3rem;font-weight:800;color:var(--primary-dark);font-family:var(--font-head)}
-    .wp-pos{font-size:.78rem;color:var(--text-muted);background:var(--primary-light);padding:2px 8px;border-radius:99px;font-weight:600;margin-left:8px}
-    .wp-close{width:28px;height:28px;border-radius:50%;background:var(--bg);color:var(--text-muted);font-size:.9rem;display:flex;align-items:center;justify-content:center}
-    .wp-def{font-size:.95rem;color:var(--text);line-height:1.5;margin-bottom:8px}
-    .wp-section-label{font-size:.68rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;margin-top:10px}
-    .wp-native-def{font-size:1rem;font-weight:700;color:var(--primary-dark);font-family:var(--font-head);line-height:1.4;margin-bottom:4px;min-height:0}
-    .wp-example{font-size:.88rem;color:var(--text-muted);line-height:1.5;font-style:italic;margin-bottom:8px;background:var(--bg);border-radius:8px;padding:8px 10px}
+    .wp-word{font-size:1.15rem;font-weight:900;color:#fff;font-family:var(--font-head)}
+    .wp-pos{font-size:.65rem;color:#151515;background:#bada55;padding:3px 8px;border-radius:8px;font-weight:800;margin-left:8px;text-transform:uppercase;letter-spacing:.04em}
+    .wp-close{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:.9rem;display:flex;align-items:center;justify-content:center}
+    .wp-ja-word{display:block;font-size:1.25rem;font-weight:800;color:#bada55;font-family:var(--font-head);margin-top:2px}
+    .wp-ja-def{font-size:1rem;font-weight:700;color:#d4ec96;font-family:var(--font-head);line-height:1.4;margin-bottom:8px}
+    .wp-def{font-size:.95rem;color:rgba(255,255,255,.8);line-height:1.5;margin-bottom:8px}
+    .wp-section-label{font-size:.68rem;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;margin-top:10px}
+    .wp-native-def{font-size:1.25rem;font-weight:800;color:#bada55;font-family:var(--font-head);line-height:1.4;margin-bottom:4px;min-height:0}
+    .wp-example{font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.5;font-style:italic;margin-bottom:8px;background:rgba(255,255,255,.06);border-radius:8px;padding:8px 10px}
     .wp-translation{min-height:22px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-    .wp-tl-loading{font-size:.78rem;color:var(--text-light);font-style:italic}
-    .wp-tl-lang{font-size:.68rem;font-weight:700;background:var(--primary-light);color:var(--primary-dark);padding:2px 6px;border-radius:99px}
-    .wp-tl-text{font-size:1rem;font-weight:700;color:var(--primary-dark);font-family:var(--font-head)}
+    .wp-tl-loading{font-size:.78rem;color:rgba(255,255,255,.4);font-style:italic}
+    .wp-tl-lang{font-size:.68rem;font-weight:700;background:rgba(186,218,85,.18);color:#bada55;padding:2px 6px;border-radius:99px}
+    .wp-tl-text{font-size:1rem;font-weight:700;color:#bada55;font-family:var(--font-head)}
     .wp-actions{display:flex;flex-direction:column;gap:8px}
-    .wp-translate-btn{width:100%;padding:10px 14px;border-radius:var(--radius);font-size:.85rem;font-weight:700;background:#fef9ec;color:#7a4800;border:1px solid #fde8b0;transition:background .2s,color .2s;text-align:center}
-    .wp-translate-btn:hover{background:#fde8b0;color:#5a3200}
+    .wp-translate-btn{width:100%;padding:10px 14px;border-radius:var(--radius);font-size:.85rem;font-weight:700;background:rgba(249,173,59,.14);color:#f9ad3b;border:1px solid rgba(249,173,59,.3);transition:background .2s,color .2s;text-align:center}
+    .wp-translate-btn:hover{background:rgba(249,173,59,.26)}
     .wp-translate-btn:disabled{opacity:.6;cursor:default}
-    .wp-fc-btn{width:100%;padding:10px 14px;border-radius:var(--radius);font-size:.85rem;font-weight:700;background:var(--primary-light);color:var(--primary-dark);transition:background .2s,color .2s;text-align:center}
-    .wp-fc-btn:hover{background:var(--primary);color:white}
-    .wp-fc-btn.in-deck{background:var(--primary);color:white}
-    .wp-save{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--primary);font-weight:700;background:none;padding:0;transition:color .2s}
-    .wp-save:hover{color:var(--primary-dark)}
-    .wp-save.saved{color:var(--accent-dark)}
+    .wp-fc-btn{width:100%;padding:10px 14px;border-radius:var(--radius);font-size:.85rem;font-weight:700;background:rgba(186,218,85,.16);color:#bada55;transition:background .2s,color .2s;text-align:center}
+    .wp-fc-btn:hover{background:#bada55;color:#151515}
+    .wp-fc-btn.in-deck{background:#bada55;color:#151515}
+    .wp-save{display:flex;align-items:center;gap:6px;font-size:.82rem;color:#bada55;font-weight:700;background:none;padding:0;transition:color .2s}
+    .wp-save:hover{color:#d4ec96}
+    .wp-save.saved{color:#f9ad3b}
 
     /* QUIZ */
     .quiz-progress{padding:12px 20px;display:flex;align-items:center;gap:12px}
+    .combo-pill{display:flex;align-items:center;gap:4px;margin-left:auto;background:#fff3e0;border-radius:20px;padding:6px 12px;font-family:var(--font-head);font-weight:900;font-size:.8rem;color:#f9ad3b;opacity:0;transform:scale(.85);transition:opacity .2s,transform .2s;white-space:nowrap}
+    .combo-pill.show{opacity:1;transform:scale(1)}
     .q-label{font-size:.82rem;color:var(--text-muted);font-weight:600;white-space:nowrap}
     .q-dots{display:flex;gap:6px}
     .q-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:background .3s}
@@ -246,6 +274,15 @@
     .quiz-fitb-wrap{display:flex;gap:8px;margin-top:12px}
     .quiz-fitb-input{flex:1;padding:12px;border:2px solid var(--border);border-radius:var(--radius);font-size:1rem;font-family:var(--font-body);outline:none}
     .quiz-fitb-input:focus{border-color:var(--primary)}
+    .type-slots-wrap{margin-top:12px}
+    .type-slots{display:flex;flex-wrap:wrap;gap:8px;cursor:text}
+    .type-slot{width:48px;height:56px;border:2px solid var(--primary);border-radius:14px;box-shadow:0 3px 10px rgba(186,218,85,.3);display:flex;align-items:center;justify-content:center;font-family:var(--font-body);font-weight:900;font-size:1.5rem;color:#151515;background:var(--card);transition:border-color .15s,box-shadow .15s}
+    .type-slot.cursor{border-style:solid;border-bottom:3px solid var(--primary)}
+    .type-slot.filled{border-color:var(--primary-dark)}
+    .type-slots.slots-ok .type-slot{border-color:var(--primary-dark);background:var(--primary-light)}
+    .type-slots.slots-bad .type-slot{border-color:#e05656;background:rgba(224,86,86,.1)}
+    .type-hint{margin-top:8px;font-size:.75rem;font-weight:700;color:var(--primary-dark)}
+    .type-hidden-input{position:absolute;opacity:0;height:1px;width:1px;pointer-events:none}
     .dnd-bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
     .dnd-tile{padding:10px 14px;background:var(--card);border:2px solid var(--border);border-radius:var(--radius);font-size:.95rem;cursor:grab;font-family:var(--font-body);transition:border-color .15s,background .15s}
     .dnd-tile.sel{border-color:var(--primary);background:rgba(186,218,85,.25)}
@@ -370,8 +407,12 @@
     .fc-item-actions{display:flex;align-items:center}
     /* Flash card play */
     .fc-play-screen{padding-bottom:100px}
-    .fc-card-wrap{padding:24px 20px;display:flex;justify-content:center}
-    .fc-card{width:100%;max-width:400px;height:260px;perspective:900px;cursor:pointer}
+    .fc-card-wrap{padding:24px 20px;display:flex;justify-content:center;position:relative}
+    .fc-stack-layer{position:absolute;top:24px;left:50%;width:calc(100% - 40px);max-width:400px;height:260px;border-radius:24px;pointer-events:none}
+    .fc-stack-3{background:#dde8ce;transform:translateX(-50%) rotate(3deg)}
+    .fc-stack-2{background:#e8f2d8;transform:translateX(-50%) rotate(-1.5deg);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+    .fc-card{width:100%;max-width:400px;height:260px;perspective:900px;cursor:pointer;position:relative;z-index:2;animation:card-in .4s ease forwards}
+    @keyframes card-in{from{transform:perspective(600px) rotateY(90deg);opacity:0}to{transform:perspective(600px) rotateY(0deg);opacity:1}}
     .fc-card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1)}
     .fc-card-inner.flipped{transform:rotateY(180deg)}
     .fc-face{position:absolute;inset:0;border-radius:18px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;box-shadow:0 8px 32px rgba(0,0,0,.10);border:1px solid var(--border)}
@@ -451,6 +492,7 @@
     .dhb-open{background:var(--primary-light);color:var(--primary-dark)}
     .dhb-locked{background:var(--bg);color:var(--text-muted);border:1px solid var(--border)}
     .dhb-stamped{background:#fef3d6;color:var(--accent-dark);border:1px solid var(--accent)}
+    .dest-stamp{width:40px;height:40px;border-radius:50%;border:3px solid var(--primary-dark);display:flex;align-items:center;justify-content:center;color:var(--primary-dark);font-weight:900;font-size:1.2rem;transform:rotate(-15deg);background:rgba(186,218,85,.1);flex-shrink:0;animation:stampDrop .5s cubic-bezier(.34,1.56,.64,1) both}
     /* DESTINATION DETAIL */
     .dest-detail-hero{padding:20px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid)}
     .dest-detail-hero h2{font-size:1.2rem;margin-bottom:4px}
@@ -526,6 +568,21 @@
 
     /* POINTS GAUGE — lily pad track */
     /* POINTS GAUGE */
+    .frog-growth-panel{width:100%;background:linear-gradient(145deg,#eef7e0,#f7fbe9);border:1px solid var(--primary-mid);border-radius:20px;padding:14px 16px;margin:6px 0}
+    .frog-growth-label{font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);text-align:center;margin-bottom:10px}
+    .frog-growth-track{display:flex;align-items:flex-start;justify-content:space-between}
+    .frog-stage{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.35;transition:opacity .3s}
+    .frog-stage.past{opacity:.7}
+    .frog-stage.current{opacity:1}
+    .frog-stage-circle{width:40px;height:40px;border-radius:50%;background:var(--card);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+    .frog-stage.past .frog-stage-circle{background:var(--primary-light);border-color:var(--primary-mid)}
+    .frog-stage.current .frog-stage-circle{background:var(--primary);border-color:var(--primary-dark);animation:glow-pulse 2s ease-in-out infinite}
+    .frog-stage-label{font-size:.62rem;font-weight:800;color:var(--text-muted);text-align:center;line-height:1.2}
+    .frog-stage.current .frog-stage-label{color:var(--primary-dark)}
+    .frog-stage-here{font-size:.58rem;font-weight:800;color:var(--primary-dark)}
+    .frog-stage-divider{width:1px;align-self:stretch;background:var(--border);margin-top:18px}
+    .frog-growth-note{margin-top:10px;font-size:.72rem;font-weight:700;color:var(--primary-dark);text-align:center}
+    @keyframes glow-pulse{0%,100%{box-shadow:0 0 0 4px rgba(249,173,59,.4)}50%{box-shadow:0 0 0 10px rgba(249,173,59,.15)}}
     .pts-gauge-wrap{width:100%;margin:8px 0 4px;padding:12px 14px;background:linear-gradient(145deg,#e4f5c8,#f2fbe0);border-radius:var(--radius);border:1px solid var(--primary-mid);display:flex;flex-direction:column;gap:10px}
     .pts-gauge-top{display:flex;align-items:stretch;gap:12px}
     /* left: life-cycle card */
@@ -564,7 +621,7 @@
 <script>
 // ── STATE ──────────────────────────────────────────────────
 const state = {
-  screen:'home',
+  screen: localStorage.getItem('rbt_seenSplash') ? 'home' : 'landing',
   levelId:null,      // 1-6
   subLevel:null,     // 0-9 (0-indexed)
   storyId:null,
@@ -1231,17 +1288,21 @@ function renderPondMap(lv){
     const locked=(!avail&&!done)||!hasSt;
     const stories=STORIES[lv]&&STORIES[lv][i]||[];
     const dc=stories.filter(s=>storyDone(s.id)).length;
-    const fill=done?'#8fb832':isCur?'#bada55':locked?'#e6e8de':'#f0f7d0';
-    const stroke=done||isCur?'#8fb832':locked?'#c9ccc0':'#d4ec96';
-    const txt=done?'#ffffff':locked?'#9aa093':'#5e6648';
+    const fill=done?'#bada55':isCur?'#ffffff':locked?'#e6e8de':'#f0f7d0';
+    const stroke=done?'#9bc42a':isCur?'#f9ad3b':locked?'#c9ccc0':'#d4ec96';
+    const strokeW=isCur?4:3;
+    const txt=done?'#ffffff':isCur?'#151515':locked?'#9aa093':'#5e6648';
     const r=isCur?PAD_R+7:PAD_R;
     const click=locked?'':`onclick="navigate('stories',{levelId:${lv},subLevel:${i}})"`;
-    return `<g class="pad-group${locked?' locked':''}" ${click} role="button" aria-label="サブレベル${i+1}${locked?'（ロック中）':''}">
+    return `<g class="pad-group${locked?' locked':''}${isCur?' current':''}" ${click} role="button" aria-label="サブレベル${i+1}${locked?'（ロック中）':''}">
       <ellipse cx="${p.x}" cy="${p.y+r-4}" rx="${r*1.15}" ry="7" fill="rgba(143,184,50,.18)"/>
-      <circle class="pad" cx="${p.x}" cy="${p.y}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="3"/>
+      ${isCur?`<circle class="pulse-ring pulse-ring-1" cx="${p.x}" cy="${p.y}" r="${r}" fill="none" stroke="rgba(249,173,59,.4)" stroke-width="4"/>
+      <circle class="pulse-ring pulse-ring-2" cx="${p.x}" cy="${p.y}" r="${r}" fill="none" stroke="rgba(249,173,59,.25)" stroke-width="4"/>`:''}
+      <circle class="pad" cx="${p.x}" cy="${p.y}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeW}"/>
       ${isCur?`<image href="OOSH_Logo_Square.png" x="${p.x-22}" y="${p.y-44}" width="44" height="44"/>`:''}
       <text x="${p.x}" y="${p.y+(isCur?14:6)}" text-anchor="middle" font-size="${isCur?13:15}" font-weight="800" fill="${txt}" font-family="var(--font-head)">${done?'✓':i+1}</text>
-      ${!done&&!locked&&dc>0?`<text x="${p.x}" y="${p.y+r+18}" text-anchor="middle" font-size="11" fill="#5e6648">${dc}/5</text>`:''}
+      ${isCur?`<text x="${p.x}" y="${p.y+r+18}" text-anchor="middle" font-size="11" font-weight="800" fill="#6b9e3a" font-family="var(--font-head)">いまここ</text>`:''}
+      ${!done&&!locked&&!isCur&&dc>0?`<text x="${p.x}" y="${p.y+r+18}" text-anchor="middle" font-size="11" fill="#5e6648">${dc}/5</text>`:''}
       ${locked?`<text x="${p.x}" y="${p.y-r-6}" text-anchor="middle" font-size="12">🔒</text>`:''}
     </g>`;
   }).join('');
@@ -1250,6 +1311,29 @@ function renderPondMap(lv){
     ${pads}
   </svg>`;
 }
+// ── RENDER: LANDING / SPLASH (first launch only) ───────────
+function renderLanding(){
+  document.getElementById('app').innerHTML=`
+  <div class="screen landing-screen">
+    <button class="landing-lang-pill" onclick="navigate('settings')" aria-label="言語を選ぶ">🌐 日本語</button>
+    <div class="landing-content">
+      <img class="landing-frog" src="OOSH_Logo_Square.png" alt="Ribbitのカエル">
+      <div class="landing-title">Ribbit</div>
+      <div class="landing-tagline">えいごをたのしくまなぼう！</div>
+      <div class="landing-subtag">6レベル · 13言語 · 世界10か国</div>
+      <div class="landing-ctas">
+        <button class="landing-cta-primary" onclick="enterFromLanding()">はじめる</button>
+        <button class="landing-cta-secondary" onclick="enterFromLanding()">ログイン</button>
+      </div>
+    </div>
+    <div class="landing-footer">OOSH Online · v2.0</div>
+  </div>`;
+}
+function enterFromLanding(){
+  localStorage.setItem('rbt_seenSplash','1');
+  navigate('home');
+}
+
 function renderHome(){
   calcTodayCount();
   const lv=currentLevelId();
@@ -1946,15 +2030,18 @@ function renderQuiz(){
         </div>`;
     }
   } else if(qtype==='type'){
-    // Type the word from definition
+    // Type the word from definition — letter-slot UI
     const tw=buildTypeWord(story,qIdx);
     state._currentQ=tw;
+    const slots=tw.answer.split('').map((_,i)=>`<div class="type-slot" id="tslot-${i}"></div>`).join('');
     qBody=`
       <div class="quiz-qnum">単語を答えよう</div>
       <div class="quiz-question">「${tw.question}」<br><small style="color:var(--text-muted)">この意味の英単語は？</small></div>
-      <div class="quiz-fitb-wrap">
-        <input id="fitb-input" class="quiz-fitb-input" type="text" placeholder="英単語を入力…" autocomplete="off" autocorrect="off" spellcheck="false">
-        <button class="quiz-fitb-btn" onclick="checkFITB()">確認</button>
+      <div class="type-slots-wrap">
+        <div class="type-slots" id="typeSlots" onclick="document.getElementById('type-hidden-input').focus()">${slots}</div>
+        <div class="type-hint">ヒント: ${tw.answer.length}文字</div>
+        <input id="type-hidden-input" class="type-hidden-input" type="text" maxlength="${tw.answer.length}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" oninput="updateTypeSlots(${tw.answer.length})">
+        <button class="quiz-fitb-btn" id="type-submit-btn" onclick="checkTypeWord()" disabled>確認</button>
       </div>`;
   } else if(qtype==='dndblank'){
     const q=buildDndBlank(story,qIdx);
@@ -2004,7 +2091,7 @@ function renderQuiz(){
   document.getElementById('app').innerHTML=`
   <div class="screen">
     <div class="nav-bar"><button class="back-btn" onclick="navigate('reader',{storyId:'${story.id}'})">←</button><h2>クイズ</h2></div>
-    <div class="quiz-progress"><span class="q-label">Q${qIdx+1}/${total}</span><div class="q-dots">${dots}</div></div>
+    <div class="quiz-progress"><span class="q-label">Q${qIdx+1}/${total}</span><div class="q-dots">${dots}</div><span class="combo-pill${(state.comboStreak||0)>=2?' show':''}" id="comboPill">🔥 ×${state.comboStreak||0} コンボ</span></div>
     <div class="quiz-body">
       ${qBody}
       <div class="quiz-fb" id="qfb"></div>
@@ -2015,7 +2102,7 @@ function renderQuiz(){
   if(state._currentQ?.type==='dndsent') renderDndSent();
   if(state._currentQ?.type==='dndmatch') renderDndMatch();
   // Focus text input if present
-  setTimeout(()=>document.getElementById('fitb-input')?.focus(),100);
+  setTimeout(()=>(document.getElementById('fitb-input')||document.getElementById('type-hidden-input'))?.focus(),100);
   // Record when this question was shown (for speed bonus)
   state._questionStartTime = Date.now();
 }
@@ -2149,6 +2236,40 @@ function checkFITB(){
   const n=document.getElementById('qnxt'); if(n) n.classList.add('vis');
 }
 
+function updateTypeSlots(len){
+  const input=document.getElementById('type-hidden-input');
+  if(!input) return;
+  const val=input.value.replace(/[^a-zA-Z]/g,'').slice(0,len).toLowerCase();
+  input.value=val;
+  for(let i=0;i<len;i++){
+    const slot=document.getElementById('tslot-'+i);
+    if(!slot) continue;
+    slot.textContent=val[i]?val[i].toUpperCase():'';
+    slot.classList.toggle('filled',!!val[i]);
+    slot.classList.toggle('cursor',i===val.length);
+  }
+  const btn=document.getElementById('type-submit-btn');
+  if(btn) btn.disabled = val.length!==len;
+}
+
+function checkTypeWord(){
+  const input=document.getElementById('type-hidden-input');
+  if(!input) return;
+  const q=state._currentQ;
+  const answer=input.value.trim().toLowerCase();
+  const ok=answer===q.answer.toLowerCase();
+  input.disabled=true;
+  document.getElementById('type-submit-btn').disabled=true;
+  state._answerTime = Date.now();
+  state.quizAnswers.push({selected:answer,correct:ok});
+  const fb=document.getElementById('qfb');
+  fb.style.display='block'; fb.className='quiz-fb '+(ok?'ok':'bad');
+  fb.innerHTML=(ok?'<strong>✓ 正解！</strong>':'<strong>✗ 不正解</strong> ')+q.feedback;
+  const slotsWrap=document.getElementById('typeSlots');
+  if(slotsWrap) slotsWrap.classList.add(ok?'slots-ok':'slots-bad');
+  const n=document.getElementById('qnxt'); if(n) n.classList.add('vis');
+}
+
 function nextQ(){
   if(state._quizBusy) return;
   state._quizBusy=true;
@@ -2274,7 +2395,6 @@ function renderResults(){
   const pct=Math.round(state.lastScore*100);
   const emoji=pct===100?'🏆':pct>=75?'🌟':pct>=50?'👍':'📖';
   const msg=pct===100?'パーフェクト！':pct>=75?'よくできました！':pct>=50?'よく頑張りました！':'続けよう！';
-  if(pct===100) confetti();
   const unlockBadge=state.lastSubLevelUnlocked!==null
     ? `<div class="sublevel-unlock">🎉 サブレベル${state.lastSubLevelUnlocked+1}クリア！次のレベルが解放されました！</div>` : '';
   const ticketBadge=state.lastTicketEarned
@@ -2295,14 +2415,38 @@ function renderResults(){
     <p style="color:var(--text-muted);font-size:.82rem;margin:0 0 4px">${pct}% 正解</p>
     ${unlockBadge}
     ${ticketBadge}
+    ${buildFrogGrowthPanel(story?.levelId)}
     ${gaugeHtml}
     <button class="res-continue" onclick="navigate('sublevels',{levelId:${story?.levelId||1}})">📚 他のお話</button>
     <button class="res-again" onclick="navigate('quiz',{quizIndex:0,quizAnswers:[],comboStreak:0,lastRoundPoints:0,_quizBusy:false,quizStartTime:Date.now()})">🔄 やり直す</button>
     <button class="res-reread" onclick="navigate('reader',{storyId:'${story?.id||''}',readerStep:0})">📖 もう一度読む</button>
   </div>`;
-  if(state.lastSubLevelUnlocked!==null) confetti();
+  confetti(); // every result celebrates — spec: confetti immediately on screen appear
   // Animate the gauge after render
   requestAnimationFrame(()=>animatePointsGauge(roundPts, totalQ, state.lastWasPerfect||false, state.lastWasFast||false));
+}
+
+// ── FROG GROWTH PANEL (overall account-level progression) ──
+function buildFrogGrowthPanel(levelId){
+  const stages=[{label:'たまご',emoji:'🥚'},{label:'おたまじゃくし',emoji:'🐸'},{label:'こがえる',emoji:'🐸'},{label:'かえる',emoji:'🐸'}];
+  const lv=levelId||1;
+  const stageOf=l=>l<=1?0:l<=3?1:l<=5?2:3;
+  const cur=stageOf(lv);
+  const nextLv=cur===0?2:cur===1?4:cur===2?6:null;
+  const footNote=nextLv ? `あと${nextLv-lv}レベルで${stages[cur+1].label}に成長！` : 'さいごのステージまで成長した！🎉';
+  const stagesHtml=stages.map((s,i)=>{
+    const st=i<cur?'past':i===cur?'current':'future';
+    return `<div class="frog-stage ${st}">
+      <div class="frog-stage-circle">${s.emoji}</div>
+      <div class="frog-stage-label">${s.label}</div>
+      ${i===cur?'<div class="frog-stage-here">いまここ！</div>':''}
+    </div>`;
+  }).join('<div class="frog-stage-divider"></div>');
+  return `<div class="frog-growth-panel">
+    <div class="frog-growth-label">カエルのせいちょう</div>
+    <div class="frog-growth-track">${stagesHtml}</div>
+    <div class="frog-growth-note">${footNote}</div>
+  </div>`;
 }
 
 // ── POINTS GAUGE helpers ───────────────────────────────────
@@ -2474,6 +2618,8 @@ function renderFlashCardPlay(){
       <span class="step-counter" style="margin:0">${idx+1}/${total}</span>
     </div>
     <div class="fc-card-wrap">
+      <div class="fc-stack-layer fc-stack-3"></div>
+      <div class="fc-stack-layer fc-stack-2"></div>
       <div class="fc-card" id="fc-card" onclick="flipCard()">
         <div class="fc-card-inner" id="fc-card-inner">
           <div class="fc-face fc-front">
@@ -2554,10 +2700,10 @@ async function fetchCardTranslation(word, e){
 // ── CONFETTI ───────────────────────────────────────────────
 function confetti(){
   const c=document.createElement('div'); c.className='confetti'; document.body.appendChild(c);
-  const cols=['#bada55','#f9ad3b','#E05C5C','#5BAEE0','#A06BE0'];
+  const cols=['#bada55','#f9ad3b','#38bdf8','#c084fc'];
   for(let i=0;i<60;i++){
     const d=document.createElement('div'); d.className='confetti-dot';
-    d.style.cssText=`left:${Math.random()*100}%;top:-10px;background:${cols[i%5]};
+    d.style.cssText=`left:${Math.random()*100}%;top:-10px;background:${cols[i%4]};
       animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.8}s;
       width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:50%`;
     c.appendChild(d);
@@ -2592,7 +2738,7 @@ function tabBar(){
     </button>
     <button class="tab-btn${onJourney?' active':''}" onclick="navigate('journey')" aria-label="World Journey">
       <span class="tab-icon">🌍</span>
-      <span class="tab-label">旅</span>
+      <span class="tab-label">ワールド</span>
       ${hasAvailableDeparture()?'<span class="tab-notif-dot" aria-hidden="true"></span>':''}
     </button>
     <button class="tab-btn${s==='flashcards'?' active':''}" onclick="navigate('flashcards')" aria-label="Flash cards">
@@ -2601,7 +2747,7 @@ function tabBar(){
     </button>
     <button class="tab-btn${onProfile?' active':''}" onclick="navigate('profile')" aria-label="Profile">
       <span class="bust-icon tab-icon" aria-hidden="true"></span>
-      <span class="tab-label">プロフィール</span>
+      <span class="tab-label">わたし</span>
     </button>
   </div>`;
 }
@@ -2934,7 +3080,7 @@ function renderJourneyHub(){
     if(stamped){
       cls='stamped-dest';
       badge=`<span class="dest-hub-badge dhb-stamped">✓ スタンプ済み</span>`;
-      extraContent=`<span style="font-size:1.4rem">🪪</span>`;
+      extraContent=`<div class="dest-stamp" title="スタンプ済み">✓</div>`;
     } else if(departed){
       cls='active-dest';
       badge=`<span class="dest-hub-badge dhb-open">開放中</span>`;
@@ -3243,6 +3389,7 @@ function render(){
     save();
   }
   switch(state.screen){
+    case'landing':   renderLanding();   break;
     case'home':      renderHome();      break;
     case'levels':    renderLevels();    break;
     case'sublevels': renderSubLevels(); break;
