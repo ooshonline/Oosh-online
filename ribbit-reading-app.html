@@ -13,7 +13,7 @@
       --primary:#bada55; --primary-dark:#8fb832; --primary-light:#f0f7d0;
       --primary-mid:#d4ec96; --accent:#f9ad3b; --accent-light:#fef3d6;
       --accent-dark:#d4831a; --red:#E05C5C; --red-light:#FDEAEA;
-      --bg:#f8faf0; --card:#FFFFFF; --text:#151515; --text-muted:#5e6648;
+      --bg:#f8faf8; --card:#FFFFFF; --text:#151515; --text-muted:#5e6648;
       --text-light:#9aaa72; --border:#deeab8;
       --shadow-sm:0 1px 4px rgba(143,184,50,.1);
       --shadow:0 4px 20px rgba(143,184,50,.16);
@@ -77,7 +77,7 @@
     .home-secondary:hover{border-color:var(--primary);background:var(--primary-light)}
 
     /* POND MAP HOME */
-    .pond-screen{display:flex;flex-direction:column;min-height:100vh;background:linear-gradient(160deg,#f0f7d0 0%,#f8faf0 55%,#fef3d6 100%)}
+    .pond-screen{display:flex;flex-direction:column;min-height:100vh;background:#eef7e8}
     .pond-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 6px;gap:10px}
     .pond-header .ph-title{font-family:var(--font-head);font-size:1.2rem;color:var(--primary-dark);line-height:1.2}
     .pond-header .ph-sub{font-size:.78rem;color:var(--text-muted);margin-top:2px}
@@ -99,7 +99,7 @@
     .pulse-ring-2{animation-delay:.6s}
     @keyframes pulse-ring{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.7);opacity:0}}
     @keyframes glow-pulse-pad{0%,100%{filter:drop-shadow(0 0 3px rgba(249,173,59,.5))}50%{filter:drop-shadow(0 0 9px rgba(249,173,59,.2))}}
-    .pond-cta-wrap{position:sticky;bottom:64px;padding:10px 20px 14px;background:linear-gradient(to top,rgba(248,250,240,.95),rgba(248,250,240,0));z-index:150}
+    .pond-cta-wrap{position:sticky;bottom:64px;padding:10px 20px 14px;background:linear-gradient(to top,rgba(238,247,232,.95),rgba(238,247,232,0));z-index:150}
     .pond-cta{width:100%;padding:17px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);border-radius:var(--radius);font-size:1.05rem;font-weight:800;box-shadow:0 6px 24px rgba(143,184,50,.35);transition:transform .15s}
     .pond-cta:hover{transform:translateY(-2px)}
 
@@ -350,7 +350,7 @@
     .fs-btn-large{font-size:1.5rem}
     .fs-active{border-color:var(--primary);background:var(--primary-light);color:var(--primary-dark)}
     /* TTS — Text-to-Speech bar */
-    .tts-bar{display:flex;align-items:center;gap:8px;padding:8px 20px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid);position:sticky;top:57px;z-index:49}
+    .tts-bar{display:flex;align-items:center;gap:8px;padding:8px 20px;background:white;border-bottom:1px solid #f3f4f6;position:sticky;top:57px;z-index:49}
     .tts-play-btn{width:44px;height:44px;border-radius:50%;background:var(--primary);color:#151515;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
     .tts-play-btn:hover{background:var(--primary-dark)}
     .tts-play-btn.paused{background:var(--accent);color:var(--text)}
