@@ -1373,6 +1373,23 @@ function renderHome(){
   ${tabBar()}`;
 }
 
+// ── SUPPORTED TRANSLATION LANGUAGES ────────────────────────
+const LANGUAGES = [
+  { code:'ja',    name:'Japanese',              flag:'🇯🇵' },
+  { code:'ko',    name:'Korean',                flag:'🇰🇷' },
+  { code:'zh',    name:'Chinese (Simplified)',  flag:'🇨🇳' },
+  { code:'zh-TW', name:'Chinese (Traditional)', flag:'🇹🇼' },
+  { code:'th',    name:'Thai',                  flag:'🇹🇭' },
+  { code:'vi',    name:'Vietnamese',            flag:'🇻🇳' },
+  { code:'id',    name:'Indonesian',            flag:'🇮🇩' },
+  { code:'es',    name:'Spanish',               flag:'🇪🇸' },
+  { code:'fr',    name:'French',                flag:'🇫🇷' },
+  { code:'pt',    name:'Portuguese',            flag:'🇧🇷' },
+  { code:'ar',    name:'Arabic',                flag:'🇸🇦' },
+  { code:'hi',    name:'Hindi',                 flag:'🇮🇳' },
+  { code:'tr',    name:'Turkish',               flag:'🇹🇷' },
+];
+
 // ── RENDER: LANGUAGE PICKER (first launch + settings) ──────
 function renderLangPicker(isSettings=false){
   const current='ja';
