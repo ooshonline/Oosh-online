@@ -170,6 +170,7 @@
     .reader-screen{padding-bottom:140px}
     .reader-prog-bar{height:4px;background:var(--primary-light)}
     .reader-prog-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .4s ease}
+    .reader-time-est{text-align:right;font-size:.68rem;font-weight:700;color:var(--text-muted);padding:4px 14px 0;background:var(--card)}
     .reader-header{padding:12px 20px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
     .reader-header h3{font-size:1rem;flex:1;text-align:center;padding:0 8px}
     .icon-btn{width:44px;height:44px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .2s}
@@ -355,9 +356,12 @@
     .tts-play-btn.paused{background:var(--accent);color:var(--text)}
     .tts-stop-btn{width:44px;height:44px;border-radius:50%;background:var(--card);color:var(--text-muted);font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border);transition:background .2s}
     .tts-stop-btn:hover{background:var(--border)}
-    .tts-rate-group{display:flex;gap:4px;margin-left:auto}
-    .tts-rate-btn{padding:4px 10px;border-radius:99px;font-size:.75rem;font-weight:700;background:var(--card);color:var(--text-muted);border:1px solid var(--border);transition:all .2s;cursor:pointer}
-    .tts-rate-btn.tts-rate-active{background:var(--primary);color:#151515;border-color:var(--primary)}
+    .tts-rate-slider-wrap{display:flex;align-items:center;gap:6px;margin-left:auto;background:#f3f4f6;border-radius:12px;padding:4px 10px}
+    .tts-rate-emoji{font-size:.85rem;line-height:1;flex-shrink:0}
+    .tts-rate-slider{width:64px;height:3px;-webkit-appearance:none;appearance:none;background:linear-gradient(to right,var(--primary) 0%,var(--primary) var(--fill,50%),#ddd var(--fill,50%),#ddd 100%);border-radius:99px;cursor:pointer;outline:none}
+    .tts-rate-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--primary-dark);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+    .tts-rate-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--primary-dark);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+    .tts-rate-readout{font-size:.68rem;font-weight:700;color:var(--text-muted);min-width:26px;text-align:center}
     .tts-label{font-size:.78rem;font-weight:700;color:var(--primary-dark);white-space:nowrap}
     /* TTS word highlight */
     .tts-w{transition:background .1s}
@@ -448,22 +452,23 @@
     .ticket-ready-strip{display:flex;align-items:center;justify-content:center;gap:6px;background:#fffbf0;border:1.5px solid #f9ad3b;border-radius:8px;padding:8px 14px;font-size:.8rem;font-weight:700;color:#7a4800;margin:10px 0;cursor:pointer;transition:background .15s}
     .ticket-ready-strip:hover{background:#fdefc8}
     /* WORLD JOURNEY HUB */
-    .journey-hero{padding:24px 20px 16px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid);text-align:center}
-    .journey-hero h2{font-size:1.3rem;margin-bottom:4px;color:var(--text)}
-    .journey-hero p{font-size:.85rem;color:var(--text-muted)}
+    .journey-hub-screen{background:#0f1d2a;min-height:100vh}
+    .journey-hero{padding:24px 20px 16px;background:transparent;border-bottom:1px solid rgba(255,255,255,.08);text-align:center}
+    .journey-hero h2{font-size:1.3rem;margin-bottom:4px;color:#fff;font-weight:900}
+    .journey-hero p{font-size:.85rem;color:rgba(255,255,255,.55)}
     .dest-card-row{padding:14px 16px;display:flex;flex-direction:column;gap:10px;padding-bottom:32px}
-    .dest-hub-card{background:var(--card);border-radius:var(--radius);border:2px solid var(--border);padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .2s,transform .15s}
+    .dest-hub-card{background:rgba(255,255,255,.06);border-radius:var(--radius);border:2px solid rgba(255,255,255,.1);padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .2s,transform .15s}
     .dest-hub-card:hover{border-color:var(--primary);transform:translateY(-1px)}
-    .dest-hub-card.active-dest{border-color:var(--primary);background:var(--primary-light)}
-    .dest-hub-card.locked-dest{opacity:.55;cursor:default}
-    .dest-hub-card.stamped-dest{border-color:var(--accent);background:#fef9ec}
-    .dest-hub-card.depart-dest{border-color:#f9ad3b;background:#fffbf0;cursor:default}
+    .dest-hub-card.active-dest{border-color:var(--primary);background:rgba(186,218,85,.12)}
+    .dest-hub-card.locked-dest{opacity:.5;cursor:default}
+    .dest-hub-card.stamped-dest{border-color:var(--accent);background:rgba(249,173,59,.1)}
+    .dest-hub-card.depart-dest{border-color:#f9ad3b;background:rgba(249,173,59,.08);cursor:default}
     /* Depart button */
     .depart-btn{width:100%;margin-top:8px;padding:9px 12px;background:linear-gradient(135deg,#f9ad3b,#e8941a);color:#fff;border:none;border-radius:var(--radius);font-weight:700;font-size:.82rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:transform .12s,box-shadow .12s;white-space:nowrap}
     .depart-btn:active{transform:scale(.97)}
     .depart-btn:disabled{opacity:.45;cursor:default;background:#ccc}
     /* Ticket counter in journey hub header */
-    .journey-ticket-count{display:inline-flex;align-items:center;gap:5px;background:#fffbf0;border:1.5px solid #f9ad3b;border-radius:20px;padding:4px 12px;font-weight:700;font-size:.85rem;color:#7a4800;margin-top:6px}
+    .journey-ticket-count{display:inline-flex;align-items:center;gap:5px;background:rgba(249,173,59,.12);border:1.5px solid #f9ad3b;border-radius:20px;padding:4px 12px;font-weight:700;font-size:.85rem;color:#ffd58a;margin-top:6px}
     /* Ticket earned banner — removed; replaced by .ticket-ready-strip */
     /* Departure animation overlay */
     .depart-overlay{position:fixed;inset:0;z-index:9999;background:rgba(10,30,60,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;animation:fadeIn .3s ease both}
@@ -484,14 +489,14 @@
     @keyframes planeFly{0%{transform:translateX(0);opacity:0}10%{opacity:1}100%{transform:translateX(calc(100vw + 120px));opacity:1}}
     .dest-emoji{font-size:2rem;flex-shrink:0;line-height:1}
     .dest-hub-info{flex:1}
-    .dest-hub-info h3{font-size:1rem;margin-bottom:2px}
-    .dest-hub-info .dest-country{font-size:.78rem;color:var(--text-muted);margin-bottom:6px}
-    .dest-hub-prog{height:5px;background:var(--primary-light);border-radius:99px;overflow:hidden;margin-top:4px}
-    .dest-hub-prog-fill{height:100%;background:var(--primary);border-radius:99px;transition:width .5s}
+    .dest-hub-info h3{font-size:1rem;margin-bottom:2px;color:#fff;font-weight:800}
+    .dest-hub-info .dest-country{font-size:.78rem;color:rgba(255,255,255,.55);margin-bottom:6px}
+    .dest-hub-prog{height:5px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;margin-top:4px}
+    .dest-hub-prog-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:99px;transition:width .5s}
     .dest-hub-badge{font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:99px}
-    .dhb-open{background:var(--primary-light);color:var(--primary-dark)}
-    .dhb-locked{background:var(--bg);color:var(--text-muted);border:1px solid var(--border)}
-    .dhb-stamped{background:#fef3d6;color:var(--accent-dark);border:1px solid var(--accent)}
+    .dhb-open{background:rgba(186,218,85,.15);color:var(--primary)}
+    .dhb-locked{background:rgba(255,255,255,.07);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.12)}
+    .dhb-stamped{background:rgba(249,173,59,.15);color:var(--accent);border:1px solid var(--accent)}
     .dest-stamp{width:40px;height:40px;border-radius:50%;border:3px solid var(--primary-dark);display:flex;align-items:center;justify-content:center;color:var(--primary-dark);font-weight:900;font-size:1.2rem;transform:rotate(-15deg);background:rgba(186,218,85,.1);flex-shrink:0;animation:stampDrop .5s cubic-bezier(.34,1.56,.64,1) both}
     /* DESTINATION DETAIL */
     .dest-detail-hero{padding:20px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid)}
@@ -1573,6 +1578,17 @@ function splitSentences(text){
 
 // ── TTS — Text-to-Speech Engine ──────────────────────────────────────────────
 const tts={active:false,paused:false,rate:1.0,utterance:null};
+const TTS_RATES=[0.75,1,1.5,2];
+function buildTTSRateSlider(){
+  const idx=Math.max(0,TTS_RATES.indexOf(tts.rate));
+  const fill=(idx/(TTS_RATES.length-1)*100)+'%';
+  return `<div class="tts-rate-slider-wrap">
+    <span class="tts-rate-emoji">🐢</span>
+    <input type="range" class="tts-rate-slider" id="ttsRateSlider" min="0" max="${TTS_RATES.length-1}" step="1" value="${idx}" style="--fill:${fill}" oninput="ttsSetRate(TTS_RATES[this.value])" aria-label="再生速度">
+    <span class="tts-rate-emoji">🐇</span>
+    <span class="tts-rate-readout" id="ttsRateReadout">${tts.rate}×</span>
+  </div>`;
+}
 
 function ttsSupported(){ return 'speechSynthesis' in window; }
 
@@ -1629,9 +1645,14 @@ function updateTTSUI(){
     if(tts.active) spkBtn.classList.add('tts-active');
     else spkBtn.classList.remove('tts-active');
   }
-  document.querySelectorAll('.tts-rate-btn').forEach(b=>{
-    b.classList.toggle('tts-rate-active', parseFloat(b.dataset.rate)===tts.rate);
-  });
+  const slider=document.getElementById('ttsRateSlider');
+  if(slider){
+    const idx=Math.max(0,TTS_RATES.indexOf(tts.rate));
+    slider.value=idx;
+    slider.style.setProperty('--fill',(idx/(TTS_RATES.length-1)*100)+'%');
+  }
+  const readout=document.getElementById('ttsRateReadout');
+  if(readout) readout.textContent=tts.rate+'×';
 }
 
 function ttsSpeak(){
@@ -1751,6 +1772,14 @@ function getReaderSteps(story){
   }
 }
 
+// Rough estimated time remaining in a story — ESL reading pace, not native WPM
+const READING_WPM=90;
+function estReadingMinutes(steps,fromStep){
+  const remainingText=steps.slice(fromStep).join(' ');
+  const wordCount=remainingText.split(/\s+/).filter(Boolean).length;
+  return Math.max(1,Math.ceil(wordCount/READING_WPM));
+}
+
 function renderReader(){
   const story=getStory(); if(!story){navigate('home');return;}
   const lv=LEVELS.find(l=>l.id===story.levelId);
@@ -1791,17 +1820,13 @@ function renderReader(){
       <button id="tts-play-btn" class="tts-play-btn${tts.active&&!tts.paused?' paused':''}" onclick="ttsToggle()" title="${tts.active&&!tts.paused?'Pause':'Play'}">${tts.active&&!tts.paused?'⏸':'▶'}</button>
       <button class="tts-stop-btn" onclick="ttsStop()" title="Stop">■</button>
       <span class="tts-label">🔊 聴く</span>
-      <div class="tts-rate-group">
-        <button class="tts-rate-btn${tts.rate===0.75?' tts-rate-active':''}" data-rate="0.75" onclick="ttsSetRate(0.75)">0.75×</button>
-        <button class="tts-rate-btn${tts.rate===1?' tts-rate-active':''}" data-rate="1" onclick="ttsSetRate(1)">1×</button>
-        <button class="tts-rate-btn${tts.rate===1.5?' tts-rate-active':''}" data-rate="1.5" onclick="ttsSetRate(1.5)">1.5×</button>
-        <button class="tts-rate-btn${tts.rate===2?' tts-rate-active':''}" data-rate="2" onclick="ttsSetRate(2)">2×</button>
-      </div>
+      ${buildTTSRateSlider()}
     </div>`;
 
   document.getElementById('app').innerHTML=`
   <div class="screen reader-screen">
     <div class="reader-prog-bar"><div class="reader-prog-fill" id="rpf" style="width:${pct}%"></div></div>
+    <div class="reader-time-est">残り ${estReadingMinutes(steps,step)}分</div>
     <div class="reader-header">
       <button class="back-btn" onclick="ttsStop();navigate('stories',{levelId:${story.levelId},subLevel:${story.subLevel}})">←</button>
       <h3>${story.title}</h3>
@@ -3010,17 +3035,13 @@ function renderJourneyReaderPage(){
     <button id="tts-play-btn" class="tts-play-btn${tts.active&&!tts.paused?' paused':''}" onclick="ttsToggle()">${tts.active&&!tts.paused?'⏸':'▶'}</button>
     <button class="tts-stop-btn" onclick="ttsStop()">■</button>
     <span class="tts-label">🔊 聴く</span>
-    <div class="tts-rate-group">
-      <button class="tts-rate-btn${tts.rate===0.75?' tts-rate-active':''}" data-rate="0.75" onclick="ttsSetRate(0.75)">0.75×</button>
-      <button class="tts-rate-btn${tts.rate===1?' tts-rate-active':''}" data-rate="1" onclick="ttsSetRate(1)">1×</button>
-      <button class="tts-rate-btn${tts.rate===1.5?' tts-rate-active':''}" data-rate="1.5" onclick="ttsSetRate(1.5)">1.5×</button>
-      <button class="tts-rate-btn${tts.rate===2?' tts-rate-active':''}" data-rate="2" onclick="ttsSetRate(2)">2×</button>
-    </div>
+    ${buildTTSRateSlider()}
   </div>`;
 
   document.getElementById('app').innerHTML=`
   <div class="screen reader-screen">
     <div class="reader-prog-bar"><div class="reader-prog-fill" style="width:${pct}%"></div></div>
+    <div class="reader-time-est">残り ${estReadingMinutes(steps,step)}分</div>
     <div class="reader-header">
       <button class="back-btn" onclick="ttsStop();navigate('journeyreader',{destId:'${state.destId}'})">←</button>
       <h3>${story.title}</h3>
@@ -3117,7 +3138,7 @@ function renderJourneyHub(){
     :`<div class="journey-ticket-count" style="opacity:.55">🎫 No tickets yet — finish a sub-level to earn one</div>`;
 
   document.getElementById('app').innerHTML=`
-  <div class="screen has-tab-bar">
+  <div class="screen has-tab-bar journey-hub-screen">
     <div class="journey-hero">
       <h2>🌍 世界の旅</h2>
       <p>読んで、単語を学び、文化クイズに挑戦してパスポートスタンプをゲットしよう。</p>
