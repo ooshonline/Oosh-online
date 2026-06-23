@@ -402,6 +402,22 @@
     .daily-goal-title{font-size:1rem;font-weight:700;color:var(--text);font-family:var(--font-head)}
     .daily-goal-sub{font-size:.85rem;color:var(--text-muted);margin-top:2px}
     .daily-goal-done{font-size:.82rem;color:var(--accent-dark);font-weight:700;margin-top:4px}
+    /* DAILY QUESTS */
+    .quests-wrap{width:100%;margin-bottom:16px;padding:0 20px}
+    .quests-section-title{font-family:var(--font-head);font-size:.72rem;font-weight:900;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+    .quest-list{display:flex;flex-direction:column;gap:7px}
+    .quest-card{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;transition:border-color .25s,background .25s}
+    .quest-card.quest-done{border-color:var(--primary);background:var(--primary-light)}
+    .quest-icon{font-size:1.25rem;flex-shrink:0;width:26px;text-align:center}
+    .quest-body{flex:1;min-width:0}
+    .quest-text{font-family:var(--font-head);font-size:.84rem;font-weight:800;color:var(--text);line-height:1.3}
+    .quest-prog{font-family:var(--font-body);font-size:.7rem;color:var(--text-muted);margin-top:3px}
+    .quest-check{font-size:1rem;flex-shrink:0;color:var(--primary-dark);opacity:0;transform:scale(.5);transition:opacity .3s,transform .3s}
+    .quest-card.quest-done .quest-check{opacity:1;transform:scale(1)}
+    .quest-bonus-card{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--accent-light);border:1.5px solid rgba(249,173,59,.4);border-radius:var(--radius-sm);padding:10px 14px;margin-top:2px}
+    .quest-bonus-card.quest-bonus-done{background:rgba(249,173,59,.22);border-color:var(--accent)}
+    .quest-bonus-txt{font-family:var(--font-head);font-size:.82rem;font-weight:800;color:var(--accent-dark)}
+    .quest-xp-badge{font-family:var(--font-head);font-size:.72rem;font-weight:900;color:var(--accent-dark);background:rgba(249,173,59,.2);border-radius:99px;padding:3px 9px;flex-shrink:0}
     /* Font size */
     .font-large .reader-body p{font-size:1.3rem;line-height:2.1}
     .font-large.level-early .reader-body p{font-size:1.45rem;line-height:2.2}
@@ -783,6 +799,7 @@ const state = {
   fontSize:        localStorage.getItem('rbt_fontsize')||'normal',
   vocabHighlight:  localStorage.getItem('rbt_highlight')!=='off',
   dailyGoal:       parseInt(localStorage.getItem('rbt_goal')||'3'),
+  questProgress:   JSON.parse(localStorage.getItem('rbt_qp')||'{}'),
   todayCount:      0,   // stories completed today (recalculated on load)
   lastStoryId:     localStorage.getItem('rbt_laststory')||null,
   savedWords: JSON.parse(localStorage.getItem('rbt_words')||'{}'),
@@ -819,6 +836,7 @@ function save(){
   localStorage.setItem('rbt_points',   state.points);
   localStorage.setItem('rbt_tickets',  state.tickets||0);
   localStorage.setItem('rbt_journey',  JSON.stringify(state.journey||{}));
+  localStorage.setItem('rbt_qp',       JSON.stringify(state.questProgress||{}));
 }
 // Safety net — save whenever the user closes or navigates away
 window.addEventListener('beforeunload', save);
@@ -1409,6 +1427,68 @@ function renderGoalRing(){
   </svg>`;
 }
 
+// ── DAILY QUESTS ───────────────────────────────────────────
+function getTodayQuestKey(){ return new Date().toDateString(); }
+
+function getTodayQuests(){
+  const key=getTodayQuestKey();
+  if(!state.questProgress) state.questProgress={};
+  // New day: reset slot
+  if(!state.questProgress[key])
+    state.questProgress[key]={stories:false,perfect:false,fc:false,bonus:false};
+  return state.questProgress[key];
+}
+
+function markQuestDone(type){
+  const q=getTodayQuests();
+  if(q[type]) return; // already awarded
+  q[type]=true;
+  state.xp=(state.xp||0)+20;
+  // Bonus: all three base quests complete
+  if(!q.bonus && q.stories && q.perfect && q.fc){
+    q.bonus=true;
+    state.xp=(state.xp||0)+30;
+  }
+  save();
+}
+
+function checkStoriesQuest(){
+  if(state.todayCount>=state.dailyGoal) markQuestDone('stories');
+}
+
+function renderQuestCards(){
+  calcTodayCount();
+  const q=getTodayQuests();
+  // Check stories quest live in case progress happened outside finishQuiz
+  if(!q.stories && state.todayCount>=state.dailyGoal) markQuestDone('stories');
+
+  const card=(done,icon,text,prog)=>`
+    <div class="quest-card${done?' quest-done':''}">
+      <span class="quest-icon">${icon}</span>
+      <div class="quest-body">
+        <div class="quest-text">${text}</div>
+        ${(!done&&prog)?`<div class="quest-prog">${prog}</div>`:''}
+      </div>
+      <span class="quest-check">✓</span>
+    </div>`;
+
+  const storiesProg=`${Math.min(state.todayCount,state.dailyGoal)} / ${state.dailyGoal} 話`;
+  const allThree=q.stories&&q.perfect&&q.fc;
+
+  return `<div class="quests-wrap">
+    <div class="quests-section-title">🌟 今日のクエスト</div>
+    <div class="quest-list">
+      ${card(q.stories,'📖',`今日${state.dailyGoal}話読もう`,storiesProg)}
+      ${card(q.perfect,'⭐','クイズで全問正解！',null)}
+      ${card(q.fc,'🃏','フラッシュカードを練習しよう',null)}
+      <div class="quest-bonus-card${q.bonus?' quest-bonus-done':''}">
+        <span class="quest-bonus-txt">${q.bonus?'🎉 今日のクエスト全完了！':'🏆 全クリア +30 XP ボーナス'}</span>
+        ${q.bonus?'<span style="font-size:1rem">✓</span>':`<span class="quest-xp-badge">${allThree?'間もなく…':'+20×3'}</span>`}
+      </div>
+    </div>
+  </div>`;
+}
+
 // ── RENDER: HOME (Pond Map) ────────────────────────────────
 function currentLevelId(){
   if(state.lastStoryId){const s=findStory(state.lastStoryId); if(s) return s.levelId;}
@@ -1533,6 +1613,7 @@ function renderHome(){
       <img src="OOSH_Logo_Square.png" alt="Ribbitのカエル" style="width:52px;height:52px"/>
       <div class="fb-text">${frogGreeting()}</div>
     </div>
+    ${renderQuestCards()}
     <div class="pond-map-wrap">${renderPondMap(lv)}</div>
     <div class="pond-cta-wrap">${cta}</div>
   </div>
@@ -2728,6 +2809,8 @@ function finishQuiz(){
 
   state.comboStreak=0;
   calcTodayCount();
+  checkStoriesQuest();
+  if(score===1) markQuestDone('perfect');
   // Check if this story completion finishes a sub-level for the first time
   const sl=story.levelId===6 ? story.subLevel-1 : story.subLevel;
   const justUnlocked=wasNew && subLevelDone(story.levelId, sl);
@@ -2935,6 +3018,7 @@ function startFlashCardPlay(hardOnly=false){
     const j=Math.floor(Math.random()*(i+1));
     [order[i],order[j]]=[order[j],order[i]];
   }
+  markQuestDone('fc');
   navigate('fcplay',{fcOrder:order,fcStudyIndex:0,fcHard:[]});
 }
 
