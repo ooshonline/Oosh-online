@@ -818,6 +818,7 @@ const state = {
   vocabHighlight:  localStorage.getItem('rbt_highlight')!=='off',
   dailyGoal:       parseInt(localStorage.getItem('rbt_goal')||'3'),
   questProgress:   JSON.parse(localStorage.getItem('rbt_qp')||'{}'),
+  weekQuestProgress: JSON.parse(localStorage.getItem('rbt_wqp')||'{}'),
   todayCount:      0,   // stories completed today (recalculated on load)
   lastStoryId:     localStorage.getItem('rbt_laststory')||null,
   savedWords: JSON.parse(localStorage.getItem('rbt_words')||'{}'),
@@ -855,6 +856,7 @@ function save(){
   localStorage.setItem('rbt_tickets',  state.tickets||0);
   localStorage.setItem('rbt_journey',  JSON.stringify(state.journey||{}));
   localStorage.setItem('rbt_qp',       JSON.stringify(state.questProgress||{}));
+  localStorage.setItem('rbt_wqp',      JSON.stringify(state.weekQuestProgress||{}));
 }
 // Safety net — save whenever the user closes or navigates away
 window.addEventListener('beforeunload', save);
@@ -1454,7 +1456,84 @@ function getTodayQuests(){
   // New day: reset slot
   if(!state.questProgress[key])
     state.questProgress[key]={stories:false,perfect:false,fc:false,bonus:false};
+  // Prune old entries — keep only the last 10 days
+  const keys=Object.keys(state.questProgress);
+  if(keys.length>10) keys.sort().slice(0,-10).forEach(k=>delete state.questProgress[k]);
   return state.questProgress[key];
+}
+
+// ── WEEKLY QUESTS ──────────────────────────────────────────
+function getWeekQuestKey(){
+  const d=new Date();
+  // Monday of current week
+  const day=(d.getDay()+6)%7; // 0=Mon … 6=Sun
+  const mon=new Date(d.getTime()-day*86400000);
+  return mon.toDateString();
+}
+
+function getWeekQuests(){
+  const key=getWeekQuestKey();
+  if(!state.weekQuestProgress) state.weekQuestProgress={};
+  if(!state.weekQuestProgress[key])
+    state.weekQuestProgress[key]={levels3:false,journey1:false,fc10:false,bonus:false};
+  // Prune — keep last 5 weeks
+  const keys=Object.keys(state.weekQuestProgress);
+  if(keys.length>5) keys.sort().slice(0,-5).forEach(k=>delete state.weekQuestProgress[k]);
+  return state.weekQuestProgress[key];
+}
+
+function markWeekQuestDone(type){
+  const q=getWeekQuests();
+  if(q[type]) return;
+  q[type]=true;
+  state.xp=(state.xp||0)+30;
+  if(!q.bonus && q.levels3 && q.journey1 && q.fc10){
+    q.bonus=true;
+    state.xp=(state.xp||0)+50;
+  }
+  save();
+}
+
+function checkWeekQuests(){
+  const wq=getWeekQuests();
+  if(!wq.levels3){
+    const done=Object.keys(state.progress||{});
+    const levels=new Set(done.map(id=>findStory(id)?.levelId).filter(Boolean));
+    if(levels.size>=3) markWeekQuestDone('levels3');
+  }
+  if(!wq.fc10 && Object.keys(state.flashCards||{}).length>=10) markWeekQuestDone('fc10');
+}
+
+function renderWeekQuestCards(){
+  checkWeekQuests();
+  const wq=getWeekQuests();
+  const fcCount=Object.keys(state.flashCards||{}).length;
+  const done=Object.keys(state.progress||{});
+  const levelCount=new Set(done.map(id=>findStory(id)?.levelId).filter(Boolean)).size;
+
+  const card=(isDone,icon,text,prog)=>`
+    <div class="quest-card${isDone?' quest-done':''}">
+      <span class="quest-icon">${icon}</span>
+      <div class="quest-body">
+        <div class="quest-text">${text}</div>
+        ${(!isDone&&prog)?`<div class="quest-prog">${prog}</div>`:''}
+      </div>
+      <span class="quest-check">✓</span>
+    </div>`;
+
+  const allThree=wq.levels3&&wq.journey1&&wq.fc10;
+  return `<div class="quests-wrap">
+    <div class="quests-section-title" style="color:var(--primary-dark)">📅 今週のクエスト</div>
+    <div class="quest-list">
+      ${card(wq.levels3,'📚','3つのレベルを読もう',`${Math.min(levelCount,3)} / 3 レベル`)}
+      ${card(wq.journey1,'🌍','旅の目的地を制覇しよう',null)}
+      ${card(wq.fc10,'✨','フラッシュカードを10枚集めよう',`${Math.min(fcCount,10)} / 10 枚`)}
+      <div class="quest-bonus-card${wq.bonus?' quest-bonus-done':''}">
+        <span class="quest-bonus-txt">${wq.bonus?'🎉 今週のクエスト全完了！':'🏆 全クリア +50 XP ボーナス'}</span>
+        ${wq.bonus?'<span style="font-size:1rem">✓</span>':`<span class="quest-xp-badge">${allThree?'間もなく…':'+30×3'}</span>`}
+      </div>
+    </div>
+  </div>`;
 }
 
 function markQuestDone(type){
@@ -1632,6 +1711,7 @@ function renderHome(){
       <div class="fb-text">${frogGreeting()}</div>
     </div>
     ${renderQuestCards()}
+    ${renderWeekQuestCards()}
     <div class="pond-map-wrap">${renderPondMap(lv)}</div>
     <div class="pond-cta-wrap">${cta}</div>
     <button class="genre-browse-btn" onclick="navigate('topics')">📚 ジャンルで探す →</button>
@@ -3333,6 +3413,7 @@ function renderJourneyDone(){
     js.stamped=true;
     state.xp=(state.xp||0)+200;
     state.totalXP=(state.totalXP||0)+200;
+    markWeekQuestDone('journey1');
     save();
     launchConfetti();
   }
