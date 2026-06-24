@@ -481,6 +481,8 @@
     .settings-section{padding:16px}
     .settings-label{font-size:.75rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
     .settings-desc{font-size:.85rem;color:var(--text-muted);margin-bottom:14px;line-height:1.5}
+    .tts-voice-select{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-family:var(--font-body);font-size:.88rem;appearance:none;cursor:pointer;transition:border-color .2s}
+    .tts-voice-select:focus{outline:none;border-color:var(--primary)}
     /* Flash card list */
     .fc-list-actions{padding:16px 16px 4px}
     .fc-play-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;border-radius:var(--radius);font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(143,184,50,.3)}
@@ -819,6 +821,7 @@ const state = {
   dailyGoal:       parseInt(localStorage.getItem('rbt_goal')||'3'),
   questProgress:   JSON.parse(localStorage.getItem('rbt_qp')||'{}'),
   weekQuestProgress: JSON.parse(localStorage.getItem('rbt_wqp')||'{}'),
+  ttsVoice:         localStorage.getItem('rbt_ttsvoice')||'',
   todayCount:      0,   // stories completed today (recalculated on load)
   lastStoryId:     localStorage.getItem('rbt_laststory')||null,
   savedWords: JSON.parse(localStorage.getItem('rbt_words')||'{}'),
@@ -857,6 +860,7 @@ function save(){
   localStorage.setItem('rbt_journey',  JSON.stringify(state.journey||{}));
   localStorage.setItem('rbt_qp',       JSON.stringify(state.questProgress||{}));
   localStorage.setItem('rbt_wqp',      JSON.stringify(state.weekQuestProgress||{}));
+  if(state.ttsVoice) localStorage.setItem('rbt_ttsvoice', state.ttsVoice);
 }
 // Safety net — save whenever the user closes or navigates away
 window.addEventListener('beforeunload', save);
@@ -1782,7 +1786,18 @@ function renderLangPicker(isSettings=false){
         <p class="settings-desc">単語をタップしたり、フラッシュカードで学習するときの翻訳言語を選んでください。</p>
         <div class="lang-list">${langItems}</div>
       </div>
+      <div class="settings-section">
+        <div class="settings-label">読み上げの声 (TTS)</div>
+        <p class="settings-desc">テキスト読み上げに使う声を選んでください。★はオフライン対応。</p>
+        <select id="ttsVoiceSelect" class="tts-voice-select" onchange="setTTSVoice(this.value)">
+          <option value="">読み込み中…</option>
+        </select>
+      </div>
     </div>`;
+    // Populate voices — synchronous on Safari, async on Chrome
+    populateTTSVoices();
+    if(typeof speechSynthesis!=='undefined' && speechSynthesis.onvoiceschanged!==undefined)
+      speechSynthesis.onvoiceschanged=populateTTSVoices;
   } else {
     // First-launch full-screen picker
     document.getElementById('app').innerHTML=`
@@ -2182,6 +2197,7 @@ function ttsSpeak(){
   if(!text) return;
   const u=new SpeechSynthesisUtterance(text);
   u.lang='en-GB'; u.rate=tts.rate;
+  if(state.ttsVoice){const v=speechSynthesis.getVoices().find(v=>v.voiceURI===state.ttsVoice);if(v) u.voice=v;}
 
   u.onboundary=function(e){
     if(e.name!=='word') return;
@@ -2242,6 +2258,21 @@ function ttsSetRate(r){
   if(wasActive){ speechSynthesis.cancel(); tts.active=false; }
   updateTTSUI();
   if(wasActive) setTimeout(ttsSpeak,100);
+}
+
+function populateTTSVoices(){
+  const sel=document.getElementById('ttsVoiceSelect');
+  if(!sel) return;
+  const voices=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));
+  if(!voices.length) return; // not yet loaded — voiceschanged will retry
+  sel.innerHTML=`<option value="">デフォルト</option>`+
+    voices.map(v=>`<option value="${v.voiceURI}"${v.voiceURI===state.ttsVoice?' selected':''}>${v.name}${v.localService?' ★':''}</option>`).join('');
+}
+
+function setTTSVoice(uri){
+  state.ttsVoice=uri;
+  if(uri) localStorage.setItem('rbt_ttsvoice',uri);
+  else localStorage.removeItem('rbt_ttsvoice');
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
