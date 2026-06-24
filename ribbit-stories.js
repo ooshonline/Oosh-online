@@ -12516,3 +12516,132 @@ JOURNEY_STORIES['kenya'].push({
      feedback:"'They ate standing up, tearing pieces of meat and dipping them in the kachumbari... passing the plate between them.'"}
   ]
 });
+
+JOURNEY_STORIES['italy'] = JOURNEY_STORIES['italy'] || [];
+JOURNEY_STORIES['italy'].push({
+  id:"j-italy-1", journeyId:"italy", order:1,
+  title:"Before the Crowds", emoji:"🏛️", genre:"Place / History",
+  wordCount:305, readMins:3,
+  blurb:"Sofia visits the Colosseum at dawn with her grandfather, who knows that the best time to see Rome is before the tourists arrive.",
+  paragraphs:[
+    "Nonno Enzo knew the trick: get there at seven in the morning, before the coaches arrived. Sofia was not sure this was really a trick — more of a fact that most tourists simply ignored. At half past seven, standing at the edge of the Colosseum floor with her grandfather and no one else in sight, she was glad they had come early.",
+    "The arena was larger than it looked in photographs. The outer wall rose forty-eight metres at its highest point; the seats that once held fifty thousand people were mostly gone, reduced to bare concrete and brick. Where there had been marble floors, there was now exposed wood over the excavated hypogeum — the underground network of tunnels where animals and fighters had waited before each event.",
+    "'What did it sound like?' Sofia asked. Her grandfather considered the question properly, the way he always considered questions that mattered. 'Loud,' he said. 'Very loud. And probably not pleasant if you were down there.' He pointed to a gap in the floor where a lift mechanism had once raised caged animals directly into the arena.",
+    "Sofia had studied the Colosseum in school. She knew the gladiators, the emperors, the significance of a turned thumb. What she hadn't expected was the silence. In the cool of the morning, with pigeons moving along the upper tiers and no sound from the city, the structure held its age differently than it did in photographs.",
+    "By nine o'clock the first tour group had arrived — matching polo shirts, a guide with a flag on a stick. Sofia and her grandfather had already moved to the upper tier. 'We have the best seats,' Nonno Enzo said. Sofia wasn't sure if he meant in the Colosseum or in general. Either way, she suspected he was right."
+  ],
+  vocabulary:{
+    "hypogeum":{def:"The underground network of tunnels and chambers beneath the Colosseum, where animals and gladiators waited before entering the arena.",pos:"noun"},
+    "gladiator":{def:"A trained fighter in ancient Rome who competed in public spectacles, often in the Colosseum.",pos:"noun"},
+    "excavated":{def:"Dug out carefully from the earth, usually to reveal something buried or ancient.",pos:"adjective"},
+    "tier":{def:"One of the rows of seats arranged in levels, one above another, in a stadium or theatre.",pos:"noun"},
+    "arena":{def:"The central floor area of a stadium or amphitheatre where events took place.",pos:"noun"},
+    "mechanism":{def:"A system of moving parts designed to perform a particular function; here, the lift that raised animals from below.",pos:"noun"}
+  },
+  quiz:[
+    {question:"What was Nonno Enzo's trick for visiting the Colosseum?",options:["Booking the most expensive guided tour in advance","Arriving at seven in the morning, before the coaches arrived","Coming on a Tuesday when the crowds were always smaller","Using a secret entrance known only to locals"],correct:1,
+     feedback:"'Nonno Enzo knew the trick: get there at seven in the morning, before the coaches arrived.'"},
+    {question:"What is the hypogeum?",options:["The highest point of the outer wall, forty-eight metres up","The marble floor that once covered the entire arena","The underground network of tunnels where animals and fighters waited","The private box where emperors sat to watch the events"],correct:2,
+     feedback:"'...the excavated hypogeum — the underground network of tunnels where animals and fighters had waited before each event.'"},
+    {question:"What surprised Sofia most about the Colosseum that morning?",options:["It was much smaller than it looked in photographs","The marble floors had been perfectly preserved","The silence — she hadn't expected it at all","The number of tourists who had also arrived early"],correct:2,
+     feedback:"'What she hadn't expected was the silence. In the cool of the morning... the structure held its age differently than it did in photographs.'"},
+    {question:"What did Nonno Enzo say when they reached the upper tier?",options:["'We should have come here years ago.'","'We have the best seats.'","'Now we can see how big it really is.'","'This is where the emperors used to sit.'"],correct:1,
+     feedback:"\"'We have the best seats,' Nonno Enzo said. Sofia wasn't sure if he meant in the Colosseum or in general.\""}
+  ]
+});
+
+JOURNEY_STORIES['italy'].push({
+  id:"j-italy-2", journeyId:"italy", order:2,
+  title:"The Standing Bar", emoji:"☕", genre:"Everyday Life / Food",
+  wordCount:295, readMins:3,
+  blurb:"Every morning, Marco takes four minutes to drink his espresso at the neighbourhood bar in Naples — and wouldn't have it any other way.",
+  paragraphs:[
+    "The bar on Via Toledo opened at six and Marco was usually there by ten past. He did not go in search of breakfast — he went for coffee, which in Naples was not quite the same thing. The bar was narrow, with a zinc counter, three stools that nobody ever sat on, and a machine that made a sound like a small industrial process every time it produced an espresso.",
+    "The ritual was precise. Marco said buongiorno to the barista, who nodded without breaking his rhythm. The espresso arrived in under thirty seconds — dark, with a thin layer of caramel-coloured crema on top. You did not carry it to a table. You drank it at the counter, standing, in two or three sips. To sit down and drink espresso slowly was possible, but it meant paying twice the price.",
+    "Signora Elba was already at the counter. She was eighty-one and had been coming to this bar since it was owned by the current owner's father. She always ordered the same thing: a caffè macchiato — espresso with a small cloud of steamed milk — and a cornetto filled with apricot jam. She ate the cornetto in four bites and was gone in three minutes.",
+    "Marco liked the standing bar for the same reason he liked the market around the corner: it was fast and quiet and everyone was doing exactly what they had come to do. In larger cafés, tourists ordered cappuccinos at eleven in the morning, which the baristas served without comment but clearly found irregular. In Naples, cappuccino was a morning drink. After ten o'clock, you had espresso.",
+    "He paid sixty cents and left. The whole thing had taken four minutes. Outside, Via Toledo was filling with people. Marco felt, as he did every morning, that the day had properly begun."
+  ],
+  vocabulary:{
+    "espresso":{def:"A small, strong shot of coffee made by forcing hot water through very finely ground coffee beans; the standard Italian coffee.",pos:"noun"},
+    "crema":{def:"The thin, golden-brown foam on top of a well-made espresso, formed by the pressure of the machine.",pos:"noun"},
+    "barista":{def:"A person who prepares and serves coffee drinks professionally, especially in an Italian-style bar.",pos:"noun"},
+    "caffè macchiato":{def:"An espresso with a small amount of steamed or frothed milk added; 'macchiato' means 'stained' or 'marked' in Italian.",pos:"noun"},
+    "cornetto":{def:"An Italian croissant, lighter and flakier than the French version, often filled with cream, jam, or chocolate.",pos:"noun"},
+    "zinc":{def:"A bluish-silver metal; zinc counters are traditional in Italian bars, giving a cool, smooth surface.",pos:"noun"}
+  },
+  quiz:[
+    {question:"Why did Marco go to the bar in the morning?",options:["To read the newspaper before work","For coffee — not quite the same as breakfast in Naples","To meet his friend Signora Elba for breakfast","To pick up something to eat on the way to work"],correct:1,
+     feedback:"'He did not go in search of breakfast — he went for coffee, which in Naples was not quite the same thing.'"},
+    {question:"How were you supposed to drink an espresso at a Neapolitan bar?",options:["Seated at a small table near the window","Slowly, so you could enjoy the crema","Standing at the counter, in two or three sips","Outside on the pavement, in the morning air"],correct:2,
+     feedback:"'You drank it at the counter, standing, in two or three sips.'"},
+    {question:"What did Signora Elba always order?",options:["A double espresso and a slice of cake","A caffè macchiato and a cornetto filled with apricot jam","A cappuccino and a plain cornetto","An espresso and a small glass of water"],correct:1,
+     feedback:"'She always ordered the same thing: a caffè macchiato — espresso with a small cloud of steamed milk — and a cornetto filled with apricot jam.'"},
+    {question:"What did Neapolitan baristas think of tourists who ordered cappuccinos at eleven in the morning?",options:["They were happy to have the extra business","They found it irregular, though they served it without comment","They refused to make them after ten o'clock","They charged double and added a warning"],correct:1,
+     feedback:"'...which the baristas served without comment but clearly found irregular. In Naples, cappuccino was a morning drink. After ten o'clock, you had espresso.'"}
+  ]
+});
+
+JOURNEY_STORIES['italy'].push({
+  id:"j-italy-3", journeyId:"italy", order:3,
+  title:"The Mask She Chose", emoji:"🎭", genre:"Festival / Culture",
+  wordCount:302, readMins:3,
+  blurb:"Giulia visits Venice in February for Carnevale and discovers that in a city of masks, choosing the right one takes longer than expected.",
+  paragraphs:[
+    "The fog was already thick on the water when they arrived by train. Giulia had been to Venice three times, but never in February, never for Carnevale. The city was different in winter — the streets quieter than August, the light grey and flat, and then, turning a corner, a woman in a full seventeenth-century gown and a white porcelain mask, standing absolutely still beside the canal.",
+    "Carnevale lasted ten days and drew hundreds of thousands of visitors, but the masks were the thing that made it unlike any other festival Giulia knew. There were the cheap plastic ones sold from market stalls, and there were the handmade ones from the maskmakers' shops — papier-mâché and gesso, painted in gold and deep red, with tiny painted flowers or a single dramatic curl of feathers. The difference in price was considerable.",
+    "Her mother found a shop on a narrow calle near the Rialto. The maskmaker — an older woman with ink-stained hands — explained each piece without pressure: which masks were traditional, which were theatrical, which were from the Commedia dell'arte tradition. Giulia chose a half-mask in pale green with a rim of gold leaf. The woman wrapped it in tissue paper as carefully as if it were made of actual gold.",
+    "On the last Saturday, they stood in the campo in front of San Marco and watched the costumed figures arrive and pose for photographs. Some had spent weeks on their outfits — men in powdered wigs and painted faces, women in elaborate brocade dresses. Others simply wore a mask and a coat. Both were equally welcome.",
+    "Giulia wore her mask only once, walking back to the hotel in the fog. Nobody looked twice — in Venice during Carnevale, a masked person was simply part of the city. That, she thought, was exactly the point."
+  ],
+  vocabulary:{
+    "carnevale":{def:"Italy's pre-Lent festival of masks and costumes, most famous in Venice; 'carnevale' means 'farewell to meat' in Latin.",pos:"noun"},
+    "porcelain":{def:"A smooth, white, delicate material often used for decorative objects — and the classic white Venetian mask.",pos:"noun"},
+    "papier-mâché":{def:"A material made from paper mixed with glue, shaped and left to harden; used to make traditional Venetian masks.",pos:"noun"},
+    "calle":{def:"A narrow street or alleyway in Venice; the Venetian word for street.",pos:"noun"},
+    "brocade":{def:"A thick, heavy fabric with a raised pattern woven into it, often in gold or silver thread; used in elaborate Carnival costumes.",pos:"noun"},
+    "campo":{def:"An open square in Venice, similar to a piazza; the word means 'field' because these spaces were once grassy.",pos:"noun"}
+  },
+  quiz:[
+    {question:"What surprised Giulia when she turned a corner in Venice in winter?",options:["The streets were completely empty of people","A woman in a seventeenth-century gown and a white porcelain mask, standing still beside the canal","A market selling handmade masks directly on the canal","The fog was so thick she could not see the water at all"],correct:1,
+     feedback:"'...turning a corner, a woman in a full seventeenth-century gown and a white porcelain mask, standing absolutely still beside the canal.'"},
+    {question:"What was the difference between the cheap masks and the handmade ones in the shops?",options:["The cheap ones were based on traditional designs; the handmade ones were modern","The handmade ones were papier-mâché painted in gold and deep red; the price difference was considerable","The cheap ones were made from porcelain; the handmade ones were plastic","There was no real difference — both were made the same way"],correct:1,
+     feedback:"'There were the cheap plastic ones sold from market stalls, and there were the handmade ones... painted in gold and deep red... The difference in price was considerable.'"},
+    {question:"What mask did Giulia choose in the shop near the Rialto?",options:["A full white porcelain mask with black feathers","A golden theatrical mask from the Commedia dell'arte tradition","A half-mask in pale green with a rim of gold leaf","A deep red mask painted with tiny flowers"],correct:2,
+     feedback:"'Giulia chose a half-mask in pale green with a rim of gold leaf.'"},
+    {question:"Why did nobody look twice when Giulia wore her mask in the fog?",options:["It was too dark for anyone to notice","She was wearing it the wrong way round","In Venice during Carnevale, a masked person was simply part of the city","The fog was so thick that no one could see anything clearly"],correct:2,
+     feedback:"'Nobody looked twice — in Venice during Carnevale, a masked person was simply part of the city.'"}
+  ]
+});
+
+JOURNEY_STORIES['italy'].push({
+  id:"j-italy-4", journeyId:"italy", order:4,
+  title:"The City Below the City", emoji:"🪨", genre:"Place / History",
+  wordCount:298, readMins:3,
+  blurb:"Daniel takes a wrong turn in southern Italy and ends up standing above Matera — a city carved into rock, inhabited for nine thousand years.",
+  paragraphs:[
+    "Daniel had not planned to go to Matera. He had taken a wrong turn on a hired Fiat out of Bari, stopped to check the map, looked up, and seen a city carved into the side of a ravine. He pulled over on the road above and stood there for a long time.",
+    "The sassi — the cave dwellings — covered two steep valleys, with the cathedral at the top of the ridge and the houses tumbling down from it in every direction. Some had been continuously inhabited for nine thousand years. In 1952, the Italian government had evacuated most residents, judging the sassi too primitive to live in. By the 1990s, the same dwellings had been declared a UNESCO World Heritage Site.",
+    "He parked and walked down into the oldest quarter. The streets were not flat — everything was steps, ramps, and curved stone paths that changed direction without warning. Many former cave dwellings had become hotels, restaurants, or small museums. One had been converted into a church. Another had a potted plant outside the door and a cat asleep on the windowsill.",
+    "Inside one of the small museums, a photograph showed a family from 1950 sharing a single cave with their sheep and pig. The animals were kept inside not from sentiment, but because their body heat helped warm the cave in winter. The guide explained this without drama, as a practical arrangement that had worked for centuries.",
+    "Daniel ate lunch at a trattoria cut directly into the rock. The walls were bare stone, curved above him. His pasta arrived, and outside, through the open door, the opposite hillside of sassi caught the afternoon light. He took a photograph and knew, even before checking it, that it would not capture what he was looking at."
+  ],
+  vocabulary:{
+    "sassi":{def:"Ancient cave dwellings carved into the rock face of ravines in Matera, southern Italy; a UNESCO World Heritage Site inhabited for thousands of years.",pos:"noun"},
+    "ravine":{def:"A deep, narrow valley with steep sides, usually formed by water erosion over many years.",pos:"noun"},
+    "inhabited":{def:"Lived in; occupied by people as a home.",pos:"adjective"},
+    "evacuated":{def:"Moved people out of a place, usually because it is considered dangerous or unsuitable to live in.",pos:"adjective"},
+    "trattoria":{def:"A small, informal Italian restaurant, usually family-run and serving traditional local food.",pos:"noun"},
+    "sentiment":{def:"A feeling of warmth or affection for something; caring about something for emotional rather than practical reasons.",pos:"noun"}
+  },
+  quiz:[
+    {question:"How did Daniel end up discovering Matera?",options:["He had read about it in a travel guide and planned to visit","A local in Bari recommended it as a day trip","He took a wrong turn on a hired Fiat and stopped to check the map","His hotel receptionist had drawn him a map to the sassi"],correct:2,
+     feedback:"'He had taken a wrong turn on a hired Fiat out of Bari, stopped to check the map, looked up, and seen a city carved into the side of a ravine.'"},
+    {question:"What happened to the residents of the sassi in 1952?",options:["They were given money to renovate their caves","The Italian government evacuated most of them, judging the sassi too primitive","A flood forced them to move to higher ground","They left voluntarily to find work in Rome and Milan"],correct:1,
+     feedback:"'In 1952, the Italian government had evacuated most residents, judging the sassi too primitive to live in.'"},
+    {question:"Why did the families in the old photographs keep animals inside their cave homes?",options:["There was nowhere safe outside to keep them during winter","The animals were needed to help with daily household tasks","Their body heat helped warm the cave in winter","It was a local tradition passed down from ancient times"],correct:2,
+     feedback:"'The animals were kept inside not from sentiment, but because their body heat helped warm the cave in winter.'"},
+    {question:"What did Daniel realise when he took a photograph of the hillside?",options:["He had left his phone on the wrong settings","Even before checking it, he knew it would not capture what he was looking at","The afternoon light made the colours look wrong on camera","He had run out of storage on his phone"],correct:1,
+     feedback:"'He took a photograph and knew, even before checking it, that it would not capture what he was looking at.'"}
+  ]
+});
