@@ -1505,11 +1505,14 @@ function checkWeekQuests(){
 }
 
 function renderWeekQuestCards(){
-  checkWeekQuests();
   const wq=getWeekQuests();
   const fcCount=Object.keys(state.flashCards||{}).length;
   const done=Object.keys(state.progress||{});
-  const levelCount=new Set(done.map(id=>findStory(id)?.levelId).filter(Boolean)).size;
+  const levels=new Set(done.map(id=>findStory(id)?.levelId).filter(Boolean));
+  const levelCount=levels.size;
+  // Auto-check quests with fresh data (avoids a second full scan)
+  if(!wq.levels3 && levelCount>=3) markWeekQuestDone('levels3');
+  if(!wq.fc10 && fcCount>=10) markWeekQuestDone('fc10');
 
   const card=(isDone,icon,text,prog)=>`
     <div class="quest-card${isDone?' quest-done':''}">
