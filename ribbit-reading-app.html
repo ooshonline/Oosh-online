@@ -533,6 +533,24 @@
     .fc-next{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 4px 16px rgba(143,184,50,.3)}
     .fc-done{background:linear-gradient(135deg,var(--accent),var(--accent-dark))!important}
 
+    /* TOPIC BROWSE */
+    .topics-screen{min-height:100vh;background:var(--bg)}
+    .topics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 16px 32px}
+    .topic-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 10px;text-align:center;cursor:pointer;transition:border-color .2s,transform .15s,box-shadow .2s}
+    .topic-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:var(--shadow)}
+    .topic-emoji{font-size:2rem;line-height:1;margin-bottom:6px}
+    .topic-jp{font-family:var(--font-head);font-size:.82rem;font-weight:800;color:var(--text);margin-bottom:2px}
+    .topic-count{font-family:var(--font-body);font-size:.68rem;color:var(--text-muted)}
+    .genre-stories-screen{min-height:100vh;background:var(--bg)}
+    .genre-stories-list{padding:12px 16px;display:flex;flex-direction:column;gap:10px;padding-bottom:32px}
+    .genre-story-card{background:var(--card);border-radius:var(--radius);padding:14px 16px;border:1.5px solid var(--border);cursor:pointer;transition:box-shadow .2s,transform .15s;display:flex;align-items:flex-start;gap:12px;box-shadow:var(--shadow-sm)}
+    .genre-story-card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+    .genre-story-card.done{border-color:rgba(186,218,85,.4)}
+    .genre-sc-meta{font-family:var(--font-body);font-size:.7rem;color:var(--text-muted);margin-top:3px}
+    .genre-sc-badge{display:inline-flex;align-items:center;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-right:4px}
+    /* Genre browse button on home */
+    .genre-browse-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:calc(100% - 40px);margin:0 20px 8px;padding:11px 16px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);font-family:var(--font-head);font-size:.88rem;font-weight:800;color:var(--text-muted);cursor:pointer;transition:border-color .2s,color .2s}
+    .genre-browse-btn:hover{border-color:var(--primary);color:var(--primary-dark)}
     /* BOTTOM TAB BAR */
     .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:white;border-top:1px solid rgba(0,0,0,.06);display:flex;z-index:200;height:88px;padding-bottom:env(safe-area-inset-bottom,22px);align-items:flex-start}
     /* BOTTOM TAB BAR — v2 handoff spec: 88px, white bg */
@@ -1616,6 +1634,7 @@ function renderHome(){
     ${renderQuestCards()}
     <div class="pond-map-wrap">${renderPondMap(lv)}</div>
     <div class="pond-cta-wrap">${cta}</div>
+    <button class="genre-browse-btn" onclick="navigate('topics')">📚 ジャンルで探す →</button>
   </div>
   ${tabBar()}`;
 }
@@ -1709,6 +1728,76 @@ function setVocabHighlight(on){
 }
 function setDailyGoal(n){
   state.dailyGoal=n; save(); navigate('settings');
+}
+
+// ── TOPIC BROWSE ───────────────────────────────────────────
+const TOPICS=[
+  {name:'School',    emoji:'🏫', jp:'学校'},
+  {name:'Family',    emoji:'👨‍👩‍👧', jp:'家族'},
+  {name:'Animals',   emoji:'🐾', jp:'動物'},
+  {name:'Nature',    emoji:'🌿', jp:'自然'},
+  {name:'Science',   emoji:'🔬', jp:'科学'},
+  {name:'Adventure', emoji:'🗺️', jp:'冒険'},
+  {name:'Sport',     emoji:'⚽', jp:'スポーツ'},
+  {name:'Culture',   emoji:'🎭', jp:'文化'},
+  {name:'Daily Life',emoji:'🌅', jp:'日常'},
+  {name:'Community', emoji:'🏘️', jp:'地域'},
+  {name:'Art',       emoji:'🎨', jp:'芸術'},
+];
+
+function getStoriesByTopic(topicName){
+  const result=[];
+  for(const lv in STORIES)
+    for(const sl in STORIES[lv])
+      for(const s of STORIES[lv][sl])
+        if(s.genre && s.genre.includes(topicName)) result.push(s);
+  return result;
+}
+
+function renderTopics(){
+  const cards=TOPICS.map(t=>{
+    const count=getStoriesByTopic(t.name).length;
+    if(!count) return '';
+    return `<div class="topic-card" onclick="navigate('genrestories',{topicName:'${t.name}'})">
+      <div class="topic-emoji">${t.emoji}</div>
+      <div class="topic-jp">${t.jp}</div>
+      <div class="topic-count">${count}話</div>
+    </div>`;
+  }).join('');
+  document.getElementById('app').innerHTML=`
+  <div class="screen topics-screen">
+    <div class="nav-bar"><button class="back-btn" onclick="navigate('home')">←</button><h2>📚 ジャンルで探す</h2></div>
+    <div class="topics-grid">${cards}</div>
+  </div>`;
+}
+
+function renderGenreStories(){
+  const topic=TOPICS.find(t=>t.name===state.topicName)||{name:state.topicName,emoji:'📖',jp:state.topicName};
+  const stories=getStoriesByTopic(state.topicName);
+  const LEVEL_COLORS=['#c084fc','#bada55','#4ade80','#38bdf8','#fb923c','#f43f5e'];
+  const LEVEL_NAMES=['Beginner','Elementary','Pre-Int','Intermediate','Upper-Int','Advanced'];
+  const cards=stories.map(s=>{
+    const done=storyDone(s.id);
+    const lvColor=LEVEL_COLORS[(s.levelId-1)]||'#bada55';
+    const lvName=LEVEL_NAMES[(s.levelId-1)]||'';
+    return `<div class="genre-story-card${done?' done':''}" onclick="navigate('reader',{storyId:'${s.id}',levelId:${s.levelId},subLevel:${s.subLevel}})">
+      <span style="font-size:2rem;line-height:1;flex-shrink:0;margin-top:2px">${s.emoji||'📖'}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:var(--font-head);font-size:.9rem;font-weight:800;color:var(--text);margin-bottom:3px">${s.title}</div>
+        <div class="genre-sc-meta">
+          <span class="genre-sc-badge" style="background:${lvColor}20;color:${lvColor}">${lvName}</span>
+          ${s.wordCount}語 · ${done?'✓ 読了':'未読'}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('app').innerHTML=`
+  <div class="screen genre-stories-screen">
+    <div class="nav-bar"><button class="back-btn" onclick="navigate('topics')">←</button>
+      <h2>${topic.emoji} ${topic.jp}</h2></div>
+    <div style="padding:10px 16px 4px;font-family:var(--font-body);font-size:.8rem;color:var(--text-muted)">${stories.length}話 · 全レベル</div>
+    <div class="genre-stories-list">${cards||'<p style="padding:24px;color:var(--text-muted);text-align:center">話が見つかりません</p>'}</div>
+  </div>`;
 }
 
 // ── RENDER: LEVELS ─────────────────────────────────────────
@@ -3901,6 +3990,8 @@ function render(){
     case'journeywords':     renderJourneyWords();         break;
     case'journeyquiz':      renderJourneyQuiz();          break;
     case'journeydone':      renderJourneyDone();          break;
+    case'topics':           renderTopics();               break;
+    case'genrestories':     renderGenreStories();         break;
     default:          renderHome();
   }
 }
