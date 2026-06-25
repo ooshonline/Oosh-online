@@ -12645,3 +12645,149 @@ JOURNEY_STORIES['italy'].push({
      feedback:"'He took a photograph and knew, even before checking it, that it would not capture what he was looking at.'"}
   ]
 });
+
+JOURNEY_STORIES['peru'] = JOURNEY_STORIES['peru'] || [];
+
+JOURNEY_STORIES['peru'].push({
+  id:"j-peru-1", journeyId:"peru", order:1,
+  title:"The Boy at the Top", emoji:"🏔️", genre:"Place / History",
+  wordCount:296, readMins:3,
+  blurb:"Tomás visits Machu Picchu at dawn with his father and discovers that some places need to be seen before the crowds arrive.",
+  paragraphs:[
+    "The bus left Aguas Calientes before five in the morning. Tomás sat in the front row and watched the road wind up through the cloud forest. His father had woken him at four, which Tomás had considered unreasonable — until he saw the queue at the bus stop, already fifty people long in the dark.",
+    "They arrived at the entrance as the mist was beginning to clear. The guard checked their tickets and Tomás walked through the gate into a view he had seen in every geography textbook since primary school: stone terraces rising in broad steps, sharp green peaks above them, white cloud still filling the valley below. He stopped walking without meaning to.",
+    "His father said nothing. He had been here before, on a school trip thirty years earlier, and he understood that some places required silence at first. Machu Picchu had been built by the Inca in the 1400s and abandoned less than a century later. Historians were still not certain why. What was certain was the stonework — walls assembled without mortar, each stone cut so precisely that a coin could not be pressed into the joints.",
+    "Tomás spent the first two hours walking the site slowly. He found the Temple of the Sun, a curved tower built to catch the light at the winter solstice. He stood at the Intihuatana stone, a carved rock the Inca had used to track the position of the sun through the year. By nine o'clock the large tour groups had arrived and the citadel was full of noise. But before that, in the early morning light, it had been nearly empty.",
+    "On the bus back down, his father asked what he was thinking. 'I want to come back,' Tomás said. His father smiled. He had said exactly the same thing, standing in the same place, thirty years before."
+  ],
+  vocabulary:{
+    "terrace":{def:"A flat strip of land cut into a hillside for growing crops, held in place by stone walls; Machu Picchu is surrounded by hundreds of these.",pos:"noun"},
+    "mortar":{def:"A mixture of cement, sand, and water used to hold stones or bricks together; the Inca used none — every stone was shaped to fit perfectly.",pos:"noun"},
+    "citadel":{def:"A fortress or stronghold at a high point, used to defend or control the surrounding area.",pos:"noun"},
+    "solstice":{def:"One of the two days each year when the sun reaches its highest or lowest point in the sky; the June solstice marks the start of winter in Peru.",pos:"noun"},
+    "Intihuatana":{def:"A carved stone at Machu Picchu used by the Inca to track the movement of the sun through the year; the name means 'hitching post of the sun' in Quechua.",pos:"noun"},
+    "abandoned":{def:"Left empty and no longer used or looked after; Machu Picchu was abandoned in the late 1500s and remained unknown to the outside world until 1911.",pos:"adjective"}
+  },
+  quiz:[
+    {question:"What surprised Tomás when he arrived at the bus stop at four in the morning?",
+     options:["The bus had already left without them","There were already fifty people in the queue","The mist was so thick he could not see the road","His father had forgotten to buy the tickets"],correct:1,
+     feedback:"'...until he saw the queue at the bus stop, already fifty people long in the dark.'"},
+    {question:"Why did Tomás's father stay silent when they first walked through the gate?",
+     options:["He was looking for the entrance to the Temple of the Sun","He had forgotten his camera and was upset","He understood that some places required silence at first","He was checking the map to plan the route through the site"],correct:2,
+     feedback:"'He understood that some places required silence at first.'"},
+    {question:"What was unusual about the walls of Machu Picchu?",
+     options:["They were painted white to reflect the mountain sun","They were built without mortar — each stone cut so precisely a coin could not be pressed into the joints","They had been rebuilt by engineers to look as they did originally","They were made from materials brought up from the valley below"],correct:1,
+     feedback:"'...walls assembled without mortar, each stone cut so precisely that a coin could not be pressed into the joints.'"},
+    {question:"What did Tomás say when asked what he was thinking on the bus home?",
+     options:["'I am glad we came so early.'","'The crowds made it hard to enjoy.'","'I want to come back.'","'It was smaller than I expected.'"],correct:2,
+     feedback:"\"'I want to come back,' Tomás said. His father smiled. He had said exactly the same thing, standing in the same place, thirty years before.\""}
+  ]
+});
+
+JOURNEY_STORIES['peru'].push({
+  id:"j-peru-2", journeyId:"peru", order:2,
+  title:"One Bowl of Lime", emoji:"🍋", genre:"Everyday Life / Food",
+  wordCount:299, readMins:3,
+  blurb:"Carmen takes her cousin Yuki to the market in Lima, where one bowl of ceviche settles any argument about what Peru's national dish is all about.",
+  paragraphs:[
+    "Carmen had eaten ceviche all her life, but she had never eaten it like this. The stall at the Mercado de Surquillo had a handwritten sign, a scratched metal counter, and one thing on the menu. The woman behind it wore a white apron and worked without stopping.",
+    "The fish was sea bass, brought in from the Pacific that morning. The woman sliced it quickly, then covered it in freshly squeezed lime juice — Carmen counted eleven fruits going in before she lost count. Salt, thinly sliced red onion, fresh coriander, and a piece of chilli. That was everything. No cooking. The acidity of the lime would change the texture of the fish without any heat.",
+    "Carmen had brought her cousin from Tokyo. Yuki watched the preparation carefully, asking questions through Carmen. Was the fish always raw? Yes, but the lime made it different. Was it safe? Always, if the fish was very fresh. How fresh was it? The woman said, in the way of someone who found the question not entirely reasonable, that it had been alive that morning.",
+    "The bowl arrived with two slices of sweet potato and a few kernels of choclo — large white Peruvian maize. Carmen explained that the sweet potato was to balance the sharpness of the lime, and the choclo was to give texture. Yuki ate slowly and said nothing. This was, Carmen had learned, a good sign.",
+    "Walking back through the market, Yuki said she had tried ceviche in Tokyo once, at a Peruvian restaurant. 'Not the same,' Carmen said. Yuki agreed. It was never quite the same."
+  ],
+  vocabulary:{
+    "ceviche":{def:"Peru's national dish: raw fish marinated in fresh lime juice until the acidity changes its texture; traditionally served with sweet potato and large-kernel maize.",pos:"noun"},
+    "acidity":{def:"The quality of being sour or sharp in taste, caused by an acid such as lime or lemon juice.",pos:"noun"},
+    "marinated":{def:"Soaked in a liquid mixture before eating; in ceviche, the lime juice acts as the marinade and changes the texture of the raw fish.",pos:"adjective"},
+    "sea bass":{def:"A firm, white-fleshed ocean fish widely used in cooking; corvina, a type of sea bass native to the Pacific coast, is the traditional fish for ceviche in Peru.",pos:"noun"},
+    "choclo":{def:"A variety of large-kernelled white maize grown in the Andes; firmer and starchier than the sweet corn found in Europe and North America, served alongside ceviche.",pos:"noun"},
+    "coriander":{def:"A green herb with flat leaves and a fresh, citrus-like flavour, used widely in South American and Asian cooking.",pos:"noun"}
+  },
+  quiz:[
+    {question:"What did the woman at the stall use instead of heat to 'cook' the sea bass?",
+     options:["Hot oil in a pan over a charcoal fire","Salt rubbed into the fish for thirty minutes","Lime juice — its acidity changes the fish's texture without heat","A spice paste that firms the flesh quickly"],correct:2,
+     feedback:"'The acidity of the lime would change the texture of the fish without any heat.'"},
+    {question:"What did the woman say when Yuki asked how fresh the fish was?",
+     options:["'It arrived from the port this morning, around six o'clock'","'It had been alive that morning,' in the way of someone who found the question unreasonable","'Very fresh — we only use Pacific sea bass at this stall'","'I cannot say exactly, but it is always fresh here'"],correct:1,
+     feedback:"'The woman said, in the way of someone who found the question not entirely reasonable, that it had been alive that morning.'"},
+    {question:"What was the purpose of the sweet potato served alongside the ceviche?",
+     options:["To make the dish filling enough to count as a main meal","To cool the heat of the chilli","To balance the sharpness of the lime","To give the bowl a more colourful appearance"],correct:2,
+     feedback:"'Carmen explained that the sweet potato was to balance the sharpness of the lime.'"},
+    {question:"How did Yuki react to the ceviche?",
+     options:["She told Carmen it was too sharp","She immediately asked for a second bowl","She said nothing — which Carmen had learned was a good sign","She compared it favourably to the ceviche she had tried in Tokyo"],correct:2,
+     feedback:"'Yuki ate slowly and said nothing. This was, Carmen had learned, a good sign.'"}
+  ]
+});
+
+JOURNEY_STORIES['peru'].push({
+  id:"j-peru-3", journeyId:"peru", order:3,
+  title:"The Islands That Float", emoji:"🪨", genre:"Place / Culture",
+  wordCount:301, readMins:3,
+  blurb:"James visits the Uros floating islands on Lake Titicaca and learns that a way of life built entirely from reeds can be more solid than it sounds.",
+  paragraphs:[
+    "The Uros Islands are not fixed to the lakebed. James knew this before he arrived at Lake Titicaca — he had read about it. But reading about something and standing on it are different experiences. Under his feet, the reed mats shifted with the weight of each step, a slow springy movement that took some getting used to.",
+    "The Uros people had built these islands from totora reeds, which grew in thick beds along the lake's shallow margins. The process was continuous: old reeds at the bottom rotted away and new reeds were added on top, keeping the islands at the same height. The largest island held around ten families. It had a school, a watchtower, and a small kitchen with a wood fire — all made from the same reeds.",
+    "A woman named Rosa explained that the reeds were also eaten. The lower stems, just above the root, were soft and slightly sweet — you peeled back the outer layer and chewed the pale inner stalk like a piece of fibrous sugarcane. She gave James a piece to try. It was mild and watery, not unpleasant, but not something he would choose over lunch.",
+    "What stayed with him was the light on the lake. Lake Titicaca sat at 3,812 metres above sea level — the highest navigable lake in the world. The sky was a deeper shade of blue than he had seen anywhere else, and the air was thin enough that climbing the watchtower left him slightly breathless. Rosa told him that visitors from the coast often needed a day to adjust.",
+    "James stayed two hours and left with a small woven bag from the market stall near the dock. He had not bargained. It did not seem like the right thing to do."
+  ],
+  vocabulary:{
+    "totora":{def:"The tall reed that grows in the shallow waters of Lake Titicaca; the Uros people use it to build their floating islands, boats, and houses — and eat the inner stalk.",pos:"noun"},
+    "navigable":{def:"Wide enough and deep enough for boats to travel on; Lake Titicaca is the highest navigable lake in the world.",pos:"adjective"},
+    "altitude":{def:"The height of a place above sea level; Lake Titicaca sits at 3,812 metres — high enough to cause headaches and breathlessness in many visitors.",pos:"noun"},
+    "margin":{def:"The edge or border of something; here, the shallow areas along the edge of the lake where totora reeds grow densely.",pos:"noun"},
+    "fibrous":{def:"Made up of many long, thin threads or strands; the inner stalk of the totora reed has a fibrous texture similar to sugarcane.",pos:"adjective"},
+    "buoyant":{def:"Able to float or stay up in water; the totora reeds are naturally buoyant, which is what makes the floating islands possible.",pos:"adjective"}
+  },
+  quiz:[
+    {question:"What did James notice as soon as he stepped onto the reed island?",
+     options:["It was smaller than he had expected from reading about it","The reed mats shifted under his weight — a slow, springy movement","The smell of the reeds was very strong in the afternoon heat","It felt completely solid, like standing on thick grass"],correct:1,
+     feedback:"'Under his feet, the reed mats shifted with the weight of each step, a slow springy movement that took some getting used to.'"},
+    {question:"How do the Uros people keep their islands at the same height over time?",
+     options:["They add new reeds underneath and remove old ones from the top each month","Old reeds at the bottom rot away and new reeds are added on top continuously","They pile sand from the lakebed around the edges every season","The islands rise and fall naturally with the water level of the lake"],correct:1,
+     feedback:"'The process was continuous: old reeds at the bottom rotted away and new reeds were added on top, keeping the islands at the same height.'"},
+    {question:"What did Rosa give James to eat?",
+     options:["A small piece of dried fish from the morning's catch","A flat bread cooked on the wood fire","The soft inner stalk of a totora reed — mild and slightly sweet","A piece of roasted corn with salt and lime"],correct:2,
+     feedback:"'...soft and slightly sweet... She gave James a piece to try. It was mild and watery, not unpleasant.'"},
+    {question:"Why did the sky look different above Lake Titicaca?",
+     options:["The reflection of the water made everything seem brighter","The lake's altitude meant the sky was a deeper blue and the air noticeably thin","There were no clouds above the lake at that altitude","The clarity of the air near the water made colours stronger"],correct:1,
+     feedback:"'The sky was a deeper shade of blue than he had seen anywhere else, and the air was thin enough that climbing the watchtower left him slightly breathless.'"}
+  ]
+});
+
+JOURNEY_STORIES['peru'].push({
+  id:"j-peru-4", journeyId:"peru", order:4,
+  title:"The Long Way Up", emoji:"🚂", genre:"Journey / Nature",
+  wordCount:298, readMins:3,
+  blurb:"Elena takes the twenty-one hour train from Lima to Cusco and watches the Andes rise outside the window — stopping only to try coca leaves and drink a great deal of water.",
+  paragraphs:[
+    "Elena had the window seat on the train from Lima to Cusco, which she had requested three weeks in advance. The journey took twenty-one hours. She did not think this was too long.",
+    "For the first three hours the train ran along the Pacific coast, and then it turned east and began to climb. The Andes rose in stages. There were dry valleys, then brown hillsides, then green slopes where farmers had cut terraces into the rock in exactly the way the Inca had taught — stone walls holding the soil on ground that would otherwise wash away in the rains. By mid-afternoon the train was running at 4,500 metres.",
+    "Elena had been warned about the altitude. Her guidebook suggested chewing coca leaves, which local passengers did without ceremony — tucking a few into one side of the mouth and leaving them there. She tried it. The taste was bitter and slightly numbing, which she found she did not mind. The headache, when it came, was mild. She drank a lot of water.",
+    "The most difficult part was the darkness. After nine in the evening there was nothing to see outside the window, and the carriage was full of people sleeping awkwardly in their seats. Elena stayed awake. She had come this far to look, and sleeping seemed like the wrong response.",
+    "At five in the morning the train pulled into Cusco station. It was cold — far colder than Lima — and the air was thin in a way she could feel in her chest. She stood on the platform with her bag and looked up at the dark sky. She had arrived. Tomorrow she would go to Machu Picchu."
+  ],
+  vocabulary:{
+    "altitude":{def:"The height of a place above sea level; Cusco sits at 3,400 metres and the train passes through sections above 4,500 metres.",pos:"noun"},
+    "terrace":{def:"A flat strip of land cut into a hillside for farming, supported by stone walls; the Inca built thousands across the Andes, and farmers still use them today.",pos:"noun"},
+    "coca":{def:"A plant native to South America whose leaves have been chewed in the Andes for thousands of years; traditionally used to reduce the effects of altitude sickness.",pos:"noun"},
+    "numbing":{def:"Causing a gradual loss of feeling or sensation; coca leaves have a slightly numbing effect on the mouth and throat.",pos:"adjective"},
+    "carriage":{def:"A single vehicle in a train, designed to carry passengers; most long-distance trains in Peru have reclining seats rather than beds.",pos:"noun"},
+    "ceremony":{def:"A formal or traditional set of actions; here used ironically — the local passengers chewed their coca leaves without any fuss or performance at all.",pos:"noun"}
+  },
+  quiz:[
+    {question:"How long did Elena's train journey from Lima to Cusco take?",
+     options:["Eight hours along the Pacific coast","Twelve hours through the mountains","Twenty-one hours","Three days with one overnight stop"],correct:2,
+     feedback:"'The journey took twenty-one hours. She did not think this was too long.'"},
+    {question:"What did Elena notice about the stone terraces on the hillsides?",
+     options:["They had been recently rebuilt by the government as tourist attractions","They were built in the same way the Inca had taught — holding soil on ground that would otherwise wash away","They were the ruins of Inca sites that had been turned into farmland after the conquest","They were only found near the railway line, where the slopes were steepest"],correct:1,
+     feedback:"'...stone walls holding the soil on ground that would otherwise wash away in the rains.'"},
+    {question:"What was Elena's experience when she tried chewing coca leaves?",
+     options:["She found the taste pleasant — sweet, like dried fruit","The taste was bitter and slightly numbing, but she did not mind it","She felt immediately better and her headache disappeared completely","She tried one leaf but found the taste too strong to continue"],correct:1,
+     feedback:"'The taste was bitter and slightly numbing, which she found she did not mind. The headache, when it came, was mild.'"},
+    {question:"Why did Elena stay awake through the night on the train?",
+     options:["She was too cold to sleep in the unheated carriage","She was anxious about arriving in Cusco alone","She had come this far to look, and sleeping seemed like the wrong response","She needed to be awake when the train passed through the highest point"],correct:2,
+     feedback:"'She had come this far to look, and sleeping seemed like the wrong response.'"}
+  ]
+});
