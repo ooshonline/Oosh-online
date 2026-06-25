@@ -619,9 +619,14 @@
     .dhb-stamped{background:rgba(249,173,59,.15);color:var(--accent);border:1px solid var(--accent)}
     .dest-stamp{width:40px;height:40px;border-radius:50%;border:3px solid var(--primary-dark);display:flex;align-items:center;justify-content:center;color:var(--primary-dark);font-weight:900;font-size:1.2rem;transform:rotate(-15deg);background:rgba(186,218,85,.1);flex-shrink:0;animation:stampDrop .5s cubic-bezier(.34,1.56,.64,1) both}
     /* DESTINATION DETAIL */
-    .dest-detail-hero{padding:20px;background:var(--primary-light);border-bottom:1px solid var(--primary-mid)}
-    .dest-detail-hero h2{font-size:1.2rem;margin-bottom:4px}
-    .dest-detail-hero p{font-size:.82rem;color:var(--text-muted);line-height:1.5}
+    .dest-detail-hero{border-bottom:1px solid var(--primary-mid);overflow:hidden}
+    .dest-detail-hero-banner{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px 22px;gap:8px;position:relative}
+    .dest-detail-hero-banner::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.45));pointer-events:none}
+    .dest-detail-hero-emoji{font-size:3.2rem;line-height:1;position:relative;z-index:1;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4))}
+    .dest-detail-hero-name{font-family:var(--font-head);font-size:1.5rem;font-weight:900;color:#fff;letter-spacing:.02em;position:relative;z-index:1;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+    .dest-detail-hero-country{font-size:.75rem;color:rgba(255,255,255,.7);position:relative;z-index:1;text-transform:uppercase;letter-spacing:.1em}
+    .dest-detail-hero-desc{padding:14px 20px;background:var(--primary-light)}
+    .dest-detail-hero-desc p{font-size:.82rem;color:var(--text-muted);line-height:1.6;margin:0}
     .activity-track{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:14px 16px;margin:0 16px 10px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .2s}
     .activity-track:hover:not(.locked-track){border-color:var(--primary)}
     .activity-track.locked-track{opacity:.55;cursor:default}
@@ -1289,6 +1294,84 @@ const DESTINATIONS=[
     },
     unlockAfter:'mexico',
   },
+  {
+    id:'italy',
+    name:'Italy',
+    country:'Italy',
+    emoji:'🇮🇹',
+    description:'From the ancient ruins of Rome to the canals of Venice and the cave cities of the south, Italy is a country where history is everywhere underfoot — and the coffee is taken very seriously.',
+    cefr:'A2',
+    storyCount:4,
+    localWords:[
+      {word:'piazza',    def:'An open public square in an Italian town or city, traditionally the social heart of the community.',                           pos:'noun'},
+      {word:'espresso',  def:'A small, strong shot of coffee made by forcing hot water through very finely ground coffee beans — the standard Italian coffee.',pos:'noun'},
+      {word:'trattoria', def:'A small, informal Italian restaurant, usually family-run, serving traditional local food.',                                    pos:'noun'},
+      {word:'carnevale', def:'Italy\'s pre-Lent festival of masks and costumes, most famous in Venice; the word means "farewell to meat" in Latin.',        pos:'noun'},
+      {word:'sassi',     def:'Ancient cave dwellings carved into the rock face of ravines in Matera, southern Italy; a UNESCO World Heritage Site.',        pos:'noun'},
+      {word:'campanile', def:'A bell tower, typically freestanding beside a church — Italy\'s most iconic example is the Leaning Tower of Pisa.',           pos:'noun'},
+    ],
+    cultureQuiz:[
+      {question:'What is a piazza?',
+       options:['A thin, flat Italian bread baked in a stone oven','An open public square at the social heart of an Italian town','A covered market selling fresh produce and fish','A bell tower standing beside a church'],
+       correct:1, feedback:'The piazza is the traditional centre of Italian civic life — a place to meet, eat, argue, and watch the world go by. Every Italian town, no matter how small, has one.'},
+      {question:'Italy is home to more UNESCO World Heritage Sites than any other country. How many does it have?',
+       options:['Around 30','Around 40','Around 58','Around 72'],
+       correct:2, feedback:'Italy has 58 UNESCO World Heritage Sites — more than any other country in the world. They include the historic centres of Rome, Florence, and Venice, as well as natural sites, Roman ruins, and prehistoric rock art.'},
+      {question:'What happened to the sassi of Matera in 1952?',
+       options:['The Italian government restored them as a tourist attraction','They were declared a UNESCO World Heritage Site and opened to the public','The Italian government evacuated most residents, judging them too primitive to live in','A flood forced residents to move to higher ground'],
+       correct:2, feedback:'In 1952 the Italian government evacuated most of Matera\'s cave-dwelling residents, judging the sassi too primitive. By the 1990s, the same dwellings had been declared a UNESCO World Heritage Site — one of the great reversals in Italian cultural policy.'},
+      {question:'In Naples, when is it acceptable to order a cappuccino?',
+       options:['Any time — Italian baristas are happy to make one all day','Only in the morning; after ten o\'clock, you have espresso','Only on Sundays and public holidays','Only if you are sitting at a table inside'],
+       correct:1, feedback:'In Naples, cappuccino is strictly a morning drink. After ten o\'clock, the correct order is espresso. Baristas will serve a late-morning cappuccino without comment — but they will clearly find it irregular.'},
+      {question:'The traditional Venetian carnival mask was originally worn to do what?',
+       options:['Protect the face from the cold sea winds of the lagoon','Allow people of different social classes to mix without being recognised','Mark the performers in the Commedia dell\'arte theatre tradition','Frighten away evil spirits during the winter festival'],
+       correct:1, feedback:'The Venetian mask tradition allowed people of different social classes — nobles, merchants, common people — to meet and interact as equals, without being recognised. It was a brief period of social levelling before Lent.'},
+    ],
+    postcard:{
+      fact:'Italy has more UNESCO World Heritage Sites than any other country — 58 in total, including the entire historic centres of Rome, Florence, and Venice.',
+      bonusWords:['gelato','gondola','colosseum'],
+    },
+    unlockAfter:'kenya',
+  },
+  {
+    id:'peru',
+    name:'Peru',
+    country:'Peru',
+    emoji:'🦙',
+    description:'From the fish markets of Lima to the Inca citadels high in the Andes, Peru is a country of extraordinary altitude and extraordinary food. The Inca empire once stretched the length of South America — built in stone, without mortar, at heights that leave most visitors breathless.',
+    cefr:'A2',
+    storyCount:4,
+    localWords:[
+      {word:'quechua',   def:'The indigenous language of the Inca empire, still spoken by millions of people across the Andes in Peru, Bolivia, and Ecuador.',                                              pos:'noun'},
+      {word:'ceviche',   def:'Peru\'s national dish: raw fish marinated in fresh lime juice until the acidity changes its texture, served with sweet potato and large-kernel maize.',                       pos:'noun'},
+      {word:'pachamama', def:'The Andean goddess of the earth — literally "Mother Earth" in Quechua. Offerings to Pachamama are still made in traditional communities across the Andes.',                 pos:'noun'},
+      {word:'chicha',    def:'A fermented drink made from purple maize, drunk in the Andes for thousands of years. Chicha morada — the non-fermented version — is Peru\'s most popular cold drink.',       pos:'noun'},
+      {word:'totora',    def:'The tall reed that grows in the shallow waters of Lake Titicaca. The Uros people use it to build their floating islands, boats, and houses.',                                pos:'noun'},
+      {word:'huayno',    def:'Traditional Andean folk music, combining Spanish guitar with indigenous flutes and percussion. The dominant popular music style in the highland regions of Peru.',            pos:'noun'},
+    ],
+    cultureQuiz:[
+      {question:'What does "Machu Picchu" mean in Quechua?',
+       options:['City of the Sun','Old Mountain','Place of the Condor','Sacred Valley'],
+       correct:1, feedback:'"Machu Picchu" means "Old Mountain" in Quechua — named after the peak behind the citadel. The site was built by the Inca emperor Pachacuti in the 1400s and was never found by the Spanish conquistadors.'},
+      {question:'What is unusual about Lake Titicaca?',
+       options:['It is the largest lake in South America by volume','It is the highest navigable lake in the world, at 3,812 metres','It sits on the border of three countries','Its water is completely clear to a depth of forty metres'],
+       correct:1, feedback:'Lake Titicaca sits at 3,812 metres above sea level — the highest lake in the world that ships can navigate. It straddles the border between Peru and Bolivia, and is home to the Uros people and their floating reed islands.'},
+      {question:'The Inca built their empire without which two things that most civilisations had?',
+       options:['Fire and the ability to smelt metal','Iron tools and the wheel — they used stone tools and human labour alone','A written language and any form of mathematics','Permanent settlements — everything was designed to be dismantled and moved'],
+       correct:1, feedback:'The Inca had no iron tools and no wheel. They shaped stone with other stone and moved enormous blocks using ropes, ramps, and thousands of workers. Their stonework was so precise that the walls at Machu Picchu still stand today without mortar.'},
+      {question:'What is Lima considered in the food world?',
+       options:['The birthplace of pizza in South America, introduced by Italian settlers','The city that invented the concept of street food','One of the world\'s great food cities, with ceviche, causa, and anticuchos at its heart','The South American city with the most Michelin-starred restaurants'],
+       correct:2, feedback:'Lima is widely considered one of the world\'s greatest food cities. But the real action is in the markets — fresh ceviche, causa rellena (potato terrine), and anticuchos (grilled beef heart skewers) are everywhere and cost very little.'},
+      {question:'What is the Intihuatana stone at Machu Picchu?',
+       options:['A sacrificial altar where the Inca made offerings to the sun god','A carved rock used to track the position of the sun through the year','The foundation stone of the Temple of the Sun — the most sacred building in the city','A hitching post where the emperor\'s llamas were kept during religious ceremonies'],
+       correct:1, feedback:'"Intihuatana" means "hitching post of the sun" in Quechua. The carved stone tracked the sun\'s position through the year — essentially a solar calendar. At the winter solstice, the sun sits directly above it and casts no shadow.'},
+    ],
+    postcard:{
+      fact:'The Inca empire — the largest in the Americas — was built without the wheel, without iron tools, and without a written language. They recorded information using knotted strings called quipu, which historians are still working to decode.',
+      bonusWords:['alpaca','quinoa','pisco'],
+    },
+    unlockAfter:'italy',
+  },
 ];
 
 // ── WORLD JOURNEY STATE HELPERS ──────────────────────────────────────────────
@@ -1654,7 +1737,7 @@ function renderLanding(){
       <img class="landing-frog" src="OOSH_Logo_Square.png" alt="Ribbitのカエル">
       <div class="landing-title">Ribbit</div>
       <div class="landing-tagline">えいごをたのしくまなぼう！</div>
-      <div class="landing-subtag">6レベル · 13言語 · 世界10か国</div>
+      <div class="landing-subtag">6レベル · 13言語 · 世界12か国</div>
       <div class="landing-ctas">
         <button class="landing-cta-primary" onclick="enterFromLanding()">はじめる</button>
         <button class="landing-cta-secondary" onclick="enterFromLanding()">ログイン</button>
@@ -3742,16 +3825,18 @@ function finishJourneyStory(){
 // ── WORLD JOURNEY HUB ──────────────────────────────────────
 // Destination card background gradients (dark, ocean-themed)
 const DEST_GRADIENTS={
-  tokyo:  'linear-gradient(135deg,#1a1a2e,#16213e)',
-  london: 'linear-gradient(135deg,#1a1820,#2d2a38)',
-  sydney: 'linear-gradient(135deg,#0c2340,#153d5c)',
-  new_york:'linear-gradient(135deg,#1a1a28,#28284a)',
-  paris:  'linear-gradient(135deg,#1e1a2e,#32244a)',
-  cairo:  'linear-gradient(135deg,#2a1e0c,#4a3018)',
-  rio:    'linear-gradient(135deg,#0a2a18,#154028)',
-  mumbai: 'linear-gradient(135deg,#2a1008,#4a2018)',
-  beijing:'linear-gradient(135deg,#1e0a0a,#380a0a)',
-  nairobi:'linear-gradient(135deg,#0a2010,#143018)',
+  tokyo:    'linear-gradient(135deg,#1a1a2e,#16213e)',
+  australia:'linear-gradient(135deg,#0c2340,#153d5c)',
+  england:  'linear-gradient(135deg,#1a1820,#2d2a38)',
+  brazil:   'linear-gradient(135deg,#0a2a18,#154028)',
+  egypt:    'linear-gradient(135deg,#2a1e0c,#4a3018)',
+  china:    'linear-gradient(135deg,#1e0a0a,#380a0a)',
+  india:    'linear-gradient(135deg,#2a1008,#4a2018)',
+  france:   'linear-gradient(135deg,#1e1a2e,#32244a)',
+  mexico:   'linear-gradient(135deg,#1a1005,#382208)',
+  kenya:    'linear-gradient(135deg,#0a2010,#143018)',
+  italy:    'linear-gradient(135deg,#1f0806,#3d1510)',
+  peru:     'linear-gradient(135deg,#1a1005,#362208)',
 };
 
 function renderJourneyHub(){
@@ -3887,8 +3972,12 @@ function renderDestination(){
       <h2>${dest.emoji} ${dest.name}</h2>
     </div>
     <div class="dest-detail-hero">
-      <h2>${dest.name}, ${dest.country}</h2>
-      <p>${dest.description}</p>
+      <div class="dest-detail-hero-banner" style="background:${DEST_GRADIENTS[dest.id]||'linear-gradient(135deg,#1a1a2e,#16213e)'}">
+        <div class="dest-detail-hero-emoji">${dest.emoji}</div>
+        <div class="dest-detail-hero-name">${dest.name}</div>
+        <div class="dest-detail-hero-country">${dest.country}</div>
+      </div>
+      <div class="dest-detail-hero-desc"><p>${dest.description}</p></div>
     </div>
     <div style="padding:14px 0 0">
       <div class="activity-track${storiesDone===stories.length?' done-track':''}"
