@@ -808,6 +808,11 @@
     .journey-prog-bar{height:6px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin:0 20px 4px}
     .journey-prog-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:99px;transition:width .5s}
     .journey-sub-txt{font-family:var(--font-body);font-size:11px;color:rgba(255,255,255,.5);padding:0 20px 12px}
+    /* Toast notifications */
+    .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(6px);background:#151515;color:#e4edd8;border-radius:99px;padding:10px 20px;font-family:var(--font-head);font-size:.85rem;font-weight:700;z-index:600;pointer-events:none;white-space:nowrap;animation:toastIn .28s cubic-bezier(.34,1.56,.64,1) forwards}
+    .toast.toast-out{animation:toastOut .22s ease forwards}
+    @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(14px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+    @keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(8px)}}
     /* Touch press feedback for primary interactive elements */
     .finish-btn:active{transform:scale(.97)}
     .q-opt:active:not(:disabled){transform:scale(.97);box-shadow:none}
@@ -1453,6 +1458,7 @@ function markJourneyWordDone(destId, word){
   if(wObj && !state.flashCards[word]){
     const jaEntry=JA_TRANSLATIONS[(word||'').toLowerCase()];
     state.flashCards[word]={def:wObj.def, pos:wObj.pos, lang:jaEntry?'ja':null, translation:jaEntry?jaEntry.w:null};
+    showToast('🃏 カードに追加しました！');
   }
   save();
 }
@@ -2630,6 +2636,7 @@ function toggleFlashCard(word, def, pos){
   } else {
     const jaWord=(JA_TRANSLATIONS[word]||{}).w||null;
     state.flashCards[word]={def, pos, jaWord};
+    showToast('🃏 カードに追加しました！');
   }
   save();
   const b=document.getElementById('wps');
@@ -4262,6 +4269,14 @@ function renderProfile(){
   ${tabBar()}`;
 }
 
+// ── TOAST NOTIFICATIONS ────────────────────────────────────
+function showToast(msg){
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
+  const t=document.createElement('div');
+  t.className='toast'; t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.classList.add('toast-out'); setTimeout(()=>t.remove(),220); },2000);
+}
 // ── ROUTER ─────────────────────────────────────────────────
 function render(){
   // On first launch (no saved language), auto-detect from device and save.
