@@ -1451,7 +1451,8 @@ function markJourneyWordDone(destId, word){
   // Auto-add to flash card deck
   const wObj=dest.localWords.find(w=>w.word===word);
   if(wObj && !state.flashCards[word]){
-    state.flashCards[word]={def:wObj.def, pos:wObj.pos, lang:null, translation:null};
+    const jaEntry=JA_TRANSLATIONS[(word||'').toLowerCase()];
+    state.flashCards[word]={def:wObj.def, pos:wObj.pos, lang:jaEntry?'ja':null, translation:jaEntry?jaEntry.w:null};
   }
   save();
 }
@@ -3526,14 +3527,24 @@ function fcStep(dir){
   renderFlashCardPlay();
 }
 
+// Look up a Japanese translation for a word using the local JA_TRANSLATIONS dict.
+// Returns the Japanese word string, or null if not found.
+async function translateWord(word, lang){
+  if(lang==='ja'){
+    const entry=JA_TRANSLATIONS[(word||'').toLowerCase()];
+    if(entry && entry.w) return entry.w;
+  }
+  return null;
+}
+
 async function fetchCardTranslation(word, e){
   if(e) e.stopPropagation(); // don't flip card
   const btn=document.getElementById('fc-tl-btn');
   if(btn){ btn.textContent='翻訳中…'; btn.disabled=true; }
   const lang='ja';
   const tr=await translateWord(word, lang);
-  if(state.flashCards[word]){
-    state.flashCards[word].translation = tr||'';
+  if(state.flashCards[word] && tr){
+    state.flashCards[word].translation = tr;
     state.flashCards[word].lang = lang;
     save();
   }
@@ -3545,8 +3556,9 @@ async function fetchCardTranslation(word, e){
     div.innerHTML=`<span class="fc-back-tl-lang">${lang.toUpperCase()}</span><span class="fc-back-tl-text">${tr}</span>`;
     container.replaceChild(div, btn);
   } else if(btn){
-    btn.textContent='';
-    btn.disabled=false;
+    btn.textContent='翻訳が見つかりません';
+    btn.style.opacity='.5';
+    btn.disabled=true;
   }
 }
 
