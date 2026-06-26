@@ -347,7 +347,8 @@
     .dnd-check-btn:disabled{opacity:.4;cursor:default}
     /* Next button */
     .quiz-next{margin-top:20px;width:100%;padding:16px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#151515;border-radius:18px;font-size:1rem;font-weight:800;box-shadow:0 4px 16px rgba(143,184,50,.3);transition:transform .15s;display:none}
-    .quiz-next.vis{display:block}
+    .quiz-next.vis{display:block;animation:quiz-next-in .28s cubic-bezier(.34,1.56,.64,1) forwards}
+    @keyframes quiz-next-in{from{opacity:0;transform:translateY(8px) scale(.96)} to{opacity:1;transform:none}}
     .quiz-next:hover{transform:translateY(-1px)}
     /* XP float — v2 handoff spec */
     @keyframes xpRise{0%{transform:translateY(0) scale(0.7);opacity:0}30%{transform:translateY(-10px) scale(1.1);opacity:1}80%{transform:translateY(-24px) scale(1);opacity:1}100%{transform:translateY(-36px) scale(.9);opacity:0}}
@@ -446,6 +447,11 @@
     .tts-w{transition:background .1s}
     .tts-word-hl{background:#f9ad3b !important;color:#151515 !important;border-radius:3px;padding:0 1px}
     .icon-btn.tts-active{background:var(--primary);color:white}
+    /* TTS sentence-mode fallback for browsers without word-boundary events (Firefox) */
+    .tts-sentence-hl{background:rgba(249,173,59,.1);border-radius:8px;transition:background .4s}
+    /* Flash card swipe direction indicators */
+    .fc-card.swiping-right::after{content:'わかった！✓';position:absolute;top:14px;right:12px;background:#dcfce7;color:#22c55e;border:2px solid #22c55e;border-radius:99px;padding:5px 14px;font-family:var(--font-head);font-size:.82rem;font-weight:800;transform:rotate(10deg);pointer-events:none;z-index:10}
+    .fc-card.swiping-left::after{content:'わからない';position:absolute;top:14px;left:12px;background:#fee2e2;color:#ef4444;border:2px solid #ef4444;border-radius:99px;padding:5px 14px;font-family:var(--font-head);font-size:.82rem;font-weight:800;transform:rotate(-10deg);pointer-events:none;z-index:10}
     /* Reader bottom row with back + next */
     .reader-bottom-row{display:flex;align-items:center;gap:10px;padding:0}
     .reader-back-btn{padding:14px 18px;background:var(--bg);color:var(--text-muted);border:1px solid var(--border);border-radius:var(--radius);font-size:.95rem;font-weight:700;white-space:nowrap;transition:background .2s}
@@ -802,6 +808,14 @@
     .journey-prog-bar{height:6px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin:0 20px 4px}
     .journey-prog-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:99px;transition:width .5s}
     .journey-sub-txt{font-family:var(--font-body);font-size:11px;color:rgba(255,255,255,.5);padding:0 20px 12px}
+    /* Touch press feedback for primary interactive elements */
+    .finish-btn:active{transform:scale(.97)}
+    .q-opt:active:not(:disabled){transform:scale(.97);box-shadow:none}
+    .res-continue:active{transform:scale(.97)}
+    .res-again:active{transform:scale(.98)}
+    .tab-btn:active .tab-icon-bg{transform:scale(.84);transition:transform .08s}
+    .fc-play-btn:active{transform:scale(.97)}
+    .fc-nav button:active{transform:scale(.96)}
   </style>
 </head>
 <body>
@@ -2282,8 +2296,32 @@ function ttsSpeak(){
   u.lang='en-GB'; u.rate=tts.rate;
   if(state.ttsVoice){const v=speechSynthesis.getVoices().find(v=>v.voiceURI===state.ttsVoice);if(v) u.voice=v;}
 
+  // Firefox fallback: word-boundary events don't fire in Firefox.
+  // If no word event arrives within 900ms of speech starting, fall back to
+  // highlighting the whole text block (sentence mode) so users still get visual feedback.
+  let wordBoundaryFired=false;
+  let ffFallbackTimer=null;
+  function clearSentenceHL(){
+    const rb=document.getElementById('rbody');
+    if(rb) rb.classList.remove('tts-sentence-hl');
+  }
+
+  u.onstart=function(){
+    ffFallbackTimer=setTimeout(function(){
+      if(!wordBoundaryFired && tts.active){
+        const rb=document.getElementById('rbody');
+        if(rb) rb.classList.add('tts-sentence-hl');
+      }
+    },900);
+  };
+
   u.onboundary=function(e){
     if(e.name!=='word') return;
+    if(!wordBoundaryFired){
+      wordBoundaryFired=true;
+      clearTimeout(ffFallbackTimer);
+      clearSentenceHL();
+    }
     ttsClearHL();
     const ci=e.charIndex;
     const spans=document.querySelectorAll('#rbody span[data-tts]');
@@ -2296,6 +2334,8 @@ function ttsSpeak(){
   };
 
   u.onend=function(){
+    clearTimeout(ffFallbackTimer);
+    clearSentenceHL();
     tts.active=false; tts.paused=false;
     ttsClearHL(); updateTTSUI();
     // Auto-advance to next step
@@ -2307,7 +2347,11 @@ function ttsSpeak(){
     }
   };
 
-  u.onerror=function(){ tts.active=false; tts.paused=false; ttsClearHL(); updateTTSUI(); };
+  u.onerror=function(){
+    clearTimeout(ffFallbackTimer);
+    clearSentenceHL();
+    tts.active=false; tts.paused=false; ttsClearHL(); updateTTSUI();
+  };
 
   tts.utterance=u; tts.active=true; tts.paused=false;
   speechSynthesis.speak(u);
@@ -2332,7 +2376,10 @@ function ttsStop(){
   if(!ttsSupported()) return;
   speechSynthesis.cancel();
   tts.active=false; tts.paused=false;
-  ttsClearHL(); updateTTSUI();
+  ttsClearHL();
+  const rb=document.getElementById('rbody');
+  if(rb) rb.classList.remove('tts-sentence-hl');
+  updateTTSUI();
 }
 
 function ttsSetRate(r){
@@ -2504,6 +2551,8 @@ function advanceReader(){
   if(state.readerStep<steps.length-1){
     speechSynthesis.cancel(); tts.active=false; tts.paused=false;
     state.readerStep++; renderReader();
+  } else {
+    startQuiz(); // Last step — flow straight to quiz (enables keyboard-only reading)
   }
 }
 function stepBack(){
@@ -2704,7 +2753,7 @@ function renderQuiz(){
           <div class="quiz-question">${fitb.question}</div>
         </div>
         <div class="quiz-fitb-wrap">
-          <input id="fitb-input" class="quiz-fitb-input" type="text" placeholder="答えを入力…" autocomplete="off" autocorrect="off" spellcheck="false">
+          <input id="fitb-input" class="quiz-fitb-input" type="text" placeholder="答えを入力…" autocomplete="off" autocorrect="off" spellcheck="false" onkeydown="if(event.key==='Enter')checkFITB()">
           <button class="quiz-fitb-btn" onclick="checkFITB()">こたえる</button>
         </div>`;
     }
@@ -2729,7 +2778,7 @@ function renderQuiz(){
       <div class="type-slots-wrap">
         <div class="type-slots" id="typeSlots" onclick="document.getElementById('type-hidden-input').focus()">${slots}</div>
         <div class="type-hint">タップしてキーボードを開く</div>
-        <input id="type-hidden-input" class="type-hidden-input" type="text" maxlength="${tw.answer.length}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" oninput="updateTypeSlots(${tw.answer.length})">
+        <input id="type-hidden-input" class="type-hidden-input" type="text" maxlength="${tw.answer.length}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" oninput="updateTypeSlots(${tw.answer.length})" onkeydown="if(event.key==='Enter'&&!document.getElementById('type-submit-btn').disabled)checkTypeWord()">
         <button class="type-submit-btn" id="type-submit-btn" onclick="checkTypeWord()" disabled>こたえる</button>
       </div>`;
   } else if(qtype==='dndblank'){
@@ -3406,6 +3455,50 @@ function renderFlashCardPlay(){
       </button>
     </div>
   </div>`;
+  setTimeout(initFCSwipe, 0);
+}
+
+function initFCSwipe(){
+  const card=document.getElementById('fc-card');
+  if(!card) return;
+  let startX=0, active=false, moved=false;
+  const THRESHOLD=65;
+
+  card.addEventListener('pointerdown',function(e){
+    startX=e.clientX; active=true; moved=false;
+    card.setPointerCapture(e.pointerId);
+    card.style.transition='none';
+  });
+
+  card.addEventListener('pointermove',function(e){
+    if(!active) return;
+    const dx=e.clientX-startX;
+    if(Math.abs(dx)<8) return;
+    moved=true;
+    card.style.transform='rotate('+dx*.04+'deg) translateX('+dx*.25+'px)';
+    card.classList.toggle('swiping-right',dx>30);
+    card.classList.toggle('swiping-left',dx<-30);
+  });
+
+  function endDrag(clientX){
+    if(!active) return;
+    active=false;
+    const dx=clientX-startX;
+    card.style.transition='transform .35s cubic-bezier(.22,.68,0,1.2)';
+    card.style.transform='';
+    card.classList.remove('swiping-right','swiping-left');
+    if(moved && Math.abs(dx)>=THRESHOLD){
+      if(dx>0) fcMark('got'); else fcMark('hard');
+    }
+  }
+
+  card.addEventListener('pointerup',function(e){ endDrag(e.clientX); });
+  card.addEventListener('pointercancel',function(){
+    active=false;
+    card.style.transition='transform .35s';
+    card.style.transform='';
+    card.classList.remove('swiping-right','swiping-left');
+  });
 }
 
 function flipCard(){
@@ -4202,6 +4295,50 @@ function render(){
 applyFontSize();
 applyVocabHighlight();
 render();
+
+// ── KEYBOARD SHORTCUTS ─────────────────────────────────────────────────────────
+document.addEventListener('keydown',function(e){
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.isContentEditable) return;
+  const s=state.screen;
+
+  // Reader: arrow keys / space = next step, backspace/left = prev step
+  if(s==='reader'){
+    if(e.key==='ArrowRight'||e.key===' '){ e.preventDefault(); advanceReader(); }
+    else if(e.key==='ArrowLeft'||e.key==='Backspace'){ e.preventDefault(); stepBack(); }
+    return;
+  }
+
+  // Journey reader page: same arrow-key navigation
+  if(s==='journeyreaderpage'){
+    if(e.key==='ArrowRight'||e.key===' '){ e.preventDefault(); journeyStepNext(); }
+    else if(e.key==='ArrowLeft'||e.key==='Backspace'){ e.preventDefault(); journeyStepBack(); }
+    return;
+  }
+
+  // Flash card play: arrows to mark, space to flip
+  if(s==='fcplay'){
+    if(e.key==='ArrowRight'){ e.preventDefault(); fcMark('got'); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); fcMark('hard'); }
+    else if(e.key===' '){ e.preventDefault(); flipCard(); }
+    return;
+  }
+
+  // Quiz: 1-4 / A-D to pick MC answer; Enter to advance when answer is locked in
+  if(s==='quiz'){
+    const qnxt=document.getElementById('qnxt');
+    if((e.key==='Enter'||e.key===' ')&&qnxt?.classList.contains('vis')){ e.preventDefault(); nextQ(); return; }
+    if(state._currentQ?.type==='mc'){
+      const map={'1':0,'2':1,'3':2,'4':3,'a':0,'b':1,'c':2,'d':3};
+      const idx=map[e.key.toLowerCase()];
+      if(idx!==undefined){
+        e.preventDefault();
+        const opts=document.querySelectorAll('.q-opt');
+        if(opts.length>idx&&!opts[0].disabled) pick(idx);
+      }
+    }
+    return;
+  }
+});
 </script>
 </body>
 </html>
