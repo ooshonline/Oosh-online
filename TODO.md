@@ -1,7 +1,7 @@
 # Ribbit Reading App — TODO
 
 ## Push pending
-- [ ] `git push` — 9 commits from 2026-06-24/25/26 are local only
+- [ ] `git push` — 7 commits from 2026-06-24/25/26/29 are local only
 
 ## Content (future Content sessions)
 - [ ] Story images for levels beyond Beginner 1–3 — one image per genre/topic (~8–10 images covers the library). Unsplash/Pexels URLs to avoid repo bloat.
@@ -17,6 +17,18 @@
 - [ ] `ribbit-new-destination` queue: South Korea → Morocco → Canada → Greece (Peru done manually 2026-06-25)
 
 ## Done (recent)
+- [x] Quest progress bars — daily (stories) + weekly (levels/flash cards) now show 3px visual bars (2026-06-29)
+- [x] Story grid cards — done state shows subtle green ring (2026-06-29)
+- [x] Destination cards (journey hub) — stamped/active cards get soft outer glow (2026-06-29)
+- [x] Profile level progress bars — each level now uses its own colour (purple/green/teal/blue/orange/rose) (2026-06-29)
+- [x] Sub-level hero banner — now uses a dark level-specific gradient instead of always green (2026-06-29)
+- [x] Sub-level hero text — updated to white + transparent badge for legibility on dark gradients (2026-06-29)
+- [x] Topic/genre cards — emoji now renders in a coloured rounded-square per genre, with hover scale (2026-06-29)
+- [x] Level select — `current-level` CSS class now properly applied (was defined but never added in JS) (2026-06-29)
+- [x] Level cards — mini progress bar now uses level colour (2026-06-29)
+- [x] Flash card empty state — redesigned with icon container, heading, descriptive hint, CTA strip (2026-06-29)
+- [x] Settings screen — border-bottom separators between each section (2026-06-29)
+- [x] Profile — fixed English strings: 'day streak' → '日連続', 'Total Points' → '合計ポイント' (2026-06-29)
 - [x] TTS Firefox fallback — detect missing word-boundary events (900ms timer), highlight whole step block in amber (2026-06-26)
 - [x] Flash card swipe gestures — pointer events, card tilt, direction labels (わかった/わからない) (2026-06-26)
 - [x] Keyboard shortcuts — reader (arrows/space), journey reader (same), flash cards (arrows/space), quiz MC (1-4/A-D/Enter) (2026-06-26)
