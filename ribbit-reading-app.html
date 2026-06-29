@@ -160,11 +160,11 @@
     .level-badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-head);font-size:10px;font-weight:800;color:#4d7c0f;background:#f0fce0;border-radius:20px;padding:3px 8px;margin-top:4px}
 
     /* SUB-LEVEL SELECT */
-    .sublevel-hero{padding:20px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text)}
+    .sublevel-hero{padding:20px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white}
     .sublevel-hero h2{font-size:1.3rem;margin-bottom:4px}
     .sublevel-hero p{font-size:.85rem;opacity:.85}
     .sublevel-hero .badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-    .hero-badge{font-size:.75rem;font-weight:600;background:rgba(255,255,255,.35);color:var(--text);padding:3px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.45)}
+    .hero-badge{font-size:.75rem;font-weight:600;background:rgba(255,255,255,.22);color:white;padding:3px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.35)}
     .sublevels-grid{padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-bottom:32px}
     .sublevel-card{background:var(--card);border-radius:var(--radius);padding:14px;border:2px solid var(--border);cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;text-align:center}
     .sublevel-card:hover{border-color:var(--primary);box-shadow:var(--shadow);transform:translateY(-2px)}
@@ -419,6 +419,12 @@
     .quest-bonus-card.quest-bonus-done{background:rgba(249,173,59,.22);border-color:var(--accent)}
     .quest-bonus-txt{font-family:var(--font-head);font-size:.82rem;font-weight:800;color:var(--accent-dark)}
     .quest-xp-badge{font-family:var(--font-head);font-size:.72rem;font-weight:900;color:var(--accent-dark);background:rgba(249,173,59,.2);border-radius:99px;padding:3px 9px;flex-shrink:0}
+    /* Quest progress bar */
+    .quest-prog-bar-wrap{height:3px;background:rgba(0,0,0,.07);border-radius:99px;overflow:hidden;margin-top:5px}
+    .quest-prog-bar-fill{height:100%;border-radius:99px;transition:width .5s ease;background:linear-gradient(90deg,var(--primary),#9bc42a)}
+    .quest-card.quest-done .quest-prog-bar-fill{background:var(--primary)}
+    /* Weekly quests container */
+    .weekly-quests-wrap .quests-section-title{color:var(--primary-dark)}
     /* Font size */
     .font-large .reader-body p{font-size:1.3rem;line-height:2.1}
     .font-large.level-early .reader-body p{font-size:1.45rem;line-height:2.2}
@@ -546,6 +552,8 @@
     .topics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 16px 32px}
     .topic-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 10px;text-align:center;cursor:pointer;transition:border-color .2s,transform .15s,box-shadow .2s}
     .topic-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:var(--shadow)}
+    .topic-emoji-wrap{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;margin:0 auto 8px;line-height:1;transition:transform .15s}
+    .topic-card:hover .topic-emoji-wrap{transform:scale(1.08)}
     .topic-emoji{font-size:2rem;line-height:1;margin-bottom:6px}
     .topic-jp{font-family:var(--font-head);font-size:.82rem;font-weight:800;color:var(--text);margin-bottom:2px}
     .topic-count{font-family:var(--font-body);font-size:.68rem;color:var(--text-muted)}
@@ -758,6 +766,7 @@
     .stories-grid{padding:0 16px 32px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .story-grid-card{background:white;border-radius:18px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);cursor:pointer;transition:box-shadow .2s,transform .15s}
     .story-grid-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.12);transform:translateY(-2px)}
+    .story-grid-card.done{box-shadow:0 2px 10px rgba(0,0,0,.07),0 0 0 2px rgba(186,218,85,.4)}
     .sgc-header{height:105px;position:relative;display:flex;align-items:center;justify-content:center}
     .sgc-emoji{font-size:52px;line-height:1}
     .sgc-level-badge{position:absolute;top:8px;left:8px;border-radius:8px;padding:3px 8px;font-family:var(--font-head);font-size:10px;font-weight:900;color:#151515}
@@ -778,8 +787,8 @@
     .dest-hub-grid{padding:14px 16px 32px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .dest-grid-card{border-radius:18px;border:2px solid transparent;padding:14px 12px 12px;cursor:pointer;transition:border-color .2s,transform .15s,box-shadow .2s;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:130px}
     .dest-grid-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
-    .dest-grid-card.dgc-active{border-color:var(--primary)}
-    .dest-grid-card.dgc-stamped{border-color:var(--accent)}
+    .dest-grid-card.dgc-active{border-color:var(--primary);box-shadow:0 0 0 3px rgba(186,218,85,.18)}
+    .dest-grid-card.dgc-stamped{border-color:var(--accent);box-shadow:0 0 0 3px rgba(249,173,59,.18)}
     .dest-grid-card.dgc-locked{opacity:.6;cursor:default}
     .dest-grid-card.dgc-depart{border-color:var(--accent);cursor:default}
     /* Big background emoji watermark */
@@ -1622,23 +1631,26 @@ function renderWeekQuestCards(){
   if(!wq.levels3 && levelCount>=3) markWeekQuestDone('levels3');
   if(!wq.fc10 && fcCount>=10) markWeekQuestDone('fc10');
 
-  const card=(isDone,icon,text,prog)=>`
+  const card=(isDone,icon,text,prog,pct)=>`
     <div class="quest-card${isDone?' quest-done':''}">
       <span class="quest-icon">${icon}</span>
       <div class="quest-body">
         <div class="quest-text">${text}</div>
         ${(!isDone&&prog)?`<div class="quest-prog">${prog}</div>`:''}
+        ${pct!==undefined?`<div class="quest-prog-bar-wrap"><div class="quest-prog-bar-fill" style="width:${isDone?100:pct}%"></div></div>`:''}
       </div>
       <span class="quest-check">✓</span>
     </div>`;
 
+  const levelsPct=Math.min(100,Math.round(levelCount/3*100));
+  const fcPct=Math.min(100,Math.round(fcCount/10*100));
   const allThree=wq.levels3&&wq.journey1&&wq.fc10;
-  return `<div class="quests-wrap">
-    <div class="quests-section-title" style="color:var(--primary-dark)">📅 今週のクエスト</div>
+  return `<div class="quests-wrap weekly-quests-wrap">
+    <div class="quests-section-title">📅 今週のクエスト</div>
     <div class="quest-list">
-      ${card(wq.levels3,'📚','3つのレベルを読もう',`${Math.min(levelCount,3)} / 3 レベル`)}
-      ${card(wq.journey1,'🌍','旅の目的地を制覇しよう',null)}
-      ${card(wq.fc10,'✨','フラッシュカードを10枚集めよう',`${Math.min(fcCount,10)} / 10 枚`)}
+      ${card(wq.levels3,'📚','3つのレベルを読もう',`${Math.min(levelCount,3)} / 3 レベル`,levelsPct)}
+      ${card(wq.journey1,'🌍','旅の目的地を制覇しよう',null,undefined)}
+      ${card(wq.fc10,'✨','フラッシュカードを10枚集めよう',`${Math.min(fcCount,10)} / 10 枚`,fcPct)}
       <div class="quest-bonus-card${wq.bonus?' quest-bonus-done':''}">
         <span class="quest-bonus-txt">${wq.bonus?'🎉 今週のクエスト全完了！':'🏆 全クリア +50 XP ボーナス'}</span>
         ${wq.bonus?'<span style="font-size:1rem">✓</span>':`<span class="quest-xp-badge">${allThree?'間もなく…':'+30×3'}</span>`}
@@ -1670,25 +1682,27 @@ function renderQuestCards(){
   // Check stories quest live in case progress happened outside finishQuiz
   if(!q.stories && state.todayCount>=state.dailyGoal) markQuestDone('stories');
 
-  const card=(done,icon,text,prog)=>`
+  const card=(done,icon,text,prog,pct)=>`
     <div class="quest-card${done?' quest-done':''}">
       <span class="quest-icon">${icon}</span>
       <div class="quest-body">
         <div class="quest-text">${text}</div>
         ${(!done&&prog)?`<div class="quest-prog">${prog}</div>`:''}
+        ${pct!==undefined?`<div class="quest-prog-bar-wrap"><div class="quest-prog-bar-fill" style="width:${done?100:pct}%"></div></div>`:''}
       </div>
       <span class="quest-check">✓</span>
     </div>`;
 
+  const storiesPct=Math.min(100,Math.round(state.todayCount/state.dailyGoal*100));
   const storiesProg=`${Math.min(state.todayCount,state.dailyGoal)} / ${state.dailyGoal} 話`;
   const allThree=q.stories&&q.perfect&&q.fc;
 
   return `<div class="quests-wrap">
     <div class="quests-section-title">🌟 今日のクエスト</div>
     <div class="quest-list">
-      ${card(q.stories,'📖',`今日${state.dailyGoal}話読もう`,storiesProg)}
-      ${card(q.perfect,'⭐','クイズで全問正解！',null)}
-      ${card(q.fc,'🃏','フラッシュカードを練習しよう',null)}
+      ${card(q.stories,'📖',`今日${state.dailyGoal}話読もう`,storiesProg,storiesPct)}
+      ${card(q.perfect,'⭐','クイズで全問正解！',null,undefined)}
+      ${card(q.fc,'🃏','フラッシュカードを練習しよう',null,undefined)}
       <div class="quest-bonus-card${q.bonus?' quest-bonus-done':''}">
         <span class="quest-bonus-txt">${q.bonus?'🎉 今日のクエスト全完了！':'🏆 全クリア +30 XP ボーナス'}</span>
         ${q.bonus?'<span style="font-size:1rem">✓</span>':`<span class="quest-xp-badge">${allThree?'間もなく…':'+20×3'}</span>`}
@@ -1934,17 +1948,17 @@ function setDailyGoal(n){
 
 // ── TOPIC BROWSE ───────────────────────────────────────────
 const TOPICS=[
-  {name:'School',    emoji:'🏫', jp:'学校'},
-  {name:'Family',    emoji:'👨‍👩‍👧', jp:'家族'},
-  {name:'Animals',   emoji:'🐾', jp:'動物'},
-  {name:'Nature',    emoji:'🌿', jp:'自然'},
-  {name:'Science',   emoji:'🔬', jp:'科学'},
-  {name:'Adventure', emoji:'🗺️', jp:'冒険'},
-  {name:'Sport',     emoji:'⚽', jp:'スポーツ'},
-  {name:'Culture',   emoji:'🎭', jp:'文化'},
-  {name:'Daily Life',emoji:'🌅', jp:'日常'},
-  {name:'Community', emoji:'🏘️', jp:'地域'},
-  {name:'Art',       emoji:'🎨', jp:'芸術'},
+  {name:'School',    emoji:'🏫', jp:'学校',    color:'rgba(56,189,248,.18)'},
+  {name:'Family',    emoji:'👨‍👩‍👧', jp:'家族',  color:'rgba(249,173,59,.18)'},
+  {name:'Animals',   emoji:'🐾', jp:'動物',    color:'rgba(74,222,128,.18)'},
+  {name:'Nature',    emoji:'🌿', jp:'自然',    color:'rgba(186,218,85,.25)'},
+  {name:'Science',   emoji:'🔬', jp:'科学',    color:'rgba(192,132,252,.18)'},
+  {name:'Adventure', emoji:'🗺️', jp:'冒険',   color:'rgba(249,173,59,.18)'},
+  {name:'Sport',     emoji:'⚽', jp:'スポーツ', color:'rgba(56,189,248,.18)'},
+  {name:'Culture',   emoji:'🎭', jp:'文化',    color:'rgba(244,63,94,.12)'},
+  {name:'Daily Life',emoji:'🌅', jp:'日常',    color:'rgba(251,146,60,.18)'},
+  {name:'Community', emoji:'🏘️', jp:'地域',   color:'rgba(186,218,85,.22)'},
+  {name:'Art',       emoji:'🎨', jp:'芸術',    color:'rgba(192,132,252,.18)'},
 ];
 
 function getStoriesByTopic(topicName){
@@ -1961,7 +1975,7 @@ function renderTopics(){
     const count=getStoriesByTopic(t.name).length;
     if(!count) return '';
     return `<div class="topic-card" onclick="navigate('genrestories',{topicName:'${t.name}'})">
-      <div class="topic-emoji">${t.emoji}</div>
+      <div class="topic-emoji-wrap" style="background:${t.color}">${t.emoji}</div>
       <div class="topic-jp">${t.jp}</div>
       <div class="topic-count">${count}話</div>
     </div>`;
@@ -2049,8 +2063,18 @@ function renderLevels(){
 }
 
 // ── RENDER: SUB-LEVELS ─────────────────────────────────────
+const SUBLEVEL_HERO_GRADIENTS=[
+  'linear-gradient(135deg,#6b21a8,#8b5cf6)',  // L1 purple
+  'linear-gradient(135deg,#3d7319,#8fb832)',  // L2 green
+  'linear-gradient(135deg,#065f46,#059669)',  // L3 teal
+  'linear-gradient(135deg,#1e40af,#3b82f6)',  // L4 blue
+  'linear-gradient(135deg,#9a3412,#ea580c)',  // L5 orange
+  'linear-gradient(135deg,#9f1239,#e11d48)',  // L6 rose
+];
+
 function renderSubLevels(){
   const lv=LEVELS.find(l=>l.id===state.levelId);
+  const heroGrad=SUBLEVEL_HERO_GRADIENTS[(state.levelId||1)-1]||SUBLEVEL_HERO_GRADIENTS[1];
   const cards=Array.from({length:10},(_,i)=>{
     const sl=i;
     const hasSt=hasStoriesFor(state.levelId,sl);
@@ -2071,7 +2095,7 @@ function renderSubLevels(){
   document.getElementById('app').innerHTML=`
   <div class="screen">
     <div class="nav-bar"><button class="back-btn" onclick="navigate('levels')">←</button><h2>${lv.name}</h2></div>
-    <div class="sublevel-hero">
+    <div class="sublevel-hero" style="background:${heroGrad}">
       <h2>${lv.name}</h2>
       <p>${lv.desc}</p>
       <div class="badges">
@@ -2120,12 +2144,12 @@ function renderStories(){
   const genreChips=`<div class="filter-chip${storiesFilter==='all'?' active':''}" onclick="setStoriesFilter('all')">すべて</div>`
     +genres.map(g=>`<div class="filter-chip${storiesFilter===g?' active':''}" onclick="setStoriesFilter('${g}')">${g}</div>`).join('');
 
-  const cards=filtered.map(s=>`
-    <div class="story-grid-card" onclick="navigate('reader',{storyId:'${s.id}'})">
+  const cards=filtered.map(s=>{const done=storyDone(s.id);return`
+    <div class="story-grid-card${done?' done':''}" onclick="navigate('reader',{storyId:'${s.id}'})">
       <div class="sgc-header" style="background:${grad}">
         <span class="sgc-emoji">${s.emoji||'📖'}</span>
         <div class="sgc-level-badge" style="background:${badgeColor};color:${badgeTxt}">${cefrLabel}</div>
-        ${!storyDone(s.id)?`<div class="sgc-new-badge">NEW</div>`:
+        ${!done?`<div class="sgc-new-badge">NEW</div>`:
           `<div class="sgc-done-badge">✓ 読了</div>`}
       </div>
       <div class="sgc-body">
@@ -2135,7 +2159,7 @@ function renderStories(){
           <div class="sgc-xp">⭐ +${xp}</div>
         </div>
       </div>
-    </div>`).join('');
+    </div>`}).join('');
 
   document.getElementById('app').innerHTML=`
   <div class="screen" style="background:#f8faf8;min-height:100vh">
@@ -2170,12 +2194,12 @@ function filterStoriesBySearch(q){
     :(storiesFilter==='all'?allStories:allStories.filter(s=>s.genre===storiesFilter));
   const grid=document.getElementById('stories-grid');
   if(!grid) return;
-  grid.innerHTML=filtered.map(s=>`
-    <div class="story-grid-card" onclick="navigate('reader',{storyId:'${s.id}'})">
+  grid.innerHTML=filtered.map(s=>{const done=storyDone(s.id);return`
+    <div class="story-grid-card${done?' done':''}" onclick="navigate('reader',{storyId:'${s.id}'})">
       <div class="sgc-header" style="background:${grad}">
         <span class="sgc-emoji">${s.emoji||'📖'}</span>
         <div class="sgc-level-badge" style="background:${badgeColor};color:${badgeTxt}">${cefrLabel}</div>
-        ${!storyDone(s.id)?`<div class="sgc-new-badge">NEW</div>`:
+        ${!done?`<div class="sgc-new-badge">NEW</div>`:
           `<div class="sgc-done-badge">✓ 読了</div>`}
       </div>
       <div class="sgc-body">
@@ -2185,7 +2209,7 @@ function filterStoriesBySearch(q){
           <div class="sgc-xp">⭐ +${xp}</div>
         </div>
       </div>
-    </div>`).join('')||'<p style="padding:20px;color:var(--text-muted);grid-column:1/-1">見つかりません</p>';
+    </div>`}).join('')||'<p style="padding:20px;color:var(--text-muted);grid-column:1/-1">見つかりません</p>';
 }
 
 // ── RENDER: READER ─────────────────────────────────────────
@@ -4165,7 +4189,7 @@ function renderProfile(){
       <div class="lv-prog-badge" style="background:${b.bg};color:${b.color}">${lv.id}</div>
       <div class="lv-prog-info">
         <div class="lv-prog-name">${lv.name}</div>
-        <div class="lv-prog-bar-wrap"><div class="lv-prog-bar-fill" style="width:${lvPct}%"></div></div>
+        <div class="lv-prog-bar-wrap"><div class="lv-prog-bar-fill" style="width:${lvPct}%;background:${b.color}"></div></div>
       </div>
       <div class="lv-prog-count">${lvDone}/${lvStories}</div>
     </div>`;
