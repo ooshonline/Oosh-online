@@ -490,7 +490,7 @@
     .lang-flag{font-size:1.5rem;width:32px;text-align:center}
     .lang-name{flex:1;font-size:.95rem;font-weight:600;color:var(--text)}
     .lang-check{color:var(--primary);font-size:1.1rem;font-weight:800}
-    .settings-section{padding:16px}
+    .settings-section{padding:16px;border-bottom:1px solid var(--border)}
     .settings-label{font-size:.75rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
     .settings-desc{font-size:.85rem;color:var(--text-muted);margin-bottom:14px;line-height:1.5}
     .tts-voice-select{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-family:var(--font-body);font-size:.88rem;appearance:none;cursor:pointer;transition:border-color .2s}
@@ -4217,7 +4217,7 @@ function renderProfile(){
     </div>`).join('');
 
   // Streak display
-  const streakTxt=state.streak>0?`🔥 ${state.streak}-day streak`:'まだ連続なし — 今日読もう！';
+  const streakTxt=state.streak>0?`🔥 ${state.streak}日連続`:'まだ連続なし — 今日読もう！';
 
   document.getElementById('app').innerHTML=`
   <div class="screen has-tab-bar">
@@ -4229,7 +4229,7 @@ function renderProfile(){
 
     <div class="profile-pts-banner">
       <div class="ppb-left">
-        <div class="ppb-label">Total Points</div>
+        <div class="ppb-label">合計ポイント</div>
         <div class="ppb-val">${(state.points||0).toLocaleString()}</div>
       </div>
       <div class="ppb-right">🐸</div>
