@@ -2037,7 +2037,7 @@ function renderLevels(){
     const numTextColor=LEVEL_BADGE_TEXT_COLORS[idx]||'#151515';
     const badge=complete?`<div class="level-badge">🏆 クリア！</div>`:
                 isCurrentLv?`<div class="level-badge" style="background:rgba(186,218,85,.15);color:#4d7c0f;border-color:#bada55">現在のレベル</div>`:'';
-    return `<div class="level-card${complete?' level-card-complete':''}" data-lv="${lv.id}"
+    return `<div class="level-card${complete?' level-card-complete':''}${isCurrentLv?' current-level':''}" data-lv="${lv.id}"
       style="${isLocked?'opacity:.45;cursor:not-allowed':''}"
       onclick="${isLocked?'':(`navigate('sublevels',{levelId:${lv.id}})`)}">
       <div class="level-num" style="background:${numColor}20;color:${numColor};font-size:1.6rem">${frogIcon}</div>
@@ -2045,7 +2045,7 @@ function renderLevels(){
         <h3>${lv.name}</h3>
         <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:4px">${jpSub} · ${lv.cefr}</div>
         <div style="height:4px;background:var(--primary-light);border-radius:99px;overflow:hidden;margin-bottom:4px">
-          <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));border-radius:99px;transition:width .5s"></div>
+          <div style="height:100%;width:${pct}%;background:${numColor};border-radius:99px;transition:width .5s"></div>
         </div>
         ${badge}
       </div>
@@ -3345,9 +3345,13 @@ function renderFlashCards(){
   <div class="screen has-tab-bar">
     <div class="nav-bar"><h2>🃏 フラッシュカード (${cards.length})</h2></div>
     ${cards.length===0
-      ? `<div class="wl-empty">
-           <div class="we-icon">🃏</div>
-           <p>フラッシュカードがまだありません。<br>読書中に下線付きの単語をタップして<br>デッキに追加しましょう！</p>
+      ? `<div class="wl-empty" style="padding:48px 28px">
+           <div style="width:72px;height:72px;background:var(--primary-light);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 18px">🃏</div>
+           <div style="font-family:var(--font-head);font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:10px">カードがまだありません</div>
+           <p style="font-size:.88rem;line-height:1.7;color:var(--text-muted)">お話を読みながら<strong>緑の下線</strong>の単語をタップして、<br>「デッキに追加」でここに保存されます。</p>
+           <div style="margin-top:20px;padding:12px 16px;background:var(--primary-light);border:1.5px solid var(--primary-mid);border-radius:var(--radius-sm);font-size:.82rem;color:var(--primary-dark);font-weight:700;display:flex;align-items:center;gap:8px">
+             <span>📖</span><span>読書から始めよう →</span>
+           </div>
          </div>`
       : `<div class="fc-list-actions">
            <button class="fc-play-btn" onclick="startFlashCardPlay()">▶ 今すぐ学習 (${cards.length}枚)</button>
