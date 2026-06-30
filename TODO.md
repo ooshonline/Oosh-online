@@ -1,7 +1,7 @@
 # Ribbit Reading App — TODO
 
 ## Push pending
-- [ ] `git push` — 7 commits from 2026-06-24/25/26/29 are local only
+- [ ] `git push` — 13 commits local only (7 prior + 5 Gamification from 2026-06-30 + 1 wrap-up)
 
 ## Content (future Content sessions)
 - [ ] Story images for levels beyond Beginner 1–3 — one image per genre/topic (~8–10 images covers the library). Unsplash/Pexels URLs to avoid repo bloat.
@@ -17,6 +17,15 @@
 - [ ] `ribbit-new-destination` queue: South Korea → Morocco → Canada → Greece (Peru done manually 2026-06-25)
 
 ## Done (recent)
+- [x] Badge unlock notification system — BADGE_DEFS-driven, toasts for newly earned badges (2026-06-30)
+- [x] Daily login XP bonus — +10 XP on first open each day; milestone bonuses at 7/14/30-day streaks (2026-06-30)
+- [x] 3 broken badges wired: Quiz Master (5 perfects), World Traveler (journey stamp), Level Clear (all 50 stories) (2026-06-30)
+- [x] Quest completion toasts — fires on each daily/weekly quest item and all-complete bonuses (2026-06-30)
+- [x] XP milestone celebrations — one-time toasts at 100/500/1000/5000 XP (2026-06-30)
+- [x] Badge set expanded 8→12 — streak milestones (7/14/30-day) + flash master (50 cards) (2026-06-30)
+- [x] Profile badge count header — "バッジ X/12" shows earned progress (2026-06-30)
+- [x] Next badge hint on home — shows closest unearned badge with progress bar (2026-06-30)
+- [x] Dynamic combo XP floats — all 4 question types now show actual multiplied points (2026-06-30)
 - [x] Quest progress bars — daily (stories) + weekly (levels/flash cards) now show 3px visual bars (2026-06-29)
 - [x] Story grid cards — done state shows subtle green ring (2026-06-29)
 - [x] Destination cards (journey hub) — stamped/active cards get soft outer glow (2026-06-29)
