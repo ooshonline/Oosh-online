@@ -874,6 +874,7 @@ const state = {
   lastTicketEarned: false,
   _questionStartTime: 0,
   _answerTime: 0,
+  perfectCount: parseInt(localStorage.getItem('rbt_perfectcount')||'0'),
 };
 
 function save(){
@@ -894,6 +895,7 @@ function save(){
   localStorage.setItem('rbt_qp',       JSON.stringify(state.questProgress||{}));
   localStorage.setItem('rbt_wqp',      JSON.stringify(state.weekQuestProgress||{}));
   if(state.ttsVoice) localStorage.setItem('rbt_ttsvoice', state.ttsVoice);
+  localStorage.setItem('rbt_perfectcount', state.perfectCount||0);
 }
 // Safety net — save whenever the user closes or navigates away
 window.addEventListener('beforeunload', save);
@@ -1470,6 +1472,7 @@ function markJourneyWordDone(destId, word){
     showToast('🃏 カードに追加しました！');
   }
   save();
+  checkBadgesAndNotify();
 }
 
 // STORIES is defined in ribbit-stories.js:
@@ -2661,6 +2664,7 @@ function toggleFlashCard(word, def, pos){
     const jaWord=(JA_TRANSLATIONS[word]||{}).w||null;
     state.flashCards[word]={def, pos, jaWord};
     showToast('🃏 カードに追加しました！');
+    checkBadgesAndNotify();
   }
   save();
   const b=document.getElementById('wps');
@@ -3177,7 +3181,7 @@ function finishQuiz(){
   state.comboStreak=0;
   calcTodayCount();
   checkStoriesQuest();
-  if(score===1) markQuestDone('perfect');
+  if(score===1){ markQuestDone('perfect'); state.perfectCount=(state.perfectCount||0)+1; }
   // Check if this story completion finishes a sub-level for the first time
   const sl=story.levelId===6 ? story.subLevel-1 : story.subLevel;
   const justUnlocked=wasNew && subLevelDone(story.levelId, sl);
@@ -3185,6 +3189,7 @@ function finishQuiz(){
   const earnedTicket=justUnlocked && story.levelId>=3;
   if(earnedTicket) state.tickets=(state.tickets||0)+1;
   save();
+  checkBadgesAndNotify();
   navigate('results',{lastScore:score,lastCorrect:correct,lastTotal:total,lastXP:earned,
     lastSubLevelUnlocked:justUnlocked?sl:null,lastLevelId:story.levelId,
     lastTicketEarned:earnedTicket,
@@ -3672,6 +3677,7 @@ function renderJourneyDone(){
     state.totalXP=(state.totalXP||0)+200;
     markWeekQuestDone('journey1');
     save();
+    checkBadgesAndNotify();
     launchConfetti();
   }
 
@@ -3736,6 +3742,7 @@ function renderJourneyDone(){
     if(!state.flashCards[w]) state.flashCards[w]={def:'A bonus word from '+dest.name+'.',pos:'noun',lang:null,translation:null};
   });
   save();
+  checkBadgesAndNotify(); // catch word_coll badge if bonus words pushed deck over 10
 }
 
 // ── JOURNEY LOCAL WORDS ────────────────────────────────────
@@ -4199,25 +4206,21 @@ function renderProfile(){
     </div>`;
   }).join('');
 
-  // Badges — earned vs locked placeholders
-  const earnedBadges=[
-    {e:'🔥',name:'連続スタート',earned:state.streak>=3},
-    {e:'📖',name:'最初のお話',earned:doneCount>=1},
-    {e:'⭐',name:'クイズの達人',earned:false},
-    {e:'🃏',name:'単語コレクター',earned:Object.keys(state.flashCards||{}).length>=10},
-    {e:'🌟',name:'10話クリア',earned:doneCount>=10},
-    {e:'🏆',name:'50話クリア',earned:doneCount>=50},
-    {e:'🌍',name:'世界の旅人',earned:false},
-    {e:'🎓',name:'レベルクリア',earned:false},
-  ];
-  const badgeGrid=earnedBadges.map(b=>`
-    <div class="badge-item">
-      <div class="badge-circle ${b.earned?'earned':'locked'}">${b.e}</div>
+  // Badges — driven by BADGE_DEFS, persisted earned state in localStorage
+  const earnedSet=new Set(JSON.parse(localStorage.getItem('rbt_earned_badges')||'[]'));
+  // Sync any newly-met conditions into the persisted set (handles e.g. loading profile after earning)
+  const newlyEarned=BADGE_DEFS.filter(b=>!earnedSet.has(b.key)&&b.earned());
+  if(newlyEarned.length){ newlyEarned.forEach(b=>earnedSet.add(b.key)); localStorage.setItem('rbt_earned_badges',JSON.stringify([...earnedSet])); }
+  const badgeGrid=BADGE_DEFS.map(b=>{
+    const isEarned=earnedSet.has(b.key);
+    return `<div class="badge-item">
+      <div class="badge-circle ${isEarned?'earned':'locked'}">${b.e}</div>
       <span class="badge-name">${b.name}</span>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 
   // Streak display
-  const streakTxt=state.streak>0?`🔥 ${state.streak}日連続`:'まだ連続なし — 今日読もう！';
+  const streakTxt=state.streak>0?`🔥 ${state.streak}日連続！`:'まだ連続なし — 今日読もう！';
 
   document.getElementById('app').innerHTML=`
   <div class="screen has-tab-bar">
@@ -4297,6 +4300,47 @@ function renderProfile(){
   ${tabBar()}`;
 }
 
+// ── BADGE DEFINITIONS ──────────────────────────────────────
+// Each badge has a unique key (used for localStorage tracking), emoji, Japanese name,
+// and an earned() predicate evaluated lazily at check time.
+const BADGE_DEFS=[
+  {key:'streak3',      e:'🔥', name:'連続スタート',   earned:()=>(state.streak||0)>=3},
+  {key:'first_story',  e:'📖', name:'最初のお話',     earned:()=>Object.keys(state.progress||{}).length>=1},
+  {key:'quiz_master',  e:'⭐', name:'クイズの達人',   earned:()=>(state.perfectCount||0)>=5},
+  {key:'word_coll',    e:'🃏', name:'単語コレクター', earned:()=>Object.keys(state.flashCards||{}).length>=10},
+  {key:'ten_stories',  e:'🌟', name:'10話クリア',     earned:()=>Object.keys(state.progress||{}).length>=10},
+  {key:'fifty_stories',e:'🏆', name:'50話クリア',     earned:()=>Object.keys(state.progress||{}).length>=50},
+  {key:'traveler',     e:'🌍', name:'世界の旅人',     earned:()=>DESTINATIONS.some(d=>getJourneyState(d.id).stamped)},
+  {key:'level_clear',  e:'🎓', name:'レベルクリア',   earned:()=>LEVELS.some(lv=>levelDoneCount(lv.id)===10)},
+];
+
+// Check all badge conditions; fire a toast for any that are newly earned this session.
+// Safe to call repeatedly — only toasts once per badge ever (tracked in localStorage).
+function checkBadgesAndNotify(){
+  const earned=new Set(JSON.parse(localStorage.getItem('rbt_earned_badges')||'[]'));
+  const newly=[];
+  BADGE_DEFS.forEach(b=>{ if(!earned.has(b.key) && b.earned()){ earned.add(b.key); newly.push(b); } });
+  if(!newly.length) return;
+  localStorage.setItem('rbt_earned_badges', JSON.stringify([...earned]));
+  // Stagger toasts so they don't overlap
+  newly.forEach((b,i)=>setTimeout(()=>showToast(`🏅 バッジ獲得！${b.e} ${b.name}`), 1500+i*2600));
+}
+
+// ── DAILY LOGIN BONUS ──────────────────────────────────────
+// Awards XP once per calendar day on first render. Extra bonus at 7/14/30-day streaks.
+function checkDailyLoginBonus(){
+  const today=new Date().toDateString();
+  if(localStorage.getItem('rbt_lastlogin')===today) return;
+  localStorage.setItem('rbt_lastlogin', today);
+  let bonus=10;
+  let msg='☀️ おかえり！デイリーボーナス +10 XP！';
+  if((state.streak||0)>=30){ bonus=35; msg=`🌟 ${state.streak}日連続！特別ボーナス +${bonus} XP！`; }
+  else if((state.streak||0)>=14){ bonus=25; msg=`🔥 ${state.streak}日連続達成！ボーナス +${bonus} XP！`; }
+  else if((state.streak||0)>=7){ bonus=20; msg=`🔥 ${state.streak}日連続！ボーナス +${bonus} XP！`; }
+  state.xp=(state.xp||0)+bonus; save();
+  setTimeout(()=>showToast(msg), 700);
+}
+
 // ── TOAST NOTIFICATIONS ────────────────────────────────────
 function showToast(msg){
   document.querySelectorAll('.toast').forEach(t=>t.remove());
@@ -4350,6 +4394,7 @@ function render(){
 applyFontSize();
 applyVocabHighlight();
 render();
+setTimeout(checkDailyLoginBonus, 600);
 
 // ── KEYBOARD SHORTCUTS ─────────────────────────────────────────────────────────
 document.addEventListener('keydown',function(e){
