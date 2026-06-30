@@ -1607,9 +1607,12 @@ function markWeekQuestDone(type){
   if(q[type]) return;
   q[type]=true;
   state.xp=(state.xp||0)+30;
+  const weekQuestNames={levels3:'3レベルから読む',journey1:'目的地クリア',fc10:'10枚カード収集'};
+  setTimeout(()=>showToast(`✅ 週間クエスト完了！ +30 XP`), 400);
   if(!q.bonus && q.levels3 && q.journey1 && q.fc10){
     q.bonus=true;
     state.xp=(state.xp||0)+50;
+    setTimeout(()=>showToast('🏆 今週のクエスト全クリア！ +50 XP ボーナス'), 2800);
   }
   save();
 }
@@ -1667,10 +1670,13 @@ function markQuestDone(type){
   if(q[type]) return; // already awarded
   q[type]=true;
   state.xp=(state.xp||0)+20;
+  const questNames={stories:'お話を読もう',perfect:'クイズで全問正解',fc:'カードを学習'};
+  setTimeout(()=>showToast(`✅ ${questNames[type]||'クエスト'}完了！ +20 XP`), 400);
   // Bonus: all three base quests complete
   if(!q.bonus && q.stories && q.perfect && q.fc){
     q.bonus=true;
     state.xp=(state.xp||0)+30;
+    setTimeout(()=>showToast('🎉 今日のクエスト全クリア！ +30 XP ボーナス'), 2800);
   }
   save();
 }
@@ -3151,6 +3157,7 @@ function finishQuiz(){
   const total=story.quiz.length; const score=correct/total;
   const earned=storyXP(story,score);
   const wasNew=!state.progress[story.id];
+  const prevXP=state.xp||0;  // capture before adding — used for milestone check
 
   // Previous best points for this story (0 if never played)
   const prevBestPts=state.progress[story.id]?.pts||0;
@@ -3190,6 +3197,7 @@ function finishQuiz(){
   if(earnedTicket) state.tickets=(state.tickets||0)+1;
   save();
   checkBadgesAndNotify();
+  checkXPMilestone(prevXP);
   navigate('results',{lastScore:score,lastCorrect:correct,lastTotal:total,lastXP:earned,
     lastSubLevelUnlocked:justUnlocked?sl:null,lastLevelId:story.levelId,
     lastTicketEarned:earnedTicket,
@@ -4313,6 +4321,20 @@ const BADGE_DEFS=[
   {key:'traveler',     e:'🌍', name:'世界の旅人',     earned:()=>DESTINATIONS.some(d=>getJourneyState(d.id).stamped)},
   {key:'level_clear',  e:'🎓', name:'レベルクリア',   earned:()=>LEVELS.some(lv=>levelDoneCount(lv.id)===10)},
 ];
+
+// ── XP MILESTONE CELEBRATIONS ─────────────────────────────
+// One-time toasts when the player crosses key XP thresholds.
+const XP_MILESTONES=[
+  {xp:100,  msg:'⚡ 100 XP 達成！いいスタートだ！'},
+  {xp:500,  msg:'🌟 500 XP 達成！どんどん上達中！'},
+  {xp:1000, msg:'🏆 1000 XP 達成！本当にすごい！'},
+  {xp:5000, msg:'🎖️ 5000 XP 達成！マスタークラス！'},
+];
+function checkXPMilestone(prevXP){
+  const now=state.xp||0;
+  const hit=XP_MILESTONES.find(m=>prevXP<m.xp && now>=m.xp);
+  if(hit) setTimeout(()=>showToast(hit.msg), 3000);
+}
 
 // Check all badge conditions; fire a toast for any that are newly earned this session.
 // Safe to call repeatedly — only toasts once per badge ever (tracked in localStorage).
