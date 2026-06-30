@@ -1795,6 +1795,50 @@ function enterFromLanding(){
   navigate('home');
 }
 
+// Returns an inline card showing the unearned badge closest to completion.
+// Only shows badges with measurable progress (streak, story count, flash cards, perfect rounds).
+function renderNextBadgeHint(){
+  const earned=new Set(JSON.parse(localStorage.getItem('rbt_earned_badges')||'[]'));
+  const doneCount=Object.keys(state.progress||{}).length;
+  const fcCount=Object.keys(state.flashCards||{}).length;
+  const progressFor=key=>{
+    if(key==='first_story')   return {cur:doneCount,max:1};
+    if(key==='ten_stories')   return {cur:doneCount,max:10};
+    if(key==='fifty_stories') return {cur:doneCount,max:50};
+    if(key==='streak3')  return {cur:state.streak||0,max:3};
+    if(key==='streak7')  return {cur:state.streak||0,max:7};
+    if(key==='streak14') return {cur:state.streak||0,max:14};
+    if(key==='streak30') return {cur:state.streak||0,max:30};
+    if(key==='word_coll')    return {cur:fcCount,max:10};
+    if(key==='flash_master') return {cur:fcCount,max:50};
+    if(key==='quiz_master')  return {cur:state.perfectCount||0,max:5};
+    return null;
+  };
+  let best=null, bestRatio=-1;
+  BADGE_DEFS.forEach(b=>{
+    if(earned.has(b.key)) return;
+    const p=progressFor(b.key);
+    if(!p||p.cur>=p.max) return;
+    const ratio=p.cur/p.max;
+    if(ratio>bestRatio){ bestRatio=ratio; best={b,p}; }
+  });
+  if(!best) return '';
+  const {b,p}=best;
+  const pct=Math.min(100,Math.round(p.cur/p.max*100));
+  return `<div onclick="navigate('profile')" style="margin:0 0 10px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;cursor:pointer">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+      <span style="font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">🎯 次のバッジ</span>
+      <span style="font-size:.78rem;font-weight:700;color:var(--text)">${b.e} ${b.name}</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="flex:1;height:6px;background:var(--primary-light);border-radius:99px;overflow:hidden">
+        <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:99px;transition:width .6s ease"></div>
+      </div>
+      <span style="font-size:.75rem;font-weight:700;color:var(--text-muted);white-space:nowrap">${p.cur} / ${p.max}</span>
+    </div>
+  </div>`;
+}
+
 function renderHome(){
   calcTodayCount();
   const lv=currentLevelId();
@@ -1846,6 +1890,7 @@ function renderHome(){
     </div>
     ${renderQuestCards()}
     ${renderWeekQuestCards()}
+    ${renderNextBadgeHint()}
     <div class="pond-map-wrap">${renderPondMap(lv)}</div>
     <div class="pond-cta-wrap">${cta}</div>
     <button class="genre-browse-btn" onclick="navigate('topics')">📚 ジャンルで探す →</button>
