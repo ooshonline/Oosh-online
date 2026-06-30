@@ -2963,7 +2963,7 @@ function finishDnd(ok,selected,q){
   const fb=document.getElementById('qfb');
   fb.style.display='block'; fb.className='quiz-fb '+(ok?'ok':'bad');
   fb.innerHTML=(ok?'<strong>✓ 正解！</strong> ':'<strong>✗ 不正解</strong> ')+q.feedback;
-  if(ok) showXpFloat(fb);
+  if(ok){ const m=Math.min(Math.max((state.comboStreak||0)+1,1),5); showXpFloat(fb,10*m); }
   const n=document.getElementById('qnxt'); if(n) n.classList.add('vis');
 }
 
@@ -3049,15 +3049,15 @@ function checkDndMatch(){
   finishDnd(allOk,ansStr,q);
 }
 
-function showXpFloat(el){
+function showXpFloat(el, pts){
   if(!el) return;
   const r=el.getBoundingClientRect();
   const f=document.createElement('div');
-  f.className='xp-float'; f.textContent='+10 XP';
+  f.className='xp-float'; f.textContent=`+${pts||10}pt`;
   f.style.left=(r.left+r.width/2-30)+'px';
   f.style.top=(r.top-10)+'px';
   document.body.appendChild(f);
-  setTimeout(()=>f.remove(),1000);
+  setTimeout(()=>f.remove(),2000);
 }
 function pick(i){
   const story=getStory(); const q=story.quiz[state.quizIndex];
@@ -3066,7 +3066,8 @@ function pick(i){
   const btn=document.querySelectorAll('.q-opt')[i];
   btn.classList.add(ok?'ok':'bad');
   if(!ok) document.querySelectorAll('.q-opt')[q.correct].classList.add('ok');
-  if(ok) showXpFloat(btn);
+  // Estimate points: base 10 × next combo multiplier (streak hasn't incremented yet)
+  if(ok){ const m=Math.min(Math.max((state.comboStreak||0)+1,1),5); showXpFloat(btn,10*m); }
   state._answerTime = Date.now();
   state.quizAnswers.push({selected:i,correct:ok});
   const fb=document.getElementById('qfb');
@@ -3088,6 +3089,7 @@ function checkFITB(){
   const fb=document.getElementById('qfb');
   fb.style.display='block'; fb.className='quiz-fb '+(ok?'ok':'bad');
   fb.innerHTML=(ok?'<strong>✓ 正解！</strong>':'<strong>✗ 不正解</strong> ')+q.feedback;
+  if(ok){ const m=Math.min(Math.max((state.comboStreak||0)+1,1),5); showXpFloat(fb,10*m); }
   const n=document.getElementById('qnxt'); if(n) n.classList.add('vis');
 }
 
@@ -3122,6 +3124,7 @@ function checkTypeWord(){
   fb.innerHTML=(ok?'<strong>✓ 正解！</strong>':'<strong>✗ 不正解</strong> ')+q.feedback;
   const slotsWrap=document.getElementById('typeSlots');
   if(slotsWrap) slotsWrap.classList.add(ok?'slots-ok':'slots-bad');
+  if(ok){ const m=Math.min(Math.max((state.comboStreak||0)+1,1),5); showXpFloat(fb,10*m); }
   const n=document.getElementById('qnxt'); if(n) n.classList.add('vis');
 }
 
