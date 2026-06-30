@@ -4267,7 +4267,7 @@ function renderProfile(){
     </div>
 
     <div class="profile-section">
-      <div class="profile-section-title">バッジ</div>
+      <div class="profile-section-title">バッジ <span style="font-size:.8rem;font-weight:500;color:var(--text-muted)">${earnedSet.size}/${BADGE_DEFS.length}</span></div>
       <div class="badge-grid">${badgeGrid}</div>
     </div>
 
@@ -4312,14 +4312,21 @@ function renderProfile(){
 // Each badge has a unique key (used for localStorage tracking), emoji, Japanese name,
 // and an earned() predicate evaluated lazily at check time.
 const BADGE_DEFS=[
-  {key:'streak3',      e:'🔥', name:'連続スタート',   earned:()=>(state.streak||0)>=3},
+  // Row 1 — reading milestones
   {key:'first_story',  e:'📖', name:'最初のお話',     earned:()=>Object.keys(state.progress||{}).length>=1},
-  {key:'quiz_master',  e:'⭐', name:'クイズの達人',   earned:()=>(state.perfectCount||0)>=5},
-  {key:'word_coll',    e:'🃏', name:'単語コレクター', earned:()=>Object.keys(state.flashCards||{}).length>=10},
   {key:'ten_stories',  e:'🌟', name:'10話クリア',     earned:()=>Object.keys(state.progress||{}).length>=10},
   {key:'fifty_stories',e:'🏆', name:'50話クリア',     earned:()=>Object.keys(state.progress||{}).length>=50},
-  {key:'traveler',     e:'🌍', name:'世界の旅人',     earned:()=>DESTINATIONS.some(d=>getJourneyState(d.id).stamped)},
   {key:'level_clear',  e:'🎓', name:'レベルクリア',   earned:()=>LEVELS.some(lv=>levelDoneCount(lv.id)===10)},
+  // Row 2 — streak milestones
+  {key:'streak3',      e:'🔥', name:'3日連続',        earned:()=>(state.streak||0)>=3},
+  {key:'streak7',      e:'🌙', name:'7日連続',        earned:()=>(state.streak||0)>=7},
+  {key:'streak14',     e:'💎', name:'14日連続',       earned:()=>(state.streak||0)>=14},
+  {key:'streak30',     e:'👑', name:'30日連続',       earned:()=>(state.streak||0)>=30},
+  // Row 3 — mastery
+  {key:'quiz_master',  e:'⭐', name:'クイズの達人',   earned:()=>(state.perfectCount||0)>=5},
+  {key:'word_coll',    e:'🃏', name:'カード10枚',     earned:()=>Object.keys(state.flashCards||{}).length>=10},
+  {key:'flash_master', e:'📚', name:'カード50枚',     earned:()=>Object.keys(state.flashCards||{}).length>=50},
+  {key:'traveler',     e:'🌍', name:'世界の旅人',     earned:()=>DESTINATIONS.some(d=>getJourneyState(d.id).stamped)},
 ];
 
 // ── XP MILESTONE CELEBRATIONS ─────────────────────────────
