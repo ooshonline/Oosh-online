@@ -3498,7 +3498,7 @@ function renderFlashCards(){
                <div class="fc-item-left">
                  <div class="wl-word">${w}</div>
                  <div class="wl-def">${c.def}</div>
-                 ${c.translation?`<div class="fc-item-tl">${c.lang?c.lang.toUpperCase()+': ':''}<strong>${c.translation}</strong></div>`:''}
+                 ${(jaTl=>jaTl?`<div class="fc-item-tl">JA: <strong>${jaTl}</strong></div>`:''  )(cardJa(w,c))}
                </div>
                <div class="fc-item-actions">
                  <button class="wl-del" onclick="deleteFlashCard('${w}')">✕</button>
