@@ -4485,8 +4485,8 @@ const XP_MILESTONES=[
 ];
 function checkXPMilestone(prevXP){
   const now=state.xp||0;
-  const hit=XP_MILESTONES.find(m=>prevXP<m.xp && now>=m.xp);
-  if(hit) setTimeout(()=>showToast(hit.msg), 3000);
+  XP_MILESTONES.filter(m=>prevXP<m.xp && now>=m.xp)
+    .forEach((m,i)=>setTimeout(()=>showToast(m.msg), 3000+i*2600));
 }
 
 // Check all badge conditions; fire a toast for any that are newly earned this session.
