@@ -1,7 +1,7 @@
 # Ribbit Reading App — TODO
 
 ## Push pending
-- [ ] `git push` — 13 commits local only (7 prior + 5 Gamification from 2026-06-30 + 1 wrap-up)
+- [ ] `git push` — 17 commits local only (13 prior + 4 Functionality from 2026-07-02)
 
 ## Content (future Content sessions)
 - [ ] Story images for levels beyond Beginner 1–3 — one image per genre/topic (~8–10 images covers the library). Unsplash/Pexels URLs to avoid repo bloat.
@@ -11,12 +11,14 @@
 
 ## Functionality
 - [ ] Voice selector: test on iOS Safari (voices list may differ from desktop)
-- [ ] translateWord: currently uses local JA_TRANSLATIONS only — words outside the 300-story vocab won't have Japanese shown in flash card play. Consider expanding JA_TRANSLATIONS with destination local words, or a fallback API.
 
 ## Scheduled tasks
 - [ ] `ribbit-new-destination` queue: South Korea → Morocco → Canada → Greece (Peru done manually 2026-06-25)
 
 ## Done (recent)
+- [x] translateWord: 55 destination words baked into JA_TRANSLATIONS; cardJa() helper fixes jaWord/translation inconsistency; MyMemory API fallback added (2026-07-02)
+- [x] Flash card apostrophe quoting: l'Hexagone onclick bug fixed (2026-07-02)
+- [x] XP milestone: fire all crossed milestones not just first (2026-07-02)
 - [x] Badge unlock notification system — BADGE_DEFS-driven, toasts for newly earned badges (2026-06-30)
 - [x] Daily login XP bonus — +10 XP on first open each day; milestone bonuses at 7/14/30-day streaks (2026-06-30)
 - [x] 3 broken badges wired: Quiz Master (5 perfects), World Traveler (journey stamp), Level Clear (all 50 stories) (2026-06-30)
