@@ -3501,7 +3501,7 @@ function renderFlashCards(){
                  ${(jaTl=>jaTl?`<div class="fc-item-tl">JA: <strong>${jaTl}</strong></div>`:''  )(cardJa(w,c))}
                </div>
                <div class="fc-item-actions">
-                 <button class="wl-del" onclick="deleteFlashCard('${w}')">✕</button>
+                 <button class="wl-del" onclick="deleteFlashCard('${w.replace(/'/g,"\\'")}')">✕</button>
                </div>
              </div>`).join('')}
          </div>`}
@@ -3615,7 +3615,7 @@ function renderFlashCardPlay(){
                    <span class="fc-back-tl-lang">JA</span>
                    <span class="fc-back-tl-text">${ja}</span>
                  </div>`
-              : `<button class="fc-back-tl-fetch" id="fc-tl-btn" onclick="fetchCardTranslation('${word}',event)">日本語を見る</button>`}
+              : `<button class="fc-back-tl-fetch" id="fc-tl-btn" onclick="fetchCardTranslation('${word.replace(/'/g,"\\'")}',event)">日本語を見る</button>`}
             <div class="fc-back-divider"></div>
             <div class="fc-back-def">${card.def}</div>
           </div>
