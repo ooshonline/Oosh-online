@@ -838,6 +838,79 @@
 <script src="ribbit-wordlists.js"></script>
 <script src="ribbit-ja-translations.js"></script>
 <script>
+// Supplementary Japanese translations for World Journey destination words.
+// These are baked in so flash cards always show Japanese without an API call.
+Object.assign(JA_TRANSLATIONS, {
+  // Tokyo
+  'sakura':       {w:'さくら',                d:'桜の花。春に咲くピンクの花。日本を代表する花。'},
+  'bento':        {w:'弁当（べんとう）',       d:'ご飯やおかずを詰めた持ち運び用の食事。'},
+  'shinkansen':   {w:'新幹線（しんかんせん）', d:'日本の高速鉄道。都市間を320km/hで結ぶ。'},
+  'manga':        {w:'漫画（まんが）',         d:'日本のコミック。子どもから大人まで楽しむ。'},
+  // Australia
+  'billabong':    {w:'ビラボン',               d:'川が流れを変えた後に残る水たまり。'},
+  'didgeridoo':   {w:'ディジュリドゥ',         d:'アボリジナルの木管楽器。深く響く音が特徴。'},
+  'arvo':         {w:'アーボ',                 d:'オーストラリアのスラングで「午後」の意味。'},
+  // England
+  'pub':          {w:'パブ',                   d:'飲み物や料理を提供する場所。英国文化の中心。'},
+  'quid':         {w:'クイド',                 d:'英国のスラングで「1ポンド（£）」の意味。'},
+  'brolly':       {w:'ブロリー',               d:'英国のスラングで「傘」の意味。'},
+  'fortnight':    {w:'2週間',                  d:'2週間の期間を指す英国英語。'},
+  'bank holiday': {w:'祝祭日（しゅくさいじつ）',d:'英国の公休日。銀行や多くの企業が休業する。'},
+  // Egypt
+  'pharaoh':      {w:'ファラオ',               d:'古代エジプトの王。神としても崇められた。'},
+  'oasis':        {w:'オアシス',               d:'砂漠の中で地下水が湧き出る緑豊かな場所。'},
+  // China
+  'mandarin':     {w:'北京語（まんだりん）',   d:'中国の公用語。世界で最も多くの人が話す言語。'},
+  'chopsticks':   {w:'箸（はし）',             d:'東アジアで食事に使う2本の細い棒。'},
+  'pagoda':       {w:'塔（とう）',             d:'複数の屋根を持つ東アジアの塔型建築。'},
+  'dim sum':      {w:'飲茶（やむちゃ）',       d:'多くの小皿を食卓でシェアする中国の食事スタイル。'},
+  'tai chi':      {w:'太極拳（たいきょくけん）',d:'バランスや健康のためにゆっくりした動作で行う中国の運動。'},
+  // Brazil
+  'samba':        {w:'サンバ',                 d:'ブラジルの音楽とダンス。カーニバルに欠かせない。'},
+  'carnaval':     {w:'カーニバル',             d:'ブラジルの年に一度の大祭り。音楽・踊り・パレードで有名。'},
+  'capoeira':     {w:'カポエイラ',             d:'ブラジルで生まれた格闘技。ダンスや曲芸と融合している。'},
+  'futebol':      {w:'サッカー',               d:'ポルトガル語でサッカーのこと。ブラジルは最多W杯優勝国。'},
+  // India
+  'sari':         {w:'サリー',                 d:'南アジアの女性が着る長い布。体に巻いて着用する。'},
+  'rangoli':      {w:'ランゴリ',               d:'色粉や花びらで地面に描くインドの伝統的な装飾模様。'},
+  'rupee':        {w:'ルピー',                 d:'インドの通貨単位。'},
+  // France
+  'boulangerie':  {w:'ブーランジェリー',       d:'フランスのパン屋。毎日焼きたてのパンを販売する。'},
+  'baguette':     {w:'バゲット',               d:'フランスの細長いパン。ほぼすべての食事に添えられる。'},
+  'goûter':       {w:'グーテ',                 d:'フランスの学校後のおやつの時間。午後4時ごろに食べる。'},
+  'pétanque':     {w:'ペタンク',               d:'金属球を投げてターゲットに近づける伝統的なフランスのゲーム。'},
+  'château':      {w:'シャトー',               d:'城または大きな館。ロワール渓谷には約300のシャトーがある。'},
+  "l'hexagone":   {w:'ヘクサゴン',             d:'フランス人がフランス本土を指すニックネーム。六角形の形から。'},
+  // Mexico
+  'mercado':      {w:'メルカード',             d:'屋根付きの大きな市場。食料品・雑貨・屋台料理が売られる。'},
+  'ofrenda':      {w:'オフレンダ',             d:'死者の日に故人を迎えるために作る祭壇。'},
+  'cempasúchil':  {w:'センパスーチル',         d:'死者の日に飾るオレンジ色のマリーゴールドの花。'},
+  'luchador':     {w:'ルチャドール',           d:'ルチャリブレ（メキシコのプロレス）の選手。仮面が特徴。'},
+  'callejón':     {w:'カジェホン',             d:'建物の間の細い路地。メキシコの旧市街によく見られる。'},
+  'mole':         {w:'モレ',                   d:'チリ・チョコレートなどを使ったメキシコの伝統的なソース。'},
+  // Kenya
+  'ugali':        {w:'ウガリ',                 d:'トウモロコシの粉を水で練った東アフリカの主食。'},
+  'nyama choma':  {w:'ニャマ・チョマ',         d:'炭火で焼いたヤギや牛のグリル料理。ケニアの祝宴料理。'},
+  'kachumbari':   {w:'カチュンバリ',           d:'トマト・玉ねぎ・コリアンダーのサラダ。グリル料理に添える。'},
+  'harambee':     {w:'ハランベー',             d:'「一致団結」を意味するスワヒリ語。ケニアの国民的スローガン。'},
+  'matatu':       {w:'マタトゥ',               d:'ケニアのミニバス型公共交通機関。派手な装飾が特徴。'},
+  // Italy
+  'piazza':       {w:'ピアッツァ',             d:'イタリア語で「広場」。町の中心にある公共の集いの場。'},
+  'espresso':     {w:'エスプレッソ',           d:'高圧で濃く抽出したコーヒー。イタリア発祥の飲み物。'},
+  'trattoria':    {w:'トラットリア',           d:'イタリアの家庭的な食堂・レストラン。'},
+  'carnevale':    {w:'カルネヴァーレ',         d:'イタリアのカーニバル。ヴェネツィアの仮面祭りが特に有名。'},
+  'sassi':        {w:'サッシ',                 d:'イタリアのマテーラにある岩に掘られた古い住居群。世界遺産。'},
+  'campanile':    {w:'カンパニーレ',           d:'教会に付属またはそばに独立して建てられたイタリアの鐘楼。'},
+  // Peru
+  'quechua':      {w:'ケチュア語',             d:'インカ帝国の言語。現在もペルーなどで約1千万人が話す。'},
+  'ceviche':      {w:'セビーチェ',             d:'ペルーの代表的な料理。生魚をライム果汁で「調理」したもの。'},
+  'pachamama':    {w:'パチャママ',             d:'アンデス先住民文化で「大地の母」を指す神の名前。'},
+  'chicha':       {w:'チチャ',                 d:'アンデス地方のトウモロコシから作られる発酵飲料。'},
+  'totora':       {w:'トトラ',                 d:'チチカカ湖に生えるイグサの一種。浮き島や舟を作るのに使われる。'},
+  'huayno':       {w:'ワイノ',                 d:'アンデス地方の伝統的な民族音楽と踊り。'},
+});
+</script>
+<script>
 // ── STATE ──────────────────────────────────────────────────
 const state = {
   screen: localStorage.getItem('rbt_seenSplash') ? 'home' : 'landing',
@@ -875,6 +948,7 @@ const state = {
   _questionStartTime: 0,
   _answerTime: 0,
   perfectCount: parseInt(localStorage.getItem('rbt_perfectcount')||'0'),
+  translCache: JSON.parse(localStorage.getItem('rbt_tc')||'{}'),
 };
 
 function save(){
@@ -896,6 +970,7 @@ function save(){
   localStorage.setItem('rbt_wqp',      JSON.stringify(state.weekQuestProgress||{}));
   if(state.ttsVoice) localStorage.setItem('rbt_ttsvoice', state.ttsVoice);
   localStorage.setItem('rbt_perfectcount', state.perfectCount||0);
+  if(Object.keys(state.translCache||{}).length) localStorage.setItem('rbt_tc', JSON.stringify(state.translCache));
 }
 // Safety net — save whenever the user closes or navigates away
 window.addEventListener('beforeunload', save);
@@ -3454,6 +3529,12 @@ function startFlashCardPlay(hardOnly=false){
   navigate('fcplay',{fcOrder:order,fcStudyIndex:0,fcHard:[]});
 }
 
+// Best available Japanese for a flash card — checks translation, jaWord, and JA_TRANSLATIONS.
+// Cards added via word popup use jaWord; Journey auto-saves use translation; both are checked.
+function cardJa(word, card){
+  return card.translation || card.jaWord || (JA_TRANSLATIONS[(word||'').toLowerCase()]||{}).w || null;
+}
+
 function renderFlashCardPlay(){
   const order=state.fcOrder;
   const idx=state.fcStudyIndex;
@@ -3486,6 +3567,7 @@ function renderFlashCardPlay(){
   if(!card){navigate('flashcards');return;}
   const total=order.length;
   const pct=Math.round((idx/total)*100);
+  const ja=cardJa(word,card);
 
   document.getElementById('app').innerHTML=`
   <div class="screen fc-play-screen">
@@ -3525,13 +3607,13 @@ function renderFlashCardPlay(){
             <div class="fc-tap-hint">タップして日本語をみる</div>
           </div>
           <div class="fc-face fc-back">
-            <div class="fc-back-word">${card.translation||word}</div>
-            <div class="fc-back-reading">${card.translation||''}</div>
+            <div class="fc-back-word">${ja||word}</div>
+            <div class="fc-back-reading">${ja||''}</div>
             <div class="fc-back-pos">${card.pos||''}</div>
-            ${card.translation
+            ${ja
               ? `<div class="fc-back-tl-block">
-                   <span class="fc-back-tl-lang">${(card.lang||'JA').toUpperCase()}</span>
-                   <span class="fc-back-tl-text">${card.translation}</span>
+                   <span class="fc-back-tl-lang">JA</span>
+                   <span class="fc-back-tl-text">${ja}</span>
                  </div>`
               : `<button class="fc-back-tl-fetch" id="fc-tl-btn" onclick="fetchCardTranslation('${word}',event)">日本語を見る</button>`}
             <div class="fc-back-divider"></div>
@@ -3623,12 +3705,28 @@ function fcStep(dir){
   renderFlashCardPlay();
 }
 
-// Look up a Japanese translation for a word using the local JA_TRANSLATIONS dict.
-// Returns the Japanese word string, or null if not found.
+// Look up a Japanese translation for a word.
+// Tier 1: static JA_TRANSLATIONS (includes baked-in destination words).
+// Tier 2: cached API results from previous sessions.
+// Tier 3: live MyMemory API fetch — result is cached for next time.
 async function translateWord(word, lang){
   if(lang==='ja'){
-    const entry=JA_TRANSLATIONS[(word||'').toLowerCase()];
+    const key=(word||'').toLowerCase();
+    const entry=JA_TRANSLATIONS[key];
     if(entry && entry.w) return entry.w;
+    const cached=(state.translCache||{})[key];
+    if(cached) return cached;
+    try {
+      const r=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|ja`);
+      const data=await r.json();
+      const tr=data?.responseData?.translatedText;
+      if(tr && tr!==word && !/^MYMEMORY/.test(tr)){
+        if(!state.translCache) state.translCache={};
+        state.translCache[key]=tr;
+        save();
+        return tr;
+      }
+    } catch(_){}
   }
   return null;
 }
