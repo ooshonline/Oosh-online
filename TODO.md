@@ -1,7 +1,7 @@
 # Ribbit Reading App — TODO
 
 ## Push pending
-- [ ] `git push` — 17 commits local only (13 prior + 4 Functionality from 2026-07-02)
+- [ ] `git push` — 20 commits local only (17 prior + 3 UI from 2026-07-03)
 
 ## Content (future Content sessions)
 - [ ] Story images for levels beyond Beginner 1–3 — one image per genre/topic (~8–10 images covers the library). Unsplash/Pexels URLs to avoid repo bloat.
@@ -16,6 +16,11 @@
 - [ ] `ribbit-new-destination` queue: South Korea → Morocco → Canada → Greece (Peru done manually 2026-06-25)
 
 ## Done (recent)
+- [x] Genre-colored story card headers — GENRE_CARD_GRADIENTS lookup, per-story gradient in story browser (2026-07-03)
+- [x] Story card footer genre label — replaced empty world city with genre text (2026-07-03)
+- [x] Sub-level card progress dots — replaced ★☆☆ stars with 5 dot indicators, level-coloured number (2026-07-03)
+- [x] Level select story count — added total story count (e.g. 0/75話) below sub-level count (2026-07-03)
+- [x] Topic browse vibrant colours — TOPICS[] emoji wrap colours matched to GENRE_CARD_GRADIENTS (2026-07-03)
 - [x] translateWord: 55 destination words baked into JA_TRANSLATIONS; cardJa() helper fixes jaWord/translation inconsistency; MyMemory API fallback added (2026-07-02)
 - [x] Flash card apostrophe quoting: l'Hexagone onclick bug fixed (2026-07-02)
 - [x] XP milestone: fire all crossed milestones not just first (2026-07-02)
