@@ -15,7 +15,7 @@
       --primary:#bada55; --primary-dark:#8fb832; --primary-light:rgba(186,218,85,.15);
       --accent:#f9ad3b; --accent-dark:#d4831a;
       --correct:#22c55e; --correct-bg:#dcfce7; --wrong:#ef4444; --wrong-bg:#fee2e2;
-      --bg:#eef7e8; --card:#ffffff; --text:#1A2340; --text-muted:#8FA0B5;
+      --bg:#eef7e8; --card:#ffffff; --text:#1A2340; --text-muted:#8FA0B5; --navy:#1A3260;
       --border:#EEF1F5;
       --shadow-sm:0 2px 8px rgba(0,0,0,.07); --shadow:0 2px 10px rgba(0,0,0,.08); --shadow-lg:0 4px 16px rgba(0,0,0,.12);
       --radius-sm:10px; --radius:16px; --radius-lg:24px;
@@ -28,6 +28,7 @@
     body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
     h1,h2,h3,h4{font-family:var(--font-head)}
     button{font-family:var(--font-body);cursor:pointer;border:none;outline:none;background:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    button:focus-visible{outline:2.5px solid var(--primary-dark);outline-offset:2px}
     #app{max-width:520px;margin:0 auto;min-height:100vh;position:relative;overflow-x:hidden}
     .screen{animation:fadeSlideIn .3s ease both}
     @keyframes fadeSlideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -42,7 +43,7 @@
     .landing-screen::before,.landing-screen::after{content:'';position:absolute;border-radius:50%;background:rgba(186,218,85,1);opacity:.07;pointer-events:none}
     .landing-screen::before{width:320px;height:180px;top:-60px;left:-80px}
     .landing-screen::after{width:240px;height:140px;bottom:-60px;right:-60px}
-    .landing-lang-pill{position:absolute;top:18px;right:18px;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);color:rgba(255,255,255,.9);font-family:var(--font-head);font-size:.75rem;font-weight:700;border-radius:20px;padding:6px 12px;z-index:2}
+    .landing-lang-pill{position:absolute;top:18px;right:18px;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);color:rgba(255,255,255,.9);font-family:var(--font-head);font-size:.75rem;font-weight:700;border-radius:22px;padding:10px 16px;z-index:2}
     .landing-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:340px}
     .landing-frog{width:130px;height:130px;margin-bottom:20px;filter:drop-shadow(0 12px 28px rgba(0,0,0,.4));animation:float 3.5s ease-in-out infinite}
     .landing-title{font-family:var(--font-head);font-size:54px;font-weight:900;color:var(--primary);letter-spacing:-1px;line-height:1}
@@ -60,7 +61,7 @@
     .app-header{background:var(--card);display:flex;flex-wrap:wrap;align-items:center;padding:10px 14px 8px;gap:6px 10px;border-bottom:1.5px solid var(--border);flex-shrink:0}
     .app-brand-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
     .app-logo{width:34px;height:34px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-    .app-brand{font-family:var(--font-head);font-weight:900;font-size:17px;color:#1A3260;letter-spacing:-0.5px}
+    .app-brand{font-family:var(--font-head);font-weight:900;font-size:17px;color:var(--navy);letter-spacing:-0.5px}
     .header-greeting{order:3;flex-basis:100%;font-size:12px;font-weight:600;color:var(--text)}
     .header-breadcrumb{order:3;flex-basis:100%;display:flex;align-items:center;gap:6px;font-size:13px;cursor:default}
     .header-breadcrumb span[onclick]{cursor:pointer}
@@ -69,8 +70,8 @@
     .stat-pill{display:flex;align-items:center;gap:5px;background:var(--bg);border-radius:8px;padding:5px 9px}
     .stat-pill .sp-val{font-size:12px;font-weight:800;color:var(--text)}
     .stat-pill .sp-label{font-size:10px;font-weight:500;color:var(--text-muted)}
-    .avatar-btn{width:32px;height:32px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-    .lang-toggle-pill{flex-shrink:0;display:flex;align-items:center;gap:4px;background:var(--bg);border-radius:20px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--text)}
+    .avatar-btn{width:44px;height:44px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .lang-toggle-pill{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:4px;min-height:44px;background:var(--bg);border-radius:22px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--text)}
 
     .content-area{flex:1;overflow-y:auto;padding-bottom:8px}
 
@@ -184,7 +185,7 @@
     .sub-node-label{font-size:10px;font-weight:600}
 
     .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .story-card{background:var(--card);border-radius:14px;overflow:hidden;cursor:pointer;text-align:left}
+    .story-card{background:var(--card);border-radius:14px;overflow:hidden;cursor:pointer;text-align:left;width:100%}
     .story-cover{height:100px;display:flex;align-items:center;justify-content:center;font-size:38px;position:relative}
     .story-level-badge{position:absolute;bottom:6px;left:6px;border-radius:999px;padding:2px 7px;font-size:8.5px;font-weight:700;color:#fff}
     .story-complete-badge{position:absolute;top:6px;right:6px;width:20px;height:20px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#151515;font-size:11px;font-weight:700}
@@ -205,7 +206,7 @@
     .modal-title{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text);margin-bottom:10px}
     .modal-meta{display:flex;gap:14px;margin-bottom:20px}
     .modal-meta span{font-size:12px;color:var(--text-muted);font-weight:500}
-    .modal-start-btn{width:100%;height:50px;background:#1A3260;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;color:white;font-family:var(--font-head);font-weight:800;font-size:15px;letter-spacing:.05em;margin-bottom:12px;box-shadow:0 4px 16px rgba(26,50,96,.3)}
+    .modal-start-btn{width:100%;height:50px;background:var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;color:white;font-family:var(--font-head);font-weight:800;font-size:15px;letter-spacing:.05em;margin-bottom:12px;box-shadow:0 4px 16px rgba(26,50,96,.3)}
     .modal-notes{text-align:center;font-size:12px;color:#B0C0D0}
 
     /* ══ FLASHCARDS — literal port, Tablet lines 595-732 ══ */
@@ -218,7 +219,7 @@
     .deck-chevron{font-size:16px;flex-shrink:0}
     .deck-create-btn{border:2px dashed #C7D6E0;border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-muted);font-family:var(--font-head);font-weight:800;font-size:13px}
     .flash-back-row{display:flex;align-items:center;gap:10px}
-    .flash-back-btn{width:30px;height:30px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-muted);flex-shrink:0}
+    .flash-back-btn{width:44px;height:44px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-muted);flex-shrink:0}
     .flash-deck-title{font-family:var(--font-head);font-weight:900;font-size:16px;color:var(--text)}
     .flash-deck-subtitle{font-size:11px;color:var(--text-muted)}
     .word-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -251,7 +252,7 @@
     .study-card-word{font-family:var(--font-head);font-weight:900;font-size:26px;color:var(--text);letter-spacing:-.5px;text-transform:capitalize}
     .study-card-badge{width:64px;height:64px;background:#F3F4F6;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:26px;color:var(--text-muted)}
     .study-card-hint{font-size:11px;font-weight:700;color:var(--primary-dark);margin-top:4px}
-    .study-card-word-back{font-family:var(--font-head);font-weight:900;font-size:19px;color:#1A3260;text-transform:capitalize}
+    .study-card-word-back{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--navy);text-transform:capitalize}
     .study-card-def{font-size:14px;color:var(--text);font-weight:600;line-height:1.5}
     .study-card-translation{font-size:12px;color:var(--text-muted);font-style:italic}
     .study-actions{width:100%;max-width:340px;display:flex;gap:12px;margin-top:6px}
@@ -265,7 +266,7 @@
     .complete-stat-num{font-family:var(--font-head);font-weight:900;font-size:24px}
     .complete-stat-label{font-size:11px;color:var(--text-muted);font-weight:600}
     .complete-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:280px;margin-top:6px}
-    .complete-btn-secondary{height:48px;background:transparent;border:2px solid #1A3260;border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:13px;color:#1A3260}
+    .complete-btn-secondary{height:48px;background:transparent;border:2px solid var(--navy);border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:13px;color:var(--navy)}
     .complete-btn-primary{height:48px;background:var(--primary);border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:13px;color:#151515}
 
     /* ══ PROGRESS — literal port, Tablet lines 405-460 ══ */
@@ -304,7 +305,7 @@
     .badge-inner{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
     .badge-lock{position:absolute;bottom:-2px;right:-2px;width:19px;height:19px;border-radius:50%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-size:9px;color:white}
     .badge-name{font-family:var(--font-body);font-weight:700;font-size:10.5px;text-align:center;line-height:1.25}
-    .badge-tooltip{position:absolute;top:66px;left:50%;transform:translateX(-50%);width:140px;background:#1A3260;color:white;font-size:10px;font-weight:600;border-radius:10px;padding:7px 9px;text-align:center;z-index:5;box-shadow:0 8px 20px rgba(0,0,0,.25);line-height:1.4}
+    .badge-tooltip{position:absolute;top:66px;left:50%;transform:translateX(-50%);width:140px;background:var(--navy);color:white;font-size:10px;font-weight:600;border-radius:10px;padding:7px 9px;text-align:center;z-index:5;box-shadow:0 8px 20px rgba(0,0,0,.25);line-height:1.4}
 
     /* ══ WORLD JOURNEY — literal port, Tablet lines 505-586 ══ */
     .world-pane{background:#0F1D2A;min-height:100vh;padding:18px 16px 20px}
@@ -316,7 +317,7 @@
     .world-progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),#F5C842);border-radius:999px}
     .world-locked-notice{background:rgba(245,200,66,.15);border:1px solid rgba(245,200,66,.4);border-radius:10px;padding:8px 12px;margin-bottom:14px;font-size:11px;font-weight:700;color:#F5C842}
     .dest-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .dest-card{position:relative;height:110px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#1A3260,#0F1D2A);padding:12px;display:flex;flex-direction:column;justify-content:flex-end;text-align:left}
+    .dest-card{position:relative;height:110px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,var(--navy),#0F1D2A);padding:12px;display:flex;flex-direction:column;justify-content:flex-end;text-align:left}
     .dest-bg-emoji{position:absolute;top:8px;right:8px;font-size:40px;opacity:.35}
     .dest-complete-badge{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;border:2px solid var(--primary);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:12px;font-weight:800;transform:rotate(-12deg)}
     .dest-inprogress-badge{position:absolute;top:10px;right:10px;background:#F5C842;border-radius:999px;padding:2px 7px;font-size:8px;font-weight:800;color:#1A2340}
@@ -324,7 +325,7 @@
     .dest-card-name{font-size:13px;font-weight:800;color:white;font-family:var(--font-head);margin-bottom:2px}
     .dest-card-stories{font-size:10px;color:rgba(255,255,255,.65);font-weight:500}
     .world-back-link{color:rgba(255,255,255,.7);font-size:12px;font-weight:700;margin-bottom:14px}
-    .dest-hero{position:relative;border-radius:16px;background:linear-gradient(135deg,#1A3260,#0F1D2A);padding:20px;margin-bottom:18px;overflow:hidden}
+    .dest-hero{position:relative;border-radius:16px;background:linear-gradient(135deg,var(--navy),#0F1D2A);padding:20px;margin-bottom:18px;overflow:hidden}
     .dest-hero-emoji{position:absolute;top:-10px;right:-6px;font-size:80px;opacity:.25}
     .dest-hero-name{position:relative;z-index:1;font-family:var(--font-head);font-weight:900;font-size:20px;color:white;margin-bottom:6px}
     .dest-hero-blurb{position:relative;z-index:1;font-size:12px;color:rgba(255,255,255,.75);font-weight:500;line-height:1.5;margin-bottom:12px;max-width:340px}
@@ -335,7 +336,7 @@
     .dest-hero-progress-text{font-size:10px;font-weight:700;color:rgba(255,255,255,.7)}
     .jstory-section-title{font-size:11px;font-weight:800;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
     .jstory-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .jstory-card{background:white;border-radius:14px;overflow:hidden;cursor:pointer}
+    .jstory-card{background:white;border-radius:14px;overflow:hidden;cursor:pointer;text-align:left;width:100%}
     .jstory-cover{height:90px;background:linear-gradient(135deg,#E3F3FC,#70C1B3);display:flex;align-items:center;justify-content:center;font-size:34px;position:relative}
     .jstory-complete-badge{position:absolute;top:6px;right:6px;width:20px;height:20px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:700}
     .jstory-body{padding:8px 9px 9px}
@@ -363,12 +364,12 @@
 
     /* ══ READING — literal port, Tablet lines 819-896. Full-bleed, no app shell. ══ */
     .reader-screen{display:flex;flex-direction:column;min-height:100vh;background:white}
-    .reader-header{background:#1A3260;display:flex;align-items:center;padding:10px 14px;gap:10px;flex-wrap:wrap;flex-shrink:0}
-    .reader-audio-pill{flex:1;min-width:140px;height:40px;background:var(--primary);border-radius:999px;display:flex;align-items:center;padding:0 14px;gap:10px}
-    .reader-audio-btn{width:28px;height:28px;background:rgba(255,255,255,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;font-weight:700;flex-shrink:0;border:none;cursor:pointer}
-    .reader-exit-btn{height:40px;background:var(--primary);border-radius:999px;padding:0 16px;display:flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer}
+    .reader-header{background:var(--navy);display:flex;align-items:center;padding:10px 14px;gap:10px;flex-wrap:wrap;flex-shrink:0}
+    .reader-audio-pill{flex:1;min-width:140px;height:52px;background:var(--primary);border-radius:999px;display:flex;align-items:center;padding:0 14px;gap:10px}
+    .reader-audio-btn{width:44px;height:44px;background:rgba(255,255,255,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;flex-shrink:0;border:none;cursor:pointer}
+    .reader-exit-btn{height:44px;background:var(--primary);border-radius:999px;padding:0 16px;display:flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer}
     .reader-exit-btn span:last-child{font-size:12px;font-weight:700;color:white}
-    .reader-content{flex:1;display:flex;flex-direction:column;cursor:pointer;overflow:hidden}
+    .reader-content{flex:1;display:flex;flex-direction:column;overflow:hidden}
     .reader-illu{width:100%;height:180px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;background-size:cover;background-position:center}
     .reader-illu-emoji{font-size:64px;line-height:1}
     .reader-page-badge{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.18);border-radius:999px;padding:4px 11px;font-size:11px;font-weight:600;color:white}
@@ -376,10 +377,10 @@
     .reader-progress-bar{height:3px;background:var(--border);border-radius:999px;margin-bottom:20px}
     .reader-progress-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .3s ease}
     .reader-page-text{font-size:18px;font-weight:400;color:#2B2B2B;line-height:1.7;animation:fade-up .3s ease both}
-    .reader-footer{height:56px;background:white;border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
-    .reader-nav-btn{display:flex;align-items:center;gap:5px;padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);flex-shrink:0;background:none;font-size:12px;font-weight:700;color:var(--text-muted)}
+    .reader-footer{height:64px;background:white;border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:10px;flex-shrink:0}
+    .reader-nav-btn{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px;padding:8px 14px;border-radius:10px;border:1.5px solid var(--border);flex-shrink:0;background:none;font-size:12px;font-weight:700;color:var(--text-muted)}
     .reader-page-counter{flex:1;text-align:center;font-size:12px;font-weight:600;color:var(--text)}
-    .reader-next-btn{display:flex;align-items:center;gap:5px;background:var(--primary);border-radius:10px;padding:8px 16px;flex-shrink:0;border:none;font-size:13px;font-weight:800;color:#151515}
+    .reader-next-btn{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px;background:var(--primary);border-radius:10px;padding:8px 16px;flex-shrink:0;border:none;font-size:13px;font-weight:800;color:#151515}
     .tappable-word{background:var(--primary-light);border-radius:4px;padding:0 2px;cursor:pointer}
     .word-popup-overlay{position:fixed;inset:0;background:rgba(8,16,36,.5);display:flex;align-items:center;justify-content:center;z-index:250;padding:20px}
     .word-popup-card{width:100%;max-width:340px;background:var(--card);border-radius:18px;padding:22px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:modal-in .2s ease both}
@@ -391,7 +392,7 @@
     /* ══ QUIZ — literal port, Tablet lines 901-958. Full-bleed, no app shell. ══ */
     .quiz-screen{min-height:100vh;display:flex;flex-direction:column;background:#F5F9EF}
     .quiz-topbar{height:56px;background:white;display:flex;align-items:center;padding:0 16px;gap:10px;border-bottom:1.5px solid #EAF0E2;flex-shrink:0}
-    .quiz-exit-btn{width:32px;height:32px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-muted);border:none;flex-shrink:0}
+    .quiz-exit-btn{width:44px;height:44px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-muted);border:none;flex-shrink:0}
     .quiz-title{font-family:var(--font-head);font-weight:800;font-size:13px;color:var(--text)}
     .quiz-dots{display:flex;align-items:center;gap:6px;margin-left:auto}
     .quiz-dot{width:8px;height:8px;border-radius:50%}
@@ -428,14 +429,14 @@
     .confetti-piece{position:fixed;top:-14px;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:9999;animation:confettiFall linear forwards}
     @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
     .celeb-frog{font-size:64px;animation:bounce-in .65s ease both;line-height:1;margin-bottom:8px}
-    .celeb-title{font-family:var(--font-head);font-weight:900;font-size:22px;color:#1A3260;max-width:400px;line-height:1.25;animation:fade-up .4s .15s ease both;margin-bottom:18px}
+    .celeb-title{font-family:var(--font-head);font-weight:900;font-size:22px;color:var(--navy);max-width:400px;line-height:1.25;animation:fade-up .4s .15s ease both;margin-bottom:18px}
     .celeb-stars{display:flex;gap:12px;margin-bottom:18px}
     .celeb-star{font-size:34px;display:block;animation:star-pop .4s ease both}
     .celeb-chip{display:flex;align-items:center;gap:6px;background:#EBF9DE;border-radius:999px;padding:8px 16px;margin-bottom:14px;animation:fade-up .4s .5s ease both}
     .celeb-chip span{font-family:var(--font-head);font-weight:800;font-size:13px;color:#2D6B12}
     .celeb-perf{font-size:12px;color:var(--text-muted);margin-bottom:26px;max-width:320px}
     .celeb-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:280px;animation:fade-up .4s .6s ease both}
-    .celeb-btn-secondary{height:50px;background:transparent;border:2px solid #1A3260;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:#1A3260}
+    .celeb-btn-secondary{height:50px;background:transparent;border:2px solid var(--navy);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--navy)}
     .celeb-btn-primary{height:50px;background:var(--primary);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:#151515}
 
     /* Tablet frame adaptation (>=768px), matching the design's native 1024x768 canvas */
@@ -446,7 +447,6 @@
       .header-greeting{order:0;flex-basis:auto;flex:1;font-size:15px}
       .header-breadcrumb{order:0;flex-basis:auto;flex:1;font-size:14px}
       .stat-pill{padding:6px 12px}
-      .avatar-btn{width:36px;height:36px}
       .home-dash{padding:22px 24px 20px;gap:20px}
       .home-row1{flex-direction:row;height:190px}
       .continue-card{flex:1.6}
@@ -670,6 +670,10 @@ function save(){
   if(state.lastStoryId) localStorage.setItem('rbt_laststory', state.lastStoryId);
 }
 window.addEventListener('beforeunload', save);
+// beforeunload is unreliable on iOS Safari (backgrounding/switching apps doesn't fire it) —
+// visibilitychange + pagehide catch those cases so progress isn't lost mid-session.
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') save(); });
+window.addEventListener('pagehide', save);
 
 function navigate(screen){
   if(state.screen==='reader' && screen!=='reader' && typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
@@ -687,19 +691,28 @@ function openStoryModal(id){ state.modalOpen=true; state.selectedStory=id; rende
 function closeStoryModal(){ state.modalOpen=false; state.selectedStory=null; render(); }
 function startReadingFromModal(){
   state.lastStoryId=state.selectedStory; state.modalOpen=false;
-  state.currentPage=0; state.audioPlaying=false;
+  state.currentPage=0; state.audioPlaying=false; state.audioEverPlayed=false;
   navigate('reader');
 }
-function readAgain(){ state.currentPage=0; state.audioPlaying=false; navigate('reader'); }
-function startReadingDirect(id){ state.lastStoryId=id; state.currentPage=0; state.audioPlaying=false; navigate('reader'); }
+function readAgain(){ state.currentPage=0; state.audioPlaying=false; state.audioEverPlayed=false; navigate('reader'); }
+function startReadingDirect(id){ state.lastStoryId=id; state.currentPage=0; state.audioPlaying=false; state.audioEverPlayed=false; navigate('reader'); }
 
 // ── READING ──────────────────────────────────────────────
+// Stories are always English, regardless of UI language — without an explicit
+// lang/voice, a Japanese-locale iPad's default system voice reads them aloud.
+function pickEnglishVoice(){
+  const voices=speechSynthesis.getVoices();
+  return voices.find(v=>v.lang==='en-GB') || voices.find(v=>v.lang&&v.lang.startsWith('en')) || null;
+}
 function toggleAudio(){
   if(typeof speechSynthesis==='undefined') return;
   if(state.audioPlaying){ speechSynthesis.cancel(); state.audioPlaying=false; render(); return; }
   const story=findStory(state.lastStoryId);
   if(!story) return;
   const utter=new SpeechSynthesisUtterance(story.paragraphs[state.currentPage]);
+  utter.lang='en-GB';
+  const voice=pickEnglishVoice();
+  if(voice) utter.voice=voice;
   utter.onend=()=>{ state.audioPlaying=false; render(); };
   speechSynthesis.cancel(); speechSynthesis.speak(utter);
   state.audioPlaying=true; state.audioEverPlayed=true;
@@ -771,7 +784,14 @@ function toggleCreateWord(id){
   const has=state.createSelectedIds.includes(id);
   if(has) state.createSelectedIds=state.createSelectedIds.filter(x=>x!==id);
   else if(state.createSelectedIds.length<10) state.createSelectedIds=[...state.createSelectedIds,id];
+  // Preserve the deck-name input's focus/caret across the full re-render triggered by tapping a tile.
+  const input=document.querySelector('.deck-name-input');
+  const caret=(input&&document.activeElement===input)?input.selectionStart:null;
   render();
+  if(caret!==null){
+    const newInput=document.querySelector('.deck-name-input');
+    if(newInput){ newInput.focus(); newInput.setSelectionRange(caret,caret); }
+  }
 }
 function saveCustomDeck(){
   if(state.createSelectedIds.length<2) return;
@@ -857,6 +877,8 @@ function subLevelDone(lv,sl){
 }
 function subLevelAvailable(lv,sl){ return sl===0 || subLevelDone(lv,sl-1); }
 function hasStoriesFor(lv,sl){ return !!(STORIES[lv]&&STORIES[lv][sl]&&STORIES[lv][sl].length); }
+// Escapes a value for safe interpolation into an HTML attribute (e.g. value="...", onclick='...').
+function escAttr(str){ return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // Wraps a story's vocabulary words in tappable spans — reused pattern from the live app,
 // real data source: each story's own `vocabulary` dict (word -> {def,pos}).
@@ -864,7 +886,7 @@ function makeWordTappable(text,vocab){
   return text.split(/(\s+)/).map(part=>{
     const clean=part.replace(/[^a-zA-Z'-]/g,'').toLowerCase();
     if(!clean||!vocab[clean]) return part;
-    return `<span class="tappable-word" onclick="event.stopPropagation();showWordPopup('${clean}')">${part}</span>`;
+    return `<span class="tappable-word" onclick="event.stopPropagation();showWordPopup('${clean.replace(/'/g,"\\'")}')">${part}</span>`;
   }).join('');
 }
 function showWordPopup(word){ state.wordPopup=word; render(); }
@@ -1404,7 +1426,7 @@ function renderLibraryTierStories(){
     const done=storyDone(s.id);
     const inProgress=!done&&s.id===state.lastStoryId;
     const [cg1,cg2]=storyGradient(s,level.g1,level.g2);
-    return `<div class="story-card" onclick="openStoryModal('${s.id}')" style="${inProgress?`box-shadow:0 0 0 3px ${level.color},0 4px 14px rgba(0,0,0,0.1)`:''}">
+    return `<button class="story-card" onclick="openStoryModal('${s.id}')" style="${inProgress?`box-shadow:0 0 0 3px ${level.color},0 4px 14px rgba(0,0,0,0.1)`:''}">
       <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
         ${s.emoji||'📖'}
         <div class="story-level-badge" style="background:${level.color}">${t('levelLabel',level.id)}</div>
@@ -1414,7 +1436,7 @@ function renderLibraryTierStories(){
         <div class="story-icons"><div class="story-icon-btn">👁</div><div class="story-icon-btn">🔊</div></div>
         <div class="story-title">${s.title}</div>
       </div>
-    </div>`;
+    </button>`;
   }).join('');
   return `<div class="library-pane"><div class="story-grid">${cards}</div></div>`;
 }
@@ -1479,7 +1501,7 @@ function renderReader(){
       </div>
       <button class="reader-exit-btn" onclick="exitReading()"><span>🐸</span><span>${t('exit')}</span></button>
     </div>
-    <div class="reader-content" onclick="nextPage()">
+    <div class="reader-content">
       <div class="reader-illu" style="background:linear-gradient(135deg,${levelG1},${levelG2})">
         <div class="reader-illu-emoji">${story.emoji||'📖'}</div>
         ${img?`<img src="${img}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()">`:''}
@@ -1492,7 +1514,7 @@ function renderReader(){
     </div>
     ${renderWordPopup(story)}
     <div class="reader-footer">
-      <button class="reader-nav-btn" onclick="prevPage()" style="opacity:${isFirst?.3:1};cursor:${isFirst?'default':'pointer'}">◀ ${t('previous')}</button>
+      <button class="reader-nav-btn" onclick="prevPage()" ${isFirst?'disabled':''} style="opacity:${isFirst?.3:1};cursor:${isFirst?'default':'pointer'}">◀ ${t('previous')}</button>
       <div class="reader-page-counter">${state.currentPage+1} / ${total}</div>
       <button class="reader-next-btn" onclick="nextPage()">${isLast?t('toQuiz'):t('next')} →</button>
     </div>
@@ -1547,9 +1569,11 @@ function renderCelebration(){
   if(!story) return renderComingSoon();
   const accuracyPct=story.quiz&&story.quiz.length?Math.round((state.quizCorrectCount/story.quiz.length)*100):0;
   const xpEarned=state.lastXpEarned||0;
+  // Accuracy is the primary signal; audio is a bonus that guarantees at least 2 stars.
   let earnedStars=1;
-  if(state.audioEverPlayed) earnedStars=2;
+  if(accuracyPct>=50) earnedStars=2;
   if(accuracyPct>=80) earnedStars=3;
+  if(earnedStars<2 && state.audioEverPlayed) earnedStars=2;
   const stars=Array.from({length:3},(_,i)=>`<span class="celeb-star" style="animation-delay:${0.3+i*0.15}s;filter:${i<earnedStars?'drop-shadow(0 2px 8px rgba(245,200,66,.5))':'grayscale(1) opacity(0.35)'}">⭐</span>`).join('');
 
   return `<div class="screen celeb-screen">
@@ -1655,10 +1679,10 @@ function renderFlashCreate(){
       <button class="flash-back-btn" onclick="goDecks()">${t('backChevron')}</button>
       <div class="flash-deck-title">${t('createNewDeck')}</div>
     </div>
-    <input class="deck-name-input" value="${state.createDeckName}" oninput="setCreateDeckName(this.value)" placeholder="${t('deckNamePlaceholder')}">
+    <input class="deck-name-input" value="${escAttr(state.createDeckName)}" oninput="setCreateDeckName(this.value)" placeholder="${t('deckNamePlaceholder')}">
     <div class="pick-words-label">${t('pickWords',state.createSelectedIds.length)}</div>
     <div class="bank-grid">${tiles}</div>
-    <button class="save-deck-btn" onclick="saveCustomDeck()" style="background:${canSave?'var(--primary)':'#C7D6E0'};cursor:${canSave?'pointer':'default'};color:${canSave?'#151515':'white'}">${t('saveDeck')}</button>
+    <button class="save-deck-btn" onclick="saveCustomDeck()" ${canSave?'':'disabled'} style="background:${canSave?'var(--primary)':'#C7D6E0'};cursor:${canSave?'pointer':'default'};color:${canSave?'#151515':'white'}">${t('saveDeck')}</button>
   </div>`;
 }
 
@@ -1868,10 +1892,10 @@ function renderWorldDetail(){
   const doneCount=destDoneCount(d.id);
   const cards=stories.map(s=>{
     const done=storyDone(s.id);
-    return `<div class="jstory-card" onclick="openStoryModal('${s.id}')">
+    return `<button class="jstory-card" onclick="openStoryModal('${s.id}')">
       <div class="jstory-cover">${s.emoji||'📖'}${done?'<div class="jstory-complete-badge">✓</div>':''}</div>
       <div class="jstory-body"><div class="jstory-title">${s.title}</div></div>
-    </div>`;
+    </button>`;
   }).join('');
   return `<div class="world-pane">
     <button class="world-back-link" onclick="goWorldRoot()">← ${t('worldTitle')}</button>
@@ -1990,8 +2014,8 @@ function renderHomeDash(){
     </button>`;
 
   const storiesWaitingCount = Object.values(STORIES).flatMap(o=>Object.values(o)).flat().filter(s=>!storyDone(s.id)).length;
-  const placesFoundCount = Object.values(state.journey).filter(d=>d&&d.stamped).length;
-  const placesTotalCount = 12; // real destination count, matches the live app's World Journey
+  const placesFoundCount = DESTINATIONS.filter(d=>destComplete(d.id)).length;
+  const placesTotalCount = DESTINATIONS.length;
   const q = getTodayQuests();
   const questsTodayCount = [q.stories,q.perfect,q.fc].filter(Boolean).length;
 
@@ -2013,10 +2037,13 @@ function renderHomeDash(){
       <span class="ql-arrow">→</span>
     </button>`).join('');
 
-  // Journey preview nodes — same visual treatment as the design (complete/current/locked)
+  // Journey preview nodes — same visual treatment as the design (complete/current/locked).
+  // Windowed around curIdx so mid/high sub-level learners still see their current node.
   let curIdx=0;
   for(let i=0;i<10;i++){ if(subLevelAvailable(lv,i)&&!subLevelDone(lv,i)){curIdx=i;break;} }
-  const nodesHtml=Array.from({length:5},(_,i)=>{
+  const winStart=Math.max(0,Math.min(curIdx-2,10-5));
+  const nodesHtml=Array.from({length:5},(_,offset)=>{
+    const i=winStart+offset;
     const done=subLevelDone(lv,i);
     const isCur=i===curIdx && !done;
     if(done) return `<div style="width:40px;height:40px;border-radius:50%;background:var(--primary);color:white;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center">✓</div>`;
