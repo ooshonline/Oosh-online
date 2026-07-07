@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ribbit v3 — OOSH ESL Reading</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Tokens per design_handoff_ribbit_ui/README.md — "final" token table.
+         #bada55 used instead of the Tablet prototype's #72C93A: README marks its
+         table final and it matches the existing OOSH brand green already live. */
+      --primary:#bada55; --primary-dark:#8fb832; --primary-light:rgba(186,218,85,.15);
+      --accent:#f9ad3b; --accent-dark:#d4831a;
+      --correct:#22c55e; --correct-bg:#dcfce7; --wrong:#ef4444; --wrong-bg:#fee2e2;
+      --bg:#eef7e8; --card:#ffffff; --text:#1A2340; --text-muted:#8FA0B5;
+      --border:#EEF1F5;
+      --shadow-sm:0 2px 8px rgba(0,0,0,.07); --shadow:0 2px 10px rgba(0,0,0,.08); --shadow-lg:0 4px 16px rgba(0,0,0,.12);
+      --radius-sm:10px; --radius:16px; --radius-lg:24px;
+      --font-head:'Nunito',sans-serif;
+      --font-body:'Nunito Sans',sans-serif;
+      --lv1:#c084fc; --lv2:#bada55; --lv3:#4ade80; --lv4:#38bdf8; --lv5:#fb923c; --lv6:#f43f5e;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+    h1,h2,h3,h4{font-family:var(--font-head)}
+    button{font-family:var(--font-body);cursor:pointer;border:none;outline:none;background:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    #app{max-width:520px;margin:0 auto;min-height:100vh;position:relative;overflow-x:hidden}
+    .screen{animation:fadeSlideIn .3s ease both}
+    @keyframes fadeSlideIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    @keyframes glow-pulse{0%,100%{box-shadow:0 0 0 4px rgba(186,218,85,.35)}50%{box-shadow:0 0 0 10px rgba(186,218,85,.12)}}
+    @keyframes fade-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes star-pop{0%{transform:scale(0) rotate(-15deg);opacity:0}65%{transform:scale(1.28) rotate(6deg);opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1}}
+    @keyframes bounce-in{0%{transform:translateY(60px);opacity:0}55%{transform:translateY(-10px);opacity:1}80%{transform:translateY(6px)}100%{transform:translateY(0);opacity:1}}
+
+    /* ══ SPLASH — matches design_handoff Screen 01 spec (already live, ported verbatim) ══ */
+    .landing-screen{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 24px 48px;background:linear-gradient(175deg,#0d1f0e 0%,#1a3020 55%,#0c1a12 100%);overflow:hidden;text-align:center}
+    .landing-screen::before,.landing-screen::after{content:'';position:absolute;border-radius:50%;background:rgba(186,218,85,1);opacity:.07;pointer-events:none}
+    .landing-screen::before{width:320px;height:180px;top:-60px;left:-80px}
+    .landing-screen::after{width:240px;height:140px;bottom:-60px;right:-60px}
+    .landing-lang-pill{position:absolute;top:18px;right:18px;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);color:rgba(255,255,255,.9);font-family:var(--font-head);font-size:.75rem;font-weight:700;border-radius:20px;padding:6px 12px;z-index:2}
+    .landing-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:340px}
+    .landing-frog{width:130px;height:130px;margin-bottom:20px;filter:drop-shadow(0 12px 28px rgba(0,0,0,.4));animation:float 3.5s ease-in-out infinite}
+    .landing-title{font-family:var(--font-head);font-size:54px;font-weight:900;color:var(--primary);letter-spacing:-1px;line-height:1}
+    .landing-tagline{font-family:var(--font-body);font-size:17px;color:rgba(255,255,255,.88);margin-top:12px;font-weight:400}
+    .landing-subtag{font-family:var(--font-body);font-size:12px;color:rgba(255,255,255,.45);margin-top:6px}
+    .landing-ctas{width:100%;margin-top:36px;display:flex;flex-direction:column;gap:12px}
+    .landing-cta-primary{height:56px;width:100%;background:var(--accent);color:#151515;border-radius:18px;font-family:var(--font-head);font-size:19px;font-weight:900;box-shadow:0 6px 24px rgba(249,173,59,0.5);transition:transform .15s,box-shadow .15s}
+    .landing-cta-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(249,173,59,.55)}
+    .landing-cta-secondary{height:50px;width:100%;background:transparent;color:rgba(255,255,255,.8);border-radius:18px;font-family:var(--font-head);font-size:16px;font-weight:700;border:2px solid rgba(255,255,255,.2);transition:background .2s}
+    .landing-cta-secondary:hover{background:rgba(255,255,255,.06)}
+    .landing-footer{position:relative;z-index:1;margin-top:28px;font-family:var(--font-body);font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.04em}
+
+    /* ══ APP SHELL — literal port, Ribbit Tablet.dc.html lines 37-106, 738-752 ══ */
+    .app-shell{display:flex;flex-direction:column;min-height:100vh;background:var(--bg)}
+    .app-header{background:var(--card);display:flex;flex-wrap:wrap;align-items:center;padding:10px 14px 8px;gap:6px 10px;border-bottom:1.5px solid var(--border);flex-shrink:0}
+    .app-brand-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .app-logo{width:34px;height:34px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .app-brand{font-family:var(--font-head);font-weight:900;font-size:17px;color:#1A3260;letter-spacing:-0.5px}
+    .header-greeting{order:3;flex-basis:100%;font-size:12px;font-weight:600;color:var(--text)}
+    .header-breadcrumb{order:3;flex-basis:100%;display:flex;align-items:center;gap:6px;font-size:13px;cursor:default}
+    .header-breadcrumb span[onclick]{cursor:pointer}
+    .header-breadcrumb .crumb-sep{color:#C8D4E0;font-size:12px}
+    .header-stats{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:auto}
+    .stat-pill{display:flex;align-items:center;gap:5px;background:var(--bg);border-radius:8px;padding:5px 9px}
+    .stat-pill .sp-val{font-size:12px;font-weight:800;color:var(--text)}
+    .stat-pill .sp-label{font-size:10px;font-weight:500;color:var(--text-muted)}
+    .avatar-btn{width:32px;height:32px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+    .lang-toggle-pill{flex-shrink:0;display:flex;align-items:center;gap:4px;background:var(--bg);border-radius:20px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--text)}
+
+    .content-area{flex:1;overflow-y:auto;padding-bottom:8px}
+
+    .bottom-nav{height:72px;background:var(--card);border-top:1.5px solid var(--border);display:flex;align-items:stretch;flex-shrink:0;position:sticky;bottom:0;z-index:100}
+    .nav-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;position:relative}
+    .nav-indicator{width:22px;height:3px;border-radius:999px;background:transparent}
+    .nav-tab.active .nav-indicator{background:var(--tab-accent)}
+    .nav-icon-wrap{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;background:transparent}
+    .nav-tab.active .nav-icon-wrap{background:var(--tab-tint)}
+    .nav-badge{position:absolute;top:-1px;right:8px;width:9px;height:9px;background:#E05C5C;border-radius:50%;border:2px solid white}
+    .nav-label{font-size:9.5px;font-weight:500;color:var(--text-muted)}
+    .nav-tab.active .nav-label{font-weight:800}
+
+    .coming-soon{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:10px;padding:24px;text-align:center;color:var(--text-muted)}
+    .coming-soon-emoji{font-size:48px}
+
+    /* ══ HOME DASHBOARD — literal port, Tablet lines 111-185 ══ */
+    .home-dash{padding:18px 16px 16px;display:flex;flex-direction:column;gap:18px}
+    .home-row1{display:flex;flex-direction:column;gap:12px}
+    .continue-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);display:flex;overflow:hidden;text-align:left;min-height:150px}
+    .continue-cover{width:96px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+    .continue-cover span{font-size:40px;line-height:1}
+    .continue-body{flex:1;padding:14px 14px;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+    .continue-label{font-size:9.5px;font-weight:800;color:var(--text-muted);letter-spacing:.08em;margin-bottom:4px}
+    .continue-title{font-family:var(--font-head);font-weight:900;font-size:16px;color:var(--text);line-height:1.2;margin-bottom:4px}
+    .continue-meta{font-size:11px;color:var(--text-muted);font-weight:500}
+    .continue-progress{height:5px;background:var(--border);border-radius:999px;margin:10px 0}
+    .continue-progress-fill{height:100%;background:var(--primary);border-radius:999px}
+    .continue-btn{display:inline-flex;align-items:center;gap:6px;background:var(--primary);border-radius:10px;padding:9px 14px;box-shadow:0 4px 14px rgba(186,218,85,.4)}
+    .continue-btn span{font-family:var(--font-head);font-weight:800;font-size:12px;color:#151515;white-space:nowrap}
+
+    .goal-card{flex:1;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px}
+    .goal-label{font-size:9.5px;font-weight:800;color:var(--text-muted);letter-spacing:.08em}
+    .goal-ring{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .goal-ring-inner{width:60px;height:60px;border-radius:50%;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .goal-fraction{font-family:var(--font-head);font-weight:900;font-size:15px;color:var(--text);line-height:1}
+    .goal-stories-label{font-size:8.5px;color:var(--text-muted);font-weight:600}
+    .goal-remaining{font-size:11px;font-weight:700;color:var(--primary-dark)}
+
+    .section-title{font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em;margin-bottom:8px}
+    .ql-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .ql-tile{min-height:92px;background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:12px 13px;display:flex;flex-direction:column;justify-content:space-between;position:relative;text-align:left}
+    .ql-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+    .ql-title{font-family:var(--font-head);font-weight:800;font-size:12px;color:var(--text);margin-bottom:1px}
+    .ql-subtitle{font-size:9.5px;color:var(--text-muted);font-weight:500}
+    .ql-arrow{position:absolute;top:12px;right:13px;color:#C8D4E0;font-size:12px}
+
+    .journey-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
+    .journey-title{font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em}
+    .journey-viewpath{font-size:11px;font-weight:700;color:var(--primary-dark);flex-shrink:0}
+    .journey-track{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:16px 18px;position:relative;height:66px;display:flex;align-items:center}
+    .journey-track-line{position:absolute;left:36px;right:36px;top:50%;height:2px;background:repeating-linear-gradient(90deg,#DDE6D4 0 6px,transparent 6px 11px);z-index:0}
+    .journey-nodes{display:flex;justify-content:space-between;width:100%;position:relative;z-index:1}
+
+    /* ══ QUESTS — ported from the live app, daily + weekly quest tracking ══ */
+    .quests-pane{padding:16px;display:flex;flex-direction:column;gap:20px}
+    .quests-wrap{display:flex;flex-direction:column;gap:8px}
+    .quests-section-title{font-family:var(--font-head);font-weight:800;font-size:13px;color:var(--text);margin-bottom:2px}
+    .quest-list{display:flex;flex-direction:column;gap:10px}
+    .quest-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:12px 14px;display:flex;align-items:center;gap:12px}
+    .quest-card.quest-done{opacity:.6}
+    .quest-icon{font-size:20px;flex-shrink:0}
+    .quest-body{flex:1;min-width:0}
+    .quest-text{font-size:12.5px;font-weight:700;color:var(--text)}
+    .quest-prog{font-size:10.5px;color:var(--text-muted);font-weight:600;margin-top:2px}
+    .quest-prog-bar-wrap{height:5px;background:var(--border);border-radius:999px;margin-top:6px}
+    .quest-prog-bar-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .3s ease}
+    .quest-check{font-size:16px;color:var(--primary-dark);opacity:0;flex-shrink:0}
+    .quest-card.quest-done .quest-check{opacity:1}
+    .quest-bonus-card{background:var(--primary-light);border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .quest-bonus-card.quest-bonus-done{background:var(--correct-bg)}
+    .quest-bonus-txt{font-size:12px;font-weight:800;color:var(--primary-dark)}
+    .quest-bonus-card.quest-bonus-done .quest-bonus-txt{color:#15803d}
+    .quest-xp-badge{background:var(--accent);color:white;border-radius:999px;padding:3px 10px;font-size:10.5px;font-weight:800;flex-shrink:0}
+
+    .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(6px);background:#151515;color:#e4edd8;border-radius:99px;padding:10px 20px;font-family:var(--font-head);font-size:.85rem;font-weight:700;z-index:600;pointer-events:none;white-space:nowrap;animation:toastIn .28s cubic-bezier(.34,1.56,.64,1) forwards}
+    .toast.toast-out{animation:toastOut .22s ease forwards}
+    @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(14px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+    @keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(8px)}}
+
+    /* ══ LIBRARY — literal port, Tablet lines 187-278 ══ */
+    .library-pane{padding:16px}
+    .lvl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .lvl-card{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);text-align:left}
+    .lvl-card.locked{opacity:.75}
+    .lvl-cover{height:90px;display:flex;align-items:center;justify-content:center;position:relative}
+    .lvl-cover span{font-size:38px;line-height:1}
+    .lvl-cefr-badge{position:absolute;bottom:6px;left:6px;background:rgba(255,255,255,.88);border-radius:999px;padding:2px 8px;font-size:9px;font-weight:800}
+    .lvl-lock-badge{position:absolute;top:6px;right:6px;width:22px;height:22px;background:rgba(0,0,0,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff}
+    .lvl-body{padding:10px 12px 12px}
+    .lvl-name{font-family:var(--font-head);font-weight:900;font-size:13px;color:var(--text);margin-bottom:2px}
+    .lvl-meta{font-size:9.5px;color:var(--text-muted);font-weight:600;margin-bottom:8px}
+    .lvl-locked-text{font-size:10.5px;font-weight:700;color:#B0B8C1}
+    .lvl-progress-bar{height:5px;background:var(--border);border-radius:999px;margin-bottom:5px}
+    .lvl-progress-fill{height:100%;border-radius:999px}
+    .lvl-progress-text{font-size:10.5px;font-weight:700}
+    .lvl-dots{display:flex;gap:3px;margin-top:6px}
+    .lvl-dot{flex:1;height:5px;border-radius:99px;background:var(--border)}
+    .lvl-dot.lvl-dot-done{background:var(--dot-color,var(--primary))}
+
+    .sublevel-panel{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:18px 14px}
+    .sublevel-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+    .sublevel-header-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .sublevel-header-name{font-family:var(--font-head);font-weight:900;font-size:15px;color:var(--text)}
+    .sublevel-header-meta{font-size:10px;color:var(--text-muted);font-weight:600}
+    .sublevel-track{position:relative;overflow-x:auto;padding-bottom:6px}
+    .sublevel-track-line{position:absolute;left:20px;right:20px;top:20px;height:2px;background:repeating-linear-gradient(90deg,#DDE6D4 0 6px,transparent 6px 11px);z-index:0}
+    .sublevel-nodes{display:flex;justify-content:space-between;gap:14px;position:relative;z-index:1;min-width:520px}
+    .sub-node{display:flex;flex-direction:column;align-items:center;gap:5px;background:none}
+    .sub-node-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+    .sub-node-label{font-size:10px;font-weight:600}
+
+    .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .story-card{background:var(--card);border-radius:14px;overflow:hidden;cursor:pointer;text-align:left}
+    .story-cover{height:100px;display:flex;align-items:center;justify-content:center;font-size:38px;position:relative}
+    .story-level-badge{position:absolute;bottom:6px;left:6px;border-radius:999px;padding:2px 7px;font-size:8.5px;font-weight:700;color:#fff}
+    .story-complete-badge{position:absolute;top:6px;right:6px;width:20px;height:20px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#151515;font-size:11px;font-weight:700}
+    .story-progress-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(0,0,0,.15)}
+    .story-progress-fill{height:100%;background:var(--primary)}
+    .story-body{padding:8px 9px 9px}
+    .story-icons{display:flex;gap:4px;margin-bottom:4px}
+    .story-icon-btn{width:20px;height:20px;background:#F0F3F7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px}
+    .story-title{font-size:11px;font-weight:600;color:var(--text);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+    .modal-overlay{position:fixed;inset:0;background:rgba(8,16,36,.6);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+    .modal-card{width:100%;max-width:440px;background:var(--card);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,.3);animation:modal-in .2s ease both}
+    @keyframes modal-in{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .modal-cover{height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+    .modal-cover span{font-size:54px;line-height:1}
+    .modal-level-pill{border-radius:999px;padding:4px 14px;font-size:11px;font-weight:700;color:#fff}
+    .modal-body{padding:22px}
+    .modal-title{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text);margin-bottom:10px}
+    .modal-meta{display:flex;gap:14px;margin-bottom:20px}
+    .modal-meta span{font-size:12px;color:var(--text-muted);font-weight:500}
+    .modal-start-btn{width:100%;height:50px;background:#1A3260;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;color:white;font-family:var(--font-head);font-weight:800;font-size:15px;letter-spacing:.05em;margin-bottom:12px;box-shadow:0 4px 16px rgba(26,50,96,.3)}
+    .modal-notes{text-align:center;font-size:12px;color:#B0C0D0}
+
+    /* ══ FLASHCARDS — literal port, Tablet lines 595-732 ══ */
+    .flash-pane{padding:16px;display:flex;flex-direction:column;gap:12px}
+    .deck-row{background:var(--card);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-sm);text-align:left}
+    .deck-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
+    .deck-body{flex:1;min-width:0}
+    .deck-title{font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--text)}
+    .deck-subtitle{font-size:11px;color:var(--text-muted);margin-top:2px}
+    .deck-chevron{font-size:16px;flex-shrink:0}
+    .deck-create-btn{border:2px dashed #C7D6E0;border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-muted);font-family:var(--font-head);font-weight:800;font-size:13px}
+    .flash-back-row{display:flex;align-items:center;gap:10px}
+    .flash-back-btn{width:30px;height:30px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-muted);flex-shrink:0}
+    .flash-deck-title{font-family:var(--font-head);font-weight:900;font-size:16px;color:var(--text)}
+    .flash-deck-subtitle{font-size:11px;color:var(--text-muted)}
+    .word-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .word-tile{background:var(--card);border-radius:14px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:5px;box-shadow:var(--shadow-sm)}
+    .word-tile-badge{width:34px;height:34px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);font-family:var(--font-head);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+    .word-tile-text{font-size:11px;font-weight:700;color:var(--text);text-align:center}
+    .word-tile-status{font-size:9px;font-weight:800}
+    .flash-actions{display:flex;gap:10px;margin-top:4px}
+    .flash-study-btn{flex:1;height:48px;border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:13px;color:white}
+    .flash-weak-btn{flex:1;height:48px;background:#FFF0E4;border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:13px;color:#F4844A}
+    .deck-name-input{height:44px;border-radius:12px;border:1.5px solid var(--border);padding:0 14px;font-size:13px;color:var(--text);font-family:var(--font-body)}
+    .pick-words-label{font-size:11px;font-weight:700;color:var(--text-muted)}
+    .bank-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .bank-tile{display:flex;flex-direction:column;align-items:center;gap:5px}
+    .bank-tile-badge{width:48px;height:48px;border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:18px;color:var(--text);display:flex;align-items:center;justify-content:center}
+    .bank-tile-word{font-size:10px;font-weight:700;color:var(--text);text-align:center}
+    .save-deck-btn{height:48px;border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:13px;margin-top:4px}
+
+    .flash-study-pane{align-items:center}
+    .study-top-row{width:100%;max-width:340px;display:flex;align-items:center;justify-content:space-between}
+    .study-deck-title{font-size:12px;font-weight:700;color:var(--text-muted)}
+    .study-counter{background:var(--bg);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:800;color:var(--text)}
+    .study-progress-bar{width:100%;max-width:340px;height:5px;background:var(--border);border-radius:999px}
+    .study-progress-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .3s ease}
+    .study-card-wrap{width:100%;max-width:340px;height:240px;position:relative;margin-top:6px}
+    .study-card-shadow1{position:absolute;inset:0;background:#DDE8CE;border-radius:20px;transform:rotate(4deg)}
+    .study-card-shadow2{position:absolute;inset:0;background:#E8F2D8;border-radius:20px;transform:rotate(-2deg)}
+    .study-card{position:absolute;inset:0;background:var(--card);border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.14);padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
+    .study-card-pill{background:#EBF9DE;border-radius:999px;padding:4px 12px;font-size:10px;font-weight:800;color:#4d7c0f}
+    .study-card-word{font-family:var(--font-head);font-weight:900;font-size:26px;color:var(--text);letter-spacing:-.5px;text-transform:capitalize}
+    .study-card-badge{width:64px;height:64px;background:#F3F4F6;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:26px;color:var(--text-muted)}
+    .study-card-hint{font-size:11px;font-weight:700;color:var(--primary-dark);margin-top:4px}
+    .study-card-word-back{font-family:var(--font-head);font-weight:900;font-size:19px;color:#1A3260;text-transform:capitalize}
+    .study-card-def{font-size:14px;color:var(--text);font-weight:600;line-height:1.5}
+    .study-card-translation{font-size:12px;color:var(--text-muted);font-style:italic}
+    .study-actions{width:100%;max-width:340px;display:flex;gap:12px;margin-top:6px}
+    .study-unknown-btn{flex:1;height:50px;background:var(--wrong-bg);border-radius:14px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--wrong);font-family:var(--font-head);font-weight:800;font-size:13px}
+    .study-known-btn{flex:1;height:50px;background:var(--correct-bg);border-radius:14px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--correct);font-family:var(--font-head);font-weight:800;font-size:13px}
+
+    .flash-complete-pane{align-items:center;padding-top:40px;gap:14px}
+    .complete-frog{font-size:52px}
+    .complete-title{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text)}
+    .complete-stats{display:flex;gap:22px}
+    .complete-stat-num{font-family:var(--font-head);font-weight:900;font-size:24px}
+    .complete-stat-label{font-size:11px;color:var(--text-muted);font-weight:600}
+    .complete-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:280px;margin-top:6px}
+    .complete-btn-secondary{height:48px;background:transparent;border:2px solid #1A3260;border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:13px;color:#1A3260}
+    .complete-btn-primary{height:48px;background:var(--primary);border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:13px;color:#151515}
+
+    /* ══ PROGRESS — literal port, Tablet lines 405-460 ══ */
+    .progress-pane{padding:16px;display:flex;flex-direction:column;gap:18px}
+    .prog-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .prog-stat-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:14px;display:flex;flex-direction:column;gap:8px}
+    .prog-stat-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
+    .prog-stat-value{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text)}
+    .prog-stat-label{font-size:11px;color:var(--text-muted);font-weight:600}
+    .activity-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:16px 14px 12px;display:flex;align-items:flex-end;justify-content:space-between;height:130px}
+    .activity-col{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;gap:5px}
+    .activity-value{font-size:10px;font-weight:700;color:var(--text-muted)}
+    .activity-bar{width:20px;border-radius:6px 6px 2px 2px}
+    .activity-day{font-size:10px;margin-top:3px}
+    .level-rows{display:flex;flex-direction:column;gap:9px}
+    .level-row{background:var(--card);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+    .level-row-icon{width:38px;height:38px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px}
+    .level-row-body{flex:1;min-width:0}
+    .level-row-name{display:flex;align-items:center;gap:6px;font-family:var(--font-head);font-weight:800;font-size:13px;color:var(--text);margin-bottom:5px}
+    .level-row-current{font-size:8.5px;font-weight:800;color:white;border-radius:5px;padding:1px 5px}
+    .level-row-bar{height:5px;background:var(--border);border-radius:999px}
+    .level-row-fill{height:100%;border-radius:999px}
+    .level-row-pct{font-family:var(--font-head);font-weight:800;font-size:12px;flex-shrink:0;width:32px;text-align:right}
+
+    /* ══ REWARDS / BADGES — literal port, Tablet lines 365-402 ══ */
+    .rewards-pane{padding:16px}
+    .rewards-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+    .rewards-title{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text)}
+    .rewards-subtitle{font-size:12px;color:var(--text-muted);font-weight:600;margin-bottom:18px}
+    .badge-groups{display:flex;flex-direction:column;gap:22px}
+    .badge-group-label{font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+    .badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 10px}
+    .badge-cell{position:relative}
+    .badge-btn{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+    .badge-ring{width:62px;height:62px;border-radius:50%;position:relative;background:white;display:flex;align-items:center;justify-content:center;border:4px solid;box-shadow:var(--shadow-sm)}
+    .badge-inner{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
+    .badge-lock{position:absolute;bottom:-2px;right:-2px;width:19px;height:19px;border-radius:50%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-size:9px;color:white}
+    .badge-name{font-family:var(--font-body);font-weight:700;font-size:10.5px;text-align:center;line-height:1.25}
+    .badge-tooltip{position:absolute;top:66px;left:50%;transform:translateX(-50%);width:140px;background:#1A3260;color:white;font-size:10px;font-weight:600;border-radius:10px;padding:7px 9px;text-align:center;z-index:5;box-shadow:0 8px 20px rgba(0,0,0,.25);line-height:1.4}
+
+    /* ══ WORLD JOURNEY — literal port, Tablet lines 505-586 ══ */
+    .world-pane{background:#0F1D2A;min-height:100vh;padding:18px 16px 20px}
+    .world-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+    .world-title{font-family:var(--font-head);font-weight:900;font-size:17px;color:white}
+    .world-passport-pill{background:rgba(255,255,255,.1);border-radius:12px;padding:5px 12px;font-size:12px;font-weight:800;color:rgba(255,255,255,.9)}
+    .world-subtext{font-size:11px;color:rgba(255,255,255,.5);font-weight:500;margin-bottom:12px}
+    .world-progress-bar{height:5px;background:rgba(255,255,255,.1);border-radius:999px;margin-bottom:16px}
+    .world-progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),#F5C842);border-radius:999px}
+    .world-locked-notice{background:rgba(245,200,66,.15);border:1px solid rgba(245,200,66,.4);border-radius:10px;padding:8px 12px;margin-bottom:14px;font-size:11px;font-weight:700;color:#F5C842}
+    .dest-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .dest-card{position:relative;height:110px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#1A3260,#0F1D2A);padding:12px;display:flex;flex-direction:column;justify-content:flex-end;text-align:left}
+    .dest-bg-emoji{position:absolute;top:8px;right:8px;font-size:40px;opacity:.35}
+    .dest-complete-badge{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;border:2px solid var(--primary);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:12px;font-weight:800;transform:rotate(-12deg)}
+    .dest-inprogress-badge{position:absolute;top:10px;right:10px;background:#F5C842;border-radius:999px;padding:2px 7px;font-size:8px;font-weight:800;color:#1A2340}
+    .dest-lock-badge{position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:11px}
+    .dest-card-name{font-size:13px;font-weight:800;color:white;font-family:var(--font-head);margin-bottom:2px}
+    .dest-card-stories{font-size:10px;color:rgba(255,255,255,.65);font-weight:500}
+    .world-back-link{color:rgba(255,255,255,.7);font-size:12px;font-weight:700;margin-bottom:14px}
+    .dest-hero{position:relative;border-radius:16px;background:linear-gradient(135deg,#1A3260,#0F1D2A);padding:20px;margin-bottom:18px;overflow:hidden}
+    .dest-hero-emoji{position:absolute;top:-10px;right:-6px;font-size:80px;opacity:.25}
+    .dest-hero-name{position:relative;z-index:1;font-family:var(--font-head);font-weight:900;font-size:20px;color:white;margin-bottom:6px}
+    .dest-hero-blurb{position:relative;z-index:1;font-size:12px;color:rgba(255,255,255,.75);font-weight:500;line-height:1.5;margin-bottom:12px;max-width:340px}
+    .dest-stamp{position:relative;z-index:1;display:inline-flex;align-items:center;gap:5px;border:2px solid var(--primary);border-radius:999px;padding:5px 12px;transform:rotate(-4deg);color:var(--primary);font-weight:800;font-size:10px}
+    .dest-hero-progress-wrap{position:relative;z-index:1;width:160px}
+    .dest-hero-progress-bar{height:5px;background:rgba(255,255,255,.15);border-radius:999px;margin-bottom:5px}
+    .dest-hero-progress-fill{height:100%;background:#F5C842;border-radius:999px}
+    .dest-hero-progress-text{font-size:10px;font-weight:700;color:rgba(255,255,255,.7)}
+    .jstory-section-title{font-size:11px;font-weight:800;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+    .jstory-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .jstory-card{background:white;border-radius:14px;overflow:hidden;cursor:pointer}
+    .jstory-cover{height:90px;background:linear-gradient(135deg,#E3F3FC,#70C1B3);display:flex;align-items:center;justify-content:center;font-size:34px;position:relative}
+    .jstory-complete-badge{position:absolute;top:6px;right:6px;width:20px;height:20px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:700}
+    .jstory-body{padding:8px 9px 9px}
+    .jstory-title{font-size:11px;font-weight:600;color:var(--text)}
+
+    /* ══ PROFILE — literal port, Tablet lines 289-362 ══ */
+    .profile-pane{padding:18px 16px;display:flex;flex-direction:column;gap:20px}
+    .profile-identity{display:flex;flex-direction:row;align-items:center;gap:14px}
+    .profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+    .profile-level-badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 14px;font-family:var(--font-head);font-weight:800;font-size:13px}
+    .profile-main{display:flex;flex-direction:column;gap:20px}
+    .level-progress-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:16px 18px}
+    .level-progress-toprow{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .level-progress-curname{font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--text)}
+    .level-progress-nextname{font-size:11px;font-weight:700;color:var(--text-muted)}
+    .level-progress-motivation{font-size:12px;font-weight:600;color:var(--primary-dark);margin-top:8px}
+    .recent-badges-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .see-all-link{font-size:12px;font-weight:700;color:var(--primary-dark)}
+    .recent-badges-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:16px;display:flex;gap:22px;flex-wrap:wrap}
+    .recent-badge{display:flex;flex-direction:column;align-items:center;gap:6px}
+    .recent-badge-ring{width:48px;height:48px;border-radius:50%;background:white;border:3px solid;display:flex;align-items:center;justify-content:center}
+    .recent-badge-icon{font-size:22px}
+    .recent-badge-name{font-size:10.5px;font-weight:700;color:var(--text);text-align:center}
+    .no-badges-text{font-size:12px;color:var(--text-muted)}
+
+    /* ══ READING — literal port, Tablet lines 819-896. Full-bleed, no app shell. ══ */
+    .reader-screen{display:flex;flex-direction:column;min-height:100vh;background:white}
+    .reader-header{background:#1A3260;display:flex;align-items:center;padding:10px 14px;gap:10px;flex-wrap:wrap;flex-shrink:0}
+    .reader-audio-pill{flex:1;min-width:140px;height:40px;background:var(--primary);border-radius:999px;display:flex;align-items:center;padding:0 14px;gap:10px}
+    .reader-audio-btn{width:28px;height:28px;background:rgba(255,255,255,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;font-weight:700;flex-shrink:0;border:none;cursor:pointer}
+    .reader-exit-btn{height:40px;background:var(--primary);border-radius:999px;padding:0 16px;display:flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer}
+    .reader-exit-btn span:last-child{font-size:12px;font-weight:700;color:white}
+    .reader-content{flex:1;display:flex;flex-direction:column;cursor:pointer;overflow:hidden}
+    .reader-illu{width:100%;height:180px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;background-size:cover;background-position:center}
+    .reader-illu-emoji{font-size:64px;line-height:1}
+    .reader-page-badge{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.18);border-radius:999px;padding:4px 11px;font-size:11px;font-weight:600;color:white}
+    .reader-text-area{flex:1;background:#FFFDF8;display:flex;flex-direction:column;justify-content:center;padding:24px 20px;overflow-y:auto;cursor:default}
+    .reader-progress-bar{height:3px;background:var(--border);border-radius:999px;margin-bottom:20px}
+    .reader-progress-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .3s ease}
+    .reader-page-text{font-size:18px;font-weight:400;color:#2B2B2B;line-height:1.7;animation:fade-up .3s ease both}
+    .reader-footer{height:56px;background:white;border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
+    .reader-nav-btn{display:flex;align-items:center;gap:5px;padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);flex-shrink:0;background:none;font-size:12px;font-weight:700;color:var(--text-muted)}
+    .reader-page-counter{flex:1;text-align:center;font-size:12px;font-weight:600;color:var(--text)}
+    .reader-next-btn{display:flex;align-items:center;gap:5px;background:var(--primary);border-radius:10px;padding:8px 16px;flex-shrink:0;border:none;font-size:13px;font-weight:800;color:#151515}
+    .tappable-word{background:var(--primary-light);border-radius:4px;padding:0 2px;cursor:pointer}
+    .word-popup-overlay{position:fixed;inset:0;background:rgba(8,16,36,.5);display:flex;align-items:center;justify-content:center;z-index:250;padding:20px}
+    .word-popup-card{width:100%;max-width:340px;background:var(--card);border-radius:18px;padding:22px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:modal-in .2s ease both}
+    .word-popup-word{font-family:var(--font-head);font-weight:900;font-size:20px;color:var(--text);margin-bottom:8px;text-transform:capitalize}
+    .word-popup-def{font-size:13px;color:var(--text-muted);margin-bottom:8px;line-height:1.5}
+    .word-popup-ja{font-size:13px;color:var(--primary-dark);margin-bottom:16px;line-height:1.5}
+    .word-popup-btn{width:100%;height:44px;background:var(--primary);border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:13px;color:#151515}
+
+    /* ══ QUIZ — literal port, Tablet lines 901-958. Full-bleed, no app shell. ══ */
+    .quiz-screen{min-height:100vh;display:flex;flex-direction:column;background:#F5F9EF}
+    .quiz-topbar{height:56px;background:white;display:flex;align-items:center;padding:0 16px;gap:10px;border-bottom:1.5px solid #EAF0E2;flex-shrink:0}
+    .quiz-exit-btn{width:32px;height:32px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text-muted);border:none;flex-shrink:0}
+    .quiz-title{font-family:var(--font-head);font-weight:800;font-size:13px;color:var(--text)}
+    .quiz-dots{display:flex;align-items:center;gap:6px;margin-left:auto}
+    .quiz-dot{width:8px;height:8px;border-radius:50%}
+    .quiz-counter{font-size:11px;color:var(--text-muted);font-weight:600}
+    .quiz-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+    .quiz-question-wrap{width:100%;max-width:520px}
+    .quiz-label{font-size:11px;font-weight:800;color:var(--text-muted);letter-spacing:.08em;margin-bottom:8px;text-align:center}
+    .quiz-question-text{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text);text-align:center;margin-bottom:22px;line-height:1.3}
+    .quiz-options{display:flex;flex-direction:column;gap:10px}
+    .quiz-option{display:flex;align-items:center;gap:12px;border-radius:14px;padding:13px 16px;text-align:left;box-shadow:var(--shadow-sm)}
+    .quiz-option-badge{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+    .quiz-option-text{font-size:14px;font-weight:700}
+    .quiz-feedback{margin-top:14px;font-size:13px;color:var(--text-muted);text-align:center;font-style:italic}
+    .combo-pill{display:flex;align-items:center;gap:5px;margin-left:8px;background:#fff3e0;border-radius:20px;padding:4px 10px;font-family:var(--font-head);font-weight:900;font-size:12px;color:var(--accent-dark);white-space:nowrap}
+
+    /* Combo-streak overlay — ported from the live app, purely cosmetic feedback layered
+       on top of the existing quiz-answer flow; it doesn't gate advancing to the next question. */
+    .combo-overlay{position:fixed;inset:0;z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;user-select:none}
+    .combo-inner{position:relative;z-index:1;text-align:center;padding:14px 22px;background:rgba(15,26,16,.95);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:22px;box-shadow:0 8px 36px rgba(0,0,0,.5);animation:comboPop .42s cubic-bezier(.34,1.56,.64,1) both}
+    .combo-inner.combo-exit{animation:comboExit .22s ease both}
+    @keyframes comboPop{from{opacity:0;transform:scale(.3) rotate(-10deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+    @keyframes comboExit{to{opacity:0;transform:scale(.82) translateY(-10px)}}
+    .combo-frog-em{font-size:3.5rem;display:block;animation:frogHop .5s cubic-bezier(.34,1.56,.64,1) both .05s;line-height:1.1}
+    @keyframes frogHop{0%{transform:translateY(20px) scale(.75)}55%{transform:translateY(-14px) scale(1.15)}100%{transform:translateY(0) scale(1)}}
+    .combo-label{font-family:var(--font-head);font-size:1.5rem;font-weight:900;line-height:1;margin:6px 0 4px;letter-spacing:-.5px;text-transform:uppercase}
+    .combo-label.is-correct{color:var(--primary)}
+    .combo-label.is-wrong{color:var(--wrong)}
+    .combo-pts-pill{display:inline-block;background:var(--accent);color:#fff;font-family:var(--font-head);font-size:1rem;font-weight:900;padding:4px 16px;border-radius:99px;box-shadow:0 3px 12px rgba(249,173,59,.5);animation:ptsPop .4s cubic-bezier(.34,1.56,.64,1) both .15s;margin-top:2px}
+    @keyframes ptsPop{from{opacity:0;transform:scale(.5) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .combo-streak-line{font-size:.8rem;color:var(--text-muted);margin-top:5px;font-family:var(--font-body)}
+
+    /* ══ CELEBRATION — literal port, Tablet lines 963-1007. Full-bleed, no app shell. ══ */
+    .celeb-screen{min-height:100vh;background:#FFFDF8;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:24px;text-align:center}
+    .confetti-piece{position:fixed;top:-14px;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:9999;animation:confettiFall linear forwards}
+    @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+    .celeb-frog{font-size:64px;animation:bounce-in .65s ease both;line-height:1;margin-bottom:8px}
+    .celeb-title{font-family:var(--font-head);font-weight:900;font-size:22px;color:#1A3260;max-width:400px;line-height:1.25;animation:fade-up .4s .15s ease both;margin-bottom:18px}
+    .celeb-stars{display:flex;gap:12px;margin-bottom:18px}
+    .celeb-star{font-size:34px;display:block;animation:star-pop .4s ease both}
+    .celeb-chip{display:flex;align-items:center;gap:6px;background:#EBF9DE;border-radius:999px;padding:8px 16px;margin-bottom:14px;animation:fade-up .4s .5s ease both}
+    .celeb-chip span{font-family:var(--font-head);font-weight:800;font-size:13px;color:#2D6B12}
+    .celeb-perf{font-size:12px;color:var(--text-muted);margin-bottom:26px;max-width:320px}
+    .celeb-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:280px;animation:fade-up .4s .6s ease both}
+    .celeb-btn-secondary{height:50px;background:transparent;border:2px solid #1A3260;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:#1A3260}
+    .celeb-btn-primary{height:50px;background:var(--primary);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:#151515}
+
+    /* Tablet frame adaptation (>=768px), matching the design's native 1024x768 canvas */
+    #app:has(.app-shell),#app:has(.reader-screen),#app:has(.quiz-screen),#app:has(.celeb-screen){max-width:1024px}
+    @media (min-width:768px){
+      .app-header{height:56px;padding:0 22px;flex-wrap:nowrap}
+      .app-brand{font-size:19px}
+      .header-greeting{order:0;flex-basis:auto;flex:1;font-size:15px}
+      .header-breadcrumb{order:0;flex-basis:auto;flex:1;font-size:14px}
+      .stat-pill{padding:6px 12px}
+      .avatar-btn{width:36px;height:36px}
+      .home-dash{padding:22px 24px 20px;gap:20px}
+      .home-row1{flex-direction:row;height:190px}
+      .continue-card{flex:1.6}
+      .goal-card{flex:1}
+      .continue-cover{width:170px}
+      .continue-cover span{font-size:64px}
+      .continue-body{padding:22px 24px}
+      .continue-title{font-size:21px}
+      .continue-meta{font-size:13px}
+      .goal-ring{width:104px;height:104px}
+      .goal-ring-inner{width:78px;height:78px}
+      .goal-fraction{font-size:19px}
+      .ql-grid{grid-template-columns:repeat(3,1fr)}
+      .ql-tile{min-height:104px;padding:15px 16px}
+      .bottom-nav{height:72px}
+      .library-pane{padding:22px}
+      .lvl-grid{grid-template-columns:repeat(3,1fr)}
+      .lvl-cover{height:118px}
+      .lvl-cover span{font-size:52px}
+      .sublevel-panel{padding:34px 32px}
+      .sublevel-header-icon{width:44px;height:44px;font-size:22px}
+      .sublevel-header-name{font-size:19px}
+      .sublevel-track-line{left:24px;right:24px}
+      .sublevel-nodes{min-width:0}
+      .story-grid{grid-template-columns:repeat(5,1fr)}
+      .story-cover{height:140px;font-size:52px}
+      .reader-header{height:64px;padding:0 14px;flex-wrap:nowrap}
+      .reader-content{flex-direction:row}
+      .reader-illu{width:52%;height:auto}
+      .reader-illu-emoji{font-size:118px}
+      .reader-text-area{padding:44px 48px}
+      .reader-page-text{font-size:26px}
+      .quiz-question-text{font-size:25px}
+      .celeb-btns{flex-direction:row;max-width:460px}
+      .flash-pane{padding:22px}
+      .word-grid{grid-template-columns:repeat(4,1fr)}
+      .bank-grid{grid-template-columns:repeat(6,1fr)}
+      .study-top-row,.study-progress-bar,.study-card-wrap,.study-actions{max-width:420px}
+      .study-card-wrap{height:280px}
+      .complete-btns{flex-direction:row;max-width:340px}
+      .progress-pane,.rewards-pane{padding:22px}
+      .prog-stats-grid{grid-template-columns:repeat(4,1fr)}
+      .badge-grid{grid-template-columns:repeat(4,1fr)}
+      .world-pane{padding:24px 28px}
+      .dest-grid{grid-template-columns:repeat(3,1fr)}
+      .jstory-grid{grid-template-columns:repeat(5,1fr)}
+      .profile-pane{padding:22px 24px;flex-direction:row;gap:26px}
+      .profile-identity{flex:0 0 32%;flex-direction:column;padding-top:8px}
+      .profile-avatar{width:90px;height:90px;font-size:42px}
+      .profile-main{flex:1;min-width:0}
+      .prog-stats-grid{grid-template-columns:repeat(3,1fr)}
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="ribbit-stories.js"></script>
+<script src="ribbit-wordlists.js"></script>
+<script src="ribbit-ja-translations.js"></script>
+<script>
+// ── LEVELS — real CEFR/ages/stage-name from the live app's content, merged with
+// the pond-themed display names/colors/gradients/icons from the Tablet design's
+// own LIBRARY_LEVELS placeholder (visual language, not content, so it's fair to keep).
+const LEVELS=[
+  {id:1,name:'Beginner',    cefr:'Pre-A1',ages:'5–7',  pond:'Lily Pad',  color:'#bada55',g1:'#E8FFD4',g2:'#72C93A',icon:'🌱'},
+  {id:2,name:'Elementary',  cefr:'A1',    ages:'7–9',  pond:'Pond',      color:'#70C1B3',g1:'#D8F5F0',g2:'#70C1B3',icon:'🐸'},
+  {id:3,name:'Pre-Intermediate',cefr:'A2',ages:'9–11', pond:'Stream',    color:'#F5C842',g1:'#FFF8D4',g2:'#F5C842',icon:'🌊'},
+  {id:4,name:'Intermediate',cefr:'B1',    ages:'11–13',pond:'River',     color:'#F4844A',g1:'#FFE8D4',g2:'#F4844A',icon:'🏞️'},
+  {id:5,name:'Upper-Intermediate',cefr:'B2',ages:'13–15',pond:'Waterfall',color:'#E05C5C',g1:'#FFD8D8',g2:'#E05C5C',icon:'💧'},
+  {id:6,name:'Advanced',    cefr:'C1',    ages:'15+',  pond:'Ocean',     color:'#9B72CF',g1:'#F0E4FF',g2:'#9B72CF',icon:'🐋'},
+];
+const LEVEL_GRADIENTS={}; LEVELS.forEach(l=>LEVEL_GRADIENTS[l.id]=[l.g1,l.g2]);
+
+// ── GENRE CARD GRADIENTS — ported from the live app, gives story cards more
+// visual variety than a flat per-level colour. Falls back to the level gradient
+// when a story has no genre or the genre isn't in this list.
+const GENRE_CARD_GRADIENTS={
+  'School':             ['#dbeafe','#93c5fd'],
+  'Family':             ['#d1fae5','#6ee7b7'],
+  'Daily Life':         ['#fce7f3','#f9a8d4'],
+  'Everyday Life':      ['#fce7f3','#f9a8d4'],
+  'Nature':             ['#ccfbf1','#5eead4'],
+  'Outdoors':           ['#d1fae5','#4ade80'],
+  'Science':            ['#ede9fe','#c4b5fd'],
+  'Adventure':          ['#fee2e2','#fca5a5'],
+  'Sport':              ['#fff7ed','#fdba74'],
+  'Community':          ['#ecfdf5','#a7f3d0'],
+  'Animals':            ['#fef3c7','#fcd34d'],
+  'Art':                ['#fdf4ff','#e879f9'],
+  'Music':              ['#fdf4ff','#a855f7'],
+  'History':            ['#fef9c3','#f59e0b'],
+  'Culture':            ['#fefce8','#fde047'],
+  'Food':               ['#fff7ed','#fb923c'],
+  'Play':               ['#fce7f3','#fb7185'],
+  'Friendship':         ['#ffe4e6','#fda4af'],
+  'Travel / City Life': ['#dbeafe','#60a5fa'],
+};
+function storyGradient(story,fallbackG1,fallbackG2){
+  const g=story&&GENRE_CARD_GRADIENTS[story.genre];
+  return g||[fallbackG1,fallbackG2];
+}
+
+// ── BADGES — real, checkable criteria only (no fabricated placeholder badges).
+// Categories dropped from the design that had no honest real-data backing this
+// pass: "Listening & Speaking" (no recording feature yet) and "Collection"
+// (ties to World Journey stamps, not built yet).
+const BADGE_CATEGORIES=[
+  {key:'milestones', labelKey:'catMilestones'},
+  {key:'habits',     labelKey:'catHabits'},
+  {key:'vocabulary', labelKey:'catVocabulary'},
+  {key:'levels',     labelKey:'catLevels'},
+];
+function storiesCompletedInLastDays(n){
+  const cutoff=Date.now()-n*86400000;
+  return Object.values(state.progress).filter(p=>p.at>=cutoff).length;
+}
+const BADGES=[
+  {id:'first-leap',    icon:'🐸', nameKey:'badgeFirstLeap',   hintKey:'hintFirstLeap',   category:'milestones', color:'#bada55', check:()=>Object.keys(state.progress).length>=1},
+  {id:'skill-star',    icon:'🌟', nameKey:'badgeSkillStar',   hintKey:'hintSkillStar',   category:'milestones', color:'#bada55', check:()=>Object.values(state.progress).some(p=>p.score>=1)},
+  {id:'ten-tales',     icon:'📚', nameKey:'badgeTenTales',    hintKey:'hintTenTales',    category:'milestones', color:'#bada55', check:()=>Object.keys(state.progress).length>=10},
+  {id:'century-club',  icon:'💯', nameKey:'badgeCenturyClub', hintKey:'hintCenturyClub', category:'milestones', color:'#bada55', check:()=>Object.keys(state.progress).length>=100},
+  {id:'quiz-ace',      icon:'⭐', nameKey:'badgeQuizAce',     hintKey:'hintQuizAce',     category:'milestones', color:'#bada55', check:()=>(state.perfectCount||0)>=5},
+  {id:'world-traveler',icon:'🌍', nameKey:'badgeWorldTraveler',hintKey:'hintWorldTraveler',category:'milestones', color:'#bada55', check:()=>DESTINATIONS.some(d=>destComplete(d.id))},
+  {id:'story-streak',    icon:'📖', nameKey:'badgeStoryStreak', hintKey:'hintStoryStreak', category:'habits', color:'#F4844A', check:()=>storiesCompletedInLastDays(7)>=3},
+  {id:'streak-keeper',   icon:'🔥', nameKey:'badgeStreakKeeper',hintKey:'hintStreakKeeper',category:'habits', color:'#F4844A', check:()=>state.streak>=7},
+  {id:'two-week-streak', icon:'🗓', nameKey:'badgeTwoWeek',    hintKey:'hintTwoWeek',     category:'habits', color:'#F4844A', check:()=>state.streak>=14},
+  {id:'monthly-marathon',icon:'📅', nameKey:'badgeMonthly',    hintKey:'hintMonthly',     category:'habits', color:'#F4844A', check:()=>state.streak>=30},
+  {id:'word-watcher',    icon:'🔤', nameKey:'badgeWordWatcher',  hintKey:'hintWordWatcher',  category:'vocabulary', color:'#F5C842', check:()=>Object.keys(state.flashCards).length>=5},
+  {id:'word-collector',  icon:'📇', nameKey:'badgeWordCollector',hintKey:'hintWordCollector',category:'vocabulary', color:'#F5C842', check:()=>Object.keys(state.flashCards).length>=25},
+  {id:'vocabulary-vault',icon:'🗝', nameKey:'badgeVocabVault',   hintKey:'hintVocabVault',   category:'vocabulary', color:'#F5C842', check:()=>Object.keys(state.flashCards).length>=50},
+  {id:'known-master',    icon:'🐝', nameKey:'badgeKnownMaster',  hintKey:'hintKnownMaster',  category:'vocabulary', color:'#F5C842', check:()=>Object.values(state.deckWordStatus).filter(s=>s==='known').length>=10},
+  ...LEVELS.map(lv=>({ id:`champion-${lv.id}`, icon:lv.icon, category:'levels', color:lv.color, levelRef:lv, check:()=>levelDoneCount(lv.id)>=10 })),
+];
+
+// ── WORLD JOURNEY — real destinations, ported from the live app's DESTINATIONS
+// array (name/emoji/description/cefr/storyCount/unlock chain). Real stories come
+// from JOURNEY_STORIES (ribbit-stories.js) — same shape as STORIES, so the
+// existing modal/reader/quiz/celebration flow works unchanged. Local-word study
+// and culture-quiz sub-features aren't ported this pass (deferred, like custom
+// flashcard word banks) — completion here means all of a destination's real
+// stories are read, checked via the same state.progress used everywhere else.
+const DESTINATIONS=[
+  {id:'tokyo',     name:'Tokyo',     country:'Japan',     emoji:'🗼', description:'A city of ancient shrines and neon towers, fresh fish markets and bullet trains.', cefr:'A2', storyCount:4, unlockAfter:null},
+  {id:'australia', name:'Australia', country:'Australia', emoji:'🦘', description:'A vast continent of coral reefs, red desert, and cities where the coffee is taken very seriously.', cefr:'A2', storyCount:4, unlockAfter:'tokyo'},
+  {id:'england',   name:'England',   country:'England',   emoji:'🎡', description:'Rolling green hills, red telephone boxes, very strong opinions about tea — and a queue for absolutely everything.', cefr:'A2', storyCount:4, unlockAfter:'australia'},
+  {id:'brazil',    name:'Brazil',    country:'Brazil',    emoji:'🌿', description:'The Amazon, the samba, the churrasco, and the most passionate football culture on Earth.', cefr:'A2', storyCount:4, unlockAfter:'england'},
+  {id:'egypt',     name:'Egypt',     country:'Egypt',     emoji:'🏺', description:'Ancient pyramids, the eternal Nile, a bazaar that has traded for seven centuries.', cefr:'A2', storyCount:4, unlockAfter:'brazil'},
+  {id:'china',     name:'China',     country:'China',     emoji:'🏮', description:"The Great Wall, ancient tea houses, glowing lanterns on New Year's Eve — and the hutong alleyways of Beijing.", cefr:'A2', storyCount:4, unlockAfter:'egypt'},
+  {id:'india',     name:'India',     country:'India',     emoji:'🇮🇳', description:"A country of extraordinary variety — from Holi festivals to Mumbai's lunch-box delivery network.", cefr:'A2', storyCount:4, unlockAfter:'china'},
+  {id:'france',    name:'France',    country:'France',    emoji:'🥐', description:'Lavender fields and cathedral cities, a boulangerie on every corner, and more roundabouts than any other country on Earth.', cefr:'A2', storyCount:4, unlockAfter:'india'},
+  {id:'mexico',    name:'Mexico',    country:'Mexico',    emoji:'🇲🇽', description:'From the pre-dawn chaos of an Oaxacan market to the coloured alleyways of Guanajuato.', cefr:'A2', storyCount:4, unlockAfter:'france'},
+  {id:'kenya',     name:'Kenya',     country:'Kenya',     emoji:'🇰🇪', description:'From mist-covered tea farms in the highlands to the spectacle of the Great Migration at the Maasai Mara.', cefr:'A2', storyCount:4, unlockAfter:'mexico'},
+  {id:'italy',     name:'Italy',     country:'Italy',     emoji:'🇮🇹', description:'From the ancient ruins of Rome to the canals of Venice and the cave cities of the south.', cefr:'A2', storyCount:4, unlockAfter:'kenya'},
+  {id:'peru',      name:'Peru',      country:'Peru',      emoji:'🦙', description:'From the fish markets of Lima to the Inca citadels high in the Andes.', cefr:'A2', storyCount:4, unlockAfter:'italy'},
+];
+function destStories(destId){ return (typeof JOURNEY_STORIES!=='undefined'&&JOURNEY_STORIES[destId])||[]; }
+function destDoneCount(destId){ return destStories(destId).filter(s=>storyDone(s.id)).length; }
+function destComplete(destId){ const st=destStories(destId); return st.length>0 && st.every(s=>storyDone(s.id)); }
+function destLocked(d){ return d.unlockAfter && !destComplete(d.unlockAfter); }
+
+// ── STATE (same localStorage keys as the live app, so progress carries over) ──
+const state = {
+  screen: localStorage.getItem('rbt_seenSplash') ? 'home' : 'landing',
+  uiLang: localStorage.getItem('rbt_uilang')||'ja',
+  lastStoryId: localStorage.getItem('rbt_laststory')||null,
+  progress: JSON.parse(localStorage.getItem('rbt_prog')||'{}'),
+  xp: parseInt(localStorage.getItem('rbt_xp')||'0'),
+  streak: parseInt(localStorage.getItem('rbt_streak')||'0'),
+  perfectCount: parseInt(localStorage.getItem('rbt_perfectcount')||'0'),
+  journey: JSON.parse(localStorage.getItem('rbt_journey')||'{}'), // {destId:{stamped:true}} — set once a destination's stories are all complete
+  dailyGoal: parseInt(localStorage.getItem('rbt_goal')||'3'),
+  todayCount: 0,
+  questProgress: JSON.parse(localStorage.getItem('rbt_qp')||'{}'),
+  weekQuestProgress: JSON.parse(localStorage.getItem('rbt_wqp')||'{}'),
+  libraryLevel: null,
+  librarySublevel: null,
+  modalOpen: false,
+  selectedStory: null,
+  currentPage: 0,
+  audioPlaying: false,
+  audioEverPlayed: false,
+  lastRead: localStorage.getItem('rbt_lastread')||null,
+  quizIndex: 0,
+  quizAnswered: false,
+  quizSelected: null,
+  quizCorrectCount: 0,
+  quizStartTime: null,
+  quizElapsedSec: 0,
+  comboStreak: 0,
+  flashCards: JSON.parse(localStorage.getItem('rbt_fc')||'{}'), // {word:{def,pos,translation}} — real, saved by tapping words in the reader
+  customDecks: JSON.parse(localStorage.getItem('rbt_decks')||'[]'), // [{id,title,wordIds}]
+  deckWordStatus: JSON.parse(localStorage.getItem('rbt_dws')||'{}'), // {"deckId:word":"known"|"practiceMore"}
+  flashView: 'decks',
+  selectedDeckId: null,
+  studyQueue: [],
+  studyIdx: 0,
+  studyResults: {},
+  flashFlipped: false,
+  createSelectedIds: [],
+  createDeckName: '',
+  wordPopup: null, // word currently shown in the reader's tap-to-translate popup
+  openBadgeTooltip: null,
+  worldSelectedId: null,
+  worldLockedNoticeId: null,
+};
+function save(){
+  localStorage.setItem('rbt_uilang', state.uiLang);
+  localStorage.setItem('rbt_prog', JSON.stringify(state.progress));
+  localStorage.setItem('rbt_xp', state.xp);
+  localStorage.setItem('rbt_streak', state.streak);
+  localStorage.setItem('rbt_perfectcount', state.perfectCount);
+  localStorage.setItem('rbt_journey', JSON.stringify(state.journey||{}));
+  localStorage.setItem('rbt_goal', state.dailyGoal);
+  localStorage.setItem('rbt_qp', JSON.stringify(state.questProgress||{}));
+  localStorage.setItem('rbt_wqp', JSON.stringify(state.weekQuestProgress||{}));
+  localStorage.setItem('rbt_lastread', state.lastRead||'');
+  localStorage.setItem('rbt_fc', JSON.stringify(state.flashCards));
+  localStorage.setItem('rbt_decks', JSON.stringify(state.customDecks));
+  localStorage.setItem('rbt_dws', JSON.stringify(state.deckWordStatus));
+  if(state.lastStoryId) localStorage.setItem('rbt_laststory', state.lastStoryId);
+}
+window.addEventListener('beforeunload', save);
+
+function navigate(screen){
+  if(state.screen==='reader' && screen!=='reader' && typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
+  state.screen=screen; state.modalOpen=false; state.audioPlaying=false;
+  if(screen!=='library'){ state.libraryLevel=null; state.librarySublevel=null; }
+  if(screen!=='world' && screen!=='celebration' && screen!=='reader' && screen!=='quiz'){ state.worldSelectedId=null; }
+  render(); window.scrollTo(0,0);
+}
+function enterFromLanding(){ localStorage.setItem('rbt_seenSplash','1'); navigate('home'); }
+function openLibraryLevel(id){ state.libraryLevel=id; state.librarySublevel=null; render(); }
+function openLibrarySublevel(levelId,sub,locked){ if(locked) return; state.librarySublevel=sub; render(); }
+function goLibraryRoot(){ state.libraryLevel=null; state.librarySublevel=null; render(); }
+function goLibraryLevel(){ state.librarySublevel=null; render(); }
+function openStoryModal(id){ state.modalOpen=true; state.selectedStory=id; render(); }
+function closeStoryModal(){ state.modalOpen=false; state.selectedStory=null; render(); }
+function startReadingFromModal(){
+  state.lastStoryId=state.selectedStory; state.modalOpen=false;
+  state.currentPage=0; state.audioPlaying=false;
+  navigate('reader');
+}
+function readAgain(){ state.currentPage=0; state.audioPlaying=false; navigate('reader'); }
+function startReadingDirect(id){ state.lastStoryId=id; state.currentPage=0; state.audioPlaying=false; navigate('reader'); }
+
+// ── READING ──────────────────────────────────────────────
+function toggleAudio(){
+  if(typeof speechSynthesis==='undefined') return;
+  if(state.audioPlaying){ speechSynthesis.cancel(); state.audioPlaying=false; render(); return; }
+  const story=findStory(state.lastStoryId);
+  if(!story) return;
+  const utter=new SpeechSynthesisUtterance(story.paragraphs[state.currentPage]);
+  utter.onend=()=>{ state.audioPlaying=false; render(); };
+  speechSynthesis.cancel(); speechSynthesis.speak(utter);
+  state.audioPlaying=true; state.audioEverPlayed=true;
+  render();
+}
+function nextPage(){
+  const story=findStory(state.lastStoryId);
+  if(typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
+  state.audioPlaying=false;
+  if(state.currentPage < story.paragraphs.length-1){
+    state.currentPage++; render();
+  } else {
+    state.screen='quiz'; state.quizIndex=0; state.quizAnswered=false;
+    state.quizSelected=null; state.quizCorrectCount=0; state.quizStartTime=Date.now();
+    state.comboStreak=0;
+    render();
+  }
+}
+function prevPage(){ if(state.currentPage>0){ state.currentPage--; render(); } }
+function exitReading(){
+  if(typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
+  state.audioPlaying=false;
+  navigate('home');
+}
+
+// ── QUIZ ─────────────────────────────────────────────────
+function selectQuizAnswer(i){
+  if(state.quizAnswered) return;
+  const story=findStory(state.lastStoryId);
+  const q=story.quiz[state.quizIndex];
+  const isCorrect=i===q.correct;
+  state.quizAnswered=true; state.quizSelected=i;
+  if(isCorrect) state.quizCorrectCount++;
+  state.comboStreak=isCorrect?(state.comboStreak||0)+1:0;
+  render();
+  showComboOverlay(isCorrect, state.comboStreak);
+  setTimeout(()=>{
+    const story2=findStory(state.lastStoryId);
+    if(state.quizIndex < story2.quiz.length-1){
+      state.quizIndex++; state.quizAnswered=false; state.quizSelected=null;
+      render();
+    } else {
+      const elapsed=Math.max(1,Math.round((Date.now()-(state.quizStartTime||Date.now()))/1000));
+      state.quizElapsedSec=elapsed;
+      finishStory(story2);
+      state.screen='celebration'; state.quizIndex=0; state.quizAnswered=false; state.quizSelected=null;
+      render();
+    }
+  },900);
+}
+function exitQuiz(){ navigate('home'); }
+
+// ── FLASHCARDS — real deck model: "My Words" auto-deck built from state.flashCards
+// (populated by tap-to-save in the reader), plus user-created custom decks that
+// pick a subset of those same real saved words. No fabricated word-bank content.
+function getDeckList(){
+  const myWords={ id:'my-words', title:t('myWords'), subtitle:t('savedWhileReading'), color:'#bada55', tint:'#EBF9DE', wordIds:Object.keys(state.flashCards) };
+  const custom=state.customDecks.map(d=>({...d, subtitle:t('myWords'), color:'#9B72CF', tint:'#F1E8FF'}));
+  return [myWords, ...custom];
+}
+function getDeckById(id){ return getDeckList().find(d=>d.id===id)||null; }
+function deckWords(deck){ return deck? deck.wordIds.filter(w=>state.flashCards[w]).map(w=>({id:w, word:w, ...state.flashCards[w]})) : []; }
+
+function goDecks(){ state.flashView='decks'; state.flashFlipped=false; render(); }
+function openDeck(id){ state.flashView='grid'; state.selectedDeckId=id; state.flashFlipped=false; render(); }
+function openCreateDeck(){ state.flashView='create'; state.createSelectedIds=[]; state.createDeckName=''; render(); }
+function setCreateDeckName(v){ state.createDeckName=v; }
+function toggleCreateWord(id){
+  const has=state.createSelectedIds.includes(id);
+  if(has) state.createSelectedIds=state.createSelectedIds.filter(x=>x!==id);
+  else if(state.createSelectedIds.length<10) state.createSelectedIds=[...state.createSelectedIds,id];
+  render();
+}
+function saveCustomDeck(){
+  if(state.createSelectedIds.length<2) return;
+  const deck={ id:`custom-${Date.now()}`, title: state.createDeckName.trim()||t('myWords'), wordIds: state.createSelectedIds };
+  state.customDecks=[...state.customDecks, deck];
+  save();
+  state.flashView='decks';
+  render();
+}
+function startStudy(deckId,queue){
+  state.flashView='study'; state.selectedDeckId=deckId; state.studyQueue=queue;
+  state.studyIdx=0; state.studyResults={}; state.flashFlipped=false;
+  markQuestDone('fc');
+  render();
+}
+function startStudyAll(deckId){ const deck=getDeckById(deckId); startStudy(deckId, deck?deck.wordIds.filter(w=>state.flashCards[w]):[]); }
+function startPracticeAgain(deckId){
+  const deck=getDeckById(deckId); if(!deck) return;
+  const leftover=deck.wordIds.filter(id=>state.deckWordStatus[`${deckId}:${id}`]==='practiceMore');
+  startStudy(deckId, leftover.length?leftover:deck.wordIds.filter(w=>state.flashCards[w]));
+}
+function flipCard(){ state.flashFlipped=!state.flashFlipped; render(); }
+function answerCard(status){
+  const wordId=state.studyQueue[state.studyIdx];
+  state.deckWordStatus[`${state.selectedDeckId}:${wordId}`]=status;
+  state.studyResults[wordId]=status;
+  save();
+  const nextIdx=state.studyIdx+1;
+  if(nextIdx>=state.studyQueue.length){ state.flashView='complete'; state.flashFlipped=false; }
+  else { state.studyIdx=nextIdx; state.flashFlipped=false; }
+  render();
+}
+
+function toggleBadgeTooltip(id){ state.openBadgeTooltip = state.openBadgeTooltip===id ? null : id; render(); }
+
+function openDestination(id){
+  const d=DESTINATIONS.find(x=>x.id===id); if(!d) return;
+  if(destLocked(d)){ state.worldLockedNoticeId=d.id; render(); setTimeout(()=>{ state.worldLockedNoticeId=null; render(); },2500); return; }
+  state.worldSelectedId=d.id; render();
+}
+function goWorldRoot(){ state.worldSelectedId=null; render(); }
+
+function updateStreak(){
+  const today=new Date().toDateString();
+  const yesterday=new Date(Date.now()-86400000).toDateString();
+  if(state.lastRead===today) return;
+  state.streak = state.lastRead===yesterday ? state.streak+1 : 1;
+  state.lastRead=today;
+}
+function finishStory(story){
+  const accuracyPct=story.quiz.length? Math.round((state.quizCorrectCount/story.quiz.length)*100):0;
+  const newScore=accuracyPct/100;
+  const prev=state.progress[story.id];
+  const prevScore=prev?prev.score:null;
+  // Delta rule: first completion earns full XP; replays only award the improvement fraction.
+  const baseXP=30+state.quizCorrectCount*10;
+  const xpEarned=prevScore===null ? baseXP : Math.round(baseXP*Math.max(0, newScore-prevScore));
+  state.progress[story.id]={at:Date.now(), score:Math.max(newScore, prevScore||0)};
+  if(xpEarned>0) awardXP(xpEarned);
+  state.lastXpEarned=xpEarned;
+  updateStreak();
+  save();
+  calcTodayCount();
+  checkStoriesQuest();
+  if(accuracyPct===100){ markQuestDone('perfect'); state.perfectCount=(state.perfectCount||0)+1; }
+  checkWeekQuests();
+}
+
+// ── DATA HELPERS (pure logic, ported verbatim from the live app) ──
+function findStory(id){
+  for(const lv in STORIES) for(const sl in STORIES[lv]){
+    const f=STORIES[lv][sl].find(s=>s.id===id); if(f) return f;
+  }
+  if(typeof JOURNEY_STORIES!=='undefined') for(const destId in JOURNEY_STORIES){
+    const f=JOURNEY_STORIES[destId].find(s=>s.id===id); if(f) return f;
+  }
+  return null;
+}
+function storyDone(id){ return !!state.progress[id]; }
+function subLevelDone(lv,sl){
+  const stories=STORIES[lv]&&STORIES[lv][sl]||[];
+  return stories.length>0 && stories.every(s=>storyDone(s.id));
+}
+function subLevelAvailable(lv,sl){ return sl===0 || subLevelDone(lv,sl-1); }
+function hasStoriesFor(lv,sl){ return !!(STORIES[lv]&&STORIES[lv][sl]&&STORIES[lv][sl].length); }
+
+// Wraps a story's vocabulary words in tappable spans — reused pattern from the live app,
+// real data source: each story's own `vocabulary` dict (word -> {def,pos}).
+function makeWordTappable(text,vocab){
+  return text.split(/(\s+)/).map(part=>{
+    const clean=part.replace(/[^a-zA-Z'-]/g,'').toLowerCase();
+    if(!clean||!vocab[clean]) return part;
+    return `<span class="tappable-word" onclick="event.stopPropagation();showWordPopup('${clean}')">${part}</span>`;
+  }).join('');
+}
+function showWordPopup(word){ state.wordPopup=word; render(); }
+function closeWordPopup(){ state.wordPopup=null; render(); }
+function addWordToDeck(word){
+  const story=findStory(state.lastStoryId);
+  const vocab=story&&story.vocabulary&&story.vocabulary[word];
+  const ja=typeof JA_TRANSLATIONS!=='undefined'?JA_TRANSLATIONS[word]:null;
+  state.flashCards[word]={
+    def: vocab?vocab.def:'', pos: vocab?vocab.pos:'',
+    translation: ja?ja.w:null, translationDef: ja?ja.d:null,
+  };
+  save();
+  render();
+}
+function removeWordFromDeck(word){ delete state.flashCards[word]; save(); render(); }
+function levelDoneCount(lv){ let c=0; for(let sl=0;sl<10;sl++) if(subLevelDone(lv,sl)) c++; return c; }
+function currentLevelId(){
+  if(state.lastStoryId){const s=findStory(state.lastStoryId); if(s&&s.levelId) return s.levelId;}
+  for(const lv of LEVELS){ if(levelDoneCount(lv.id)<10) return lv.id; }
+  return LEVELS[LEVELS.length-1].id;
+}
+function getContinueStory(){
+  const last=state.lastStoryId?findStory(state.lastStoryId):null;
+  if(last && !storyDone(last.id)) return {story:last, isNew:false};
+  const lv=currentLevelId();
+  for(let sl=0;sl<10;sl++){
+    if(!subLevelAvailable(lv,sl)) continue;
+    const stories=STORIES[lv]&&STORIES[lv][sl]||[];
+    const next=stories.find(s=>!storyDone(s.id));
+    if(next) return {story:next, isNew:true};
+  }
+  return {story:null, isNew:true};
+}
+function calcTodayCount(){
+  const today=new Date().toDateString();
+  state.todayCount=Object.values(state.progress).filter(p=>new Date(p.at).toDateString()===today).length;
+}
+// ── COMBO-STREAK OVERLAY — ported from the live app. Purely cosmetic feedback
+// layered on top of the existing answer/advance timing in selectQuizAnswer();
+// no fabricated points shown here since v3 only awards real XP once per story.
+function showComboOverlay(correct, streak){
+  const app=document.getElementById('app');
+  const overlay=document.createElement('div');
+  overlay.className='combo-overlay';
+  const isCombo=correct && streak>=2;
+  const multiplier=Math.min(streak,5);
+  const label=isCombo?`×${multiplier} ${t('comboLabel')}`:correct?t('correctLabel'):t('wrongLabel');
+  const frogEmoji=correct?(streak>=3?'🐸✨':'🐸'):'😔';
+  const streakHtml=isCombo?`<div class="combo-streak-line">🔥 ${t('comboStreakLine',streak)}</div>`:'';
+  overlay.innerHTML=`
+    <div class="combo-inner">
+      <span class="combo-frog-em">${frogEmoji}</span>
+      <div class="combo-label ${correct?'is-correct':'is-wrong'}">${label}</div>
+      ${streakHtml}
+    </div>`;
+  app.appendChild(overlay);
+  setTimeout(()=>{
+    const inner=overlay.querySelector('.combo-inner');
+    if(inner) inner.classList.add('combo-exit');
+    setTimeout(()=>overlay.remove(),220);
+  },650);
+}
+function showToast(msg){
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
+  const el=document.createElement('div');
+  el.className='toast'; el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(()=>{ el.classList.add('toast-out'); setTimeout(()=>el.remove(),220); },2000);
+}
+
+// ── XP MILESTONE CELEBRATIONS — ported from the live app, one-time toasts
+// when the player crosses key XP thresholds. All XP awards should go through
+// awardXP() rather than mutating state.xp directly, so milestones stay accurate.
+const XP_MILESTONES=[
+  {xp:100,  key:'xpMilestone100'},
+  {xp:500,  key:'xpMilestone500'},
+  {xp:1000, key:'xpMilestone1000'},
+  {xp:5000, key:'xpMilestone5000'},
+];
+function checkXPMilestone(prevXP){
+  const now=state.xp||0;
+  XP_MILESTONES.filter(m=>prevXP<m.xp && now>=m.xp)
+    .forEach((m,i)=>setTimeout(()=>showToast(t(m.key)), 3000+i*2600));
+}
+function awardXP(n){
+  const prevXP=state.xp||0;
+  state.xp=prevXP+n;
+  checkXPMilestone(prevXP);
+}
+
+// ── DAILY LOGIN BONUS — ported from the live app. Awards XP once per calendar
+// day on first load; bigger bonus at 7/14/30-day streak milestones.
+function checkDailyLoginBonus(){
+  const today=new Date().toDateString();
+  if(localStorage.getItem('rbt_lastlogin')===today) return;
+  localStorage.setItem('rbt_lastlogin', today);
+  let bonus=10, msgKey='loginBonus', streak=state.streak||0;
+  if(streak>=30) bonus=35; else if(streak>=14) bonus=25; else if(streak>=7) bonus=20;
+  awardXP(bonus);
+  save();
+  setTimeout(()=>showToast(streak>=7?t('loginBonusStreak',streak,bonus):t('loginBonus',bonus)),700);
+}
+
+// ── DAILY + WEEKLY QUESTS — ported from the live app ──
+function getTodayQuests(){
+  const key=new Date().toDateString();
+  if(!state.questProgress) state.questProgress={};
+  if(!state.questProgress[key]) state.questProgress[key]={stories:false,perfect:false,fc:false,bonus:false};
+  const keys=Object.keys(state.questProgress);
+  if(keys.length>10) keys.sort().slice(0,-10).forEach(k=>delete state.questProgress[k]);
+  return state.questProgress[key];
+}
+function getWeekQuestKey(){
+  const d=new Date();
+  const day=(d.getDay()+6)%7; // 0=Mon … 6=Sun
+  return new Date(d.getTime()-day*86400000).toDateString();
+}
+function getWeekQuests(){
+  const key=getWeekQuestKey();
+  if(!state.weekQuestProgress) state.weekQuestProgress={};
+  if(!state.weekQuestProgress[key]) state.weekQuestProgress[key]={levels3:false,journey1:false,fc10:false,bonus:false};
+  const keys=Object.keys(state.weekQuestProgress);
+  if(keys.length>5) keys.sort().slice(0,-5).forEach(k=>delete state.weekQuestProgress[k]);
+  return state.weekQuestProgress[key];
+}
+function markQuestDone(type){
+  const q=getTodayQuests();
+  if(q[type]) return;
+  q[type]=true;
+  awardXP(20);
+  const names={stories:t('questStories',state.dailyGoal),perfect:t('questPerfect'),fc:t('questFlashcard')};
+  save();
+  setTimeout(()=>showToast(t('questDoneToast',names[type]||'',20)),400);
+  if(!q.bonus && q.stories && q.perfect && q.fc){
+    q.bonus=true; awardXP(30); save();
+    setTimeout(()=>showToast(t('questAllDoneToast',30)),2800);
+  }
+}
+function markWeekQuestDone(type){
+  const q=getWeekQuests();
+  if(q[type]) return;
+  q[type]=true;
+  awardXP(30);
+  const names={levels3:t('questLevels3'),journey1:t('questJourney1'),fc10:t('questFc10')};
+  save();
+  setTimeout(()=>showToast(t('questDoneToast',names[type]||'',30)),400);
+  if(!q.bonus && q.levels3 && q.journey1 && q.fc10){
+    q.bonus=true; awardXP(50); save();
+    setTimeout(()=>showToast(t('questAllDoneToast',50)),2800);
+  }
+}
+function checkStoriesQuest(){
+  if(state.todayCount>=state.dailyGoal) markQuestDone('stories');
+}
+function checkWeekQuests(){
+  const wq=getWeekQuests();
+  if(!wq.levels3){
+    const doneIds=Object.keys(state.progress||{});
+    const levels=new Set(doneIds.map(id=>{const s=findStory(id); return s&&s.levelId;}).filter(Boolean));
+    if(levels.size>=3) markWeekQuestDone('levels3');
+  }
+  if(!wq.fc10 && Object.keys(state.flashCards||{}).length>=10) markWeekQuestDone('fc10');
+}
+function renderQuestCards(){
+  const q=getTodayQuests();
+  const storiesPct=Math.min(100,Math.round(state.todayCount/Math.max(state.dailyGoal,1)*100));
+  const storiesProg=t('questXofY',Math.min(state.todayCount,state.dailyGoal),state.dailyGoal);
+  const card=(done,icon,text,prog,pct)=>`
+    <div class="quest-card${done?' quest-done':''}">
+      <span class="quest-icon">${icon}</span>
+      <div class="quest-body">
+        <div class="quest-text">${text}</div>
+        ${(!done&&prog)?`<div class="quest-prog">${prog}</div>`:''}
+        ${(!done&&pct!==undefined)?`<div class="quest-prog-bar-wrap"><div class="quest-prog-bar-fill" style="width:${pct}%"></div></div>`:''}
+      </div>
+      <span class="quest-check">✓</span>
+    </div>`;
+  return `<div class="quests-wrap">
+    <div class="quests-section-title">${t('questDailyTitle')}</div>
+    <div class="quest-list">
+      ${card(q.stories,'📖',t('questStories',state.dailyGoal),storiesProg,storiesPct)}
+      ${card(q.perfect,'⭐',t('questPerfect'))}
+      ${card(q.fc,'🃏',t('questFlashcard'))}
+      <div class="quest-bonus-card${q.bonus?' quest-bonus-done':''}">
+        <span class="quest-bonus-txt">${q.bonus?t('questAllDone'):t('questBonusCta',30)}</span>
+        ${q.bonus?'<span>✓</span>':`<span class="quest-xp-badge">${(q.stories&&q.perfect&&q.fc)?'…':'+20×3'}</span>`}
+      </div>
+    </div>
+  </div>`;
+}
+function renderWeekQuestCards(){
+  const wq=getWeekQuests();
+  const doneIds=Object.keys(state.progress||{});
+  const levels=new Set(doneIds.map(id=>{const s=findStory(id); return s&&s.levelId;}).filter(Boolean));
+  const fcCount=Object.keys(state.flashCards||{}).length;
+  const fcPct=Math.min(100,Math.round(fcCount/10*100));
+  const levelsPct=Math.min(100,Math.round(levels.size/3*100));
+  const card=(done,icon,text,prog,pct)=>`
+    <div class="quest-card${done?' quest-done':''}">
+      <span class="quest-icon">${icon}</span>
+      <div class="quest-body">
+        <div class="quest-text">${text}</div>
+        ${(!done&&prog)?`<div class="quest-prog">${prog}</div>`:''}
+        ${(!done&&pct!==undefined)?`<div class="quest-prog-bar-wrap"><div class="quest-prog-bar-fill" style="width:${pct}%"></div></div>`:''}
+      </div>
+      <span class="quest-check">✓</span>
+    </div>`;
+  return `<div class="quests-wrap">
+    <div class="quests-section-title">${t('questWeeklyTitle')}</div>
+    <div class="quest-list">
+      ${card(wq.levels3,'📚',t('questLevels3'),t('questXofY',Math.min(levels.size,3),3),levelsPct)}
+      ${card(wq.journey1,'🌍',t('questJourney1'))}
+      ${card(wq.fc10,'🔤',t('questFc10'),t('questXofY',Math.min(fcCount,10),10),fcPct)}
+      <div class="quest-bonus-card${wq.bonus?' quest-bonus-done':''}">
+        <span class="quest-bonus-txt">${wq.bonus?t('questAllDone'):t('questBonusCta',50)}</span>
+        ${wq.bonus?'<span>✓</span>':`<span class="quest-xp-badge">${(wq.levels3&&wq.journey1&&wq.fc10)?'…':'+30×3'}</span>`}
+      </div>
+    </div>
+  </div>`;
+}
+function renderQuests(){
+  checkWeekQuests();
+  return `<div class="quests-pane">
+    ${renderQuestCards()}
+    ${renderWeekQuestCards()}
+  </div>`;
+}
+
+// ── UI-CHROME I18N ─────────────────────────────────────────
+const UI_STRINGS = {
+  en: {
+    greeting:(h)=> h<12?'Good morning!':h<18?'Good afternoon!':'Good evening!',
+    langToggle:'🇯🇵 日本語',
+    continueReading:'CONTINUE READING', startReading:'START READING',
+    pageMeta:(s)=>`${s.wordCount} words · ${s.readMins} min read`,
+    continueBtn:'Continue Reading →', startBtn:'Start Reading →', firstStoryBtn:'Start Your First Story',
+    todaysGoal:"TODAY'S GOAL", storiesLabel:'stories', moreToGo:(n)=>`${n} more to go!`, goalDone:'Goal complete! 🎉',
+    quickLinks:'QUICK LINKS',
+    exploreLibrary:'Explore Library', storiesWaiting:(n)=>`${n} stories waiting`,
+    flashCards:'Flash Cards', practiceVocab:'Practice vocabulary',
+    worldJourney:'World Journey', placesFound:(n,t)=>`${n} of ${t} places found`,
+    quests:'Quests', questsToday:(n)=>`${n} of 3 today`,
+    myProgress:'My Progress', trackLevels:'Track your levels',
+    rewards:'Rewards', checkBadges:'Check your badges',
+    yourJourney:(l)=>`YOUR JOURNEY — LEVEL ${l.id} · ${l.name}`, viewPath:'View path →',
+    navHome:'Home', navLibrary:'Library', navProgress:'Progress', navRewards:'Rewards', navProfile:'Profile',
+    comingSoon:'Coming soon', comingSoonBody:'This screen is being rebuilt from the redesign next.',
+    libraryTitle:'Library', levelLabel:(id)=>`Level ${id}`, ages:(a)=>`Ages ${a}`, locked:'Locked',
+    subLevelOf:(n)=>`Sub-level ${n} of 10`, subLevel:'Sub-level',
+    pages:(n)=>`📄 ${n} pages`, audio:'🔊 Audio', start:'START', readingNotes:'Reading notes',
+    exit:'Exit', previous:'Previous', next:'Next', toQuiz:'To Quiz',
+    quickQuiz:'📝 Quick Quiz', question:'QUESTION',
+    celebStarText:(n)=>n>=80?'Amazing work! You know this story well! 🌟':n>=50?'Good job! Keep practicing to master it.':'Nice try — read it again to improve!',
+    xpEarned:(n)=>`+${n} XP earned`, readAgainBtn:'Read Again', backToLibraryBtn:'Back to Library',
+    addToDeck:'+ Add to Flashcards', savedToDeck:'✓ Saved — tap to remove',
+    myWords:'My Words', savedWhileReading:'Saved while reading', words:(n)=>`${n} words`,
+    createNewDeck:'＋ Create New Deck', noWordsYet:'No words saved yet', noWordsBody:'Tap highlighted words while reading to save them here.',
+    deckNamePlaceholder:'Deck name', pickWords:(n)=>`Pick 2–10 words · ${n} selected`, saveDeck:'Save Deck',
+    studyAll:'Study All', practiceWeak:'Practice Weak Words', known:'Known', practice:'Practice',
+    tapToFlip:'Tap to see definition', practiceMoreBtn:'Practice More', knowItBtn:'Know It',
+    deckComplete:'Deck Complete!', knownLabel:'Known', toPracticeLabel:'To Practice',
+    allDecks:'All Decks', studyAgain:'Study Again', backChevron:'‹',
+    myBadges:'My Badges', badgesEarned:(a,b)=>`${a} of ${b} earned`,
+    catMilestones:'Milestones', catHabits:'Story Habits', catVocabulary:'Vocabulary', catLevels:'Level Mastery',
+    badgeFirstLeap:'First Leap', hintFirstLeap:'Complete your first story',
+    badgeSkillStar:'Skill Star', hintSkillStar:'Get a perfect score on any quiz',
+    badgeTenTales:'Ten Tales', hintTenTales:'Complete 10 stories',
+    badgeCenturyClub:'Century Club', hintCenturyClub:'Complete 100 stories',
+    badgeStoryStreak:'Story Streak', hintStoryStreak:'Read 3 stories in one week',
+    badgeStreakKeeper:'Streak Keeper', hintStreakKeeper:'Keep a 7-day reading streak',
+    badgeTwoWeek:'Two-Week Streak', hintTwoWeek:'Keep a 14-day reading streak',
+    badgeMonthly:'Monthly Marathon', hintMonthly:'Keep a 30-day reading streak',
+    badgeWordWatcher:'Word Watcher', hintWordWatcher:'Save 5 words to flashcards',
+    badgeWordCollector:'Word Collector', hintWordCollector:'Save 25 words',
+    badgeVocabVault:'Vocabulary Vault', hintVocabVault:'Save 50 words',
+    badgeKnownMaster:'Word Master', hintKnownMaster:'Mark 10 flashcards as known',
+    badgeQuizAce:'Quiz Ace', hintQuizAce:'Get a perfect quiz score 5 times',
+    badgeWorldTraveler:'World Traveler', hintWorldTraveler:'Complete a World Journey destination',
+    championName:(lv)=>`${lv.pond} Champion`, championHint:(lv)=>`Complete all ${lv.pond} stories`,
+    earnedToEarn:(hint)=>`${hint} to earn this!`, earnedBadge:'Earned!',
+    dayStreakLabel:'Day Streak', totalXpLabel:'Total XP', storiesReadLabel:'Stories Read', wordsKnownLabel:'Words Known',
+    thisWeek:"THIS WEEK'S ACTIVITY", levelProgress:'LEVEL PROGRESS', current:'CURRENT',
+    dayMon:'Mon',dayTue:'Tue',dayWed:'Wed',dayThu:'Thu',dayFri:'Fri',daySat:'Sat',daySun:'Sun',
+    backToDestBtn:'Back to Destination',
+    worldTitle:'World Journey', placesExplored:(n)=>`${n} place${n===1?'':'s'} explored! `,
+    moreToComplete:(n)=>`${n} more to complete your passport`, destLocked:(name)=>`Complete ${name} first to unlock this!`,
+    inProgress:'IN PROGRESS', storiesFrom:(name)=>`STORIES FROM ${name.toUpperCase()}`,
+    profileStatsReadLabel:'Stories Read', profileStatsWordsLabel:'Words Known', profileStatsStreakLabel:'Day Streak',
+    recentBadges:'RECENT BADGES', seeAll:'See all →', noBadgesYet:'No badges earned yet — keep going!',
+    levelProgressMotivation:(n,name)=>n>0?`${n} more sub-level${n===1?'':'s'} to reach ${name}!`:`You've mastered this level!`,
+    profileTitle:'Profile',
+    questsTitle:'Quests', questDailyTitle:"TODAY'S QUESTS", questWeeklyTitle:"THIS WEEK'S QUESTS",
+    questStories:(n)=>`Read ${n} ${n===1?'story':'stories'} today`, questPerfect:'Get a perfect quiz score!',
+    questFlashcard:'Practice flashcards', questLevels3:'Read from 3 different levels',
+    questJourney1:'Complete a World Journey destination', questFc10:'Collect 10 flashcards',
+    questXofY:(a,b)=>`${a} / ${b}`, questAllDone:'🎉 All quests complete!',
+    questBonusCta:(n)=>`Complete all for +${n} XP bonus`,
+    questDoneToast:(name,xp)=>`✅ ${name} complete! +${xp} XP`,
+    questAllDoneToast:(xp)=>`🏆 All quests complete! +${xp} XP bonus`,
+    xpMilestone100:'⚡ 100 XP reached! Great start!',
+    xpMilestone500:'🌟 500 XP reached! You’re on a roll!',
+    xpMilestone1000:'🏆 1000 XP reached! Really impressive!',
+    xpMilestone5000:'🎖️ 5000 XP reached! Master class!',
+    loginBonus:(xp)=>`☀️ Welcome back! Daily bonus +${xp} XP!`,
+    loginBonusStreak:(days,xp)=>`🔥 ${days}-day streak! Bonus +${xp} XP!`,
+    destStamped:(name)=>`🪪 ${name} passport stamped! +200 XP`,
+    comboLabel:'COMBO!', correctLabel:'CORRECT!', wrongLabel:'WRONG!',
+    comboStreakLine:(n)=>`${n} in a row!`,
+    replayGoodJob:'Great practice! Beat your score to earn more XP.',
+  },
+  ja: {
+    greeting:(h)=> h<12?'おはよう！':h<18?'こんにちは！':'こんばんは！',
+    langToggle:'🇬🇧 EN',
+    continueReading:'つづきをよむ', startReading:'よみはじめる',
+    pageMeta:(s)=>`${s.wordCount}語 · ${s.readMins}分`,
+    continueBtn:'続きを読む →', startBtn:'読み始める →', firstStoryBtn:'はじめての話を読む',
+    todaysGoal:'今日の目標', storiesLabel:'話', moreToGo:(n)=>`あと${n}話！`, goalDone:'目標達成！🎉',
+    quickLinks:'クイックリンク',
+    exploreLibrary:'ライブラリ', storiesWaiting:(n)=>`${n}話が待っています`,
+    flashCards:'フラッシュカード', practiceVocab:'単語を練習しよう',
+    worldJourney:'ワールドジャーニー', placesFound:(n,t)=>`${t}か国中${n}か国発見`,
+    quests:'クエスト', questsToday:(n)=>`今日は3つ中${n}つ`,
+    myProgress:'学習記録', trackLevels:'レベルの進み具合',
+    rewards:'ごほうび', checkBadges:'バッジを確認しよう',
+    yourJourney:(l)=>`あなたの旅 — レベル${l.id} · ${l.name}`, viewPath:'ルートを見る →',
+    navHome:'ホーム', navLibrary:'ライブラリ', navProgress:'記録', navRewards:'ごほうび', navProfile:'わたし',
+    comingSoon:'ちかぢか公開', comingSoonBody:'この画面は次のパスでリニューアルされます。',
+    libraryTitle:'ライブラリ', levelLabel:(id)=>`レベル ${id}`, ages:(a)=>`対象年齢 ${a}`, locked:'ロック中',
+    subLevelOf:(n)=>`サブレベル ${n} / 10`, subLevel:'サブレベル',
+    pages:(n)=>`📄 ${n}ページ`, audio:'🔊 音声あり', start:'はじめる', readingNotes:'読書メモ',
+    exit:'とじる', previous:'まえへ', next:'つぎへ', toQuiz:'クイズへ',
+    quickQuiz:'📝 クイズタイム', question:'もんだい',
+    celebStarText:(n)=>n>=80?'すごい！このお話をよくわかっているね！🌟':n>=50?'いいね！もっと練習しよう。':'もういちど読んでみよう！',
+    xpEarned:(n)=>`+${n} XP かくとく`, readAgainBtn:'もういちど読む', backToLibraryBtn:'ライブラリへもどる',
+    addToDeck:'+ フラッシュカードに追加', savedToDeck:'✓ 保存ずみ（タップで削除）',
+    myWords:'マイ単語', savedWhileReading:'読書中に保存した単語', words:(n)=>`${n}語`,
+    createNewDeck:'＋ 新しいデッキを作る', noWordsYet:'まだ単語がありません', noWordsBody:'読書中にハイライトされた単語をタップして保存しよう。',
+    deckNamePlaceholder:'デッキ名', pickWords:(n)=>`2〜10語えらぶ · ${n}語選択中`, saveDeck:'デッキを保存',
+    studyAll:'すべて学習', practiceWeak:'にがてな単語を練習', known:'おぼえた', practice:'練習中',
+    tapToFlip:'タップして意味を見る', practiceMoreBtn:'もっと練習', knowItBtn:'おぼえた！',
+    deckComplete:'デッキ完了！', knownLabel:'おぼえた', toPracticeLabel:'練習する',
+    allDecks:'デッキ一覧', studyAgain:'もう一度学習', backChevron:'‹',
+    myBadges:'マイバッジ', badgesEarned:(a,b)=>`${b}個中${a}個獲得`,
+    catMilestones:'マイルストーン', catHabits:'読書のしゅうかん', catVocabulary:'たんご', catLevels:'レベルたっせい',
+    badgeFirstLeap:'はじめの一歩', hintFirstLeap:'はじめての話を読もう',
+    badgeSkillStar:'スキルスター', hintSkillStar:'クイズで満点をとろう',
+    badgeTenTales:'10話たっせい', hintTenTales:'10話読もう',
+    badgeCenturyClub:'100話たっせい', hintCenturyClub:'100話読もう',
+    badgeStoryStreak:'今週のがんばり', hintStoryStreak:'1週間で3話読もう',
+    badgeStreakKeeper:'7日れんぞく', hintStreakKeeper:'7日れんぞくで読もう',
+    badgeTwoWeek:'2週間れんぞく', hintTwoWeek:'14日れんぞくで読もう',
+    badgeMonthly:'1か月マラソン', hintMonthly:'30日れんぞくで読もう',
+    badgeWordWatcher:'たんごウォッチャー', hintWordWatcher:'単語を5つ保存しよう',
+    badgeWordCollector:'たんごコレクター', hintWordCollector:'単語を25個保存しよう',
+    badgeVocabVault:'たんごの宝箱', hintVocabVault:'単語を50個保存しよう',
+    badgeKnownMaster:'たんごマスター', hintKnownMaster:'10個の単語を「おぼえた」にしよう',
+    badgeQuizAce:'クイズの達人', hintQuizAce:'クイズで満点を5回とろう',
+    badgeWorldTraveler:'世界の旅人', hintWorldTraveler:'ワールドジャーニーの目的地をクリアしよう',
+    championName:(lv)=>`${lv.pond}チャンピオン`, championHint:(lv)=>`${lv.pond}の話をぜんぶ読もう`,
+    earnedToEarn:(hint)=>`${hint}`, earnedBadge:'獲得ずみ！',
+    dayStreakLabel:'連続日数', totalXpLabel:'合計XP', storiesReadLabel:'読んだ話', wordsKnownLabel:'覚えた単語',
+    thisWeek:'今週のアクティビティ', levelProgress:'レベルの進み具合', current:'げんざい',
+    dayMon:'月',dayTue:'火',dayWed:'水',dayThu:'木',dayFri:'金',daySat:'土',daySun:'日',
+    backToDestBtn:'目的地へもどる',
+    worldTitle:'ワールドジャーニー', placesExplored:(n)=>`${n}か所たんけんずみ！`,
+    moreToComplete:(n)=>`あと${n}か所でパスポート完成`, destLocked:(name)=>`さきに${name}をクリアしよう！`,
+    inProgress:'進行中', storiesFrom:(name)=>`${name}のおはなし`,
+    profileStatsReadLabel:'読んだ話', profileStatsWordsLabel:'覚えた単語', profileStatsStreakLabel:'連続日数',
+    recentBadges:'さいきんのバッジ', seeAll:'すべて見る →', noBadgesYet:'まだバッジがありません。がんばろう！',
+    levelProgressMotivation:(n,name)=>n>0?`あと${n}サブレベルで${name}に到達！`:'このレベルをマスターしたよ！',
+    profileTitle:'わたし',
+    questsTitle:'クエスト', questDailyTitle:'今日のクエスト', questWeeklyTitle:'今週のクエスト',
+    questStories:(n)=>`今日${n}話読もう`, questPerfect:'クイズで全問正解！',
+    questFlashcard:'フラッシュカードを練習しよう', questLevels3:'3つのレベルから読もう',
+    questJourney1:'ワールドジャーニーの目的地をクリアしよう', questFc10:'フラッシュカードを10枚集めよう',
+    questXofY:(a,b)=>`${a} / ${b}`, questAllDone:'🎉 クエスト全クリア！',
+    questBonusCta:(n)=>`全クリアで +${n} XP ボーナス`,
+    questDoneToast:(name,xp)=>`✅ ${name}完了！ +${xp} XP`,
+    questAllDoneToast:(xp)=>`🏆 クエスト全クリア！ +${xp} XP ボーナス`,
+    xpMilestone100:'⚡ 100 XP 達成！いいスタートだ！',
+    xpMilestone500:'🌟 500 XP 達成！どんどん上達中！',
+    xpMilestone1000:'🏆 1000 XP 達成！本当にすごい！',
+    xpMilestone5000:'🎖️ 5000 XP 達成！マスタークラス！',
+    loginBonus:(xp)=>`☀️ おかえり！デイリーボーナス +${xp} XP！`,
+    loginBonusStreak:(days,xp)=>`🔥 ${days}日連続！ボーナス +${xp} XP！`,
+    destStamped:(name)=>`🪪 ${name}のパスポートにスタンプ！ +200 XP`,
+    comboLabel:'コンボ！', correctLabel:'せいかい！', wrongLabel:'ざんねん！',
+    comboStreakLine:(n)=>`${n}連続！`,
+    replayGoodJob:'よく練習できたね！スコアを上げてXPをゲットしよう。',
+  },
+};
+function t(key,...args){
+  const dict=UI_STRINGS[state.uiLang]||UI_STRINGS.ja;
+  const v=dict[key]!==undefined?dict[key]:UI_STRINGS.ja[key];
+  return typeof v==='function'?v(...args):v;
+}
+function toggleUiLang(){ state.uiLang = state.uiLang==='en'?'ja':'en'; save(); render(); }
+
+// ── APP SHELL (header + bottom nav) — literal port, Tablet lines 37-106, 730-752 ──
+const TAB_DEFS=[
+  {key:'home',     icon:'🏠', labelKey:'navHome',     accent:'#bada55', tint:'#EBF9DE'},
+  {key:'library',  icon:'📚', labelKey:'navLibrary',  accent:'#38B4F5', tint:'#E3F3FC'},
+  {key:'progress', icon:'📈', labelKey:'navProgress', accent:'#F4844A', tint:'#FFF0E4'},
+  {key:'rewards',  icon:'🏆', labelKey:'navRewards',  accent:'#9B72CF', tint:'#F1E8FF', badge:true},
+  {key:'profile',  icon:'👤', labelKey:'navProfile',  accent:'#1A3260', tint:'#E8ECF3'},
+];
+const IMPLEMENTED_SCREENS=['home','library','flashcards','progress','rewards','world','profile']; // grows as future passes land
+
+function renderHeader(){
+  const isHome=state.screen==='home';
+  const isLibrary=state.screen==='library';
+  const activeLevel=isLibrary&&state.libraryLevel?LEVELS.find(l=>l.id===state.libraryLevel):null;
+
+  let middle;
+  if(isLibrary){
+    middle=`<div class="header-breadcrumb">
+      <span onclick="goLibraryRoot()" style="font-weight:${state.libraryLevel?600:800};color:${state.libraryLevel?'var(--primary-dark)':'var(--text)'}">${t('libraryTitle')}</span>
+      ${activeLevel?`<span class="crumb-sep">›</span><span onclick="goLibraryLevel()" style="font-weight:${state.librarySublevel?600:800};color:${state.librarySublevel?'var(--primary-dark)':'var(--text)'}">${t('levelLabel',activeLevel.id)}</span>`:''}
+      ${state.librarySublevel?`<span class="crumb-sep">›</span><span style="font-weight:800;color:var(--text)">${t('subLevel')} ${state.librarySublevel}</span>`:''}
+    </div>`;
+  } else if(isHome){
+    middle=`<div class="header-greeting">${t('greeting',new Date().getHours())}</div>`;
+  } else if(state.screen==='flashcards'){
+    middle=`<div class="header-greeting" style="font-weight:800;font-size:15px;color:var(--text)">${t('flashCards')}</div>`;
+  } else if(state.screen==='progress'){
+    middle=`<div class="header-greeting" style="font-weight:800;font-size:15px;color:var(--text)">${t('myProgress')}</div>`;
+  } else if(state.screen==='rewards'){
+    middle=`<div class="header-greeting" style="font-weight:800;font-size:15px;color:var(--text)">${t('rewards')}</div>`;
+  } else if(state.screen==='world'){
+    middle=`<div class="header-greeting" style="font-weight:800;font-size:15px;color:var(--text)">${t('worldTitle')}</div>`;
+  } else if(state.screen==='profile'){
+    middle=`<div class="header-greeting" style="font-weight:800;font-size:15px;color:var(--text)">${t('profileTitle')}</div>`;
+  } else if(state.screen==='quests'){
+    middle=`<div class="header-greeting" style="font-weight:800;font-size:15px;color:var(--text)">${t('questsTitle')}</div>`;
+  } else {
+    middle=`<div class="header-greeting"></div>`;
+  }
+
+  return `<div class="app-header">
+    <div class="app-brand-wrap">
+      <div class="app-logo">🐸</div>
+      <span class="app-brand">Ribbit</span>
+    </div>
+    ${middle}
+    <div class="header-stats">
+      ${!isLibrary?`
+      <div class="stat-pill"><span>🔥</span><span class="sp-val">${state.streak||0}</span></div>
+      <div class="stat-pill"><span>⭐</span><span class="sp-val">${(state.xp||0).toLocaleString()}</span></div>
+      <button class="avatar-btn" onclick="navigate('profile')" aria-label="Profile">🐸</button>`:''}
+      <button class="lang-toggle-pill" onclick="toggleUiLang()" aria-label="Toggle language">${t('langToggle')}</button>
+    </div>
+  </div>`;
+}
+
+function renderBottomNav(){
+  const tabs=TAB_DEFS.map(tab=>{
+    const active=state.screen===tab.key;
+    return `<button class="nav-tab${active?' active':''}" onclick="navigate('${tab.key}')" style="${active?`--tab-accent:${tab.accent};--tab-tint:${tab.tint};`:''}">
+      <div class="nav-indicator"></div>
+      <div class="nav-icon-wrap">${tab.icon}${tab.badge&&!active?'<span class="nav-badge"></span>':''}</div>
+      <span class="nav-label" style="${active?`color:${tab.accent}`:''}">${t(tab.labelKey)}</span>
+    </button>`;
+  }).join('');
+  return `<div class="bottom-nav">${tabs}</div>`;
+}
+
+// ── LIBRARY: 3-TIER DRILLDOWN — literal port, Tablet lines 187-278 ──
+function renderLibrary(){
+  if(!state.libraryLevel) return renderLibraryTierLevels();
+  if(!state.librarySublevel) return renderLibraryTierSublevels();
+  return renderLibraryTierStories();
+}
+
+function renderLibraryTierLevels(){
+  const cards=LEVELS.map(level=>{
+    const doneCount=levelDoneCount(level.id);
+    const cur=Math.min(doneCount+1,10);
+    const pct=Math.round((doneCount/10)*100);
+    const dots=Array.from({length:10},(_,i)=>`<div class="lvl-dot${subLevelDone(level.id,i)?' lvl-dot-done':''}"></div>`).join('');
+    return `<button class="lvl-card" onclick="openLibraryLevel(${level.id})">
+      <div class="lvl-cover" style="background:linear-gradient(145deg,${level.g1},${level.g2})">
+        <span>${level.icon}</span>
+        <div class="lvl-cefr-badge" style="color:${level.color}">${level.cefr}</div>
+      </div>
+      <div class="lvl-body">
+        <div class="lvl-name">${t('levelLabel',level.id)} · ${level.pond}</div>
+        <div class="lvl-meta">${level.name} · ${t('ages',level.ages)}</div>
+        <div class="lvl-progress-bar"><div class="lvl-progress-fill" style="width:${pct}%;background:${level.color}"></div></div>
+        <div class="lvl-progress-text" style="color:${level.color}">${t('subLevelOf',cur)}</div>
+        <div class="lvl-dots" style="--dot-color:${level.color}">${dots}</div>
+      </div>
+    </button>`;
+  }).join('');
+  return `<div class="library-pane"><div class="lvl-grid">${cards}</div></div>`;
+}
+
+function renderLibraryTierSublevels(){
+  const level=LEVELS.find(l=>l.id===state.libraryLevel);
+  let curIdx=0;
+  for(let i=0;i<10;i++){ if(subLevelAvailable(level.id,i)&&!subLevelDone(level.id,i)){curIdx=i;break;} }
+  const nodes=Array.from({length:10},(_,i)=>{
+    const done=subLevelDone(level.id,i);
+    const isCur=i===curIdx&&!done;
+    const locked=!subLevelAvailable(level.id,i)&&!done;
+    const content=done?'✓':isCur?level.icon:'🔒';
+    const circleStyle=done
+      ?`background:${level.color};color:white;font-weight:700`
+      :isCur?`background:white;border:3px solid ${level.color};animation:glow-pulse 2s ease-in-out infinite`
+      :`background:#E5E9EE;color:#B0B8C1`;
+    return `<button class="sub-node" onclick="openLibrarySublevel(${level.id},${i+1},${locked})" style="cursor:${locked?'default':'pointer'}">
+      <div class="sub-node-circle" style="${circleStyle}">${content}</div>
+      <div class="sub-node-label" style="color:${locked?'#B0B8C1':'var(--text)'};font-weight:${isCur?800:600}">${i+1}</div>
+    </button>`;
+  }).join('');
+  return `<div class="library-pane">
+    <div class="sublevel-panel">
+      <div class="sublevel-header">
+        <div class="sublevel-header-icon" style="background:linear-gradient(145deg,${level.g1},${level.g2})">${level.icon}</div>
+        <div>
+          <div class="sublevel-header-name">${t('levelLabel',level.id)} · ${level.pond}</div>
+          <div class="sublevel-header-meta">${level.name} · ${level.cefr} · ${t('ages',level.ages)}</div>
+        </div>
+      </div>
+      <div class="sublevel-track">
+        <div class="sublevel-track-line"></div>
+        <div class="sublevel-nodes">${nodes}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderLibraryTierStories(){
+  const level=LEVELS.find(l=>l.id===state.libraryLevel);
+  const stories=STORIES[level.id]&&STORIES[level.id][state.librarySublevel-1]||[];
+  const cards=stories.map(s=>{
+    const done=storyDone(s.id);
+    const inProgress=!done&&s.id===state.lastStoryId;
+    const [cg1,cg2]=storyGradient(s,level.g1,level.g2);
+    return `<div class="story-card" onclick="openStoryModal('${s.id}')" style="${inProgress?`box-shadow:0 0 0 3px ${level.color},0 4px 14px rgba(0,0,0,0.1)`:''}">
+      <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
+        ${s.emoji||'📖'}
+        <div class="story-level-badge" style="background:${level.color}">${t('levelLabel',level.id)}</div>
+        ${done?`<div class="story-complete-badge">✓</div>`:''}
+      </div>
+      <div class="story-body">
+        <div class="story-icons"><div class="story-icon-btn">👁</div><div class="story-icon-btn">🔊</div></div>
+        <div class="story-title">${s.title}</div>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="library-pane"><div class="story-grid">${cards}</div></div>`;
+}
+
+function renderModal(){
+  if(!state.modalOpen||!state.selectedStory) return '';
+  const s=findStory(state.selectedStory);
+  if(!s) return '';
+  const level=s.levelId?LEVELS.find(l=>l.id===s.levelId):null;
+  const dest=s.journeyId?DESTINATIONS.find(d=>d.id===s.journeyId):null;
+  const [g1,g2]=storyGradient(s,level?level.g1:'#E3F3FC',level?level.g2:'#70C1B3');
+  const pillColor=level?level.color:'#70C1B3';
+  const pillText=level?`${t('levelLabel',s.levelId)} · ${level.pond}`:(dest?dest.name:'');
+  return `<div class="modal-overlay" onclick="closeStoryModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-cover" style="background:linear-gradient(145deg,${g1},${g2})">
+        <span>${s.emoji||'📖'}</span>
+        <div class="modal-level-pill" style="background:${pillColor}">${pillText}</div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-title">${s.title}</div>
+        <div class="modal-meta"><span>${t('pages',s.paragraphs?s.paragraphs.length:1)}</span><span>${t('audio')}</span></div>
+        <button class="modal-start-btn" onclick="startReadingFromModal()"><span>▶</span><span>${t('start')}</span></button>
+        <div class="modal-notes">${t('readingNotes')}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderWordPopup(story){
+  if(!state.wordPopup) return '';
+  const word=state.wordPopup;
+  const vocab=story.vocabulary&&story.vocabulary[word];
+  const ja=typeof JA_TRANSLATIONS!=='undefined'?JA_TRANSLATIONS[word]:null;
+  const saved=!!state.flashCards[word];
+  return `<div class="word-popup-overlay" onclick="closeWordPopup()">
+    <div class="word-popup-card" onclick="event.stopPropagation()">
+      <div class="word-popup-word">${word}</div>
+      ${vocab?`<div class="word-popup-def">${vocab.def}</div>`:''}
+      ${ja?`<div class="word-popup-ja">${ja.w} — ${ja.d}</div>`:''}
+      <button class="word-popup-btn" onclick="${saved?`removeWordFromDeck('${word}')`:`addWordToDeck('${word}')`}" style="${saved?'background:var(--border);color:var(--text-muted)':''}">${saved?t('savedToDeck'):t('addToDeck')}</button>
+    </div>
+  </div>`;
+}
+
+// ── READING — literal port, Tablet lines 819-896 ──
+function renderReader(){
+  const story=findStory(state.lastStoryId);
+  if(!story) return renderComingSoon();
+  const level=story.levelId?LEVELS.find(l=>l.id===story.levelId):null;
+  const [levelG1,levelG2]=level?[level.g1,level.g2]:['#E3F3FC','#70C1B3'];
+  const total=story.paragraphs.length;
+  const isFirst=state.currentPage===0, isLast=state.currentPage===total-1;
+  const progressPct=Math.round(((state.currentPage+1)/total)*100);
+  const img=story.images&&story.images[state.currentPage];
+
+  return `<div class="screen reader-screen">
+    <div class="reader-header">
+      <div class="reader-audio-pill">
+        <button class="reader-audio-btn" onclick="toggleAudio()" aria-label="Play audio">${state.audioPlaying?'⏸':'▶'}</button>
+        <div style="flex:1;font-size:12px;font-weight:700;color:#151515;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${story.title}</div>
+      </div>
+      <button class="reader-exit-btn" onclick="exitReading()"><span>🐸</span><span>${t('exit')}</span></button>
+    </div>
+    <div class="reader-content" onclick="nextPage()">
+      <div class="reader-illu" style="background:linear-gradient(135deg,${levelG1},${levelG2})">
+        <div class="reader-illu-emoji">${story.emoji||'📖'}</div>
+        ${img?`<img src="${img}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()">`:''}
+        <div class="reader-page-badge">${state.currentPage+1} / ${total}</div>
+      </div>
+      <div class="reader-text-area" onclick="event.stopPropagation()">
+        <div class="reader-progress-bar"><div class="reader-progress-fill" style="width:${progressPct}%"></div></div>
+        <div class="reader-page-text">${makeWordTappable(story.paragraphs[state.currentPage],story.vocabulary||{})}</div>
+      </div>
+    </div>
+    ${renderWordPopup(story)}
+    <div class="reader-footer">
+      <button class="reader-nav-btn" onclick="prevPage()" style="opacity:${isFirst?.3:1};cursor:${isFirst?'default':'pointer'}">◀ ${t('previous')}</button>
+      <div class="reader-page-counter">${state.currentPage+1} / ${total}</div>
+      <button class="reader-next-btn" onclick="nextPage()">${isLast?t('toQuiz'):t('next')} →</button>
+    </div>
+  </div>`;
+}
+
+// ── QUIZ — literal port, Tablet lines 901-958 (MC branch only; real story.quiz is all multiple-choice) ──
+function renderQuiz(){
+  const story=findStory(state.lastStoryId);
+  if(!story||!story.quiz||!story.quiz.length) return renderComingSoon();
+  const q=story.quiz[state.quizIndex];
+  const dots=story.quiz.map((_,i)=>`<div class="quiz-dot" style="background:${i<state.quizIndex?'var(--primary)':i===state.quizIndex?'white':'#E5E9EE'};${i===state.quizIndex?'outline:2px solid var(--primary);outline-offset:1px':''}"></div>`).join('');
+  const options=q.options.map((label,i)=>{
+    const isCorrect=i===q.correct, isSelected=i===state.quizSelected;
+    const showCorrect=state.quizAnswered&&isCorrect, showWrong=state.quizAnswered&&isSelected&&!isCorrect;
+    const dim=state.quizAnswered&&!isCorrect&&!isSelected;
+    const bg=showCorrect?'var(--correct-bg)':showWrong?'var(--wrong-bg)':'white';
+    const border=showCorrect?'2px solid var(--correct)':showWrong?'2px solid var(--wrong)':'2px solid transparent';
+    const badgeBg=showCorrect?'var(--correct)':showWrong?'var(--wrong)':'#F3F4F6';
+    const badgeColor=(showCorrect||showWrong)?'white':'var(--text-muted)';
+    const textColor=showCorrect?'#15803d':showWrong?'#dc2626':'var(--text)';
+    const badgeContent=showCorrect?'✓':showWrong?'✕':String.fromCharCode(65+i);
+    return `<button class="quiz-option" onclick="selectQuizAnswer(${i})" style="background:${bg};border:${border};opacity:${dim?.5:1};cursor:${state.quizAnswered?'default':'pointer'}">
+      <div class="quiz-option-badge" style="background:${badgeBg};color:${badgeColor}">${badgeContent}</div>
+      <div class="quiz-option-text" style="color:${textColor}">${label}</div>
+    </button>`;
+  }).join('');
+  const feedback=state.quizAnswered&&q.feedback?`<div class="quiz-feedback">${q.feedback}</div>`:'';
+
+  return `<div class="screen quiz-screen">
+    <div class="quiz-topbar">
+      <button class="quiz-exit-btn" onclick="exitQuiz()">✕</button>
+      <div class="quiz-title">${t('quickQuiz')}</div>
+      <div class="quiz-dots">${dots}</div>
+      <div class="quiz-counter">${state.quizIndex+1} / ${story.quiz.length}</div>
+      ${(state.comboStreak||0)>=2?`<span class="combo-pill">🔥 ×${state.comboStreak} ${t('comboLabel')}</span>`:''}
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-question-wrap">
+        <div class="quiz-label">${t('question')} ${state.quizIndex+1} / ${story.quiz.length}</div>
+        <div class="quiz-question-text">${q.question}</div>
+        <div class="quiz-options">${options}</div>
+        ${feedback}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── CELEBRATION — literal port, Tablet lines 963-1007 ──
+function renderCelebration(){
+  const story=findStory(state.lastStoryId);
+  if(!story) return renderComingSoon();
+  const accuracyPct=story.quiz&&story.quiz.length?Math.round((state.quizCorrectCount/story.quiz.length)*100):0;
+  const xpEarned=state.lastXpEarned||0;
+  let earnedStars=1;
+  if(state.audioEverPlayed) earnedStars=2;
+  if(accuracyPct>=80) earnedStars=3;
+  const stars=Array.from({length:3},(_,i)=>`<span class="celeb-star" style="animation-delay:${0.3+i*0.15}s;filter:${i<earnedStars?'drop-shadow(0 2px 8px rgba(245,200,66,.5))':'grayscale(1) opacity(0.35)'}">⭐</span>`).join('');
+
+  return `<div class="screen celeb-screen">
+    <div class="celeb-frog">🐸</div>
+    <div class="celeb-title">${story.title}</div>
+    <div class="celeb-stars">${stars}</div>
+    ${xpEarned>0?`<div class="celeb-chip"><span>${t('xpEarned',xpEarned)}</span></div>`:`<div class="celeb-chip" style="background:#F0F3F7"><span style="color:var(--text-muted)">${t('replayGoodJob')}</span></div>`}
+    <div class="celeb-perf">${t('celebStarText',accuracyPct)}</div>
+    <div class="celeb-btns">
+      <button class="celeb-btn-secondary" onclick="readAgain()">${t('readAgainBtn')}</button>
+      <button class="celeb-btn-primary" onclick="${story.journeyId?`state.screen='world';state.worldSelectedId='${story.journeyId}';render()`:"navigate('library')"}">${story.journeyId?t('backToDestBtn'):t('backToLibraryBtn')}</button>
+    </div>
+  </div>`;
+}
+
+function spawnConfetti(){
+  const colors=['#bada55','#f9ad3b','#60a5fa','#f472b6','#34d399','#fb923c','#a78bfa'];
+  const count=54;
+  for(let i=0;i<count;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.left=Math.random()*100+'vw';
+    el.style.background=colors[Math.floor(Math.random()*colors.length)];
+    el.style.width=(7+Math.random()*8)+'px';
+    el.style.height=(7+Math.random()*8)+'px';
+    el.style.animationDuration=(1.4+Math.random()*1.6)+'s';
+    el.style.animationDelay=(Math.random()*0.8)+'s';
+    document.body.appendChild(el);
+    el.addEventListener('animationend',()=>el.remove());
+  }
+}
+
+// ── FLASHCARDS — literal port, Tablet lines 595-732 ──
+function renderFlashcards(){
+  if(state.flashView==='grid') return renderFlashGrid();
+  if(state.flashView==='create') return renderFlashCreate();
+  if(state.flashView==='study') return renderFlashStudy();
+  if(state.flashView==='complete') return renderFlashComplete();
+  return renderFlashDecks();
+}
+
+function renderFlashDecks(){
+  const decks=getDeckList().map(d=>`
+    <button class="deck-row" onclick="openDeck('${d.id}')">
+      <div class="deck-icon" style="background:${d.tint}">🔤</div>
+      <div class="deck-body">
+        <div class="deck-title">${d.title}</div>
+        <div class="deck-subtitle">${d.subtitle} · ${t('words',d.wordIds.length)}</div>
+      </div>
+      <span class="deck-chevron" style="color:${d.color}">›</span>
+    </button>`).join('');
+  return `<div class="flash-pane">
+    ${decks}
+    <button class="deck-create-btn" onclick="openCreateDeck()"><span>＋</span><span>${t('createNewDeck')}</span></button>
+  </div>`;
+}
+
+function renderFlashGrid(){
+  const deck=getDeckById(state.selectedDeckId);
+  const words=deckWords(deck);
+  const hasWeak=words.some(w=>state.deckWordStatus[`${state.selectedDeckId}:${w.id}`]==='practiceMore');
+  if(!words.length){
+    return `<div class="flash-pane">
+      <div class="flash-back-row"><button class="flash-back-btn" onclick="goDecks()">${t('backChevron')}</button><div><div class="flash-deck-title">${deck.title}</div></div></div>
+      <div class="coming-soon"><div class="coming-soon-emoji">🔤</div><div style="font-family:var(--font-head);font-weight:900;font-size:16px;color:var(--text)">${t('noWordsYet')}</div><div style="font-size:13px">${t('noWordsBody')}</div></div>
+    </div>`;
+  }
+  const cards=words.map(w=>{
+    const status=state.deckWordStatus[`${state.selectedDeckId}:${w.id}`];
+    const label=status==='known'?t('known'):status==='practiceMore'?t('practice'):'';
+    const color=status==='known'?'var(--primary-dark)':'#F4844A';
+    return `<div class="word-tile">
+      <div class="word-tile-badge">${w.word[0].toUpperCase()}</div>
+      <div class="word-tile-text">${w.word}</div>
+      ${label?`<div class="word-tile-status" style="color:${color}">${label}</div>`:''}
+    </div>`;
+  }).join('');
+  return `<div class="flash-pane">
+    <div class="flash-back-row">
+      <button class="flash-back-btn" onclick="goDecks()">${t('backChevron')}</button>
+      <div><div class="flash-deck-title">${deck.title}</div><div class="flash-deck-subtitle">${deck.subtitle}</div></div>
+    </div>
+    <div class="word-grid">${cards}</div>
+    <div class="flash-actions">
+      <button class="flash-study-btn" style="background:${deck.color}" onclick="startStudyAll('${deck.id}')">${t('studyAll')}</button>
+      ${hasWeak?`<button class="flash-weak-btn" onclick="startPracticeAgain('${deck.id}')">${t('practiceWeak')}</button>`:''}
+    </div>
+  </div>`;
+}
+
+function renderFlashCreate(){
+  const words=Object.keys(state.flashCards);
+  const tiles=words.map(w=>{
+    const selected=state.createSelectedIds.includes(w);
+    return `<button class="bank-tile" onclick="toggleCreateWord('${w}')">
+      <div class="bank-tile-badge" style="background:${selected?'var(--primary)':'var(--bg)'};border:3px solid ${selected?'#4d7c0f':'transparent'}">${w[0].toUpperCase()}</div>
+      <div class="bank-tile-word">${w}</div>
+    </button>`;
+  }).join('');
+  const canSave=state.createSelectedIds.length>=2;
+  return `<div class="flash-pane">
+    <div class="flash-back-row">
+      <button class="flash-back-btn" onclick="goDecks()">${t('backChevron')}</button>
+      <div class="flash-deck-title">${t('createNewDeck')}</div>
+    </div>
+    <input class="deck-name-input" value="${state.createDeckName}" oninput="setCreateDeckName(this.value)" placeholder="${t('deckNamePlaceholder')}">
+    <div class="pick-words-label">${t('pickWords',state.createSelectedIds.length)}</div>
+    <div class="bank-grid">${tiles}</div>
+    <button class="save-deck-btn" onclick="saveCustomDeck()" style="background:${canSave?'var(--primary)':'#C7D6E0'};cursor:${canSave?'pointer':'default'};color:${canSave?'#151515':'white'}">${t('saveDeck')}</button>
+  </div>`;
+}
+
+function renderFlashStudy(){
+  const deck=getDeckById(state.selectedDeckId);
+  const wordId=state.studyQueue[state.studyIdx];
+  const w=state.flashCards[wordId]||{};
+  const counter=state.studyQueue.length?`${state.studyIdx+1} / ${state.studyQueue.length}`:'0 / 0';
+  const pct=state.studyQueue.length?Math.round((state.studyIdx/state.studyQueue.length)*100):0;
+  return `<div class="flash-pane flash-study-pane">
+    <div class="study-top-row"><div class="study-deck-title">${deck?deck.title:''}</div><div class="study-counter">${counter}</div></div>
+    <div class="study-progress-bar"><div class="study-progress-fill" style="width:${pct}%"></div></div>
+    <div class="study-card-wrap">
+      <div class="study-card-shadow2"></div>
+      <div class="study-card-shadow1"></div>
+      <div class="study-card" onclick="flipCard()">
+        ${!state.flashFlipped?`
+          <div class="study-card-pill">${deck?deck.title:''}</div>
+          <div class="study-card-word">${wordId||''}</div>
+          <div class="study-card-badge">${(wordId||'?')[0].toUpperCase()}</div>
+          <div class="study-card-hint">${t('tapToFlip')}</div>
+        `:`
+          <div class="study-card-word-back">${wordId||''}</div>
+          <div class="study-card-def">${w.def||''}</div>
+          ${w.translation?`<div class="study-card-translation">${w.translation}${w.translationDef?' — '+w.translationDef:''}</div>`:''}
+        `}
+      </div>
+    </div>
+    <div class="study-actions">
+      <button class="study-unknown-btn" onclick="event.stopPropagation();answerCard('practiceMore')"><span>✕</span><span>${t('practiceMoreBtn')}</span></button>
+      <button class="study-known-btn" onclick="event.stopPropagation();answerCard('known')"><span>✓</span><span>${t('knowItBtn')}</span></button>
+    </div>
+  </div>`;
+}
+
+function renderFlashComplete(){
+  const results=Object.values(state.studyResults);
+  const known=results.filter(s=>s==='known').length;
+  const practice=results.filter(s=>s==='practiceMore').length;
+  return `<div class="flash-pane flash-complete-pane">
+    <div class="complete-frog">🐸</div>
+    <div class="complete-title">${t('deckComplete')}</div>
+    <div class="complete-stats">
+      <div class="complete-stat"><div class="complete-stat-num" style="color:var(--primary-dark)">${known}</div><div class="complete-stat-label">${t('knownLabel')}</div></div>
+      <div class="complete-stat"><div class="complete-stat-num" style="color:#F4844A">${practice}</div><div class="complete-stat-label">${t('toPracticeLabel')}</div></div>
+    </div>
+    <div class="complete-btns">
+      <button class="complete-btn-secondary" onclick="goDecks()">${t('allDecks')}</button>
+      <button class="complete-btn-primary" onclick="startStudyAll('${state.selectedDeckId}')">${t('studyAgain')}</button>
+    </div>
+  </div>`;
+}
+
+// ── PROGRESS — literal port, Tablet lines 405-460, real stats/activity/levels ──
+function renderProgress(){
+  const knownWords=Object.values(state.deckWordStatus).filter(s=>s==='known').length;
+  const stats=[
+    {icon:'🔥', tint:'#FFF0E4', value:state.streak||0, label:t('dayStreakLabel')},
+    {icon:'⭐', tint:'#FCF4D6', value:(state.xp||0).toLocaleString(), label:t('totalXpLabel')},
+    {icon:'📖', tint:'#E3F3FC', value:Object.keys(state.progress).length, label:t('storiesReadLabel')},
+    {icon:'🔤', tint:'#DFF7F2', value:knownWords, label:t('wordsKnownLabel')},
+  ];
+  const statsHtml=stats.map(s=>`
+    <div class="prog-stat-card">
+      <div class="prog-stat-icon" style="background:${s.tint}">${s.icon}</div>
+      <div class="prog-stat-value">${s.value}</div>
+      <div class="prog-stat-label">${s.label}</div>
+    </div>`).join('');
+
+  // Real weekly activity: story completions per day for the last 7 days (Mon-Sun of the current week)
+  const dayKeys=['dayMon','dayTue','dayWed','dayThu','dayFri','daySat','daySun'];
+  const now=new Date();
+  const todayIdx=(now.getDay()+6)%7; // 0=Mon
+  const counts=Array.from({length:7},()=>0);
+  Object.values(state.progress).forEach(p=>{
+    const d=new Date(p.at);
+    const diffDays=Math.floor((now-new Date(d.getFullYear(),d.getMonth(),d.getDate()))/86400000);
+    const idxFromMonday=(d.getDay()+6)%7;
+    if(diffDays>=0 && diffDays<7 && diffDays<= todayIdx){
+      const weekday=idxFromMonday;
+      if(weekday<=todayIdx) counts[weekday]++;
+    }
+  });
+  const maxCount=Math.max(...counts,1);
+  const activityHtml=dayKeys.map((dk,i)=>{
+    const isToday=i===todayIdx, isFuture=i>todayIdx;
+    const val=counts[i];
+    const heightPct=isFuture?0:Math.max(val>0?18:6,Math.round((val/maxCount)*100));
+    return `<div class="activity-col">
+      ${val>0?`<div class="activity-value">${val}</div>`:''}
+      <div class="activity-bar" style="${isFuture?'border:2px dashed var(--border);background:transparent':`background:${isToday?'var(--primary)':'var(--primary-light)'}`};height:${heightPct}%"></div>
+      <div class="activity-day" style="color:${isToday?'var(--text)':'var(--text-muted)'};font-weight:${isToday?800:500}">${t(dk)}</div>
+    </div>`;
+  }).join('');
+
+  const curLv=currentLevelId();
+  const levelRows=LEVELS.map(lv=>{
+    const pct=Math.round((levelDoneCount(lv.id)/10)*100);
+    const isCurrent=lv.id===curLv;
+    return `<div class="level-row" style="${isCurrent?`border:2px solid ${lv.color};box-shadow:0 4px 16px ${lv.color}33`:'border:2px solid transparent;opacity:.6'}">
+      <div class="level-row-icon" style="background:${lv.color}26">${lv.icon}</div>
+      <div class="level-row-body">
+        <div class="level-row-name">${lv.pond}${isCurrent?`<span class="level-row-current" style="background:${lv.color}">${t('current')}</span>`:''}</div>
+        <div class="level-row-bar"><div class="level-row-fill" style="width:${pct}%;background:${lv.color}"></div></div>
+      </div>
+      <div class="level-row-pct" style="color:${lv.color}">${pct}%</div>
+    </div>`;
+  }).join('');
+
+  return `<div class="progress-pane">
+    <div class="prog-stats-grid">${statsHtml}</div>
+    <div>
+      <div class="section-title">${t('thisWeek')}</div>
+      <div class="activity-card">${activityHtml}</div>
+    </div>
+    <div>
+      <div class="section-title">${t('levelProgress')}</div>
+      <div class="level-rows">${levelRows}</div>
+    </div>
+  </div>`;
+}
+
+// ── REWARDS / BADGES — literal port, Tablet lines 365-402, real checkable criteria ──
+function renderRewards(){
+  const earnedCount=BADGES.filter(b=>b.check()).length;
+  const groups=BADGE_CATEGORIES.map(cat=>{
+    const items=BADGES.filter(b=>b.category===cat.key).map(b=>{
+      const earned=b.check();
+      const name=b.levelRef?t('championName',b.levelRef):t(b.nameKey);
+      const hint=b.levelRef?t('championHint',b.levelRef):t(b.hintKey);
+      const tooltipOpen=state.openBadgeTooltip===b.id;
+      return `<div class="badge-cell">
+        <button class="badge-btn" onclick="toggleBadgeTooltip('${b.id}')">
+          <div class="badge-ring" style="border-color:${earned?b.color:'#D8DEE6'};filter:${earned?'none':'grayscale(1)'}">
+            <div class="badge-inner">${b.icon}</div>
+            ${!earned?'<div class="badge-lock">🔒</div>':''}
+          </div>
+          <div class="badge-name" style="color:${earned?'var(--text)':'#B0B8C1'}">${name}</div>
+        </button>
+        ${tooltipOpen?`<div class="badge-tooltip">${earned?t('earnedBadge'):t('earnedToEarn',hint)}</div>`:''}
+      </div>`;
+    }).join('');
+    return `<div>
+      <div class="badge-group-label">${t(cat.labelKey)}</div>
+      <div class="badge-grid">${items}</div>
+    </div>`;
+  }).join('');
+
+  return `<div class="rewards-pane">
+    <div class="rewards-header">
+      <div class="rewards-title">${t('myBadges')}</div>
+    </div>
+    <div class="rewards-subtitle">${t('badgesEarned',earnedCount,BADGES.length)}</div>
+    <div class="badge-groups">${groups}</div>
+  </div>`;
+}
+
+// ── WORLD JOURNEY — literal port, Tablet lines 505-586, real destinations/stories ──
+function renderWorld(){
+  return state.worldSelectedId ? renderWorldDetail() : renderWorldGrid();
+}
+
+function renderWorldGrid(){
+  const completedCount=DESTINATIONS.filter(d=>destComplete(d.id)).length;
+  const pct=Math.round((completedCount/DESTINATIONS.length)*100);
+  const lockedNotice=state.worldLockedNoticeId?DESTINATIONS.find(d=>d.id===state.worldLockedNoticeId):null;
+  const cards=DESTINATIONS.map(d=>{
+    const locked=destLocked(d), complete=destComplete(d.id), doneCount=destDoneCount(d.id);
+    const inProgress=!locked && !complete && doneCount>0;
+    return `<button class="dest-card" onclick="openDestination('${d.id}')" style="${locked?'opacity:.55':''}">
+      <div class="dest-bg-emoji">${d.emoji}</div>
+      ${complete?`<div class="dest-complete-badge">✓</div>`:inProgress?`<div class="dest-inprogress-badge">${t('inProgress')}</div>`:locked?`<div class="dest-lock-badge">🔒</div>`:''}
+      <div class="dest-card-text">
+        <div class="dest-card-name">${d.name}</div>
+        <div class="dest-card-stories">${doneCount}/${d.storyCount}</div>
+      </div>
+    </button>`;
+  }).join('');
+  return `<div class="world-pane">
+    <div class="world-header-row">
+      <div class="world-title">${t('worldTitle')}</div>
+      <div class="world-passport-pill">🛂 ${completedCount}/${DESTINATIONS.length}</div>
+    </div>
+    <div class="world-subtext">${t('placesExplored',completedCount)}${t('moreToComplete',DESTINATIONS.length-completedCount)}</div>
+    <div class="world-progress-bar"><div class="world-progress-fill" style="width:${pct}%"></div></div>
+    ${lockedNotice?`<div class="world-locked-notice">🔒 ${t('destLocked',lockedNotice.name)}</div>`:''}
+    <div class="dest-grid">${cards}</div>
+  </div>`;
+}
+
+function checkJourneyStamp(d){
+  if(!state.journey[d.id]) state.journey[d.id]={stamped:false};
+  const js=state.journey[d.id];
+  if(!js.stamped && destComplete(d.id)){
+    js.stamped=true;
+    awardXP(200);
+    markWeekQuestDone('journey1');
+    save();
+    setTimeout(()=>showToast(t('destStamped',d.name)),400);
+  }
+}
+function renderWorldDetail(){
+  const d=DESTINATIONS.find(x=>x.id===state.worldSelectedId);
+  if(!d) return renderWorldGrid();
+  checkJourneyStamp(d);
+  const stories=destStories(d.id);
+  const doneCount=destDoneCount(d.id);
+  const cards=stories.map(s=>{
+    const done=storyDone(s.id);
+    return `<div class="jstory-card" onclick="openStoryModal('${s.id}')">
+      <div class="jstory-cover">${s.emoji||'📖'}${done?'<div class="jstory-complete-badge">✓</div>':''}</div>
+      <div class="jstory-body"><div class="jstory-title">${s.title}</div></div>
+    </div>`;
+  }).join('');
+  return `<div class="world-pane">
+    <button class="world-back-link" onclick="goWorldRoot()">← ${t('worldTitle')}</button>
+    <div class="dest-hero">
+      <div class="dest-hero-emoji">${d.emoji}</div>
+      <div class="dest-hero-name">${d.emoji} ${d.name}</div>
+      <div class="dest-hero-blurb">${d.description}</div>
+      ${doneCount>=d.storyCount?`<div class="dest-stamp">✓ PASSPORT STAMPED</div>`:`
+        <div class="dest-hero-progress-wrap">
+          <div class="dest-hero-progress-bar"><div class="dest-hero-progress-fill" style="width:${Math.round((doneCount/d.storyCount)*100)}%"></div></div>
+          <div class="dest-hero-progress-text">${doneCount} / ${d.storyCount}</div>
+        </div>`}
+    </div>
+    <div class="jstory-section-title">${t('storiesFrom',d.name)}</div>
+    <div class="jstory-grid">${cards}</div>
+  </div>`;
+}
+
+// ── PROFILE — literal port, Tablet lines 289-362, real stats only (no fabricated
+// username/currency/settings — those need real accounts/audio features not built) ──
+function renderProfile(){
+  const curLv=LEVELS.find(l=>l.id===currentLevelId());
+  const nextLv=LEVELS.find(l=>l.id===curLv.id+1);
+  const doneCount=levelDoneCount(curLv.id);
+  const pct=Math.round((doneCount/10)*100);
+  const knownWords=Object.values(state.deckWordStatus).filter(s=>s==='known').length;
+
+  const stats=[
+    {icon:'📖', tint:'#E3F3FC', value:Object.keys(state.progress).length, label:t('profileStatsReadLabel')},
+    {icon:'🔤', tint:'#DFF7F2', value:knownWords, label:t('profileStatsWordsLabel')},
+    {icon:'🔥', tint:'#FFF0E4', value:state.streak||0, label:t('profileStatsStreakLabel')},
+  ];
+  const statsHtml=stats.map(s=>`
+    <div class="prog-stat-card">
+      <div class="prog-stat-icon" style="background:${s.tint}">${s.icon}</div>
+      <div class="prog-stat-value">${s.value}</div>
+      <div class="prog-stat-label">${s.label}</div>
+    </div>`).join('');
+
+  const earned=BADGES.filter(b=>b.check()).slice(0,3);
+  const badgesHtml=earned.length?earned.map(b=>{
+    const name=b.levelRef?t('championName',b.levelRef):t(b.nameKey);
+    return `<div class="recent-badge">
+      <div class="recent-badge-ring" style="border-color:${b.color}"><div class="recent-badge-icon">${b.icon}</div></div>
+      <div class="recent-badge-name">${name}</div>
+    </div>`;
+  }).join(''):`<div class="no-badges-text">${t('noBadgesYet')}</div>`;
+
+  return `<div class="profile-pane">
+    <div class="profile-identity">
+      <div class="profile-avatar">🐸</div>
+      <div class="profile-level-badge" style="background:${curLv.color}26;color:${curLv.color}"><span>${curLv.icon}</span><span>${curLv.pond}</span></div>
+    </div>
+    <div class="profile-main">
+      <div class="prog-stats-grid">${statsHtml}</div>
+      <div>
+        <div class="section-title">${t('levelProgress')}</div>
+        <div class="level-progress-card">
+          <div class="level-progress-toprow">
+            <span class="level-progress-curname">${curLv.pond}</span>
+            ${nextLv?`<span class="level-progress-nextname">${pct}% · ${nextLv.pond} →</span>`:''}
+          </div>
+          <div class="level-row-bar"><div class="level-row-fill" style="width:${pct}%;background:${curLv.color}"></div></div>
+          <div class="level-progress-motivation">${t('levelProgressMotivation',10-doneCount,nextLv?nextLv.pond:'')}</div>
+        </div>
+      </div>
+      <div>
+        <div class="recent-badges-header">
+          <div class="section-title" style="margin-bottom:0">${t('recentBadges')}</div>
+          <button class="see-all-link" onclick="navigate('rewards')">${t('seeAll')}</button>
+        </div>
+        <div class="recent-badges-card">${badgesHtml}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderComingSoon(){
+  return `<div class="coming-soon">
+    <div class="coming-soon-emoji">🚧</div>
+    <div style="font-family:var(--font-head);font-weight:900;font-size:18px;color:var(--text)">${t('comingSoon')}</div>
+    <div style="font-size:13px">${t('comingSoonBody')}</div>
+  </div>`;
+}
+
+// ── HOME DASHBOARD — literal port, Tablet lines 111-185 ────
+function renderHomeDash(){
+  calcTodayCount();
+  const lv=currentLevelId();
+  const lvObj=LEVELS.find(l=>l.id===lv);
+  const goalTotal=state.dailyGoal, goalDone=Math.min(state.todayCount,goalTotal);
+  const goalDeg=Math.round((goalDone/Math.max(goalTotal,1))*360);
+  const isGoalDone=state.todayCount>=state.dailyGoal;
+
+  const {story:contStory,isNew}=getContinueStory();
+  const [fallbackG1,fallbackG2]=LEVEL_GRADIENTS[contStory&&contStory.levelId?contStory.levelId:1];
+  const [g1,g2]=storyGradient(contStory,fallbackG1,fallbackG2);
+  const continueCard = contStory ? `
+    <button class="continue-card" onclick="startReadingDirect('${contStory.id}')">
+      <div class="continue-cover" style="background:linear-gradient(145deg,${g1},${g2})"><span>${contStory.emoji||'📖'}</span></div>
+      <div class="continue-body">
+        <div>
+          <div class="continue-label">${isNew?t('startReading'):t('continueReading')}</div>
+          <div class="continue-title">${contStory.title}</div>
+          <div class="continue-meta">${t('pageMeta',contStory)}</div>
+        </div>
+        <div>
+          <div class="continue-progress"><div class="continue-progress-fill" style="width:${isNew?0:40}%"></div></div>
+          <div class="continue-btn"><span>${isNew?t('startBtn'):t('continueBtn')}</span></div>
+        </div>
+      </div>
+    </button>` : `
+    <button class="continue-card" onclick="navigate('library')">
+      <div class="continue-cover" style="background:linear-gradient(145deg,${g1},${g2})"><span>🐸</span></div>
+      <div class="continue-body"><div class="continue-title">${t('firstStoryBtn')}</div></div>
+    </button>`;
+
+  const storiesWaitingCount = Object.values(STORIES).flatMap(o=>Object.values(o)).flat().filter(s=>!storyDone(s.id)).length;
+  const placesFoundCount = Object.values(state.journey).filter(d=>d&&d.stamped).length;
+  const placesTotalCount = 12; // real destination count, matches the live app's World Journey
+  const q = getTodayQuests();
+  const questsTodayCount = [q.stories,q.perfect,q.fc].filter(Boolean).length;
+
+  const quickLinks=[
+    {icon:'📚', tint:'#E3F3FC', title:t('exploreLibrary'), sub:t('storiesWaiting',storiesWaitingCount), screen:'library'},
+    {icon:'🔤', tint:'#DFF7F2', title:t('flashCards'), sub:t('practiceVocab'), screen:'flashcards'},
+    {icon:'🌍', tint:'#E7E9FB', title:t('worldJourney'), sub:t('placesFound',placesFoundCount,placesTotalCount), screen:'world'},
+    {icon:'🎯', tint:'#FCF4D6', title:t('quests'), sub:t('questsToday',questsTodayCount), screen:'quests'},
+    {icon:'📈', tint:'#FFF0E4', title:t('myProgress'), sub:t('trackLevels'), screen:'progress'},
+    {icon:'🏆', tint:'#F1E8FF', title:t('rewards'), sub:t('checkBadges'), screen:'rewards'},
+  ];
+  const quickLinksHtml=quickLinks.map(l=>`
+    <button class="ql-tile" onclick="navigate('${l.screen}')">
+      <div class="ql-icon" style="background:${l.tint}">${l.icon}</div>
+      <div>
+        <div class="ql-title">${l.title}</div>
+        <div class="ql-subtitle">${l.sub}</div>
+      </div>
+      <span class="ql-arrow">→</span>
+    </button>`).join('');
+
+  // Journey preview nodes — same visual treatment as the design (complete/current/locked)
+  let curIdx=0;
+  for(let i=0;i<10;i++){ if(subLevelAvailable(lv,i)&&!subLevelDone(lv,i)){curIdx=i;break;} }
+  const nodesHtml=Array.from({length:5},(_,i)=>{
+    const done=subLevelDone(lv,i);
+    const isCur=i===curIdx && !done;
+    if(done) return `<div style="width:40px;height:40px;border-radius:50%;background:var(--primary);color:white;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center">✓</div>`;
+    if(isCur) return `<div style="width:46px;height:46px;border-radius:50%;background:white;border:3px solid var(--primary);font-size:18px;display:flex;align-items:center;justify-content:center;animation:glow-pulse 2s ease-in-out infinite">🐸</div>`;
+    return `<div style="width:40px;height:40px;border-radius:50%;background:#E5E9EE;color:#B0B8C1;font-size:15px;display:flex;align-items:center;justify-content:center">🔒</div>`;
+  }).join('');
+
+  return `<div class="home-dash">
+    <div class="home-row1">
+      ${continueCard}
+      <div class="goal-card">
+        <div class="goal-label">${t('todaysGoal')}</div>
+        <div class="goal-ring" style="background:conic-gradient(var(--primary) 0deg ${goalDeg}deg, var(--border) ${goalDeg}deg 360deg)">
+          <div class="goal-ring-inner">
+            <div class="goal-fraction">${goalDone}/${goalTotal}</div>
+            <div class="goal-stories-label">${t('storiesLabel')}</div>
+          </div>
+        </div>
+        <div class="goal-remaining">${isGoalDone?t('goalDone'):t('moreToGo',goalTotal-goalDone)}</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">${t('quickLinks')}</div>
+      <div class="ql-grid">${quickLinksHtml}</div>
+    </div>
+
+    <div>
+      <div class="journey-title-row">
+        <span class="journey-title">${t('yourJourney',lvObj)}</span>
+        <button class="journey-viewpath" onclick="navigate('progress')">${t('viewPath')}</button>
+      </div>
+      <div class="journey-track">
+        <div class="journey-track-line"></div>
+        <div class="journey-nodes">${nodesHtml}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── RENDER: LANDING / SPLASH ────────────────────────────────
+function renderLanding(){
+  document.getElementById('app').innerHTML=`
+  <div class="screen landing-screen">
+    <button class="landing-lang-pill" onclick="toggleUiLang()" aria-label="Language">🌐 ${state.uiLang==='en'?'English':'日本語'}</button>
+    <div class="landing-content">
+      <img class="landing-frog" src="OOSH_Logo_Square.png" alt="Ribbit">
+      <div class="landing-title">Ribbit</div>
+      <div class="landing-tagline">${state.uiLang==='en'?'Learn English the fun way!':'えいごをたのしくまなぼう！'}</div>
+      <div class="landing-subtag">${state.uiLang==='en'?'6 levels · 13 languages · 10 countries':'6レベル · 13言語 · 世界10か国'}</div>
+      <div class="landing-ctas">
+        <button class="landing-cta-primary" onclick="enterFromLanding()">${state.uiLang==='en'?'Get Started':'はじめる'}</button>
+        <button class="landing-cta-secondary" onclick="enterFromLanding()">${state.uiLang==='en'?'Log In':'ログイン'}</button>
+      </div>
+    </div>
+    <div class="landing-footer">OOSH Online · v3.0</div>
+  </div>`;
+}
+
+// ── MASTER RENDER ────────────────────────────────────────────
+const FULLBLEED_SCREENS=['reader','quiz','celebration']; // no header/bottom-nav, matches the design's own top-level screens
+function render(){
+  if(state.screen==='landing'){ renderLanding(); return; }
+  if(state.screen==='reader'){ document.getElementById('app').innerHTML=renderReader(); return; }
+  if(state.screen==='quiz'){ document.getElementById('app').innerHTML=renderQuiz(); return; }
+  if(state.screen==='celebration'){ document.getElementById('app').innerHTML=renderCelebration(); spawnConfetti(); return; }
+  let body;
+  if(state.screen==='home') body=renderHomeDash();
+  else if(state.screen==='library') body=renderLibrary();
+  else if(state.screen==='flashcards') body=renderFlashcards();
+  else if(state.screen==='progress') body=renderProgress();
+  else if(state.screen==='rewards') body=renderRewards();
+  else if(state.screen==='world') body=renderWorld();
+  else if(state.screen==='profile') body=renderProfile();
+  else if(state.screen==='quests') body=renderQuests();
+  else if(IMPLEMENTED_SCREENS.includes(state.screen)) body=renderHomeDash();
+  else body=renderComingSoon();
+  document.getElementById('app').innerHTML=`
+  <div class="screen app-shell">
+    ${renderHeader()}
+    <div class="content-area">${body}</div>
+    ${renderBottomNav()}
+  </div>
+  ${renderModal()}`;
+}
+
+render();
+setTimeout(checkDailyLoginBonus, 600);
+</script>
+</body>
+</html>
