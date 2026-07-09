@@ -189,11 +189,11 @@
     .story-cover{height:100px;display:flex;align-items:center;justify-content:center;font-size:38px;position:relative}
     .story-level-badge{position:absolute;bottom:6px;left:6px;border-radius:999px;padding:2px 7px;font-size:8.5px;font-weight:700;color:#fff}
     .story-complete-badge{position:absolute;top:6px;right:6px;width:20px;height:20px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#151515;font-size:11px;font-weight:700}
+    .story-inprogress-badge{position:absolute;top:6px;right:6px;background:#F5C842;border-radius:999px;padding:2px 7px;font-size:7.5px;font-weight:800;color:#1A2340;letter-spacing:.04em}
+    .story-card.story-inprogress{animation:glow-pulse 2s ease-in-out infinite}
     .story-progress-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(0,0,0,.15)}
     .story-progress-fill{height:100%;background:var(--primary)}
     .story-body{padding:8px 9px 9px}
-    .story-icons{display:flex;gap:4px;margin-bottom:4px}
-    .story-icon-btn{width:20px;height:20px;background:#F0F3F7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px}
     .story-title{font-size:11px;font-weight:600;color:var(--text);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
     .modal-overlay{position:fixed;inset:0;background:rgba(8,16,36,.6);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
@@ -428,7 +428,7 @@
     .celeb-screen{min-height:100vh;background:#FFFDF8;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:24px;text-align:center}
     .confetti-piece{position:fixed;top:-14px;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:9999;animation:confettiFall linear forwards}
     @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
-    .celeb-frog{font-size:64px;animation:bounce-in .65s ease both;line-height:1;margin-bottom:8px}
+    .celeb-frog{font-size:96px;animation:bounce-in .65s ease both,float 2.5s ease-in-out .8s infinite;line-height:1;margin-bottom:16px}
     .celeb-title{font-family:var(--font-head);font-weight:900;font-size:22px;color:var(--navy);max-width:400px;line-height:1.25;animation:fade-up .4s .15s ease both;margin-bottom:18px}
     .celeb-stars{display:flex;gap:12px;margin-bottom:18px}
     .celeb-star{font-size:34px;display:block;animation:star-pop .4s ease both}
@@ -678,7 +678,9 @@ window.addEventListener('pagehide', save);
 function navigate(screen){
   if(state.screen==='reader' && screen!=='reader' && typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
   state.screen=screen; state.modalOpen=false; state.audioPlaying=false;
-  if(screen!=='library'){ state.libraryLevel=null; state.librarySublevel=null; }
+  // Preserve library drill-down context through the reading pipeline so "Back to Library"
+  // returns to the exact sublevel the learner came from, not the root level grid.
+  if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration'){ state.libraryLevel=null; state.librarySublevel=null; }
   if(screen!=='world' && screen!=='celebration' && screen!=='reader' && screen!=='quiz'){ state.worldSelectedId=null; }
   render(); window.scrollTo(0,0);
 }
@@ -721,7 +723,7 @@ function toggleAudio(){
 function nextPage(){
   const story=findStory(state.lastStoryId);
   if(typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
-  state.audioPlaying=false;
+  state.audioPlaying=false; state.wordPopup=null;
   if(state.currentPage < story.paragraphs.length-1){
     state.currentPage++; render();
   } else {
@@ -731,7 +733,7 @@ function nextPage(){
     render();
   }
 }
-function prevPage(){ if(state.currentPage>0){ state.currentPage--; render(); } }
+function prevPage(){ if(state.currentPage>0){ state.currentPage--; state.wordPopup=null; render(); } }
 function exitReading(){
   if(typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
   state.audioPlaying=false;
@@ -785,6 +787,9 @@ function toggleCreateWord(id){
   if(has) state.createSelectedIds=state.createSelectedIds.filter(x=>x!==id);
   else if(state.createSelectedIds.length<10) state.createSelectedIds=[...state.createSelectedIds,id];
   // Preserve the deck-name input's focus/caret across the full re-render triggered by tapping a tile.
+  // .bank-tile buttons carry onmousedown="event.preventDefault()" so Chromium doesn't steal focus
+  // from the input before onclick fires — without that, activeElement shifts to the button first
+  // and the guard below is always false on Chromium (Chromebooks, Chrome desktop).
   const input=document.querySelector('.deck-name-input');
   const caret=(input&&document.activeElement===input)?input.selectionStart:null;
   render();
@@ -1137,7 +1142,7 @@ const UI_STRINGS = {
     comingSoon:'Coming soon', comingSoonBody:'This screen is being rebuilt from the redesign next.',
     libraryTitle:'Library', levelLabel:(id)=>`Level ${id}`, ages:(a)=>`Ages ${a}`, locked:'Locked',
     subLevelOf:(n)=>`Sub-level ${n} of 10`, subLevel:'Sub-level',
-    pages:(n)=>`📄 ${n} pages`, audio:'🔊 Audio', start:'START', readingNotes:'Reading notes',
+    pages:(n)=>`📄 ${n} pages`, audio:'🔊 Audio', start:'START', tapWordHint:'👆 Tap any word to see its definition',
     exit:'Exit', previous:'Previous', next:'Next', toQuiz:'To Quiz',
     quickQuiz:'📝 Quick Quiz', question:'QUESTION',
     celebStarText:(n)=>n>=80?'Amazing work! You know this story well! 🌟':n>=50?'Good job! Keep practicing to master it.':'Nice try — read it again to improve!',
@@ -1174,7 +1179,7 @@ const UI_STRINGS = {
     backToDestBtn:'Back to Destination',
     worldTitle:'World Journey', placesExplored:(n)=>`${n} place${n===1?'':'s'} explored! `,
     moreToComplete:(n)=>`${n} more to complete your passport`, destLocked:(name)=>`Complete ${name} first to unlock this!`,
-    inProgress:'IN PROGRESS', storiesFrom:(name)=>`STORIES FROM ${name.toUpperCase()}`,
+    inProgress:'IN PROGRESS', storiesFrom:(name)=>`STORIES FROM ${name.toUpperCase()}`, destNoStories:'Stories coming soon — check back next time!',
     profileStatsReadLabel:'Stories Read', profileStatsWordsLabel:'Words Known', profileStatsStreakLabel:'Day Streak',
     recentBadges:'RECENT BADGES', seeAll:'See all →', noBadgesYet:'No badges earned yet — keep going!',
     levelProgressMotivation:(n,name)=>n>0?`${n} more sub-level${n===1?'':'s'} to reach ${name}!`:`You've mastered this level!`,
@@ -1217,7 +1222,7 @@ const UI_STRINGS = {
     comingSoon:'ちかぢか公開', comingSoonBody:'この画面は次のパスでリニューアルされます。',
     libraryTitle:'ライブラリ', levelLabel:(id)=>`レベル ${id}`, ages:(a)=>`対象年齢 ${a}`, locked:'ロック中',
     subLevelOf:(n)=>`サブレベル ${n} / 10`, subLevel:'サブレベル',
-    pages:(n)=>`📄 ${n}ページ`, audio:'🔊 音声あり', start:'はじめる', readingNotes:'読書メモ',
+    pages:(n)=>`📄 ${n}ページ`, audio:'🔊 音声あり', start:'はじめる', tapWordHint:'👆 単語をタップすると意味が見られるよ',
     exit:'とじる', previous:'まえへ', next:'つぎへ', toQuiz:'クイズへ',
     quickQuiz:'📝 クイズタイム', question:'もんだい',
     celebStarText:(n)=>n>=80?'すごい！このお話をよくわかっているね！🌟':n>=50?'いいね！もっと練習しよう。':'もういちど読んでみよう！',
@@ -1254,7 +1259,7 @@ const UI_STRINGS = {
     backToDestBtn:'目的地へもどる',
     worldTitle:'ワールドジャーニー', placesExplored:(n)=>`${n}か所たんけんずみ！`,
     moreToComplete:(n)=>`あと${n}か所でパスポート完成`, destLocked:(name)=>`さきに${name}をクリアしよう！`,
-    inProgress:'進行中', storiesFrom:(name)=>`${name}のおはなし`,
+    inProgress:'進行中', storiesFrom:(name)=>`${name}のおはなし`, destNoStories:'まもなくおはなしが追加されます！',
     profileStatsReadLabel:'読んだ話', profileStatsWordsLabel:'覚えた単語', profileStatsStreakLabel:'連続日数',
     recentBadges:'さいきんのバッジ', seeAll:'すべて見る →', noBadgesYet:'まだバッジがありません。がんばろう！',
     levelProgressMotivation:(n,name)=>n>0?`あと${n}サブレベルで${name}に到達！`:'このレベルをマスターしたよ！',
@@ -1426,14 +1431,13 @@ function renderLibraryTierStories(){
     const done=storyDone(s.id);
     const inProgress=!done&&s.id===state.lastStoryId;
     const [cg1,cg2]=storyGradient(s,level.g1,level.g2);
-    return `<button class="story-card" onclick="openStoryModal('${s.id}')" style="${inProgress?`box-shadow:0 0 0 3px ${level.color},0 4px 14px rgba(0,0,0,0.1)`:''}">
+    return `<button class="story-card${inProgress?' story-inprogress':''}" onclick="openStoryModal('${s.id}')">
       <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
         ${s.emoji||'📖'}
         <div class="story-level-badge" style="background:${level.color}">${t('levelLabel',level.id)}</div>
-        ${done?`<div class="story-complete-badge">✓</div>`:''}
+        ${done?`<div class="story-complete-badge">✓</div>`:inProgress?`<div class="story-inprogress-badge">${t('inProgress')}</div>`:''}
       </div>
       <div class="story-body">
-        <div class="story-icons"><div class="story-icon-btn">👁</div><div class="story-icon-btn">🔊</div></div>
         <div class="story-title">${s.title}</div>
       </div>
     </button>`;
@@ -1460,7 +1464,7 @@ function renderModal(){
         <div class="modal-title">${s.title}</div>
         <div class="modal-meta"><span>${t('pages',s.paragraphs?s.paragraphs.length:1)}</span><span>${t('audio')}</span></div>
         <button class="modal-start-btn" onclick="startReadingFromModal()"><span>▶</span><span>${t('start')}</span></button>
-        <div class="modal-notes">${t('readingNotes')}</div>
+        <div class="modal-notes">${t('tapWordHint')}</div>
       </div>
     </div>
   </div>`;
@@ -1668,7 +1672,7 @@ function renderFlashCreate(){
   const words=Object.keys(state.flashCards);
   const tiles=words.map(w=>{
     const selected=state.createSelectedIds.includes(w);
-    return `<button class="bank-tile" onclick="toggleCreateWord('${w}')">
+    return `<button class="bank-tile" onclick="toggleCreateWord('${w}')" onmousedown="event.preventDefault()">
       <div class="bank-tile-badge" style="background:${selected?'var(--primary)':'var(--bg)'};border:3px solid ${selected?'#4d7c0f':'transparent'}">${w[0].toUpperCase()}</div>
       <div class="bank-tile-word">${w}</div>
     </button>`;
@@ -1910,7 +1914,7 @@ function renderWorldDetail(){
         </div>`}
     </div>
     <div class="jstory-section-title">${t('storiesFrom',d.name)}</div>
-    <div class="jstory-grid">${cards}</div>
+    ${cards?`<div class="jstory-grid">${cards}</div>`:`<div class="coming-soon"><div class="coming-soon-emoji">${d.emoji}</div><div style="font-family:var(--font-head);font-weight:800;font-size:15px;color:var(--text)">${t('destNoStories')}</div></div>`}
   </div>`;
 }
 

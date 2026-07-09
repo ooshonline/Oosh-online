@@ -12791,3 +12791,152 @@ JOURNEY_STORIES['peru'].push({
      feedback:"'She had come this far to look, and sleeping seemed like the wrong response.'"}
   ]
 });
+
+JOURNEY_STORIES['southkorea'] = JOURNEY_STORIES['southkorea'] || [];
+JOURNEY_STORIES['southkorea'].push({
+  id:"j-southkorea-1", journeyId:"southkorea", order:1,
+  title:"Five Gates to the Throne", emoji:"🏯", genre:"Travel / History",
+  wordCount:298, readMins:3,
+  blurb:"A boy visits Gyeongbokgung Palace in Seoul and watches the changing of the royal guards.",
+  paragraphs:[
+    "Minjun stood at the main gate of Gyeongbokgung with his grandmother, waiting for eleven o'clock. Behind them, glass office towers filled the sky. In front of them, a wall of grey stone and red-painted wood looked exactly as it had five hundred years ago.",
+    "'This was the first palace of the Joseon dynasty,' his grandmother said. 'Kings lived here for hundreds of years. It was burned down twice — once in a war, once by fire — and rebuilt both times.' Minjun tried to imagine a king walking through the gate where he now stood, wearing the tall black hat he had seen in paintings.",
+    "At eleven exactly, drums began. A line of guards came around the corner wearing bright red and blue robes, carrying long flags and curved swords. Their hats had wide brims and coloured tassels. They marched slowly, in step, faces completely still, and took their positions on either side of the gate. A man with a deep voice called out something in old Korean that Minjun did not understand.",
+    "'They are changing the guard,' his grandmother explained. 'This happens every day, just like it did when the king actually lived here. The costumes are copied exactly from records that survived.' Minjun noticed tourists taking photographs with the guards, who did not smile or move, even when a small child stood right in front of one and stared up at his face.",
+    "After the ceremony, Minjun and his grandmother walked through the palace grounds to Gyeonghoeru, a pavilion built on stilts over a wide pond. 'Kings held banquets there,' she said, pointing. Minjun looked at the reflection of the wooden building in the still water and, for a moment, understood what she meant about hundreds of years not being so long after all."
+  ],
+  vocabulary:{
+    "dynasty":{def:"A series of rulers from the same family; the Joseon dynasty ruled Korea for over 500 years.",pos:"noun"},
+    "tassel":{def:"A hanging bunch of threads used as decoration, often on hats or curtains.",pos:"noun"},
+    "brim":{def:"The wide bottom edge of a hat that sticks outwards.",pos:"noun"},
+    "ceremony":{def:"A formal set of actions performed in a fixed order, often for a tradition or event.",pos:"noun"},
+    "pavilion":{def:"A light, often open-sided building, used for rest or celebration, sometimes built over water.",pos:"noun"},
+    "banquet":{def:"A large, formal meal, usually to celebrate something important.",pos:"noun"},
+    "reflection":{def:"An image seen in a mirror, water, or other shiny surface.",pos:"noun"}
+  },
+  quiz:[
+    {question:"What happened to Gyeongbokgung Palace in the past?",
+     options:["It was moved brick by brick to a new location","It was burned down twice and rebuilt both times","It was never damaged in its 500-year history","It was turned into government offices during a war"],correct:1,
+     feedback:"'It was burned down twice — once in a war, once by fire — and rebuilt both times.'"},
+    {question:"Where did the guards' costumes come from?",
+     options:["They were designed new each year by fashion students","They are copied exactly from records that survived","They were borrowed from a nearby museum","Nobody knows what the original guards wore"],correct:1,
+     feedback:"'The costumes are copied exactly from records that survived.'"},
+    {question:"How did the guards react when a child stared up at one of them?",
+     options:["They smiled and waved at the child","They did not smile or move, even then","They stepped out of formation to greet the child","They laughed and broke character"],correct:1,
+     feedback:"'...who did not smile or move, even when a small child stood right in front of one and stared up at his face.'"},
+    {question:"What was Gyeonghoeru used for?",
+     options:["Storing grain for the royal family","Training soldiers before battle","Kings held banquets there","Housing prisoners of the royal court"],correct:2,
+     feedback:"'Kings held banquets there,' she said, pointing."}
+  ]
+});
+
+JOURNEY_STORIES['southkorea'].push({
+  id:"j-southkorea-2", journeyId:"southkorea", order:2,
+  title:"Last Train from Hongdae", emoji:"🚇", genre:"Contemporary / Slice of Life",
+  wordCount:302, readMins:3,
+  blurb:"A university student rushes to catch the last subway train home after studying with friends.",
+  paragraphs:[
+    "Soojin checked her phone for the fourth time in a minute. 11:47pm. The last train from Hongdae station left at 12:05, and if she missed it, a taxi home would cost more than she wanted to think about. Around her, three of her university friends were still arguing about the group project, papers spread across the café table.",
+    "'We need twenty more minutes,' said Jihoon, not looking up from his laptop. Soojin shook her head. In Seoul, missing the last subway meant either an expensive late-night taxi or waiting outside somewhere until the trains started again at 5:30am. Neither option appealed to her on a Tuesday with class at nine.",
+    "She packed her notes into her bag mid-sentence and half-ran the six blocks to the station, weaving between street vendors packing up their tteokbokki carts and groups of students spilling out of noraebang singing rooms. The escalator down to the platform felt agonisingly slow. A screen above the tracks showed the next train arriving in two minutes.",
+    "She made it onto the platform with ninety seconds to spare, breathing hard, and found a seat as the doors closed. The carriage was full of people in exactly her situation — office workers loosening their ties, a couple asleep against each other's shoulders, someone still eating a late dinner from a plastic container. Nobody spoke much. It was the shared, unspoken understanding of the last train.",
+    "Somewhere between Hongdae and her stop, Soojin got a message from Jihoon: a photograph of the finished project outline, and the words 'we did it without you, don't worry.' She laughed quietly to herself and put her phone away. Tomorrow she would buy him coffee to apologise. Tonight, she was just glad to be sitting down, moving towards home instead of standing on a cold street corner waiting for a taxi."
+  ],
+  vocabulary:{
+    "appeal":{def:"To seem attractive or interesting to someone.",pos:"verb"},
+    "vendor":{def:"A person who sells goods, often from a stall or cart in the street.",pos:"noun"},
+    "escalator":{def:"A moving staircase that carries people up or down.",pos:"noun"},
+    "agonisingly":{def:"In a way that causes great impatience, worry, or discomfort; here used to describe something that feels painfully slow.",pos:"adverb"},
+    "carriage":{def:"A single section of a train where passengers sit.",pos:"noun"},
+    "unspoken":{def:"Understood without being said out loud.",pos:"adjective"},
+    "noraebang":{def:"A private singing room rented by groups of friends, very popular in Korea (literally 'song room').",pos:"noun"}
+  },
+  quiz:[
+    {question:"What would happen if Soojin missed the last train?",
+     options:["She would have to sleep at the university","An expensive late-night taxi, or waiting until 5:30am","The station would let her stay in the waiting room for free","Her friends would drive her home instead"],correct:1,
+     feedback:"'...missing the last subway meant either an expensive late-night taxi or waiting outside somewhere until the trains started again at 5:30am.'"},
+    {question:"What did Soojin pass on her way to the station?",
+     options:["A late-night market selling only vegetables","Street vendors packing up tteokbokki carts and students from noraebang rooms","A closed shopping mall with no one around","Other students studying quietly in the library"],correct:1,
+     feedback:"'...weaving between street vendors packing up their tteokbokki carts and groups of students spilling out of noraebang singing rooms.'"},
+    {question:"What was the atmosphere like in the train carriage?",
+     options:["Loud and full of arguing passengers","A shared, unspoken understanding among people in the same situation","Almost empty, with just a few late-night workers","Tense, because the train was delayed"],correct:1,
+     feedback:"'It was the shared, unspoken understanding of the last train.'"},
+    {question:"What message did Jihoon send Soojin?",
+     options:["An apology for making her late","A photograph of the finished project outline, saying they finished without her","A request for her to come back to the café","A photo of the empty café after she left"],correct:1,
+     feedback:"'...a photograph of the finished project outline, and the words 'we did it without you, don't worry.''"}
+  ]
+});
+
+JOURNEY_STORIES['southkorea'].push({
+  id:"j-southkorea-3", journeyId:"southkorea", order:3,
+  title:"The Moon is Fullest Tonight", emoji:"🌕", genre:"Festival / Family",
+  wordCount:295, readMins:3,
+  blurb:"A family gathers in the countryside to celebrate Chuseok, Korea's harvest festival.",
+  paragraphs:[
+    "The traffic had been terrible for six hours. Dahye's father gripped the steering wheel and sighed at the long line of red brake lights stretching ahead on the highway. 'Everyone in Korea is doing exactly what we're doing,' he said. 'Going back to their hometown for Chuseok.'",
+    "By the time they arrived at Dahye's grandparents' house, it was almost dark, and her aunts and cousins were already in the kitchen. The whole family had come — three generations packed into one house for the harvest festival, the biggest holiday of the Korean year alongside Lunar New Year. Dahye's grandmother handed her an apron before she had even taken off her shoes.",
+    "They spent the evening making songpyeon, small half-moon-shaped rice cakes filled with sweet sesame seeds, chestnuts, or red beans. 'Fold it like this,' her grandmother showed her, pressing the edges of the rice dough together. 'They say if you make a beautiful songpyeon, you will have a beautiful daughter.' Dahye's first attempt looked more like a lumpy pancake than a moon, and everyone laughed, but not unkindly.",
+    "The next morning, before breakfast, the family performed charye — a memorial ceremony honouring their ancestors, with food laid out carefully on a low table: rice, soup, fish, fruit, and the songpyeon they had made the night before. Dahye's father explained each dish's meaning quietly, the way his own father had once explained it to him.",
+    "That evening, full of songpyeon and grilled beef from the family barbecue, Dahye sat outside with her cousins and looked up. The moon was completely round and very bright, the way it always is at Chuseok — a full harvest moon marking the middle of the eighth lunar month. 'Make a wish,' her grandmother said from the doorway. 'Tonight the moon is fullest, so your wish has the best chance of coming true.'"
+  ],
+  vocabulary:{
+    "harvest":{def:"The gathering of crops when they are ripe, or the season when this happens.",pos:"noun"},
+    "generation":{def:"A group of people of about the same age within a family, such as grandparents, parents, and children.",pos:"noun"},
+    "apron":{def:"A piece of clothing worn over the front of the body to protect it, usually while cooking.",pos:"noun"},
+    "chestnut":{def:"A brown nut that can be eaten, often roasted, and is common in autumn dishes.",pos:"noun"},
+    "memorial":{def:"Done to remember and honour someone, especially someone who has died.",pos:"adjective"},
+    "ancestor":{def:"A family member who lived a long time ago, before one's grandparents.",pos:"noun"},
+    "lunar":{def:"Relating to the moon; a lunar month is measured by the moon's cycle.",pos:"adjective"}
+  },
+  quiz:[
+    {question:"Why was the traffic so bad on the highway?",
+     options:["There was a national sports event happening","Everyone in Korea was travelling to their hometown for Chuseok","Roadworks had closed half the highway","It was a normal weekend rush hour"],correct:1,
+     feedback:"'Everyone in Korea is doing exactly what we're doing,' he said. 'Going back to their hometown for Chuseok.'"},
+    {question:"What does Dahye's grandmother say about making a beautiful songpyeon?",
+     options:["It brings good luck for the coming year","It means you will have a beautiful daughter","It shows you are a skilled cook","It must be shared with the whole village"],correct:1,
+     feedback:"'They say if you make a beautiful songpyeon, you will have a beautiful daughter.'"},
+    {question:"What is charye?",
+     options:["A dance performed at Chuseok celebrations","A type of rice cake eaten only at breakfast","A memorial ceremony honouring ancestors with food laid out on a table","A game played by children during the festival"],correct:2,
+     feedback:"'...the family performed charye — a memorial ceremony honouring their ancestors, with food laid out carefully on a low table.'"},
+    {question:"Why does the grandmother say the wish has the best chance of coming true?",
+     options:["Because it is the coldest night of the year","Because the moon is fullest at Chuseok","Because the whole family is together","Because it is the last night of the holiday"],correct:1,
+     feedback:"'Tonight the moon is fullest, so your wish has the best chance of coming true.'"}
+  ]
+});
+
+JOURNEY_STORIES['southkorea'].push({
+  id:"j-southkorea-4", journeyId:"southkorea", order:4,
+  title:"The Alley Behind the Palace Wall", emoji:"🏘️", genre:"Neighbourhood / Everyday Life",
+  wordCount:300, readMins:3,
+  blurb:"A photographer explores Bukchon Hanok Village, a neighbourhood of traditional houses tucked between two palaces.",
+  paragraphs:[
+    "Yura had lived in Bukchon her whole life, which meant she had a very different relationship with the neighbourhood than the tourists who now filled its narrow lanes every weekend. She watched from her doorway as a group posed for photographs beside the curved tile roof of the house across the alley — a house that happened to be her uncle's.",
+    "Bukchon sits on the hill between Gyeongbokgung and Changdeokgung, two of Seoul's grand old palaces, and its hundreds of hanok — traditional wooden houses with curved black-tiled roofs — have stood there for six hundred years. Once this was where court officials and noble families lived, close enough to walk to the palace each morning. Now the houses are mostly private homes, artist studios, and small guesthouses.",
+    "'Please, quietly,' Yura called gently to the group, who had wandered slightly too close to her neighbour's front gate. Signs throughout the village ask visitors to keep their voices down and stay off private steps, because real people still live behind these walls, not just a museum exhibit. Most visitors are respectful once they realise; some, caught up in taking photographs, forget.",
+    "She led her camera club down towards Samcheong-dong, one street over, where the hanok gave way to small cafés and independent bookshops tucked into converted traditional buildings. An elderly man swept fallen ginkgo leaves from his doorstep with a long-handled broom, unhurried, as though the tourists photographing him were simply weather passing through.",
+    "By late afternoon, the light turned gold and low, catching the curved edges of the roof tiles and throwing long shadows down the sloped lane. Yura raised her camera one more time, framing not a postcard view but the ordinary moment of her neighbour hanging laundry between two roof beams that had outlasted kings. This, she thought, was the real Bukchon — the one that existed on the days nobody came to photograph it at all."
+  ],
+  vocabulary:{
+    "hanok":{def:"A traditional Korean house, typically built of wood with a curved tiled or thatched roof.",pos:"noun"},
+    "noble":{def:"Belonging to a family of high social rank, historically close to royalty.",pos:"adjective"},
+    "guesthouse":{def:"A small house or building where paying visitors can stay overnight.",pos:"noun"},
+    "exhibit":{def:"An object or display shown to the public, especially in a museum.",pos:"noun"},
+    "ginkgo":{def:"A tree with fan-shaped leaves that turn bright yellow in autumn, common in Seoul.",pos:"noun"},
+    "unhurried":{def:"Not rushed; moving at a slow, calm pace.",pos:"adjective"},
+    "outlast":{def:"To continue existing for longer than something or someone else.",pos:"verb"}
+  },
+  quiz:[
+    {question:"Where is Bukchon located?",
+     options:["On an island in the Han River","On the hill between Gyeongbokgung and Changdeokgung palaces","Outside Seoul, in the countryside","Next to the main train station"],correct:1,
+     feedback:"'Bukchon sits on the hill between Gyeongbokgung and Changdeokgung, two of Seoul's grand old palaces...'"},
+    {question:"Who used to live in Bukchon's hanok houses?",
+     options:["Farmers who grew rice for the palace","Court officials and noble families","Foreign traders and merchants","Soldiers guarding the palace gates"],correct:1,
+     feedback:"'Once this was where court officials and noble families lived, close enough to walk to the palace each morning.'"},
+    {question:"Why does Yura ask the tourist group to be quiet?",
+     options:["Because a film is being recorded nearby","Because real people still live behind the walls, not just a museum exhibit","Because it is against the law to speak loudly there","Because her uncle is sleeping"],correct:1,
+     feedback:"'...because real people still live behind these walls, not just a museum exhibit.'"},
+    {question:"What does Yura choose to photograph at the end of the story?",
+     options:["A famous view of the palace rooftops","A wide shot of the whole village from above","Her neighbour hanging laundry between two old roof beams","A group of tourists taking photographs"],correct:2,
+     feedback:"'...framing not a postcard view but the ordinary moment of her neighbour hanging laundry between two roof beams that had outlasted kings.'"}
+  ]
+});
