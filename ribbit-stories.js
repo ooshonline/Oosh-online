@@ -12792,151 +12792,136 @@ JOURNEY_STORIES['peru'].push({
   ]
 });
 
-JOURNEY_STORIES['southkorea'] = JOURNEY_STORIES['southkorea'] || [];
-JOURNEY_STORIES['southkorea'].push({
-  id:"j-southkorea-1", journeyId:"southkorea", order:1,
-  title:"Five Gates to the Throne", emoji:"🏯", genre:"Travel / History",
-  wordCount:298, readMins:3,
-  blurb:"A boy visits Gyeongbokgung Palace in Seoul and watches the changing of the royal guards.",
+// ════════════════════════════════════════════
+//  WORLD JOURNEY — SOUTH KOREA
+// ════════════════════════════════════════════
+
+JOURNEY_STORIES['south-korea'] = JOURNEY_STORIES['south-korea'] || [];
+
+JOURNEY_STORIES['south-korea'].push({
+  id:"j-south-korea-1", journeyId:"south-korea", order:1,
+  title:"The Night Pojangmacha", emoji:"🌶️", genre:"Food / Culture",
+  wordCount:292, readMins:3,
+  blurb:"After dark in Seoul, Junho takes his English cousin to a street stall for tteokbokki — and they talk until almost midnight.",
   paragraphs:[
-    "Minjun stood at the main gate of Gyeongbokgung with his grandmother, waiting for eleven o'clock. Behind them, glass office towers filled the sky. In front of them, a wall of grey stone and red-painted wood looked exactly as it had five hundred years ago.",
-    "'This was the first palace of the Joseon dynasty,' his grandmother said. 'Kings lived here for hundreds of years. It was burned down twice — once in a war, once by fire — and rebuilt both times.' Minjun tried to imagine a king walking through the gate where he now stood, wearing the tall black hat he had seen in paintings.",
-    "At eleven exactly, drums began. A line of guards came around the corner wearing bright red and blue robes, carrying long flags and curved swords. Their hats had wide brims and coloured tassels. They marched slowly, in step, faces completely still, and took their positions on either side of the gate. A man with a deep voice called out something in old Korean that Minjun did not understand.",
-    "'They are changing the guard,' his grandmother explained. 'This happens every day, just like it did when the king actually lived here. The costumes are copied exactly from records that survived.' Minjun noticed tourists taking photographs with the guards, who did not smile or move, even when a small child stood right in front of one and stared up at his face.",
-    "After the ceremony, Minjun and his grandmother walked through the palace grounds to Gyeonghoeru, a pavilion built on stilts over a wide pond. 'Kings held banquets there,' she said, pointing. Minjun looked at the reflection of the wooden building in the still water and, for a moment, understood what she meant about hundreds of years not being so long after all."
+    "Junho had been showing his cousin Daniel around Seoul for two days, and Daniel had eaten well: Korean fried chicken, army stew near the hostel, cold naengmyeon noodles. But Junho had been saving the pojangmacha for last.",
+    "A pojangmacha was a street stall covered in orange plastic sheeting, set up each evening on a pavement or near a subway exit. The one Junho liked was outside Hongdae station, run by a woman who had been there every night for eleven years. The menu was simple: tteokbokki — rice cakes cooked in a thick red chilli sauce — and fish cake skewers floating in warm broth.",
+    "Junho ordered for both of them. The tteokbokki came in a wide shallow pan, still bubbling. The sauce was sweet and spicy at the same time — much hotter than Daniel had expected. He reached for the broth. Junho said it was for drinking between bites, not instead of the food, so he would have to keep going.",
+    "Around them, the street was full of the usual late-evening crowd: university students, workers who had just finished long shifts, a group of tourists taking photographs. The pojangmacha was not a tourist attraction. It was just there, the way it was every night, feeding whoever needed feeding.",
+    "Daniel ate everything. His nose was running. Junho said that was the correct response and ordered them each a fish cake skewer. They sat at the fold-out table and talked until nearly midnight. In eleven years, Daniel thought, this woman had probably heard more important conversations than most restaurants."
   ],
   vocabulary:{
-    "dynasty":{def:"A series of rulers from the same family; the Joseon dynasty ruled Korea for over 500 years.",pos:"noun"},
-    "tassel":{def:"A hanging bunch of threads used as decoration, often on hats or curtains.",pos:"noun"},
-    "brim":{def:"The wide bottom edge of a hat that sticks outwards.",pos:"noun"},
-    "ceremony":{def:"A formal set of actions performed in a fixed order, often for a tradition or event.",pos:"noun"},
-    "pavilion":{def:"A light, often open-sided building, used for rest or celebration, sometimes built over water.",pos:"noun"},
-    "banquet":{def:"A large, formal meal, usually to celebrate something important.",pos:"noun"},
-    "reflection":{def:"An image seen in a mirror, water, or other shiny surface.",pos:"noun"}
+    "pojangmacha":{def:"A traditional Korean street stall covered by a bright orange or yellow canopy, set up in the evenings near subway stations or markets.",pos:"noun"},
+    "tteokbokki":{def:"A popular Korean street food made from cylindrical rice cakes cooked in a spicy red sauce, often served with fish cake and spring onions.",pos:"noun"},
+    "naengmyeon":{def:"Korean cold noodles served in a chilled broth or with a spicy sauce; a popular summer dish.",pos:"noun"},
+    "skewer":{def:"A thin stick of metal or wood used to hold pieces of food together for cooking or eating.",pos:"noun"},
+    "broth":{def:"A thin, flavoured soup made by boiling meat or vegetables; at a pojangmacha the fish cake broth is often served in a small cup as a drink.",pos:"noun"},
+    "shifts":{def:"Fixed periods of work, especially when workers take turns doing the same job at different times of day.",pos:"noun"}
   },
   quiz:[
-    {question:"What happened to Gyeongbokgung Palace in the past?",
-     options:["It was moved brick by brick to a new location","It was burned down twice and rebuilt both times","It was never damaged in its 500-year history","It was turned into government offices during a war"],correct:1,
-     feedback:"'It was burned down twice — once in a war, once by fire — and rebuilt both times.'"},
-    {question:"Where did the guards' costumes come from?",
-     options:["They were designed new each year by fashion students","They are copied exactly from records that survived","They were borrowed from a nearby museum","Nobody knows what the original guards wore"],correct:1,
-     feedback:"'The costumes are copied exactly from records that survived.'"},
-    {question:"How did the guards react when a child stared up at one of them?",
-     options:["They smiled and waved at the child","They did not smile or move, even then","They stepped out of formation to greet the child","They laughed and broke character"],correct:1,
-     feedback:"'...who did not smile or move, even when a small child stood right in front of one and stared up at his face.'"},
-    {question:"What was Gyeonghoeru used for?",
-     options:["Storing grain for the royal family","Training soldiers before battle","Kings held banquets there","Housing prisoners of the royal court"],correct:2,
-     feedback:"'Kings held banquets there,' she said, pointing."}
+    {question:"What was a pojangmacha?",options:["A sit-down restaurant near a subway station","A street stall covered in orange plastic sheeting, set up each evening","A large indoor food market open at night","A trolley cart that moved from street to street"],correct:1,
+     feedback:"'A pojangmacha was a street stall covered in orange plastic sheeting, set up each evening on a pavement or near a subway exit.'"},
+    {question:"Why did Daniel reach for the broth?",options:["It was his favourite part of the meal","He was trying to slow down and seem relaxed","The tteokbokki was much hotter than he had expected","He had already eaten all the rice cakes"],correct:2,
+     feedback:"'The sauce was sweet and spicy at the same time — much hotter than Daniel had expected. He reached for the broth.'"},
+    {question:"What did Junho say the broth was for?",options:["Pouring over the tteokbokki to cool it down","Drinking between bites, not instead of the food","Cleaning the chopsticks between courses","Mixing with the fish cake sauce at the end"],correct:1,
+     feedback:"'He said it was for drinking between bites, not instead of the food, so he would have to keep going.'"},
+    {question:"What did Daniel think as they left?",options:["He wanted to come back tomorrow with more people","The pojangmacha was too expensive for what it served","The stall owner had probably heard more important conversations than most restaurants","He preferred the naengmyeon they had eaten the day before"],correct:2,
+     feedback:"'In eleven years, Daniel thought, this woman had probably heard more important conversations than most restaurants.'"}
   ]
 });
 
-JOURNEY_STORIES['southkorea'].push({
-  id:"j-southkorea-2", journeyId:"southkorea", order:2,
-  title:"Last Train from Hongdae", emoji:"🚇", genre:"Contemporary / Slice of Life",
-  wordCount:302, readMins:3,
-  blurb:"A university student rushes to catch the last subway train home after studying with friends.",
+JOURNEY_STORIES['south-korea'].push({
+  id:"j-south-korea-2", journeyId:"south-korea", order:2,
+  title:"Chuseok Morning", emoji:"🌾", genre:"Festivals / Culture",
+  wordCount:289, readMins:3,
+  blurb:"The day before Chuseok, Soyeon helps her grandmother make songpyeon — and begins to understand what the holiday is really about.",
   paragraphs:[
-    "Soojin checked her phone for the fourth time in a minute. 11:47pm. The last train from Hongdae station left at 12:05, and if she missed it, a taxi home would cost more than she wanted to think about. Around her, three of her university friends were still arguing about the group project, papers spread across the café table.",
-    "'We need twenty more minutes,' said Jihoon, not looking up from his laptop. Soojin shook her head. In Seoul, missing the last subway meant either an expensive late-night taxi or waiting outside somewhere until the trains started again at 5:30am. Neither option appealed to her on a Tuesday with class at nine.",
-    "She packed her notes into her bag mid-sentence and half-ran the six blocks to the station, weaving between street vendors packing up their tteokbokki carts and groups of students spilling out of noraebang singing rooms. The escalator down to the platform felt agonisingly slow. A screen above the tracks showed the next train arriving in two minutes.",
-    "She made it onto the platform with ninety seconds to spare, breathing hard, and found a seat as the doors closed. The carriage was full of people in exactly her situation — office workers loosening their ties, a couple asleep against each other's shoulders, someone still eating a late dinner from a plastic container. Nobody spoke much. It was the shared, unspoken understanding of the last train.",
-    "Somewhere between Hongdae and her stop, Soojin got a message from Jihoon: a photograph of the finished project outline, and the words 'we did it without you, don't worry.' She laughed quietly to herself and put her phone away. Tomorrow she would buy him coffee to apologise. Tonight, she was just glad to be sitting down, moving towards home instead of standing on a cold street corner waiting for a taxi."
+    "The day before Chuseok, Soyeon's grandmother took over the kitchen completely. She had arrived on the train from Daejeon the previous evening with two bags of ingredients, and by seven in the morning she was already at the table, shaping songpyeon.",
+    "Songpyeon were small rice cakes, about the size of a thumb, folded around a sweet filling — sesame seeds mixed with sugar and honey, or mashed red beans. The dough had to be pressed flat, filled, and then pinched shut in a half-moon shape. Soyeon had done this every year since she was four, and she was still slow compared to her grandmother, who shaped each one in a single fluid movement without looking down.",
+    "Her grandmother said that in her childhood village, all the women in the neighbourhood had gathered in one house the night before Chuseok to make songpyeon together. By midnight there would be hundreds on the table. Now it was just the two of them, but her grandmother still made enough for the whole family.",
+    "The songpyeon were steamed on a layer of pine needles, which gave them a faint, clean scent — woody and cool. Her grandmother said the pine needles were important, not just for flavour but because they were part of how the holiday was supposed to feel.",
+    "In the afternoon, the family drove to the cemetery to leave food at the ancestral graves. Soyeon carried the tray. She had been doing this since before she understood what it meant. She thought she understood it better every year."
   ],
   vocabulary:{
-    "appeal":{def:"To seem attractive or interesting to someone.",pos:"verb"},
-    "vendor":{def:"A person who sells goods, often from a stall or cart in the street.",pos:"noun"},
-    "escalator":{def:"A moving staircase that carries people up or down.",pos:"noun"},
-    "agonisingly":{def:"In a way that causes great impatience, worry, or discomfort; here used to describe something that feels painfully slow.",pos:"adverb"},
-    "carriage":{def:"A single section of a train where passengers sit.",pos:"noun"},
-    "unspoken":{def:"Understood without being said out loud.",pos:"adjective"},
-    "noraebang":{def:"A private singing room rented by groups of friends, very popular in Korea (literally 'song room').",pos:"noun"}
+    "Chuseok":{def:"A major Korean harvest festival held in autumn over three days; families gather, prepare traditional food, and visit ancestral graves to pay their respects.",pos:"noun"},
+    "songpyeon":{def:"Small half-moon shaped rice cakes made for Chuseok, filled with sesame seeds, red beans, or chestnuts; traditionally made together as a family the evening before the holiday.",pos:"noun"},
+    "dough":{def:"A soft, thick mixture of flour and liquid used to make bread, pastry, or rice cakes.",pos:"noun"},
+    "fluid":{def:"Smooth and continuous, without stopping or hesitation; moving easily and naturally.",pos:"adjective"},
+    "ancestral":{def:"Relating to one's ancestors — the family members who lived long before you, including grandparents and great-grandparents.",pos:"adjective"},
+    "cemetery":{def:"A place where people are buried after they die; families in Korea visit ancestral graves during Chuseok to leave food and show respect.",pos:"noun"}
   },
   quiz:[
-    {question:"What would happen if Soojin missed the last train?",
-     options:["She would have to sleep at the university","An expensive late-night taxi, or waiting until 5:30am","The station would let her stay in the waiting room for free","Her friends would drive her home instead"],correct:1,
-     feedback:"'...missing the last subway meant either an expensive late-night taxi or waiting outside somewhere until the trains started again at 5:30am.'"},
-    {question:"What did Soojin pass on her way to the station?",
-     options:["A late-night market selling only vegetables","Street vendors packing up tteokbokki carts and students from noraebang rooms","A closed shopping mall with no one around","Other students studying quietly in the library"],correct:1,
-     feedback:"'...weaving between street vendors packing up their tteokbokki carts and groups of students spilling out of noraebang singing rooms.'"},
-    {question:"What was the atmosphere like in the train carriage?",
-     options:["Loud and full of arguing passengers","A shared, unspoken understanding among people in the same situation","Almost empty, with just a few late-night workers","Tense, because the train was delayed"],correct:1,
-     feedback:"'It was the shared, unspoken understanding of the last train.'"},
-    {question:"What message did Jihoon send Soojin?",
-     options:["An apology for making her late","A photograph of the finished project outline, saying they finished without her","A request for her to come back to the café","A photo of the empty café after she left"],correct:1,
-     feedback:"'...a photograph of the finished project outline, and the words 'we did it without you, don't worry.''"}
+    {question:"What shape were the songpyeon?",options:["Round, about the size of an orange","Square, with a sesame paste filling","Half-moon, folded around a sweet filling","Long and flat, like small noodles"],correct:2,
+     feedback:"The dough was 'folded around a sweet filling' and 'pinched shut in a half-moon shape.'"},
+    {question:"How did Soyeon's grandmother shape each songpyeon?",options:["Slowly and carefully, checking each one","In a single fluid movement without looking down","Using a wooden mould pressed into the dough","By folding them together with Soyeon"],correct:1,
+     feedback:"'...she shaped each one in a single fluid movement without looking down.'"},
+    {question:"What gave the steamed songpyeon their smell?",options:["The sesame and honey filling heating up","A layer of pine needles they were steamed on","Red bean paste releasing its scent","Pine oil added to the dough"],correct:1,
+     feedback:"'The songpyeon were steamed on a layer of pine needles, which gave them a faint, clean scent — woody and cool.'"},
+    {question:"What did the family do at the cemetery in the afternoon?",options:["Plant flowers for the coming spring","Collect pine needles for the next batch of songpyeon","Leave food at the ancestral graves","Meet extended family who lived nearby"],correct:2,
+     feedback:"'In the afternoon, the family drove to the cemetery to leave food at the ancestral graves.'"}
   ]
 });
 
-JOURNEY_STORIES['southkorea'].push({
-  id:"j-southkorea-3", journeyId:"southkorea", order:3,
-  title:"The Moon is Fullest Tonight", emoji:"🌕", genre:"Festival / Family",
+JOURNEY_STORIES['south-korea'].push({
+  id:"j-south-korea-3", journeyId:"south-korea", order:3,
+  title:"The Hanok and the City", emoji:"🏯", genre:"Place / Culture",
+  wordCount:287, readMins:3,
+  blurb:"Priya takes a wrong turn in Bukchon Hanok Village and finds something she wasn't expecting — a street where old Seoul and new Seoul exist at exactly the same moment.",
+  paragraphs:[
+    "Priya had been told that Bukchon Hanok Village was one of the most photographed places in Seoul. She had not been told that it was built on a hill with very steep alleyways.",
+    "She had walked up from the subway station and turned left where she should have turned right, and found herself in a quiet lane she could not find on her map. The buildings were hanok — traditional Korean wooden houses with curving tiled roofs, low walls, and wooden gates painted dark red. Between the rooftops she could see the glass towers of the modern city. The contrast was so sharp it felt slightly unreal.",
+    "A woman of about sixty was sweeping the lane with a long-handled brush. Priya asked, in the careful Korean she had practised for two weeks, whether she was going the right way for the observation deck. The woman smiled and spoke too quickly for Priya to follow, but then pointed: left at the tree, straight on, third right.",
+    "It turned out to be correct. At the top of the hill, there was a platform where you could look down over the hanok rooftops toward Gyeongbokgung Palace, and behind it, the mountains that surrounded the city. Seoul looked very large from up there, and very old at the same time.",
+    "Priya bought a postcard at a small shop. She asked the student who ran it what it was like to live here, above the city. He said it was quiet, but everyone came to photograph the lane outside their house. Priya had been one of them. She felt slightly embarrassed and sent the postcard anyway."
+  ],
+  vocabulary:{
+    "hanok":{def:"Traditional Korean architecture featuring wooden frames, curved tile roofs, and natural materials; Bukchon Hanok Village in Seoul preserves hundreds of hanok in the centre of the city.",pos:"noun"},
+    "alleyway":{def:"A narrow passage between buildings; Bukchon's steep, winding alleyways are a distinctive feature of the village.",pos:"noun"},
+    "contrast":{def:"A clear and noticeable difference between two things seen side by side — such as ancient hanok rooftops and modern glass towers.",pos:"noun"},
+    "observation deck":{def:"A raised platform with an open view designed for sightseeing, often found at the tops of hills, buildings, or towers.",pos:"noun"},
+    "palace":{def:"A large and grand building where a king, queen, or ruler lives or lived; Gyeongbokgung was the main royal palace of the Joseon dynasty in Seoul.",pos:"noun"},
+    "rooftops":{def:"The outer surfaces of the roofs of buildings, especially when seen from above or from a distance.",pos:"noun"}
+  },
+  quiz:[
+    {question:"Why did Priya end up in the wrong lane?",options:["She missed the subway stop for Bukchon","She turned left where she should have turned right","She was following another tourist who was also lost","The map app she was using had the wrong location"],correct:1,
+     feedback:"'She had walked up from the subway station and turned left where she should have turned right, and found herself in a quiet lane she could not find on her map.'"},
+    {question:"What contrast did Priya notice from the lane?",options:["The bright colours of the hanok gates against the grey walls","The old hanok rooftops with the glass towers of the modern city visible behind them","The silence of the village compared to the busy street below","The stone paving in the old lanes versus the concrete further down"],correct:1,
+     feedback:"'Between the rooftops she could see the glass towers of the modern city. The contrast was so sharp it felt slightly unreal.'"},
+    {question:"How did the woman sweeping the lane help Priya?",options:["She did not speak and waved Priya away","She drew a small map in Priya's notebook","She pointed the way: left at the tree, straight on, third right","She walked with Priya to the observation deck"],correct:2,
+     feedback:"The woman 'pointed: left at the tree, straight on, third right.'"},
+    {question:"Why did Priya feel slightly embarrassed at the shop?",options:["She had spoken too much Korean and made mistakes","She forgot to pay for the postcard at first","She realised she had been one of the tourists photographing outside people's homes","She asked the student a question he found rude"],correct:2,
+     feedback:"'Everyone came to photograph the lane outside their house. Priya had been one of them.'"}
+  ]
+});
+
+JOURNEY_STORIES['south-korea'].push({
+  id:"j-south-korea-4", journeyId:"south-korea", order:4,
+  title:"Temple Morning", emoji:"🛕", genre:"Culture / Reflection",
   wordCount:295, readMins:3,
-  blurb:"A family gathers in the countryside to celebrate Chuseok, Korea's harvest festival.",
+  blurb:"Dawit signs up for a Korean temple stay and discovers that waking up at four in the morning is harder than expected — and more interesting.",
   paragraphs:[
-    "The traffic had been terrible for six hours. Dahye's father gripped the steering wheel and sighed at the long line of red brake lights stretching ahead on the highway. 'Everyone in Korea is doing exactly what we're doing,' he said. 'Going back to their hometown for Chuseok.'",
-    "By the time they arrived at Dahye's grandparents' house, it was almost dark, and her aunts and cousins were already in the kitchen. The whole family had come — three generations packed into one house for the harvest festival, the biggest holiday of the Korean year alongside Lunar New Year. Dahye's grandmother handed her an apron before she had even taken off her shoes.",
-    "They spent the evening making songpyeon, small half-moon-shaped rice cakes filled with sweet sesame seeds, chestnuts, or red beans. 'Fold it like this,' her grandmother showed her, pressing the edges of the rice dough together. 'They say if you make a beautiful songpyeon, you will have a beautiful daughter.' Dahye's first attempt looked more like a lumpy pancake than a moon, and everyone laughed, but not unkindly.",
-    "The next morning, before breakfast, the family performed charye — a memorial ceremony honouring their ancestors, with food laid out carefully on a low table: rice, soup, fish, fruit, and the songpyeon they had made the night before. Dahye's father explained each dish's meaning quietly, the way his own father had once explained it to him.",
-    "That evening, full of songpyeon and grilled beef from the family barbecue, Dahye sat outside with her cousins and looked up. The moon was completely round and very bright, the way it always is at Chuseok — a full harvest moon marking the middle of the eighth lunar month. 'Make a wish,' her grandmother said from the doorway. 'Tonight the moon is fullest, so your wish has the best chance of coming true.'"
+    "Dawit had known the wake-up bell was at four in the morning. He had agreed to the temple stay knowing this. He had told himself, the night before, that it would be interesting.",
+    "At four, the bell rang through the Jogyesa temple's courtyard, and Dawit lay in his ondol room — heated by pipes under the stone floor — feeling warm and very unwilling to move. A monk in grey robes knocked on the door. The schedule was not flexible.",
+    "By four-thirty, dressed in temple clothes — a loose grey top and wide trousers — Dawit was in the main hall for morning prayers. He did not know the words, which were chanted in a language even older than modern Korean. He sat cross-legged on the floor mat and tried to sit still. The hall smelled of incense and candle wax. Outside, Seoul was making its usual noise, but in the hall it sounded very far away.",
+    "After prayers there was walking meditation in the courtyard, then breakfast: simple food served in wooden bowls, eaten in silence, then washed in a specific order. The monk explained that nothing was wasted. You used a small piece of radish to clean the bowl, then drank the rinse water. Dawit thought about the food he usually threw away.",
+    "Later, making elaborate hanji paper lanterns with the other participants, Dawit decided that four in the morning was a reasonable hour after all. Not his preferred time. But not without purpose."
   ],
   vocabulary:{
-    "harvest":{def:"The gathering of crops when they are ripe, or the season when this happens.",pos:"noun"},
-    "generation":{def:"A group of people of about the same age within a family, such as grandparents, parents, and children.",pos:"noun"},
-    "apron":{def:"A piece of clothing worn over the front of the body to protect it, usually while cooking.",pos:"noun"},
-    "chestnut":{def:"A brown nut that can be eaten, often roasted, and is common in autumn dishes.",pos:"noun"},
-    "memorial":{def:"Done to remember and honour someone, especially someone who has died.",pos:"adjective"},
-    "ancestor":{def:"A family member who lived a long time ago, before one's grandparents.",pos:"noun"},
-    "lunar":{def:"Relating to the moon; a lunar month is measured by the moon's cycle.",pos:"adjective"}
+    "temple stay":{def:"A programme offered by Korean Buddhist temples where visitors live as a monk for one or more days, joining in prayer, meditation, and daily temple routines.",pos:"noun"},
+    "ondol":{def:"The traditional Korean underfloor heating system, where hot water pipes run beneath stone or wooden floors; used in Korea for centuries before modern central heating.",pos:"noun"},
+    "monk":{def:"A person who lives in a religious community, following strict rules of prayer, work, and study; Buddhist monks in Korea wear grey or brown robes.",pos:"noun"},
+    "incense":{def:"A substance that produces a sweet or woody smell when burned; commonly used in Buddhist temples during ceremonies and meditation.",pos:"noun"},
+    "meditation":{def:"The practice of quieting the mind by focusing attention; walking meditation involves moving slowly and deliberately, paying attention to each step.",pos:"noun"},
+    "hanji":{def:"Traditional Korean paper made from the fibres of the paper mulberry tree; used for centuries in books, windows, and decorative lanterns.",pos:"noun"}
   },
   quiz:[
-    {question:"Why was the traffic so bad on the highway?",
-     options:["There was a national sports event happening","Everyone in Korea was travelling to their hometown for Chuseok","Roadworks had closed half the highway","It was a normal weekend rush hour"],correct:1,
-     feedback:"'Everyone in Korea is doing exactly what we're doing,' he said. 'Going back to their hometown for Chuseok.'"},
-    {question:"What does Dahye's grandmother say about making a beautiful songpyeon?",
-     options:["It brings good luck for the coming year","It means you will have a beautiful daughter","It shows you are a skilled cook","It must be shared with the whole village"],correct:1,
-     feedback:"'They say if you make a beautiful songpyeon, you will have a beautiful daughter.'"},
-    {question:"What is charye?",
-     options:["A dance performed at Chuseok celebrations","A type of rice cake eaten only at breakfast","A memorial ceremony honouring ancestors with food laid out on a table","A game played by children during the festival"],correct:2,
-     feedback:"'...the family performed charye — a memorial ceremony honouring their ancestors, with food laid out carefully on a low table.'"},
-    {question:"Why does the grandmother say the wish has the best chance of coming true?",
-     options:["Because it is the coldest night of the year","Because the moon is fullest at Chuseok","Because the whole family is together","Because it is the last night of the holiday"],correct:1,
-     feedback:"'Tonight the moon is fullest, so your wish has the best chance of coming true.'"}
-  ]
-});
-
-JOURNEY_STORIES['southkorea'].push({
-  id:"j-southkorea-4", journeyId:"southkorea", order:4,
-  title:"The Alley Behind the Palace Wall", emoji:"🏘️", genre:"Neighbourhood / Everyday Life",
-  wordCount:300, readMins:3,
-  blurb:"A photographer explores Bukchon Hanok Village, a neighbourhood of traditional houses tucked between two palaces.",
-  paragraphs:[
-    "Yura had lived in Bukchon her whole life, which meant she had a very different relationship with the neighbourhood than the tourists who now filled its narrow lanes every weekend. She watched from her doorway as a group posed for photographs beside the curved tile roof of the house across the alley — a house that happened to be her uncle's.",
-    "Bukchon sits on the hill between Gyeongbokgung and Changdeokgung, two of Seoul's grand old palaces, and its hundreds of hanok — traditional wooden houses with curved black-tiled roofs — have stood there for six hundred years. Once this was where court officials and noble families lived, close enough to walk to the palace each morning. Now the houses are mostly private homes, artist studios, and small guesthouses.",
-    "'Please, quietly,' Yura called gently to the group, who had wandered slightly too close to her neighbour's front gate. Signs throughout the village ask visitors to keep their voices down and stay off private steps, because real people still live behind these walls, not just a museum exhibit. Most visitors are respectful once they realise; some, caught up in taking photographs, forget.",
-    "She led her camera club down towards Samcheong-dong, one street over, where the hanok gave way to small cafés and independent bookshops tucked into converted traditional buildings. An elderly man swept fallen ginkgo leaves from his doorstep with a long-handled broom, unhurried, as though the tourists photographing him were simply weather passing through.",
-    "By late afternoon, the light turned gold and low, catching the curved edges of the roof tiles and throwing long shadows down the sloped lane. Yura raised her camera one more time, framing not a postcard view but the ordinary moment of her neighbour hanging laundry between two roof beams that had outlasted kings. This, she thought, was the real Bukchon — the one that existed on the days nobody came to photograph it at all."
-  ],
-  vocabulary:{
-    "hanok":{def:"A traditional Korean house, typically built of wood with a curved tiled or thatched roof.",pos:"noun"},
-    "noble":{def:"Belonging to a family of high social rank, historically close to royalty.",pos:"adjective"},
-    "guesthouse":{def:"A small house or building where paying visitors can stay overnight.",pos:"noun"},
-    "exhibit":{def:"An object or display shown to the public, especially in a museum.",pos:"noun"},
-    "ginkgo":{def:"A tree with fan-shaped leaves that turn bright yellow in autumn, common in Seoul.",pos:"noun"},
-    "unhurried":{def:"Not rushed; moving at a slow, calm pace.",pos:"adjective"},
-    "outlast":{def:"To continue existing for longer than something or someone else.",pos:"verb"}
-  },
-  quiz:[
-    {question:"Where is Bukchon located?",
-     options:["On an island in the Han River","On the hill between Gyeongbokgung and Changdeokgung palaces","Outside Seoul, in the countryside","Next to the main train station"],correct:1,
-     feedback:"'Bukchon sits on the hill between Gyeongbokgung and Changdeokgung, two of Seoul's grand old palaces...'"},
-    {question:"Who used to live in Bukchon's hanok houses?",
-     options:["Farmers who grew rice for the palace","Court officials and noble families","Foreign traders and merchants","Soldiers guarding the palace gates"],correct:1,
-     feedback:"'Once this was where court officials and noble families lived, close enough to walk to the palace each morning.'"},
-    {question:"Why does Yura ask the tourist group to be quiet?",
-     options:["Because a film is being recorded nearby","Because real people still live behind the walls, not just a museum exhibit","Because it is against the law to speak loudly there","Because her uncle is sleeping"],correct:1,
-     feedback:"'...because real people still live behind these walls, not just a museum exhibit.'"},
-    {question:"What does Yura choose to photograph at the end of the story?",
-     options:["A famous view of the palace rooftops","A wide shot of the whole village from above","Her neighbour hanging laundry between two old roof beams","A group of tourists taking photographs"],correct:2,
-     feedback:"'...framing not a postcard view but the ordinary moment of her neighbour hanging laundry between two roof beams that had outlasted kings.'"}
+    {question:"What was the ondol room like at the temple?",options:["Cold and bare, with a thin sleeping mat on a stone floor","Warm — the floor was heated by pipes running underneath it","A dormitory shared with six other participants","A small wooden hut in the courtyard, away from the main building"],correct:1,
+     feedback:"He 'lay in his ondol room — heated by pipes under the stone floor — feeling warm and very unwilling to move.'"},
+    {question:"Why couldn't Dawit follow the morning prayer chant?",options:["He had arrived late and missed the beginning","He had not been given the words in advance","The words were chanted in a language even older than modern Korean","Only Korean participants were allowed to join in the prayers"],correct:2,
+     feedback:"'He did not know the words, which were chanted in a language even older than modern Korean.'"},
+    {question:"What was the small piece of radish used for after breakfast?",options:["To add flavour to the rinse water before drinking it","To show gratitude to the temple for providing food","To clean the bowl so that nothing was wasted","It was a traditional way of ending every meal in Korea"],correct:2,
+     feedback:"'The monk explained that nothing was wasted. You used a small piece of radish to clean the bowl.'"},
+    {question:"What was Dawit making with the other participants in the afternoon?",options:["Clay models of the temple buildings","Folded paper offerings for the altar","Hanji paper lanterns","Ink rubbings of the carved temple gates"],correct:2,
+     feedback:"'Later, making elaborate hanji paper lanterns with the other participants...'"}
   ]
 });

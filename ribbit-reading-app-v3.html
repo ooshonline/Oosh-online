@@ -38,6 +38,20 @@
     @keyframes star-pop{0%{transform:scale(0) rotate(-15deg);opacity:0}65%{transform:scale(1.28) rotate(6deg);opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1}}
     @keyframes bounce-in{0%{transform:translateY(60px);opacity:0}55%{transform:translateY(-10px);opacity:1}80%{transform:translateY(6px)}100%{transform:translateY(0);opacity:1}}
 
+    /* Reduced motion: the app runs three looping animations continuously (landing frog float,
+       glow-pulse on the current sub-level node, glow-pulse on in-progress story cards).
+       animation-delay must be zeroed too — every delayed animation here uses fill-mode:both,
+       so leaving the delay would hold elements (e.g. .celeb-star) at their invisible 0% frame. */
+    @media (prefers-reduced-motion: reduce){
+      *,*::before,*::after{
+        animation-duration:.01ms !important;
+        animation-delay:0ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+      }
+      html{scroll-behavior:auto}
+    }
+
     /* ══ SPLASH — matches design_handoff Screen 01 spec (already live, ported verbatim) ══ */
     .landing-screen{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 24px 48px;background:linear-gradient(175deg,#0d1f0e 0%,#1a3020 55%,#0c1a12 100%);overflow:hidden;text-align:center}
     .landing-screen::before,.landing-screen::after{content:'';position:absolute;border-radius:50%;background:rgba(186,218,85,1);opacity:.07;pointer-events:none}
@@ -180,8 +194,10 @@
     .sublevel-track{position:relative;overflow-x:auto;padding-bottom:6px}
     .sublevel-track-line{position:absolute;left:20px;right:20px;top:20px;height:2px;background:repeating-linear-gradient(90deg,#DDE6D4 0 6px,transparent 6px 11px);z-index:0}
     .sublevel-nodes{display:flex;justify-content:space-between;gap:14px;position:relative;z-index:1;min-width:520px}
-    .sub-node{display:flex;flex-direction:column;align-items:center;gap:5px;background:none}
-    .sub-node-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+    /* The button is the hit target, not the circle — keep the 36px circle visually but pad the
+       button out to the 44px WCAG 2.1 minimum. These are the library's primary nav for ages 5-7. */
+    .sub-node{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;min-width:44px;min-height:44px;padding:2px 4px}
+    .sub-node-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
     .sub-node-label{font-size:10px;font-weight:600}
 
     .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -249,6 +265,7 @@
     .study-card-shadow2{position:absolute;inset:0;background:#E8F2D8;border-radius:20px;transform:rotate(-2deg)}
     .study-card{position:absolute;inset:0;background:var(--card);border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.14);padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
     .study-card-pill{background:#EBF9DE;border-radius:999px;padding:4px 12px;font-size:10px;font-weight:800;color:#4d7c0f}
+    .study-word-row{display:flex;align-items:center;justify-content:center;gap:10px}
     .study-card-word{font-family:var(--font-head);font-weight:900;font-size:26px;color:var(--text);letter-spacing:-.5px;text-transform:capitalize}
     .study-card-badge{width:64px;height:64px;background:#F3F4F6;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:26px;color:var(--text-muted)}
     .study-card-hint{font-size:11px;font-weight:700;color:var(--primary-dark);margin-top:4px}
@@ -363,20 +380,29 @@
     .no-badges-text{font-size:12px;color:var(--text-muted)}
 
     /* ══ READING — literal port, Tablet lines 819-896. Full-bleed, no app shell. ══ */
-    .reader-screen{display:flex;flex-direction:column;min-height:100vh;background:white}
+    /* height (not min-height) + min-height:0 down the flex chain. Without this, flex items
+       default to min-height:auto, refuse to shrink below their content, and .reader-text-area's
+       overflow-y:auto never engages — a long page scrolls the whole document and pushes the
+       Previous/Next footer off the bottom of the screen. */
+    .reader-screen{display:flex;flex-direction:column;height:100vh;background:white;overflow:hidden}
     .reader-header{background:var(--navy);display:flex;align-items:center;padding:10px 14px;gap:10px;flex-wrap:wrap;flex-shrink:0}
     .reader-audio-pill{flex:1;min-width:140px;height:52px;background:var(--primary);border-radius:999px;display:flex;align-items:center;padding:0 14px;gap:10px}
     .reader-audio-btn{width:44px;height:44px;background:rgba(255,255,255,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;flex-shrink:0;border:none;cursor:pointer}
     .reader-exit-btn{height:44px;background:var(--primary);border-radius:999px;padding:0 16px;display:flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer}
     .reader-exit-btn span:last-child{font-size:12px;font-weight:700;color:white}
-    .reader-content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+    .reader-content{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
     .reader-illu{width:100%;height:180px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;background-size:cover;background-position:center}
     .reader-illu-emoji{font-size:64px;line-height:1}
-    .reader-page-badge{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.18);border-radius:999px;padding:4px 11px;font-size:11px;font-weight:600;color:white}
-    .reader-text-area{flex:1;background:#FFFDF8;display:flex;flex-direction:column;justify-content:center;padding:24px 20px;overflow-y:auto;cursor:default}
+    /* `safe center` centres the page when it fits but falls back to flex-start when it doesn't.
+       Plain `center` overflows equally in both directions on a scroll container, putting the
+       first line above scrollTop:0 where it can never be scrolled back into view.
+       The unprefixed `center` below it is the fallback for engines that don't parse `safe`. */
+    .reader-text-area{flex:1;min-height:0;background:#FFFDF8;display:flex;flex-direction:column;justify-content:center;justify-content:safe center;padding:24px 20px;overflow-y:auto;cursor:default}
     .reader-progress-bar{height:3px;background:var(--border);border-radius:999px;margin-bottom:20px}
     .reader-progress-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .3s ease}
-    .reader-page-text{font-size:18px;font-weight:400;color:#2B2B2B;line-height:1.7;animation:fade-up .3s ease both}
+    /* Type scales with the level: a Pre-A1 page is one short sentence and wants primer-sized
+       type, while a B2 page is a real paragraph that must still fit. Set per-story in renderReader(). */
+    .reader-page-text{font-size:var(--reader-size,18px);font-weight:400;color:#2B2B2B;line-height:1.6;animation:fade-up .3s ease both}
     .reader-footer{height:64px;background:white;border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:10px;flex-shrink:0}
     .reader-nav-btn{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px;padding:8px 14px;border-radius:10px;border:1.5px solid var(--border);flex-shrink:0;background:none;font-size:12px;font-weight:700;color:var(--text-muted)}
     .reader-page-counter{flex:1;text-align:center;font-size:12px;font-weight:600;color:var(--text)}
@@ -384,9 +410,13 @@
     .tappable-word{background:var(--primary-light);border-radius:4px;padding:0 2px;cursor:pointer}
     .word-popup-overlay{position:fixed;inset:0;background:rgba(8,16,36,.5);display:flex;align-items:center;justify-content:center;z-index:250;padding:20px}
     .word-popup-card{width:100%;max-width:340px;background:var(--card);border-radius:18px;padding:22px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:modal-in .2s ease both}
-    .word-popup-word{font-family:var(--font-head);font-weight:900;font-size:20px;color:var(--text);margin-bottom:8px;text-transform:capitalize}
+    .word-popup-word-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+    .word-popup-word{font-family:var(--font-head);font-weight:900;font-size:20px;color:var(--text);text-transform:capitalize}
+    .word-speak-btn{width:44px;height:44px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .word-speak-btn:active{background:var(--primary)}
     .word-popup-def{font-size:13px;color:var(--text-muted);margin-bottom:8px;line-height:1.5}
     .word-popup-ja{font-size:13px;color:var(--primary-dark);margin-bottom:16px;line-height:1.5}
+    .word-popup-ja-lead{font-family:var(--font-head);font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px;line-height:1.3}
     .word-popup-btn{width:100%;height:44px;background:var(--primary);border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:13px;color:#151515}
 
     /* ══ QUIZ — literal port, Tablet lines 901-958. Full-bleed, no app shell. ══ */
@@ -398,19 +428,32 @@
     .quiz-dot{width:8px;height:8px;border-radius:50%}
     .quiz-counter{font-size:11px;color:var(--text-muted);font-weight:600}
     .quiz-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+    /* The story illustration stays on screen through the quiz: Pre-A1 questions like
+       "What is this?" refer to the picture, and without it they are unanswerable. */
+    .quiz-stage{width:100%;max-width:980px;display:flex;flex-direction:column;align-items:center;gap:18px}
+    .quiz-illu{width:100%;max-width:520px;height:150px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;flex-shrink:0;overflow:hidden;background-size:cover;background-position:center}
+    .quiz-illu-title{position:absolute;bottom:8px;left:10px;background:rgba(0,0,0,.4);color:#fff;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700}
     .quiz-question-wrap{width:100%;max-width:520px}
     .quiz-label{font-size:11px;font-weight:800;color:var(--text-muted);letter-spacing:.08em;margin-bottom:8px;text-align:center}
-    .quiz-question-text{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text);text-align:center;margin-bottom:22px;line-height:1.3}
+    .quiz-question-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:22px}
+    .quiz-question-text{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text);text-align:center;line-height:1.3}
+    .quiz-speak-btn{width:44px;height:44px;border-radius:50%;background:white;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+    .quiz-speak-btn:active{background:var(--primary-light)}
     .quiz-options{display:flex;flex-direction:column;gap:10px}
+    .quiz-option-row{display:flex;align-items:center;gap:8px}
+    .quiz-option-row .quiz-option{flex:1;min-width:0}
+    .quiz-option-speak{width:44px;height:44px;border-radius:12px;background:white;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
     .quiz-option{display:flex;align-items:center;gap:12px;border-radius:14px;padding:13px 16px;text-align:left;box-shadow:var(--shadow-sm)}
     .quiz-option-badge{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
     .quiz-option-text{font-size:14px;font-weight:700}
-    .quiz-feedback{margin-top:14px;font-size:13px;color:var(--text-muted);text-align:center;font-style:italic}
+    .quiz-feedback{margin-top:14px;font-size:14px;color:var(--text);text-align:center;line-height:1.5;background:white;border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm)}
+    .quiz-next-btn{margin-top:18px;width:100%;min-height:52px;background:var(--primary);border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:15px;color:#151515;box-shadow:0 4px 14px rgba(186,218,85,.4);animation:fade-up .25s ease both}
     .combo-pill{display:flex;align-items:center;gap:5px;margin-left:8px;background:#fff3e0;border-radius:20px;padding:4px 10px;font-family:var(--font-head);font-weight:900;font-size:12px;color:var(--accent-dark);white-space:nowrap}
 
-    /* Combo-streak overlay — ported from the live app, purely cosmetic feedback layered
-       on top of the existing quiz-answer flow; it doesn't gate advancing to the next question. */
-    .combo-overlay{position:fixed;inset:0;z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;user-select:none}
+    /* Combo-streak overlay — purely cosmetic feedback layered on top of the quiz-answer flow.
+       Anchored to the top, NOT centred: centring parked the card directly over the answer
+       options, hiding the correct answer and the feedback text for the whole time it was up. */
+    .combo-overlay{position:fixed;inset:0;z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:64px;pointer-events:none;user-select:none}
     .combo-inner{position:relative;z-index:1;text-align:center;padding:14px 22px;background:rgba(15,26,16,.95);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:22px;box-shadow:0 8px 36px rgba(0,0,0,.5);animation:comboPop .42s cubic-bezier(.34,1.56,.64,1) both}
     .combo-inner.combo-exit{animation:comboExit .22s ease both}
     @keyframes comboPop{from{opacity:0;transform:scale(.3) rotate(-10deg)}to{opacity:1;transform:scale(1) rotate(0)}}
@@ -423,6 +466,44 @@
     .combo-pts-pill{display:inline-block;background:var(--accent);color:#fff;font-family:var(--font-head);font-size:1rem;font-weight:900;padding:4px 16px;border-radius:99px;box-shadow:0 3px 12px rgba(249,173,59,.5);animation:ptsPop .4s cubic-bezier(.34,1.56,.64,1) both .15s;margin-top:2px}
     @keyframes ptsPop{from{opacity:0;transform:scale(.5) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
     .combo-streak-line{font-size:.8rem;color:var(--text-muted);margin-top:5px;font-family:var(--font-body)}
+
+    /* ══ PLACEMENT TEST — full-bleed, no app shell. Never shows a score or a wrong answer:
+       the frog is finding its pond, not passing an exam. ══ */
+    .place-screen{min-height:100vh;display:flex;flex-direction:column;background:#F5F9EF}
+    .place-topbar{height:56px;background:white;display:flex;align-items:center;padding:0 16px;gap:12px;border-bottom:1.5px solid #EAF0E2;flex-shrink:0}
+    .place-title{font-family:var(--font-head);font-weight:800;font-size:13px;color:var(--text)}
+    .place-dots{display:flex;gap:5px;margin-left:auto}
+    .place-dot{width:8px;height:8px;border-radius:50%;background:#E5E9EE}
+    .place-dot.place-dot-done{background:var(--primary)}
+    .place-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+    .place-frog{font-size:64px;margin-bottom:14px;animation:float 3.5s ease-in-out infinite}
+    .place-head{font-family:var(--font-head);font-weight:900;font-size:22px;color:var(--navy);margin-bottom:10px}
+    .place-sub{font-size:14px;color:var(--text-muted);line-height:1.6;max-width:440px;margin-bottom:24px}
+    .place-age-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;width:100%;max-width:520px}
+    .place-age-btn{min-height:56px;background:white;border-radius:14px;box-shadow:var(--shadow-sm);font-family:var(--font-head);font-weight:900;font-size:18px;color:var(--text)}
+    .place-age-btn:active{background:var(--primary-light)}
+    .place-stage{width:100%;max-width:560px}
+    .place-prompt-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:22px}
+    .place-word{font-family:var(--font-head);font-weight:900;font-size:34px;color:var(--text);text-transform:capitalize}
+    .place-cloze{font-size:20px;line-height:1.7;color:var(--text);text-align:left}
+    .place-speak-btn{width:52px;height:52px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 4px 14px rgba(186,218,85,.4)}
+    .place-options{display:flex;flex-direction:column;gap:10px}
+    .place-option{display:flex;align-items:center;gap:12px;border-radius:14px;padding:15px 16px;text-align:left;box-shadow:var(--shadow-sm);background:white;border:2px solid transparent;font-size:16px;font-weight:700;color:var(--text);min-height:56px}
+    .place-option-badge{width:28px;height:28px;border-radius:50%;background:#F3F4F6;color:var(--text-muted);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+    .place-next-btn{margin-top:20px;width:100%;min-height:56px;background:var(--primary);border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:16px;color:#151515;box-shadow:0 4px 14px rgba(186,218,85,.4)}
+    .place-result-card{background:white;border-radius:20px;box-shadow:var(--shadow-lg);padding:26px;max-width:420px;width:100%}
+    .place-result-pond{font-family:var(--font-head);font-weight:900;font-size:26px;margin:6px 0 4px}
+    .place-result-meta{font-size:13px;color:var(--text-muted);margin-bottom:18px}
+    .place-level-chips{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+    .place-chip{width:44px;height:44px;border-radius:12px;background:var(--bg);font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--text-muted);display:flex;align-items:center;justify-content:center}
+    .place-chip.place-chip-on{color:#151515}
+    .place-change-hint{font-size:11px;color:var(--text-muted);margin-bottom:12px}
+    @media (min-width:768px){
+      .place-word{font-size:44px}
+      .place-cloze{font-size:24px}
+      .place-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+      .place-next-btn{max-width:280px;margin-left:auto;margin-right:auto;display:block}
+    }
 
     /* ══ CELEBRATION — literal port, Tablet lines 963-1007. Full-bleed, no app shell. ══ */
     .celeb-screen{min-height:100vh;background:#FFFDF8;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:24px;text-align:center}
@@ -440,7 +521,7 @@
     .celeb-btn-primary{height:50px;background:var(--primary);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:#151515}
 
     /* Tablet frame adaptation (>=768px), matching the design's native 1024x768 canvas */
-    #app:has(.app-shell),#app:has(.reader-screen),#app:has(.quiz-screen),#app:has(.celeb-screen){max-width:1024px}
+    #app:has(.app-shell),#app:has(.reader-screen),#app:has(.quiz-screen),#app:has(.celeb-screen),#app:has(.place-screen){max-width:1024px}
     @media (min-width:768px){
       .app-header{height:56px;padding:0 22px;flex-wrap:nowrap}
       .app-brand{font-size:19px}
@@ -478,8 +559,13 @@
       .reader-illu{width:52%;height:auto}
       .reader-illu-emoji{font-size:118px}
       .reader-text-area{padding:44px 48px}
-      .reader-page-text{font-size:26px}
+      .reader-page-text{font-size:var(--reader-size-lg,26px)}
       .quiz-question-text{font-size:25px}
+      /* Landscape: illustration left, question right — same spatial model as the reader,
+         and it fills the dead centre column the old centred layout left empty. */
+      .quiz-stage{flex-direction:row;align-items:center;gap:30px}
+      .quiz-illu{width:40%;max-width:none;height:330px}
+      .quiz-question-wrap{flex:1;max-width:none}
       .celeb-btns{flex-direction:row;max-width:460px}
       .flash-pane{padding:22px}
       .word-grid{grid-template-columns:repeat(4,1fr)}
@@ -494,10 +580,9 @@
       .dest-grid{grid-template-columns:repeat(3,1fr)}
       .jstory-grid{grid-template-columns:repeat(5,1fr)}
       .profile-pane{padding:22px 24px;flex-direction:row;gap:26px}
-      .profile-identity{flex:0 0 32%;flex-direction:column;padding-top:8px}
+      .profile-identity{flex:0 0 26%;flex-direction:column;padding-top:8px}
       .profile-avatar{width:90px;height:90px;font-size:42px}
       .profile-main{flex:1;min-width:0}
-      .prog-stats-grid{grid-template-columns:repeat(3,1fr)}
     }
   </style>
 </head>
@@ -546,8 +631,12 @@ const GENRE_CARD_GRADIENTS={
   'Travel / City Life': ['#dbeafe','#60a5fa'],
 };
 function storyGradient(story,fallbackG1,fallbackG2){
-  const g=story&&GENRE_CARD_GRADIENTS[story.genre];
-  return g||[fallbackG1,fallbackG2];
+  if(!story) return [fallbackG1,fallbackG2];
+  const g=GENRE_CARD_GRADIENTS[story.genre];
+  if(g) return g;
+  // Compound genres (e.g. "Sport / Culture") — match on the primary component
+  const key=Object.keys(GENRE_CARD_GRADIENTS).find(k=>story.genre.startsWith(k+' ')||story.genre.startsWith(k+'/'));
+  return key?GENRE_CARD_GRADIENTS[key]:[fallbackG1,fallbackG2];
 }
 
 // ── BADGES — real, checkable criteria only (no fabricated placeholder badges).
@@ -582,6 +671,17 @@ const BADGES=[
   ...LEVELS.map(lv=>({ id:`champion-${lv.id}`, icon:lv.icon, category:'levels', color:lv.color, levelRef:lv, check:()=>levelDoneCount(lv.id)>=10 })),
 ];
 
+// A badge's check() reads live state, so "earned" is derived, never stored. The dot on the
+// Rewards tab means "you earned something you haven't looked at yet" — nothing else.
+function earnedBadgeIds(){
+  return BADGES.filter(b=>{ try{ return b.check(); }catch(e){ return false; } }).map(b=>b.id);
+}
+function unseenBadgeCount(){
+  const seen=state.seenBadges||[];
+  return earnedBadgeIds().filter(id=>!seen.includes(id)).length;
+}
+function markBadgesSeen(){ state.seenBadges=earnedBadgeIds(); save(); }
+
 // ── WORLD JOURNEY — real destinations, ported from the live app's DESTINATIONS
 // array (name/emoji/description/cefr/storyCount/unlock chain). Real stories come
 // from JOURNEY_STORIES (ribbit-stories.js) — same shape as STORIES, so the
@@ -602,6 +702,7 @@ const DESTINATIONS=[
   {id:'kenya',     name:'Kenya',     country:'Kenya',     emoji:'🇰🇪', description:'From mist-covered tea farms in the highlands to the spectacle of the Great Migration at the Maasai Mara.', cefr:'A2', storyCount:4, unlockAfter:'mexico'},
   {id:'italy',     name:'Italy',     country:'Italy',     emoji:'🇮🇹', description:'From the ancient ruins of Rome to the canals of Venice and the cave cities of the south.', cefr:'A2', storyCount:4, unlockAfter:'kenya'},
   {id:'peru',      name:'Peru',      country:'Peru',      emoji:'🦙', description:'From the fish markets of Lima to the Inca citadels high in the Andes.', cefr:'A2', storyCount:4, unlockAfter:'italy'},
+  {id:'south-korea', name:'South Korea', country:'South Korea', emoji:'🇰🇷', description:'Street tteokbokki, ancient palaces, mountain temples, and the world\'s most passionate pop music fans.', cefr:'A2', storyCount:4, unlockAfter:'peru'},
 ];
 function destStories(destId){ return (typeof JOURNEY_STORIES!=='undefined'&&JOURNEY_STORIES[destId])||[]; }
 function destDoneCount(destId){ return destStories(destId).filter(s=>storyDone(s.id)).length; }
@@ -630,6 +731,12 @@ const state = {
   audioPlaying: false,
   audioEverPlayed: false,
   lastRead: localStorage.getItem('rbt_lastread')||null,
+  readingPos: JSON.parse(localStorage.getItem('rbt_pos')||'{}'), // {storyId:pageIndex} — where the learner left off, cleared on completion
+  seenBadges: JSON.parse(localStorage.getItem('rbt_seenbadges')||'[]'), // badge ids the learner has already viewed on the Rewards screen
+  placement: JSON.parse(localStorage.getItem('rbt_place')||'null'), // {level,age,at} from the level test — null until taken
+  // Placement test working state (never persisted — a half-finished test is discarded)
+  placeStep: 'intro', placeAge: null, placeLevel: 1, placeItem: null, placeBlock: [],
+  placeAsked: 0, placeUsed: [], placeAnswered: null, placeMovedUp: false, placeMovedDown: false,
   quizIndex: 0,
   quizAnswered: false,
   quizSelected: null,
@@ -664,6 +771,9 @@ function save(){
   localStorage.setItem('rbt_qp', JSON.stringify(state.questProgress||{}));
   localStorage.setItem('rbt_wqp', JSON.stringify(state.weekQuestProgress||{}));
   localStorage.setItem('rbt_lastread', state.lastRead||'');
+  localStorage.setItem('rbt_pos', JSON.stringify(state.readingPos||{}));
+  localStorage.setItem('rbt_seenbadges', JSON.stringify(state.seenBadges||[]));
+  if(state.placement) localStorage.setItem('rbt_place', JSON.stringify(state.placement));
   localStorage.setItem('rbt_fc', JSON.stringify(state.flashCards));
   localStorage.setItem('rbt_decks', JSON.stringify(state.customDecks));
   localStorage.setItem('rbt_dws', JSON.stringify(state.deckWordStatus));
@@ -676,28 +786,57 @@ document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState=
 window.addEventListener('pagehide', save);
 
 function navigate(screen){
+  if(screen==='progress') screen='profile'; // Progress merged into Profile; keep old call sites working
+  const prevScreen=state.screen; // state.screen is overwritten below — capture before comparing
   if(state.screen==='reader' && screen!=='reader' && typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
   state.screen=screen; state.modalOpen=false; state.audioPlaying=false;
   // Preserve library drill-down context through the reading pipeline so "Back to Library"
   // returns to the exact sublevel the learner came from, not the root level grid.
   if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration'){ state.libraryLevel=null; state.librarySublevel=null; }
   if(screen!=='world' && screen!=='celebration' && screen!=='reader' && screen!=='quiz'){ state.worldSelectedId=null; }
+  if(screen==='rewards') markBadgesSeen(); // must precede render() so the dot clears in the same frame
+  // Entering Flashcards from the nav should land on the deck list, not resume a half-finished
+  // study session. openDeck()/startStudy() set flashView and render() directly, so they're unaffected.
+  if(screen==='flashcards' && prevScreen!=='flashcards') state.flashView='decks';
   render(); window.scrollTo(0,0);
 }
-function enterFromLanding(){ localStorage.setItem('rbt_seenSplash','1'); navigate('home'); }
+function enterFromLanding(){
+  localStorage.setItem('rbt_seenSplash','1');
+  navigate('home');
+  setTimeout(checkDailyLoginBonus, 600); // boot-time call was skipped while on the splash
+}
 function openLibraryLevel(id){ state.libraryLevel=id; state.librarySublevel=null; render(); }
 function openLibrarySublevel(levelId,sub,locked){ if(locked) return; state.librarySublevel=sub; render(); }
+// "View path" belongs on the lily-pad sub-level track, not the stats screen. navigate() clears
+// libraryLevel for non-library screens, so set the drill-down after switching.
+function viewPath(){
+  navigate('library');
+  state.libraryLevel=currentLevelId(); state.librarySublevel=null;
+  render();
+}
 function goLibraryRoot(){ state.libraryLevel=null; state.librarySublevel=null; render(); }
 function goLibraryLevel(){ state.librarySublevel=null; render(); }
 function openStoryModal(id){ state.modalOpen=true; state.selectedStory=id; render(); }
 function closeStoryModal(){ state.modalOpen=false; state.selectedStory=null; render(); }
+// Resume on the page the learner left off. Clamped, so a story whose paragraph count
+// shrank (content edit) can't strand a saved index past the end.
+function resumePage(storyId){
+  const story=findStory(storyId);
+  if(!story) return 0;
+  const saved=state.readingPos[storyId];
+  if(!Number.isInteger(saved)) return 0;
+  return Math.max(0, Math.min(saved, story.paragraphs.length-1));
+}
 function startReadingFromModal(){
   state.lastStoryId=state.selectedStory; state.modalOpen=false;
-  state.currentPage=0; state.audioPlaying=false; state.audioEverPlayed=false;
+  state.currentPage=resumePage(state.selectedStory); state.audioPlaying=false; state.audioEverPlayed=false;
   navigate('reader');
 }
-function readAgain(){ state.currentPage=0; state.audioPlaying=false; state.audioEverPlayed=false; navigate('reader'); }
-function startReadingDirect(id){ state.lastStoryId=id; state.currentPage=0; state.audioPlaying=false; state.audioEverPlayed=false; navigate('reader'); }
+function readAgain(){
+  delete state.readingPos[state.lastStoryId]; save();
+  state.currentPage=0; state.audioPlaying=false; state.audioEverPlayed=false; navigate('reader');
+}
+function startReadingDirect(id){ state.lastStoryId=id; state.currentPage=resumePage(id); state.audioPlaying=false; state.audioEverPlayed=false; navigate('reader'); }
 
 // ── READING ──────────────────────────────────────────────
 // Stories are always English, regardless of UI language — without an explicit
@@ -720,12 +859,29 @@ function toggleAudio(){
   state.audioPlaying=true; state.audioEverPlayed=true;
   render();
 }
+function speakText(text, rate){
+  if(typeof speechSynthesis==='undefined'||!text) return;
+  speechSynthesis.cancel();
+  const utter=new SpeechSynthesisUtterance(text);
+  utter.lang='en-GB'; utter.rate=rate||0.9;
+  const voice=pickEnglishVoice();
+  if(voice) utter.voice=voice;
+  speechSynthesis.speak(utter);
+}
+// Slower than story playback: an isolated word carries no prosodic context, so L2
+// learners need the extra time to catch the vowel.
+function speakWord(word){ speakText(word, 0.8); }
+// Escapes a word for interpolation into an inline onclick="..." JS string literal.
+function jsStr(word){ return String(word).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+
 function nextPage(){
   const story=findStory(state.lastStoryId);
   if(typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
   state.audioPlaying=false; state.wordPopup=null;
   if(state.currentPage < story.paragraphs.length-1){
-    state.currentPage++; render();
+    state.currentPage++;
+    state.readingPos[story.id]=state.currentPage; save();
+    render();
   } else {
     state.screen='quiz'; state.quizIndex=0; state.quizAnswered=false;
     state.quizSelected=null; state.quizCorrectCount=0; state.quizStartTime=Date.now();
@@ -733,7 +889,13 @@ function nextPage(){
     render();
   }
 }
-function prevPage(){ if(state.currentPage>0){ state.currentPage--; state.wordPopup=null; render(); } }
+function prevPage(){
+  if(state.currentPage>0){
+    state.currentPage--; state.wordPopup=null;
+    state.readingPos[state.lastStoryId]=state.currentPage; save();
+    render();
+  }
+}
 function exitReading(){
   if(typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
   state.audioPlaying=false;
@@ -751,19 +913,21 @@ function selectQuizAnswer(i){
   state.comboStreak=isCorrect?(state.comboStreak||0)+1:0;
   render();
   showComboOverlay(isCorrect, state.comboStreak);
-  setTimeout(()=>{
-    const story2=findStory(state.lastStoryId);
-    if(state.quizIndex < story2.quiz.length-1){
-      state.quizIndex++; state.quizAnswered=false; state.quizSelected=null;
-      render();
-    } else {
-      const elapsed=Math.max(1,Math.round((Date.now()-(state.quizStartTime||Date.now()))/1000));
-      state.quizElapsedSec=elapsed;
-      finishStory(story2);
-      state.screen='celebration'; state.quizIndex=0; state.quizAnswered=false; state.quizSelected=null;
-      render();
-    }
-  },900);
+}
+// The learner advances, not a timer. The old 900ms auto-advance gave an L2 reader no chance
+// to see which answer was right, let alone read the question's feedback line.
+function advanceQuiz(){
+  if(!state.quizAnswered) return;
+  const story=findStory(state.lastStoryId);
+  if(state.quizIndex < story.quiz.length-1){
+    state.quizIndex++; state.quizAnswered=false; state.quizSelected=null;
+    render();
+  } else {
+    state.quizElapsedSec=Math.max(1,Math.round((Date.now()-(state.quizStartTime||Date.now()))/1000));
+    finishStory(story);
+    state.screen='celebration'; state.quizIndex=0; state.quizAnswered=false; state.quizSelected=null;
+    render(); // master render() spawns the confetti for the celebration screen
+  }
 }
 function exitQuiz(){ navigate('home'); }
 
@@ -855,6 +1019,7 @@ function finishStory(story){
   const baseXP=30+state.quizCorrectCount*10;
   const xpEarned=prevScore===null ? baseXP : Math.round(baseXP*Math.max(0, newScore-prevScore));
   state.progress[story.id]={at:Date.now(), score:Math.max(newScore, prevScore||0)};
+  delete state.readingPos[story.id]; // finished — the continue card should move on
   if(xpEarned>0) awardXP(xpEarned);
   state.lastXpEarned=xpEarned;
   updateStreak();
@@ -894,7 +1059,14 @@ function makeWordTappable(text,vocab){
     return `<span class="tappable-word" onclick="event.stopPropagation();showWordPopup('${clean.replace(/'/g,"\\'")}')">${part}</span>`;
   }).join('');
 }
-function showWordPopup(word){ state.wordPopup=word; render(); }
+function showWordPopup(word){
+  state.wordPopup=word;
+  // speakWord() cancels any queued utterance, which would silently kill story playback
+  // while the header still showed a pause icon — clear the flag before it does.
+  state.audioPlaying=false;
+  render();
+  speakWord(word); // hearing the word is the point of tapping it
+}
 function closeWordPopup(){ state.wordPopup=null; render(); }
 function addWordToDeck(word){
   const story=findStory(state.lastStoryId);
@@ -910,7 +1082,11 @@ function addWordToDeck(word){
 function removeWordFromDeck(word){ delete state.flashCards[word]; save(); render(); }
 function levelDoneCount(lv){ let c=0; for(let sl=0;sl<10;sl++) if(subLevelDone(lv,sl)) c++; return c; }
 function currentLevelId(){
+  // What the learner last actually read always wins — real behaviour beats a test result.
   if(state.lastStoryId){const s=findStory(state.lastStoryId); if(s&&s.levelId) return s.levelId;}
+  // Otherwise honour the level test. Without this, every new learner starts at Level 1,
+  // so a 12-year-old beginner would walk through 75 Pre-A1 stories to reach their own age band.
+  if(state.placement && state.placement.level) return state.placement.level;
   for(const lv of LEVELS){ if(levelDoneCount(lv.id)<10) return lv.id; }
   return LEVELS[LEVELS.length-1].id;
 }
@@ -986,6 +1162,9 @@ function awardXP(n){
 // ── DAILY LOGIN BONUS — ported from the live app. Awards XP once per calendar
 // day on first load; bigger bonus at 7/14/30-day streak milestones.
 function checkDailyLoginBonus(){
+  // The splash isn't "inside the app" yet — awarding XP there spends the day's bonus
+  // on a screen the learner may never get past, and toasts over the landing CTAs.
+  if(state.screen==='landing') return;
   const today=new Date().toDateString();
   if(localStorage.getItem('rbt_lastlogin')===today) return;
   localStorage.setItem('rbt_lastlogin', today);
@@ -1121,6 +1300,204 @@ function renderQuests(){
   </div>`;
 }
 
+// ══ PLACEMENT TEST ══════════════════════════════════════════
+// Items are derived at runtime from the app's own levelled stories — no separate item bank to
+// author or keep in sync. This measures readiness for *these* stories, which is what placement
+// is actually for. (Oxford's and Cambridge's placement tests are licensed products delivered on
+// their own platforms; neither exposes an item API, so an embedded third-party test isn't an option.)
+//
+//   Levels 1-2  word -> Japanese meaning. Pre-A1/A1 reading is word recognition, and the
+//               Japanese gloss covers ~100% of L1-L2 vocabulary.
+//   Levels 3-6  cloze from a real story sentence. Needs no Japanese gloss, which matters
+//               because L6 gloss coverage is only 36%, and it tests reading in context.
+const PLACEMENT_MAX_ITEMS=8;   // 4 blocks of 2 — roughly 3-4 minutes for a child
+const PLACEMENT_BLOCK=2;
+
+// Age -> starting level, taken from the LEVELS age bands, then stepped DOWN one.
+// Starting below the age prior means a learner meets an easy item first. An older beginner
+// who starts at their age band instead fails three blocks in a row before the test finds them.
+// The LEVELS age bands overlap at their edges (L2 is 7–9, L3 is 9–11), so take the HIGHEST
+// band the age falls in. Taking the first match would send every 9-year-old to Level 1.
+function placementAgeBand(age){
+  const bands=LEVELS.filter(l=>{
+    const [lo,hi]=l.ages.replace('+','-99').split(/[–-]/).map(Number);
+    return age>=lo && age<=hi;
+  });
+  return (bands.length?bands[bands.length-1]:LEVELS[0]).id;
+}
+function placementStartLevel(age){ return Math.max(1, placementAgeBand(age)-1); }
+
+// Multi-word vocabulary keys ("ground contact time", "anticipatory governance") make absurd
+// distractors that a learner can eliminate on shape alone. Single tokens only.
+function isSimpleWord(w){ return /^[a-z][a-z'-]{1,}$/.test(w); }
+
+let _placeCache=null;
+function placementPool(){
+  if(_placeCache) return _placeCache;
+  _placeCache={};
+  const ja=typeof JA_TRANSLATIONS!=='undefined'?JA_TRANSLATIONS:{};
+  for(const lv of [1,2,3,4,5,6]){
+    const stories=Object.values(STORIES[lv]||{}).flat();
+    const words=new Map(); // word -> pos
+    const cloze=[];
+    stories.forEach(s=>{
+      const vocab=s.vocabulary||{};
+      Object.entries(vocab).forEach(([w,v])=>{ if(isSimpleWord(w)) words.set(w,(v&&v.pos)||''); });
+      // Don't split after a title or abbreviation — "Mr. Chen" would otherwise yield the
+      // fragment "Chen over several months, Sasha helped ______", which reads as broken English.
+      s.paragraphs.forEach(p=>p.split(/(?<!\b(?:Mr|Mrs|Ms|Dr|Prof|St|Mt|Jr|Sr|vs|etc|eg|ie)\.)(?<=[.!?])\s+(?=[A-Z"'])/).forEach(sent=>{
+        if(sent.length<20||sent.length>170) return;
+        if(!/^[A-Z"']/.test(sent)) return; // a fragment, not a sentence
+        Object.keys(vocab).forEach(w=>{
+          if(!isSimpleWord(w)) return;
+          // Require exactly one lower-case, mid-sentence occurrence: blanking a capitalised
+          // sentence-initial word leaks the answer, and two blanks would be ambiguous.
+          const hits=sent.match(new RegExp(`\\b${w}\\b`,'g'))||[];
+          if(hits.length===1 && !new RegExp(`^${w}\\b`,'i').test(sent)){
+            cloze.push({sentence:sent, word:w, pos:(vocab[w]&&vocab[w].pos)||''});
+          }
+        });
+      }));
+    });
+    const all=[...words.entries()].map(([word,pos])=>({word,pos}));
+    _placeCache[lv]={
+      all,                                  // cloze distractors — a gloss is irrelevant here
+      glossed:all.filter(x=>ja[x.word]),    // word->meaning items need a Japanese gloss
+      cloze,
+    };
+  }
+  return _placeCache;
+}
+function pickRandom(arr,n,exclude){
+  const pool=arr.filter(x=>!exclude||!exclude(x));
+  const out=[];
+  while(out.length<n && pool.length) out.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
+  return out;
+}
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+// Picks 3 distractors that look plausible next to `target`: same part of speech where possible,
+// then the closest in length, so the answer can't be spotted by word shape alone.
+function pickDistractors(candidates, target){
+  const samePos=candidates.filter(x=>x.word!==target.word && target.pos && x.pos===target.pos);
+  const base=samePos.length>=6?samePos:candidates.filter(x=>x.word!==target.word);
+  if(base.length<3) return null;
+  const near=[...base].sort((a,b)=>
+    Math.abs(a.word.length-target.word.length)-Math.abs(b.word.length-target.word.length))
+    .slice(0, Math.max(8, Math.min(20, base.length)));
+  const picked=pickRandom(near,3);
+  return picked.length===3?picked:null;
+}
+
+function buildPlacementItem(level){
+  const pool=placementPool()[level];
+  const ja=typeof JA_TRANSLATIONS!=='undefined'?JA_TRANSLATIONS:{};
+  const used=state.placeUsed;
+  if(level<=2){
+    const [target]=pickRandom(pool.glossed,1,x=>used.includes(x.word));
+    if(!target) return null;
+    const correct=ja[target.word].w;
+    // Dedupe on the Japanese gloss, not the English word: "sunflower" and "sunflowers" both
+    // gloss to ひまわり, and two identical options is a broken question.
+    const seen=new Set([correct]);
+    const cands=pool.glossed.filter(x=>{
+      const g=ja[x.word].w;
+      if(seen.has(g)) return false;
+      seen.add(g); return true;
+    });
+    const picked=pickDistractors(cands,target);
+    if(!picked) return null;
+    const options=shuffle([correct,...picked.map(x=>ja[x.word].w)]);
+    return {type:'word', level, prompt:target.word, speak:target.word,
+            options, correct:options.indexOf(correct), id:target.word};
+  }
+  const [c]=pickRandom(pool.cloze,1,x=>used.includes(x.word));
+  if(!c) return null;
+  // Distractors come from `all`, not `glossed` — a cloze option needs no Japanese translation,
+  // and at Level 6 only 36% of vocabulary is glossed, which would gut the candidate pool.
+  const picked=pickDistractors(pool.all,{word:c.word,pos:c.pos});
+  if(!picked) return null;
+  const options=shuffle([c.word,...picked.map(x=>x.word)]);
+  const blanked=c.sentence.replace(new RegExp(`\\b${c.word}\\b`),'______');
+  return {type:'cloze', level, prompt:blanked, speak:blanked.replace('______','blank'),
+          options, correct:options.indexOf(c.word), id:c.word};
+}
+
+// A child cannot read B2 prose on the strength of vocabulary alone, so the result is capped
+// one level above their age band regardless of how the items went.
+// Derive the cap from the age band itself. Deriving it from placementStartLevel() would be off
+// by one at the bottom, since that clamps to 1 — a 5-year-old's band is 1, not 2.
+function capPlacement(level, age){
+  return Math.max(1, Math.min(level, placementAgeBand(age)+1, LEVELS.length));
+}
+
+function openPlacement(){
+  state.placeStep='intro'; state.placeAge=null; state.placeItem=null;
+  state.placeBlock=[]; state.placeAsked=0; state.placeUsed=[]; state.placeAnswered=null;
+  state.placeMovedUp=false; state.placeMovedDown=false;
+  navigate('placement');
+}
+function exitPlacement(){ navigate('home'); } // a half-finished test is simply discarded
+
+function setPlaceAge(age){
+  state.placeAge=age;
+  state.placeLevel=placementStartLevel(age);
+  state.placeStep='test';
+  // Reset the run here rather than relying on openPlacement() having done it — otherwise a
+  // second test in the same session inherits the first one's item count and staircase history.
+  state.placeBlock=[]; state.placeAsked=0; state.placeUsed=[]; state.placeAnswered=null;
+  state.placeMovedUp=false; state.placeMovedDown=false;
+  loadPlacementItem();
+}
+function loadPlacementItem(){
+  const item=buildPlacementItem(state.placeLevel);
+  if(!item) return finishPlacement(state.placeLevel); // pool exhausted — place where we are
+  state.placeItem=item; state.placeUsed.push(item.id); state.placeAnswered=null;
+  render();
+}
+function answerPlacement(i){
+  if(state.placeAnswered!==null) return;
+  state.placeAnswered=i;
+  state.placeBlock.push(i===state.placeItem.correct);
+  state.placeAsked++;
+  render();
+}
+// 1-up/1-down staircase over 2-item blocks. Two right: the level is too easy, climb. Two wrong:
+// too hard, drop. One right: this is the level. A reversal (climbed then fell, or fell then
+// climbed) means we've bracketed them, so stop rather than oscillate.
+function advancePlacement(){
+  if(state.placeAnswered===null) return;
+  const outOfItems=state.placeAsked>=PLACEMENT_MAX_ITEMS;
+  if(state.placeBlock.length<PLACEMENT_BLOCK && !outOfItems) return loadPlacementItem();
+
+  const score=state.placeBlock.filter(Boolean).length;
+  state.placeBlock=[];
+  if(score===PLACEMENT_BLOCK){
+    if(state.placeLevel>=LEVELS.length) return finishPlacement(LEVELS.length);
+    if(state.placeMovedDown) return finishPlacement(state.placeLevel);
+    state.placeMovedUp=true; state.placeLevel++;
+  } else if(score===0){
+    if(state.placeLevel<=1) return finishPlacement(1);
+    if(state.placeMovedUp) return finishPlacement(state.placeLevel-1);
+    state.placeMovedDown=true; state.placeLevel--;
+  } else {
+    return finishPlacement(state.placeLevel); // split block — they belong here
+  }
+  if(outOfItems) return finishPlacement(state.placeLevel);
+  loadPlacementItem();
+}
+function finishPlacement(level){
+  state.placeLevel=capPlacement(level, state.placeAge||7);
+  state.placeStep='result';
+  render();
+}
+function choosePlacementLevel(level){ state.placeLevel=level; render(); }
+function applyPlacement(){
+  state.placement={level:state.placeLevel, age:state.placeAge, at:Date.now()};
+  save();
+  navigate('home');
+}
+
 // ── UI-CHROME I18N ─────────────────────────────────────────
 const UI_STRINGS = {
   en: {
@@ -1138,16 +1515,29 @@ const UI_STRINGS = {
     myProgress:'My Progress', trackLevels:'Track your levels',
     rewards:'Rewards', checkBadges:'Check your badges',
     yourJourney:(l)=>`YOUR JOURNEY — LEVEL ${l.id} · ${l.name}`, viewPath:'View path →',
-    navHome:'Home', navLibrary:'Library', navProgress:'Progress', navRewards:'Rewards', navProfile:'Profile',
+    navHome:'Home', navLibrary:'Library', navFlashcards:'Cards', navRewards:'Rewards', navProfile:'Profile',
     comingSoon:'Coming soon', comingSoonBody:'This screen is being rebuilt from the redesign next.',
     libraryTitle:'Library', levelLabel:(id)=>`Level ${id}`, ages:(a)=>`Ages ${a}`, locked:'Locked',
     subLevelOf:(n)=>`Sub-level ${n} of 10`, subLevel:'Sub-level',
     pages:(n)=>`📄 ${n} pages`, audio:'🔊 Audio', start:'START', tapWordHint:'👆 Tap any word to see its definition',
     exit:'Exit', previous:'Previous', next:'Next', toQuiz:'To Quiz',
     quickQuiz:'📝 Quick Quiz', question:'QUESTION',
+    nextQuestion:'Next Question →', seeResults:'See Results →',
+    hearQuestion:'Hear the question', hearOption:'Hear this answer',
+    placeTitle:'Find My Pond',
+    placeIntroTitle:'Which pond is yours?',
+    placeIntroBody:"Answer a few questions and Ribbit will find the right stories for you. There are no wrong answers — just do your best!",
+    placeAgeQ:'How old are you?',
+    placeQWord:'What does this word mean?', placeQCloze:'Which word fits best?',
+    placeNext:'Next →',
+    placeResultTitle:'Your pond is',
+    placeChangeHint:'Not quite right? Pick a different level.',
+    placeStartReading:'Start Reading →',
+    placeTile:'Find My Pond', placeTileSub:'Find your reading level',
+    placeTileRetake:'Re-Test', placeTileRetakeSub:(pond)=>`Now: ${pond}`,
     celebStarText:(n)=>n>=80?'Amazing work! You know this story well! 🌟':n>=50?'Good job! Keep practicing to master it.':'Nice try — read it again to improve!',
     xpEarned:(n)=>`+${n} XP earned`, readAgainBtn:'Read Again', backToLibraryBtn:'Back to Library',
-    addToDeck:'+ Add to Flashcards', savedToDeck:'✓ Saved — tap to remove',
+    addToDeck:'+ Add to Flashcards', savedToDeck:'✓ Saved — tap to remove', hearWord:'Hear this word',
     myWords:'My Words', savedWhileReading:'Saved while reading', words:(n)=>`${n} words`,
     createNewDeck:'＋ Create New Deck', noWordsYet:'No words saved yet', noWordsBody:'Tap highlighted words while reading to save them here.',
     deckNamePlaceholder:'Deck name', pickWords:(n)=>`Pick 2–10 words · ${n} selected`, saveDeck:'Save Deck',
@@ -1174,7 +1564,7 @@ const UI_STRINGS = {
     championName:(lv)=>`${lv.pond} Champion`, championHint:(lv)=>`Complete all ${lv.pond} stories`,
     earnedToEarn:(hint)=>`${hint} to earn this!`, earnedBadge:'Earned!',
     dayStreakLabel:'Day Streak', totalXpLabel:'Total XP', storiesReadLabel:'Stories Read', wordsKnownLabel:'Words Known',
-    thisWeek:"THIS WEEK'S ACTIVITY", levelProgress:'LEVEL PROGRESS', current:'CURRENT',
+    thisWeek:"THIS WEEK'S ACTIVITY", levelProgress:'LEVEL PROGRESS', nextLevelUp:'NEXT LEVEL UP', current:'CURRENT',
     dayMon:'Mon',dayTue:'Tue',dayWed:'Wed',dayThu:'Thu',dayFri:'Fri',daySat:'Sat',daySun:'Sun',
     backToDestBtn:'Back to Destination',
     worldTitle:'World Journey', placesExplored:(n)=>`${n} place${n===1?'':'s'} explored! `,
@@ -1218,16 +1608,29 @@ const UI_STRINGS = {
     myProgress:'学習記録', trackLevels:'レベルの進み具合',
     rewards:'ごほうび', checkBadges:'バッジを確認しよう',
     yourJourney:(l)=>`あなたの旅 — レベル${l.id} · ${l.name}`, viewPath:'ルートを見る →',
-    navHome:'ホーム', navLibrary:'ライブラリ', navProgress:'記録', navRewards:'ごほうび', navProfile:'わたし',
+    navHome:'ホーム', navLibrary:'ライブラリ', navFlashcards:'カード', navRewards:'ごほうび', navProfile:'わたし',
     comingSoon:'ちかぢか公開', comingSoonBody:'この画面は次のパスでリニューアルされます。',
     libraryTitle:'ライブラリ', levelLabel:(id)=>`レベル ${id}`, ages:(a)=>`対象年齢 ${a}`, locked:'ロック中',
     subLevelOf:(n)=>`サブレベル ${n} / 10`, subLevel:'サブレベル',
     pages:(n)=>`📄 ${n}ページ`, audio:'🔊 音声あり', start:'はじめる', tapWordHint:'👆 単語をタップすると意味が見られるよ',
     exit:'とじる', previous:'まえへ', next:'つぎへ', toQuiz:'クイズへ',
     quickQuiz:'📝 クイズタイム', question:'もんだい',
+    nextQuestion:'つぎのもんだい →', seeResults:'けっかを見る →',
+    hearQuestion:'もんだいを聞く', hearOption:'こたえを聞く',
+    placeTitle:'わたしのいけ さがし',
+    placeIntroTitle:'きみのいけは どこ？',
+    placeIntroBody:'いくつか こたえると、ぴったりのおはなしを リビットが さがすよ。まちがいはないから、あんしんしてね！',
+    placeAgeQ:'なんさいですか？',
+    placeQWord:'この単語の意味は？', placeQCloze:'どの単語が合うかな？',
+    placeNext:'つぎへ →',
+    placeResultTitle:'きみのいけは',
+    placeChangeHint:'ちがうかな？レベルをえらびなおせるよ。',
+    placeStartReading:'よみはじめる →',
+    placeTile:'いけさがし', placeTileSub:'じぶんのレベルを見つけよう',
+    placeTileRetake:'もう一度テスト', placeTileRetakeSub:(pond)=>`いま: ${pond}`,
     celebStarText:(n)=>n>=80?'すごい！このお話をよくわかっているね！🌟':n>=50?'いいね！もっと練習しよう。':'もういちど読んでみよう！',
     xpEarned:(n)=>`+${n} XP かくとく`, readAgainBtn:'もういちど読む', backToLibraryBtn:'ライブラリへもどる',
-    addToDeck:'+ フラッシュカードに追加', savedToDeck:'✓ 保存ずみ（タップで削除）',
+    addToDeck:'+ フラッシュカードに追加', savedToDeck:'✓ 保存ずみ（タップで削除）', hearWord:'この単語を聞く',
     myWords:'マイ単語', savedWhileReading:'読書中に保存した単語', words:(n)=>`${n}語`,
     createNewDeck:'＋ 新しいデッキを作る', noWordsYet:'まだ単語がありません', noWordsBody:'読書中にハイライトされた単語をタップして保存しよう。',
     deckNamePlaceholder:'デッキ名', pickWords:(n)=>`2〜10語えらぶ · ${n}語選択中`, saveDeck:'デッキを保存',
@@ -1254,7 +1657,7 @@ const UI_STRINGS = {
     championName:(lv)=>`${lv.pond}チャンピオン`, championHint:(lv)=>`${lv.pond}の話をぜんぶ読もう`,
     earnedToEarn:(hint)=>`${hint}`, earnedBadge:'獲得ずみ！',
     dayStreakLabel:'連続日数', totalXpLabel:'合計XP', storiesReadLabel:'読んだ話', wordsKnownLabel:'覚えた単語',
-    thisWeek:'今週のアクティビティ', levelProgress:'レベルの進み具合', current:'げんざい',
+    thisWeek:'今週のアクティビティ', levelProgress:'レベルの進み具合', nextLevelUp:'つぎのレベルへ', current:'げんざい',
     dayMon:'月',dayTue:'火',dayWed:'水',dayThu:'木',dayFri:'金',daySat:'土',daySun:'日',
     backToDestBtn:'目的地へもどる',
     worldTitle:'ワールドジャーニー', placesExplored:(n)=>`${n}か所たんけんずみ！`,
@@ -1289,15 +1692,18 @@ function t(key,...args){
   const v=dict[key]!==undefined?dict[key]:UI_STRINGS.ja[key];
   return typeof v==='function'?v(...args):v;
 }
-function toggleUiLang(){ state.uiLang = state.uiLang==='en'?'ja':'en'; save(); render(); }
+// Keeps <html lang> truthful so screen readers voice the chrome in the right language.
+// Story text is always English and is marked lang="en" at the reader instead.
+function applyUiLang(){ document.documentElement.lang = state.uiLang; }
+function toggleUiLang(){ state.uiLang = state.uiLang==='en'?'ja':'en'; applyUiLang(); save(); render(); }
 
 // ── APP SHELL (header + bottom nav) — literal port, Tablet lines 37-106, 730-752 ──
 const TAB_DEFS=[
-  {key:'home',     icon:'🏠', labelKey:'navHome',     accent:'#bada55', tint:'#EBF9DE'},
-  {key:'library',  icon:'📚', labelKey:'navLibrary',  accent:'#38B4F5', tint:'#E3F3FC'},
-  {key:'progress', icon:'📈', labelKey:'navProgress', accent:'#F4844A', tint:'#FFF0E4'},
-  {key:'rewards',  icon:'🏆', labelKey:'navRewards',  accent:'#9B72CF', tint:'#F1E8FF', badge:true},
-  {key:'profile',  icon:'👤', labelKey:'navProfile',  accent:'#1A3260', tint:'#E8ECF3'},
+  {key:'home',      icon:'🏠', labelKey:'navHome',      accent:'#bada55', tint:'#EBF9DE'},
+  {key:'library',   icon:'📚', labelKey:'navLibrary',   accent:'#38B4F5', tint:'#E3F3FC'},
+  {key:'flashcards',icon:'🔤', labelKey:'navFlashcards',accent:'#F4844A', tint:'#DFF7F2'},
+  {key:'rewards',   icon:'🏆', labelKey:'navRewards',   accent:'#9B72CF', tint:'#F1E8FF', badge:true},
+  {key:'profile',   icon:'👤', labelKey:'navProfile',   accent:'#1A3260', tint:'#E8ECF3'},
 ];
 const IMPLEMENTED_SCREENS=['home','library','flashcards','progress','rewards','world','profile']; // grows as future passes land
 
@@ -1352,7 +1758,7 @@ function renderBottomNav(){
     const active=state.screen===tab.key;
     return `<button class="nav-tab${active?' active':''}" onclick="navigate('${tab.key}')" style="${active?`--tab-accent:${tab.accent};--tab-tint:${tab.tint};`:''}">
       <div class="nav-indicator"></div>
-      <div class="nav-icon-wrap">${tab.icon}${tab.badge&&!active?'<span class="nav-badge"></span>':''}</div>
+      <div class="nav-icon-wrap">${tab.icon}${tab.badge&&!active&&unseenBadgeCount()>0?'<span class="nav-badge"></span>':''}</div>
       <span class="nav-label" style="${active?`color:${tab.accent}`:''}">${t(tab.labelKey)}</span>
     </button>`;
   }).join('');
@@ -1476,20 +1882,53 @@ function renderWordPopup(story){
   const vocab=story.vocabulary&&story.vocabulary[word];
   const ja=typeof JA_TRANSLATIONS!=='undefined'?JA_TRANSLATIONS[word]:null;
   const saved=!!state.flashCards[word];
+  // At Pre-A1/A1 the English gloss is reliably harder than the word it defines
+  // ("cat" -> "A small, soft animal that people keep at home as a pet"). For a
+  // Japanese-UI learner at those levels, lead with L1 and drop the English definition.
+  // Journey stories carry journeyId, not levelId, and sit at A2 — so they fall through.
+  const earlyLevel=(story.levelId||99)<=2;
+  const leadJa=earlyLevel && state.uiLang==='ja' && !!ja;
+  const glossHtml = leadJa
+    ? `<div class="word-popup-ja-lead">${ja.w}</div>${ja.d?`<div class="word-popup-def">${ja.d}</div>`:''}`
+    : `${vocab?`<div class="word-popup-def">${vocab.def}</div>`:''}${ja?`<div class="word-popup-ja">${ja.w} — ${ja.d}</div>`:''}`;
   return `<div class="word-popup-overlay" onclick="closeWordPopup()">
     <div class="word-popup-card" onclick="event.stopPropagation()">
-      <div class="word-popup-word">${word}</div>
-      ${vocab?`<div class="word-popup-def">${vocab.def}</div>`:''}
-      ${ja?`<div class="word-popup-ja">${ja.w} — ${ja.d}</div>`:''}
+      <div class="word-popup-word-row">
+        <div class="word-popup-word" lang="en">${word}</div>
+        <button class="word-speak-btn" onclick="speakWord('${jsStr(word)}')" aria-label="${t('hearWord')}" title="${t('hearWord')}">🔊</button>
+      </div>
+      ${glossHtml}
       <button class="word-popup-btn" onclick="${saved?`removeWordFromDeck('${word}')`:`addWordToDeck('${word}')`}" style="${saved?'background:var(--border);color:var(--text-muted)':''}">${saved?t('savedToDeck'):t('addToDeck')}</button>
     </div>
   </div>`;
+}
+
+// Reading type scale, in px: [portrait/narrow, landscape tablet].
+// The level sets a ceiling — a C1 page never gets primer-sized type. Page length then pulls
+// the size down, because level alone is a poor proxy: Level 1's later sub-levels contain
+// 350-character pages that would need internal scrolling at 46px. Sizing on the page that is
+// actually on screen keeps every page whole, which matters most for the youngest readers.
+const READER_TYPE_CEILING={1:[26,46], 2:[24,40], 3:[21,32], 4:[20,29], 5:[19,27], 6:[18,25]};
+const READER_TYPE_BY_LENGTH=[
+  {maxChars:60,       sm:26, lg:46},
+  {maxChars:120,      sm:24, lg:38},
+  {maxChars:200,      sm:22, lg:32},
+  {maxChars:320,      sm:20, lg:28},
+  {maxChars:450,      sm:19, lg:25},
+  {maxChars:Infinity, sm:18, lg:22},
+];
+// Journey stories have no levelId and sit at A2 -> the level-3 ceiling.
+function readerTypeScale(levelId, pageText){
+  const ceiling=READER_TYPE_CEILING[levelId] || READER_TYPE_CEILING[3];
+  const tier=READER_TYPE_BY_LENGTH.find(t=>(pageText||'').length<=t.maxChars);
+  return [Math.min(ceiling[0],tier.sm), Math.min(ceiling[1],tier.lg)];
 }
 
 // ── READING — literal port, Tablet lines 819-896 ──
 function renderReader(){
   const story=findStory(state.lastStoryId);
   if(!story) return renderComingSoon();
+  const [typeSm,typeLg]=readerTypeScale(story.levelId, story.paragraphs[state.currentPage]);
   const level=story.levelId?LEVELS.find(l=>l.id===story.levelId):null;
   const [levelG1,levelG2]=level?[level.g1,level.g2]:['#E3F3FC','#70C1B3'];
   const total=story.paragraphs.length;
@@ -1497,7 +1936,7 @@ function renderReader(){
   const progressPct=Math.round(((state.currentPage+1)/total)*100);
   const img=story.images&&story.images[state.currentPage];
 
-  return `<div class="screen reader-screen">
+  return `<div class="screen reader-screen" style="--reader-size:${typeSm}px;--reader-size-lg:${typeLg}px">
     <div class="reader-header">
       <div class="reader-audio-pill">
         <button class="reader-audio-btn" onclick="toggleAudio()" aria-label="Play audio">${state.audioPlaying?'⏸':'▶'}</button>
@@ -1509,11 +1948,10 @@ function renderReader(){
       <div class="reader-illu" style="background:linear-gradient(135deg,${levelG1},${levelG2})">
         <div class="reader-illu-emoji">${story.emoji||'📖'}</div>
         ${img?`<img src="${img}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()">`:''}
-        <div class="reader-page-badge">${state.currentPage+1} / ${total}</div>
       </div>
       <div class="reader-text-area" onclick="event.stopPropagation()">
         <div class="reader-progress-bar"><div class="reader-progress-fill" style="width:${progressPct}%"></div></div>
-        <div class="reader-page-text">${makeWordTappable(story.paragraphs[state.currentPage],story.vocabulary||{})}</div>
+        <div class="reader-page-text" lang="en">${makeWordTappable(story.paragraphs[state.currentPage],story.vocabulary||{})}</div>
       </div>
     </div>
     ${renderWordPopup(story)}
@@ -1530,6 +1968,11 @@ function renderQuiz(){
   const story=findStory(state.lastStoryId);
   if(!story||!story.quiz||!story.quiz.length) return renderComingSoon();
   const q=story.quiz[state.quizIndex];
+  // Reuse the reader's own illustration + gradient fallback so the quiz looks like the story.
+  const quizLevel=story.levelId?LEVELS.find(l=>l.id===story.levelId):null;
+  const [illuG1,illuG2]=quizLevel?[quizLevel.g1,quizLevel.g2]:['#E3F3FC','#70C1B3'];
+  const illuImg=story.images&&story.images[0];
+  const illuBg=illuImg?`url('${escAttr(illuImg)}') center/cover no-repeat`:`linear-gradient(135deg,${illuG1},${illuG2})`;
   const dots=story.quiz.map((_,i)=>`<div class="quiz-dot" style="background:${i<state.quizIndex?'var(--primary)':i===state.quizIndex?'white':'#E5E9EE'};${i===state.quizIndex?'outline:2px solid var(--primary);outline-offset:1px':''}"></div>`).join('');
   const options=q.options.map((label,i)=>{
     const isCorrect=i===q.correct, isSelected=i===state.quizSelected;
@@ -1541,12 +1984,21 @@ function renderQuiz(){
     const badgeColor=(showCorrect||showWrong)?'white':'var(--text-muted)';
     const textColor=showCorrect?'#15803d':showWrong?'#dc2626':'var(--text)';
     const badgeContent=showCorrect?'✓':showWrong?'✕':String.fromCharCode(65+i);
-    return `<button class="quiz-option" onclick="selectQuizAnswer(${i})" style="background:${bg};border:${border};opacity:${dim?.5:1};cursor:${state.quizAnswered?'default':'pointer'}">
-      <div class="quiz-option-badge" style="background:${badgeBg};color:${badgeColor}">${badgeContent}</div>
-      <div class="quiz-option-text" style="color:${textColor}">${label}</div>
-    </button>`;
+    // The speaker is a sibling of the option, never a child — a <button> inside a <button>
+    // is invalid and breaks activation for keyboard and screen-reader users.
+    return `<div class="quiz-option-row">
+      <button class="quiz-option" onclick="selectQuizAnswer(${i})" style="background:${bg};border:${border};opacity:${dim?.5:1};cursor:${state.quizAnswered?'default':'pointer'}">
+        <div class="quiz-option-badge" style="background:${badgeBg};color:${badgeColor}">${badgeContent}</div>
+        <div class="quiz-option-text" lang="en" style="color:${textColor}">${label}</div>
+      </button>
+      <button class="quiz-option-speak" onclick="speakText('${escAttr(jsStr(label))}')" aria-label="${t('hearOption')}" title="${t('hearOption')}">🔊</button>
+    </div>`;
   }).join('');
   const feedback=state.quizAnswered&&q.feedback?`<div class="quiz-feedback">${q.feedback}</div>`:'';
+  const isLastQuestion=state.quizIndex===story.quiz.length-1;
+  const nextBtn=state.quizAnswered
+    ?`<button class="quiz-next-btn" onclick="advanceQuiz()">${isLastQuestion?t('seeResults'):t('nextQuestion')}</button>`
+    :'';
 
   return `<div class="screen quiz-screen">
     <div class="quiz-topbar">
@@ -1557,13 +2009,95 @@ function renderQuiz(){
       ${(state.comboStreak||0)>=2?`<span class="combo-pill">🔥 ×${state.comboStreak} ${t('comboLabel')}</span>`:''}
     </div>
     <div class="quiz-body">
-      <div class="quiz-question-wrap">
-        <div class="quiz-label">${t('question')} ${state.quizIndex+1} / ${story.quiz.length}</div>
-        <div class="quiz-question-text">${q.question}</div>
-        <div class="quiz-options">${options}</div>
-        ${feedback}
+      <div class="quiz-stage">
+        <div class="quiz-illu" style="background:${illuBg}">
+          ${illuImg?'':`<span>${story.emoji||'📖'}</span>`}
+          <div class="quiz-illu-title" lang="en">${story.title}</div>
+        </div>
+        <div class="quiz-question-wrap">
+          <div class="quiz-label">${t('question')} ${state.quizIndex+1} / ${story.quiz.length}</div>
+          <div class="quiz-question-row">
+            <div class="quiz-question-text" lang="en">${q.question}</div>
+            <button class="quiz-speak-btn" onclick="speakText('${escAttr(jsStr(q.question))}')" aria-label="${t('hearQuestion')}" title="${t('hearQuestion')}">🔊</button>
+          </div>
+          <div class="quiz-options">${options}</div>
+          ${feedback}
+          ${nextBtn}
+        </div>
       </div>
     </div>
+  </div>`;
+}
+
+// ── PLACEMENT TEST SCREEN ──
+function renderPlacementIntro(){
+  const ages=[5,6,7,8,9,10,11,12,13,14,15,16];
+  const btns=ages.map(a=>`<button class="place-age-btn" onclick="setPlaceAge(${a})">${a===16?'15+':a}</button>`).join('');
+  return `<div class="place-body">
+    <div class="place-frog">🐸</div>
+    <div class="place-head">${t('placeIntroTitle')}</div>
+    <div class="place-sub">${t('placeIntroBody')}</div>
+    <div class="place-head" style="font-size:16px;margin-bottom:14px">${t('placeAgeQ')}</div>
+    <div class="place-age-grid">${btns}</div>
+  </div>`;
+}
+function renderPlacementItem(){
+  const item=state.placeItem;
+  const answered=state.placeAnswered!==null;
+  const prompt=item.type==='word'
+    ? `<div class="place-word" lang="en">${item.prompt}</div>`
+    : `<div class="place-cloze" lang="en">${item.prompt}</div>`;
+  const options=item.options.map((label,i)=>{
+    const chosen=answered&&i===state.placeAnswered;
+    // Deliberately no right/wrong colouring — a child must not experience this as a test they failed.
+    const style=chosen?'border-color:var(--primary);background:var(--primary-light)':'';
+    return `<button class="place-option" onclick="answerPlacement(${i})" style="${style};cursor:${answered?'default':'pointer'}">
+      <div class="place-option-badge">${String.fromCharCode(65+i)}</div>
+      <div${item.type==='cloze'?' lang="en"':''}>${label}</div>
+    </button>`;
+  }).join('');
+  return `<div class="place-body">
+    <div class="place-stage">
+      <div class="place-sub" style="margin-bottom:12px">${item.type==='word'?t('placeQWord'):t('placeQCloze')}</div>
+      <div class="place-prompt-row">
+        ${prompt}
+        <button class="place-speak-btn" onclick="speakText('${escAttr(jsStr(item.speak))}',${item.type==='word'?0.8:0.95})" aria-label="${t('hearWord')}">🔊</button>
+      </div>
+      <div class="place-options">${options}</div>
+      ${answered?`<button class="place-next-btn" onclick="advancePlacement()">${t('placeNext')}</button>`:''}
+    </div>
+  </div>`;
+}
+function renderPlacementResult(){
+  const lv=LEVELS.find(l=>l.id===state.placeLevel);
+  const chips=LEVELS.map(l=>`<button class="place-chip${l.id===state.placeLevel?' place-chip-on':''}"
+      style="${l.id===state.placeLevel?`background:${l.color}`:''}" onclick="choosePlacementLevel(${l.id})">${l.id}</button>`).join('');
+  return `<div class="place-body">
+    <div class="place-result-card">
+      <div class="place-frog" style="font-size:56px;margin-bottom:6px">${lv.icon}</div>
+      <div class="place-sub" style="margin:0 auto 2px">${t('placeResultTitle')}</div>
+      <div class="place-result-pond" style="color:${lv.color}">${lv.pond}</div>
+      <div class="place-result-meta">${t('levelLabel',lv.id)} · ${lv.cefr} · ${lv.name}</div>
+      <div class="place-change-hint">${t('placeChangeHint')}</div>
+      <div class="place-level-chips">${chips}</div>
+      <button class="place-next-btn" style="margin-top:4px" onclick="applyPlacement()">${t('placeStartReading')}</button>
+    </div>
+  </div>`;
+}
+function renderPlacement(){
+  const dots=Array.from({length:PLACEMENT_MAX_ITEMS},(_,i)=>
+    `<div class="place-dot${i<state.placeAsked?' place-dot-done':''}"></div>`).join('');
+  let body;
+  if(state.placeStep==='intro') body=renderPlacementIntro();
+  else if(state.placeStep==='result') body=renderPlacementResult();
+  else body=renderPlacementItem();
+  return `<div class="screen place-screen">
+    <div class="place-topbar">
+      <button class="quiz-exit-btn" onclick="exitPlacement()" aria-label="${t('exit')}">✕</button>
+      <div class="place-title">🐸 ${t('placeTitle')}</div>
+      ${state.placeStep==='test'?`<div class="place-dots">${dots}</div>`:''}
+    </div>
+    ${body}
   </div>`;
 }
 
@@ -1593,7 +2127,11 @@ function renderCelebration(){
   </div>`;
 }
 
+function prefersReducedMotion(){
+  return typeof matchMedia!=='undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
 function spawnConfetti(){
+  if(prefersReducedMotion()) return; // 54 falling elements is exactly what this setting exists to prevent
   const colors=['#bada55','#f9ad3b','#60a5fa','#f472b6','#34d399','#fb923c','#a78bfa'];
   const count=54;
   for(let i=0;i<count;i++){
@@ -1705,11 +2243,17 @@ function renderFlashStudy(){
       <div class="study-card" onclick="flipCard()">
         ${!state.flashFlipped?`
           <div class="study-card-pill">${deck?deck.title:''}</div>
-          <div class="study-card-word">${wordId||''}</div>
+          <div class="study-word-row">
+            <div class="study-card-word" lang="en">${wordId||''}</div>
+            ${wordId?`<button class="word-speak-btn" onclick="event.stopPropagation();speakWord('${jsStr(wordId)}')" aria-label="${t('hearWord')}" title="${t('hearWord')}">🔊</button>`:''}
+          </div>
           <div class="study-card-badge">${(wordId||'?')[0].toUpperCase()}</div>
           <div class="study-card-hint">${t('tapToFlip')}</div>
         `:`
-          <div class="study-card-word-back">${wordId||''}</div>
+          <div class="study-word-row">
+            <div class="study-card-word-back" lang="en">${wordId||''}</div>
+            ${wordId?`<button class="word-speak-btn" onclick="event.stopPropagation();speakWord('${jsStr(wordId)}')" aria-label="${t('hearWord')}" title="${t('hearWord')}">🔊</button>`:''}
+          </div>
           <div class="study-card-def">${w.def||''}</div>
           ${w.translation?`<div class="study-card-translation">${w.translation}${w.translationDef?' — '+w.translationDef:''}</div>`:''}
         `}
@@ -1740,8 +2284,10 @@ function renderFlashComplete(){
   </div>`;
 }
 
-// ── PROGRESS — literal port, Tablet lines 405-460, real stats/activity/levels ──
-function renderProgress(){
+// ── PROGRESS — no longer its own tab. Progress and Profile rendered substantially the same
+// content (stats grid + level progress), so these sections are now composed into Profile and
+// the freed bottom-nav slot went to Flashcards, which is a core loop and had no tab at all.
+function renderProgressSections(){
   const knownWords=Object.values(state.deckWordStatus).filter(s=>s==='known').length;
   const stats=[
     {icon:'🔥', tint:'#FFF0E4', value:state.streak||0, label:t('dayStreakLabel')},
@@ -1796,7 +2342,7 @@ function renderProgress(){
     </div>`;
   }).join('');
 
-  return `<div class="progress-pane">
+  return `
     <div class="prog-stats-grid">${statsHtml}</div>
     <div>
       <div class="section-title">${t('thisWeek')}</div>
@@ -1805,8 +2351,7 @@ function renderProgress(){
     <div>
       <div class="section-title">${t('levelProgress')}</div>
       <div class="level-rows">${levelRows}</div>
-    </div>
-  </div>`;
+    </div>`;
 }
 
 // ── REWARDS / BADGES — literal port, Tablet lines 365-402, real checkable criteria ──
@@ -1925,19 +2470,9 @@ function renderProfile(){
   const nextLv=LEVELS.find(l=>l.id===curLv.id+1);
   const doneCount=levelDoneCount(curLv.id);
   const pct=Math.round((doneCount/10)*100);
-  const knownWords=Object.values(state.deckWordStatus).filter(s=>s==='known').length;
 
-  const stats=[
-    {icon:'📖', tint:'#E3F3FC', value:Object.keys(state.progress).length, label:t('profileStatsReadLabel')},
-    {icon:'🔤', tint:'#DFF7F2', value:knownWords, label:t('profileStatsWordsLabel')},
-    {icon:'🔥', tint:'#FFF0E4', value:state.streak||0, label:t('profileStatsStreakLabel')},
-  ];
-  const statsHtml=stats.map(s=>`
-    <div class="prog-stat-card">
-      <div class="prog-stat-icon" style="background:${s.tint}">${s.icon}</div>
-      <div class="prog-stat-value">${s.value}</div>
-      <div class="prog-stat-label">${s.label}</div>
-    </div>`).join('');
+  // Progress's own 4-stat grid is a superset of the 3 Profile used to build, so it replaces it.
+  const progressHtml=renderProgressSections();
 
   const earned=BADGES.filter(b=>b.check()).slice(0,3);
   const badgesHtml=earned.length?earned.map(b=>{
@@ -1954,9 +2489,9 @@ function renderProfile(){
       <div class="profile-level-badge" style="background:${curLv.color}26;color:${curLv.color}"><span>${curLv.icon}</span><span>${curLv.pond}</span></div>
     </div>
     <div class="profile-main">
-      <div class="prog-stats-grid">${statsHtml}</div>
+      ${progressHtml}
       <div>
-        <div class="section-title">${t('levelProgress')}</div>
+        <div class="section-title">${t('nextLevelUp')}</div>
         <div class="level-progress-card">
           <div class="level-progress-toprow">
             <span class="level-progress-curname">${curLv.pond}</span>
@@ -1997,6 +2532,10 @@ function renderHomeDash(){
   const {story:contStory,isNew}=getContinueStory();
   const [fallbackG1,fallbackG2]=LEVEL_GRADIENTS[contStory&&contStory.levelId?contStory.levelId:1];
   const [g1,g2]=storyGradient(contStory,fallbackG1,fallbackG2);
+  // Real resume progress: pages already read / total. 0 for a story never opened.
+  const contPages=contStory&&contStory.paragraphs?contStory.paragraphs.length:0;
+  const contPage=contStory?resumePage(contStory.id):0;
+  const contPct=contPages?Math.round((contPage/contPages)*100):0;
   const continueCard = contStory ? `
     <button class="continue-card" onclick="startReadingDirect('${contStory.id}')">
       <div class="continue-cover" style="background:linear-gradient(145deg,${g1},${g2})"><span>${contStory.emoji||'📖'}</span></div>
@@ -2007,7 +2546,7 @@ function renderHomeDash(){
           <div class="continue-meta">${t('pageMeta',contStory)}</div>
         </div>
         <div>
-          <div class="continue-progress"><div class="continue-progress-fill" style="width:${isNew?0:40}%"></div></div>
+          <div class="continue-progress"><div class="continue-progress-fill" style="width:${isNew?0:contPct}%"></div></div>
           <div class="continue-btn"><span>${isNew?t('startBtn'):t('continueBtn')}</span></div>
         </div>
       </div>
@@ -2023,16 +2562,24 @@ function renderHomeDash(){
   const q = getTodayQuests();
   const questsTodayCount = [q.stories,q.perfect,q.fc].filter(Boolean).length;
 
+  // The level test lives here, on demand — never forced on a child at first launch.
+  // Once they've been placed, the same tile becomes a re-test and reports where they are.
+  const placedLv=state.placement?LEVELS.find(l=>l.id===state.placement.level):null;
+  const placeTile=placedLv
+    ? {icon:'🔁', tint:'#E7E9FB', title:t('placeTileRetake'), sub:t('placeTileRetakeSub',placedLv.pond), fn:'openPlacement()'}
+    : {icon:'🎣', tint:'#E7E9FB', title:t('placeTile'), sub:t('placeTileSub'), fn:'openPlacement()'};
+
   const quickLinks=[
+    placeTile,
     {icon:'📚', tint:'#E3F3FC', title:t('exploreLibrary'), sub:t('storiesWaiting',storiesWaitingCount), screen:'library'},
     {icon:'🔤', tint:'#DFF7F2', title:t('flashCards'), sub:t('practiceVocab'), screen:'flashcards'},
     {icon:'🌍', tint:'#E7E9FB', title:t('worldJourney'), sub:t('placesFound',placesFoundCount,placesTotalCount), screen:'world'},
     {icon:'🎯', tint:'#FCF4D6', title:t('quests'), sub:t('questsToday',questsTodayCount), screen:'quests'},
-    {icon:'📈', tint:'#FFF0E4', title:t('myProgress'), sub:t('trackLevels'), screen:'progress'},
+    {icon:'📈', tint:'#FFF0E4', title:t('myProgress'), sub:t('trackLevels'), screen:'profile'},
     {icon:'🏆', tint:'#F1E8FF', title:t('rewards'), sub:t('checkBadges'), screen:'rewards'},
   ];
   const quickLinksHtml=quickLinks.map(l=>`
-    <button class="ql-tile" onclick="navigate('${l.screen}')">
+    <button class="ql-tile" onclick="${l.fn||`navigate('${l.screen}')`}">
       <div class="ql-icon" style="background:${l.tint}">${l.icon}</div>
       <div>
         <div class="ql-title">${l.title}</div>
@@ -2078,7 +2625,7 @@ function renderHomeDash(){
     <div>
       <div class="journey-title-row">
         <span class="journey-title">${t('yourJourney',lvObj)}</span>
-        <button class="journey-viewpath" onclick="navigate('progress')">${t('viewPath')}</button>
+        <button class="journey-viewpath" onclick="viewPath()">${t('viewPath')}</button>
       </div>
       <div class="journey-track">
         <div class="journey-track-line"></div>
@@ -2097,10 +2644,9 @@ function renderLanding(){
       <img class="landing-frog" src="OOSH_Logo_Square.png" alt="Ribbit">
       <div class="landing-title">Ribbit</div>
       <div class="landing-tagline">${state.uiLang==='en'?'Learn English the fun way!':'えいごをたのしくまなぼう！'}</div>
-      <div class="landing-subtag">${state.uiLang==='en'?'6 levels · 13 languages · 10 countries':'6レベル · 13言語 · 世界10か国'}</div>
+      <div class="landing-subtag">${state.uiLang==='en'?`${LEVELS.length} levels · ${DESTINATIONS.length} countries to explore`:`${LEVELS.length}レベル · 世界${DESTINATIONS.length}か国をたんけん`}</div>
       <div class="landing-ctas">
         <button class="landing-cta-primary" onclick="enterFromLanding()">${state.uiLang==='en'?'Get Started':'はじめる'}</button>
-        <button class="landing-cta-secondary" onclick="enterFromLanding()">${state.uiLang==='en'?'Log In':'ログイン'}</button>
       </div>
     </div>
     <div class="landing-footer">OOSH Online · v3.0</div>
@@ -2108,9 +2654,10 @@ function renderLanding(){
 }
 
 // ── MASTER RENDER ────────────────────────────────────────────
-const FULLBLEED_SCREENS=['reader','quiz','celebration']; // no header/bottom-nav, matches the design's own top-level screens
+const FULLBLEED_SCREENS=['reader','quiz','celebration','placement']; // no header/bottom-nav, matches the design's own top-level screens
 function render(){
   if(state.screen==='landing'){ renderLanding(); return; }
+  if(state.screen==='placement'){ document.getElementById('app').innerHTML=renderPlacement(); return; }
   if(state.screen==='reader'){ document.getElementById('app').innerHTML=renderReader(); return; }
   if(state.screen==='quiz'){ document.getElementById('app').innerHTML=renderQuiz(); return; }
   if(state.screen==='celebration'){ document.getElementById('app').innerHTML=renderCelebration(); spawnConfetti(); return; }
@@ -2118,7 +2665,7 @@ function render(){
   if(state.screen==='home') body=renderHomeDash();
   else if(state.screen==='library') body=renderLibrary();
   else if(state.screen==='flashcards') body=renderFlashcards();
-  else if(state.screen==='progress') body=renderProgress();
+  else if(state.screen==='progress') body=renderProfile(); // legacy screen id -> merged Profile
   else if(state.screen==='rewards') body=renderRewards();
   else if(state.screen==='world') body=renderWorld();
   else if(state.screen==='profile') body=renderProfile();
@@ -2134,6 +2681,7 @@ function render(){
   ${renderModal()}`;
 }
 
+applyUiLang();
 render();
 setTimeout(checkDailyLoginBonus, 600);
 </script>
