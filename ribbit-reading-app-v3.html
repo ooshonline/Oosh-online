@@ -6,21 +6,23 @@
   <title>Ribbit v3 — OOSH ESL Reading</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- TODO(brand): body font per docs/design-implementation-brief.md should be Glacial Indifference,
+       not available on Google Fonts and no licensed copy found locally — Nunito Sans is the placeholder
+       until Kyle supplies a licensed Glacial Indifference webfont file. -->
   <style>
     :root {
-      /* Tokens per design_handoff_ribbit_ui/README.md — "final" token table.
-         #bada55 used instead of the Tablet prototype's #72C93A: README marks its
-         table final and it matches the existing OOSH brand green already live. */
-      --primary:#bada55; --primary-dark:#8fb832; --primary-light:rgba(186,218,85,.15);
+      /* Tokens per docs/design-implementation-brief.md: --primary repointed to
+         #72C93A (the correct frog green) — #bada55 was a leftover placeholder. */
+      --primary:#72C93A; --primary-dark:#599D2D; --primary-light:rgba(114,201,58,.15);
       --accent:#f9ad3b; --accent-dark:#d4831a;
       --correct:#22c55e; --correct-bg:#dcfce7; --wrong:#ef4444; --wrong-bg:#fee2e2;
       --bg:#eef7e8; --card:#ffffff; --text:#1A2340; --text-muted:#8FA0B5; --navy:#1A3260;
       --border:#EEF1F5;
       --shadow-sm:0 2px 8px rgba(0,0,0,.07); --shadow:0 2px 10px rgba(0,0,0,.08); --shadow-lg:0 4px 16px rgba(0,0,0,.12);
       --radius-sm:10px; --radius:16px; --radius-lg:24px;
-      --font-head:'Nunito',sans-serif;
-      --font-body:'Nunito Sans',sans-serif;
+      --font-head:'Baloo 2',sans-serif;
+      --font-body:'Nunito Sans',sans-serif; /* TODO(brand): swap to Glacial Indifference once licensed file is supplied */
       --lv1:#c084fc; --lv2:#bada55; --lv3:#4ade80; --lv4:#38bdf8; --lv5:#fb923c; --lv6:#f43f5e;
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -84,7 +86,7 @@
     .stat-pill{display:flex;align-items:center;gap:5px;background:var(--bg);border-radius:8px;padding:5px 9px}
     .stat-pill .sp-val{font-size:12px;font-weight:800;color:var(--text)}
     .stat-pill .sp-label{font-size:10px;font-weight:500;color:var(--text-muted)}
-    .avatar-btn{width:44px;height:44px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .avatar-btn{width:60px;height:60px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
     .lang-toggle-pill{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:4px;min-height:44px;background:var(--bg);border-radius:22px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--text)}
 
     .content-area{flex:1;overflow-y:auto;padding-bottom:8px}
@@ -93,7 +95,8 @@
     .nav-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;position:relative}
     .nav-indicator{width:22px;height:3px;border-radius:999px;background:transparent}
     .nav-tab.active .nav-indicator{background:var(--tab-accent)}
-    .nav-icon-wrap{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;background:transparent}
+    .ico svg{width:100%;height:100%}
+    .nav-icon-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:transparent}
     .nav-tab.active .nav-icon-wrap{background:var(--tab-tint)}
     .nav-badge{position:absolute;top:-1px;right:8px;width:9px;height:9px;background:#E05C5C;border-radius:50%;border:2px solid white}
     .nav-label{font-size:9.5px;font-weight:500;color:var(--text-muted)}
@@ -196,7 +199,7 @@
     .sublevel-nodes{display:flex;justify-content:space-between;gap:14px;position:relative;z-index:1;min-width:520px}
     /* The button is the hit target, not the circle — keep the 36px circle visually but pad the
        button out to the 44px WCAG 2.1 minimum. These are the library's primary nav for ages 5-7. */
-    .sub-node{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;min-width:44px;min-height:44px;padding:2px 4px}
+    .sub-node{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;min-width:60px;min-height:60px;padding:2px 4px}
     .sub-node-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
     .sub-node-label{font-size:10px;font-weight:600}
 
@@ -235,7 +238,7 @@
     .deck-chevron{font-size:16px;flex-shrink:0}
     .deck-create-btn{border:2px dashed #C7D6E0;border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-muted);font-family:var(--font-head);font-weight:800;font-size:13px}
     .flash-back-row{display:flex;align-items:center;gap:10px}
-    .flash-back-btn{width:44px;height:44px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-muted);flex-shrink:0}
+    .flash-back-btn{width:60px;height:60px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-muted);flex-shrink:0}
     .flash-deck-title{font-family:var(--font-head);font-weight:900;font-size:16px;color:var(--text)}
     .flash-deck-subtitle{font-size:11px;color:var(--text-muted)}
     .word-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -387,7 +390,7 @@
     .reader-screen{display:flex;flex-direction:column;height:100vh;background:white;overflow:hidden}
     .reader-header{background:var(--navy);display:flex;align-items:center;padding:10px 14px;gap:10px;flex-wrap:wrap;flex-shrink:0}
     .reader-audio-pill{flex:1;min-width:140px;height:52px;background:var(--primary);border-radius:999px;display:flex;align-items:center;padding:0 14px;gap:10px}
-    .reader-audio-btn{width:44px;height:44px;background:rgba(255,255,255,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;flex-shrink:0;border:none;cursor:pointer}
+    .reader-audio-btn{width:60px;height:60px;background:rgba(255,255,255,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;flex-shrink:0;border:none;cursor:pointer}
     .reader-exit-btn{height:44px;background:var(--primary);border-radius:999px;padding:0 16px;display:flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer}
     .reader-exit-btn span:last-child{font-size:12px;font-weight:700;color:white}
     .reader-content{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
@@ -397,7 +400,8 @@
        Plain `center` overflows equally in both directions on a scroll container, putting the
        first line above scrollTop:0 where it can never be scrolled back into view.
        The unprefixed `center` below it is the fallback for engines that don't parse `safe`. */
-    .reader-text-area{flex:1;min-height:0;background:#FFFDF8;display:flex;flex-direction:column;justify-content:center;justify-content:safe center;padding:24px 20px;overflow-y:auto;cursor:default}
+    .reader-text-area{flex:1;min-height:0;background:#FFFDF8;display:flex;flex-direction:column;justify-content:center;justify-content:safe center;padding:24px 20px;overflow-y:auto;cursor:default;position:relative}
+    .page-turn-anim-slot{position:absolute;inset:0;pointer-events:none;z-index:5}
     .reader-progress-bar{height:3px;background:var(--border);border-radius:999px;margin-bottom:20px}
     .reader-progress-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .3s ease}
     /* Type scales with the level: a Pre-A1 page is one short sentence and wants primer-sized
@@ -409,10 +413,10 @@
     .reader-next-btn{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px;background:var(--primary);border-radius:10px;padding:8px 16px;flex-shrink:0;border:none;font-size:13px;font-weight:800;color:#151515}
     .tappable-word{background:var(--primary-light);border-radius:4px;padding:0 2px;cursor:pointer}
     .word-popup-overlay{position:fixed;inset:0;background:rgba(8,16,36,.5);display:flex;align-items:center;justify-content:center;z-index:250;padding:20px}
-    .word-popup-card{width:100%;max-width:340px;background:var(--card);border-radius:18px;padding:22px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:modal-in .2s ease both}
+    .word-popup-card{width:100%;max-width:340px;background:var(--card);border-radius:18px;padding:22px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:modal-in .2s ease both;position:relative}
     .word-popup-word-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
     .word-popup-word{font-family:var(--font-head);font-weight:900;font-size:20px;color:var(--text);text-transform:capitalize}
-    .word-speak-btn{width:44px;height:44px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .word-speak-btn{width:60px;height:60px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
     .word-speak-btn:active{background:var(--primary)}
     .word-popup-def{font-size:13px;color:var(--text-muted);margin-bottom:8px;line-height:1.5}
     .word-popup-ja{font-size:13px;color:var(--primary-dark);margin-bottom:16px;line-height:1.5}
@@ -422,7 +426,7 @@
     /* ══ QUIZ — literal port, Tablet lines 901-958. Full-bleed, no app shell. ══ */
     .quiz-screen{min-height:100vh;display:flex;flex-direction:column;background:#F5F9EF}
     .quiz-topbar{height:56px;background:white;display:flex;align-items:center;padding:0 16px;gap:10px;border-bottom:1.5px solid #EAF0E2;flex-shrink:0}
-    .quiz-exit-btn{width:44px;height:44px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-muted);border:none;flex-shrink:0}
+    .quiz-exit-btn{width:60px;height:60px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-muted);border:none;flex-shrink:0}
     .quiz-title{font-family:var(--font-head);font-weight:800;font-size:13px;color:var(--text)}
     .quiz-dots{display:flex;align-items:center;gap:6px;margin-left:auto}
     .quiz-dot{width:8px;height:8px;border-radius:50%}
@@ -437,12 +441,12 @@
     .quiz-label{font-size:11px;font-weight:800;color:var(--text-muted);letter-spacing:.08em;margin-bottom:8px;text-align:center}
     .quiz-question-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:22px}
     .quiz-question-text{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text);text-align:center;line-height:1.3}
-    .quiz-speak-btn{width:44px;height:44px;border-radius:50%;background:white;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+    .quiz-speak-btn{width:60px;height:60px;border-radius:50%;background:white;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
     .quiz-speak-btn:active{background:var(--primary-light)}
     .quiz-options{display:flex;flex-direction:column;gap:10px}
     .quiz-option-row{display:flex;align-items:center;gap:8px}
     .quiz-option-row .quiz-option{flex:1;min-width:0}
-    .quiz-option-speak{width:44px;height:44px;border-radius:12px;background:white;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+    .quiz-option-speak{width:60px;height:60px;border-radius:12px;background:white;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
     .quiz-option{display:flex;align-items:center;gap:12px;border-radius:14px;padding:13px 16px;text-align:left;box-shadow:var(--shadow-sm)}
     .quiz-option-badge{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
     .quiz-option-text{font-size:14px;font-weight:700}
@@ -495,7 +499,7 @@
     .place-result-pond{font-family:var(--font-head);font-weight:900;font-size:26px;margin:6px 0 4px}
     .place-result-meta{font-size:13px;color:var(--text-muted);margin-bottom:18px}
     .place-level-chips{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:18px}
-    .place-chip{width:44px;height:44px;border-radius:12px;background:var(--bg);font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--text-muted);display:flex;align-items:center;justify-content:center}
+    .place-chip{width:60px;height:60px;border-radius:12px;background:var(--bg);font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--text-muted);display:flex;align-items:center;justify-content:center}
     .place-chip.place-chip-on{color:#151515}
     .place-change-hint{font-size:11px;color:var(--text-muted);margin-bottom:12px}
     @media (min-width:768px){
@@ -511,8 +515,10 @@
     @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
     .celeb-frog{font-size:96px;animation:bounce-in .65s ease both,float 2.5s ease-in-out .8s infinite;line-height:1;margin-bottom:16px}
     .celeb-title{font-family:var(--font-head);font-weight:900;font-size:22px;color:var(--navy);max-width:400px;line-height:1.25;animation:fade-up .4s .15s ease both;margin-bottom:18px}
-    .celeb-stars{display:flex;gap:12px;margin-bottom:18px}
-    .celeb-star{font-size:34px;display:block;animation:star-pop .4s ease both}
+    .celeb-stars{display:flex;gap:12px;margin-bottom:18px;width:180px;height:60px;justify-content:center}
+    .celeb-completion-anim-slot{position:absolute;inset:0;pointer-events:none;z-index:1}
+    .celeb-badge-anim-slot{width:96px;height:96px;margin-bottom:8px}
+    .celeb-badge-anim-slot:empty{display:none}
     .celeb-chip{display:flex;align-items:center;gap:6px;background:#EBF9DE;border-radius:999px;padding:8px 16px;margin-bottom:14px;animation:fade-up .4s .5s ease both}
     .celeb-chip span{font-family:var(--font-head);font-weight:800;font-size:13px;color:#2D6B12}
     .celeb-perf{font-size:12px;color:var(--text-muted);margin-bottom:26px;max-width:320px}
@@ -592,17 +598,91 @@
 <script src="ribbit-stories.js?v=20260713"></script>
 <script src="ribbit-wordlists.js?v=20260713"></script>
 <script src="ribbit-ja-translations.js?v=20260713"></script>
+<script src="assets/vendor/lottie.min.js?v=20260713"></script>
 <script>
+// Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
+const ICONS = {
+  'nav-flashcards': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="13" height="10" rx="1.6" transform="rotate(-6 12.5 12)" fill="#FFFDF8"></rect><rect x="5" y="9" width="13" height="10" rx="1.6" fill="#FFFDF8"></rect></svg>`,
+  'nav-home': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12L12 4.6L20 12"></path><path d="M6.3 10.3V19a1 1 0 0 0 1 1H16.7a1 1 0 0 0 1-1V10.3"></path><path d="M10 20V14.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1V20"></path></svg>`,
+  'nav-library': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="4" height="15" rx="1"></rect><rect x="10" y="3" width="4" height="17" rx="1"></rect><rect x="16" y="7" width="4" height="13" rx="1"></rect></svg>`,
+  'nav-profile': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.4" r="3.4"></circle><path d="M5 20c0-4 3-6.6 7-6.6s7 2.6 7 6.6"></path></svg>`,
+  'nav-rewards': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4.2a5 5 0 0 1-10 0z"></path><path d="M7 6.2H4.3A2.1 2.1 0 0 0 6 9.6"></path><path d="M17 6.2h2.7A2.1 2.1 0 0 1 18 9.6"></path><line x1="12" y1="13.2" x2="12" y2="16.6"></line><path d="M9 17.6h6v1.6a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1z"></path><line x1="8" y1="20.6" x2="16" y2="20.6"></line></svg>`,
+  'ctrl-audio': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h3.5L13 18V6L7.5 10z"></path><path d="M17 9.2a4 4 0 0 1 0 5.6"></path><path d="M19.6 6.6a8 8 0 0 1 0 10.8"></path></svg>`,
+  'ctrl-close': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>`,
+  'ctrl-next': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6v12l9-6z"></path><rect x="17" y="6" width="2.4" height="12" rx="1"></rect></svg>`,
+  'ctrl-pause': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="4" height="14" rx="1.4"></rect><rect x="14" y="5" width="4" height="14" rx="1.4"></rect></svg>`,
+  'ctrl-play': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.3v13.4l11-6.7z"></path></svg>`,
+  'ctrl-previous': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 6v12l-9-6z"></path><rect x="4.6" y="6" width="2.4" height="12" rx="1"></rect></svg>`,
+  'status-check': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4.5 4.5L19 7"></path></svg>`,
+  'status-lock': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="11" width="13" height="9.5" rx="1.8"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>`,
+  'status-search': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.8" cy="10.8" r="6.3"></circle><line x1="15.4" y1="15.4" x2="20" y2="20"></line></svg>`,
+  'status-streak-flame': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#E8734A" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c1 3 4.5 5 4.5 9a4.5 4.5 0 0 1-9 0c0-1.6.8-2.6 1.5-3.5-.1 1.2.4 2 1.2 2.3-.4-2.4 1-3.6 1.8-5.3.4 1 .3 2 0 3 .6-.5 1-1.2 1-2.5-.5-1-1.3-2-1-3z"></path></svg>`,
+  'lvl-lily-pad': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#72C93A" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12 L19.61 9.53 A8 8 0 1 0 19.61 14.47 Z"></path></svg>`,
+  'lvl-ocean': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="6" r="2.3" fill="#F0AC3D" stroke="none"></circle><path d="M2 12c2.4-1.7 4.8-1.7 7.2 0s4.8 1.7 7.2 0 4.8-1.7 7.2 0" fill="none" stroke="#3FA6A0"></path><path d="M2 16.5c2.4-1.7 4.8-1.7 7.2 0s4.8 1.7 7.2 0 4.8-1.7 7.2 0" fill="none" stroke="#3FA6A0"></path><path d="M2 21c2.4-1.7 4.8-1.7 7.2 0s4.8 1.7 7.2 0 4.8-1.7 7.2 0" fill="none" stroke="#1A3260"></path></svg>`,
+  'lvl-pond': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="13" rx="8.5" ry="6" fill="#72C93A"></ellipse><path d="M7 13c1 1 2 1 3 0s2-1 3 0 2 1 3 0" stroke="#FFFDF8" fill="none"></path></svg>`,
+  'lvl-river': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7c2.2-1.6 4.4-1.6 6.6 0s4.4 1.6 6.6 0 4.4-1.6 6.6 0" fill="none"></path><path d="M2 12.5c2.2-1.6 4.4-1.6 6.6 0s4.4 1.6 6.6 0 4.4-1.6 6.6 0" fill="none" stroke="#72C93A"></path><path d="M2 18c2.2-1.6 4.4-1.6 6.6 0s4.4 1.6 6.6 0 4.4-1.6 6.6 0" fill="none" stroke="#3FA6A0"></path></svg>`,
+  'lvl-stream': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9c2-1.6 4-1.6 6 0s4 1.6 6 0 4-1.6 6 0" fill="none"></path><path d="M3 15c2-1.6 4-1.6 6 0s4 1.6 6 0 4-1.6 6 0" fill="none" stroke="#72C93A"></path></svg>`,
+  'lvl-waterfall': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v9"></path><path d="M12 3v11"></path><path d="M16 3v9"></path><path d="M5 16c1.8-1.2 3.6-1.2 5.4 0s3.6 1.2 5.4 0 3.6-1.2 5.4 0" stroke="#3FA6A0" fill="none"></path><path d="M4 20h16" stroke="#72C93A"></path></svg>`,
+  'xp-xp-star': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#F0AC3D" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.00 3.70 L14.12 9.39 L20.18 9.64 L15.42 13.41 L17.05 19.26 L12.00 15.90 L6.95 19.26 L8.58 13.41 L3.82 9.64 L9.88 9.39 Z"></path></svg>`,
+  'badge-century-club': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#F0AC3D"></circle><rect x="7.5" y="8" width="9" height="2.2" rx="0.6" fill="#FFFDF8" stroke="none"></rect><rect x="7.5" y="10.9" width="9" height="2.2" rx="0.6" fill="#FFFDF8" stroke="none"></rect><rect x="7.5" y="13.8" width="9" height="2.2" rx="0.6" fill="#FFFDF8" stroke="none"></rect></svg>`,
+  'badge-champion-lily-pad': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#1A3260"></circle><circle cx="12" cy="12" r="4" fill="#FFFDF8" stroke="none"></circle><path d="M12.00 4.00 L12.41 5.03 L13.52 5.11 L12.67 5.82 L12.94 6.89 L12.00 6.30 L11.06 6.89 L11.33 5.82 L10.48 5.11 L11.59 5.03 Z" fill="#F0AC3D" stroke="none"></path></svg>`,
+  'badge-champion-ocean': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#1A3260"></circle><circle cx="15" cy="8.5" r="1.3" fill="#FFFDF8" stroke="none"></circle><path d="M6.5 13.5c1.4-1 2.8-1 4.2 0s2.8 1 4.2 0 2.8-1 4.2 0" fill="none" stroke="#FFFDF8" stroke-width="1.4"></path><path d="M6.5 16.3c1.4-1 2.8-1 4.2 0s2.8 1 4.2 0 2.8-1 4.2 0" fill="none" stroke="#FFFDF8" stroke-width="1.4"></path><path d="M12.00 4.00 L12.41 5.03 L13.52 5.11 L12.67 5.82 L12.94 6.89 L12.00 6.30 L11.06 6.89 L11.33 5.82 L10.48 5.11 L11.59 5.03 Z" fill="#F0AC3D" stroke="none"></path></svg>`,
+  'badge-champion-pond': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#1A3260"></circle><ellipse cx="12" cy="12" rx="4.6" ry="3.2" fill="#FFFDF8" stroke="none"></ellipse><path d="M12.00 4.00 L12.41 5.03 L13.52 5.11 L12.67 5.82 L12.94 6.89 L12.00 6.30 L11.06 6.89 L11.33 5.82 L10.48 5.11 L11.59 5.03 Z" fill="#F0AC3D" stroke="none"></path></svg>`,
+  'badge-champion-river': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#1A3260"></circle><path d="M6.5 10.5c1.4-1 2.8-1 4.2 0s2.8 1 4.2 0 2.8-1 4.2 0" fill="none" stroke="#FFFDF8" stroke-width="1.4"></path><path d="M6.5 13.8c1.4-1 2.8-1 4.2 0s2.8 1 4.2 0 2.8-1 4.2 0" fill="none" stroke="#FFFDF8" stroke-width="1.4"></path><path d="M12.00 4.00 L12.41 5.03 L13.52 5.11 L12.67 5.82 L12.94 6.89 L12.00 6.30 L11.06 6.89 L11.33 5.82 L10.48 5.11 L11.59 5.03 Z" fill="#F0AC3D" stroke="none"></path></svg>`,
+  'badge-champion-stream': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#1A3260"></circle><path d="M7 12c1.2-1 2.4-1 3.6 0s2.4 1 3.6 0 2.4-1 3.6 0" fill="none" stroke="#FFFDF8" stroke-width="1.4"></path><path d="M12.00 4.00 L12.41 5.03 L13.52 5.11 L12.67 5.82 L12.94 6.89 L12.00 6.30 L11.06 6.89 L11.33 5.82 L10.48 5.11 L11.59 5.03 Z" fill="#F0AC3D" stroke="none"></path></svg>`,
+  'badge-champion-waterfall': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#1A3260"></circle><path d="M9.5 7.5v6" stroke="#FFFDF8" stroke-width="1.4" fill="none"></path><path d="M12 7.5v8" stroke="#FFFDF8" stroke-width="1.4" fill="none"></path><path d="M14.5 7.5v6" stroke="#FFFDF8" stroke-width="1.4" fill="none"></path><path d="M7 16.5h10" stroke="#FFFDF8" stroke-width="1.4"></path><path d="M12.00 4.00 L12.41 5.03 L13.52 5.11 L12.67 5.82 L12.94 6.89 L12.00 6.30 L11.06 6.89 L11.33 5.82 L10.48 5.11 L11.59 5.03 Z" fill="#F0AC3D" stroke="none"></path></svg>`,
+  'badge-first-leap': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#72C93A"></circle><path d="M12 16.4V8" stroke="#FFFDF8" stroke-width="1.6" fill="none"></path><path d="M8.4 11.2L12 7.6l3.6 3.6" stroke="#FFFDF8" stroke-width="1.6" fill="none"></path></svg>`,
+  'badge-known-master': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#F0AC3D"></circle><path d="M6.5 15.5l-1-6 3.1 2.4 3.4-4 3.4 4 3.1-2.4-1 6z" fill="#FFFDF8" stroke="none"></path></svg>`,
+  'badge-monthly-marathon': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#5FA8D3"></circle><path d="M12 6.5c.6 1.8 2.6 3 2.6 5.4a2.6 2.6 0 0 1-5.2 0c0-.9.5-1.5.9-2-.1.7.2 1.1.7 1.3-.2-1.4.6-2.1 1-3.1.2.6.2 1.2 0 1.8.4-.3.6-.7.6-1.5-.3-.6-.8-1.2-.6-1.9z" fill="#FFFDF8" stroke="none"></path></svg>`,
+  'badge-quiz-ace': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#F0AC3D"></circle><path d="M8.5 12.2l2.3 2.3 4.7-4.7" fill="none" stroke="#FFFDF8" stroke-width="1.6"></path></svg>`,
+  'badge-skill-star': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#F0AC3D"></circle><path d="M12.00 7.80 L13.12 10.86 L16.37 10.98 L13.81 12.99 L14.70 16.12 L12.00 14.30 L9.30 16.12 L10.19 12.99 L7.63 10.98 L10.88 10.86 Z" fill="#FFFDF8" stroke="none"></path></svg>`,
+  'badge-story-streak': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#B5793E"></circle><path d="M12 6.5c.6 1.8 2.6 3 2.6 5.4a2.6 2.6 0 0 1-5.2 0c0-.9.5-1.5.9-2-.1.7.2 1.1.7 1.3-.2-1.4.6-2.1 1-3.1.2.6.2 1.2 0 1.8.4-.3.6-.7.6-1.5-.3-.6-.8-1.2-.6-1.9z" fill="#FFFDF8" stroke="none"></path></svg>`,
+  'badge-streak-keeper': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#A9B2BE"></circle><path d="M12 6.5c.6 1.8 2.6 3 2.6 5.4a2.6 2.6 0 0 1-5.2 0c0-.9.5-1.5.9-2-.1.7.2 1.1.7 1.3-.2-1.4.6-2.1 1-3.1.2.6.2 1.2 0 1.8.4-.3.6-.7.6-1.5-.3-.6-.8-1.2-.6-1.9z" fill="#FFFDF8" stroke="none"></path></svg>`,
+  'badge-ten-tales': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#72C93A"></circle><path d="M12 9.3c-1.1-.8-2.6-1.1-4-1v6.2c1.4-.1 2.9.2 4 1 1.1-.8 2.6-1.1 4-1V8.3c-1.4-.1-2.9.2-4 1z" fill="#FFFDF8" stroke="none"></path></svg>`,
+  'badge-two-week-streak': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#F0AC3D"></circle><path d="M12 6.5c.6 1.8 2.6 3 2.6 5.4a2.6 2.6 0 0 1-5.2 0c0-.9.5-1.5.9-2-.1.7.2 1.1.7 1.3-.2-1.4.6-2.1 1-3.1.2.6.2 1.2 0 1.8.4-.3.6-.7.6-1.5-.3-.6-.8-1.2-.6-1.9z" fill="#FFFDF8" stroke="none"></path></svg>`,
+  'badge-vocabulary-vault': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#3FA6A0"></circle><rect x="8.4" y="12.3" width="7.2" height="4.6" rx="1" fill="#FFFDF8" stroke="none"></rect><path d="M9.6 12.3v-1.8a2.4 2.4 0 0 1 4.8 0v1.8" fill="none" stroke="#FFFDF8" stroke-width="1.4"></path></svg>`,
+  'badge-word-collector': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#72C93A"></circle><path d="M8 8.5h3.6l3.4 3.4-3.6 3.6-3.4-3.4z" fill="#FFFDF8" stroke="none"></path><circle cx="9.3" cy="9.8" r="0.7" fill="#1A3260" stroke="none"></circle></svg>`,
+  'badge-word-watcher': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#72C93A"></circle><path d="M6 12c1.8-2.6 4-3.9 6-3.9s4.2 1.3 6 3.9c-1.8 2.6-4 3.9-6 3.9S7.8 14.6 6 12z" fill="none" stroke="#FFFDF8" stroke-width="1.4"></path><circle cx="12" cy="12" r="1.6" fill="#FFFDF8" stroke="none"></circle></svg>`,
+  'badge-world-traveler': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" fill="#3FA6A0"></circle><circle cx="12" cy="12" r="4.6" fill="none" stroke="#FFFDF8" stroke-width="1.4"></circle><ellipse cx="12" cy="12" rx="2" ry="4.6" fill="none" stroke="#FFFDF8" stroke-width="1.4"></ellipse><line x1="7.4" y1="12" x2="16.6" y2="12" stroke="#FFFDF8" stroke-width="1.4"></line></svg>`,
+};
+function icon(key,size){ const s=ICONS[key]||''; return `<span class="ico" style="width:${size}px;height:${size}px;display:inline-flex;flex-shrink:0">${s}</span>`; }
+function iconOrEmoji(v,size){ return ICONS[v]?icon(v,size):v; }
+// ── Lottie helper — shared player wired to assets/animations/, honours prefers-reduced-motion
+// (checked live via prefersReducedMotion(), defined below, so it always reflects the current OS setting)
+function playLottie(container, path, {loop=false, onComplete}={}){
+  if(!container) return null;
+  container.innerHTML='';
+  if(prefersReducedMotion()){ onComplete&&onComplete(); return null; }
+  const anim = lottie.loadAnimation({ container, renderer:'svg', loop, autoplay:true, path });
+  if(onComplete && !loop) anim.addEventListener('complete', onComplete);
+  return anim;
+}
+// Recolors a shape-layer Lottie's fill/stroke color tokens at runtime (used for badge-unlock, which is shared across all badge colors)
+function recolorLottieData(data, hex){
+  const rgb = [1,3,5].map((i,n)=>parseInt(hex.slice(i,i+2),16)/255);
+  const clone = JSON.parse(JSON.stringify(data));
+  (function walk(node){
+    if(!node || typeof node!=='object') return;
+    if(node.ty==='fl' || node.ty==='st'){ if(node.c && node.c.k) node.c.k=[...rgb,1]; }
+    for(const k in node) if(typeof node[k]==='object') walk(node[k]);
+  })(clone);
+  return clone;
+}
+function playPageTurn(){
+  const slot=document.getElementById('page-turn-anim');
+  if(slot) playLottie(slot,'assets/animations/transitions/page-turn.json',{onComplete:()=>{ if(slot.isConnected) slot.innerHTML=''; }});
+}
+
 // ── LEVELS — real CEFR/ages/stage-name from the live app's content, merged with
 // the pond-themed display names/colors/gradients/icons from the Tablet design's
 // own LIBRARY_LEVELS placeholder (visual language, not content, so it's fair to keep).
 const LEVELS=[
-  {id:1,name:'Beginner',    cefr:'Pre-A1',ages:'5–7',  pond:'Lily Pad',  color:'#bada55',g1:'#E8FFD4',g2:'#72C93A',icon:'🌱'},
-  {id:2,name:'Elementary',  cefr:'A1',    ages:'7–9',  pond:'Pond',      color:'#70C1B3',g1:'#D8F5F0',g2:'#70C1B3',icon:'🐸'},
-  {id:3,name:'Pre-Intermediate',cefr:'A2',ages:'9–11', pond:'Stream',    color:'#F5C842',g1:'#FFF8D4',g2:'#F5C842',icon:'🌊'},
-  {id:4,name:'Intermediate',cefr:'B1',    ages:'11–13',pond:'River',     color:'#F4844A',g1:'#FFE8D4',g2:'#F4844A',icon:'🏞️'},
-  {id:5,name:'Upper-Intermediate',cefr:'B2',ages:'13–15',pond:'Waterfall',color:'#E05C5C',g1:'#FFD8D8',g2:'#E05C5C',icon:'💧'},
-  {id:6,name:'Advanced',    cefr:'C1',    ages:'15+',  pond:'Ocean',     color:'#9B72CF',g1:'#F0E4FF',g2:'#9B72CF',icon:'🐋'},
+  {id:1,name:'Beginner',    cefr:'Pre-A1',ages:'5–7',  pond:'Lily Pad',  color:'#72C93A',g1:'#E8FFD4',g2:'#72C93A',icon:'lvl-lily-pad'},
+  {id:2,name:'Elementary',  cefr:'A1',    ages:'7–9',  pond:'Pond',      color:'#70C1B3',g1:'#D8F5F0',g2:'#70C1B3',icon:'lvl-pond'},
+  {id:3,name:'Pre-Intermediate',cefr:'A2',ages:'9–11', pond:'Stream',    color:'#F5C842',g1:'#FFF8D4',g2:'#F5C842',icon:'lvl-stream'},
+  {id:4,name:'Intermediate',cefr:'B1',    ages:'11–13',pond:'River',     color:'#F4844A',g1:'#FFE8D4',g2:'#F4844A',icon:'lvl-river'},
+  {id:5,name:'Upper-Intermediate',cefr:'B2',ages:'13–15',pond:'Waterfall',color:'#E05C5C',g1:'#FFD8D8',g2:'#E05C5C',icon:'lvl-waterfall'},
+  {id:6,name:'Advanced',    cefr:'C1',    ages:'15+',  pond:'Ocean',     color:'#9B72CF',g1:'#F0E4FF',g2:'#9B72CF',icon:'lvl-ocean'},
 ];
 const LEVEL_GRADIENTS={}; LEVELS.forEach(l=>LEVEL_GRADIENTS[l.id]=[l.g1,l.g2]);
 
@@ -654,21 +734,21 @@ function storiesCompletedInLastDays(n){
   return Object.values(state.progress).filter(p=>p.at>=cutoff).length;
 }
 const BADGES=[
-  {id:'first-leap',    icon:'🐸', nameKey:'badgeFirstLeap',   hintKey:'hintFirstLeap',   category:'milestones', color:'#bada55', check:()=>Object.keys(state.progress).length>=1},
-  {id:'skill-star',    icon:'🌟', nameKey:'badgeSkillStar',   hintKey:'hintSkillStar',   category:'milestones', color:'#bada55', check:()=>Object.values(state.progress).some(p=>p.score>=1)},
-  {id:'ten-tales',     icon:'📚', nameKey:'badgeTenTales',    hintKey:'hintTenTales',    category:'milestones', color:'#bada55', check:()=>Object.keys(state.progress).length>=10},
-  {id:'century-club',  icon:'💯', nameKey:'badgeCenturyClub', hintKey:'hintCenturyClub', category:'milestones', color:'#bada55', check:()=>Object.keys(state.progress).length>=100},
-  {id:'quiz-ace',      icon:'⭐', nameKey:'badgeQuizAce',     hintKey:'hintQuizAce',     category:'milestones', color:'#bada55', check:()=>(state.perfectCount||0)>=5},
-  {id:'world-traveler',icon:'🌍', nameKey:'badgeWorldTraveler',hintKey:'hintWorldTraveler',category:'milestones', color:'#bada55', check:()=>DESTINATIONS.some(d=>destComplete(d.id))},
-  {id:'story-streak',    icon:'📖', nameKey:'badgeStoryStreak', hintKey:'hintStoryStreak', category:'habits', color:'#F4844A', check:()=>storiesCompletedInLastDays(7)>=3},
-  {id:'streak-keeper',   icon:'🔥', nameKey:'badgeStreakKeeper',hintKey:'hintStreakKeeper',category:'habits', color:'#F4844A', check:()=>state.streak>=7},
-  {id:'two-week-streak', icon:'🗓', nameKey:'badgeTwoWeek',    hintKey:'hintTwoWeek',     category:'habits', color:'#F4844A', check:()=>state.streak>=14},
-  {id:'monthly-marathon',icon:'📅', nameKey:'badgeMonthly',    hintKey:'hintMonthly',     category:'habits', color:'#F4844A', check:()=>state.streak>=30},
-  {id:'word-watcher',    icon:'🔤', nameKey:'badgeWordWatcher',  hintKey:'hintWordWatcher',  category:'vocabulary', color:'#F5C842', check:()=>Object.keys(state.flashCards).length>=5},
-  {id:'word-collector',  icon:'📇', nameKey:'badgeWordCollector',hintKey:'hintWordCollector',category:'vocabulary', color:'#F5C842', check:()=>Object.keys(state.flashCards).length>=25},
-  {id:'vocabulary-vault',icon:'🗝', nameKey:'badgeVocabVault',   hintKey:'hintVocabVault',   category:'vocabulary', color:'#F5C842', check:()=>Object.keys(state.flashCards).length>=50},
-  {id:'known-master',    icon:'🐝', nameKey:'badgeKnownMaster',  hintKey:'hintKnownMaster',  category:'vocabulary', color:'#F5C842', check:()=>Object.values(state.deckWordStatus).filter(s=>s==='known').length>=10},
-  ...LEVELS.map(lv=>({ id:`champion-${lv.id}`, icon:lv.icon, category:'levels', color:lv.color, levelRef:lv, check:()=>levelDoneCount(lv.id)>=10 })),
+  {id:'first-leap',    icon:'badge-first-leap', nameKey:'badgeFirstLeap',   hintKey:'hintFirstLeap',   category:'milestones', color:'#72C93A', check:()=>Object.keys(state.progress).length>=1},
+  {id:'skill-star',    icon:'badge-skill-star', nameKey:'badgeSkillStar',   hintKey:'hintSkillStar',   category:'milestones', color:'#72C93A', check:()=>Object.values(state.progress).some(p=>p.score>=1)},
+  {id:'ten-tales',    icon:'badge-ten-tales', nameKey:'badgeTenTales',    hintKey:'hintTenTales',    category:'milestones', color:'#72C93A', check:()=>Object.keys(state.progress).length>=10},
+  {id:'century-club',    icon:'badge-century-club', nameKey:'badgeCenturyClub', hintKey:'hintCenturyClub', category:'milestones', color:'#72C93A', check:()=>Object.keys(state.progress).length>=100},
+  {id:'quiz-ace',    icon:'badge-quiz-ace', nameKey:'badgeQuizAce',     hintKey:'hintQuizAce',     category:'milestones', color:'#72C93A', check:()=>(state.perfectCount||0)>=5},
+  {id:'world-traveler',    icon:'badge-world-traveler', nameKey:'badgeWorldTraveler',hintKey:'hintWorldTraveler',category:'milestones', color:'#72C93A', check:()=>DESTINATIONS.some(d=>destComplete(d.id))},
+  {id:'story-streak',    icon:'badge-story-streak', nameKey:'badgeStoryStreak', hintKey:'hintStoryStreak', category:'habits', color:'#F4844A', check:()=>storiesCompletedInLastDays(7)>=3},
+  {id:'streak-keeper',    icon:'badge-streak-keeper', nameKey:'badgeStreakKeeper',hintKey:'hintStreakKeeper',category:'habits', color:'#F4844A', check:()=>state.streak>=7},
+  {id:'two-week-streak',    icon:'badge-two-week-streak', nameKey:'badgeTwoWeek',    hintKey:'hintTwoWeek',     category:'habits', color:'#F4844A', check:()=>state.streak>=14},
+  {id:'monthly-marathon',    icon:'badge-monthly-marathon', nameKey:'badgeMonthly',    hintKey:'hintMonthly',     category:'habits', color:'#F4844A', check:()=>state.streak>=30},
+  {id:'word-watcher',    icon:'badge-word-watcher', nameKey:'badgeWordWatcher',  hintKey:'hintWordWatcher',  category:'vocabulary', color:'#F5C842', check:()=>Object.keys(state.flashCards).length>=5},
+  {id:'word-collector',    icon:'badge-word-collector', nameKey:'badgeWordCollector',hintKey:'hintWordCollector',category:'vocabulary', color:'#F5C842', check:()=>Object.keys(state.flashCards).length>=25},
+  {id:'vocabulary-vault',    icon:'badge-vocabulary-vault', nameKey:'badgeVocabVault',   hintKey:'hintVocabVault',   category:'vocabulary', color:'#F5C842', check:()=>Object.keys(state.flashCards).length>=50},
+  {id:'known-master',    icon:'badge-known-master', nameKey:'badgeKnownMaster',  hintKey:'hintKnownMaster',  category:'vocabulary', color:'#F5C842', check:()=>Object.values(state.deckWordStatus).filter(s=>s==='known').length>=10},
+  ...LEVELS.map(lv=>({ id:`champion-${lv.id}`, icon:`badge-champion-${lv.icon.replace('lvl-','')}`, category:'levels', color:lv.color, levelRef:lv, check:()=>levelDoneCount(lv.id)>=10 })),
 ];
 
 // A badge's check() reads live state, so "earned" is derived, never stored. The dot on the
@@ -874,6 +954,18 @@ function speakWord(word){ speakText(word, 0.8); }
 // Escapes a word for interpolation into an inline onclick="..." JS string literal.
 function jsStr(word){ return String(word).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
 
+// Swipe navigation for the reader (iPad landscape) — audit flagged this as missing;
+// prev/next buttons stay as the accessible fallback, this just adds the gesture on top.
+let readerSwipe=null;
+function readerSwipeStart(e){ const t=e.changedTouches[0]; readerSwipe={x:t.clientX,y:t.clientY}; }
+function readerSwipeEnd(e){
+  if(!readerSwipe) return;
+  const t=e.changedTouches[0];
+  const dx=t.clientX-readerSwipe.x, dy=t.clientY-readerSwipe.y;
+  readerSwipe=null;
+  if(Math.abs(dx)<60 || Math.abs(dx)<Math.abs(dy)*1.5) return; // too short, or more vertical (scrolling) than horizontal
+  if(dx<0) nextPage(); else prevPage();
+}
 function nextPage(){
   const story=findStory(state.lastStoryId);
   if(typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
@@ -882,6 +974,7 @@ function nextPage(){
     state.currentPage++;
     state.readingPos[story.id]=state.currentPage; save();
     render();
+    playPageTurn();
   } else {
     state.screen='quiz'; state.quizIndex=0; state.quizAnswered=false;
     state.quizSelected=null; state.quizCorrectCount=0; state.quizStartTime=Date.now();
@@ -894,6 +987,7 @@ function prevPage(){
     state.currentPage--; state.wordPopup=null;
     state.readingPos[state.lastStoryId]=state.currentPage; save();
     render();
+    playPageTurn();
   }
 }
 function exitReading(){
@@ -935,7 +1029,7 @@ function exitQuiz(){ navigate('home'); }
 // (populated by tap-to-save in the reader), plus user-created custom decks that
 // pick a subset of those same real saved words. No fabricated word-bank content.
 function getDeckList(){
-  const myWords={ id:'my-words', title:t('myWords'), subtitle:t('savedWhileReading'), color:'#bada55', tint:'#EBF9DE', wordIds:Object.keys(state.flashCards) };
+  const myWords={ id:'my-words', title:t('myWords'), subtitle:t('savedWhileReading'), color:'#72C93A', tint:'#EBF9DE', wordIds:Object.keys(state.flashCards) };
   const custom=state.customDecks.map(d=>({...d, subtitle:t('myWords'), color:'#9B72CF', tint:'#F1E8FF'}));
   return [myWords, ...custom];
 }
@@ -982,7 +1076,11 @@ function startPracticeAgain(deckId){
   const leftover=deck.wordIds.filter(id=>state.deckWordStatus[`${deckId}:${id}`]==='practiceMore');
   startStudy(deckId, leftover.length?leftover:deck.wordIds.filter(w=>state.flashCards[w]));
 }
-function flipCard(){ state.flashFlipped=!state.flashFlipped; render(); }
+function flipCard(){
+  state.flashFlipped=!state.flashFlipped; render();
+  const slot=document.getElementById('flashcard-flip-anim');
+  if(slot) playLottie(slot,'assets/animations/transitions/flashcard-flip.json',{onComplete:()=>{ if(slot.isConnected) slot.innerHTML=''; }});
+}
 function answerCard(status){
   const wordId=state.studyQueue[state.studyIdx];
   state.deckWordStatus[`${state.selectedDeckId}:${wordId}`]=status;
@@ -1065,6 +1163,8 @@ function showWordPopup(word){
   // while the header still showed a pause icon — clear the flag before it does.
   state.audioPlaying=false;
   render();
+  const slot=document.getElementById('word-highlight-anim');
+  if(slot) playLottie(slot,'assets/animations/transitions/word-highlight-reveal.json',{onComplete:()=>{ if(slot.isConnected) slot.innerHTML=''; }});
   speakWord(word); // hearing the word is the point of tapping it
 }
 function closeWordPopup(){ state.wordPopup=null; render(); }
@@ -1156,6 +1256,7 @@ function checkXPMilestone(prevXP){
 function awardXP(n){
   const prevXP=state.xp||0;
   state.xp=prevXP+n;
+  if(n>0) state._xpFlash=true;
   checkXPMilestone(prevXP);
 }
 
@@ -1247,7 +1348,7 @@ function renderQuestCards(){
         ${(!done&&prog)?`<div class="quest-prog">${prog}</div>`:''}
         ${(!done&&pct!==undefined)?`<div class="quest-prog-bar-wrap"><div class="quest-prog-bar-fill" style="width:${pct}%"></div></div>`:''}
       </div>
-      <span class="quest-check">✓</span>
+      <span class="quest-check">${icon('status-check',14)}</span>
     </div>`;
   return `<div class="quests-wrap">
     <div class="quests-section-title">${t('questDailyTitle')}</div>
@@ -1277,7 +1378,7 @@ function renderWeekQuestCards(){
         ${(!done&&prog)?`<div class="quest-prog">${prog}</div>`:''}
         ${(!done&&pct!==undefined)?`<div class="quest-prog-bar-wrap"><div class="quest-prog-bar-fill" style="width:${pct}%"></div></div>`:''}
       </div>
-      <span class="quest-check">✓</span>
+      <span class="quest-check">${icon('status-check',14)}</span>
     </div>`;
   return `<div class="quests-wrap">
     <div class="quests-section-title">${t('questWeeklyTitle')}</div>
@@ -1699,11 +1800,11 @@ function toggleUiLang(){ state.uiLang = state.uiLang==='en'?'ja':'en'; applyUiLa
 
 // ── APP SHELL (header + bottom nav) — literal port, Tablet lines 37-106, 730-752 ──
 const TAB_DEFS=[
-  {key:'home',      icon:'🏠', labelKey:'navHome',      accent:'#bada55', tint:'#EBF9DE'},
-  {key:'library',   icon:'📚', labelKey:'navLibrary',   accent:'#38B4F5', tint:'#E3F3FC'},
-  {key:'flashcards',icon:'🔤', labelKey:'navFlashcards',accent:'#F4844A', tint:'#DFF7F2'},
-  {key:'rewards',   icon:'🏆', labelKey:'navRewards',   accent:'#9B72CF', tint:'#F1E8FF', badge:true},
-  {key:'profile',   icon:'👤', labelKey:'navProfile',   accent:'#1A3260', tint:'#E8ECF3'},
+  {key:'home',      icon:'nav-home',       labelKey:'navHome',      accent:'#72C93A', tint:'#EBF9DE'},
+  {key:'library',   icon:'nav-library',    labelKey:'navLibrary',   accent:'#38B4F5', tint:'#E3F3FC'},
+  {key:'flashcards',icon:'nav-flashcards', labelKey:'navFlashcards',accent:'#F4844A', tint:'#DFF7F2'},
+  {key:'rewards',   icon:'nav-rewards',    labelKey:'navRewards',   accent:'#9B72CF', tint:'#F1E8FF', badge:true},
+  {key:'profile',   icon:'nav-profile',    labelKey:'navProfile',   accent:'#1A3260', tint:'#E8ECF3'},
 ];
 const IMPLEMENTED_SCREENS=['home','library','flashcards','progress','rewards','world','profile']; // grows as future passes land
 
@@ -1745,8 +1846,8 @@ function renderHeader(){
     ${middle}
     <div class="header-stats">
       ${!isLibrary?`
-      <div class="stat-pill"><span>🔥</span><span class="sp-val">${state.streak||0}</span></div>
-      <div class="stat-pill"><span>⭐</span><span class="sp-val">${(state.xp||0).toLocaleString()}</span></div>
+      <div class="stat-pill"><span id="header-streak-flame" class="lottie-slot">${icon('status-streak-flame',16)}</span><span class="sp-val">${state.streak||0}</span></div>
+      <div class="stat-pill"><span id="header-xp-star">${icon('xp-xp-star',16)}</span><span class="sp-val">${(state.xp||0).toLocaleString()}</span></div>
       <button class="avatar-btn" onclick="navigate('profile')" aria-label="Profile">🐸</button>`:''}
       <button class="lang-toggle-pill" onclick="toggleUiLang()" aria-label="Toggle language">${t('langToggle')}</button>
     </div>
@@ -1758,7 +1859,7 @@ function renderBottomNav(){
     const active=state.screen===tab.key;
     return `<button class="nav-tab${active?' active':''}" onclick="navigate('${tab.key}')" style="${active?`--tab-accent:${tab.accent};--tab-tint:${tab.tint};`:''}">
       <div class="nav-indicator"></div>
-      <div class="nav-icon-wrap">${tab.icon}${tab.badge&&!active&&unseenBadgeCount()>0?'<span class="nav-badge"></span>':''}</div>
+      <div class="nav-icon-wrap">${icon(tab.icon,28)}${tab.badge&&!active&&unseenBadgeCount()>0?'<span class="nav-badge"></span>':''}</div>
       <span class="nav-label" style="${active?`color:${tab.accent}`:''}">${t(tab.labelKey)}</span>
     </button>`;
   }).join('');
@@ -1780,7 +1881,7 @@ function renderLibraryTierLevels(){
     const dots=Array.from({length:10},(_,i)=>`<div class="lvl-dot${subLevelDone(level.id,i)?' lvl-dot-done':''}"></div>`).join('');
     return `<button class="lvl-card" onclick="openLibraryLevel(${level.id})">
       <div class="lvl-cover" style="background:linear-gradient(145deg,${level.g1},${level.g2})">
-        <span>${level.icon}</span>
+        <span>${icon(level.icon,20)}</span>
         <div class="lvl-cefr-badge" style="color:${level.color}">${level.cefr}</div>
       </div>
       <div class="lvl-body">
@@ -1803,7 +1904,7 @@ function renderLibraryTierSublevels(){
     const done=subLevelDone(level.id,i);
     const isCur=i===curIdx&&!done;
     const locked=!subLevelAvailable(level.id,i)&&!done;
-    const content=done?'✓':isCur?level.icon:'🔒';
+    const content=done?icon('status-check',18):isCur?icon(level.icon,18):icon('status-lock',18);
     const circleStyle=done
       ?`background:${level.color};color:white;font-weight:700`
       :isCur?`background:white;border:3px solid ${level.color};animation:glow-pulse 2s ease-in-out infinite`
@@ -1816,7 +1917,7 @@ function renderLibraryTierSublevels(){
   return `<div class="library-pane">
     <div class="sublevel-panel">
       <div class="sublevel-header">
-        <div class="sublevel-header-icon" style="background:linear-gradient(145deg,${level.g1},${level.g2})">${level.icon}</div>
+        <div class="sublevel-header-icon" style="background:linear-gradient(145deg,${level.g1},${level.g2})">${icon(level.icon,22)}</div>
         <div>
           <div class="sublevel-header-name">${t('levelLabel',level.id)} · ${level.pond}</div>
           <div class="sublevel-header-meta">${level.name} · ${level.cefr} · ${t('ages',level.ages)}</div>
@@ -1841,7 +1942,7 @@ function renderLibraryTierStories(){
       <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
         ${s.emoji||'📖'}
         <div class="story-level-badge" style="background:${level.color}">${t('levelLabel',level.id)}</div>
-        ${done?`<div class="story-complete-badge">✓</div>`:inProgress?`<div class="story-inprogress-badge">${t('inProgress')}</div>`:''}
+        ${done?`<div class="story-complete-badge">${icon('status-check',14)}</div>`:inProgress?`<div class="story-inprogress-badge">${t('inProgress')}</div>`:''}
       </div>
       <div class="story-body">
         <div class="story-title">${s.title}</div>
@@ -1869,7 +1970,7 @@ function renderModal(){
       <div class="modal-body">
         <div class="modal-title">${s.title}</div>
         <div class="modal-meta"><span>${t('pages',s.paragraphs?s.paragraphs.length:1)}</span><span>${t('audio')}</span></div>
-        <button class="modal-start-btn" onclick="startReadingFromModal()"><span>▶</span><span>${t('start')}</span></button>
+        <button class="modal-start-btn" onclick="startReadingFromModal()"><span>${icon('ctrl-play',16)}</span><span>${t('start')}</span></button>
         <div class="modal-notes">${t('tapWordHint')}</div>
       </div>
     </div>
@@ -1893,9 +1994,10 @@ function renderWordPopup(story){
     : `${vocab?`<div class="word-popup-def">${vocab.def}</div>`:''}${ja?`<div class="word-popup-ja">${ja.w} — ${ja.d}</div>`:''}`;
   return `<div class="word-popup-overlay" onclick="closeWordPopup()">
     <div class="word-popup-card" onclick="event.stopPropagation()">
+      <div id="word-highlight-anim" class="page-turn-anim-slot"></div>
       <div class="word-popup-word-row">
         <div class="word-popup-word" lang="en">${word}</div>
-        <button class="word-speak-btn" onclick="speakWord('${jsStr(word)}')" aria-label="${t('hearWord')}" title="${t('hearWord')}">🔊</button>
+        <button class="word-speak-btn" onclick="speakWord('${jsStr(word)}')" aria-label="${t('hearWord')}" title="${t('hearWord')}">${icon('ctrl-audio',18)}</button>
       </div>
       ${glossHtml}
       <button class="word-popup-btn" onclick="${saved?`removeWordFromDeck('${word}')`:`addWordToDeck('${word}')`}" style="${saved?'background:var(--border);color:var(--text-muted)':''}">${saved?t('savedToDeck'):t('addToDeck')}</button>
@@ -1939,26 +2041,27 @@ function renderReader(){
   return `<div class="screen reader-screen" style="--reader-size:${typeSm}px;--reader-size-lg:${typeLg}px">
     <div class="reader-header">
       <div class="reader-audio-pill">
-        <button class="reader-audio-btn" onclick="toggleAudio()" aria-label="Play audio">${state.audioPlaying?'⏸':'▶'}</button>
+        <button class="reader-audio-btn" onclick="toggleAudio()" aria-label="Play audio">${state.audioPlaying?icon('ctrl-pause',18):icon('ctrl-play',18)}</button>
         <div style="flex:1;font-size:12px;font-weight:700;color:#151515;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${story.title}</div>
       </div>
-      <button class="reader-exit-btn" onclick="exitReading()"><span>🐸</span><span>${t('exit')}</span></button>
+      <button class="reader-exit-btn" onclick="exitReading()"><span>${icon('ctrl-close',14)}</span><span>${t('exit')}</span></button>
     </div>
     <div class="reader-content">
       <div class="reader-illu" style="background:linear-gradient(135deg,${levelG1},${levelG2})">
         <div class="reader-illu-emoji">${story.emoji||'📖'}</div>
         ${img?`<img src="${img}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()">`:''}
       </div>
-      <div class="reader-text-area" onclick="event.stopPropagation()">
+      <div class="reader-text-area" onclick="event.stopPropagation()" ontouchstart="readerSwipeStart(event)" ontouchend="readerSwipeEnd(event)">
         <div class="reader-progress-bar"><div class="reader-progress-fill" style="width:${progressPct}%"></div></div>
         <div class="reader-page-text" lang="en">${makeWordTappable(story.paragraphs[state.currentPage],story.vocabulary||{})}</div>
+        <div id="page-turn-anim" class="page-turn-anim-slot"></div>
       </div>
     </div>
     ${renderWordPopup(story)}
     <div class="reader-footer">
-      <button class="reader-nav-btn" onclick="prevPage()" ${isFirst?'disabled':''} style="opacity:${isFirst?.3:1};cursor:${isFirst?'default':'pointer'}">◀ ${t('previous')}</button>
+      <button class="reader-nav-btn" onclick="prevPage()" ${isFirst?'disabled':''} style="opacity:${isFirst?.3:1};cursor:${isFirst?'default':'pointer'}">${icon('ctrl-previous',14)} ${t('previous')}</button>
       <div class="reader-page-counter">${state.currentPage+1} / ${total}</div>
-      <button class="reader-next-btn" onclick="nextPage()">${isLast?t('toQuiz'):t('next')} →</button>
+      <button class="reader-next-btn" onclick="nextPage()">${isLast?t('toQuiz'):t('next')} ${icon('ctrl-next',14)}</button>
     </div>
   </div>`;
 }
@@ -1983,7 +2086,7 @@ function renderQuiz(){
     const badgeBg=showCorrect?'var(--correct)':showWrong?'var(--wrong)':'#F3F4F6';
     const badgeColor=(showCorrect||showWrong)?'white':'var(--text-muted)';
     const textColor=showCorrect?'#15803d':showWrong?'#dc2626':'var(--text)';
-    const badgeContent=showCorrect?'✓':showWrong?'✕':String.fromCharCode(65+i);
+    const badgeContent=showCorrect?icon('status-check',14):showWrong?icon('ctrl-close',14):String.fromCharCode(65+i);
     // The speaker is a sibling of the option, never a child — a <button> inside a <button>
     // is invalid and breaks activation for keyboard and screen-reader users.
     return `<div class="quiz-option-row">
@@ -1991,7 +2094,7 @@ function renderQuiz(){
         <div class="quiz-option-badge" style="background:${badgeBg};color:${badgeColor}">${badgeContent}</div>
         <div class="quiz-option-text" lang="en" style="color:${textColor}">${label}</div>
       </button>
-      <button class="quiz-option-speak" onclick="speakText('${escAttr(jsStr(label))}')" aria-label="${t('hearOption')}" title="${t('hearOption')}">🔊</button>
+      <button class="quiz-option-speak" onclick="speakText('${escAttr(jsStr(label))}')" aria-label="${t('hearOption')}" title="${t('hearOption')}">${icon('ctrl-audio',18)}</button>
     </div>`;
   }).join('');
   const feedback=state.quizAnswered&&q.feedback?`<div class="quiz-feedback">${q.feedback}</div>`:'';
@@ -2002,7 +2105,7 @@ function renderQuiz(){
 
   return `<div class="screen quiz-screen">
     <div class="quiz-topbar">
-      <button class="quiz-exit-btn" onclick="exitQuiz()">✕</button>
+      <button class="quiz-exit-btn" onclick="exitQuiz()">${icon('ctrl-close',16)}</button>
       <div class="quiz-title">${t('quickQuiz')}</div>
       <div class="quiz-dots">${dots}</div>
       <div class="quiz-counter">${state.quizIndex+1} / ${story.quiz.length}</div>
@@ -2018,7 +2121,7 @@ function renderQuiz(){
           <div class="quiz-label">${t('question')} ${state.quizIndex+1} / ${story.quiz.length}</div>
           <div class="quiz-question-row">
             <div class="quiz-question-text" lang="en">${q.question}</div>
-            <button class="quiz-speak-btn" onclick="speakText('${escAttr(jsStr(q.question))}')" aria-label="${t('hearQuestion')}" title="${t('hearQuestion')}">🔊</button>
+            <button class="quiz-speak-btn" onclick="speakText('${escAttr(jsStr(q.question))}')" aria-label="${t('hearQuestion')}" title="${t('hearQuestion')}">${icon('ctrl-audio',18)}</button>
           </div>
           <div class="quiz-options">${options}</div>
           ${feedback}
@@ -2061,7 +2164,7 @@ function renderPlacementItem(){
       <div class="place-sub" style="margin-bottom:12px">${item.type==='word'?t('placeQWord'):t('placeQCloze')}</div>
       <div class="place-prompt-row">
         ${prompt}
-        <button class="place-speak-btn" onclick="speakText('${escAttr(jsStr(item.speak))}',${item.type==='word'?0.8:0.95})" aria-label="${t('hearWord')}">🔊</button>
+        <button class="place-speak-btn" onclick="speakText('${escAttr(jsStr(item.speak))}',${item.type==='word'?0.8:0.95})" aria-label="${t('hearWord')}">${icon('ctrl-audio',18)}</button>
       </div>
       <div class="place-options">${options}</div>
       ${answered?`<button class="place-next-btn" onclick="advancePlacement()">${t('placeNext')}</button>`:''}
@@ -2074,7 +2177,7 @@ function renderPlacementResult(){
       style="${l.id===state.placeLevel?`background:${l.color}`:''}" onclick="choosePlacementLevel(${l.id})">${l.id}</button>`).join('');
   return `<div class="place-body">
     <div class="place-result-card">
-      <div class="place-frog" style="font-size:56px;margin-bottom:6px">${lv.icon}</div>
+      <div class="place-frog">${icon(lv.icon,56)}</div>
       <div class="place-sub" style="margin:0 auto 2px">${t('placeResultTitle')}</div>
       <div class="place-result-pond" style="color:${lv.color}">${lv.pond}</div>
       <div class="place-result-meta">${t('levelLabel',lv.id)} · ${lv.cefr} · ${lv.name}</div>
@@ -2093,7 +2196,7 @@ function renderPlacement(){
   else body=renderPlacementItem();
   return `<div class="screen place-screen">
     <div class="place-topbar">
-      <button class="quiz-exit-btn" onclick="exitPlacement()" aria-label="${t('exit')}">✕</button>
+      <button class="quiz-exit-btn" onclick="exitPlacement()" aria-label="${t('exit')}">${icon('ctrl-close',16)}</button>
       <div class="place-title">🐸 ${t('placeTitle')}</div>
       ${state.placeStep==='test'?`<div class="place-dots">${dots}</div>`:''}
     </div>
@@ -2112,12 +2215,13 @@ function renderCelebration(){
   if(accuracyPct>=50) earnedStars=2;
   if(accuracyPct>=80) earnedStars=3;
   if(earnedStars<2 && state.audioEverPlayed) earnedStars=2;
-  const stars=Array.from({length:3},(_,i)=>`<span class="celeb-star" style="animation-delay:${0.3+i*0.15}s;filter:${i<earnedStars?'drop-shadow(0 2px 8px rgba(245,200,66,.5))':'grayscale(1) opacity(0.35)'}">⭐</span>`).join('');
 
   return `<div class="screen celeb-screen">
+    <div id="celeb-completion-anim" class="celeb-completion-anim-slot"></div>
     <div class="celeb-frog">🐸</div>
     <div class="celeb-title">${story.title}</div>
-    <div class="celeb-stars">${stars}</div>
+    <div class="celeb-stars" id="celeb-stars" data-earned="${earnedStars}"></div>
+    <div id="celeb-badge-anim" class="celeb-badge-anim-slot"></div>
     ${xpEarned>0?`<div class="celeb-chip"><span>${t('xpEarned',xpEarned)}</span></div>`:`<div class="celeb-chip" style="background:#F0F3F7"><span style="color:var(--text-muted)">${t('replayGoodJob')}</span></div>`}
     <div class="celeb-perf">${t('celebStarText',accuracyPct)}</div>
     <div class="celeb-btns">
@@ -2132,7 +2236,7 @@ function prefersReducedMotion(){
 }
 function spawnConfetti(){
   if(prefersReducedMotion()) return; // 54 falling elements is exactly what this setting exists to prevent
-  const colors=['#bada55','#f9ad3b','#60a5fa','#f472b6','#34d399','#fb923c','#a78bfa'];
+  const colors=['#72C93A','#f9ad3b','#60a5fa','#f472b6','#34d399','#fb923c','#a78bfa'];
   const count=54;
   for(let i=0;i<count;i++){
     const el=document.createElement('div');
@@ -2145,6 +2249,32 @@ function spawnConfetti(){
     el.style.animationDelay=(Math.random()*0.8)+'s';
     document.body.appendChild(el);
     el.addEventListener('animationend',()=>el.remove());
+  }
+}
+// Story-completion celebration — Lottie replaces the DOM-div confetti + bouncing emoji frog
+// (spawnConfetti() above is kept only as the CSS-only fallback referenced in docs/design-implementation-brief.md).
+function playCelebrationAnims(){
+  const completionSlot=document.getElementById('celeb-completion-anim');
+  if(completionSlot) playLottie(completionSlot,'assets/animations/celebrations/story-completion-celebration.json');
+
+  const starsSlot=document.getElementById('celeb-stars');
+  if(starsSlot){
+    const earned=Number(starsSlot.dataset.earned)||1;
+    playLottie(starsSlot,`assets/animations/rewards/star-collection-${earned}.json`);
+  }
+
+  const newlyUnlocked=earnedBadgeIds().filter(id=>!(state.seenBadges||[]).includes(id));
+  const badgeSlot=document.getElementById('celeb-badge-anim');
+  if(badgeSlot && newlyUnlocked.length){
+    const badge=BADGES.find(b=>b.id===newlyUnlocked[0]);
+    if(badge){
+      fetch('assets/animations/badges/badge-unlock.json').then(r=>r.json()).then(data=>{
+        if(!badgeSlot.isConnected) return;
+        const recolored=recolorLottieData(data,badge.color);
+        if(prefersReducedMotion()){ badgeSlot.innerHTML=icon(badge.icon,72); return; }
+        lottie.loadAnimation({ container:badgeSlot, renderer:'svg', loop:false, autoplay:true, animationData:recolored });
+      }).catch(()=>{ badgeSlot.innerHTML=icon(badge.icon,72); });
+    }
   }
 }
 
@@ -2179,7 +2309,7 @@ function renderFlashGrid(){
   const hasWeak=words.some(w=>state.deckWordStatus[`${state.selectedDeckId}:${w.id}`]==='practiceMore');
   if(!words.length){
     return `<div class="flash-pane">
-      <div class="flash-back-row"><button class="flash-back-btn" onclick="goDecks()">${t('backChevron')}</button><div><div class="flash-deck-title">${deck.title}</div></div></div>
+      <div class="flash-back-row"><button class="flash-back-btn" onclick="goDecks()">${icon('ctrl-previous',16)}</button><div><div class="flash-deck-title">${deck.title}</div></div></div>
       <div class="coming-soon"><div class="coming-soon-emoji">🔤</div><div style="font-family:var(--font-head);font-weight:900;font-size:16px;color:var(--text)">${t('noWordsYet')}</div><div style="font-size:13px">${t('noWordsBody')}</div></div>
     </div>`;
   }
@@ -2195,7 +2325,7 @@ function renderFlashGrid(){
   }).join('');
   return `<div class="flash-pane">
     <div class="flash-back-row">
-      <button class="flash-back-btn" onclick="goDecks()">${t('backChevron')}</button>
+      <button class="flash-back-btn" onclick="goDecks()">${icon('ctrl-previous',16)}</button>
       <div><div class="flash-deck-title">${deck.title}</div><div class="flash-deck-subtitle">${deck.subtitle}</div></div>
     </div>
     <div class="word-grid">${cards}</div>
@@ -2218,7 +2348,7 @@ function renderFlashCreate(){
   const canSave=state.createSelectedIds.length>=2;
   return `<div class="flash-pane">
     <div class="flash-back-row">
-      <button class="flash-back-btn" onclick="goDecks()">${t('backChevron')}</button>
+      <button class="flash-back-btn" onclick="goDecks()">${icon('ctrl-previous',16)}</button>
       <div class="flash-deck-title">${t('createNewDeck')}</div>
     </div>
     <input class="deck-name-input" value="${escAttr(state.createDeckName)}" oninput="setCreateDeckName(this.value)" placeholder="${t('deckNamePlaceholder')}">
@@ -2240,19 +2370,20 @@ function renderFlashStudy(){
     <div class="study-card-wrap">
       <div class="study-card-shadow2"></div>
       <div class="study-card-shadow1"></div>
+      <div id="flashcard-flip-anim" class="page-turn-anim-slot"></div>
       <div class="study-card" onclick="flipCard()">
         ${!state.flashFlipped?`
           <div class="study-card-pill">${deck?deck.title:''}</div>
           <div class="study-word-row">
             <div class="study-card-word" lang="en">${wordId||''}</div>
-            ${wordId?`<button class="word-speak-btn" onclick="event.stopPropagation();speakWord('${jsStr(wordId)}')" aria-label="${t('hearWord')}" title="${t('hearWord')}">🔊</button>`:''}
+            ${wordId?`<button class="word-speak-btn" onclick="event.stopPropagation();speakWord('${jsStr(wordId)}')" aria-label="${t('hearWord')}" title="${t('hearWord')}">${icon('ctrl-audio',18)}</button>`:''}
           </div>
           <div class="study-card-badge">${(wordId||'?')[0].toUpperCase()}</div>
           <div class="study-card-hint">${t('tapToFlip')}</div>
         `:`
           <div class="study-word-row">
             <div class="study-card-word-back" lang="en">${wordId||''}</div>
-            ${wordId?`<button class="word-speak-btn" onclick="event.stopPropagation();speakWord('${jsStr(wordId)}')" aria-label="${t('hearWord')}" title="${t('hearWord')}">🔊</button>`:''}
+            ${wordId?`<button class="word-speak-btn" onclick="event.stopPropagation();speakWord('${jsStr(wordId)}')" aria-label="${t('hearWord')}" title="${t('hearWord')}">${icon('ctrl-audio',18)}</button>`:''}
           </div>
           <div class="study-card-def">${w.def||''}</div>
           ${w.translation?`<div class="study-card-translation">${w.translation}${w.translationDef?' — '+w.translationDef:''}</div>`:''}
@@ -2260,8 +2391,8 @@ function renderFlashStudy(){
       </div>
     </div>
     <div class="study-actions">
-      <button class="study-unknown-btn" onclick="event.stopPropagation();answerCard('practiceMore')"><span>✕</span><span>${t('practiceMoreBtn')}</span></button>
-      <button class="study-known-btn" onclick="event.stopPropagation();answerCard('known')"><span>✓</span><span>${t('knowItBtn')}</span></button>
+      <button class="study-unknown-btn" onclick="event.stopPropagation();answerCard('practiceMore')"><span>${icon('ctrl-close',16)}</span><span>${t('practiceMoreBtn')}</span></button>
+      <button class="study-known-btn" onclick="event.stopPropagation();answerCard('known')"><span>${icon('status-check',16)}</span><span>${t('knowItBtn')}</span></button>
     </div>
   </div>`;
 }
@@ -2290,14 +2421,14 @@ function renderFlashComplete(){
 function renderProgressSections(){
   const knownWords=Object.values(state.deckWordStatus).filter(s=>s==='known').length;
   const stats=[
-    {icon:'🔥', tint:'#FFF0E4', value:state.streak||0, label:t('dayStreakLabel')},
-    {icon:'⭐', tint:'#FCF4D6', value:(state.xp||0).toLocaleString(), label:t('totalXpLabel')},
+    {icon:'status-streak-flame', tint:'#FFF0E4', value:state.streak||0, label:t('dayStreakLabel')},
+    {icon:'xp-xp-star', tint:'#FCF4D6', value:(state.xp||0).toLocaleString(), label:t('totalXpLabel')},
     {icon:'📖', tint:'#E3F3FC', value:Object.keys(state.progress).length, label:t('storiesReadLabel')},
     {icon:'🔤', tint:'#DFF7F2', value:knownWords, label:t('wordsKnownLabel')},
   ];
   const statsHtml=stats.map(s=>`
     <div class="prog-stat-card">
-      <div class="prog-stat-icon" style="background:${s.tint}">${s.icon}</div>
+      <div class="prog-stat-icon" style="background:${s.tint}">${iconOrEmoji(s.icon,20)}</div>
       <div class="prog-stat-value">${s.value}</div>
       <div class="prog-stat-label">${s.label}</div>
     </div>`).join('');
@@ -2333,7 +2464,7 @@ function renderProgressSections(){
     const pct=Math.round((levelDoneCount(lv.id)/10)*100);
     const isCurrent=lv.id===curLv;
     return `<div class="level-row" style="${isCurrent?`border:2px solid ${lv.color};box-shadow:0 4px 16px ${lv.color}33`:'border:2px solid transparent;opacity:.6'}">
-      <div class="level-row-icon" style="background:${lv.color}26">${lv.icon}</div>
+      <div class="level-row-icon" style="background:${lv.color}26">${icon(lv.icon,20)}</div>
       <div class="level-row-body">
         <div class="level-row-name">${lv.pond}${isCurrent?`<span class="level-row-current" style="background:${lv.color}">${t('current')}</span>`:''}</div>
         <div class="level-row-bar"><div class="level-row-fill" style="width:${pct}%;background:${lv.color}"></div></div>
@@ -2366,8 +2497,8 @@ function renderRewards(){
       return `<div class="badge-cell">
         <button class="badge-btn" onclick="toggleBadgeTooltip('${b.id}')">
           <div class="badge-ring" style="border-color:${earned?b.color:'#D8DEE6'};filter:${earned?'none':'grayscale(1)'}">
-            <div class="badge-inner">${b.icon}</div>
-            ${!earned?'<div class="badge-lock">🔒</div>':''}
+            <div class="badge-inner">${icon(b.icon,28)}</div>
+            ${!earned?`<div class="badge-lock">${icon('status-lock',16)}</div>`:''}
           </div>
           <div class="badge-name" style="color:${earned?'var(--text)':'#B0B8C1'}">${name}</div>
         </button>
@@ -2403,7 +2534,7 @@ function renderWorldGrid(){
     const inProgress=!locked && !complete && doneCount>0;
     return `<button class="dest-card" onclick="openDestination('${d.id}')" style="${locked?'opacity:.55':''}">
       <div class="dest-bg-emoji">${d.emoji}</div>
-      ${complete?`<div class="dest-complete-badge">✓</div>`:inProgress?`<div class="dest-inprogress-badge">${t('inProgress')}</div>`:locked?`<div class="dest-lock-badge">🔒</div>`:''}
+      ${complete?`<div class="dest-complete-badge">${icon('status-check',14)}</div>`:inProgress?`<div class="dest-inprogress-badge">${t('inProgress')}</div>`:locked?`<div class="dest-lock-badge">${icon('status-lock',14)}</div>`:''}
       <div class="dest-card-text">
         <div class="dest-card-name">${d.name}</div>
         <div class="dest-card-stories">${doneCount}/${d.storyCount}</div>
@@ -2417,7 +2548,7 @@ function renderWorldGrid(){
     </div>
     <div class="world-subtext">${t('placesExplored',completedCount)}${t('moreToComplete',DESTINATIONS.length-completedCount)}</div>
     <div class="world-progress-bar"><div class="world-progress-fill" style="width:${pct}%"></div></div>
-    ${lockedNotice?`<div class="world-locked-notice">🔒 ${t('destLocked',lockedNotice.name)}</div>`:''}
+    ${lockedNotice?`<div class="world-locked-notice">${icon('status-lock',14)} ${t('destLocked',lockedNotice.name)}</div>`:''}
     <div class="dest-grid">${cards}</div>
   </div>`;
 }
@@ -2442,7 +2573,7 @@ function renderWorldDetail(){
   const cards=stories.map(s=>{
     const done=storyDone(s.id);
     return `<button class="jstory-card" onclick="openStoryModal('${s.id}')">
-      <div class="jstory-cover">${s.emoji||'📖'}${done?'<div class="jstory-complete-badge">✓</div>':''}</div>
+      <div class="jstory-cover">${s.emoji||'📖'}${done?`<div class="jstory-complete-badge">${icon('status-check',12)}</div>`:''}</div>
       <div class="jstory-body"><div class="jstory-title">${s.title}</div></div>
     </button>`;
   }).join('');
@@ -2478,7 +2609,7 @@ function renderProfile(){
   const badgesHtml=earned.length?earned.map(b=>{
     const name=b.levelRef?t('championName',b.levelRef):t(b.nameKey);
     return `<div class="recent-badge">
-      <div class="recent-badge-ring" style="border-color:${b.color}"><div class="recent-badge-icon">${b.icon}</div></div>
+      <div class="recent-badge-ring" style="border-color:${b.color}"><div class="recent-badge-icon">${icon(b.icon,22)}</div></div>
       <div class="recent-badge-name">${name}</div>
     </div>`;
   }).join(''):`<div class="no-badges-text">${t('noBadgesYet')}</div>`;
@@ -2486,7 +2617,7 @@ function renderProfile(){
   return `<div class="profile-pane">
     <div class="profile-identity">
       <div class="profile-avatar">🐸</div>
-      <div class="profile-level-badge" style="background:${curLv.color}26;color:${curLv.color}"><span>${curLv.icon}</span><span>${curLv.pond}</span></div>
+      <div class="profile-level-badge" style="background:${curLv.color}26;color:${curLv.color}"><span>${icon(curLv.icon,18)}</span><span>${curLv.pond}</span></div>
     </div>
     <div class="profile-main">
       ${progressHtml}
@@ -2597,9 +2728,9 @@ function renderHomeDash(){
     const i=winStart+offset;
     const done=subLevelDone(lv,i);
     const isCur=i===curIdx && !done;
-    if(done) return `<div style="width:40px;height:40px;border-radius:50%;background:var(--primary);color:white;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center">✓</div>`;
+    if(done) return `<div style="width:40px;height:40px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center">${icon('status-check',18)}</div>`;
     if(isCur) return `<div style="width:46px;height:46px;border-radius:50%;background:white;border:3px solid var(--primary);font-size:18px;display:flex;align-items:center;justify-content:center;animation:glow-pulse 2s ease-in-out infinite">🐸</div>`;
-    return `<div style="width:40px;height:40px;border-radius:50%;background:#E5E9EE;color:#B0B8C1;font-size:15px;display:flex;align-items:center;justify-content:center">🔒</div>`;
+    return `<div style="width:40px;height:40px;border-radius:50%;background:#E5E9EE;color:#B0B8C1;display:flex;align-items:center;justify-content:center">${icon('status-lock',16)}</div>`;
   }).join('');
 
   return `<div class="home-dash">
@@ -2660,7 +2791,7 @@ function render(){
   if(state.screen==='placement'){ document.getElementById('app').innerHTML=renderPlacement(); return; }
   if(state.screen==='reader'){ document.getElementById('app').innerHTML=renderReader(); return; }
   if(state.screen==='quiz'){ document.getElementById('app').innerHTML=renderQuiz(); return; }
-  if(state.screen==='celebration'){ document.getElementById('app').innerHTML=renderCelebration(); spawnConfetti(); return; }
+  if(state.screen==='celebration'){ document.getElementById('app').innerHTML=renderCelebration(); playCelebrationAnims(); return; }
   let body;
   if(state.screen==='home') body=renderHomeDash();
   else if(state.screen==='library') body=renderLibrary();
@@ -2679,6 +2810,18 @@ function render(){
     ${renderBottomNav()}
   </div>
   ${renderModal()}`;
+  runHeaderAnims();
+}
+// Streak-flame idle loop + XP-earn pulse — header re-renders every state change (full
+// innerHTML replace, no diffing), so these re-attach each render rather than mounting once.
+function runHeaderAnims(){
+  const flameSlot=document.getElementById('header-streak-flame');
+  if(flameSlot && (state.streak||0)>0) playLottie(flameSlot,'assets/animations/idle/streak-flame-idle.json',{loop:true});
+  if(state._xpFlash){
+    state._xpFlash=false;
+    const xpSlot=document.getElementById('header-xp-star');
+    if(xpSlot) playLottie(xpSlot,'assets/animations/rewards/xp-lily-pad-earn.json',{onComplete:()=>{ xpSlot.innerHTML=icon('xp-xp-star',16); }});
+  }
 }
 
 applyUiLang();
