@@ -96,8 +96,8 @@
     .nav-indicator{width:22px;height:3px;border-radius:999px;background:transparent}
     .nav-tab.active .nav-indicator{background:var(--tab-accent)}
     .ico svg{width:100%;height:100%}
-    .nav-icon-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:transparent}
-    .nav-tab.active .nav-icon-wrap{background:var(--tab-tint)}
+    .nav-icon-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--navy)}
+    .nav-tab.active .nav-icon-wrap{background:var(--tab-tint);color:var(--tab-accent)}
     .nav-badge{position:absolute;top:-1px;right:8px;width:9px;height:9px;background:#E05C5C;border-radius:50%;border:2px solid white}
     .nav-label{font-size:9.5px;font-weight:500;color:var(--text-muted)}
     .nav-tab.active .nav-label{font-weight:800}
@@ -238,7 +238,7 @@
     .deck-chevron{font-size:16px;flex-shrink:0}
     .deck-create-btn{border:2px dashed #C7D6E0;border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-muted);font-family:var(--font-head);font-weight:800;font-size:13px}
     .flash-back-row{display:flex;align-items:center;gap:10px}
-    .flash-back-btn{width:60px;height:60px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-muted);flex-shrink:0}
+    .flash-back-btn{width:44px;height:44px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-muted);flex-shrink:0}
     .flash-deck-title{font-family:var(--font-head);font-weight:900;font-size:16px;color:var(--text)}
     .flash-deck-subtitle{font-size:11px;color:var(--text-muted)}
     .word-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -341,7 +341,7 @@
     .dest-bg-emoji{position:absolute;top:8px;right:8px;font-size:40px;opacity:.35}
     .dest-complete-badge{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;border:2px solid var(--primary);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:12px;font-weight:800;transform:rotate(-12deg)}
     .dest-inprogress-badge{position:absolute;top:10px;right:10px;background:#F5C842;border-radius:999px;padding:2px 7px;font-size:8px;font-weight:800;color:#1A2340}
-    .dest-lock-badge{position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:11px}
+    .dest-lock-badge{position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:11px;color:white}
     .dest-card-name{font-size:13px;font-weight:800;color:white;font-family:var(--font-head);margin-bottom:2px}
     .dest-card-stories{font-size:10px;color:rgba(255,255,255,.65);font-weight:500}
     .world-back-link{color:rgba(255,255,255,.7);font-size:12px;font-weight:700;margin-bottom:14px}
@@ -390,8 +390,8 @@
     .reader-screen{display:flex;flex-direction:column;height:100vh;background:white;overflow:hidden}
     .reader-header{background:var(--navy);display:flex;align-items:center;padding:10px 14px;gap:10px;flex-wrap:wrap;flex-shrink:0}
     .reader-audio-pill{flex:1;min-width:140px;height:52px;background:var(--primary);border-radius:999px;display:flex;align-items:center;padding:0 14px;gap:10px}
-    .reader-audio-btn{width:60px;height:60px;background:rgba(255,255,255,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;flex-shrink:0;border:none;cursor:pointer}
-    .reader-exit-btn{height:44px;background:var(--primary);border-radius:999px;padding:0 16px;display:flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer}
+    .reader-audio-btn{width:44px;height:44px;background:rgba(255,255,255,.28);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:white;font-weight:700;flex-shrink:0;border:none;cursor:pointer}
+    .reader-exit-btn{height:44px;background:var(--primary);border-radius:999px;padding:0 16px;display:flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer;color:white}
     .reader-exit-btn span:last-child{font-size:12px;font-weight:700;color:white}
     .reader-content{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
     .reader-illu{width:100%;height:180px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;background-size:cover;background-position:center}
@@ -416,7 +416,7 @@
     .word-popup-card{width:100%;max-width:340px;background:var(--card);border-radius:18px;padding:22px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:modal-in .2s ease both;position:relative}
     .word-popup-word-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
     .word-popup-word{font-family:var(--font-head);font-weight:900;font-size:20px;color:var(--text);text-transform:capitalize}
-    .word-speak-btn{width:60px;height:60px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .word-speak-btn{width:44px;height:44px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
     .word-speak-btn:active{background:var(--primary)}
     .word-popup-def{font-size:13px;color:var(--text-muted);margin-bottom:8px;line-height:1.5}
     .word-popup-ja{font-size:13px;color:var(--primary-dark);margin-bottom:16px;line-height:1.5}
@@ -426,7 +426,7 @@
     /* ══ QUIZ — literal port, Tablet lines 901-958. Full-bleed, no app shell. ══ */
     .quiz-screen{min-height:100vh;display:flex;flex-direction:column;background:#F5F9EF}
     .quiz-topbar{height:56px;background:white;display:flex;align-items:center;padding:0 16px;gap:10px;border-bottom:1.5px solid #EAF0E2;flex-shrink:0}
-    .quiz-exit-btn{width:60px;height:60px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-muted);border:none;flex-shrink:0}
+    .quiz-exit-btn{width:44px;height:44px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text-muted);border:none;flex-shrink:0}
     .quiz-title{font-family:var(--font-head);font-weight:800;font-size:13px;color:var(--text)}
     .quiz-dots{display:flex;align-items:center;gap:6px;margin-left:auto}
     .quiz-dot{width:8px;height:8px;border-radius:50%}
@@ -446,7 +446,7 @@
     .quiz-options{display:flex;flex-direction:column;gap:10px}
     .quiz-option-row{display:flex;align-items:center;gap:8px}
     .quiz-option-row .quiz-option{flex:1;min-width:0}
-    .quiz-option-speak{width:60px;height:60px;border-radius:12px;background:white;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+    .quiz-option-speak{width:44px;height:44px;border-radius:12px;background:white;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
     .quiz-option{display:flex;align-items:center;gap:12px;border-radius:14px;padding:13px 16px;text-align:left;box-shadow:var(--shadow-sm)}
     .quiz-option-badge{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
     .quiz-option-text{font-size:14px;font-weight:700}
@@ -490,7 +490,7 @@
     .place-prompt-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:22px}
     .place-word{font-family:var(--font-head);font-weight:900;font-size:34px;color:var(--text);text-transform:capitalize}
     .place-cloze{font-size:20px;line-height:1.7;color:var(--text);text-align:left}
-    .place-speak-btn{width:52px;height:52px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 4px 14px rgba(186,218,85,.4)}
+    .place-speak-btn{width:52px;height:52px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 4px 14px rgba(186,218,85,.4);color:white}
     .place-options{display:flex;flex-direction:column;gap:10px}
     .place-option{display:flex;align-items:center;gap:12px;border-radius:14px;padding:15px 16px;text-align:left;box-shadow:var(--shadow-sm);background:white;border:2px solid transparent;font-size:16px;font-weight:700;color:var(--text);min-height:56px}
     .place-option-badge{width:28px;height:28px;border-radius:50%;background:#F3F4F6;color:var(--text-muted);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
@@ -602,20 +602,19 @@
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
 const ICONS = {
-  'nav-flashcards': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="13" height="10" rx="1.6" transform="rotate(-6 12.5 12)" fill="#FFFDF8"></rect><rect x="5" y="9" width="13" height="10" rx="1.6" fill="#FFFDF8"></rect></svg>`,
-  'nav-home': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12L12 4.6L20 12"></path><path d="M6.3 10.3V19a1 1 0 0 0 1 1H16.7a1 1 0 0 0 1-1V10.3"></path><path d="M10 20V14.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1V20"></path></svg>`,
-  'nav-library': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="4" height="15" rx="1"></rect><rect x="10" y="3" width="4" height="17" rx="1"></rect><rect x="16" y="7" width="4" height="13" rx="1"></rect></svg>`,
-  'nav-profile': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.4" r="3.4"></circle><path d="M5 20c0-4 3-6.6 7-6.6s7 2.6 7 6.6"></path></svg>`,
-  'nav-rewards': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4.2a5 5 0 0 1-10 0z"></path><path d="M7 6.2H4.3A2.1 2.1 0 0 0 6 9.6"></path><path d="M17 6.2h2.7A2.1 2.1 0 0 1 18 9.6"></path><line x1="12" y1="13.2" x2="12" y2="16.6"></line><path d="M9 17.6h6v1.6a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1z"></path><line x1="8" y1="20.6" x2="16" y2="20.6"></line></svg>`,
-  'ctrl-audio': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h3.5L13 18V6L7.5 10z"></path><path d="M17 9.2a4 4 0 0 1 0 5.6"></path><path d="M19.6 6.6a8 8 0 0 1 0 10.8"></path></svg>`,
-  'ctrl-close': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>`,
-  'ctrl-next': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6v12l9-6z"></path><rect x="17" y="6" width="2.4" height="12" rx="1"></rect></svg>`,
-  'ctrl-pause': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="4" height="14" rx="1.4"></rect><rect x="14" y="5" width="4" height="14" rx="1.4"></rect></svg>`,
-  'ctrl-play': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.3v13.4l11-6.7z"></path></svg>`,
-  'ctrl-previous': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 6v12l-9-6z"></path><rect x="4.6" y="6" width="2.4" height="12" rx="1"></rect></svg>`,
-  'status-check': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4.5 4.5L19 7"></path></svg>`,
-  'status-lock': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="11" width="13" height="9.5" rx="1.8"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>`,
-  'status-search': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.8" cy="10.8" r="6.3"></circle><line x1="15.4" y1="15.4" x2="20" y2="20"></line></svg>`,
+  'nav-flashcards': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="13" height="10" rx="1.6" transform="rotate(-6 12.5 12)" fill="#FFFDF8"></rect><rect x="5" y="9" width="13" height="10" rx="1.6" fill="#FFFDF8"></rect></svg>`,
+  'nav-home': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12L12 4.6L20 12"></path><path d="M6.3 10.3V19a1 1 0 0 0 1 1H16.7a1 1 0 0 0 1-1V10.3"></path><path d="M10 20V14.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1V20"></path></svg>`,
+  'nav-library': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="4" height="15" rx="1"></rect><rect x="10" y="3" width="4" height="17" rx="1"></rect><rect x="16" y="7" width="4" height="13" rx="1"></rect></svg>`,
+  'nav-profile': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.4" r="3.4"></circle><path d="M5 20c0-4 3-6.6 7-6.6s7 2.6 7 6.6"></path></svg>`,
+  'nav-rewards': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4.2a5 5 0 0 1-10 0z"></path><path d="M7 6.2H4.3A2.1 2.1 0 0 0 6 9.6"></path><path d="M17 6.2h2.7A2.1 2.1 0 0 1 18 9.6"></path><line x1="12" y1="13.2" x2="12" y2="16.6"></line><path d="M9 17.6h6v1.6a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1z"></path><line x1="8" y1="20.6" x2="16" y2="20.6"></line></svg>`,
+  'ctrl-audio': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h3.5L13 18V6L7.5 10z"></path><path d="M17 9.2a4 4 0 0 1 0 5.6"></path><path d="M19.6 6.6a8 8 0 0 1 0 10.8"></path></svg>`,
+  'ctrl-close': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>`,
+  'ctrl-next': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6v12l9-6z"></path><rect x="17" y="6" width="2.4" height="12" rx="1"></rect></svg>`,
+  'ctrl-pause': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="4" height="14" rx="1.4"></rect><rect x="14" y="5" width="4" height="14" rx="1.4"></rect></svg>`,
+  'ctrl-play': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5.3v13.4l11-6.7z"></path></svg>`,
+  'ctrl-previous': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 6v12l-9-6z"></path><rect x="4.6" y="6" width="2.4" height="12" rx="1"></rect></svg>`,
+  'status-check': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4.5 4.5L19 7"></path></svg>`,
+  'status-lock': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="11" width="13" height="9.5" rx="1.8"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>`,
   'status-streak-flame': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#E8734A" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c1 3 4.5 5 4.5 9a4.5 4.5 0 0 1-9 0c0-1.6.8-2.6 1.5-3.5-.1 1.2.4 2 1.2 2.3-.4-2.4 1-3.6 1.8-5.3.4 1 .3 2 0 3 .6-.5 1-1.2 1-2.5-.5-1-1.3-2-1-3z"></path></svg>`,
   'lvl-lily-pad': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#72C93A" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12 L19.61 9.53 A8 8 0 1 0 19.61 14.47 Z"></path></svg>`,
   'lvl-ocean': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#1A3260" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="6" r="2.3" fill="#F0AC3D" stroke="none"></circle><path d="M2 12c2.4-1.7 4.8-1.7 7.2 0s4.8 1.7 7.2 0 4.8-1.7 7.2 0" fill="none" stroke="#3FA6A0"></path><path d="M2 16.5c2.4-1.7 4.8-1.7 7.2 0s4.8 1.7 7.2 0 4.8-1.7 7.2 0" fill="none" stroke="#3FA6A0"></path><path d="M2 21c2.4-1.7 4.8-1.7 7.2 0s4.8 1.7 7.2 0 4.8-1.7 7.2 0" fill="none" stroke="#1A3260"></path></svg>`,
@@ -1340,9 +1339,9 @@ function renderQuestCards(){
   const q=getTodayQuests();
   const storiesPct=Math.min(100,Math.round(state.todayCount/Math.max(state.dailyGoal,1)*100));
   const storiesProg=t('questXofY',Math.min(state.todayCount,state.dailyGoal),state.dailyGoal);
-  const card=(done,icon,text,prog,pct)=>`
+  const card=(done,emoji,text,prog,pct)=>`
     <div class="quest-card${done?' quest-done':''}">
-      <span class="quest-icon">${icon}</span>
+      <span class="quest-icon">${emoji}</span>
       <div class="quest-body">
         <div class="quest-text">${text}</div>
         ${(!done&&prog)?`<div class="quest-prog">${prog}</div>`:''}
@@ -1370,9 +1369,9 @@ function renderWeekQuestCards(){
   const fcCount=Object.keys(state.flashCards||{}).length;
   const fcPct=Math.min(100,Math.round(fcCount/10*100));
   const levelsPct=Math.min(100,Math.round(levels.size/3*100));
-  const card=(done,icon,text,prog,pct)=>`
+  const card=(done,emoji,text,prog,pct)=>`
     <div class="quest-card${done?' quest-done':''}">
-      <span class="quest-icon">${icon}</span>
+      <span class="quest-icon">${emoji}</span>
       <div class="quest-body">
         <div class="quest-text">${text}</div>
         ${(!done&&prog)?`<div class="quest-prog">${prog}</div>`:''}
@@ -1670,7 +1669,7 @@ const UI_STRINGS = {
     backToDestBtn:'Back to Destination',
     worldTitle:'World Journey', placesExplored:(n)=>`${n} place${n===1?'':'s'} explored! `,
     moreToComplete:(n)=>`${n} more to complete your passport`, destLocked:(name)=>`Complete ${name} first to unlock this!`,
-    inProgress:'IN PROGRESS', storiesFrom:(name)=>`STORIES FROM ${name.toUpperCase()}`, destNoStories:'Stories coming soon — check back next time!',
+    inProgress:'IN PROGRESS', completed:'Completed', storiesFrom:(name)=>`STORIES FROM ${name.toUpperCase()}`, destNoStories:'Stories coming soon — check back next time!',
     profileStatsReadLabel:'Stories Read', profileStatsWordsLabel:'Words Known', profileStatsStreakLabel:'Day Streak',
     recentBadges:'RECENT BADGES', seeAll:'See all →', noBadgesYet:'No badges earned yet — keep going!',
     levelProgressMotivation:(n,name)=>n>0?`${n} more sub-level${n===1?'':'s'} to reach ${name}!`:`You've mastered this level!`,
@@ -1763,7 +1762,7 @@ const UI_STRINGS = {
     backToDestBtn:'目的地へもどる',
     worldTitle:'ワールドジャーニー', placesExplored:(n)=>`${n}か所たんけんずみ！`,
     moreToComplete:(n)=>`あと${n}か所でパスポート完成`, destLocked:(name)=>`さきに${name}をクリアしよう！`,
-    inProgress:'進行中', storiesFrom:(name)=>`${name}のおはなし`, destNoStories:'まもなくおはなしが追加されます！',
+    inProgress:'進行中', completed:'完了', storiesFrom:(name)=>`${name}のおはなし`, destNoStories:'まもなくおはなしが追加されます！',
     profileStatsReadLabel:'読んだ話', profileStatsWordsLabel:'覚えた単語', profileStatsStreakLabel:'連続日数',
     recentBadges:'さいきんのバッジ', seeAll:'すべて見る →', noBadgesYet:'まだバッジがありません。がんばろう！',
     levelProgressMotivation:(n,name)=>n>0?`あと${n}サブレベルで${name}に到達！`:'このレベルをマスターしたよ！',
@@ -1909,7 +1908,7 @@ function renderLibraryTierSublevels(){
       ?`background:${level.color};color:white;font-weight:700`
       :isCur?`background:white;border:3px solid ${level.color};animation:glow-pulse 2s ease-in-out infinite`
       :`background:#E5E9EE;color:#B0B8C1`;
-    return `<button class="sub-node" onclick="openLibrarySublevel(${level.id},${i+1},${locked})" style="cursor:${locked?'default':'pointer'}">
+    return `<button class="sub-node" onclick="openLibrarySublevel(${level.id},${i+1},${locked})" aria-label="${i+1}${done?', '+t('completed'):locked?', '+t('locked'):''}" style="cursor:${locked?'default':'pointer'}">
       <div class="sub-node-circle" style="${circleStyle}">${content}</div>
       <div class="sub-node-label" style="color:${locked?'#B0B8C1':'var(--text)'};font-weight:${isCur?800:600}">${i+1}</div>
     </button>`;
@@ -1942,7 +1941,7 @@ function renderLibraryTierStories(){
       <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
         ${s.emoji||'📖'}
         <div class="story-level-badge" style="background:${level.color}">${t('levelLabel',level.id)}</div>
-        ${done?`<div class="story-complete-badge">${icon('status-check',14)}</div>`:inProgress?`<div class="story-inprogress-badge">${t('inProgress')}</div>`:''}
+        ${done?`<div class="story-complete-badge" role="img" aria-label="${t('completed')}">${icon('status-check',14)}</div>`:inProgress?`<div class="story-inprogress-badge">${t('inProgress')}</div>`:''}
       </div>
       <div class="story-body">
         <div class="story-title">${s.title}</div>
@@ -2498,7 +2497,7 @@ function renderRewards(){
         <button class="badge-btn" onclick="toggleBadgeTooltip('${b.id}')">
           <div class="badge-ring" style="border-color:${earned?b.color:'#D8DEE6'};filter:${earned?'none':'grayscale(1)'}">
             <div class="badge-inner">${icon(b.icon,28)}</div>
-            ${!earned?`<div class="badge-lock">${icon('status-lock',16)}</div>`:''}
+            ${!earned?`<div class="badge-lock" role="img" aria-label="${t('locked')}">${icon('status-lock',16)}</div>`:''}
           </div>
           <div class="badge-name" style="color:${earned?'var(--text)':'#B0B8C1'}">${name}</div>
         </button>
@@ -2534,7 +2533,7 @@ function renderWorldGrid(){
     const inProgress=!locked && !complete && doneCount>0;
     return `<button class="dest-card" onclick="openDestination('${d.id}')" style="${locked?'opacity:.55':''}">
       <div class="dest-bg-emoji">${d.emoji}</div>
-      ${complete?`<div class="dest-complete-badge">${icon('status-check',14)}</div>`:inProgress?`<div class="dest-inprogress-badge">${t('inProgress')}</div>`:locked?`<div class="dest-lock-badge">${icon('status-lock',14)}</div>`:''}
+      ${complete?`<div class="dest-complete-badge" role="img" aria-label="${t('completed')}">${icon('status-check',14)}</div>`:inProgress?`<div class="dest-inprogress-badge">${t('inProgress')}</div>`:locked?`<div class="dest-lock-badge" role="img" aria-label="${t('locked')}">${icon('status-lock',14)}</div>`:''}
       <div class="dest-card-text">
         <div class="dest-card-name">${d.name}</div>
         <div class="dest-card-stories">${doneCount}/${d.storyCount}</div>
@@ -2573,7 +2572,7 @@ function renderWorldDetail(){
   const cards=stories.map(s=>{
     const done=storyDone(s.id);
     return `<button class="jstory-card" onclick="openStoryModal('${s.id}')">
-      <div class="jstory-cover">${s.emoji||'📖'}${done?`<div class="jstory-complete-badge">${icon('status-check',12)}</div>`:''}</div>
+      <div class="jstory-cover">${s.emoji||'📖'}${done?`<div class="jstory-complete-badge" role="img" aria-label="${t('completed')}">${icon('status-check',12)}</div>`:''}</div>
       <div class="jstory-body"><div class="jstory-title">${s.title}</div></div>
     </button>`;
   }).join('');
