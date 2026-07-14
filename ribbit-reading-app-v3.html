@@ -76,7 +76,7 @@
     .app-shell{display:flex;flex-direction:column;min-height:100vh;background:var(--bg)}
     .app-header{background:var(--card);display:flex;flex-wrap:wrap;align-items:center;padding:10px 14px 8px;gap:6px 10px;border-bottom:1.5px solid var(--border);flex-shrink:0}
     .app-brand-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
-    .app-logo{width:34px;height:34px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .app-logo{width:34px;height:34px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;overflow:hidden}
     .app-brand{font-family:var(--font-head);font-weight:900;font-size:17px;color:var(--navy);letter-spacing:-0.5px}
     .header-greeting{order:3;flex-basis:100%;font-size:12px;font-weight:600;color:var(--text)}
     .header-breadcrumb{order:3;flex-basis:100%;display:flex;align-items:center;gap:6px;font-size:13px;cursor:default}
@@ -86,7 +86,7 @@
     .stat-pill{display:flex;align-items:center;gap:5px;background:var(--bg);border-radius:8px;padding:5px 9px}
     .stat-pill .sp-val{font-size:12px;font-weight:800;color:var(--text)}
     .stat-pill .sp-label{font-size:10px;font-weight:500;color:var(--text-muted)}
-    .avatar-btn{width:60px;height:60px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .avatar-btn{width:52px;height:52px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;overflow:hidden;border:none;cursor:pointer;padding:0}
     .lang-toggle-pill{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:4px;min-height:44px;background:var(--bg);border-radius:22px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--text)}
 
     .content-area{flex:1;overflow-y:auto;padding-bottom:8px}
@@ -365,7 +365,7 @@
     /* ══ PROFILE — literal port, Tablet lines 289-362 ══ */
     .profile-pane{padding:18px 16px;display:flex;flex-direction:column;gap:20px}
     .profile-identity{display:flex;flex-direction:row;align-items:center;gap:14px}
-    .profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+    .profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0;overflow:hidden}
     .profile-level-badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 14px;font-family:var(--font-head);font-weight:800;font-size:13px}
     .profile-main{display:flex;flex-direction:column;gap:20px}
     .level-progress-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:16px 18px}
@@ -587,7 +587,7 @@
       .jstory-grid{grid-template-columns:repeat(5,1fr)}
       .profile-pane{padding:22px 24px;flex-direction:row;gap:26px}
       .profile-identity{flex:0 0 26%;flex-direction:column;padding-top:8px}
-      .profile-avatar{width:90px;height:90px;font-size:42px}
+      .profile-avatar{width:90px;height:90px;font-size:54px}
       .profile-main{flex:1;min-width:0}
     }
   </style>
@@ -1839,7 +1839,7 @@ function renderHeader(){
 
   return `<div class="app-header">
     <div class="app-brand-wrap">
-      <div class="app-logo">🐸</div>
+      <div class="app-logo"><img src="assets/brand/ribbit-avatar.png" alt="Ribbit" style="width:100%;height:100%;object-fit:cover;object-position:50% 34%"></div>
       <span class="app-brand">Ribbit</span>
     </div>
     ${middle}
