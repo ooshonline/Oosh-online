@@ -1,8 +1,31 @@
-# Ribbit Reading App 2 — TODO
+# Ribbit Reading App — TODO
+
+## Urgent / P0
+- [ ] **Licensing: swap `ribbit-wordlists.js` off Oxford 3000/5000 + Cambridge lists → CEFR-J.** The
+  file header credits copyrighted OUP/CUP lists in a *commercial* app. Clean free swap is **CEFR-J**
+  (Tono, Tokyo Univ. of Foreign Studies — free for commercial use with citation, built for Japanese
+  learners): `github.com/openlanguageprofiles/olp-en-cefrj`. Its Octanove C1/C2 extension is CC BY-SA 4.0
+  (share-alike on that part only). Re-credit the header and reconcile the word sets. Highest-priority item.
+
+## Pending Kyle's decision (do NOT auto-ship)
+- [ ] **Ship the redesigned icon set?** 43 new SVGs are in `assets/icons/**` (v2, emoji-anchored,
+  `currentColor` mono, new `brand/mascot.svg`). They are the design source only — **not yet inlined**
+  into the app's `ICONS` registry, so nothing is live yet. Claude is inlining + shipping these under
+  supervision. 3 icons flagged for a Design tweak first: `status/streak-flame`, `levels/stream`,
+  `levels/lily-pad` (legible but weakest).
+- [ ] **Port the unshipped App 2 features?** `audio-speed controls` (old commit `d52df2e`) and the
+  `gamification visuals` — XP rank card, streak-at-risk/milestone pills, goal-ring done state (old commit
+  `9e3fb55`) — were built + browser-verified in the retired App 2 folder but never deployed, so they are
+  **not** in this tree. Both are in the App 2 archive (`_Archive/ribbit-consolidation-backup-*`). Decide
+  whether to port + ship.
 
 ## Priority
 
 ### Deploy
+- [x] **Repo consolidated (2026-07-15).** The two-folder split is gone — this repo (remote `Oosh-online`,
+  branch `master`) is now the single source *and* the deploy target. Old `Ribbit Reading App 2/` retired
+  and archived. Deploy = commit + `git push origin master` (no copy step). Both folders backed up to
+  `_Archive/ribbit-consolidation-backup-*` first; data files verified byte-identical (nothing lost).
 - [x] **`ribbit-deploy` skill rewritten (2026-07-10).** It had staged `ribbit-reading-app.html` (the retired v1 file) and never staged `ribbit-reading-app-v3.html`, so it would not have published v3. It now documents the two-repo split, the image warning, and post-push verification.
 - [x] Deployed `28de541` on 2026-07-10 — placement test, quiz feedback fix, reader fixes, and the South Korea destination that had been stranded since `1ffa9b3`. Live bytes verified identical to the committed files.
 - [ ] **Decide on the 700×700 image downscales.** `image-pipeline/` produced them on 2026-07-05 and this repo tracks them, but they have never shipped: the reader illustration needs ~1064 device px at 2× DPR, so 700px would look soft. Live still serves the 1024×1024 originals (3.01 MB vs 1.84 MB). Either re-export at ~1200px, or accept the softness for the 39% weight saving on school Wi-Fi.
