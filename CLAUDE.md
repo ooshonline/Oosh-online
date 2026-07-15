@@ -8,22 +8,19 @@ written to be followed literally, not interpreted.
 
 ## Where the app lives (read this first)
 
-There are currently **two folders** for this app, which is a known problem we are fixing:
-
-| | Folder | Git remote | Role |
-|---|---|---|---|
-| **Working** | `Ribbit Reading App 2/` | none | where edits happen |
-| **Deploy** | `Ribbit Reading App/` | `origin → github.com/ooshonline/Oosh-online` (branch `master`) | what goes live |
+> ✅ **The two-folder split was resolved on 2026-07-15.** This folder (`Ribbit Reading App/`,
+> remote `origin → github.com/ooshonline/Oosh-online`, branch `master`) is now the **single source of
+> truth AND the deploy target**. The old `Ribbit Reading App 2/` folder is **retired** — don't edit it.
 
 - **The live app is `ribbit-reading-app-v3.html`.** `index.html` just redirects to it.
   `ribbit-reading-app.html` (no `-v3`) is a retired v1 file — never touch it.
 - **Live URL:** https://ooshonline.github.io/Oosh-online/
-- Deploying today means copying the changed files from the working folder into the deploy
-  folder, committing there, and pushing. **The `ribbit-deploy` skill does this — always use it.**
-
-> **Goal (pending Kyle's go-ahead):** collapse these two folders into one repo with the remote,
-> so "deploy" becomes a plain `git push` and the folders can never drift. Until then, follow the
-> skill exactly. See the `project_ribbit_deploy_setup` memory for the full background.
+- **Deploying is now just `git push origin master`** (after committing) — GitHub Pages publishes `master`.
+  There is no copy-between-folders step anymore. Bump the `?v=YYYYMMDD` cache-bust on the three `<script>`
+  tags each deploy so stale JS can't be served. (The `ribbit-deploy` skill still describes the old
+  two-folder copy flow and is **out of date** — update or ignore it; a plain push is the deploy now.)
+- This repo (`Oosh-online`) also hosts non-Ribbit content (the webstore). Only ever touch Ribbit app
+  files, and never `git add -A` — stage changed files by name.
 
 ---
 
