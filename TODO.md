@@ -1,70 +1,94 @@
-# Ribbit Reading App — TODO
+# Ribbit Reading App 2 — TODO
 
-## Push pending
-- [ ] `git push` — 20 commits local only (17 prior + 3 UI from 2026-07-03)
+## Priority
 
-## Content (future Content sessions)
-- [ ] Story images for levels beyond Beginner 1–3 — one image per genre/topic (~8–10 images covers the library). Unsplash/Pexels URLs to avoid repo bloat.
+### Deploy
+- [x] **`ribbit-deploy` skill rewritten (2026-07-10).** It had staged `ribbit-reading-app.html` (the retired v1 file) and never staged `ribbit-reading-app-v3.html`, so it would not have published v3. It now documents the two-repo split, the image warning, and post-push verification.
+- [x] Deployed `28de541` on 2026-07-10 — placement test, quiz feedback fix, reader fixes, and the South Korea destination that had been stranded since `1ffa9b3`. Live bytes verified identical to the committed files.
+- [ ] **Decide on the 700×700 image downscales.** `image-pipeline/` produced them on 2026-07-05 and this repo tracks them, but they have never shipped: the reader illustration needs ~1064 device px at 2× DPR, so 700px would look soft. Live still serves the 1024×1024 originals (3.01 MB vs 1.84 MB). Either re-export at ~1200px, or accept the softness for the 39% weight saving on school Wi-Fi.
+- [ ] Consider giving this folder a git remote of its own, so development history is backed up rather than living only on Kyle's machine.
 
-## UX
-- [ ] Weekly News Packs — graded news stories, separate `ribbit-news.js` file
+### Functionality
+- [ ] Wire `ribbit-wordlists.js` into the v3 reader — CEFR above-level word highlighting was in v1 but is not active in v3 (`makeWordTappable` handles vocab highlights but doesn't call the word-level Sets)
+- [x] Audio speed controls — 🐢/🐸/⚡ toggle in reader audio pill, cycles 0.6×/0.9×/1.2×, persisted (2026-07-14)
+- [ ] World Journey destination detail: vocabulary words + culture quiz sections are not ported (destination screen only shows the story grid, no vocab auto-save or culture quiz)
+- [ ] Genre / topic browse screens — Quick Links "Explore Library" goes to the main library; genre browse tiles that v1 had are not in v3
 
-## Functionality
-- [ ] Voice selector: test on iOS Safari (voices list may differ from desktop)
+### UI
+- [ ] Pond Map home screen — v1 had a winding lily-pad SVG path (10 nodes per sub-level, frog on current node); the v3 home dash has a 5-node preview track but not the full Pond Map
 
-## Scheduled tasks
-- [ ] `ribbit-new-destination` queue: South Korea → Morocco → Canada → Greece (Peru done manually 2026-06-25)
+### UX
+- [ ] Exit reading/quiz sends to home — learner loses their library context if they abandon mid-story (low priority; current behaviour is safe, just not ideal)
+- [ ] 300 of 1,529 story pages still need internal scrolling at 1024×768 (mostly Levels 5–6, 700+ char pages). Now safe — the text area scrolls and the footer stays put — but splitting the longest pages would remove the scroll entirely.
 
-## Done (recent)
-- [x] Genre-colored story card headers — GENRE_CARD_GRADIENTS lookup, per-story gradient in story browser (2026-07-03)
-- [x] Story card footer genre label — replaced empty world city with genre text (2026-07-03)
-- [x] Sub-level card progress dots — replaced ★☆☆ stars with 5 dot indicators, level-coloured number (2026-07-03)
-- [x] Level select story count — added total story count (e.g. 0/75話) below sub-level count (2026-07-03)
-- [x] Topic browse vibrant colours — TOPICS[] emoji wrap colours matched to GENRE_CARD_GRADIENTS (2026-07-03)
-- [x] translateWord: 55 destination words baked into JA_TRANSLATIONS; cardJa() helper fixes jaWord/translation inconsistency; MyMemory API fallback added (2026-07-02)
-- [x] Flash card apostrophe quoting: l'Hexagone onclick bug fixed (2026-07-02)
-- [x] XP milestone: fire all crossed milestones not just first (2026-07-02)
-- [x] Badge unlock notification system — BADGE_DEFS-driven, toasts for newly earned badges (2026-06-30)
-- [x] Daily login XP bonus — +10 XP on first open each day; milestone bonuses at 7/14/30-day streaks (2026-06-30)
-- [x] 3 broken badges wired: Quiz Master (5 perfects), World Traveler (journey stamp), Level Clear (all 50 stories) (2026-06-30)
-- [x] Quest completion toasts — fires on each daily/weekly quest item and all-complete bonuses (2026-06-30)
-- [x] XP milestone celebrations — one-time toasts at 100/500/1000/5000 XP (2026-06-30)
-- [x] Badge set expanded 8→12 — streak milestones (7/14/30-day) + flash master (50 cards) (2026-06-30)
-- [x] Profile badge count header — "バッジ X/12" shows earned progress (2026-06-30)
-- [x] Next badge hint on home — shows closest unearned badge with progress bar (2026-06-30)
-- [x] Dynamic combo XP floats — all 4 question types now show actual multiplied points (2026-06-30)
-- [x] Quest progress bars — daily (stories) + weekly (levels/flash cards) now show 3px visual bars (2026-06-29)
-- [x] Story grid cards — done state shows subtle green ring (2026-06-29)
-- [x] Destination cards (journey hub) — stamped/active cards get soft outer glow (2026-06-29)
-- [x] Profile level progress bars — each level now uses its own colour (purple/green/teal/blue/orange/rose) (2026-06-29)
-- [x] Sub-level hero banner — now uses a dark level-specific gradient instead of always green (2026-06-29)
-- [x] Sub-level hero text — updated to white + transparent badge for legibility on dark gradients (2026-06-29)
-- [x] Topic/genre cards — emoji now renders in a coloured rounded-square per genre, with hover scale (2026-06-29)
-- [x] Level select — `current-level` CSS class now properly applied (was defined but never added in JS) (2026-06-29)
-- [x] Level cards — mini progress bar now uses level colour (2026-06-29)
-- [x] Flash card empty state — redesigned with icon container, heading, descriptive hint, CTA strip (2026-06-29)
-- [x] Settings screen — border-bottom separators between each section (2026-06-29)
-- [x] Profile — fixed English strings: 'day streak' → '日連続', 'Total Points' → '合計ポイント' (2026-06-29)
-- [x] TTS Firefox fallback — detect missing word-boundary events (900ms timer), highlight whole step block in amber (2026-06-26)
-- [x] Flash card swipe gestures — pointer events, card tilt, direction labels (わかった/わからない) (2026-06-26)
-- [x] Keyboard shortcuts — reader (arrows/space), journey reader (same), flash cards (arrows/space), quiz MC (1-4/A-D/Enter) (2026-06-26)
-- [x] advanceReader() flows to startQuiz() on last step — keyboard-only reading now complete (2026-06-26)
-- [x] FITB + type-the-word Enter-to-submit (2026-06-26)
-- [x] Quiz next button spring entrance animation (2026-06-26)
-- [x] Touch :active press states on key buttons (2026-06-26)
-- [x] translateWord defined — was missing, caused ReferenceError on flash card translate button (2026-06-26)
-- [x] Journey words pre-populate JA_TRANSLATIONS on save (2026-06-26)
-- [x] Flash card translation error state shows '翻訳が見つかりません' not blank (2026-06-26)
-- [x] Toast notification for card-added-to-deck (word popup + journey words) (2026-06-26)
-- [x] Peru destination — 4 A2 stories, 6 local words, culture quiz (2026-06-25)
-- [x] Italy DESTINATIONS entry — was missing, destination was unreachable (2026-06-25)
-- [x] DEST_GRADIENTS fixed — all destination cards now show unique gradient (2026-06-25)
-- [x] Destination detail hero banner — gradient + emoji + title on each destination page (2026-06-25)
-- [x] Splash screen "世界10か国" → "世界12か国" (2026-06-25)
-- [x] Daily quest system (2026-06-24)
-- [x] Browse by genre / topic (2026-06-24)
-- [x] Italy destination stories (2026-06-24)
-- [x] Weekly quest system (2026-06-24)
-- [x] TTS voice selector in Settings (2026-06-24)
-- [x] Full dark theme → v2 light theme (2026-06-23)
-- [x] Pond Map home, reader focus mode, level-gated quiz engine (2026-06-12)
+### Technical
+- [ ] Story titles, quiz questions and option labels are interpolated into `innerHTML` unescaped. `escAttr()` covers the `onclick` attributes (verified against an injection payload), but a title containing `<b>` still renders as markup. Authored content only, so low risk — the audit's "HTML-escape all interpolated strings" item.
+
+### Content
+- [ ] Images for levels 4–6 stories are missing (only b1, b2, b3 folders exist) — stories show emoji placeholder (images must be generated externally)
+- [ ] Level 2 sub-levels 3–9 have ~10 stories each instead of 5 (data-generation quirk from the original file — all are valid content, but inconsistent with every other level). Kyle to decide whether to trim to 5 per sub-level (would require clearing affected learner progress)
+
+### Gamification
+- [x] Streak visual treatment on home header pill — `streak-at-risk` amber pulse when streak active but no stories today; `streak-milestone` warm glow at 7+ days (2026-07-14)
+- [x] Champion badges — were already implemented via `LEVELS.map()` in BADGES; icons, checks, and rendering all wired. TODO was stale.
+- [ ] Streak milestone toast/banner when streak hits 7/14/30 (currently covered by `loginBonusStreak` toast but no persistent UI feedback)
+- [x] XP rank-up toast when tier is crossed — `checkRankUp()` fires in `awardXP()`, bilingual (2026-07-14)
+
+### Content / licensing
+- [ ] **`ribbit-wordlists.js` header says the sets are "Based on Oxford 3000/5000 and Cambridge English vocabulary lists."** Those are OUP/CUP copyrighted lists — worth a licensing sanity check for a commercial app. The clean swap is **CEFR-J** (Yukio Tono, Tokyo University of Foreign Studies, `github.com/openlanguageprofiles/olp-en-cefrj`): explicitly free for research *and commercial* use with citation, and built for Japanese learners of English. Its Octanove C1/C2 extension is CC BY-SA 4.0, so share-alike applies to that part.
+- [ ] Level 6 Japanese gloss coverage is only 36% (96 of 268 vocabulary words). Fine for the placement test (L6 uses cloze, which needs no gloss) but it means the reader's word popup falls back to English-only at C1.
+
+## Done ✅
+
+### Placement test — 2026-07-10
+- [x] **"Find My Pond" adaptive level test**, opened from a Home quick-link (never forced on a child). Once taken, the tile becomes "Re-Test" and shows the current pond.
+- [x] Items are **generated at runtime from the app's own stories** — no bank to author. L1–L2 are word→Japanese-meaning; L3–L6 are cloze drawn from 1,631 real story sentences. Verified: 12,000 generated items with 0 duplicate options, 0 answers leaked into the prompt, 0 sentence fragments.
+- [x] Adaptive staircase in 2-item blocks (2/2 up, 0/2 down, 1/2 stop), max 8 items, starting one level *below* the age band so a child meets an easy item first. Result capped one level above the age band. Simulated every age × ability: always terminates within 8 items, never over-places by more than one level.
+- [x] `state.placement` (`rbt_place`) is honoured by `currentLevelId()` only until the learner reads a story — real behaviour outranks the test. Manual level override on the result screen (teacher-friendly).
+- [x] Researched embedding an official test first: **Oxford Online Placement Test** and the **Oxford Placement Test for Young Learners** (ages 7–12) are licensed products delivered on OUP's own platform; Cambridge's public APIs cover exam administration and the dictionary, not placement items. No embeddable option exists, hence the generated bank.
+
+### UI/UX pass — 2026-07-10
+- [x] **Quiz feedback loop rebuilt.** The combo overlay was centred and covered 3 of the 4 answer options (measured) for ~870ms of a 900ms auto-advance, so a child who answered wrong never saw the right answer or the question's `feedback` line. Overlay moved to the top; auto-advance replaced with a learner-tapped "Next Question / See Results" button.
+- [x] Quiz keeps the story illustration on screen — "What is this?" was unanswerable without it — and lays out illustration-left / question-right at tablet width.
+- [x] Audio on the quiz question and every answer option (speaker is a sibling `<button>`, never nested inside the option).
+- [x] Pronunciation audio in the word popup (auto-speaks on open) and on both faces of the flashcard study card.
+- [x] Word popup leads with the Japanese gloss at Levels 1–2 — the English definition of "cat" was several CEFR bands above the word.
+- [x] **Reader height containment.** `.reader-text-area`'s `overflow-y:auto` never engaged (flex items default to `min-height:auto`), so long pages scrolled the whole document and pushed Previous/Next off-screen. Fixed with `height:100vh` + `min-height:0` down the flex chain.
+- [x] `justify-content: safe center` in the reader — plain `center` put the first line of 38 pages above `scrollTop:0`, unreachable.
+- [x] Reader type scales with level *and* page length (46px for a Pre-A1 sentence, 22px for an 817-char C1 paragraph). Swept all 1,529 pages: 0 document overflow, 0 footer offscreen, 0 clipped first lines.
+- [x] Real mid-story resume — `readingPos` persisted per story, so the continue card shows true progress instead of a hardcoded 40%. (Closes the audit's "[High] Resume mid-story".)
+- [x] Rewards nav dot now means "you earned a badge you haven't looked at" instead of being permanently on.
+- [x] Daily login bonus no longer fires over the splash screen before the child has entered.
+- [x] Splash copy fixed — claimed "13 languages · 10 countries"; there are 2 UI languages and 13 destinations. Counts now derive from `LEVELS`/`DESTINATIONS`.
+- [x] Removed the "Log In" button that just called `enterFromLanding()` — there are no accounts.
+- [x] Bottom nav restructured: Progress merged into Profile (they rendered nearly the same content); Flashcards — a core loop with no tab — took the freed slot. "View path →" now opens the sub-level track instead of the stats screen.
+- [x] `prefers-reduced-motion` honoured (3 looping animations + confetti); `<html lang>` follows the UI language; sub-level nodes raised from 36px to the 44px minimum; duplicate reader page counter removed.
+
+- [x] South Korea added as 13th World Journey destination with 4 complete stories (2026-07-09)
+- [x] storyGradient() fixed to resolve compound genre strings like "Sport / Culture" (2026-07-09)
+- [x] Back navigation from celebration → library restores correct level/sublevel (2026-07-08)
+- [x] Chromebook deck-name input focus: bank tile onmousedown fix (2026-07-08)
+- [x] Word popup now dismissed when navigating between reader pages (2026-07-08)
+- [x] World destination empty state for future no-story destinations (2026-07-08)
+- [x] Story card in-progress indicator — class-based glow-pulse + yellow "IN PROGRESS" badge (2026-07-07)
+- [x] Celebration frog enlarged to 96px with continuous float animation after bounce-in (2026-07-07)
+- [x] Non-functional story-icons (👁 🔊) removed from story cards (2026-07-07)
+- [x] "Reading Notes" modal placeholder replaced with actionable tap-word hint in en + ja (2026-07-07)
+- [x] Continue card navigation bug (startReadingDirect)
+- [x] Landing logo missing (OOSH_Logo_Square.png added)
+- [x] Landing lang toggle non-functional (onclick added)
+- [x] Confetti on celebration screen
+- [x] Story title in reader header
+- [x] XP delta rule (replay grinding prevented)
+- [x] Quest progress bars (storiesPct / levelsPct / fcPct wired up)
+- [x] Star rating logic (audioEverPlayed reset per story, accuracy-primary tiers)
+- [x] Touch targets bumped to 44px minimum (reader/quiz/flashcard/header controls)
+- [x] Home World Journey count now matches the World tab (destComplete-based)
+- [x] TTS lang/voice set (en-GB + English voice pick) so JP-locale devices read stories correctly
+- [x] Reader illustration no longer silently advances pages on tap
+- [x] Story cards (.story-card/.jstory-card) are real buttons, focus-visible outline added
+- [x] Deck-name input: escAttr() helper, focus/caret preserved across tile-tap re-render
+- [x] Home journey preview windows around the learner's actual current sub-level
+- [x] Reader Previous / Save Deck buttons use a real disabled attribute
+- [x] --navy:#1A3260 token replaces duplicated hardcoded hex
+- [x] save() also fires on visibilitychange/pagehide, not just beforeunload

@@ -13,3 +13,8 @@ health-check-*.md
 
 # --- local scratch / research workspaces ---
 image-compression-workspace/
+
+# --- internal AI working notes (kept local, like memory.md) ---
+ribbit-app-audit.md
+ribbit-summary.md
+design-audit-phase1.md
