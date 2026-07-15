@@ -1,3 +1,15 @@
+# --- existing rules (preserved) ---
 memory.md
 health-check-*.md
 *.lock
+
+# --- OS / editor junk ---
+.DS_Store
+**/.DS_Store
+
+# --- local data exports (not source) ---
+*.numbers
+*.xlsx
+
+# --- local scratch / research workspaces ---
+image-compression-workspace/
