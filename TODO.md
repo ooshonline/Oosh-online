@@ -1,11 +1,9 @@
 # Ribbit Reading App — TODO
 
 ## Urgent / P0
-- [ ] **Licensing: swap `ribbit-wordlists.js` off Oxford 3000/5000 + Cambridge lists → CEFR-J.** The
-  file header credits copyrighted OUP/CUP lists in a *commercial* app. Clean free swap is **CEFR-J**
-  (Tono, Tokyo Univ. of Foreign Studies — free for commercial use with citation, built for Japanese
-  learners): `github.com/openlanguageprofiles/olp-en-cefrj`. Its Octanove C1/C2 extension is CC BY-SA 4.0
-  (share-alike on that part only). Re-credit the header and reconcile the word sets. Highest-priority item.
+- [x] **Licensing: swap `ribbit-wordlists.js` → CEFR-J (2026-07-17, commit `1c57ff6`).** OUP/CUP
+  attribution replaced with CEFR-J v1.5 (Tono, TUFS — CC BY 4.0, A1–B2) + Octanove v1.0
+  (CC BY-SA 4.0, C1). Word counts: A2=1221, B1=2099, B2=2427, C1=921, non-overlapping. LIVE.
 
 ## Pending Kyle's decision (do NOT auto-ship)
 - [x] **Redesigned icon set SHIPPED (2026-07-15, commit `c5f152e`).** All 41 registry icons inlined + live.
@@ -38,7 +36,7 @@
   XP-earn animation fires — visible on the Rewards screen header after XP increments. Pre-existing (the
   Lottie slot isn't size-constrained to the pill); unrelated to the icon set. Constrain the Lottie
   container to the pill icon size (~16–20px), or freeze to the `xp-xp-star` poster if Lottie overflows.
-- [ ] Wire `ribbit-wordlists.js` into the v3 reader — CEFR above-level word highlighting was in v1 but is not active in v3 (`makeWordTappable` handles vocab highlights but doesn't call the word-level Sets)
+- [ ] Wire `ribbit-wordlists.js` into the v3 reader — CEFR above-level word highlighting was in v1 but is not active in v3 (`makeWordTappable` handles vocab highlights but doesn't call the word-level Sets). Now unblocked: word sets are properly licensed (CEFR-J). Call `getChallengeLevel(clean, appLevelNum)` inside `makeWordTappable` and add a highlight span/class for challenge words.
 - [x] Audio speed controls — 🐢/🐸/⚡ toggle in reader audio pill, cycles 0.6×/0.9×/1.2×, persisted (2026-07-14)
 - [ ] World Journey destination detail: vocabulary words + culture quiz sections are not ported (destination screen only shows the story grid, no vocab auto-save or culture quiz)
 - [ ] Genre / topic browse screens — Quick Links "Explore Library" goes to the main library; genre browse tiles that v1 had are not in v3
@@ -64,7 +62,7 @@
 - [x] XP rank-up toast when tier is crossed — `checkRankUp()` fires in `awardXP()`, bilingual (2026-07-14)
 
 ### Content / licensing
-- [ ] **`ribbit-wordlists.js` header says the sets are "Based on Oxford 3000/5000 and Cambridge English vocabulary lists."** Those are OUP/CUP copyrighted lists — worth a licensing sanity check for a commercial app. The clean swap is **CEFR-J** (Yukio Tono, Tokyo University of Foreign Studies, `github.com/openlanguageprofiles/olp-en-cefrj`): explicitly free for research *and commercial* use with citation, and built for Japanese learners of English. Its Octanove C1/C2 extension is CC BY-SA 4.0, so share-alike applies to that part.
+- [x] **`ribbit-wordlists.js` licensing resolved (2026-07-17).** OUP/CUP attribution swapped to CEFR-J + Octanove — both openly licensed for commercial use. See P0 section above.
 - [ ] Level 6 Japanese gloss coverage is only 36% (96 of 268 vocabulary words). Fine for the placement test (L6 uses cloze, which needs no gloss) but it means the reader's word popup falls back to English-only at C1.
 
 ## Done ✅
