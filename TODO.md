@@ -42,10 +42,10 @@
 ### UI
 - [x] Journey track sub-level labels — nodes now show numbers 1–5 + title shows "X/10 done" progress count (2026-07-21, commit `b66f955`)
 - [ ] Pond Map home screen — v1 had a winding lily-pad SVG path (10 nodes per sub-level, frog on current node); the v3 home dash has a 5-node preview track but not the full Pond Map
-- [ ] **Dev server config:** `.claude/launch.json` in both folders is configured identically but the automated session serves from `Ribbit Reading App 2/` (retired). Kyle to update the `launch.json` in `Ribbit Reading App/` to use an absolute path or confirm which session's CWD the server uses, so future automated verify steps hit the live repo.
+- [x] **Dev server config fixed (2026-07-22, commit `729aa3a`).** Both `.claude/launch.json` files now use `--directory` pointing to the live repo, so `preview_start` always serves from the correct folder regardless of CWD.
 
 ### UX
-- [ ] Exit reading/quiz sends to home — learner loses their library context if they abandon mid-story (low priority; current behaviour is safe, just not ideal)
+- [x] **Exit reader/quiz now returns to library/world context (2026-07-22, commit `729aa3a`).** exitReading() and exitQuiz() contextually navigate: worldSelectedId → world; libraryLevel → library sublevel; else → home. LIVE.
 - [ ] 300 of 1,529 story pages still need internal scrolling at 1024×768 (mostly Levels 5–6, 700+ char pages). Now safe — the text area scrolls and the footer stays put — but splitting the longest pages would remove the scroll entirely.
 
 ### Technical
