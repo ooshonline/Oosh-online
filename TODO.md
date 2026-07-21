@@ -32,17 +32,17 @@
 - [ ] Consider giving this folder a git remote of its own, so development history is backed up rather than living only on Kyle's machine.
 
 ### Functionality
-- [ ] **Bug: `#header-xp-star` Lottie renders oversized** (a large green blob in the header) when the
-  XP-earn animation fires — visible on the Rewards screen header after XP increments. Pre-existing (the
-  Lottie slot isn't size-constrained to the pill); unrelated to the icon set. Constrain the Lottie
-  container to the pill icon size (~16–20px), or freeze to the `xp-xp-star` poster if Lottie overflows.
+- [x] **Bug: `#header-xp-star` Lottie renders oversized** — fixed 2026-07-21 (commit `b66f955`).
+  Added `.lottie-slot` CSS (20×20px, overflow:hidden) and class to `#header-xp-star`.
 - [ ] Wire `ribbit-wordlists.js` into the v3 reader — CEFR above-level word highlighting was in v1 but is not active in v3 (`makeWordTappable` handles vocab highlights but doesn't call the word-level Sets). Now unblocked: word sets are properly licensed (CEFR-J). Call `getChallengeLevel(clean, appLevelNum)` inside `makeWordTappable` and add a highlight span/class for challenge words.
 - [x] Audio speed controls — 🐢/🐸/⚡ toggle in reader audio pill, cycles 0.6×/0.9×/1.2×, persisted (2026-07-14)
 - [ ] World Journey destination detail: vocabulary words + culture quiz sections are not ported (destination screen only shows the story grid, no vocab auto-save or culture quiz)
 - [ ] Genre / topic browse screens — Quick Links "Explore Library" goes to the main library; genre browse tiles that v1 had are not in v3
 
 ### UI
+- [x] Journey track sub-level labels — nodes now show numbers 1–5 + title shows "X/10 done" progress count (2026-07-21, commit `b66f955`)
 - [ ] Pond Map home screen — v1 had a winding lily-pad SVG path (10 nodes per sub-level, frog on current node); the v3 home dash has a 5-node preview track but not the full Pond Map
+- [ ] **Dev server config:** `.claude/launch.json` in both folders is configured identically but the automated session serves from `Ribbit Reading App 2/` (retired). Kyle to update the `launch.json` in `Ribbit Reading App/` to use an absolute path or confirm which session's CWD the server uses, so future automated verify steps hit the live repo.
 
 ### UX
 - [ ] Exit reading/quiz sends to home — learner loses their library context if they abandon mid-story (low priority; current behaviour is safe, just not ideal)
