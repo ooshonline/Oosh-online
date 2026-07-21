@@ -602,10 +602,10 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260721"></script>
-<script src="ribbit-wordlists.js?v=20260721"></script>
-<script src="ribbit-ja-translations.js?v=20260721"></script>
-<script src="assets/vendor/lottie.min.js?v=20260721"></script>
+<script src="ribbit-stories.js?v=20260722"></script>
+<script src="ribbit-wordlists.js?v=20260722"></script>
+<script src="ribbit-ja-translations.js?v=20260722"></script>
+<script src="assets/vendor/lottie.min.js?v=20260722"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
 const ICONS = {
@@ -999,7 +999,7 @@ function prevPage(){
 function exitReading(){
   if(typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
   state.audioPlaying=false;
-  navigate('home');
+  navigate(state.worldSelectedId ? 'world' : state.libraryLevel ? 'library' : 'home');
 }
 
 // ── QUIZ ─────────────────────────────────────────────────
@@ -1029,7 +1029,7 @@ function advanceQuiz(){
     render(); // master render() spawns the confetti for the celebration screen
   }
 }
-function exitQuiz(){ navigate('home'); }
+function exitQuiz(){ navigate(state.worldSelectedId ? 'world' : state.libraryLevel ? 'library' : 'home'); }
 
 // ── FLASHCARDS — real deck model: "My Words" auto-deck built from state.flashCards
 // (populated by tap-to-save in the reader), plus user-created custom decks that

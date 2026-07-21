@@ -2,9 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "ribbit-v2",
+      "name": "ribbit-live",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "3459"],
+      "cwd": "/Users/ooshafterschool/Documents/Claude/Projects/Ribbit Reading App",
       "port": 3459
     }
   ]
