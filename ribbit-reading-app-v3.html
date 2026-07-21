@@ -86,6 +86,7 @@
     .stat-pill{display:flex;align-items:center;gap:5px;background:var(--bg);border-radius:8px;padding:5px 9px}
     .stat-pill .sp-val{font-size:12px;font-weight:800;color:var(--text)}
     .stat-pill .sp-label{font-size:10px;font-weight:500;color:var(--text-muted)}
+    .lottie-slot{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
     .avatar-btn{width:52px;height:52px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;overflow:hidden;border:none;cursor:pointer;padding:0}
     .lang-toggle-pill{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:4px;min-height:44px;background:var(--bg);border-radius:22px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--text)}
 
@@ -138,10 +139,16 @@
 
     .journey-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
     .journey-title{font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em}
+    .journey-progress-count{font-weight:600;opacity:0.6;font-size:10px;letter-spacing:0}
     .journey-viewpath{font-size:11px;font-weight:700;color:var(--primary-dark);flex-shrink:0}
-    .journey-track{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:16px 18px;position:relative;height:66px;display:flex;align-items:center}
-    .journey-track-line{position:absolute;left:36px;right:36px;top:50%;height:2px;background:repeating-linear-gradient(90deg,#DDE6D4 0 6px,transparent 6px 11px);z-index:0}
-    .journey-nodes{display:flex;justify-content:space-between;width:100%;position:relative;z-index:1}
+    .journey-track{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:12px 18px 14px;position:relative;display:flex;align-items:center}
+    .journey-track-line{position:absolute;left:36px;right:36px;top:32px;height:2px;background:repeating-linear-gradient(90deg,#DDE6D4 0 6px,transparent 6px 11px);z-index:0}
+    .journey-nodes{display:flex;justify-content:space-between;width:100%;position:relative;z-index:1;align-items:flex-start}
+    .journey-node-wrap{display:flex;flex-direction:column;align-items:center;gap:5px}
+    .jn-done{width:40px;height:40px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center}
+    .jn-current{width:46px;height:46px;border-radius:50%;background:white;border:3px solid var(--primary);font-size:18px;display:flex;align-items:center;justify-content:center;animation:glow-pulse 2s ease-in-out infinite}
+    .jn-locked{width:40px;height:40px;border-radius:50%;background:#E5E9EE;color:#B0B8C1;display:flex;align-items:center;justify-content:center}
+    .journey-node-lbl{font-size:10px;font-weight:700;color:var(--text-muted);line-height:1}
 
     /* ══ QUESTS — ported from the live app, daily + weekly quest tracking ══ */
     .quests-pane{padding:16px;display:flex;flex-direction:column;gap:20px}
@@ -1614,7 +1621,7 @@ const UI_STRINGS = {
     quests:'Quests', questsToday:(n)=>`${n} of 3 today`,
     myProgress:'My Progress', trackLevels:'Track your levels',
     rewards:'Rewards', checkBadges:'Check your badges',
-    yourJourney:(l)=>`YOUR JOURNEY — LEVEL ${l.id} · ${l.name}`, viewPath:'View path →',
+    yourJourney:(l)=>`YOUR JOURNEY — LEVEL ${l.id} · ${l.name}`, pondProgress:(d,t)=>`${d}/${t} done`, viewPath:'View path →',
     navHome:'Home', navLibrary:'Library', navFlashcards:'Cards', navRewards:'Rewards', navProfile:'Profile',
     comingSoon:'Coming soon', comingSoonBody:'This screen is being rebuilt from the redesign next.',
     libraryTitle:'Library', levelLabel:(id)=>`Level ${id}`, ages:(a)=>`Ages ${a}`, locked:'Locked',
@@ -1707,7 +1714,7 @@ const UI_STRINGS = {
     quests:'クエスト', questsToday:(n)=>`今日は3つ中${n}つ`,
     myProgress:'学習記録', trackLevels:'レベルの進み具合',
     rewards:'ごほうび', checkBadges:'バッジを確認しよう',
-    yourJourney:(l)=>`あなたの旅 — レベル${l.id} · ${l.name}`, viewPath:'ルートを見る →',
+    yourJourney:(l)=>`あなたの旅 — レベル${l.id} · ${l.name}`, pondProgress:(d,t)=>`${d}/${t}達成`, viewPath:'ルートを見る →',
     navHome:'ホーム', navLibrary:'ライブラリ', navFlashcards:'カード', navRewards:'ごほうび', navProfile:'わたし',
     comingSoon:'ちかぢか公開', comingSoonBody:'この画面は次のパスでリニューアルされます。',
     libraryTitle:'ライブラリ', levelLabel:(id)=>`レベル ${id}`, ages:(a)=>`対象年齢 ${a}`, locked:'ロック中',
@@ -1846,7 +1853,7 @@ function renderHeader(){
     <div class="header-stats">
       ${!isLibrary?`
       <div class="stat-pill"><span id="header-streak-flame" class="lottie-slot">${icon('status-streak-flame',16)}</span><span class="sp-val">${state.streak||0}</span></div>
-      <div class="stat-pill"><span id="header-xp-star">${icon('xp-xp-star',16)}</span><span class="sp-val">${(state.xp||0).toLocaleString()}</span></div>
+      <div class="stat-pill"><span id="header-xp-star" class="lottie-slot">${icon('xp-xp-star',16)}</span><span class="sp-val">${(state.xp||0).toLocaleString()}</span></div>
       <button class="avatar-btn" onclick="navigate('profile')" aria-label="Profile">🐸</button>`:''}
       <button class="lang-toggle-pill" onclick="toggleUiLang()" aria-label="Toggle language">${t('langToggle')}</button>
     </div>
@@ -2723,13 +2730,17 @@ function renderHomeDash(){
   let curIdx=0;
   for(let i=0;i<10;i++){ if(subLevelAvailable(lv,i)&&!subLevelDone(lv,i)){curIdx=i;break;} }
   const winStart=Math.max(0,Math.min(curIdx-2,10-5));
+  const subLevelsDone=Array.from({length:10},(_,i)=>subLevelDone(lv,i)).filter(Boolean).length;
   const nodesHtml=Array.from({length:5},(_,offset)=>{
     const i=winStart+offset;
     const done=subLevelDone(lv,i);
     const isCur=i===curIdx && !done;
-    if(done) return `<div style="width:40px;height:40px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center">${icon('status-check',18)}</div>`;
-    if(isCur) return `<div style="width:46px;height:46px;border-radius:50%;background:white;border:3px solid var(--primary);font-size:18px;display:flex;align-items:center;justify-content:center;animation:glow-pulse 2s ease-in-out infinite">🐸</div>`;
-    return `<div style="width:40px;height:40px;border-radius:50%;background:#E5E9EE;color:#B0B8C1;display:flex;align-items:center;justify-content:center">${icon('status-lock',16)}</div>`;
+    const circle=done
+      ? `<div class="jn-done">${icon('status-check',18)}</div>`
+      : isCur
+        ? `<div class="jn-current">🐸</div>`
+        : `<div class="jn-locked">${icon('status-lock',16)}</div>`;
+    return `<div class="journey-node-wrap">${circle}<span class="journey-node-lbl">${i+1}</span></div>`;
   }).join('');
 
   return `<div class="home-dash">
@@ -2754,7 +2765,7 @@ function renderHomeDash(){
 
     <div>
       <div class="journey-title-row">
-        <span class="journey-title">${t('yourJourney',lvObj)}</span>
+        <span class="journey-title">${t('yourJourney',lvObj)} <span class="journey-progress-count">${t('pondProgress',subLevelsDone,10)}</span></span>
         <button class="journey-viewpath" onclick="viewPath()">${t('viewPath')}</button>
       </div>
       <div class="journey-track">
