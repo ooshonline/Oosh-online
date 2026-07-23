@@ -63,7 +63,7 @@
 
 ### Content / licensing
 - [x] **`ribbit-wordlists.js` licensing resolved (2026-07-17).** OUP/CUP attribution swapped to CEFR-J + Octanove — both openly licensed for commercial use. See P0 section above.
-- [ ] Level 6 Japanese gloss coverage is only 36% (96 of 268 vocabulary words). Fine for the placement test (L6 uses cloze, which needs no gloss) but it means the reader's word popup falls back to English-only at C1.
+- [x] **Japanese gloss coverage for World Journey + L6 vocabulary resolved (2026-07-23, commit `4171f0d`).** Added 127 missing entries to `ribbit-ja-translations.js` — total now 1991 keys covering all 395 unique vocab words used in Journey and Level 6 stories (was ~68%, now 100%). Cultural terms, food vocabulary, C1 abstract words all covered.
 
 ## Done ✅
 
