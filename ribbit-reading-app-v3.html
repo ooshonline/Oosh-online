@@ -1107,12 +1107,17 @@ function openDestination(id){
 }
 function goWorldRoot(){ state.worldSelectedId=null; render(); }
 
+const STREAK_MILESTONES=[7,14,30];
+function checkStreakMilestone(n){
+  if(STREAK_MILESTONES.includes(n)) setTimeout(()=>showToast(t('streakMilestone',n)),1800);
+}
 function updateStreak(){
   const today=new Date().toDateString();
   const yesterday=new Date(Date.now()-86400000).toDateString();
   if(state.lastRead===today) return;
   state.streak = state.lastRead===yesterday ? state.streak+1 : 1;
   state.lastRead=today;
+  checkStreakMilestone(state.streak);
 }
 function finishStory(story){
   const accuracyPct=story.quiz.length? Math.round((state.quizCorrectCount/story.quiz.length)*100):0;
@@ -1695,6 +1700,7 @@ const UI_STRINGS = {
     xpMilestone5000:'🎖️ 5000 XP reached! Master class!',
     loginBonus:(xp)=>`☀️ Welcome back! Daily bonus +${xp} XP!`,
     loginBonusStreak:(days,xp)=>`🔥 ${days}-day streak! Bonus +${xp} XP!`,
+    streakMilestone:(days)=>`🔥 ${days}-day streak! Amazing work! 🐸`,
     destStamped:(name)=>`🪪 ${name} passport stamped! +200 XP`,
     comboLabel:'COMBO!', correctLabel:'CORRECT!', wrongLabel:'WRONG!',
     comboStreakLine:(n)=>`${n} in a row!`,
@@ -1788,6 +1794,7 @@ const UI_STRINGS = {
     xpMilestone5000:'🎖️ 5000 XP 達成！マスタークラス！',
     loginBonus:(xp)=>`☀️ おかえり！デイリーボーナス +${xp} XP！`,
     loginBonusStreak:(days,xp)=>`🔥 ${days}日連続！ボーナス +${xp} XP！`,
+    streakMilestone:(days)=>`🔥 ${days}日連続達成！すごい！🐸`,
     destStamped:(name)=>`🪪 ${name}のパスポートにスタンプ！ +200 XP`,
     comboLabel:'コンボ！', correctLabel:'せいかい！', wrongLabel:'ざんねん！',
     comboStreakLine:(n)=>`${n}連続！`,
