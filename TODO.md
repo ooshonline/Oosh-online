@@ -58,7 +58,7 @@
 ### Gamification
 - [x] Streak visual treatment on home header pill — `streak-at-risk` amber pulse when streak active but no stories today; `streak-milestone` warm glow at 7+ days (2026-07-14)
 - [x] Champion badges — were already implemented via `LEVELS.map()` in BADGES; icons, checks, and rendering all wired. TODO was stale.
-- [ ] Streak milestone toast/banner when streak hits 7/14/30 (currently covered by `loginBonusStreak` toast but no persistent UI feedback)
+- [x] **Streak milestone toast at 7/14/30 days (2026-07-23, commit `d95c8d8`, pending push).** `checkStreakMilestone(n)` fires a bilingual celebratory toast when `updateStreak()` increments to exactly 7, 14, or 30. No extra state needed — fires again if streak resets and rebuilds.
 - [x] XP rank-up toast when tier is crossed — `checkRankUp()` fires in `awardXP()`, bilingual (2026-07-14)
 
 ### Content / licensing
