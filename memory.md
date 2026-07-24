@@ -20,11 +20,53 @@
 - ✅ Functionality (2026-07-24, manual run 1/3)
 - ✅ UI (2026-07-24, manual run 2/3)
 - ✅ UX (2026-07-24, manual run 3/3)
-- Remaining: Content, Gamification
+- ✅ Content (2026-07-24, manual run 4)
+- Remaining: Gamification
 
 ---
 
 ## Session Log
+
+### 2026-07-24 — Content Pillar (~55 min, run 4, manual session)
+
+**Pillar: Content** — Cycle 3. Worked from the new Idea Backlog (idea **C2**).
+
+**First: a 25-idea backlog was added to `TODO.md`** (commit `372cb3a`) — 5 ideas per pillar
+(`F1–F5`, `U1–U5`, `X1–X5`, `C1–C5`, `G1–G5`), each scoped to one ~1h run. The `ribbit-app-update`
+SKILL.md now draws from that block after each pillar's own Priority items, and is told to top the
+list up when a pillar's five run out. **Kyle approved these ideas, so the routine builds them
+without asking** — "parked work" now refers only to the App 2 ports.
+
+**Commit `e15f2f9` — DEPLOYED LIVE.**
+
+- **content: after-reading talk prompts for all 75 Level 1 stories** — the app had *no speaking
+  practice at all*, which for an ESL reading app is the biggest content gap. `TALK_PROMPTS` in
+  `ribbit-stories.js` keyed by story id (`{en, ja}`), plus `renderTalkPrompt()` on the celebration
+  screen: an open question, never marked, never scored, with a speaker button and the Japanese
+  gloss beneath the English. Each prompt is tied to its own story ("Dad's Hat" → "Do you wear a
+  hat? When do you wear it?"), not a template.
+  - Keyed-object design (not a per-story field) meant one appended block instead of 75 edits.
+  - A story with no prompt renders nothing, so partial coverage is safe — Levels 2–6 can be added
+    later with no code change.
+  - `.celeb-screen` moved to `justify-content:safe center` + `overflow-y:auto`; the extra card
+    would otherwise push the buttons off-screen on a phone (same reasoning as the reader fix).
+  - Verified: all 75 ids mapped, 0 orphans, 0 missing `ja`; all 75 `onclick` handlers parse
+    (incl. the apostrophe case `l1.9s5`); L1 shows the card, L3 shows nothing; en + ja both
+    correct; 375px and 1280px clean; no console errors; live bytes identical to local.
+
+**Commit `5549d79` — DEPLOYED LIVE (unplanned fix, found during verification).**
+
+- **fix: celebration animation no longer covers the stars and XP chip** —
+  `story-completion-celebration.json` ends on an **opaque green disc** and the slot was never
+  cleared, so after *every single story* a green circle sat over the star rating, the XP chip and
+  part of the result text until the child navigated away. This was live and pre-existing (confirmed
+  against the deployed file before changing anything). `playLottie`'s `onComplete` now empties the
+  slot — exactly what `playPageTurn()` already did. Verified on live: `completionSvgs: 0`.
+
+**Noted for later, not fixed:** the badge-unlock animation (`.celeb-badge-anim-slot`) also ends on
+a flat green disc, so earning a badge shows a green dot rather than a badge. Logged under TODO → UI.
+
+**Cycle 3 next pillar: Gamification.** Backlog ideas G1–G5 are ready to pick from.
 
 ### 2026-07-24 — UX Pillar (~20 min, run 3 of 3, manual session)
 

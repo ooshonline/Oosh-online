@@ -85,9 +85,11 @@ off here as they ship, and add the commit hash.
 - [ ] **C1 · Quiz question variety.** Every item is literal recall — the `feedback` line is almost
   always "The story says…". Add inference ("How does she feel?"), sequencing ("What happened first?")
   and vocab-in-context types. Retro-fit one sub-level per run, starting at Level 3.
-- [ ] **C2 · After-reading talk prompt.** Add a `talkPrompt` (en + ja) per story, shown and spoken on
-  the celebration screen and never marked — the speaking half of reading practice, which the app
-  currently has none of. Author level-appropriately.
+- [~] **C2 · After-reading talk prompt — Level 1 SHIPPED (2026-07-24, commit `e15f2f9`).** LIVE.
+  `TALK_PROMPTS` in `ribbit-stories.js` (keyed by story id, en + ja) + `renderTalkPrompt()` on the
+  celebration screen: unmarked open question, speaker button, Japanese gloss below the English.
+  All 75 Level 1 stories covered; a story with no prompt renders nothing, so partial coverage is
+  safe. **Remaining: Levels 2–6 (280 stories)** — author in level-sized batches, no code needed.
 - [ ] **C3 · Non-fiction fact files.** The genre mix is almost entirely narrative; ESL readers need
   informational text (animals, weather, places, how things work). Author a set at Levels 2–4 using
   the existing story schema so no code changes are needed.
@@ -128,6 +130,11 @@ off here as they ship, and add the commit hash.
 - [ ] Consider giving this folder a git remote of its own, so development history is backed up rather than living only on Kyle's machine.
 
 ### Functionality
+- [x] **Bug: celebration Lottie left a green disc over the stars** — fixed 2026-07-24 (commit
+  `5549d79`). `story-completion-celebration.json` ends on an opaque green frame and the slot was
+  never cleared, so a green circle covered the star rating, XP chip and part of the result text
+  after *every* story. Was live. `playLottie`'s `onComplete` now empties the slot, matching
+  `playPageTurn()`. Found during browser verification of the talk prompts.
 - [x] **Bug: `#header-xp-star` Lottie renders oversized** — fixed 2026-07-21 (commit `b66f955`).
   Added `.lottie-slot` CSS (20×20px, overflow:hidden) and class to `#header-xp-star`.
 - [x] **Above-level word highlighting in reader (2026-07-24, commit `a5dc7a2`).** `makeWordTappable()` now calls `getChallengeLevel(clean, currentLevelId())`. Words above the story's level get `.challenge-word` (dashed orange underline). LIVE.
@@ -136,6 +143,11 @@ off here as they ship, and add the commit hash.
 - [ ] Genre / topic browse screens — Quick Links "Explore Library" goes to the main library; genre browse tiles that v1 had are not in v3
 
 ### UI
+- [ ] **Badge-unlock animation on the celebration screen reads as a plain green circle.** Spotted
+  2026-07-24 while fixing the completion-animation bug. `.celeb-badge-anim-slot` (96×96) is sized
+  correctly and the animation plays, but it ends on a flat green disc with no visible badge, so a
+  child who just earned a badge sees a green dot. Either the Lottie is wrong for the slot or it
+  needs the same `onComplete` clear as `playCelebrationAnims()` now has. Low risk, small fix.
 - [x] Journey track sub-level labels — nodes now show numbers 1–5 + title shows "X/10 done" progress count (2026-07-21, commit `b66f955`)
 - [x] **Star ratings on completed story cards (2026-07-24, commit `f564d4f`).** `storyStarCount()` + `.story-stars` row of gold stars below title for completed stories. LIVE.
 - [ ] Pond Map home screen — v1 had a winding lily-pad SVG path (10 nodes per sub-level, frog on current node); the v3 home dash has a 5-node preview track but not the full Pond Map
