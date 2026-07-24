@@ -212,6 +212,7 @@
 
     .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .story-card{background:var(--card);border-radius:14px;overflow:hidden;cursor:pointer;text-align:left;width:100%}
+    .story-stars{display:flex;gap:1px;padding:3px 0 0}
     .story-cover{height:100px;display:flex;align-items:center;justify-content:center;font-size:38px;position:relative}
     .story-level-badge{position:absolute;bottom:6px;left:6px;border-radius:999px;padding:2px 7px;font-size:8.5px;font-weight:700;color:#fff}
     .story-complete-badge{position:absolute;top:6px;right:6px;width:20px;height:20px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#151515;font-size:11px;font-weight:700}
@@ -1151,6 +1152,7 @@ function findStory(id){
   return null;
 }
 function storyDone(id){ return !!state.progress[id]; }
+function storyStarCount(score){ return score>=0.8?3:score>=0.5?2:1; }
 function subLevelDone(lv,sl){
   const stories=STORIES[lv]&&STORIES[lv][sl]||[];
   return stories.length>0 && stories.every(s=>storyDone(s.id));
@@ -1958,6 +1960,9 @@ function renderLibraryTierStories(){
     const done=storyDone(s.id);
     const inProgress=!done&&s.id===state.lastStoryId;
     const [cg1,cg2]=storyGradient(s,level.g1,level.g2);
+    const prog=state.progress[s.id];
+    const stars=done&&prog?storyStarCount(prog.score):0;
+    const starsHtml=stars>0?`<div class="story-stars">${Array(stars).fill(icon('xp-xp-star',11)).join('')}</div>`:'';
     return `<button class="story-card${inProgress?' story-inprogress':''}" onclick="openStoryModal('${s.id}')">
       <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
         ${s.emoji||'📖'}
@@ -1966,6 +1971,7 @@ function renderLibraryTierStories(){
       </div>
       <div class="story-body">
         <div class="story-title">${s.title}</div>
+        ${starsHtml}
       </div>
     </button>`;
   }).join('');
