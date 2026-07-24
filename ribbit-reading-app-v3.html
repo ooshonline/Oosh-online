@@ -2316,7 +2316,9 @@ function spawnConfetti(){
 // (spawnConfetti() above is kept only as the CSS-only fallback referenced in docs/design-implementation-brief.md).
 function playCelebrationAnims(){
   const completionSlot=document.getElementById('celeb-completion-anim');
-  if(completionSlot) playLottie(completionSlot,'assets/animations/celebrations/story-completion-celebration.json');
+  // Clear the slot when it finishes: this animation's last frame is an opaque green disc, and with
+  // no cleanup it stayed there covering the stars and the XP chip. Same pattern as playPageTurn().
+  if(completionSlot) playLottie(completionSlot,'assets/animations/celebrations/story-completion-celebration.json',{onComplete:()=>{ if(completionSlot.isConnected) completionSlot.innerHTML=''; }});
 
   const starsSlot=document.getElementById('celeb-stars');
   if(starsSlot){
