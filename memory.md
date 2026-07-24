@@ -16,16 +16,41 @@
 - ✅ Content (2026-07-23, automated)
 - ✅ Gamification (2026-07-23, automated)
 
-**Cycle 3 — IN PROGRESS**
+**Cycle 3 — COMPLETE**
 - ✅ Functionality (2026-07-24, manual run 1/3)
 - ✅ UI (2026-07-24, manual run 2/3)
 - ✅ UX (2026-07-24, manual run 3/3)
 - ✅ Content (2026-07-24, manual run 4)
-- Remaining: Gamification
+- ✅ Gamification (2026-07-25, automated)
+
+**Cycle 4 — NOT STARTED**
 
 ---
 
 ## Session Log
+
+### 2026-07-25 — Gamification Pillar (~35 min, automated)
+
+**Pillar: Gamification** — Cycle 3 complete.
+
+**Commit `fefe1ce` — DEPLOYED LIVE (v=20260725).**
+
+- **feature: badge progress bars on locked rewards (G2)** — locked badges
+  on the Rewards screen now show a thin green progress bar + "X/Y" count
+  below the badge name. `badgeProgress(b)` maps each badge id to
+  `{cur, tot}` from live state. Boolean-only badges (`first-leap`,
+  `skill-star`, `world-traveler`) return `null` so no bar is shown.
+  Earned badges skip the bar entirely via the `!earned` guard in
+  `renderRewards`. 4 CSS classes added (`.badge-prog-wrap`,
+  `.badge-prog-bg`, `.badge-prog-bar`, `.badge-prog-text`).
+  Verified: 16 `.badge-prog-wrap` elements in DOM (17 locked − 1
+  boolean = 16); all counts match live state (Ten Tales 6/10, Quiz Ace
+  3/5, streak badges 1/7 etc.); earned badges show no bar; zero console
+  errors; mobile 375px clean; golden path clean.
+
+**Cycle 3 complete. Cycle 4 starts next run (Functionality pillar).**
+
+
 
 ### 2026-07-24 — Content Pillar (~55 min, run 4, manual session)
 

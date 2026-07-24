@@ -104,8 +104,10 @@ off here as they ship, and add the commit hash.
 - [ ] **G1 · Give XP a purpose.** XP accumulates and is never spent. Add a pond/avatar customisation
   shop — hats, lily pads, pond decorations — bought with XP, stored in `state.owned`/`state.equipped`,
   shown on the Home pond and the profile avatar. Cosmetic only, no real money, nothing gated behind it.
-- [ ] **G2 · Badge progress.** Locked badges show a hint but no distance, so none of them feel close.
-  Give each badge a `progress()` beside its `check()` and show "7 / 10 stories" on the locked card.
+- [x] **G2 · Badge progress — SHIPPED (2026-07-25, commit `fefe1ce`).** `badgeProgress(b)` +
+  thin progress bar + "X/Y" count on every locked badge with numeric criteria. Boolean-only
+  badges (first-leap, skill-star, world-traveler) show no bar. Verified: 16 bars rendered
+  (17 locked − 1 boolean = 16), all counts from live state. LIVE.
 - [ ] **G3 · Personal bests in Profile.** Only the *current* streak is kept, so a 12-day run that
   breaks vanishes. Track `state.bestStreak` going forward and derive best week, most words saved in a
   week, and first-try perfect quizzes from `state.progress` timestamps.
