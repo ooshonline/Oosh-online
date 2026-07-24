@@ -520,7 +520,9 @@
     }
 
     /* ══ CELEBRATION — literal port, Tablet lines 963-1007. Full-bleed, no app shell. ══ */
-    .celeb-screen{min-height:100vh;background:#FFFDF8;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:24px;text-align:center}
+    /* safe center + overflow-y:auto — the talk-prompt card can make this screen taller than
+       the viewport on a small phone, and plain "center" would push the buttons out of reach. */
+    .celeb-screen{min-height:100vh;background:#FFFDF8;display:flex;flex-direction:column;align-items:center;justify-content:safe center;position:relative;overflow-x:hidden;overflow-y:auto;padding:24px;text-align:center}
     .confetti-piece{position:fixed;top:-14px;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:9999;animation:confettiFall linear forwards}
     @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
     .celeb-frog{font-size:96px;animation:bounce-in .65s ease both,float 2.5s ease-in-out .8s infinite;line-height:1;margin-bottom:16px}
@@ -532,6 +534,13 @@
     .celeb-chip{display:flex;align-items:center;gap:6px;background:#EBF9DE;border-radius:999px;padding:8px 16px;margin-bottom:14px;animation:fade-up .4s .5s ease both}
     .celeb-chip span{font-family:var(--font-head);font-weight:800;font-size:13px;color:#2D6B12}
     .celeb-perf{font-size:12px;color:var(--text-muted);margin-bottom:26px;max-width:320px}
+    /* ── Talk prompt — an open speaking question, never marked, never scored ── */
+    .celeb-talk{width:100%;max-width:360px;background:#fff;border:2px solid #EBF9DE;border-radius:var(--radius);padding:14px 16px;margin:-8px 0 22px;box-shadow:var(--shadow);animation:fade-up .4s .55s ease both;text-align:left}
+    .celeb-talk-head{display:flex;align-items:center;gap:6px;font-family:var(--font-head);font-weight:800;font-size:12px;color:#2D6B12;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px}
+    .celeb-talk-row{display:flex;align-items:flex-start;gap:10px}
+    .celeb-talk-q{flex:1;font-family:var(--font-head);font-weight:800;font-size:15px;color:var(--navy);line-height:1.35}
+    .celeb-talk-ja{font-size:12px;color:var(--text-muted);line-height:1.5;margin-top:6px}
+    .celeb-talk-say{flex-shrink:0;width:44px;height:44px;border-radius:50%;background:#EBF9DE;color:#2D6B12;display:flex;align-items:center;justify-content:center}
     .celeb-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:280px;animation:fade-up .4s .6s ease both}
     .celeb-btn-secondary{height:50px;background:transparent;border:2px solid var(--navy);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--navy)}
     .celeb-btn-primary{height:50px;background:var(--primary);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:#151515}
@@ -605,10 +614,10 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260723"></script>
-<script src="ribbit-wordlists.js?v=20260723"></script>
-<script src="ribbit-ja-translations.js?v=20260723"></script>
-<script src="assets/vendor/lottie.min.js?v=20260723"></script>
+<script src="ribbit-stories.js?v=20260724"></script>
+<script src="ribbit-wordlists.js?v=20260724"></script>
+<script src="ribbit-ja-translations.js?v=20260724"></script>
+<script src="assets/vendor/lottie.min.js?v=20260724"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
 const ICONS = {
@@ -1659,6 +1668,7 @@ const UI_STRINGS = {
     placeTileRetake:'Re-Test', placeTileRetakeSub:(pond)=>`Now: ${pond}`,
     celebStarText:(n)=>n>=80?'Amazing work! You know this story well! 🌟':n>=50?'Good job! Keep practicing to master it.':'Nice try — read it again to improve!',
     xpEarned:(n)=>`+${n} XP earned`, readAgainBtn:'Read Again', backToLibraryBtn:'Back to Library',
+    talkTitle:"Let's talk!", talkHint:'Say your answer out loud — there is no wrong answer.',
     addToDeck:'+ Add to Flashcards', savedToDeck:'✓ Saved — tap to remove', hearWord:'Hear this word',
     myWords:'My Words', savedWhileReading:'Saved while reading', words:(n)=>`${n} words`,
     createNewDeck:'＋ Create New Deck', noWordsYet:'No words saved yet', noWordsBody:'Tap highlighted words while reading to save them here.',
@@ -1753,6 +1763,7 @@ const UI_STRINGS = {
     placeTileRetake:'もう一度テスト', placeTileRetakeSub:(pond)=>`いま: ${pond}`,
     celebStarText:(n)=>n>=80?'すごい！このお話をよくわかっているね！🌟':n>=50?'いいね！もっと練習しよう。':'もういちど読んでみよう！',
     xpEarned:(n)=>`+${n} XP かくとく`, readAgainBtn:'もういちど読む', backToLibraryBtn:'ライブラリへもどる',
+    talkTitle:'はなしてみよう！', talkHint:'こえに だして こたえてみよう。まちがいは ないよ。',
     addToDeck:'+ フラッシュカードに追加', savedToDeck:'✓ 保存ずみ（タップで削除）', hearWord:'この単語を聞く',
     myWords:'マイ単語', savedWhileReading:'読書中に保存した単語', words:(n)=>`${n}語`,
     createNewDeck:'＋ 新しいデッキを作る', noWordsYet:'まだ単語がありません', noWordsBody:'読書中にハイライトされた単語をタップして保存しよう。',
@@ -2236,6 +2247,24 @@ function renderPlacement(){
 }
 
 // ── CELEBRATION — literal port, Tablet lines 963-1007 ──
+// ── Talk prompt ── An open speaking question shown after a story. Deliberately has no
+// answer field and no marking: it exists to get the child saying something in English.
+// Stories with no prompt authored yet render nothing, so partial coverage is safe.
+function renderTalkPrompt(story){
+  const p=(typeof TALK_PROMPTS!=='undefined') ? TALK_PROMPTS[story.id] : null;
+  if(!p) return '';
+  return `<div class="celeb-talk">
+    <div class="celeb-talk-head">${icon('ctrl-audio',14)}<span>${t('talkTitle')}</span></div>
+    <div class="celeb-talk-row">
+      <div class="celeb-talk-q">${p.en}
+        <div class="celeb-talk-ja">${p.ja}</div>
+      </div>
+      <button class="celeb-talk-say" aria-label="${t('talkTitle')}" onclick="speakText('${escAttr(jsStr(p.en))}',0.85)">${icon('ctrl-audio',20)}</button>
+    </div>
+    <div class="celeb-talk-ja" style="margin-top:10px">${t('talkHint')}</div>
+  </div>`;
+}
+
 function renderCelebration(){
   const story=findStory(state.lastStoryId);
   if(!story) return renderComingSoon();
@@ -2255,6 +2284,7 @@ function renderCelebration(){
     <div id="celeb-badge-anim" class="celeb-badge-anim-slot"></div>
     ${xpEarned>0?`<div class="celeb-chip"><span>${t('xpEarned',xpEarned)}</span></div>`:`<div class="celeb-chip" style="background:#F0F3F7"><span style="color:var(--text-muted)">${t('replayGoodJob')}</span></div>`}
     <div class="celeb-perf">${t('celebStarText',accuracyPct)}</div>
+    ${renderTalkPrompt(story)}
     <div class="celeb-btns">
       <button class="celeb-btn-secondary" onclick="readAgain()">${t('readAgainBtn')}</button>
       <button class="celeb-btn-primary" onclick="${story.journeyId?`state.screen='world';state.worldSelectedId='${story.journeyId}';render()`:"navigate('library')"}">${story.journeyId?t('backToDestBtn'):t('backToLibraryBtn')}</button>

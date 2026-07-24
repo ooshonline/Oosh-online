@@ -12925,3 +12925,108 @@ JOURNEY_STORIES['south-korea'].push({
      feedback:"'Later, making elaborate hanji paper lanterns with the other participants...'"}
   ]
 });
+
+// ════════════════════════════════════════════════════════════════
+//  TALK PROMPTS — one open speaking question per story (en + ja).
+//  Shown on the celebration screen after a story is finished. These are
+//  never marked and never scored: the point is to get the child saying
+//  something in English about what they just read. Keyed by story id, so a
+//  story without a prompt simply shows nothing. Level 1 is covered; see
+//  TODO.md (idea C2) for the remaining levels.
+// ════════════════════════════════════════════════════════════════
+const TALK_PROMPTS = {
+  // ── Level 1 · Sub-level 1 ──
+  'l1.1s1':{en:"Cat or dog — which one do you like more?", ja:"ねこと いぬ、どっちが すき？"},
+  'l1.1s2':{en:"What can your favourite animal do? Run, jump, or swim?", ja:"すきな どうぶつは なにが できる？はしる？とぶ？およぐ？"},
+  'l1.1s3':{en:"Is it sunny today? What is the weather like?", ja:"きょうは はれ？いまの てんきは どう？"},
+  'l1.1s4':{en:"What colour is your bag? What do you keep inside it?", ja:"きみの かばんは なにいろ？なかに なにが はいってる？"},
+  'l1.1s5':{en:"Tell me about your bed. Is it soft?", ja:"きみの ベッドの ことを おしえて。ふわふわ？"},
+
+  // ── Level 1 · Sub-level 2 ──
+  'l1.2s1':{en:"Which fruit do you eat most? Is it sweet?", ja:"よく たべる くだものは なに？あまい？"},
+  'l1.2s2':{en:"What do you write with at school? What colour is it?", ja:"がっこうで なにを つかって かく？なにいろ？"},
+  'l1.2s3':{en:"Are there trees near your home? What can you see outside?", ja:"いえの ちかくに 木は ある？そとに なにが みえる？"},
+  'l1.2s4':{en:"What games do you play with a ball?", ja:"ボールで どんな あそびを する？"},
+  'l1.2s5':{en:"Describe an animal you love. Big or small? What colour?", ja:"だいすきな どうぶつを おしえて。大きい？小さい？なにいろ？"},
+
+  // ── Level 1 · Sub-level 3 ──
+  'l1.3s1':{en:"Tell me about someone in your family. What are they like?", ja:"かぞくの ひとを ひとり おしえて。どんな ひと？"},
+  'l1.3s2':{en:"What is in your room? Is it clean or messy today?", ja:"きみの へやに なにが ある？きょうは きれい？ちらかってる？"},
+  'l1.3s3':{en:"Do you wear a hat? When do you wear it?", ja:"ぼうしを かぶる？どんな ときに かぶる？"},
+  'l1.3s4':{en:"Do you have a brother or a sister? What do you play?", ja:"きょうだいは いる？いっしょに なにして あそぶ？"},
+  'l1.3s5':{en:"If you had a dog, what name would you give it?", ja:"いぬを かうなら、どんな なまえを つける？"},
+
+  // ── Level 1 · Sub-level 4 ──
+  'l1.4s1':{en:"What do you do in the morning before school?", ja:"あさ、がっこうの まえに なにを する？"},
+  'l1.4s2':{en:"What do you like best at school?", ja:"がっこうで いちばん すきなことは なに？"},
+  'l1.4s3':{en:"What did you eat for lunch today?", ja:"きょうの おひるごはんは なにを たべた？"},
+  'l1.4s4':{en:"What do you do after school?", ja:"がっこうの あとは なにを する？"},
+  'l1.4s5':{en:"What time do you go to bed? Who says goodnight?", ja:"なんじに ねる？だれが おやすみを いってくれる？"},
+
+  // ── Level 1 · Sub-level 5 ──
+  'l1.5s1':{en:"Would you like a pet fish? What would you call it?", ja:"さかなを かってみたい？なまえは なんに する？"},
+  'l1.5s2':{en:"At the park, what do you like best — swings, slide, or running?", ja:"こうえんで なにが すき？ブランコ？すべりだい？はしること？"},
+  'l1.5s3':{en:"What do you do on a rainy day?", ja:"あめの ひは なにを する？"},
+  'l1.5s4':{en:"Who is your best friend? Why do you like them?", ja:"いちばんの ともだちは だれ？どうして すき？"},
+  'l1.5s5':{en:"What do you like to buy at the shop?", ja:"おみせで なにを かうのが すき？"},
+
+  // ── Level 1 · Sub-level 6 ──
+  'l1.6s1':{en:"A fish lives in water. Where do other animals live?", ja:"さかなは 水の なかに すむね。ほかの どうぶつは どこに すむ？"},
+  'l1.6s2':{en:"What kind of books do you like to read?", ja:"どんな 本を よむのが すき？"},
+  'l1.6s3':{en:"What is in your lunchbox today?", ja:"きょうの おべんとうには なにが はいってる？"},
+  'l1.6s4':{en:"Swings or slide — which do you choose?", ja:"ブランコと すべりだい、どっちを えらぶ？"},
+  'l1.6s5':{en:"What story would you like to hear before bed?", ja:"ねるまえに どんな おはなしを ききたい？"},
+  'l1.6s6':{en:"Are you more like the busy dog or the sleepy cat?", ja:"げんきな いぬと ねむい ねこ、きみは どっちに にてる？"},
+  'l1.6s7':{en:"When is your birthday? What would you like to do?", ja:"たんじょうびは いつ？なにを したい？"},
+  'l1.6s8':{en:"What do you wear when it is cold outside?", ja:"そとが さむいとき、なにを きる？"},
+  'l1.6s9':{en:"Have you been to the beach? What did you do there?", ja:"うみに いったことは ある？なにを した？"},
+  'l1.6s10':{en:"What sport do you like? Do you play it with friends?", ja:"すきな スポーツは なに？ともだちと する？"},
+
+  // ── Level 1 · Sub-level 7 ──
+  'l1.7s1':{en:"The bird flew away safely. What would you do if you saw a cat watching a bird?", ja:"とりは ぶじに とんで いったね。ねこが とりを ねらっていたら、きみは どうする？"},
+  'l1.7s2':{en:"Stop and listen. What sounds can you hear right now?", ja:"ちょっと きいてみて。いま どんな おとが きこえる？"},
+  'l1.7s3':{en:"Are your mornings fast and busy, or slow and quiet?", ja:"きみの あさは いそがしい？それとも ゆっくり？"},
+  'l1.7s4':{en:"Where does your family like to walk together?", ja:"かぞくで どこを さんぽするのが すき？"},
+  'l1.7s5':{en:"Have you stood in front of your class? How did you feel?", ja:"クラスの みんなの まえに たったことは ある？どんな きもちだった？"},
+  'l1.7s6':{en:"What is happening in your house right now?", ja:"いま きみの いえでは なにが おきてる？"},
+  'l1.7s7':{en:"At the zoo, which animal would you visit first?", ja:"どうぶつえんで さいしょに どの どうぶつを みる？"},
+  'l1.7s8':{en:"Do you help in the kitchen? What can you make?", ja:"キッチンで おてつだいする？なにが つくれる？"},
+  'l1.7s9':{en:"Do you like hide and seek? Where is your best hiding place?", ja:"かくれんぼは すき？いちばん いい かくればしょは どこ？"},
+  'l1.7s10':{en:"Who is the fastest person in your house in the morning?", ja:"あさ、きみの いえで いちばん はやいのは だれ？"},
+
+  // ── Level 1 · Sub-level 8 ──
+  'l1.8s1':{en:"Have you lost something? Where did you find it?", ja:"なにか なくしたことは ある？どこで みつけた？"},
+  'l1.8s2':{en:"How can you help a new person feel welcome?", ja:"あたらしく きた ひとに、どうやって やさしく できる？"},
+  'l1.8s3':{en:"Do you like walking in the rain and mud? Why?", ja:"あめや どろの なかを あるくのは すき？どうして？"},
+  'l1.8s4':{en:"Have you grown a plant? What would you like to grow?", ja:"しょくぶつを そだてたことは ある？なにを そだてたい？"},
+  'l1.8s5':{en:"What would you show at a talent show?", ja:"はっぴょうかいで なにを みせたい？"},
+  'l1.8s6':{en:"What did you do yesterday? Tell me three things.", ja:"きのう なにを した？3つ おしえて。"},
+  'l1.8s7':{en:"What was the best part of your weekend?", ja:"しゅうまつで いちばん たのしかったことは なに？"},
+  'l1.8s8':{en:"Do you have a special toy? Tell me its name.", ja:"たいせつな おもちゃは ある？なまえを おしえて。"},
+  'l1.8s9':{en:"Have you seen a rainbow? How many colours can you name?", ja:"にじを みたことは ある？いろの なまえを いくつ いえる？"},
+  'l1.8s10':{en:"If you got a puppy, what would you name it and why?", ja:"こいぬを もらったら、なんて なまえを つける？どうして？"},
+
+  // ── Level 1 · Sub-level 9 ──
+  'l1.9s1':{en:"What would you buy at a market?", ja:"マーケットで なにを かう？"},
+  'l1.9s2':{en:"Think of an old family photo. Who can you see in it?", ja:"かぞくの ふるい しゃしんを おもいだして。だれが うつってる？"},
+  'l1.9s3':{en:"What would you tell a pen pal about yourself?", ja:"ペンフレンドに じぶんの なにを つたえる？"},
+  'l1.9s4':{en:"Can you ride a bike? Who taught you?", ja:"じてんしゃに のれる？だれが おしえてくれた？"},
+  'l1.9s5':{en:"Have you stayed at someone else's house? What was it like?", ja:"ほかの ひとの いえに とまったことは ある？どうだった？"},
+  'l1.9s6':{en:"Tell me about your best day. What made it special?", ja:"いちばん たのしかった 日は？なにが とくべつだった？"},
+  'l1.9s7':{en:"What are you wearing on your feet today? New or old?", ja:"きょうは どんな くつを はいてる？あたらしい？ふるい？"},
+  'l1.9s8':{en:"What should you do if you find a hurt animal?", ja:"けがを した どうぶつを みつけたら どうする？"},
+  'l1.9s9':{en:"If your class got a pet, which animal would you choose?", ja:"クラスで どうぶつを かうなら、なにを えらぶ？"},
+  'l1.9s10':{en:"Do storms scare you? What helps you feel safe?", ja:"かみなりは こわい？どうすると あんしんする？"},
+
+  // ── Level 1 · Sub-level 10 ──
+  'l1.10s1':{en:"What would you plant in a school garden?", ja:"がっこうの はたけに なにを うえたい？"},
+  'l1.10s2':{en:"A whole day with no plans — what would you do with your family?", ja:"まる1日 よていが なかったら、かぞくと なにを する？"},
+  'l1.10s3':{en:"Have you ever moved house? How would a new home feel?", ja:"ひっこしを したことは ある？あたらしい いえは どんな きもち？"},
+  'l1.10s4':{en:"Have you played in snow? What did you build?", ja:"ゆきで あそんだことは ある？なにを つくった？"},
+  'l1.10s5':{en:"What game would you run at a school fair?", ja:"がっこうの おまつりで どんな ゲームを やりたい？"},
+  'l1.10s6':{en:"How would you say hello to a new neighbour?", ja:"あたらしく となりに きた ひとに、どうやって あいさつする？"},
+  'l1.10s7':{en:"Would you like to act on a stage? What part would you play?", ja:"ぶたいで えんぎ してみたい？どんな やくを やりたい？"},
+  'l1.10s8':{en:"What animals would you like to meet on a farm?", ja:"のうじょうで どんな どうぶつに あいたい？"},
+  'l1.10s9':{en:"Which season do you like best? Why?", ja:"どの きせつが いちばん すき？どうして？"},
+  'l1.10s10':{en:"If you found an old box, what would you hope to find inside?", ja:"ふるい はこを みつけたら、なかに なにが あってほしい？"},
+};
