@@ -18,11 +18,28 @@
 
 **Cycle 3 — IN PROGRESS**
 - ✅ Functionality (2026-07-24, automated)
-- Remaining: UI, UX, Content, Gamification
+- ✅ UI (2026-07-24, manual session run 2/3)
+- Remaining: UX, Content, Gamification
 
 ---
 
 ## Session Log
+
+### 2026-07-24 — UI Pillar (~20 min, run 2 of 3, manual session)
+
+**Pillar: UI** — Cycle 3.
+
+**Commit f564d4f — DEPLOYED LIVE.**
+
+- **style: star ratings on completed library story cards** — `storyStarCount(score)` helper
+  (score≥0.8→3★, ≥0.5→2★, else 1★). `renderLibraryTierStories()` now renders a `.story-stars`
+  row of gold `xp-xp-star` icons below the title for completed stories. Unread stories show
+  nothing; the green check badge is unchanged. `.story-stars{display:flex;gap:1px;padding:3px 0 0}`
+  CSS added. Verified: 3/2/1 star counts correct for scores 1.0/0.6/0.3; no console errors; LIVE.
+
+**Cycle 3 next pillar: UX.**
+
+---
 
 ### 2026-07-24 — Functionality Pillar (~25 min, run 1 of 3, manual session)
 

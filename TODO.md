@@ -41,6 +41,7 @@
 
 ### UI
 - [x] Journey track sub-level labels — nodes now show numbers 1–5 + title shows "X/10 done" progress count (2026-07-21, commit `b66f955`)
+- [x] **Star ratings on completed story cards (2026-07-24, commit `f564d4f`).** `storyStarCount()` + `.story-stars` row of gold stars below title for completed stories. LIVE.
 - [ ] Pond Map home screen — v1 had a winding lily-pad SVG path (10 nodes per sub-level, frog on current node); the v3 home dash has a 5-node preview track but not the full Pond Map
 - [x] **Dev server config fixed (2026-07-22, commit `729aa3a`).** Both `.claude/launch.json` files now use `--directory` pointing to the live repo, so `preview_start` always serves from the correct folder regardless of CWD.
 
