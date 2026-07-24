@@ -335,6 +335,10 @@
     .badge-lock{position:absolute;bottom:-2px;right:-2px;width:19px;height:19px;border-radius:50%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-size:9px;color:white}
     .badge-name{font-family:var(--font-body);font-weight:700;font-size:10.5px;text-align:center;line-height:1.25}
     .badge-tooltip{position:absolute;top:66px;left:50%;transform:translateX(-50%);width:140px;background:var(--navy);color:white;font-size:10px;font-weight:600;border-radius:10px;padding:7px 9px;text-align:center;z-index:5;box-shadow:0 8px 20px rgba(0,0,0,.25);line-height:1.4}
+    .badge-prog-wrap{width:100%;margin-top:1px}
+    .badge-prog-bg{height:3px;background:#E8EBF0;border-radius:999px;overflow:hidden;margin-bottom:2px}
+    .badge-prog-bar{height:3px;background:var(--primary);border-radius:999px;transition:width .3s}
+    .badge-prog-text{font-size:9px;color:#B0B8C1;font-weight:700;text-align:center;letter-spacing:.2px}
 
     /* ══ WORLD JOURNEY — literal port, Tablet lines 505-586 ══ */
     .world-pane{background:#0F1D2A;min-height:100vh;padding:18px 16px 20px}
@@ -614,10 +618,10 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260724"></script>
-<script src="ribbit-wordlists.js?v=20260724"></script>
-<script src="ribbit-ja-translations.js?v=20260724"></script>
-<script src="assets/vendor/lottie.min.js?v=20260724"></script>
+<script src="ribbit-stories.js?v=20260725"></script>
+<script src="ribbit-wordlists.js?v=20260725"></script>
+<script src="ribbit-ja-translations.js?v=20260725"></script>
+<script src="assets/vendor/lottie.min.js?v=20260725"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
 const ICONS = {
@@ -779,6 +783,24 @@ function unseenBadgeCount(){
   return earnedBadgeIds().filter(id=>!seen.includes(id)).length;
 }
 function markBadgesSeen(){ state.seenBadges=earnedBadgeIds(); save(); }
+function badgeProgress(b){
+  const sc=Object.keys(state.progress).length;
+  const wc=Object.keys(state.flashCards).length;
+  const str=state.streak||0;
+  if(b.id==='ten-tales')       return {cur:Math.min(sc,10),tot:10};
+  if(b.id==='century-club')    return {cur:Math.min(sc,100),tot:100};
+  if(b.id==='quiz-ace')        return {cur:Math.min(state.perfectCount||0,5),tot:5};
+  if(b.id==='story-streak')    return {cur:Math.min(storiesCompletedInLastDays(7),3),tot:3};
+  if(b.id==='streak-keeper')   return {cur:Math.min(str,7),tot:7};
+  if(b.id==='two-week-streak') return {cur:Math.min(str,14),tot:14};
+  if(b.id==='monthly-marathon')return {cur:Math.min(str,30),tot:30};
+  if(b.id==='word-watcher')    return {cur:Math.min(wc,5),tot:5};
+  if(b.id==='word-collector')  return {cur:Math.min(wc,25),tot:25};
+  if(b.id==='vocabulary-vault')return {cur:Math.min(wc,50),tot:50};
+  if(b.id==='known-master')    return {cur:Math.min(Object.values(state.deckWordStatus).filter(s=>s==='known').length,10),tot:10};
+  if(b.levelRef)               return {cur:Math.min(levelDoneCount(b.levelRef.id),10),tot:10};
+  return null; // first-leap, skill-star, world-traveler: boolean-only, no partial count
+}
 
 // ── WORLD JOURNEY — real destinations, ported from the live app's DESTINATIONS
 // array (name/emoji/description/cefr/storyCount/unlock chain). Real stories come
@@ -2557,6 +2579,8 @@ function renderRewards(){
       const name=b.levelRef?t('championName',b.levelRef):t(b.nameKey);
       const hint=b.levelRef?t('championHint',b.levelRef):t(b.hintKey);
       const tooltipOpen=state.openBadgeTooltip===b.id;
+      const prog=!earned?badgeProgress(b):null;
+      const progPct=prog?Math.round(prog.cur/prog.tot*100):0;
       return `<div class="badge-cell">
         <button class="badge-btn" onclick="toggleBadgeTooltip('${b.id}')">
           <div class="badge-ring" style="border-color:${earned?b.color:'#D8DEE6'};filter:${earned?'none':'grayscale(1)'}">
@@ -2564,6 +2588,7 @@ function renderRewards(){
             ${!earned?`<div class="badge-lock" role="img" aria-label="${t('locked')}">${icon('status-lock',16)}</div>`:''}
           </div>
           <div class="badge-name" style="color:${earned?'var(--text)':'#B0B8C1'}">${name}</div>
+          ${prog?`<div class="badge-prog-wrap"><div class="badge-prog-bg"><div class="badge-prog-bar" style="width:${progPct}%"></div></div><div class="badge-prog-text">${prog.cur}/${prog.tot}</div></div>`:''}
         </button>
         ${tooltipOpen?`<div class="badge-tooltip">${earned?t('earnedBadge'):t('earnedToEarn',hint)}</div>`:''}
       </div>`;
