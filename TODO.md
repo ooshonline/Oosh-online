@@ -19,6 +19,102 @@
   **not** in this tree. Both are in the App 2 archive (`_Archive/ribbit-consolidation-backup-*`). Decide
   whether to port + ship.
 
+## Idea Backlog (pillar-sorted) — added 2026-07-24
+
+Five ideas per pillar for the `ribbit-app-update` routine to draw from. Each is scoped to be
+**buildable and browser-verifiable in one ~1-hour run**. Rules still apply: real data only, both
+`UI_STRINGS.en` **and** `.ja`, extend existing state/CSS tokens, one change per session. Tick items
+off here as they ship, and add the commit hash.
+
+### Functionality — ideas
+- [ ] **F1 · Spaced repetition for flashcards (Leitner).** `state.deckWordStatus` is effectively
+  binary (`known` / `practiceMore`), so a word learned once is reviewed as often as one never seen.
+  Add `state.cardBox[word]={box:1–4,due:ts}`; `startStudy()` orders due cards first; Home shows a
+  real "N cards due today" count. Answering right promotes a box (1d→3d→7d→21d), wrong resets to 1.
+- [ ] **F2 · Library search.** No way to find a known story except by walking the level tree. Add a
+  search field on the Library root matching story `title` + `blurb` + `genre` + vocab words across
+  `STORIES`, rendering results as normal story cards with a level pill. Distinct from the
+  genre-browse item below (that's browsing, this is finding).
+- [ ] **F3 · Continuous read-aloud.** `toggleAudio()` speaks the current page and stops. Add
+  auto-advance: on utterance end, turn the page and keep reading until the story ends or the child
+  stops. Persist the preference; cancel speech on exit/navigate so it can't keep talking off-screen.
+- [ ] **F4 · Word highlighting synced to the voice.** Use `SpeechSynthesisUtterance.onboundary`
+  (`charIndex` → word span) to highlight each word as it is spoken — the single biggest decoding
+  support for a beginning reader. Feature-detect and no-op silently where unsupported (iOS Safari).
+  Pairs with F3.
+- [ ] **F5 · Progress backup / restore.** There are no accounts, so a lost browser profile or a new
+  Chromebook loses everything. Profile → "Save my progress" downloads the `rbt_*` keys as JSON;
+  "Restore" reads a file back with a confirm step. Static-site safe, and the honest fix for a
+  classroom that rotates devices.
+
+### UI — ideas
+- [ ] **U1 · Night theme.** The CSS is already fully tokenised on `:root`, so this is a second token
+  block under `[data-theme="dark"]` + a Profile toggle + `state.theme` (`rbt_theme`), defaulting to
+  `prefers-color-scheme`. Check the monochrome icons still tint (they use `currentColor`) and that
+  the genre gradients don't glare.
+- [ ] **U2 · Reader comfort controls.** On top of the automatic `readerTypeScale()`, give the child a
+  font-size stepper (3 steps), an "easy read" mode (looser line-height + letter-spacing), and an
+  optional line-focus tint. Persist per learner.
+- [ ] **U3 · Progress rings on cards.** Level, sub-level and destination cards show progress as text
+  ("X/10 done"). Replace with a real SVG ring in the level's own colour — same data, readable at a
+  glance by a child who can't yet decode the label.
+- [ ] **U4 · Mascot empty states.** Flashcards with no decks, Rewards with no badges and World with no
+  stamps all render bare text. Use `assets/icons/brand/mascot.svg` + one bilingual line + a CTA that
+  goes somewhere useful.
+- [ ] **U5 · Reader page transition.** `playPageTurn()` fires a Lottie but the text swaps instantly, so
+  the animation and the content disagree. Add a short slide/fade on `.reader-text-area` for next/prev,
+  disabled under `prefers-reduced-motion`.
+
+### UX — ideas
+- [ ] **X1 · First-run coach tour.** Nothing tells a child that words are tappable — the app's core
+  mechanic is invisible. Three skippable spotlight steps (tap a word, the audio pill, the quests tile)
+  shown once via `state.seenTour`. Never blocks, never repeats.
+- [ ] **X2 · Full keyboard / Chromebook control.** No `keydown` handlers exist anywhere. Add ←/→ to
+  turn reader pages, 1–4 to pick a quiz answer, Enter to confirm, Esc to close modals and the word
+  popup, Space to flip a flashcard. Kyle's learners are on Chromebooks; focus rings are already there.
+- [ ] **X3 · Undo instead of instant loss.** `removeWordFromDeck()` deletes a saved word immediately
+  with no confirmation and no way back. Add a 5-second undo toast (better than a modal for kids) and
+  reuse it for any future delete.
+- [ ] **X4 · "Words you tapped" recap.** Track which words a child opened during a story and list them
+  on the celebration screen with one-tap "Save all to my deck" — turns passive tapping into vocabulary.
+- [ ] **X5 · Peek at the story during the quiz.** The quiz keeps the illustration but not the text, so
+  comprehension questions test memory as much as understanding. Add a "Look again" button overlaying
+  the page the question came from.
+
+### Content — ideas
+- [ ] **C1 · Quiz question variety.** Every item is literal recall — the `feedback` line is almost
+  always "The story says…". Add inference ("How does she feel?"), sequencing ("What happened first?")
+  and vocab-in-context types. Retro-fit one sub-level per run, starting at Level 3.
+- [ ] **C2 · After-reading talk prompt.** Add a `talkPrompt` (en + ja) per story, shown and spoken on
+  the celebration screen and never marked — the speaking half of reading practice, which the app
+  currently has none of. Author level-appropriately.
+- [ ] **C3 · Non-fiction fact files.** The genre mix is almost entirely narrative; ESL readers need
+  informational text (animals, weather, places, how things work). Author a set at Levels 2–4 using
+  the existing story schema so no code changes are needed.
+- [ ] **C4 · Decodable phonics set at Level 1.** Absolute beginners currently get sight-word exposure,
+  not systematic decoding. Add short-vowel word-family stories (-at, -ig, -op, -en, -ug) so a child
+  can actually sound them out.
+- [ ] **C5 · World Journey culture data.** Author `facts` (3 per destination, en + ja) and `vocab`
+  (~6 words) for all 13 destinations — this is the missing content half of the stranded
+  destination-detail feature listed under Functionality below.
+
+### Gamification — ideas
+- [ ] **G1 · Give XP a purpose.** XP accumulates and is never spent. Add a pond/avatar customisation
+  shop — hats, lily pads, pond decorations — bought with XP, stored in `state.owned`/`state.equipped`,
+  shown on the Home pond and the profile avatar. Cosmetic only, no real money, nothing gated behind it.
+- [ ] **G2 · Badge progress.** Locked badges show a hint but no distance, so none of them feel close.
+  Give each badge a `progress()` beside its `check()` and show "7 / 10 stories" on the locked card.
+- [ ] **G3 · Personal bests in Profile.** Only the *current* streak is kept, so a 12-day run that
+  breaks vanishes. Track `state.bestStreak` going forward and derive best week, most words saved in a
+  week, and first-try perfect quizzes from `state.progress` timestamps.
+- [ ] **G4 · Weekly recap card.** On the first visit of a new week, a dismissible Home card summarising
+  last week from real data ("7 stories · 12 new words · 4-day streak"). No fabricated numbers.
+- [ ] **G5 · Sub-level completion ceremony.** Finishing 10 stories just ticks nodes. Add a short
+  full-screen unlock moment (stamp + next pond revealed + XP bonus) reusing the celebration machinery
+  — the milestone that actually matters has the least fanfare.
+
+---
+
 ## Priority
 
 ### Deploy
