@@ -17,13 +17,32 @@
 - ✅ Gamification (2026-07-23, automated)
 
 **Cycle 3 — IN PROGRESS**
-- ✅ Functionality (2026-07-24, automated)
-- ✅ UI (2026-07-24, manual session run 2/3)
-- Remaining: UX, Content, Gamification
+- ✅ Functionality (2026-07-24, manual run 1/3)
+- ✅ UI (2026-07-24, manual run 2/3)
+- ✅ UX (2026-07-24, manual run 3/3)
+- Remaining: Content, Gamification
 
 ---
 
 ## Session Log
+
+### 2026-07-24 — UX Pillar (~20 min, run 3 of 3, manual session)
+
+**Pillar: UX** — Cycle 3.
+
+**Commit a1682a5 — DEPLOYED LIVE.**
+
+- **ux: story modal shows best stars and "Read Again" for completed stories** —
+  `renderModal()` reads `state.progress[s.id]` and calls `storyStarCount()`. Completed stories
+  show a `.modal-stars` row of 15px gold star icons between meta and button. Button label switches
+  from `t('start')` ("はじめる") to `t('readAgainBtn')` ("もういちど読む" / "Read Again"). Unread
+  stories unchanged. `.modal-meta` bottom margin reduced 20→12px to make room; `.modal-stars` CSS
+  added (flex, 2px gap, 16px bottom). Verified: A Cat (score=1.0) shows 3★ + "もういちど読む";
+  The Sun (unread) shows "はじめる" + no stars. Clean console.
+
+**Cycle 3 next: Content, then Gamification.**
+
+---
 
 ### 2026-07-24 — UI Pillar (~20 min, run 2 of 3, manual session)
 

@@ -47,6 +47,7 @@
 
 ### UX
 - [x] **Exit reader/quiz now returns to library/world context (2026-07-22, commit `729aa3a`).** exitReading() and exitQuiz() contextually navigate: worldSelectedId → world; libraryLevel → library sublevel; else → home. LIVE.
+- [x] **Story modal: best stars + "Read Again" for completed stories (2026-07-24, commit `a1682a5`).** `.modal-stars` row + button switches to `t('readAgainBtn')` when `state.progress[s.id]` exists. LIVE.
 - [ ] 300 of 1,529 story pages still need internal scrolling at 1024×768 (mostly Levels 5–6, 700+ char pages). Now safe — the text area scrolls and the footer stays put — but splitting the longest pages would remove the scroll entirely.
 
 ### Technical
