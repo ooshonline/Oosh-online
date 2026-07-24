@@ -16,9 +16,35 @@
 - ✅ Content (2026-07-23, automated)
 - ✅ Gamification (2026-07-23, automated)
 
+**Cycle 3 — IN PROGRESS**
+- ✅ Functionality (2026-07-24, automated)
+- Remaining: UI, UX, Content, Gamification
+
 ---
 
 ## Session Log
+
+### 2026-07-24 — Functionality Pillar (~25 min, run 1 of 3, manual session)
+
+**Pillar: Functionality** — Cycle 3.
+
+**Commit a5dc7a2 — DEPLOYED LIVE.**
+
+- **feature: above-level word highlighting in reader** — `makeWordTappable()` now calls
+  `getChallengeLevel(clean, currentLevelId())` for every non-vocab word. Words above the
+  story's CEFR level get `.challenge-word` (1.5px dashed `#F9AD3B` orange underline). Uses
+  `currentLevelId()` which resolves to the level of the story being read (via `lastStoryId`),
+  so Level 6 stories correctly show no challenge words (`LEVEL_CHALLENGE_SETS[6]=[]`). Vocab
+  tappable words take priority. Guard on `typeof getChallengeLevel==='function'` for safety.
+  CSS `.challenge-word` added inline with `.tappable-word`. This was the P-backlog item
+  "Wire ribbit-wordlists.js into the v3 reader" — now done.
+
+  Verified: "The Yellow Ball" Level 1 story shows dashed orange underline on "round." (A2 word).
+  L6 story with lastStoryId=L6 correctly returns 0 challenge spans. Clean console.
+
+**Cycle 3 next pillar: UI.**
+
+---
 
 ### 2026-07-23 — Gamification Pillar (~30 min, automated)
 

@@ -34,7 +34,7 @@
 ### Functionality
 - [x] **Bug: `#header-xp-star` Lottie renders oversized** — fixed 2026-07-21 (commit `b66f955`).
   Added `.lottie-slot` CSS (20×20px, overflow:hidden) and class to `#header-xp-star`.
-- [ ] Wire `ribbit-wordlists.js` into the v3 reader — CEFR above-level word highlighting was in v1 but is not active in v3 (`makeWordTappable` handles vocab highlights but doesn't call the word-level Sets). Now unblocked: word sets are properly licensed (CEFR-J). Call `getChallengeLevel(clean, appLevelNum)` inside `makeWordTappable` and add a highlight span/class for challenge words.
+- [x] **Above-level word highlighting in reader (2026-07-24, commit `a5dc7a2`).** `makeWordTappable()` now calls `getChallengeLevel(clean, currentLevelId())`. Words above the story's level get `.challenge-word` (dashed orange underline). LIVE.
 - [x] Audio speed controls — 🐢/🐸/⚡ toggle in reader audio pill, cycles 0.6×/0.9×/1.2×, persisted (2026-07-14)
 - [ ] World Journey destination detail: vocabulary words + culture quiz sections are not ported (destination screen only shows the story grid, no vocab auto-save or culture quiz)
 - [ ] Genre / topic browse screens — Quick Links "Explore Library" goes to the main library; genre browse tiles that v1 had are not in v3
