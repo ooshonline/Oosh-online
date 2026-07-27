@@ -23,11 +23,38 @@
 - ✅ Content (2026-07-24, manual run 4)
 - ✅ Gamification (2026-07-25, automated)
 
-**Cycle 4 — NOT STARTED**
+**Cycle 4 — IN PROGRESS**
+- ✅ Functionality (2026-07-27, automated)
 
 ---
 
 ## Session Log
+
+### 2026-07-27 — Functionality Pillar (~40 min, automated)
+
+**Pillar: Functionality** — Cycle 4 starts.
+
+**Commits `2fca1e8`, `0b89390` — DEPLOYED LIVE (v=20260727).**
+
+- **feature: progress backup/restore on Profile screen (F5)** — Profile screen
+  now has a "YOUR DATA" / "データ管理" section at the bottom with two buttons:
+  - **Save Progress (💾)** — `exportProgress()` collects all 15 `rbt_*`
+    localStorage keys into a JSON object with `_meta` header, downloads as
+    `ribbit-progress-YYYYMMDD.json` via Blob + dynamic anchor click.
+  - **Restore Progress (📂)** — `importProgress(file)` reads a JSON file,
+    validates it has at least one `rbt_*` key (rejects garbage files), shows
+    a native `confirm()` dialog before overwriting, applies all keys to
+    localStorage, shows a success toast, reloads after 1.2s.
+  - 8 new UI_STRINGS keys in both `en` and `ja`.
+  - 5 new CSS classes (`.profile-data-row`, `.profile-data-btns`,
+    `.profile-data-btn`, `.profile-data-btn--restore`, `.profile-data-hint`).
+  - Addresses the real classroom problem: no accounts = device loss = lost
+    progress. Now students can save before a Chromebook is wiped.
+  - Verified: DOM elements present, 15 keys collected correctly, validation
+    logic passes valid/rejects invalid JSON, both en+ja strings correct,
+    golden path clean, zero console errors, 375px mobile clean, LIVE.
+
+**Cycle 4 next pillar: UI.**
 
 ### 2026-07-25 — Gamification Pillar (~35 min, automated)
 

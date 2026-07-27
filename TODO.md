@@ -42,10 +42,10 @@ off here as they ship, and add the commit hash.
   (`charIndex` → word span) to highlight each word as it is spoken — the single biggest decoding
   support for a beginning reader. Feature-detect and no-op silently where unsupported (iOS Safari).
   Pairs with F3.
-- [ ] **F5 · Progress backup / restore.** There are no accounts, so a lost browser profile or a new
-  Chromebook loses everything. Profile → "Save my progress" downloads the `rbt_*` keys as JSON;
-  "Restore" reads a file back with a confirm step. Static-site safe, and the honest fix for a
-  classroom that rotates devices.
+- [x] **F5 · Progress backup / restore — SHIPPED (2026-07-27, commit `2fca1e8`).** Profile →
+  "Save Progress" downloads all `rbt_*` localStorage keys as `ribbit-progress-YYYYMMDD.json`;
+  "Restore Progress" reads the file back, validates it, confirms, applies, reloads. Both en+ja.
+  LIVE (v=20260727).
 
 ### UI — ideas
 - [ ] **U1 · Night theme.** The CSS is already fully tokenised on `:root`, so this is a second token
