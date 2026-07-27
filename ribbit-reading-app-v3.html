@@ -394,6 +394,11 @@
     .recent-badge-icon{font-size:22px}
     .recent-badge-name{font-size:10.5px;font-weight:700;color:var(--text);text-align:center}
     .no-badges-text{font-size:12px;color:var(--text-muted)}
+    .profile-data-row{display:flex;flex-direction:column;gap:8px}
+    .profile-data-btns{display:flex;gap:10px}
+    .profile-data-btn{flex:1;height:44px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:12px;background:var(--card);border:2px solid var(--border);color:var(--text);box-shadow:var(--shadow-sm)}
+    .profile-data-btn--restore{border-color:var(--primary-dark);color:var(--primary-dark)}
+    .profile-data-hint{font-size:11px;color:var(--text-muted);text-align:center}
 
     /* ══ READING — literal port, Tablet lines 819-896. Full-bleed, no app shell. ══ */
     /* height (not min-height) + min-height:0 down the flex chain. Without this, flex items
@@ -1291,6 +1296,38 @@ function showToast(msg){
   setTimeout(()=>{ el.classList.add('toast-out'); setTimeout(()=>el.remove(),220); },2000);
 }
 
+// ── PROGRESS BACKUP / RESTORE ──
+function exportProgress(){
+  const data={_meta:{v:1,ts:Date.now(),app:'ribbit-v3'}};
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k&&k.startsWith('rbt_')) data[k]=localStorage.getItem(k);
+  }
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const d=new Date().toISOString().slice(0,10).replace(/-/g,'');
+  a.href=url; a.download=`ribbit-progress-${d}.json`; a.click();
+  URL.revokeObjectURL(url);
+  showToast(t('saveSuccess'));
+}
+function importProgress(file){
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const data=JSON.parse(e.target.result);
+      const keys=Object.keys(data).filter(k=>k.startsWith('rbt_'));
+      if(!keys.length){showToast(t('restoreError'));return;}
+      if(!confirm(t('restoreConfirm'))) return;
+      keys.forEach(k=>localStorage.setItem(k,data[k]));
+      showToast(t('restoreSuccess'));
+      setTimeout(()=>location.reload(),1200);
+    }catch(_){showToast(t('restoreError'));}
+  };
+  reader.readAsText(file);
+}
+
 // ── XP MILESTONE CELEBRATIONS — ported from the live app, one-time toasts
 // when the player crosses key XP thresholds. All XP awards should go through
 // awardXP() rather than mutating state.xp directly, so milestones stay accurate.
@@ -1747,6 +1784,11 @@ const UI_STRINGS = {
     comboLabel:'COMBO!', correctLabel:'CORRECT!', wrongLabel:'WRONG!',
     comboStreakLine:(n)=>`${n} in a row!`,
     replayGoodJob:'Great practice! Beat your score to earn more XP.',
+    saveProgress:'💾 Save Progress', restoreProgress:'📂 Restore Progress',
+    dataTitle:'YOUR DATA', dataHint:'Download a backup · restore on any device',
+    saveSuccess:'Progress saved! 💾', restoreSuccess:'Progress restored! Reloading…',
+    restoreError:'Could not read that file. Please try again.',
+    restoreConfirm:'This will replace all your current progress with the backup file. Continue?',
   },
   ja: {
     greeting:(h)=> h<12?'おはよう！':h<18?'こんにちは！':'こんばんは！',
@@ -1842,6 +1884,11 @@ const UI_STRINGS = {
     comboLabel:'コンボ！', correctLabel:'せいかい！', wrongLabel:'ざんねん！',
     comboStreakLine:(n)=>`${n}連続！`,
     replayGoodJob:'よく練習できたね！スコアを上げてXPをゲットしよう。',
+    saveProgress:'💾 データを保存', restoreProgress:'📂 データを復元',
+    dataTitle:'データ管理', dataHint:'バックアップをダウンロード・どのデバイスでも復元できます',
+    saveSuccess:'データを保存しました！💾', restoreSuccess:'データを復元しました！再読み込みします…',
+    restoreError:'ファイルを読み込めませんでした。もう一度お試しください。',
+    restoreConfirm:'現在の進捗データをバックアップファイルで上書きします。続けますか？',
   },
 };
 function t(key,...args){
@@ -2726,6 +2773,15 @@ function renderProfile(){
           <button class="see-all-link" onclick="navigate('rewards')">${t('seeAll')}</button>
         </div>
         <div class="recent-badges-card">${badgesHtml}</div>
+      </div>
+      <div class="profile-data-row">
+        <div class="section-title">${t('dataTitle')}</div>
+        <div class="profile-data-btns">
+          <button class="profile-data-btn" onclick="exportProgress()">${t('saveProgress')}</button>
+          <button class="profile-data-btn profile-data-btn--restore" onclick="document.getElementById('progress-restore-input').click()">${t('restoreProgress')}</button>
+        </div>
+        <div class="profile-data-hint">${t('dataHint')}</div>
+        <input type="file" id="progress-restore-input" accept=".json" style="display:none" onchange="importProgress(this.files[0]);this.value=''">
       </div>
     </div>
   </div>`;
