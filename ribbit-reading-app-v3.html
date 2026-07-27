@@ -425,6 +425,11 @@
     /* Type scales with the level: a Pre-A1 page is one short sentence and wants primer-sized
        type, while a B2 page is a real paragraph that must still fit. Set per-story in renderReader(). */
     .reader-page-text{font-size:var(--reader-size,18px);font-weight:400;color:#2B2B2B;line-height:1.6;animation:fade-up .3s ease both}
+    @keyframes page-slide-next{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes page-slide-prev{from{opacity:0;transform:translateX(-22px)}to{opacity:1;transform:translateX(0)}}
+    .reader-page-text.page-enter-next{animation:page-slide-next .2s ease both}
+    .reader-page-text.page-enter-prev{animation:page-slide-prev .2s ease both}
+    @media(prefers-reduced-motion:reduce){.reader-page-text.page-enter-next,.reader-page-text.page-enter-prev{animation:none}}
     .reader-footer{height:64px;background:white;border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:10px;flex-shrink:0}
     .reader-nav-btn{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px;padding:8px 14px;border-radius:10px;border:1.5px solid var(--border);flex-shrink:0;background:none;font-size:12px;font-weight:700;color:var(--text-muted)}
     .reader-page-counter{flex:1;text-align:center;font-size:12px;font-weight:600;color:var(--text)}
@@ -1018,7 +1023,7 @@ function nextPage(){
   if(state.currentPage < story.paragraphs.length-1){
     state.currentPage++;
     state.readingPos[story.id]=state.currentPage; save();
-    render();
+    state.pageDir='next'; render(); state.pageDir=null;
     playPageTurn();
   } else {
     state.screen='quiz'; state.quizIndex=0; state.quizAnswered=false;
@@ -1031,7 +1036,7 @@ function prevPage(){
   if(state.currentPage>0){
     state.currentPage--; state.wordPopup=null;
     state.readingPos[state.lastStoryId]=state.currentPage; save();
-    render();
+    state.pageDir='prev'; render(); state.pageDir=null;
     playPageTurn();
   }
 }
@@ -2164,7 +2169,7 @@ function renderReader(){
       </div>
       <div class="reader-text-area" onclick="event.stopPropagation()" ontouchstart="readerSwipeStart(event)" ontouchend="readerSwipeEnd(event)">
         <div class="reader-progress-bar"><div class="reader-progress-fill" style="width:${progressPct}%"></div></div>
-        <div class="reader-page-text" lang="en">${makeWordTappable(story.paragraphs[state.currentPage],story.vocabulary||{})}</div>
+        <div class="reader-page-text${state.pageDir?' page-enter-'+state.pageDir:''}" lang="en">${makeWordTappable(story.paragraphs[state.currentPage],story.vocabulary||{})}</div>
         <div id="page-turn-anim" class="page-turn-anim-slot"></div>
       </div>
     </div>
