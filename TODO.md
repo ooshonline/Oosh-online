@@ -61,9 +61,9 @@ off here as they ship, and add the commit hash.
 - [ ] **U4 · Mascot empty states.** Flashcards with no decks, Rewards with no badges and World with no
   stamps all render bare text. Use `assets/icons/brand/mascot.svg` + one bilingual line + a CTA that
   goes somewhere useful.
-- [ ] **U5 · Reader page transition.** `playPageTurn()` fires a Lottie but the text swaps instantly, so
-  the animation and the content disagree. Add a short slide/fade on `.reader-text-area` for next/prev,
-  disabled under `prefers-reduced-motion`.
+- [x] **U5 · Reader page transition — SHIPPED (2026-07-27, commit `bfb8e8b`).** `.reader-page-text`
+  now slides in from the right on Next and from the left on Prev (translateX ±22px + fade, .2s).
+  `state.pageDir` transient flag; disabled under `prefers-reduced-motion`. LIVE.
 
 ### UX — ideas
 - [ ] **X1 · First-run coach tour.** Nothing tells a child that words are tappable — the app's core

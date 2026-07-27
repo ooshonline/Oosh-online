@@ -25,10 +25,31 @@
 
 **Cycle 4 — IN PROGRESS**
 - ✅ Functionality (2026-07-27, automated)
+- ✅ UI (2026-07-27, automated)
 
 ---
 
 ## Session Log
+
+### 2026-07-27 — UI Pillar (~30 min, automated)
+
+**Pillar: UI** — Cycle 4.
+
+**Commit `bfb8e8b` — DEPLOYED LIVE.**
+
+- **style: directional slide animation on reader page turns (U5)** — `.reader-page-text` now
+  slides in from the right on Next and from the left on Prev (translateX ±22px + fade, 0.2s).
+  Implementation: transient `state.pageDir` flag set in `nextPage()`/`prevPage()` before `render()`,
+  cleared immediately after; `renderReader()` reads it to add `.page-enter-next` or `.page-enter-prev`
+  class. Two new `@keyframes` (`page-slide-next`, `page-slide-prev`); both classes disabled under
+  `prefers-reduced-motion`. Initial screen render keeps the existing `fade-up` animation unchanged.
+  - Verified: `page-enter-next` and `page-enter-prev` correctly applied on page turns; `state.pageDir`
+    null after each call; no overflow at 375px; zero console errors; animation visible mid-frame in
+    screenshot; LIVE confirmed via curl.
+
+**Cycle 4 next pillar: UX.**
+
+---
 
 ### 2026-07-27 — Functionality Pillar (~40 min, automated)
 
