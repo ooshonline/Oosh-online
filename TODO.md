@@ -69,9 +69,11 @@ off here as they ship, and add the commit hash.
 - [ ] **X1 · First-run coach tour.** Nothing tells a child that words are tappable — the app's core
   mechanic is invisible. Three skippable spotlight steps (tap a word, the audio pill, the quests tile)
   shown once via `state.seenTour`. Never blocks, never repeats.
-- [ ] **X2 · Full keyboard / Chromebook control.** No `keydown` handlers exist anywhere. Add ←/→ to
-  turn reader pages, 1–4 to pick a quiz answer, Enter to confirm, Esc to close modals and the word
-  popup, Space to flip a flashcard. Kyle's learners are on Chromebooks; focus rings are already there.
+- [x] **X2 · Full keyboard / Chromebook control — SHIPPED (2026-07-29, commit `1cb312a`).** Single
+  `document.keydown` listener: ←/→ (and ↑/↓) for reader pages; 1–4 to select quiz answer, Enter/Space
+  to advance; Space/Enter to flip flashcard, ←/→ to mark known/practiceMore when flipped; Esc closes
+  word popup first then story modal. Input-focus guard prevents stealing keystrokes from text fields.
+  All 8 test cases verified; golden path clean; zero console errors; LIVE (v=20260729).
 - [ ] **X3 · Undo instead of instant loss.** `removeWordFromDeck()` deletes a saved word immediately
   with no confirmation and no way back. Add a 5-second undo toast (better than a modal for kids) and
   reuse it for any future delete.

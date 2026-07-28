@@ -26,10 +26,35 @@
 **Cycle 4 — IN PROGRESS**
 - ✅ Functionality (2026-07-27, automated)
 - ✅ UI (2026-07-27, automated)
+- ✅ UX (2026-07-29, automated)
 
 ---
 
 ## Session Log
+
+### 2026-07-29 — UX Pillar (~45 min, automated)
+
+**Pillar: UX** — Cycle 4.
+
+**Commit `1cb312a` — DEPLOYED LIVE (v=20260729).**
+
+- **feature: keyboard/Chromebook control (X2)** — single `document.addEventListener('keydown')`
+  handler. Covers every keyboard-accessible flow in the app:
+  - **Reader**: ←/→ (also ↑/↓) for previous/next page
+  - **Quiz**: 1–4 to select an answer before answering; Enter/Space to advance after
+  - **Flashcards (study mode)**: Space/Enter to flip on the front; ←/→ to mark
+    practiceMore/known on the back; Space/Enter also marks known on the back
+  - **Global**: Esc closes the word popup first, then the story modal (priority order
+    matches what the user most likely wants to dismiss)
+  - **Input guard**: early-returns if `document.activeElement` is an INPUT, TEXTAREA,
+    or SELECT so deck-name typing and other text inputs are never stolen
+  - All 8 targeted test cases verified via `KeyboardEvent` dispatch; golden path
+    (landing → reader → quiz → celebration) clean; zero console errors; 375px mobile
+    layout unaffected (keyboard is additive, no DOM changes). LIVE confirmed via curl.
+
+**Cycle 4 next pillar: Content.**
+
+---
 
 ### 2026-07-27 — UI Pillar (~30 min, automated)
 
