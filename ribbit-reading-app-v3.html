@@ -628,10 +628,10 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260727"></script>
-<script src="ribbit-wordlists.js?v=20260727"></script>
-<script src="ribbit-ja-translations.js?v=20260727"></script>
-<script src="assets/vendor/lottie.min.js?v=20260727"></script>
+<script src="ribbit-stories.js?v=20260729"></script>
+<script src="ribbit-wordlists.js?v=20260729"></script>
+<script src="ribbit-ja-translations.js?v=20260729"></script>
+<script src="assets/vendor/lottie.min.js?v=20260729"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
 const ICONS = {
@@ -914,6 +914,47 @@ window.addEventListener('beforeunload', save);
 // visibilitychange + pagehide catch those cases so progress isn't lost mid-session.
 document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') save(); });
 window.addEventListener('pagehide', save);
+
+// Keyboard / Chromebook control: ←/→ reader pages, 1–4 quiz answers, Enter quiz advance,
+// Space flip flashcard, Esc close popup/modal.
+document.addEventListener('keydown', function handleKeyDown(e){
+  const tag = document.activeElement && document.activeElement.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT') return; // don't steal input focus
+  const s = state.screen;
+
+  if(e.key==='Escape'){
+    if(state.wordPopup){ e.preventDefault(); closeWordPopup(); return; }
+    if(state.modalOpen){ e.preventDefault(); closeStoryModal(); return; }
+    return;
+  }
+
+  if(s==='reader'){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); nextPage(); }
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ e.preventDefault(); prevPage(); }
+    return;
+  }
+
+  if(s==='quiz'){
+    if(!state.quizAnswered){
+      if(e.key==='1'){ e.preventDefault(); selectQuizAnswer(0); }
+      else if(e.key==='2'){ e.preventDefault(); selectQuizAnswer(1); }
+      else if(e.key==='3'){ e.preventDefault(); selectQuizAnswer(2); }
+      else if(e.key==='4'){ e.preventDefault(); selectQuizAnswer(3); }
+    } else if(e.key==='Enter'||e.key===' '){ e.preventDefault(); advanceQuiz(); }
+    return;
+  }
+
+  if(s==='flashcards'&&state.flashView==='study'){
+    if(!state.flashFlipped){
+      if(e.key===' '||e.key==='Enter'){ e.preventDefault(); flipCard(); }
+    } else {
+      if(e.key==='ArrowRight'){ e.preventDefault(); answerCard('known'); }
+      else if(e.key==='ArrowLeft'){ e.preventDefault(); answerCard('practiceMore'); }
+      else if(e.key===' '||e.key==='Enter'){ e.preventDefault(); answerCard('known'); }
+    }
+    return;
+  }
+});
 
 function navigate(screen){
   if(screen==='progress') screen='profile'; // Progress merged into Profile; keep old call sites working
