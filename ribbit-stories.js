@@ -13029,4 +13029,104 @@ const TALK_PROMPTS = {
   'l1.10s8':{en:"What animals would you like to meet on a farm?", ja:"のうじょうで どんな どうぶつに あいたい？"},
   'l1.10s9':{en:"Which season do you like best? Why?", ja:"どの きせつが いちばん すき？どうして？"},
   'l1.10s10':{en:"If you found an old box, what would you hope to find inside?", ja:"ふるい はこを みつけたら、なかに なにが あってほしい？"},
+
+  // ── Level 2 · Sub-level 1 ──
+  'l2.1s1':{en:"How do you feel on the first day of a new class or school?", ja:"あたらしい クラスや がっこうの はじめての 日、どんな きもちに なる？"},
+  'l2.1s2':{en:"What kinds of books do you borrow from a library? Do you have a favourite?", ja:"としょかんで どんな 本を かりる？お気に入りは ある？"},
+  'l2.1s3':{en:"Have you ever helped someone in a garden? What did you plant or grow?", ja:"だれかの にわを てつだったことは ある？なにを うえた？"},
+  'l2.1s4':{en:"Do you feel nervous before a competition? What do you do to calm down?", ja:"しあいや たいかいの まえは きんちょうする？どうやって おちつく？"},
+  'l2.1s5':{en:"What is your favourite thing to buy or eat at a market?", ja:"マーケットで いちばん すきな 買い物や たべものは なに？"},
+
+  // ── Level 2 · Sub-level 2 ──
+  'l2.2s1':{en:"If you made a science project, what would you investigate?", ja:"じぶんで かがくの じっけんを するなら、なにを しらべたい？"},
+  'l2.2s2':{en:"Have you ever eaten something in secret? What was it?", ja:"こっそり なにかを たべたことは ある？なにを たべた？"},
+  'l2.2s3':{en:"If you had a pen pal in another country, what would you write about first?", ja:"ほかの 国に ペンフレンドが いたら、まず なにについて かく？"},
+  'l2.2s4':{en:"Have you ever got lost somewhere? How did you feel and what did you do?", ja:"どこかで まいごに なったことは ある？どんな きもちで どうした？"},
+  'l2.2s5':{en:"What food would you bake and sell at a school event?", ja:"がっこうの イベントで なにかを やいて うるとしたら なに？"},
+
+  // ── Level 2 · Sub-level 3 ──
+  'l2.3s1':{en:"What would you do if you found a lost animal on the street?", ja:"まいごの どうぶつを みつけたら、どうする？"},
+  'l2.3s2':{en:"Is there something difficult to say to someone? How do you manage?", ja:"だれかに いいにくいことは ある？どうやって つたえる？"},
+  'l2.3s3':{en:"What do you like to do on a rainy day when you can't go outside?", ja:"あめで そとに でられない 日は なにを する？"},
+  'l2.3s4':{en:"What kind of art do you enjoy making? Have you ever entered a competition?", ja:"どんな アートが すき？きょうそうに でたことは ある？"},
+  'l2.3s5':{en:"Do you prefer playing sport or watching it? What is your favourite?", ja:"スポーツは する ほうが すき？みる ほうが すき？いちばん すきな スポーツは なに？"},
+  'l2.3s6':{en:"Have you ever performed in front of people? How did it feel?", ja:"おおぜいの ひとの まえで なにかを したことは ある？どんな きもちだった？"},
+  'l2.3s7':{en:"Is there an appointment you dislike — dentist, doctor, something else? Why?", ja:"はいしゃさんや びょういんは すき？きらい？どうして？"},
+  'l2.3s8':{en:"Have you ever slept outside under the sky? What was the best or hardest part?", ja:"そとで ねたことは ある？いちばん よかったこと、または たいへんだったことは？"},
+  'l2.3s9':{en:"If your pet went missing, what would you do to find it?", ja:"かっている どうぶつが いなくなったら、どうやって さがす？"},
+  'l2.3s10':{en:"Do you have a bike? Where do you most like to ride it?", ja:"じてんしゃは ある？どこで のるのが いちばん すき？"},
+
+  // ── Level 2 · Sub-level 4 ──
+  'l2.4s1':{en:"Would you like to go camping? What three things would you bring?", ja:"キャンプに いきたい？もって いくなら どんな 3つを えらぶ？"},
+  'l2.4s2':{en:"Has something you owned ever broken? What did you do about it?", ja:"じぶんの もちものが こわれたことは ある？どうした？"},
+  'l2.4s3':{en:"How would you welcome someone who just moved to your street?", ja:"あたらしく となりに きた ひとに どうやって しんせつに する？"},
+  'l2.4s4':{en:"If you could build anything in a garden, what would you build?", ja:"にわに なんでも つくれるなら、なにを つくる？"},
+  'l2.4s5':{en:"Would you rather act, sing, or help backstage at a school show?", ja:"がっこうの ぶたいで やくを する、うたう、うらかたを てつだう — どれが いい？"},
+  'l2.4s6':{en:"How do you prepare for a test at school? What helps you remember things?", ja:"がっこうの テストに どうやって そなえる？おぼえる コツは ある？"},
+  'l2.4s7':{en:"What do you like to do on Saturday mornings?", ja:"どようびの あさは なにを する？"},
+  'l2.4s8':{en:"What would you do if the electricity went out for a whole evening?", ja:"よる ずっと でんきが きえたら どうする？"},
+  'l2.4s9':{en:"What is the best book you have ever read? Why did you love it?", ja:"いままで よんだ 中で いちばんよかった 本は？どうして すき？"},
+  'l2.4s10':{en:"Is there a place in your home full of interesting things? What do you find there?", ja:"いえの なかで きょうみ ぶかいものが いっぱいの 場所は ある？なにが ある？"},
+
+  // ── Level 2 · Sub-level 5 ──
+  'l2.5s1':{en:"Would you like a rescue pet? What kind? What name would you give it?", ja:"ほごされた どうぶつを かいたい？どんな どうぶつ？なまえは なんに する？"},
+  'l2.5s2':{en:"Have you walked beside a river or lake? What did you notice?", ja:"かわや みずうみの そばを あるいたことは ある？なにが きになった？"},
+  'l2.5s3':{en:"Can you remember a time you had to make a really difficult choice? What happened?", ja:"むずかしい えらびかたを したことは ある？どんな ことだった？"},
+  'l2.5s4':{en:"Can you name any birds that live near you? Have you ever watched one closely?", ja:"きみの ちかくに どんな とりが いる？じっくり みたことは ある？"},
+  'l2.5s5':{en:"Have you done something to raise money for others? What was it like?", ja:"だれかの ために おかねを あつめたことは ある？どうだった？"},
+  'l2.5s6':{en:"If you wrote a school newspaper, what story would go on the front page?", ja:"がっこうの しんぶんを つくるとしたら、いちめんは どんな きじ？"},
+  'l2.5s7':{en:"Are you afraid of thunderstorms, or do you like them? Why?", ja:"かみなりは こわい？それとも すき？どうして？"},
+  'l2.5s8':{en:"Have you ever ended up somewhere you didn't expect? How did you manage?", ja:"おもっていなかった 場所に いったことは ある？どうやって たいおうした？"},
+  'l2.5s9':{en:"What would you grow if you had your own small plot of land?", ja:"じぶんだけの はたけが あったら、なにを そだてる？"},
+  'l2.5s10':{en:"What is something you have worked hard to get better at?", ja:"じぶんで がんばって じょうずに なったものは ある？なに？"},
+
+  // ── Level 2 · Sub-level 6 ──
+  'l2.6s1':{en:"What do you do at home without electricity or screens?", ja:"でんきや スクリーンなしで、いえで なにを する？"},
+  'l2.6s2':{en:"When something goes wrong on a journey, how do you stay calm?", ja:"りょこうや おでかけで うまくいかないとき、どうやって おちつく？"},
+  'l2.6s3':{en:"Do you have a favourite flower or plant? What do you know about it?", ja:"すきな はなや しょくぶつは ある？それについて なにか しってる？"},
+  'l2.6s4':{en:"Has anything unexpected ever happened very late at night in your home?", ja:"よるおそく、いえで なにか おもいがけないことが おきたことは ある？"},
+  'l2.6s5':{en:"Have you ever missed a friend who moved away? How did you keep in touch?", ja:"どこかへ いった ともだちが さみしかったことは ある？どうやって れんらくを とった？"},
+  'l2.6s6':{en:"Have you visited an old or interesting building? What was special about it?", ja:"むかしの たてものや おもしろい 建物を おとずれたことは ある？どんな ところが すてきだった？"},
+  'l2.6s7':{en:"Have you ever learned a new skill at a club? What happened on the first day?", ja:"クラブや ならいごとで あたらしいことを まなんだことは ある？はじめての 日は どうだった？"},
+  'l2.6s8':{en:"What is the longest journey you have been on? What did you do to pass the time?", ja:"いちばん ながい たびは どこ？たびの あいだ なにを してた？"},
+  'l2.6s9':{en:"What science topic really interests you? What questions do you have about it?", ja:"かがくで きょうみある テーマは なに？どんな ことが しりたい？"},
+  'l2.6s10':{en:"What do you enjoy most about autumn where you live?", ja:"きみの まちの あきで、いちばん すきなことは なに？"},
+
+  // ── Level 2 · Sub-level 7 ──
+  'l2.7s1':{en:"If you lived by the sea in a quiet, lonely place, what would a normal day be like?", ja:"うみの ちかくの しずかな 場所に すんでいたら、ふつうの 日は どんなかんじ？"},
+  'l2.7s2':{en:"Is there an old photograph in your family you like? Who is in it?", ja:"かぞくに すきな ふるい しゃしんは ある？だれが うつってる？"},
+  'l2.7s3':{en:"Have you ever been to a market at night? What made it different from daytime?", ja:"よるの マーケットに いったことは ある？ひると どう ちがった？"},
+  'l2.7s4':{en:"Have you ever had to speak in front of a group? What did you say?", ja:"おおぜいの まえで はなしたことは ある？なにを いった？"},
+  'l2.7s5':{en:"Why do you think it is important to protect nature and living things?", ja:"しぜんや いきものを まもることは なぜ たいせつだと おもう？"},
+  'l2.7s6':{en:"Has anyone ever asked you many questions about yourself? How did it feel?", ja:"じぶんの ことを いっぱい きかれたことは ある？どんな きもちだった？"},
+  'l2.7s7':{en:"Is anyone in your family a night person? Are you more awake in the morning or evening?", ja:"かぞくの なかに よる おそくまで おきてる ひとは いる？きみは あさがた、それとも よるがた？"},
+  'l2.7s8':{en:"If you found a wallet on the street, what would you do?", ja:"みちで さいふを みつけたら どうする？"},
+  'l2.7s9':{en:"Has a journey ever been delayed unexpectedly? What did you do while you waited?", ja:"たびが おくれたり とまったことは ある？まっている あいだ なにを した？"},
+  'l2.7s10':{en:"Is there one dish you can make by yourself? Tell me about it.", ja:"じぶんで つくれる りょうりは ある？どんな りょうり？"},
+
+  // ── Level 2 · Sub-level 8 ──
+  'l2.8s1':{en:"Have you ever disagreed with someone and later understood their side? What happened?", ja:"だれかと いけんが ちがって、あとで あいてを りかいできたことは ある？"},
+  'l2.8s2':{en:"Have you ever had to rush to catch a bus or train? What happened?", ja:"バスや でんしゃに のりおくれそうで あわてたことは ある？どうなった？"},
+  'l2.8s3':{en:"What is an unwritten rule in your home or school that everyone follows?", ja:"いえや がっこうで だれも ことばに しないけど みんな まもっている ルールは なに？"},
+  'l2.8s4':{en:"Have you ever been stuck inside because of bad weather? What did you do?", ja:"ひどい てんきで そとに でられなかったことは ある？いえで なにを した？"},
+  'l2.8s5':{en:"Who has helped you in a way you still remember? What did they do?", ja:"いまでも おぼえている、だれかに たすけてもらった こと。なにを してくれた？"},
+  'l2.8s6':{en:"Have you ever competed in a sport or activity? How did you prepare?", ja:"スポーツや たいかいに でたことは ある？どうやって じゅんびした？"},
+  'l2.8s7':{en:"Have you ever accidentally broken something? Did you tell someone?", ja:"まちがって なにかを こわしたことは ある？だれかに はなした？"},
+  'l2.8s8':{en:"If someone from abroad visited your home, what would you show them first?", ja:"もし がいこくから だれかが きみの いえを おとずれたら、まず なにを みせる？"},
+  'l2.8s9':{en:"Is there something creative you do — drawing, music, writing, building? What do you like about it?", ja:"え、おんがく、ものがたり、ものづくりなど、なにかつくることが すき？どんなところが いい？"},
+  'l2.8s10':{en:"Instead of throwing something away, have you ever tried to fix it? What was it?", ja:"すてるかわりに なおそうとしたことは ある？なにを なおした？"},
+
+  // ── Level 2 · Sub-level 9 ──
+  'l2.9s1':{en:"What is one thing you sometimes worry about? Does talking about it help?", ja:"ときどき しんぱいすることは なに？はなすと きもちが らくに なる？"},
+  'l2.9s2':{en:"Have you ever missed a moment you wanted to keep forever? How did it feel?", ja:"ずっと おぼえておきたかった しゅんかんを のがしたことは ある？どんな きもちだった？"},
+  'l2.9s3':{en:"Have you ever tried out for something — a team, a show, a role? How did waiting feel?", ja:"チームや ぶたいなどの オーディションや せんこうを うけたことは ある？けっかを まつ あいだ どんな きもちだった？"},
+  'l2.9s4':{en:"After an argument with someone you care about, what helps you both feel better?", ja:"たいせつな ひとと けんかした あと、なにが ふたりの きもちを よくする？"},
+  'l2.9s5':{en:"Do you read more in the holidays? What kind of books do you choose when you have free time?", ja:"やすみの ひは いつもより 本を よむ？じゆうな ときは どんな 本を えらぶ？"},
+
+  // ── Level 2 · Sub-level 10 ──
+  'l2.10s1':{en:"Think about the end of a school year. What moment do you remember most?", ja:"がっこうの さいごの 日を おもいだして。いちばん きおくに のこっている しゅんかんは？"},
+  'l2.10s2':{en:"What is one interesting or surprising thing about your language that might surprise a learner?", ja:"きみの ことばで、ならっている ひとが おどろきそうな ことは なに？"},
+  'l2.10s3':{en:"What would you bring someone who was not feeling well? Why that particular thing?", ja:"たいちょうが わるい ひとに なにかを もっていくなら なに？それを えらぶのは なぜ？"},
+  'l2.10s4':{en:"What is one thing you do, or could do, to take care of the environment around you?", ja:"かんきょうを まもるために、じぶんが している こと、または できることは なに？"},
+  'l2.10s5':{en:"Has someone ever left you a note or message that you still remember? What did it say?", ja:"だれかから もらった メモや メッセージで、いまでも おぼえているものは ある？なんと かいてあった？"},
 };
