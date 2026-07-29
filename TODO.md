@@ -87,11 +87,7 @@ off here as they ship, and add the commit hash.
 - [ ] **C1 · Quiz question variety.** Every item is literal recall — the `feedback` line is almost
   always "The story says…". Add inference ("How does she feel?"), sequencing ("What happened first?")
   and vocab-in-context types. Retro-fit one sub-level per run, starting at Level 3.
-- [~] **C2 · After-reading talk prompt — Level 1 SHIPPED (2026-07-24, commit `e15f2f9`).** LIVE.
-  `TALK_PROMPTS` in `ribbit-stories.js` (keyed by story id, en + ja) + `renderTalkPrompt()` on the
-  celebration screen: unmarked open question, speaker button, Japanese gloss below the English.
-  All 75 Level 1 stories covered; a story with no prompt renders nothing, so partial coverage is
-  safe. **Remaining: Levels 2–6 (280 stories)** — author in level-sized batches, no code needed.
+- [~] **C2 · After-reading talk prompt — L1 + L2 SHIPPED.** L1: 2026-07-24 commit `e15f2f9`. L2: 2026-07-29 commit `43cc844` (80 stories, l2.1s1–l2.10s5, both en+ja, LIVE). A story with no prompt renders nothing so partial coverage is safe. **Remaining: Levels 3–6 (200 stories)** — author in level-sized batches, no code needed.
 - [ ] **C3 · Non-fiction fact files.** The genre mix is almost entirely narrative; ESL readers need
   informational text (animals, weather, places, how things work). Author a set at Levels 2–4 using
   the existing story schema so no code changes are needed.

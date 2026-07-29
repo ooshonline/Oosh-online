@@ -27,10 +27,35 @@
 - ✅ Functionality (2026-07-27, automated)
 - ✅ UI (2026-07-27, automated)
 - ✅ UX (2026-07-29, automated)
+- ✅ Content (2026-07-29, automated)
 
 ---
 
 ## Session Log
+
+### 2026-07-29 — Content Pillar (~40 min, automated)
+
+**Pillar: Content** — Cycle 4.
+
+**Commit `43cc844` — DEPLOYED LIVE (ribbit-stories.js?v=20260729).**
+
+- **content: talk prompts for all 80 Level 2 stories (C2)** — `TALK_PROMPTS` in
+  `ribbit-stories.js` extended with 80 story-specific entries for `l2.1s1`–`l2.10s5`.
+  Each prompt is tied to its story's specific theme (e.g. "The New Classroom" → first-day
+  feelings; "The Language Exchange" → surprising things about your language;
+  "The Hospital Visit" → what would you bring someone unwell). All in both `en` + `ja`.
+  Questions are open-ended, A2 spoken complexity, never yes/no, never scored.
+  - Progressive tone: sub-levels 1–4 are concrete/personal; 5–7 introduce light reflection;
+    8–10 engage empathy and nuance matching the richer story content at those levels.
+  - No code change needed — `renderTalkPrompt()` already handles the lookup and gracefully
+    renders nothing for stories without a key.
+  - Verified: 80 L2 keys loaded in browser, `l2.1s1` rendered correctly on the celebration
+    screen (English bold + Japanese gloss + speaker button); clean at 375px; zero console errors.
+  - LIVE confirmed via curl (l2.10s5 present in served file).
+
+**Cycle 4 next pillar: Gamification.**
+
+---
 
 ### 2026-07-29 — UX Pillar (~45 min, automated)
 
