@@ -23,15 +23,43 @@
 - ✅ Content (2026-07-24, manual run 4)
 - ✅ Gamification (2026-07-25, automated)
 
-**Cycle 4 — IN PROGRESS**
+**Cycle 4 — COMPLETE**
 - ✅ Functionality (2026-07-27, automated)
 - ✅ UI (2026-07-27, automated)
 - ✅ UX (2026-07-29, automated)
 - ✅ Content (2026-07-29, automated)
+- ✅ Gamification (2026-07-30, automated)
 
 ---
 
 ## Session Log
+
+### 2026-07-30 — Gamification Pillar (~60 min, automated)
+
+**Pillar: Gamification** — Cycle 4 complete.
+
+**Commit `d4961d5` — DEPLOYED LIVE (v=20260730).**
+
+- **feature: sub-level completion ceremony (G5)** — Full-screen ceremony fires between the
+  story celebration and the library when the last story in a sub-level is finished for the first time.
+  Shows: level icon (colour-gradients from LEVELS), "Sub-level N Complete! 🎉" / "サブレベルクリア！🎉",
+  pond name in the sub-message, "+50 XP Bonus! 🐸" pill (XP awarded on Continue), and "Sub-level N+1
+  is now unlocked!" (if next sub-level has stories). `state.celebratedSublevels` (persisted as
+  `rbt_celeb_sl`) prevents the ceremony ever re-triggering for the same sub-level on replay.
+  - `storySubLevel(id)` helper finds the [lv, sl] index for any story id.
+  - `finishStory()` sets `state.pendingSublevel` when the check passes.
+  - `backFromCelebration()` intercepts the celebration's "Back to Library" button.
+  - `finishSublevelCeremony()` awards XP, marks celebrated, navigates to library.
+  - `navigate()` preserves library context through `'sublevelCelebration'` so "Keep Going!" returns
+    to the correct sub-level drill-down.
+  - Verified: trigger fires correctly, no re-trigger on replay, +50 XP on Continue, library context
+    preserved, en + ja both correct, 375px clean, golden path clean, zero console errors.
+  - Added G6/G7/G8 replenishment ideas to Gamification backlog in TODO.md.
+  - LIVE confirmed via curl (10 ceremony identifiers present in served file).
+
+**Cycle 4 complete. Cycle 5 starts next run (Functionality pillar — pick from F1–F4).**
+
+---
 
 ### 2026-07-29 — Content Pillar (~40 min, automated)
 

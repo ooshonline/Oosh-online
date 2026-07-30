@@ -111,9 +111,20 @@ off here as they ship, and add the commit hash.
   week, and first-try perfect quizzes from `state.progress` timestamps.
 - [ ] **G4 · Weekly recap card.** On the first visit of a new week, a dismissible Home card summarising
   last week from real data ("7 stories · 12 new words · 4-day streak"). No fabricated numbers.
-- [ ] **G5 · Sub-level completion ceremony.** Finishing 10 stories just ticks nodes. Add a short
-  full-screen unlock moment (stamp + next pond revealed + XP bonus) reusing the celebration machinery
-  — the milestone that actually matters has the least fanfare.
+- [x] **G5 · Sub-level completion ceremony — SHIPPED (2026-07-30, commit `d4961d5`).** Full-screen
+  ceremony fires between story celebration and library when the last story in a sub-level is finished
+  for the first time: level icon, "Sub-level N Complete!", pond name, +50 XP bonus pill, and
+  "Sub-level N+1 is now unlocked!" (if applicable). `state.celebratedSublevels` persisted as
+  `rbt_celeb_sl` prevents re-trigger. Both en+ja, zero console errors, verified at 375px. LIVE.
+- [ ] **G6 · Personal bests in Profile.** Track `state.bestStreak` in `updateStreak()`. Add best-streak
+  row to the stats grid in `renderProgressSections()`. Derive best-week-stories count by scanning
+  `state.progress` timestamps. Simple and real-data-only — no need to store extra week buckets.
+- [ ] **G7 · Weekly recap card.** On the first home visit of a new week, show a dismissible card
+  summarising the previous 7 days from `state.progress` timestamps ("N stories · N words saved · N-day streak").
+  `state.lastWeekRecap` (persisted) tracks when the card was last shown so it shows only once per week.
+- [ ] **G8 · "Level Champion" ceremony.** When all 10 sub-levels of a level are completed for the first
+  time, fire a bigger ceremony than the sub-level one — the champion badge for that level is already
+  in BADGES, this just gives it the fanfare it deserves. Reuses `sublevelCelebration` machinery.
 
 ---
 
