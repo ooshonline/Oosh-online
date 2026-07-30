@@ -559,8 +559,18 @@
     .celeb-btn-secondary{height:50px;background:transparent;border:2px solid var(--navy);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--navy)}
     .celeb-btn-primary{height:50px;background:var(--primary);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:#151515}
 
+    /* ══ SUBLEVEL CELEBRATION SCREEN ══ */
+    .sl-celeb-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;gap:14px;text-align:center;background:linear-gradient(180deg,#f0fff4 0%,#ffffff 100%)}
+    .sl-celeb-pond{width:96px;height:96px;border-radius:24px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;box-shadow:0 8px 32px rgba(0,0,0,0.12);animation:bounce-in .65s ease both}
+    .sl-celeb-sublabel{font-size:12px;font-weight:800;letter-spacing:0.1em;color:var(--text-muted);text-transform:uppercase}
+    .sl-celeb-title{font-family:var(--font-head);font-weight:900;font-size:30px;color:var(--text);line-height:1.1;animation:fade-up .4s .1s ease both}
+    .sl-celeb-msg{font-size:15px;color:var(--text-muted);max-width:280px;animation:fade-up .4s .2s ease both}
+    .sl-celeb-xp{display:inline-block;background:linear-gradient(135deg,#72C93A,#5aab2f);color:#fff;font-weight:900;font-size:17px;padding:10px 24px;border-radius:99px;margin-top:4px;animation:fade-up .4s .3s ease both}
+    .sl-celeb-next{font-size:13px;font-weight:700;color:#72C93A;animation:fade-up .4s .4s ease both}
+    .sl-celeb-btn{margin-top:12px;padding:16px 40px;background:var(--primary);color:#151515;border:none;border-radius:16px;font-size:18px;font-family:var(--font-head);font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(114,201,58,0.35);animation:fade-up .4s .5s ease both}
+
     /* Tablet frame adaptation (>=768px), matching the design's native 1024x768 canvas */
-    #app:has(.app-shell),#app:has(.reader-screen),#app:has(.quiz-screen),#app:has(.celeb-screen),#app:has(.place-screen){max-width:1024px}
+    #app:has(.app-shell),#app:has(.reader-screen),#app:has(.quiz-screen),#app:has(.celeb-screen),#app:has(.place-screen),#app:has(.sl-celeb-screen){max-width:1024px}
     @media (min-width:768px){
       .app-header{height:56px;padding:0 22px;flex-wrap:nowrap}
       .app-brand{font-size:19px}
@@ -628,10 +638,10 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260729"></script>
-<script src="ribbit-wordlists.js?v=20260729"></script>
-<script src="ribbit-ja-translations.js?v=20260729"></script>
-<script src="assets/vendor/lottie.min.js?v=20260729"></script>
+<script src="ribbit-stories.js?v=20260730"></script>
+<script src="ribbit-wordlists.js?v=20260730"></script>
+<script src="ribbit-ja-translations.js?v=20260730"></script>
+<script src="assets/vendor/lottie.min.js?v=20260730"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
 const ICONS = {
@@ -889,6 +899,8 @@ const state = {
   openBadgeTooltip: null,
   worldSelectedId: null,
   worldLockedNoticeId: null,
+  celebratedSublevels: JSON.parse(localStorage.getItem('rbt_celeb_sl')||'[]'), // ["lv.sl"] keys for sub-levels that already had a ceremony
+  pendingSublevel: null, // transient: set in finishStory() when a new sub-level is completed first time
 };
 function save(){
   localStorage.setItem('rbt_uilang', state.uiLang);
@@ -908,6 +920,7 @@ function save(){
   localStorage.setItem('rbt_decks', JSON.stringify(state.customDecks));
   localStorage.setItem('rbt_dws', JSON.stringify(state.deckWordStatus));
   if(state.lastStoryId) localStorage.setItem('rbt_laststory', state.lastStoryId);
+  localStorage.setItem('rbt_celeb_sl', JSON.stringify(state.celebratedSublevels||[]));
 }
 window.addEventListener('beforeunload', save);
 // beforeunload is unreliable on iOS Safari (backgrounding/switching apps doesn't fire it) —
@@ -963,8 +976,8 @@ function navigate(screen){
   state.screen=screen; state.modalOpen=false; state.audioPlaying=false;
   // Preserve library drill-down context through the reading pipeline so "Back to Library"
   // returns to the exact sublevel the learner came from, not the root level grid.
-  if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration'){ state.libraryLevel=null; state.librarySublevel=null; }
-  if(screen!=='world' && screen!=='celebration' && screen!=='reader' && screen!=='quiz'){ state.worldSelectedId=null; }
+  if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration' && screen!=='sublevelCelebration'){ state.libraryLevel=null; state.librarySublevel=null; }
+  if(screen!=='world' && screen!=='celebration' && screen!=='reader' && screen!=='quiz' && screen!=='sublevelCelebration'){ state.worldSelectedId=null; }
   if(screen==='rewards') markBadgesSeen(); // must precede render() so the dot clears in the same frame
   // Entering Flashcards from the nav should land on the deck list, not resume a half-finished
   // study session. openDeck()/startStudy() set flashView and render() directly, so they're unaffected.
@@ -1222,6 +1235,14 @@ function finishStory(story){
   checkStoriesQuest();
   if(accuracyPct===100){ markQuestDone('perfect'); state.perfectCount=(state.perfectCount||0)+1; }
   checkWeekQuests();
+  // First-time sub-level completion → schedule the ceremony screen
+  const _slInfo=storySubLevel(story.id);
+  if(_slInfo){
+    const _slKey=`${_slInfo.lv}.${_slInfo.sl}`;
+    if(!(state.celebratedSublevels||[]).includes(_slKey) && subLevelDone(_slInfo.lv,_slInfo.sl)){
+      state.pendingSublevel={lv:_slInfo.lv, sl:_slInfo.sl, slKey:_slKey};
+    }
+  }
 }
 
 // ── DATA HELPERS (pure logic, ported verbatim from the live app) ──
@@ -1236,6 +1257,12 @@ function findStory(id){
 }
 function storyDone(id){ return !!state.progress[id]; }
 function storyStarCount(score){ return score>=0.8?3:score>=0.5?2:1; }
+function storySubLevel(id){
+  for(const lv in STORIES) for(const sl in STORIES[lv]){
+    if(STORIES[lv][sl].some(s=>s.id===id)) return {lv, sl:parseInt(sl)};
+  }
+  return null;
+}
 function subLevelDone(lv,sl){
   const stories=STORIES[lv]&&STORIES[lv][sl]||[];
   return stories.length>0 && stories.every(s=>storyDone(s.id));
@@ -1284,6 +1311,20 @@ function addWordToDeck(word){
 }
 function removeWordFromDeck(word){ delete state.flashCards[word]; save(); render(); }
 function levelDoneCount(lv){ let c=0; for(let sl=0;sl<10;sl++) if(subLevelDone(lv,sl)) c++; return c; }
+function backFromCelebration(){
+  if(state.pendingSublevel){ state.screen='sublevelCelebration'; render(); spawnConfetti(); }
+  else navigate('library');
+}
+function finishSublevelCeremony(){
+  if(state.pendingSublevel){
+    state.celebratedSublevels=(state.celebratedSublevels||[]);
+    state.celebratedSublevels.push(state.pendingSublevel.slKey);
+    state.pendingSublevel=null;
+    awardXP(50);
+    save();
+  }
+  navigate('library');
+}
 function currentLevelId(){
   // What the learner last actually read always wins — real behaviour beats a test result.
   if(state.lastStoryId){const s=findStory(state.lastStoryId); if(s&&s.levelId) return s.levelId;}
@@ -1835,6 +1876,11 @@ const UI_STRINGS = {
     saveSuccess:'Progress saved! 💾', restoreSuccess:'Progress restored! Reloading…',
     restoreError:'Could not read that file. Please try again.',
     restoreConfirm:'This will replace all your current progress with the backup file. Continue?',
+    slDoneTitle:'Sub-level Complete! 🎉',
+    slDoneMsg:(pond)=>`You read all the stories in the ${pond} pond!`,
+    slXpBonus:'+50 XP Bonus! 🐸',
+    slNextUnlocked:(n)=>`Sub-level ${n} is now unlocked!`,
+    slContinueBtn:'Keep Going!',
   },
   ja: {
     greeting:(h)=> h<12?'おはよう！':h<18?'こんにちは！':'こんばんは！',
@@ -1935,6 +1981,11 @@ const UI_STRINGS = {
     saveSuccess:'データを保存しました！💾', restoreSuccess:'データを復元しました！再読み込みします…',
     restoreError:'ファイルを読み込めませんでした。もう一度お試しください。',
     restoreConfirm:'現在の進捗データをバックアップファイルで上書きします。続けますか？',
+    slDoneTitle:'サブレベルクリア！🎉',
+    slDoneMsg:(pond)=>`${pond}のお話をぜんぶ読んだよ！`,
+    slXpBonus:'+50XP ボーナス！🐸',
+    slNextUnlocked:(n)=>`サブレベル${n}が解放されたよ！`,
+    slContinueBtn:'つぎへ！',
   },
 };
 function t(key,...args){
@@ -2402,7 +2453,7 @@ function renderCelebration(){
     ${renderTalkPrompt(story)}
     <div class="celeb-btns">
       <button class="celeb-btn-secondary" onclick="readAgain()">${t('readAgainBtn')}</button>
-      <button class="celeb-btn-primary" onclick="${story.journeyId?`state.screen='world';state.worldSelectedId='${story.journeyId}';render()`:"navigate('library')"}">${story.journeyId?t('backToDestBtn'):t('backToLibraryBtn')}</button>
+      <button class="celeb-btn-primary" onclick="${story.journeyId?`state.screen='world';state.worldSelectedId='${story.journeyId}';render()`:"backFromCelebration()"}">${story.journeyId?t('backToDestBtn'):t('backToLibraryBtn')}</button>
     </div>
   </div>`;
 }
@@ -2978,14 +3029,32 @@ function renderLanding(){
   </div>`;
 }
 
+function renderSublevelCelebration(){
+  const sl=state.pendingSublevel;
+  if(!sl) return renderComingSoon();
+  const lv=LEVELS.find(l=>l.id==sl.lv)||LEVELS[0];
+  const slNum=sl.sl+1; // sl is 0-indexed; display as 1-based
+  const nextExists=sl.sl+1<10 && hasStoriesFor(sl.lv, sl.sl+1);
+  return `<div class="screen sl-celeb-screen">
+    <div class="sl-celeb-pond" style="background:linear-gradient(145deg,${lv.g1},${lv.g2})">${icon(lv.icon,48)}</div>
+    <div class="sl-celeb-sublabel">${t('subLevel')} ${slNum}</div>
+    <div class="sl-celeb-title">${t('slDoneTitle')}</div>
+    <div class="sl-celeb-msg">${t('slDoneMsg',lv.pond)}</div>
+    <div class="sl-celeb-xp">${t('slXpBonus')}</div>
+    ${nextExists?`<div class="sl-celeb-next">${t('slNextUnlocked',slNum+1)}</div>`:''}
+    <button class="sl-celeb-btn" onclick="finishSublevelCeremony()">${t('slContinueBtn')}</button>
+  </div>`;
+}
+
 // ── MASTER RENDER ────────────────────────────────────────────
-const FULLBLEED_SCREENS=['reader','quiz','celebration','placement']; // no header/bottom-nav, matches the design's own top-level screens
+const FULLBLEED_SCREENS=['reader','quiz','celebration','placement','sublevelCelebration']; // no header/bottom-nav, matches the design's own top-level screens
 function render(){
   if(state.screen==='landing'){ renderLanding(); return; }
   if(state.screen==='placement'){ document.getElementById('app').innerHTML=renderPlacement(); return; }
   if(state.screen==='reader'){ document.getElementById('app').innerHTML=renderReader(); return; }
   if(state.screen==='quiz'){ document.getElementById('app').innerHTML=renderQuiz(); return; }
   if(state.screen==='celebration'){ document.getElementById('app').innerHTML=renderCelebration(); playCelebrationAnims(); return; }
+  if(state.screen==='sublevelCelebration'){ document.getElementById('app').innerHTML=renderSublevelCelebration(); return; }
   let body;
   if(state.screen==='home') body=renderHomeDash();
   else if(state.screen==='library') body=renderLibrary();
