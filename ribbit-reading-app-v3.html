@@ -220,6 +220,12 @@
     .story-card.story-inprogress{animation:glow-pulse 2s ease-in-out infinite}
     .story-progress-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(0,0,0,.15)}
     .story-progress-fill{height:100%;background:var(--primary)}
+    .lib-search-wrap{margin-bottom:14px}
+    .lib-search-input{width:100%;height:44px;border-radius:12px;border:1.5px solid var(--border);padding:0 14px 0 38px;font-size:14px;color:var(--text);font-family:var(--font-body);background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23B0B8C1' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;box-sizing:border-box;-webkit-appearance:none}
+    .lib-search-input:focus{outline:none;border-color:var(--primary)}
+    .lib-search-input::-webkit-search-cancel-button{-webkit-appearance:none}
+    .lib-search-count{font-size:11.5px;font-weight:600;color:var(--text-muted);margin-bottom:10px;font-family:var(--font-body)}
+    .lib-search-empty{text-align:center;padding:48px 16px;color:var(--text-muted);font-family:var(--font-body);font-size:14px;line-height:1.5}
     .story-body{padding:8px 9px 9px}
     .story-title{font-size:11px;font-weight:600;color:var(--text);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
@@ -638,10 +644,10 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260730"></script>
-<script src="ribbit-wordlists.js?v=20260730"></script>
-<script src="ribbit-ja-translations.js?v=20260730"></script>
-<script src="assets/vendor/lottie.min.js?v=20260730"></script>
+<script src="ribbit-stories.js?v=20260802"></script>
+<script src="ribbit-wordlists.js?v=20260802"></script>
+<script src="ribbit-ja-translations.js?v=20260802"></script>
+<script src="assets/vendor/lottie.min.js?v=20260802"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
 const ICONS = {
@@ -865,6 +871,7 @@ const state = {
   weekQuestProgress: JSON.parse(localStorage.getItem('rbt_wqp')||'{}'),
   libraryLevel: null,
   librarySublevel: null,
+  librarySearch: '',
   modalOpen: false,
   selectedStory: null,
   currentPage: 0,
@@ -976,7 +983,7 @@ function navigate(screen){
   state.screen=screen; state.modalOpen=false; state.audioPlaying=false;
   // Preserve library drill-down context through the reading pipeline so "Back to Library"
   // returns to the exact sublevel the learner came from, not the root level grid.
-  if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration' && screen!=='sublevelCelebration'){ state.libraryLevel=null; state.librarySublevel=null; }
+  if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration' && screen!=='sublevelCelebration'){ state.libraryLevel=null; state.librarySublevel=null; state.librarySearch=''; }
   if(screen!=='world' && screen!=='celebration' && screen!=='reader' && screen!=='quiz' && screen!=='sublevelCelebration'){ state.worldSelectedId=null; }
   if(screen==='rewards') markBadgesSeen(); // must precede render() so the dot clears in the same frame
   // Entering Flashcards from the nav should land on the deck list, not resume a half-finished
@@ -989,7 +996,7 @@ function enterFromLanding(){
   navigate('home');
   setTimeout(checkDailyLoginBonus, 600); // boot-time call was skipped while on the splash
 }
-function openLibraryLevel(id){ state.libraryLevel=id; state.librarySublevel=null; render(); }
+function openLibraryLevel(id){ state.libraryLevel=id; state.librarySublevel=null; state.librarySearch=''; render(); }
 function openLibrarySublevel(levelId,sub,locked){ if(locked) return; state.librarySublevel=sub; render(); }
 // "View path" belongs on the lily-pad sub-level track, not the stats screen. navigate() clears
 // libraryLevel for non-library screens, so set the drill-down after switching.
@@ -998,8 +1005,16 @@ function viewPath(){
   state.libraryLevel=currentLevelId(); state.librarySublevel=null;
   render();
 }
-function goLibraryRoot(){ state.libraryLevel=null; state.librarySublevel=null; render(); }
+function goLibraryRoot(){ state.libraryLevel=null; state.librarySublevel=null; state.librarySearch=''; render(); }
 function goLibraryLevel(){ state.librarySublevel=null; render(); }
+function setLibrarySearch(q){
+  state.librarySearch=q;
+  const prev=document.querySelector('.lib-search-input');
+  const sel=prev?[prev.selectionStart,prev.selectionEnd]:null;
+  render();
+  const next=document.querySelector('.lib-search-input');
+  if(next){ next.focus(); if(sel) next.setSelectionRange(sel[0],sel[1]); }
+}
 function openStoryModal(id){ state.modalOpen=true; state.selectedStory=id; render(); }
 function closeStoryModal(){ state.modalOpen=false; state.selectedStory=null; render(); }
 // Resume on the page the learner left off. Clamped, so a story whose paragraph count
@@ -1795,6 +1810,7 @@ const UI_STRINGS = {
     navHome:'Home', navLibrary:'Library', navFlashcards:'Cards', navRewards:'Rewards', navProfile:'Profile',
     comingSoon:'Coming soon', comingSoonBody:'This screen is being rebuilt from the redesign next.',
     libraryTitle:'Library', levelLabel:(id)=>`Level ${id}`, ages:(a)=>`Ages ${a}`, locked:'Locked',
+    libSearchPlaceholder:'Search stories…', libSearchResults:(n)=>`${n} result${n===1?'':'s'}`, libSearchEmpty:'No stories found — try a different word.',
     subLevelOf:(n)=>`Sub-level ${n} of 10`, subLevel:'Sub-level',
     pages:(n)=>`📄 ${n} pages`, audio:'🔊 Audio', start:'START', tapWordHint:'👆 Tap any word to see its definition',
     exit:'Exit', previous:'Previous', next:'Next', toQuiz:'To Quiz',
@@ -1900,6 +1916,7 @@ const UI_STRINGS = {
     navHome:'ホーム', navLibrary:'ライブラリ', navFlashcards:'カード', navRewards:'ごほうび', navProfile:'わたし',
     comingSoon:'ちかぢか公開', comingSoonBody:'この画面は次のパスでリニューアルされます。',
     libraryTitle:'ライブラリ', levelLabel:(id)=>`レベル ${id}`, ages:(a)=>`対象年齢 ${a}`, locked:'ロック中',
+    libSearchPlaceholder:'おはなしをさがす…', libSearchResults:(n)=>`${n}件のおはなし`, libSearchEmpty:'みつかりませんでした。ちがうことばでためしてね。',
     subLevelOf:(n)=>`サブレベル ${n} / 10`, subLevel:'サブレベル',
     pages:(n)=>`📄 ${n}ページ`, audio:'🔊 音声あり', start:'はじめる', tapWordHint:'👆 単語をタップすると意味が見られるよ',
     exit:'とじる', previous:'まえへ', next:'つぎへ', toQuiz:'クイズへ',
@@ -2074,6 +2091,9 @@ function renderLibrary(){
 }
 
 function renderLibraryTierLevels(){
+  const q=(state.librarySearch||'').trim().toLowerCase();
+  const searchBar=`<div class="lib-search-wrap"><input class="lib-search-input" type="search" value="${escAttr(state.librarySearch||'')}" placeholder="${escAttr(t('libSearchPlaceholder'))}" oninput="setLibrarySearch(this.value)" aria-label="${escAttr(t('libSearchPlaceholder'))}"></div>`;
+  if(q.length>=2) return `<div class="library-pane">${searchBar}${renderLibrarySearchResults(q)}</div>`;
   const cards=LEVELS.map(level=>{
     const doneCount=levelDoneCount(level.id);
     const cur=Math.min(doneCount+1,10);
@@ -2093,7 +2113,39 @@ function renderLibraryTierLevels(){
       </div>
     </button>`;
   }).join('');
-  return `<div class="library-pane"><div class="lvl-grid">${cards}</div></div>`;
+  return `<div class="library-pane">${searchBar}<div class="lvl-grid">${cards}</div></div>`;
+}
+
+function renderLibrarySearchResults(q){
+  const results=[];
+  for(const level of LEVELS){
+    const slGroups=STORIES[level.id]||{};
+    for(const sl of Object.values(slGroups)){
+      for(const s of sl){
+        if(s.title.toLowerCase().includes(q)||(s.blurb||'').toLowerCase().includes(q)||(s.genre||'').toLowerCase().includes(q)){
+          results.push({s,level});
+        }
+      }
+    }
+  }
+  if(!results.length) return `<div class="lib-search-empty">${t('libSearchEmpty')}</div>`;
+  const cards=results.map(({s,level})=>{
+    const done=storyDone(s.id);
+    const inProgress=!done&&s.id===state.lastStoryId;
+    const [cg1,cg2]=storyGradient(s,level.g1,level.g2);
+    const prog=state.progress[s.id];
+    const stars=done&&prog?storyStarCount(prog.score):0;
+    const starsHtml=stars>0?`<div class="story-stars">${Array(stars).fill(icon('xp-xp-star',11)).join('')}</div>`:'';
+    return `<button class="story-card${inProgress?' story-inprogress':''}" onclick="openStoryModal('${s.id}')">
+      <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
+        ${s.emoji||'📖'}
+        <div class="story-level-badge" style="background:${level.color}">${t('levelLabel',level.id)}</div>
+        ${done?`<div class="story-complete-badge" role="img" aria-label="${t('completed')}">${icon('status-check',14)}</div>`:inProgress?`<div class="story-inprogress-badge">${t('inProgress')}</div>`:''}
+      </div>
+      <div class="story-body"><div class="story-title">${s.title}</div>${starsHtml}</div>
+    </button>`;
+  }).join('');
+  return `<div class="lib-search-count">${t('libSearchResults',results.length)}</div><div class="story-grid">${cards}</div>`;
 }
 
 function renderLibraryTierSublevels(){
