@@ -30,9 +30,33 @@
 - ✅ Content (2026-07-29, automated)
 - ✅ Gamification (2026-07-30, automated)
 
+**Cycle 5 — IN PROGRESS**
+- ✅ Functionality (2026-08-02, automated)
+
 ---
 
 ## Session Log
+
+### 2026-08-02 — Functionality Pillar (~55 min, automated)
+
+**Pillar: Functionality** — Cycle 5 starts.
+
+**Commit `37e58de` — DEPLOYED LIVE (v=20260802).**
+
+- **feature: library search across all 300 stories (F2)** — Search field at the library root
+  lets a learner find any story without walking the level tree. Matching on `title`, `blurb`,
+  and `genre` across all stories in `STORIES`. Results render as standard story cards with
+  genre gradient and a level-coloured badge. Query ≥2 chars activates; empty or 1-char restores
+  the level grid. Empty-state bilingual message when nothing matches. Count shows as "N results"
+  (en) / "N件のおはなし" (ja). Search clears automatically on navigate-away, drill-into-level,
+  or goLibraryRoot. Focus/caret restored after re-render (same pattern as deck-name input).
+  - Verified: 'cat' → 14 results (Levels 1–5), 'xyzqqqq' → empty state, clear → grid restored,
+    story modal opens from search results, 44px input height, no body overflow at 375px,
+    zero console errors, LIVE confirmed via curl (14 search identifiers in served file).
+
+**Cycle 5 next pillar: UI.**
+
+---
 
 ### 2026-07-30 — Gamification Pillar (~60 min, automated)
 

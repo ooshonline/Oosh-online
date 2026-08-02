@@ -31,10 +31,11 @@ off here as they ship, and add the commit hash.
   binary (`known` / `practiceMore`), so a word learned once is reviewed as often as one never seen.
   Add `state.cardBox[word]={box:1–4,due:ts}`; `startStudy()` orders due cards first; Home shows a
   real "N cards due today" count. Answering right promotes a box (1d→3d→7d→21d), wrong resets to 1.
-- [ ] **F2 · Library search.** No way to find a known story except by walking the level tree. Add a
-  search field on the Library root matching story `title` + `blurb` + `genre` + vocab words across
-  `STORIES`, rendering results as normal story cards with a level pill. Distinct from the
-  genre-browse item below (that's browsing, this is finding).
+- [x] **F2 · Library search — SHIPPED (2026-08-02, commit `37e58de`).** Search field at library root
+  matches story `title`, `blurb`, and `genre` across all 300+ stories. Results render as standard
+  story cards with level-coloured badge showing which level they're from. Query ≥2 chars activates
+  results; clearing restores the level grid. Empty-state message when nothing matches. Both en + ja.
+  LIVE (v=20260802).
 - [ ] **F3 · Continuous read-aloud.** `toggleAudio()` speaks the current page and stops. Add
   auto-advance: on utterance end, turn the page and keep reading until the story ends or the child
   stops. Persist the preference; cancel speech on exit/navigate so it can't keep talking off-screen.
