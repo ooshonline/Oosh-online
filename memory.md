@@ -32,10 +32,40 @@
 
 **Cycle 5 — IN PROGRESS**
 - ✅ Functionality (2026-08-02, automated)
+- ✅ UI (2026-08-03, automated)
 
 ---
 
 ## Session Log
+
+### 2026-08-03 — UI Pillar (~50 min, automated)
+
+**Pillar: UI** — Cycle 5.
+
+**Commit `f32b623` — DEPLOYED LIVE (v=20260803).**
+
+- **style: mascot empty states for Flashcards, Badges, World (U4)** — Three previously bare
+  empty states now feature the brand mascot (Ribbit frog), a bilingual headline, and a CTA button.
+  - **Flashcards**: When no words are saved and no custom decks exist, the deck list shows
+    the mascot + "No word decks yet" + "Tap any word while reading to save it here." + "Start reading →"
+    button → `navigate('library')`. Condition: `!Object.keys(state.flashCards).length && !state.customDecks.length`
+    (the `myWords` deck always exists but is effectively empty — this catches the true new-user state).
+  - **Profile "Recent Badges"**: Replaces the bare `<div class="no-badges-text">` text with
+    mascot + existing `noBadgesYet` text + "Start reading →" CTA → `navigate('library')`.
+  - **World grid**: When `completedCount === 0`, a `.coming-soon` block with mascot + "Start exploring
+    the world!" / "Read stories to earn passport stamps." appears between the progress bar and the
+    destination grid. Disappears automatically once any destination is completed.
+  - `MASCOT_SVG_PATHS` const + `mascot(px)` helper added after `iconOrEmoji()` — one definition
+    reused across all three screens. SVG paths from `assets/icons/brand/mascot.svg`.
+  - `.empty-mascot-cta` CSS class added (green pill button, matches app's primary action style).
+  - 5 new `UI_STRINGS` keys in both en + ja: `noDecksTitle`, `noDecksBody`, `worldWelcome`,
+    `worldWelcomeBody`, `startReadingCta`.
+  - Verified: all 3 mascots in DOM (JS checks); flashcards empty state screenshot at 375px clean;
+    world mascot screenshot at 375px clean; world mascot disappears when dest complete;
+    normal deck-list and world states unaffected; English and Japanese strings correct; zero
+    console errors; LIVE confirmed (14 new identifiers in served file).
+
+**Cycle 5 next pillar: UX.**
 
 ### 2026-08-02 — Functionality Pillar (~55 min, automated)
 

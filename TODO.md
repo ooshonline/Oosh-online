@@ -59,9 +59,9 @@ off here as they ship, and add the commit hash.
 - [ ] **U3 · Progress rings on cards.** Level, sub-level and destination cards show progress as text
   ("X/10 done"). Replace with a real SVG ring in the level's own colour — same data, readable at a
   glance by a child who can't yet decode the label.
-- [ ] **U4 · Mascot empty states.** Flashcards with no decks, Rewards with no badges and World with no
-  stamps all render bare text. Use `assets/icons/brand/mascot.svg` + one bilingual line + a CTA that
-  goes somewhere useful.
+- [x] **U4 · Mascot empty states — SHIPPED (2026-08-03, commit `f32b623`).** Flashcards (no words
+  saved), Profile recent-badges (0 earned), and World (0 stamps) now show the brand mascot + bilingual
+  copy + "Start reading →" CTA. `mascot(px)` helper added. 5 new UI_STRINGS keys en+ja. LIVE (v=20260803).
 - [x] **U5 · Reader page transition — SHIPPED (2026-07-27, commit `bfb8e8b`).** `.reader-page-text`
   now slides in from the right on Next and from the left on Prev (translateX ±22px + fade, .2s).
   `state.pageDir` transient flag; disabled under `prefers-reduced-motion`. LIVE.
