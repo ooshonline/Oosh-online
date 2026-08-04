@@ -26,6 +26,13 @@ Five ideas per pillar for the `ribbit-app-update` routine to draw from. Each is 
 `UI_STRINGS.en` **and** `.ja`, extend existing state/CSS tokens, one change per session. Tick items
 off here as they ship, and add the commit hash.
 
+> **Pillar rotation updated 2026-08-04 — there are now SIX pillars.**
+> `Functionality → UI → UX → Content → Gamification → Monetisation`, then repeat.
+> Monetisation is the new sixth pillar; its backlog is the M-series below. Two extra rules apply to
+> that pillar only: **never gate gamification** and **never commit a secret** — both are spelled out
+> in the Monetisation section. The routine takes **M-series items only**; the S-series in
+> `ribbit-monetisation-handoff.md` requires Kyle present and must never run unattended.
+
 ### Functionality — ideas
 - [ ] **F1 · Spaced repetition for flashcards (Leitner).** `state.deckWordStatus` is effectively
   binary (`known` / `practiceMore`), so a word learned once is reviewed as often as one never seen.
@@ -98,6 +105,37 @@ off here as they ship, and add the commit hash.
 - [ ] **C5 · World Journey culture data.** Author `facts` (3 per destination, en + ja) and `vocab`
   (~6 words) for all 13 destinations — this is the missing content half of the stranded
   destination-detail feature listed under Functionality below.
+
+### Monetisation — ideas (added 2026-08-04)
+
+Full spec for each item: `ribbit-monetisation-handoff.md`. Strategy: `ribbit-monetisation-plan.md`.
+**Two extra rules apply to this pillar only:** never gate gamification (XP, badges, streaks, quests,
+star ratings, flashcards, placement test stay free at every level, forever), and never commit a secret.
+**M-series only** is safe for an unattended routine — the S-series in the handoff spec needs Kyle present.
+
+- [ ] **M1 · Eiken dual-labelling.** Add an `eiken` field to `LEVELS` (~line 730); render Eiken-first in
+  the ja UI, CEFR-first in en. Three render sites: `lvl-cefr-badge` (~2114), `sublevel-header-meta`
+  (~2184), `place-result-meta` (~2452). `cefr` field stays untouched — additive only. Wording must be
+  「英検◯級の読解レベル相当」, never 「対策」. Levels 5–6 carry no grade claim. **Kyle to sign off on the
+  proposed level→grade table in the handoff spec before building.**
+- [ ] **M2 · Entitlement stub + gate helpers.** `isSubscribed()`, `canAccessLevel(id)`,
+  `canAccessDestination(id)`. Dev-only flag for now; S3 swaps in the real Supabase read later.
+  Free tier: all of Level 1, Tokyo, plus 3 stories/week from any higher level tracked in new
+  `rbt_wkfree` ({weekKey, storyIds[]}) — check existing `rbt_wqp` ISO-week handling before writing a
+  new helper. Gamification paths must never call a gate.
+- [ ] **M3 · Upgrade screen.** Shown *only* on tapping locked content. Never an interstitial, never
+  mid-story, never on home, never timed. Lists what's included + both prices + an easy, honest dismiss.
+  No countdown, no "limited offer", no guilt copy. Blocked on M2; best built after S2/S3 exist.
+- [ ] **M4 · Locked-state affordances.** Extend existing `.lvl-card.locked` / `.jn-locked` styles to
+  Levels 2–6 and locked destinations. Show the real remaining weekly free-story count from `rbt_wkfree`
+  ("今週あと2話読めます" / "2 free stories left this week") — real count, never a placeholder. Blocked on M2.
+- [ ] **M5 · Pricing page (Japanese-first).** Standalone page outside the app shell, linkable directly.
+  What Ribbit is, the Eiken reading ladder from M1, free vs paid, prices in yen, and honest answers on
+  cancellation and lapsed subscriptions (progress stays; Level 1 keeps working). No fabricated
+  testimonials, user counts, or claims of any kind.
+- [ ] **M6 · Analytics instrumentation.** Vercel Analytics + custom events: placement completed, first
+  story completed, Level 1 completed, locked-content tap, upgrade screen viewed, checkout started,
+  checkout completed. Fire once each, not on re-render. No child PII leaves the device.
 
 ### Gamification — ideas
 - [ ] **G1 · Give XP a purpose.** XP accumulates and is never spent. Add a pond/avatar customisation

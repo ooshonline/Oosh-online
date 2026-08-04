@@ -727,14 +727,28 @@ function playPageTurn(){
 // ── LEVELS — real CEFR/ages/stage-name from the live app's content, merged with
 // the pond-themed display names/colors/gradients/icons from the Tablet design's
 // own LIBRARY_LEVELS placeholder (visual language, not content, so it's fair to keep).
+// `eiken` / `eikenFull` added 2026-08-04 (M1). Japanese parents navigate by Eiken grade, not CEFR,
+// so the ja UI leads with Eiken and the en UI keeps leading with CEFR. This is ADDITIVE — `cefr`
+// remains the data-model source of truth and is untouched.
+//
+// Wording rule (do not weaken): 「読解レベル相当」 = "equivalent to the reading level of", NOT
+// 「対策」 = "preparation for". Ribbit teaches reading, vocabulary and some listening; Eiken from
+// 3級 upward also tests writing and speaking, so an exam-prep claim would be unsupportable.
+// Levels 5–6 carry NO grade claim — 460-word stories do not prepare anyone for 準1級/1級.
+// Mapping follows the official MEXT/Eiken correspondence table; approved by Kyle 2026-08-04.
 const LEVELS=[
-  {id:1,name:'Beginner',    cefr:'Pre-A1',ages:'5–7',  pond:'Lily Pad',  color:'#72C93A',g1:'#E8FFD4',g2:'#72C93A',icon:'lvl-lily-pad'},
-  {id:2,name:'Elementary',  cefr:'A1',    ages:'7–9',  pond:'Pond',      color:'#70C1B3',g1:'#D8F5F0',g2:'#70C1B3',icon:'lvl-pond'},
-  {id:3,name:'Pre-Intermediate',cefr:'A2',ages:'9–11', pond:'Stream',    color:'#F5C842',g1:'#FFF8D4',g2:'#F5C842',icon:'lvl-stream'},
-  {id:4,name:'Intermediate',cefr:'B1',    ages:'11–13',pond:'River',     color:'#F4844A',g1:'#FFE8D4',g2:'#F4844A',icon:'lvl-river'},
-  {id:5,name:'Upper-Intermediate',cefr:'B2',ages:'13–15',pond:'Waterfall',color:'#E05C5C',g1:'#FFD8D8',g2:'#E05C5C',icon:'lvl-waterfall'},
-  {id:6,name:'Advanced',    cefr:'C1',    ages:'15+',  pond:'Ocean',     color:'#9B72CF',g1:'#F0E4FF',g2:'#9B72CF',icon:'lvl-ocean'},
+  {id:1,name:'Beginner',    cefr:'Pre-A1',ages:'5–7',  pond:'Lily Pad',  color:'#72C93A',g1:'#E8FFD4',g2:'#72C93A',icon:'lvl-lily-pad',  eiken:'英検5級前',    eikenFull:'英検5級の準備レベル'},
+  {id:2,name:'Elementary',  cefr:'A1',    ages:'7–9',  pond:'Pond',      color:'#70C1B3',g1:'#D8F5F0',g2:'#70C1B3',icon:'lvl-pond',      eiken:'英検5〜4級',   eikenFull:'英検5級〜4級の読解レベル相当'},
+  {id:3,name:'Pre-Intermediate',cefr:'A2',ages:'9–11', pond:'Stream',    color:'#F5C842',g1:'#FFF8D4',g2:'#F5C842',icon:'lvl-stream',    eiken:'英検3〜準2級', eikenFull:'英検3級〜準2級の読解レベル相当'},
+  {id:4,name:'Intermediate',cefr:'B1',    ages:'11–13',pond:'River',     color:'#F4844A',g1:'#FFE8D4',g2:'#F4844A',icon:'lvl-river',     eiken:'英検2級',      eikenFull:'英検2級の読解レベル相当'},
+  {id:5,name:'Upper-Intermediate',cefr:'B2',ages:'13–15',pond:'Waterfall',color:'#E05C5C',g1:'#FFD8D8',g2:'#E05C5C',icon:'lvl-waterfall',eiken:'上級',        eikenFull:'上級読解（英検の級づけなし）'},
+  {id:6,name:'Advanced',    cefr:'C1',    ages:'15+',  pond:'Ocean',     color:'#9B72CF',g1:'#F0E4FF',g2:'#9B72CF',icon:'lvl-ocean',     eiken:'最上級',      eikenFull:'最上級読解（英検の級づけなし）'},
 ];
+
+// Difficulty label for a level. ja → Eiken-first; en → CEFR-first. Both fall back to `cefr`
+// if the Eiken fields are ever missing, so a level with no mapping degrades safely.
+function levelBandShort(level){ return (state.uiLang==='ja' && level.eiken)     ? level.eiken     : level.cefr; }
+function levelBandFull(level){  return (state.uiLang==='ja' && level.eikenFull) ? level.eikenFull : level.cefr; }
 const LEVEL_GRADIENTS={}; LEVELS.forEach(l=>LEVEL_GRADIENTS[l.id]=[l.g1,l.g2]);
 
 // ── GENRE CARD GRADIENTS — ported from the live app, gives story cards more
@@ -2111,7 +2125,7 @@ function renderLibraryTierLevels(){
     return `<button class="lvl-card" onclick="openLibraryLevel(${level.id})">
       <div class="lvl-cover" style="background:linear-gradient(145deg,${level.g1},${level.g2})">
         <span>${icon(level.icon,20)}</span>
-        <div class="lvl-cefr-badge" style="color:${level.color}">${level.cefr}</div>
+        <div class="lvl-cefr-badge" style="color:${level.color}">${levelBandShort(level)}</div>
       </div>
       <div class="lvl-body">
         <div class="lvl-name">${t('levelLabel',level.id)} · ${level.pond}</div>
@@ -2181,7 +2195,7 @@ function renderLibraryTierSublevels(){
         <div class="sublevel-header-icon" style="background:linear-gradient(145deg,${level.g1},${level.g2})">${icon(level.icon,22)}</div>
         <div>
           <div class="sublevel-header-name">${t('levelLabel',level.id)} · ${level.pond}</div>
-          <div class="sublevel-header-meta">${level.name} · ${level.cefr} · ${t('ages',level.ages)}</div>
+          <div class="sublevel-header-meta">${level.name} · ${levelBandFull(level)} · ${t('ages',level.ages)}</div>
         </div>
       </div>
       <div class="sublevel-track">
@@ -2449,7 +2463,7 @@ function renderPlacementResult(){
       <div class="place-frog">${icon(lv.icon,56)}</div>
       <div class="place-sub" style="margin:0 auto 2px">${t('placeResultTitle')}</div>
       <div class="place-result-pond" style="color:${lv.color}">${lv.pond}</div>
-      <div class="place-result-meta">${t('levelLabel',lv.id)} · ${lv.cefr} · ${lv.name}</div>
+      <div class="place-result-meta">${t('levelLabel',lv.id)} · ${levelBandFull(lv)} · ${lv.name}</div>
       <div class="place-change-hint">${t('placeChangeHint')}</div>
       <div class="place-level-chips">${chips}</div>
       <button class="place-next-btn" style="margin-top:4px" onclick="applyPlacement()">${t('placeStartReading')}</button>

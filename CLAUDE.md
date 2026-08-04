@@ -19,8 +19,15 @@ written to be followed literally, not interpreted.
   There is no copy-between-folders step anymore. Bump the `?v=YYYYMMDD` cache-bust on the three `<script>`
   tags each deploy so stale JS can't be served. (The `ribbit-deploy` skill still describes the old
   two-folder copy flow and is **out of date** — update or ignore it; a plain push is the deploy now.)
-- This repo (`Oosh-online`) also hosts non-Ribbit content (the webstore). Only ever touch Ribbit app
-  files, and never `git add -A` — stage changed files by name.
+- **Never `git add -A` — stage changed files by name.** (Corrected 2026-08-04: this rule used to say
+  the repo "also hosts the webstore." It doesn't — `git ls-files` shows only Ribbit files tracked, and
+  the webstore is a separate repo, `github.com/ooshonline/ribbit-webstore`, branch `main`. The rule
+  still stands for a different reason: several untracked local files live in this folder — research
+  notes, the two `translate_*.py` scripts, `DEPLOY-PENDING.md`, planning docs — and `git add -A` would
+  sweep them all into a commit.)
+- **The webstore is a different product.** `Projects/OOSH Online/oosh-online/` — Next.js on Vercel,
+  sells printable PDFs to teachers. This app sells reading to Japanese parents. They share a Supabase
+  project and a Stripe account, and nothing else. Don't edit one while working on the other.
 
 ---
 
