@@ -33,10 +33,50 @@
 **Cycle 5 — IN PROGRESS**
 - ✅ Functionality (2026-08-02, automated)
 - ✅ UI (2026-08-03, automated)
+- ✅ **Monetisation — M1 Eiken dual-labelling (2026-08-04)** ← new sixth pillar, inserted mid-cycle
+- ✅ UX (2026-08-04, automated)
+- ⬜ Content
+- ⬜ Gamification
+
+> **Pillar rotation changed 2026-08-04 — six pillars now, not five.**
+> `Functionality → UI → UX → Content → Gamification → Monetisation`, then repeat.
+> Monetisation draws from the **M-series** backlog in `TODO.md`. Its two extra rules: never gate
+> gamification (XP, badges, streaks, quests, star ratings, flashcards and the placement test stay
+> free at every level, forever) and never commit a secret. **M-series only** may run unattended —
+> the S-series in `ribbit-monetisation-handoff.md` needs Kyle present.
+> Strategy: `ribbit-monetisation-plan.md`. Build specs: `ribbit-monetisation-handoff.md`.
 
 ---
 
 ## Session Log
+
+### 2026-08-04 — M1 Deploy + UX Pillar (~50 min, automated)
+
+**Pillar: UX** — Cycle 5.
+
+**Commit `b0338a3` (M1 Eiken dual-labelling) — DEPLOYED LIVE this run (v=20260804).**
+- M1 was committed in a prior run but unpushed. Browser-verified Eiken labels on all 6 level cards
+  in Japanese mode, zero console errors. Cache-bust bumped to v=20260804 (commit `21b3a7d`), pushed.
+
+**Commit `d96d000` — DEPLOYED LIVE (v=20260804).**
+
+- **feature: first-run coach tour (X1)** — 3-slide modal overlay shown once to new users on their
+  first home-screen visit. Teaches the three core mechanics that are otherwise invisible:
+  - Step 1 👆 "Tap any word" — tap any word while reading to see its meaning and hear it
+  - Step 2 🔊 "Listen along" — speaker button reads the story aloud
+  - Step 3 🏆 "Complete quests" — daily quests earn XP and unlock rewards
+  - `state.seenTour` (persisted as `rbt_tour='1'`) dismisses permanently on Next/Skip/backdrop tap.
+    `state.tourStep` (transient, 0-indexed) tracks which slide.
+  - `renderTour()` returns empty string when `state.seenTour` or `state.screen !== 'home'` — safe
+    from appearing in reader, quiz, or any non-home context.
+  - 6 new `UI_STRINGS` keys per language; `.tour-*` CSS at z-index 500.
+  - Verified: all 3 steps in ja + en; dot indicators; last step shows "はじめよう！🐸"; dismiss
+    persists; absent on library screen; golden path clean; zero console errors; 375px + desktop
+    clean; 7 identifiers confirmed LIVE.
+
+**Cycle 5 next pillar: Content.**
+
+---
 
 ### 2026-08-03 — UI Pillar (~50 min, automated)
 

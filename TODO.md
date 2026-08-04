@@ -74,9 +74,9 @@ off here as they ship, and add the commit hash.
   `state.pageDir` transient flag; disabled under `prefers-reduced-motion`. LIVE.
 
 ### UX — ideas
-- [ ] **X1 · First-run coach tour.** Nothing tells a child that words are tappable — the app's core
-  mechanic is invisible. Three skippable spotlight steps (tap a word, the audio pill, the quests tile)
-  shown once via `state.seenTour`. Never blocks, never repeats.
+- [x] **X1 · First-run coach tour — SHIPPED (2026-08-04, commit `d96d000`).** 3-slide modal overlay
+  shown once on first home visit: tap-a-word, audio pill, quests. `state.seenTour` / `rbt_tour`
+  persists dismissal. Skip + backdrop also dismiss. Only shows on home screen. Both en + ja. LIVE.
 - [x] **X2 · Full keyboard / Chromebook control — SHIPPED (2026-07-29, commit `1cb312a`).** Single
   `document.keydown` listener: ←/→ (and ↑/↓) for reader pages; 1–4 to select quiz answer, Enter/Space
   to advance; Space/Enter to flip flashcard, ←/→ to mark known/practiceMore when flipped; Esc closes
