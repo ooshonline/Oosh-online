@@ -232,6 +232,17 @@
     .modal-overlay{position:fixed;inset:0;background:rgba(8,16,36,.6);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
     .modal-card{width:100%;max-width:440px;background:var(--card);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,.3);animation:modal-in .2s ease both}
     @keyframes modal-in{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    /* ══ COACH TOUR ══ */
+    .tour-overlay{position:fixed;inset:0;background:rgba(8,16,36,.75);display:flex;align-items:center;justify-content:center;z-index:500;padding:24px}
+    .tour-card{width:100%;max-width:380px;background:var(--card);border-radius:24px;padding:32px 28px 24px;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,.4);animation:modal-in .25s cubic-bezier(.34,1.56,.64,1) both}
+    .tour-icon{font-size:56px;line-height:1;margin-bottom:16px}
+    .tour-title{font-family:var(--font-head);font-size:1.25rem;font-weight:700;color:var(--text);margin-bottom:10px}
+    .tour-body{font-family:var(--font-body);font-size:.95rem;color:var(--text);opacity:.8;line-height:1.55;margin-bottom:24px}
+    .tour-dots{display:flex;justify-content:center;gap:6px;margin-bottom:20px}
+    .tour-dot{width:8px;height:8px;border-radius:50%;background:var(--text);opacity:.2;transition:opacity .2s}
+    .tour-dot.active{opacity:1;background:var(--primary)}
+    .tour-next{width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:12px;font-family:var(--font-head);font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:10px}
+    .tour-skip{font-family:var(--font-body);font-size:.85rem;color:var(--text);opacity:.5;background:none;border:none;cursor:pointer;padding:4px}
     .modal-cover{height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
     .modal-cover span{font-size:54px;line-height:1}
     .modal-level-pill{border-radius:999px;padding:4px 14px;font-size:11px;font-weight:700;color:#fff}
@@ -925,6 +936,8 @@ const state = {
   worldLockedNoticeId: null,
   celebratedSublevels: JSON.parse(localStorage.getItem('rbt_celeb_sl')||'[]'), // ["lv.sl"] keys for sub-levels that already had a ceremony
   pendingSublevel: null, // transient: set in finishStory() when a new sub-level is completed first time
+  seenTour: localStorage.getItem('rbt_tour')==="1",
+  tourStep: 0, // transient — which tour slide is showing (0=tap word, 1=audio, 2=quests)
 };
 function save(){
   localStorage.setItem('rbt_uilang', state.uiLang);
@@ -945,6 +958,7 @@ function save(){
   localStorage.setItem('rbt_dws', JSON.stringify(state.deckWordStatus));
   if(state.lastStoryId) localStorage.setItem('rbt_laststory', state.lastStoryId);
   localStorage.setItem('rbt_celeb_sl', JSON.stringify(state.celebratedSublevels||[]));
+  localStorage.setItem('rbt_tour', state.seenTour?'1':'');
 }
 window.addEventListener('beforeunload', save);
 // beforeunload is unreliable on iOS Safari (backgrounding/switching apps doesn't fire it) —
@@ -1917,6 +1931,13 @@ const UI_STRINGS = {
     slXpBonus:'+50 XP Bonus! 🐸',
     slNextUnlocked:(n)=>`Sub-level ${n} is now unlocked!`,
     slContinueBtn:'Keep Going!',
+    tourStep1Title:'👆 Tap any word',
+    tourStep1Body:'Tap any word while reading to see what it means and hear it out loud!',
+    tourStep2Title:'🔊 Listen along',
+    tourStep2Body:'Tap the speaker button to hear the story read aloud. Great for practising pronunciation!',
+    tourStep3Title:'🏆 Complete quests',
+    tourStep3Body:'Finish your quests every day to earn XP and unlock rewards!',
+    tourSkip:'Skip', tourNext:'Next →', tourDone:"Let's go! 🐸",
   },
   ja: {
     greeting:(h)=> h<12?'おはよう！':h<18?'こんにちは！':'こんばんは！',
@@ -2026,6 +2047,13 @@ const UI_STRINGS = {
     slXpBonus:'+50XP ボーナス！🐸',
     slNextUnlocked:(n)=>`サブレベル${n}が解放されたよ！`,
     slContinueBtn:'つぎへ！',
+    tourStep1Title:'👆 単語をタップしよう',
+    tourStep1Body:'おはなしを読みながら、どんな単語でもタップすると意味と発音が見られるよ！',
+    tourStep2Title:'🔊 音声で聴こう',
+    tourStep2Body:'スピーカーボタンをタップすると、お話を音声で聴けるよ！発音練習にぴったり！',
+    tourStep3Title:'🏆 クエストをクリアしよう',
+    tourStep3Body:'毎日クエストを達成してXPをゲット！ごほうびをアンロックしよう！',
+    tourSkip:'スキップ', tourNext:'つぎへ →', tourDone:'はじめよう！🐸',
   },
 };
 function t(key,...args){
@@ -3116,6 +3144,35 @@ function renderLanding(){
   </div>`;
 }
 
+// ══ COACH TOUR ══
+const TOUR_STEPS = ['Step1','Step2','Step3'];
+function skipTour(){ state.seenTour=true; save(); render(); }
+function nextTourStep(){
+  if(state.tourStep>=TOUR_STEPS.length-1){ state.seenTour=true; save(); render(); return; }
+  state.tourStep++;
+  render();
+}
+function renderTour(){
+  if(state.seenTour || state.screen!=='home') return '';
+  const i=state.tourStep;
+  const n=i+1; // 1-based step number for t() key lookup
+  const dots=TOUR_STEPS.map((_,j)=>`<div class="tour-dot${j===i?' active':''}"></div>`).join('');
+  const isLast=i===TOUR_STEPS.length-1;
+  const rawTitle=t('tourStep'+n+'Title');
+  const titleIcon=rawTitle.split(' ')[0];
+  const titleText=rawTitle.split(' ').slice(1).join(' ');
+  return `<div class="tour-overlay" onclick="skipTour()">
+    <div class="tour-card" onclick="event.stopPropagation()">
+      <div class="tour-icon">${titleIcon}</div>
+      <div class="tour-title">${titleText}</div>
+      <div class="tour-body">${t('tourStep'+n+'Body')}</div>
+      <div class="tour-dots">${dots}</div>
+      <button class="tour-next" onclick="nextTourStep()">${isLast?t('tourDone'):t('tourNext')}</button>
+      <button class="tour-skip" onclick="skipTour()">${t('tourSkip')}</button>
+    </div>
+  </div>`;
+}
+
 function renderSublevelCelebration(){
   const sl=state.pendingSublevel;
   if(!sl) return renderComingSoon();
@@ -3159,7 +3216,8 @@ function render(){
     <div class="content-area">${body}</div>
     ${renderBottomNav()}
   </div>
-  ${renderModal()}`;
+  ${renderModal()}
+  ${renderTour()}`;
   runHeaderAnims();
 }
 // Streak-flame idle loop + XP-earn pulse — header re-renders every state change (full
