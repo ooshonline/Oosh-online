@@ -13129,4 +13129,74 @@ const TALK_PROMPTS = {
   'l2.10s3':{en:"What would you bring someone who was not feeling well? Why that particular thing?", ja:"たいちょうが わるい ひとに なにかを もっていくなら なに？それを えらぶのは なぜ？"},
   'l2.10s4':{en:"What is one thing you do, or could do, to take care of the environment around you?", ja:"かんきょうを まもるために、じぶんが している こと、または できることは なに？"},
   'l2.10s5':{en:"Has someone ever left you a note or message that you still remember? What did it say?", ja:"だれかから もらった メモや メッセージで、いまでも おぼえているものは ある？なんと かいてあった？"},
+
+  // ── Level 3 · Sub-level 1 ──
+  'l3.1s1':{en:"Have you ever had to make a decision without all the information you needed? What did you decide, and how did it turn out?", ja:"ひつような じょうほうが たりないまま きめなければならなかったことは ある？どうきめて、どうなった？"},
+  'l3.1s2':{en:"Can you think of a time when failing at something taught you more than succeeding would have? What did you learn?", ja:"しっぱいしたことが、うまく いくより たくさんの ことを おしえてくれた けいけんは ある？なにを まなんだ？"},
+  'l3.1s3':{en:"Has someone ever shown you a place that was special to them? What did seeing it through their eyes teach you?", ja:"だれかが じぶんに とって とくべつな 場所を おしえてくれたことは ある？そのひとの めを とおして みて、なにに きづいた？"},
+  'l3.1s4':{en:"Have you ever had to argue for something you did not really believe? Did it change how you thought about it?", ja:"じぶんが しんじていない ことを ひとに にゅうしんさせようとしたことは ある？かんがえかたが かわった？"},
+  'l3.1s5':{en:"What do you do with yourself when there are no screens, no notifications, nothing from outside? What comes to fill the space?", ja:"スクリーンも つうちも そとからの おとも ないとき、じぶんは なにをする？なにが その すきまを うめる？"},
+
+  // ── Level 3 · Sub-level 2 ──
+  'l3.2s1':{en:"What would you like to leave behind for people who come after you — an object, a skill, or something else?", ja:"じぶんの あとに くる ひとたちに なにかを のこすとしたら、もの、うでまえ、それとも べつのもの？"},
+  'l3.2s2':{en:"Has someone you thought you were better than ever surprised you? What did it feel like, and what did you do afterwards?", ja:"じぶんの ほうが うえだと おもっていた ひとに おどろかされたことは ある？どんな きもちで、そのあと どうした？"},
+  'l3.2s3':{en:"Is there a place that has always been part of your life — a shop, a building, a space — that you cannot imagine disappearing?", ja:"じぶんの せいかつに ずっと あった 場所 — おみせ、たてもの、スペース — なくなるなんて かんがえられないものは ある？"},
+  'l3.2s4':{en:"Have you ever prepared thoroughly for something you did not expect to actually do? What happened when you were suddenly needed?", ja:"じっさいには しないと おもいながら、なにかの じゅんびを したことは ある？いざ ひつようと なったとき、どうなった？"},
+  'l3.2s5':{en:"Can you think of a time you lost track of time completely — absorbed in a place or something you were watching? What were you doing?", ja:"なにかに ぐっと むちゅうに なって、じかんを わすれてしまったことは ある？なにを していた？"},
+
+  // ── Level 3 · Sub-level 3 ──
+  'l3.3s1':{en:"Have you ever found something private that was not meant for you? What did you decide to do — and why?", ja:"じぶんに あてたものじゃない、しとくな なにかを みつけたことは ある？どうすることに した？それは なぜ？"},
+  'l3.3s2':{en:"Has someone who was only briefly part of your life left a lasting impression on you? What did they do or say?", ja:"みじかい あいだしか いなかった ひとが、ずっと のこる いんしょうを あたえてくれたことは ある？なにを いったり したりした？"},
+  'l3.3s3':{en:"What changes about a place when you visit it out of season — fewer people, different weather? What do you notice that you usually miss?", ja:"きせつはずれに ある 場所を おとずれると、ひとが すくなくて てんきも ちがう。ふだん きづかない、なにが みえる？"},
+  'l3.3s4':{en:"Have you ever taken on a duty that felt boring at first but turned out to be more interesting than you expected? What changed?", ja:"はじめは つまらないと おもっていた やくめが、おもったより おもしろかったことは ある？なにが かわった？"},
+  'l3.3s5':{en:"Has an unexpected change of plan ever led you somewhere better than the original destination? What happened?", ja:"よていが かわって、もともとの ものより よい けいけんに なったことは ある？どうなった？"},
+
+  // ── Level 3 · Sub-level 4 ──
+  'l3.4s1':{en:"Have you ever discovered something surprising hidden in a familiar place? How did finding it change the way you saw that place?", ja:"よく しっている 場所に かくれた、おどろくような ものを みつけたことは ある？みつけたことで、その 場所の みかたが かわった？"},
+  'l3.4s2':{en:"Have you ever done something you usually do in front of others, but alone — and it felt completely different? What was the difference?", ja:"ふだん みんなの まえで することを、ひとりで したことは ある？まったく べつの かんじがした？どこが ちがった？"},
+  'l3.4s3':{en:"Is there a skill or idea that an older person in your life has passed on to you? What were they really trying to teach you?", ja:"じんせいの せんぱいが おしえてくれた スキルや かんがえかたは ある？ほんとうは なにを つたえようとしていた？"},
+  'l3.4s4':{en:"Has a delay — rain, a late bus, waiting somewhere unexpected — ever led to a conversation you would never have had otherwise?", ja:"あめや バスの おくれ、よそうがいな まちぼうけなど、おくれが きっかけで、そうでなければ しなかった かいわに なったことは ある？"},
+  'l3.4s5':{en:"Is there an object in your home that makes you curious about the people who lived before you? What questions does it raise?", ja:"いえに ある もので、まえの じだいの ひとたちについて きょうみを もたせる ものは ある？どんな ぎもんが うかぶ？"},
+
+  // ── Level 3 · Sub-level 5 ──
+  'l3.5s1':{en:"Is there something you learned — in a lesson, a training, or just a single moment — that you know you will never forget? Why did it stick?", ja:"じゅぎょうや けんしゅう、ある しゅんかんに まなんだことで、ぜったい わすれないと わかっているものは ある？なぜ のこった？"},
+  'l3.5s2':{en:"What can an old photograph tell you about someone — and what can it never tell you, no matter how long you look?", ja:"ふるい しゃしんは ひとに ついてなにを おしえてくれる？そして、どれだけ みても わからないことは なに？"},
+  'l3.5s3':{en:"Have you ever been in a situation where you could not go back and the way forward was unclear? How did you decide what to do?", ja:"もどれなくて、すすむ みちも はっきり しない、そんな じょうきょうに なったことは ある？どうやって きめた？"},
+  'l3.5s4':{en:"What do the hours before something important — a match, a test, a performance — feel like for you? What do you do with that waiting time?", ja:"たいせつな しあい、テスト、はっぴょうの まえの じかん、きみには どんな かんじ？そのまちぼうけに なにをする？"},
+  'l3.5s5':{en:"When the electricity goes out, some things become harder and some become more interesting. Which do you notice most in your home?", ja:"でんきがなくなると、むずかしくなることと おもしろくなることが ある。きみの いえでは どちらを いちばん かんじる？"},
+
+  // ── Level 3 · Sub-level 6 ──
+  'l3.6s1':{en:"What does an object that has been passed through many generations tell you about the people who kept it all that time?", ja:"なんだいも つたわってきた ものは、それを まもってきた ひとたちに ついて なにを おしえてくれる？"},
+  'l3.6s2':{en:"Have you ever used physical activity as a way to manage a difficult feeling? What does movement give you that other things cannot?", ja:"むずかしい きもちを おさめるために、からだを うごかしたことは ある？うごくことが、ほかのことには できない なにかを あたえてくれる？"},
+  'l3.6s3':{en:"Have you ever taken responsibility for something or someone outside your usual circle? What did that responsibility teach you?", ja:"ふだんの つながりの そとで、なにかや だれかの せきにんを もったことは ある？なにを まなんだ？"},
+  'l3.6s4':{en:"When you make something with your hands — moulding, building, drawing — what does the making feel like compared to creating on a screen?", ja:"てで なにかを つくる とき — かたちを つくる、たてる、かく — スクリーンで つくることと くらべて、どんな かんじが する？"},
+  'l3.6s5':{en:"When you are given unexpected free time in the middle of a planned day, how do you usually spend it — and does it feel different from planned free time?", ja:"よていが あった 日の まんなかで、とつぜん じゆうな じかんが できたら どうすごす？けいかくした じゆうな じかんと ちがう かんじがする？"},
+
+  // ── Level 3 · Sub-level 7 ──
+  'l3.7s1':{en:"Have you ever truly grasped how big or how distant something is — and felt small in a good way? What made you realise it?", ja:"なにかが どれだけ おおきいか、どれだけ とおいかを ほんとうに りかいして、よい いみで ちいさく かんじたことは ある？なにが きっかけだった？"},
+  'l3.7s2':{en:"What do you notice about a place and the people in it when you are forced to wait, with nothing pressing to do?", ja:"なにも きゅぎょうな こともなく、ただ まっているとき、その 場所と まわりの ひとに ついて なにに きづく？"},
+  'l3.7s3':{en:"Is there something you own that is worth repairing rather than replacing? What makes it worth the effort of fixing?", ja:"あたらしいものに かえるより、なおす かちの ある もちものは ある？なぜ てまを かけて なおす かちが ある？"},
+  'l3.7s4':{en:"Have you ever worked to restore or improve something that had been neglected for a long time? How did you decide where to start?", ja:"ながいあいだ ほったらかしに なっていた ものを、とりもどしたり よくしたりしたことは ある？どこから はじめた？"},
+  'l3.7s5':{en:"If your ordinary days were recorded in a logbook for future people to read, what would you want them to notice about your daily life?", ja:"きみの ふだんの 日が みらいの ひとに よまれる きろくとして のこるとしたら、じぶんの くらしの どんなことを きづいてほしい？"},
+
+  // ── Level 3 · Sub-level 8 ──
+  'l3.8s1':{en:"Have you ever been in a situation where you had to present yourself to someone who did not know you at all? How did that feel?", ja:"まったく しらない ひとに、じぶん じしんを みせなければならない じょうきょうに あったことは ある？どんな きもちだった？"},
+  'l3.8s2':{en:"Is there a time of day when you see your home or the world around you differently — quieter, stranger, more your own?", ja:"ある じかん たいに、いえや まわりの せかいが ちがって みえることは ある？しずかで、ふしぎで、もっと じぶんのものみたいに？"},
+  'l3.8s3':{en:"Why do you think recording small, careful observations over time can tell you things that a single big dramatic moment cannot?", ja:"じかんを かけて ちいさな かんさつを きろくすることが、いちどの おおきな できごとでは わからないことを おしえてくれる — それは なぜだと おもう？"},
+  'l3.8s4':{en:"Have you ever discovered something about your local area or its history that genuinely surprised you? What did you find out?", ja:"じぶんの まちや その れきしについて、ほんとうに おどろいた ことを みつけたことは ある？なにを みつけた？"},
+  'l3.8s5':{en:"Is there something in your life that simply cannot be rushed — where taking shortcuts only makes it fail? What is it, and why does it need time?", ja:"いそいでは だめで、ゆっくり じかんを かけるしかない、きみの せいかつの なかで そんなことは ある？それは なぜ じかんが ひつよう？"},
+
+  // ── Level 3 · Sub-level 9 ──
+  'l3.9s1':{en:"When two people have a disagreement and both believe they are right, what matters more than deciding who is correct? What have you seen work?", ja:"ふたりとも じぶんが ただしいと おもって もめているとき、どちらが せいかいかを きめることより たいせつな ことは？うまくいく のを みたことは ある？"},
+  'l3.9s2':{en:"Why do you think quiet, careful work — counting, observing, recording over many seasons — can reveal things that dramatic discoveries cannot?", ja:"しずかで ちみつな しごと — なんきせつにも わたって かぞえ、かんさつし、きろくすること — が、おおがかりな はっけんには できない ことを あきらかにする、それは なぜだと おもう？"},
+  'l3.9s3':{en:"What do you think it means to take care of something that belongs to the past — a building, a tradition, a piece of art? Who is it really for?", ja:"むかしから のこった もの — たてもの、しきたり、げいじゅつさくひん — を まもることは、どういう いみだと おもう？それは ほんとうは だれの ため？"},
+  'l3.9s4':{en:"Is there a game, activity, or tradition in your life that looks small from the outside but means a great deal to you or someone you love?", ja:"そとから みると たいしたことのないように みえるけど、きみや たいせつな ひとに とって おおきな いみを もつ あそびや かつどう、しきたりは ある？"},
+  'l3.9s5':{en:"Is there a feeling or idea that you find easier to express in one language than another? What is it, and what gets lost when you switch?", ja:"あることばの ほうが べつの ことばより つたえやすい きもちや かんがえは ある？なに？ことばを かえると、なにが うしなわれる？"},
+
+  // ── Level 3 · Sub-level 10 ──
+  'l3.10s1':{en:"If someone looked carefully through the objects in your home, what would they be able to understand about who you are and what matters to you?", ja:"だれかが きみの いえの もちものを じっくり みたとしたら、きみが どんな ひとで なにが たいせつかが、どんなふうに つたわると おもう？"},
+  'l3.10s2':{en:"Why do you think we remember some moments with perfect clarity for years, while others — just as important — fade almost immediately?", ja:"なぜ、ある しゅんかんは なんねんも はっきり おぼえているのに、おなじくらい たいせつなはずの ことが すぐに きえてしまうのだろう？"},
+  'l3.10s3':{en:"Have you ever worked on something for so long that you almost forgot why you started? What keeps a person going when a project goes on and on?", ja:"なぜ はじめたかを わすれるほど ながく つづけた ことは ある？プロジェクトが なんねんも つづくとき、ひとを すすめるものは なに？"},
+  'l3.10s4':{en:"What do you do with the time between doing your best and finding out the result? What does that waiting period reveal about you?", ja:"ベストを つくして、けっかを しるまでの あいだ、きみは どうすごす？そのまちぼうけは、きみの どんな ところを みせてくれる？"},
+  'l3.10s5':{en:"Can you think of an ordinary day from your past that has stayed with you — not because something big happened, but just because of the feeling of it?", ja:"むかしの なんでもなかった 日で、おおきな できごとが あったわけじゃないのに ずっと おぼえている 日は ある？その 日が のこっているのは なぜだろう？"},
 };
