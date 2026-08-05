@@ -35,7 +35,7 @@
 - ✅ UI (2026-08-03, automated)
 - ✅ **Monetisation — M1 Eiken dual-labelling (2026-08-04)** ← new sixth pillar, inserted mid-cycle
 - ✅ UX (2026-08-04, automated)
-- ⬜ Content
+- ✅ Content (2026-08-05, automated)
 - ⬜ Gamification
 
 > **Pillar rotation changed 2026-08-04 — six pillars now, not five.**
@@ -49,6 +49,32 @@
 ---
 
 ## Session Log
+
+### 2026-08-05 — Content Pillar (~45 min, automated)
+
+**Pillar: Content** — Cycle 5.
+
+**Commit `dad0610` + `57b1a3f` — DEPLOYED LIVE (v=20260805).**
+
+- **content: after-reading talk prompts for all 50 Level 3 stories (C2)** — `TALK_PROMPTS` in
+  `ribbit-stories.js` extended with l3.1s1–l3.10s5 (50 entries, both en + ja).
+  - Each prompt is tied to its specific story's theme from the blurb/content (not a template):
+    e.g. "The Lost Map" → making a decision without all the information; "The Repair Café" →
+    whether something you own is worth repairing vs replacing; "Everything Ordinary" → an ordinary
+    day that stayed with you for no particular reason.
+  - B1 complexity: open reflection and reasoning from experience. Sub-levels 1–4 are
+    concrete/personal; 5–7 introduce light abstract thinking; 8–10 ask for broader perspective
+    and nuance — matching the richer themes in those sub-levels.
+  - No code change needed — `renderTalkPrompt()` already handles the lookup and gracefully
+    renders nothing for stories without a key. L4–L6 stories still render nothing (safe).
+  - Verified: 50 keys confirmed in browser JS, l3.1s1 renders correctly on celebration screen
+    (English bold + Japanese gloss + speaker button) in both desktop and 375px; l3.10s5 correct;
+    L4 story gracefully shows no card; zero console errors; LIVE confirmed (50 L3 keys + spot-
+    check of l3.10s5 text present in served file).
+
+**Cycle 5 next pillar: Gamification.**
+
+---
 
 ### 2026-08-04 — M1 Deploy + UX Pillar (~50 min, automated)
 
