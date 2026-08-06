@@ -641,7 +641,7 @@
       .study-card-wrap{height:280px}
       .complete-btns{flex-direction:row;max-width:340px}
       .progress-pane,.rewards-pane{padding:22px}
-      .prog-stats-grid{grid-template-columns:repeat(4,1fr)}
+      .prog-stats-grid{grid-template-columns:repeat(3,1fr)}
       .badge-grid{grid-template-columns:repeat(4,1fr)}
       .world-pane{padding:24px 28px}
       .dest-grid{grid-template-columns:repeat(3,1fr)}
@@ -891,6 +891,7 @@ const state = {
   progress: JSON.parse(localStorage.getItem('rbt_prog')||'{}'),
   xp: parseInt(localStorage.getItem('rbt_xp')||'0'),
   streak: parseInt(localStorage.getItem('rbt_streak')||'0'),
+  bestStreak: parseInt(localStorage.getItem('rbt_best_streak')||'0'),
   perfectCount: parseInt(localStorage.getItem('rbt_perfectcount')||'0'),
   journey: JSON.parse(localStorage.getItem('rbt_journey')||'{}'), // {destId:{stamped:true}} — set once a destination's stories are all complete
   dailyGoal: parseInt(localStorage.getItem('rbt_goal')||'3'),
@@ -944,6 +945,7 @@ function save(){
   localStorage.setItem('rbt_prog', JSON.stringify(state.progress));
   localStorage.setItem('rbt_xp', state.xp);
   localStorage.setItem('rbt_streak', state.streak);
+  localStorage.setItem('rbt_best_streak', state.bestStreak);
   localStorage.setItem('rbt_perfectcount', state.perfectCount);
   localStorage.setItem('rbt_journey', JSON.stringify(state.journey||{}));
   localStorage.setItem('rbt_goal', state.dailyGoal);
@@ -1261,6 +1263,7 @@ function updateStreak(){
   if(state.lastRead===today) return;
   state.streak = state.lastRead===yesterday ? state.streak+1 : 1;
   state.lastRead=today;
+  if(state.streak > (state.bestStreak||0)) state.bestStreak = state.streak;
   checkStreakMilestone(state.streak);
 }
 function finishStory(story){
@@ -1888,7 +1891,7 @@ const UI_STRINGS = {
     badgeWorldTraveler:'World Traveler', hintWorldTraveler:'Complete a World Journey destination',
     championName:(lv)=>`${lv.pond} Champion`, championHint:(lv)=>`Complete all ${lv.pond} stories`,
     earnedToEarn:(hint)=>`${hint} to earn this!`, earnedBadge:'Earned!',
-    dayStreakLabel:'Day Streak', totalXpLabel:'Total XP', storiesReadLabel:'Stories Read', wordsKnownLabel:'Words Known',
+    dayStreakLabel:'Day Streak', totalXpLabel:'Total XP', storiesReadLabel:'Stories Read', wordsKnownLabel:'Words Known', bestStreakLabel:'Best Streak', bestWeekLabel:'Best Week',
     thisWeek:"THIS WEEK'S ACTIVITY", levelProgress:'LEVEL PROGRESS', nextLevelUp:'NEXT LEVEL UP', current:'CURRENT',
     dayMon:'Mon',dayTue:'Tue',dayWed:'Wed',dayThu:'Thu',dayFri:'Fri',daySat:'Sat',daySun:'Sun',
     backToDestBtn:'Back to Destination',
@@ -2004,7 +2007,7 @@ const UI_STRINGS = {
     badgeWorldTraveler:'世界の旅人', hintWorldTraveler:'ワールドジャーニーの目的地をクリアしよう',
     championName:(lv)=>`${lv.pond}チャンピオン`, championHint:(lv)=>`${lv.pond}の話をぜんぶ読もう`,
     earnedToEarn:(hint)=>`${hint}`, earnedBadge:'獲得ずみ！',
-    dayStreakLabel:'連続日数', totalXpLabel:'合計XP', storiesReadLabel:'読んだ話', wordsKnownLabel:'覚えた単語',
+    dayStreakLabel:'連続日数', totalXpLabel:'合計XP', storiesReadLabel:'読んだ話', wordsKnownLabel:'覚えた単語', bestStreakLabel:'最長連続日数', bestWeekLabel:'週間最高',
     thisWeek:'今週のアクティビティ', levelProgress:'レベルの進み具合', nextLevelUp:'つぎのレベルへ', current:'げんざい',
     dayMon:'月',dayTue:'火',dayWed:'水',dayThu:'木',dayFri:'金',daySat:'土',daySun:'日',
     backToDestBtn:'目的地へもどる',
@@ -2763,11 +2766,22 @@ function renderFlashComplete(){
 // the freed bottom-nav slot went to Flashcards, which is a core loop and had no tab at all.
 function renderProgressSections(){
   const knownWords=Object.values(state.deckWordStatus).filter(s=>s==='known').length;
+  // Best week: group completions by Mon-anchored week, find the max
+  const weekCounts={};
+  Object.values(state.progress).forEach(p=>{
+    const d=new Date(p.at);
+    const mon=new Date(d.getTime()-((d.getDay()+6)%7)*86400000);
+    const key=mon.toDateString();
+    weekCounts[key]=(weekCounts[key]||0)+1;
+  });
+  const bestWeek=Object.values(weekCounts).length?Math.max(...Object.values(weekCounts)):0;
   const stats=[
     {icon:'status-streak-flame', tint:'#FFF0E4', value:state.streak||0, label:t('dayStreakLabel')},
     {icon:'xp-xp-star', tint:'#FCF4D6', value:(state.xp||0).toLocaleString(), label:t('totalXpLabel')},
     {icon:'📖', tint:'#E3F3FC', value:Object.keys(state.progress).length, label:t('storiesReadLabel')},
     {icon:'🔤', tint:'#DFF7F2', value:knownWords, label:t('wordsKnownLabel')},
+    {icon:'🏆', tint:'#F3F0FF', value:state.bestStreak||0, label:t('bestStreakLabel')},
+    {icon:'📅', tint:'#F0FFF4', value:bestWeek, label:t('bestWeekLabel')},
   ];
   const statsHtml=stats.map(s=>`
     <div class="prog-stat-card">
