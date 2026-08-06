@@ -155,9 +155,10 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   for the first time: level icon, "Sub-level N Complete!", pond name, +50 XP bonus pill, and
   "Sub-level N+1 is now unlocked!" (if applicable). `state.celebratedSublevels` persisted as
   `rbt_celeb_sl` prevents re-trigger. Both en+ja, zero console errors, verified at 375px. LIVE.
-- [ ] **G6 · Personal bests in Profile.** Track `state.bestStreak` in `updateStreak()`. Add best-streak
-  row to the stats grid in `renderProgressSections()`. Derive best-week-stories count by scanning
-  `state.progress` timestamps. Simple and real-data-only — no need to store extra week buckets.
+- [x] **G6 · Personal bests in Profile — SHIPPED (2026-08-06, commit `74a6722`).** `state.bestStreak`
+  persisted to `rbt_best_streak`; updated in `updateStreak()` on new highs. `bestWeekStories` derived
+  on render from Mon-anchored week buckets of `state.progress`. Two new stat cards (🏆 Best Streak,
+  📅 Best Week) added; desktop grid changed from 4→3 columns for a clean 2×3 layout. Both en + ja. LIVE.
 - [ ] **G7 · Weekly recap card.** On the first home visit of a new week, show a dismissible card
   summarising the previous 7 days from `state.progress` timestamps ("N stories · N words saved · N-day streak").
   `state.lastWeekRecap` (persisted) tracks when the card was last shown so it shows only once per week.

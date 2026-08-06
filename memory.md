@@ -30,13 +30,21 @@
 - ✅ Content (2026-07-29, automated)
 - ✅ Gamification (2026-07-30, automated)
 
-**Cycle 5 — IN PROGRESS**
+**Cycle 5 — COMPLETE**
 - ✅ Functionality (2026-08-02, automated)
 - ✅ UI (2026-08-03, automated)
 - ✅ **Monetisation — M1 Eiken dual-labelling (2026-08-04)** ← new sixth pillar, inserted mid-cycle
 - ✅ UX (2026-08-04, automated)
 - ✅ Content (2026-08-05, automated)
+- ✅ Gamification (2026-08-06, automated)
+
+**Cycle 6 — IN PROGRESS**
+- ⬜ Functionality
+- ⬜ UI
+- ⬜ UX
+- ⬜ Content
 - ⬜ Gamification
+- ⬜ Monetisation
 
 > **Pillar rotation changed 2026-08-04 — six pillars now, not five.**
 > `Functionality → UI → UX → Content → Gamification → Monetisation`, then repeat.
@@ -73,6 +81,31 @@
     check of l3.10s5 text present in served file).
 
 **Cycle 5 next pillar: Gamification.**
+
+---
+
+### 2026-08-06 — Gamification Pillar (~50 min, automated)
+
+**Pillar: Gamification** — Cycle 5 complete.
+
+**Commits `74a6722` + `0dc7ee6` — DEPLOYED LIVE (v=20260806).**
+
+- **feature: personal bests in Profile (G6)** — Two new stat cards added to the Profile screen's
+  stats grid: Best Streak (🏆) and Best Week (📅).
+  - `state.bestStreak` added to state and persisted to `rbt_best_streak`. Updated in `updateStreak()`
+    whenever the current streak exceeds the stored high; holds on streak resets (1 not > 12 = stays).
+  - `bestWeekStories` derived on every render from `state.progress` timestamps: groups completions by
+    Mon-anchored week (`.toDateString()` of the Monday of each completion's week), counts each bucket,
+    returns the max. No extra state needed — fully derived.
+  - Profile stats grid expanded from 4 to 6 cards. Desktop grid changed from `repeat(4,1fr)` →
+    `repeat(3,1fr)` giving a clean 2×3 layout; mobile stays `repeat(2,1fr)` = 3 rows of 2.
+  - 2 new `UI_STRINGS` keys in both en + ja: `bestStreakLabel` ("Best Streak" / "最長連続日数"),
+    `bestWeekLabel` ("Best Week" / "週間最高").
+  - Verified: 6 `.prog-stat-card` elements in DOM; en + ja labels correct; bestStreak updates on
+    new high (4→5: stored 5), holds on reset (→1: stays 5); bestWeek = 2 with 2 this-week entries
+    vs 1 last-week entry; zero console errors; desktop + 375px mobile clean; LIVE confirmed.
+
+**Cycle 5 complete. Cycle 6 starts next run (Functionality pillar — pick from F3/F4/F5 or new ideas).**
 
 ---
 
