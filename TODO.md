@@ -43,9 +43,10 @@ off here as they ship, and add the commit hash.
   story cards with level-coloured badge showing which level they're from. Query ≥2 chars activates
   results; clearing restores the level grid. Empty-state message when nothing matches. Both en + ja.
   LIVE (v=20260802).
-- [ ] **F3 · Continuous read-aloud.** `toggleAudio()` speaks the current page and stops. Add
-  auto-advance: on utterance end, turn the page and keep reading until the story ends or the child
-  stops. Persist the preference; cancel speech on exit/navigate so it can't keep talking off-screen.
+- [x] **F3 · Continuous read-aloud — SHIPPED (2026-08-06, commit `4064b27`).** "Auto" pill toggle in
+  reader audio strip. `speakPage()` helper auto-advances pages on utterance end when `state.autoPlay`
+  is on; stops cleanly on last page. `prevPage()` now cancels TTS. `rbt_autoplay` persisted.
+  En "Auto" / ja "自動". LIVE (v=20260807).
 - [ ] **F4 · Word highlighting synced to the voice.** Use `SpeechSynthesisUtterance.onboundary`
   (`charIndex` → word span) to highlight each word as it is spoken — the single biggest decoding
   support for a beginning reader. Feature-detect and no-op silently where unsupported (iOS Safari).

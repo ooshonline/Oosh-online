@@ -39,7 +39,7 @@
 - ✅ Gamification (2026-08-06, automated)
 
 **Cycle 6 — IN PROGRESS**
-- ⬜ Functionality
+- ✅ Functionality (2026-08-06, automated)
 - ⬜ UI
 - ⬜ UX
 - ⬜ Content
@@ -81,6 +81,36 @@
     check of l3.10s5 text present in served file).
 
 **Cycle 5 next pillar: Gamification.**
+
+---
+
+### 2026-08-06 — Functionality Pillar (~55 min, automated) — Cycle 6
+
+**Pillar: Functionality** — Cycle 6 starts.
+
+**Commits `4064b27` + `61165b3` — DEPLOYED LIVE (v=20260807).**
+
+- **feature: continuous read-aloud with auto-advance (F3)** — "Auto" pill button
+  in the reader's audio strip starts a hands-free listening mode where TTS reads
+  each page and automatically advances to the next with the slide animation on end.
+  - `speakPage()` new helper: builds the utterance, sets lang/rate/voice, and on
+    `onend` checks `state.autoPlay && state.screen==='reader'` — if there is a next
+    page it advances (`state.currentPage++`, saves, renders with pageDir animation,
+    calls `playPageTurn()`) then calls `speakPage()` again for the new page. On the
+    last page it sets `audioPlaying=false` and renders, stopping cleanly.
+  - `toggleAudio()` now delegates to `speakPage()` rather than building its own
+    utterance, so the on-end auto-advance path shares the same voice/rate settings.
+  - `toggleAutoPlay()` flips `state.autoPlay` and persists to `rbt_autoplay`.
+  - `prevPage()` updated to cancel TTS + set `audioPlaying=false` (it previously
+    didn't cancel), preventing a ghost utterance from auto-advancing forward.
+  - "Auto" button in the audio pill: semi-transparent inactive, white-bg/green-text
+    active. Both en (`Auto`) + ja (`自動`) wired. 2 new UI_STRINGS keys.
+  - Verified: toggle renders correct active/inactive CSS (white bg #fff + green text
+    rgb(114,201,58)); advance logic correct on mid-story page; stop logic correct on
+    last page; prevPage cancels audio; Japanese label correct; zero console errors;
+    375px + desktop clean; LIVE confirmed.
+
+**Cycle 6 next pillar: UI.**
 
 ---
 
