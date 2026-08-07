@@ -505,7 +505,8 @@ STORIES[1][3].push({
      feedback:"The story says 'I write in my book.'"},
     {question:"What is the teacher like?",options:["Loud","Strict","Nice","Tired"],correct:2,
      feedback:"The story says 'My teacher is nice.'"}
-  ]
+  ],
+  images:['images/b4/b4_at_school_1.webp','images/b4/b4_at_school_1.webp','images/b4/b4_at_school_2.webp','images/b4/b4_at_school_2.webp','images/b4/b4_at_school_3.webp','images/b4/b4_at_school_3.webp','images/b4/b4_at_school_4.webp','images/b4/b4_at_school_4.webp']
 });
 
 // B1·4 — Story 3
@@ -538,7 +539,8 @@ STORIES[1][3].push({
      feedback:"The story says 'I eat rice and vegetables.'"},
     {question:"How does the child feel at the end?",options:["Tired","Sad","Hungry","Not hungry"],correct:3,
      feedback:"The story says 'I am not hungry now.'"}
-  ]
+  ],
+  images:['images/b4/b4_lunch_time_1.webp','images/b4/b4_lunch_time_1.webp','images/b4/b4_lunch_time_2.webp','images/b4/b4_lunch_time_2.webp','images/b4/b4_lunch_time_3.webp','images/b4/b4_lunch_time_3.webp','images/b4/b4_lunch_time_4.webp','images/b4/b4_lunch_time_4.webp']
 });
 
 // B1·4 — Story 4
@@ -571,7 +573,8 @@ STORIES[1][3].push({
      feedback:"The story says 'My snack is an apple.'"},
     {question:"What does the child do after homework?",options:["Goes to sleep","Watches TV","Eats dinner","Plays outside"],correct:3,
      feedback:"The story says 'Then I play outside.'"}
-  ]
+  ],
+  images:['images/b4/b4_after_school_1.webp','images/b4/b4_after_school_1.webp','images/b4/b4_after_school_2.webp','images/b4/b4_after_school_2.webp','images/b4/b4_after_school_3.webp','images/b4/b4_after_school_3.webp','images/b4/b4_after_school_4.webp','images/b4/b4_after_school_4.webp']
 });
 
 // B1·4 — Story 5
@@ -605,7 +608,8 @@ STORIES[1][3].push({
      feedback:"The story says 'Mum reads me a story.'"},
     {question:"What does the child put on before bed?",options:["A coat","A hat","Pyjamas","Shoes"],correct:2,
      feedback:"The story says 'I put on my pyjamas.'"}
-  ]
+  ],
+  images:['images/b4/b4_bedtime_1.webp','images/b4/b4_bedtime_1.webp','images/b4/b4_bedtime_2.webp','images/b4/b4_bedtime_2.webp','images/b4/b4_bedtime_3.webp','images/b4/b4_bedtime_3.webp','images/b4/b4_bedtime_4.webp','images/b4/b4_bedtime_4.webp','images/b4/b4_bedtime_4.webp']
 });
 
 // ── Sub-level 5 · 10–14 sentences · 2 short paragraphs ──
