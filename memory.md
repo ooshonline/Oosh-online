@@ -40,7 +40,7 @@
 
 **Cycle 6 — IN PROGRESS**
 - ✅ Functionality (2026-08-06, automated)
-- ⬜ UI
+- ✅ UI (2026-08-07, automated)
 - ⬜ UX
 - ⬜ Content
 - ⬜ Gamification
@@ -57,6 +57,82 @@
 ---
 
 ## Session Log
+
+### 2026-08-07 — UI Pillar (~30 min, automated) — Cycle 6
+
+**Pillar: UI** — Cycle 6.
+
+**Commits `01fff96` + `8b39e79` — DEPLOYED LIVE (v=20260807d).**
+
+- **style: SVG progress rings on level and destination cards (U3)** — `progressRing(done,total,sz,stroke,track)` SVG donut helper using `stroke-dasharray` (filled arc rotating from 12 o'clock).
+  - **Level cards**: 28px white ring appears in the cover top-right corner. Replaces the old horizontal progress bar, "Sub-level X of 10" text, and 10-dot row — 3 DOM elements down to 1 per card.
+  - **Destination cards** (World screen): 22px white ring + `X/Y` fraction text replaces the plain text-only `dest-card-stories` div.
+  - 3 new CSS classes: `.lvl-ring-badge` (abs top-right in cover), `.dest-ring-row` (flex with gap), `.dest-ring-frac` (matching old text style).
+  - Ring maths: `r=(sz-5)/2`, `stroke-dasharray=fill gap` where `fill=circ*(done/total)`. Shows correctly at 0/10 (empty track) through 10/10 (full circle).
+  - Verified: 6 `.lvl-ring-badge` elements in DOM; 0 `.lvl-progress-bar`; 0 `.lvl-dots`; Level 1 half-ring correct at 5/10; destination rings render at 0/4; zero console errors; 375px + desktop clean; LIVE (5 identifiers in served file).
+
+**Cycle 6 next pillar: UX.**
+
+---
+
+### 2026-08-07 — Story illustration pipeline built (manual, with Kyle)
+
+**Not a pillar session.** Goal: automate illustration generation for the ~1,200 missing
+story images. New folder `image-pipeline/` in the repo — see its `README.md`.
+
+**Decision: free AI Studio playground route, not the paid API.** Checked Google's
+current pricing first: *no image model has a free API tier any more* (`gemini-3.1-flash-lite-image`,
+`gemini-3.1-flash-image` and `gemini-2.5-flash-image` all read "Not available" under
+Free Tier). The only free access is the AI Studio web playground. Paid batch would be
+~$30 for the lot; Kyle chose the free route since it's low priority and can run over
+weeks. Pipeline is built so the paid API could be swapped in later without rework.
+
+**Source material:** `Projects/Penguin English Studio/Images to Use.xlsx` — Kyle had
+already written 315 story prompts covering 1,404 steps (Oxford Reading Tree house style).
+
+**The pipeline (5 scripts):**
+- `extract-prompts.py` — xlsx → `prompts.json`
+- `build-manifest.js` — joins prompts to `ribbit-stories.js` → `manifest.json` (source of truth)
+- `emit-batch.js` — emits ready-to-paste prompt files + checklist per sub-level; also the progress report (`--list` / `--todo`)
+- `ingest.js` — drop folder → WebP q78 into `images/<folder>/`
+- `patch-stories.js` — writes `images[]` into `ribbit-stories.js`; verifies the file still parses before writing, backs up first, skips already-illustrated stories unless `--force`
+
+**Key design point — images are page-aligned, not scene-aligned.** The reader does
+`story.images[currentPage]`, so `images[]` must equal `paragraphs.length`; a single
+illustration spanning several pages repeats its filename. Two story shapes exist and the
+manifest picks the unit per story: *fine* (180 stories — paragraphs finer than the sheet's
+steps, e.g. Bedtime = 4 images over 9 pages) and *coarse* (135 stories — paragraphs
+coarser, so per-step would waste images, e.g. My Pet Fish = 2 not 5). Net: **1,236 images,
+not 1,404.** All 315 stories join cleanly; every filename unique; zero alignment errors.
+
+**Quality finding — the spreadsheet's character guides are auto-generated and mostly wrong.**
+They derive "Main character" from the title (`Main character: Bedtime`, `Main character:
+Camping trip`) and settings often contradict the story (Lunch Time tagged "home or a
+neighbourhood street"; it's a school lunch hall). Since consistency is what makes a set
+work, added `character-guides.json` for hand-written overrides. **Beginner 4 done as the
+worked example:** it's one continuous day, so all 5 stories share one recurring child
+(Mika, 6, Japanese — matching the target market) described identically across all 20 images.
+Write a real guide per sub-level before generating it.
+
+**Pilot ready:** `batches/b4/` — 5 prompts + checklist, 20 images.
+
+**Doc corrections made to `Research/ribbit-context.md`** (it was wrong, and misleadingly so):
+- `STORIES[levelId][n]` is **0-indexed for all six levels**. The old note claiming L6 is
+  1-indexed was silently dropping all 10 Advanced stories from the join until caught.
+- The story object's `subLevel` *property* is a separate, inconsistent value — 0-indexed
+  on L1–3, 1-indexed on **L4, L5 and L6**. Not safe as a key.
+- Consequence: the `levelId===6 ? subLevel-1 : subLevel` conditional in the legacy
+  `ribbit-reading-app.html` is **wrong for L4/L5**. Not a live bug — `index.html` redirects
+  to v3 and v3 never reads `.subLevel` — but don't reuse that pattern.
+
+**Not covered by the spreadsheet:** Advanced sub-levels 3–10 (40 stories), all 52 World
+Journey stories, and "The Chess Club" (E6, sheet text has drifted from the app).
+
+**Caveat:** the WebP compression step couldn't be executed in-session — the installed
+`sharp` is a darwin-arm64 binary and the sandbox is linux-arm64. `ingest.js` falls back to
+the copy in `image-compression-workspace/node_modules`, which will load on Kyle's Mac.
+Run `node ingest.js --dry` first time out. Everything else verified end-to-end against a
+scratch copy of `ribbit-stories.js`; the live file was left untouched.
 
 ### 2026-08-05 — Content Pillar (~45 min, automated)
 

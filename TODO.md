@@ -64,9 +64,7 @@ off here as they ship, and add the commit hash.
 - [ ] **U2 · Reader comfort controls.** On top of the automatic `readerTypeScale()`, give the child a
   font-size stepper (3 steps), an "easy read" mode (looser line-height + letter-spacing), and an
   optional line-focus tint. Persist per learner.
-- [ ] **U3 · Progress rings on cards.** Level, sub-level and destination cards show progress as text
-  ("X/10 done"). Replace with a real SVG ring in the level's own colour — same data, readable at a
-  glance by a child who can't yet decode the label.
+- [x] **U3 · Progress rings on cards — SHIPPED (2026-08-07, commits `01fff96`+`8b39e79`).** `progressRing(done,total,sz,stroke,track)` SVG donut helper. Level cards: 28px white ring in cover top-right; removes the old bar, sub-level text, and 10-dot row. Destination cards: 22px ring + X/Y fraction replaces plain text. 3 new CSS classes. LIVE (v=20260807d).
 - [x] **U4 · Mascot empty states — SHIPPED (2026-08-03, commit `f32b623`).** Flashcards (no words
   saved), Profile recent-badges (0 earned), and World (0 stamps) now show the brand mascot + bilingual
   copy + "Start reading →" CTA. `mascot(px)` helper added. 5 new UI_STRINGS keys en+ja. LIVE (v=20260803).
