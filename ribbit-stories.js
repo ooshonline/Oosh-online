@@ -139,7 +139,7 @@ STORIES[1][0].push({
     {question:"What do I do in my bed?",options:["Eat","Play","Run","Sleep"],correct:3,
      feedback:"The story says 'I sleep in my bed.'"}
   ],
-  images:['images/b1/b1_my_bed_1.webp','images/b1/b1_my_bed_2.webp','images/b1/b1_my_bed_3.webp']
+  images:['images/b1/b1_a_bed_1.webp','images/b1/b1_a_bed_2.webp','images/b1/b1_a_bed_3.webp']
 });
 
 // ── Sub-level 2 · 4–6 sentences · Basic adjectives · Colours ──
@@ -204,7 +204,7 @@ STORIES[1][1].push({
 STORIES[1][1].push({
   id:"l1.2s3", levelId:1, subLevel:1,
   title:"A Big Tree", emoji:"🌳", genre:"Nature",
-  images:['images/b2/b2_the_big_tree_1.webp','images/b2/b2_the_big_tree_2.webp'],
+  images:['images/b2/b2_a_big_tree_1.webp','images/b2/b2_a_big_tree_2.webp'],
   wordCount:22, readMins:1,
   blurb:"Look at the big green tree!",
   paragraphs:[
