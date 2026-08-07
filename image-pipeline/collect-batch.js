@@ -91,8 +91,10 @@ async function collect(record, file) {
   const job = await api(`${API}/v1beta/${record.jobName}`);
   const state = stateOf(job);
 
-  if (state !== 'JOB_STATE_SUCCEEDED') {
-    const failed = state === 'JOB_STATE_FAILED' || state === 'JOB_STATE_CANCELLED' || state === 'JOB_STATE_EXPIRED';
+  // The docs say JOB_STATE_*, the API actually returns BATCH_STATE_*. Match on
+  // the suffix so either spelling works and a rename doesn't silently stall us.
+  if (!/SUCCEEDED$/.test(state)) {
+    const failed = /(FAILED|CANCELLED|EXPIRED)$/.test(state);
     console.log(`${failed ? '✗' : '·'}  ${record.label.padEnd(8)} ${state}`);
     if (failed && job.error) console.log(`     ${JSON.stringify(job.error).slice(0, 300)}`);
     return { settled: failed, wrote: 0 };
