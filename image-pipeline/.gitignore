@@ -1,0 +1,15 @@
+# Raw downloads waiting to be ingested — the compressed output in images/ is
+# what gets committed, not these.
+drop/
+
+# Safety copies written by patch-stories.js
+backups/
+
+# Generated artefacts — rebuildable from the spreadsheet with:
+#   python3 extract-prompts.py && node build-manifest.js
+prompts.json
+manifest.json
+unmatched.json
+batches/
+
+node_modules/

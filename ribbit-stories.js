@@ -471,7 +471,8 @@ STORIES[1][3].push({
      feedback:"The story says 'I eat bread for breakfast.'"},
     {question:"Where does the child go at the end?",options:["To the park","To bed","To school","To the shops"],correct:2,
      feedback:"The story says 'I go to school.'"}
-  ]
+  ],
+  images:['images/b4/b4_my_morning_1.webp','images/b4/b4_my_morning_1.webp','images/b4/b4_my_morning_2.webp','images/b4/b4_my_morning_2.webp','images/b4/b4_my_morning_3.webp','images/b4/b4_my_morning_3.webp','images/b4/b4_my_morning_4.webp','images/b4/b4_my_morning_4.webp']
 });
 
 // B1·4 — Story 2
