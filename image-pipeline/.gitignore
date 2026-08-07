@@ -13,3 +13,6 @@ unmatched.json
 batches/
 
 node_modules/
+
+# API key for submit-batch.js / collect-batch.js — never commit
+.env
