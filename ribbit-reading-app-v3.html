@@ -173,6 +173,8 @@
 
     .toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(6px);background:#151515;color:#e4edd8;border-radius:99px;padding:10px 20px;font-family:var(--font-head);font-size:.85rem;font-weight:700;z-index:600;pointer-events:none;white-space:nowrap;animation:toastIn .28s cubic-bezier(.34,1.56,.64,1) forwards}
     .toast.toast-out{animation:toastOut .22s ease forwards}
+    .toast.toast-with-undo{pointer-events:auto;display:flex;align-items:center;gap:10px;padding:10px 10px 10px 20px}
+    .toast-undo-btn{background:rgba(255,255,255,.18);color:#e4edd8;border:none;border-radius:99px;padding:5px 14px;font-family:var(--font-head);font-size:.85rem;font-weight:700;cursor:pointer;line-height:1.2}
     @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(14px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
     @keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(8px)}}
 
@@ -1399,7 +1401,21 @@ function addWordToDeck(word){
   save();
   render();
 }
-function removeWordFromDeck(word){ delete state.flashCards[word]; save(); render(); }
+let _deletedWord=null, _deleteTimer=null;
+function removeWordFromDeck(word){
+  clearTimeout(_deleteTimer); _deletedWord=null;
+  _deletedWord={word, data:Object.assign({},state.flashCards[word])};
+  delete state.flashCards[word]; save(); render();
+  _showUndoToast(t('wordRemoved'), t('undoBtn'));
+  _deleteTimer=setTimeout(()=>{ _deletedWord=null; },5000);
+}
+function undoWordDelete(){
+  if(!_deletedWord) return;
+  clearTimeout(_deleteTimer);
+  state.flashCards[_deletedWord.word]=_deletedWord.data;
+  _deletedWord=null; save(); render();
+  showToast(t('wordRestored'));
+}
 function levelDoneCount(lv){ let c=0; for(let sl=0;sl<10;sl++) if(subLevelDone(lv,sl)) c++; return c; }
 function backFromCelebration(){
   if(state.pendingSublevel){ state.screen='sublevelCelebration'; render(); spawnConfetti(); }
@@ -1471,6 +1487,14 @@ function showToast(msg){
   el.className='toast'; el.textContent=msg;
   document.body.appendChild(el);
   setTimeout(()=>{ el.classList.add('toast-out'); setTimeout(()=>el.remove(),220); },2000);
+}
+function _showUndoToast(msg, undoLabel){
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
+  const el=document.createElement('div');
+  el.className='toast toast-with-undo';
+  el.innerHTML=`<span>${msg}</span><button class="toast-undo-btn" onclick="undoWordDelete()">${undoLabel}</button>`;
+  document.body.appendChild(el);
+  setTimeout(()=>{ el.classList.add('toast-out'); setTimeout(()=>el.remove(),220); },5000);
 }
 
 // ── PROGRESS BACKUP / RESTORE ──
@@ -1983,6 +2007,7 @@ const UI_STRINGS = {
     tourStep3Body:'Finish your quests every day to earn XP and unlock rewards!',
     tourSkip:'Skip', tourNext:'Next →', tourDone:"Let's go! 🐸",
     autoPlayLabel:'Auto', autoPlayTitle:'Auto-advance pages',
+    wordRemoved:'Word removed', undoBtn:'Undo', wordRestored:'↩ Word restored!',
   },
   ja: {
     greeting:(h)=> h<12?'おはよう！':h<18?'こんにちは！':'こんばんは！',
@@ -2100,6 +2125,7 @@ const UI_STRINGS = {
     tourStep3Body:'毎日クエストを達成してXPをゲット！ごほうびをアンロックしよう！',
     tourSkip:'スキップ', tourNext:'つぎへ →', tourDone:'はじめよう！🐸',
     autoPlayLabel:'自動', autoPlayTitle:'ページを自動で送る',
+    wordRemoved:'単語を削除しました', undoBtn:'元に戻す', wordRestored:'↩ 単語を元に戻しました！',
   },
 };
 function t(key,...args){
