@@ -81,9 +81,7 @@ off here as they ship, and add the commit hash.
   to advance; Space/Enter to flip flashcard, ←/→ to mark known/practiceMore when flipped; Esc closes
   word popup first then story modal. Input-focus guard prevents stealing keystrokes from text fields.
   All 8 test cases verified; golden path clean; zero console errors; LIVE (v=20260729).
-- [ ] **X3 · Undo instead of instant loss.** `removeWordFromDeck()` deletes a saved word immediately
-  with no confirmation and no way back. Add a 5-second undo toast (better than a modal for kids) and
-  reuse it for any future delete.
+- [x] **X3 · Undo instead of instant loss — SHIPPED (2026-08-10, commits `35a635c`+`380c745`).** `removeWordFromDeck()` buffers the deletion for 5s in `_deletedWord`. `_showUndoToast()` shows a pill toast with tappable Undo button; `undoWordDelete()` restores the word. 3 new UI_STRINGS keys en+ja. LIVE (v=20260810).
 - [ ] **X4 · "Words you tapped" recap.** Track which words a child opened during a story and list them
   on the celebration screen with one-tap "Save all to my deck" — turns passive tapping into vocabulary.
 - [ ] **X5 · Peek at the story during the quiz.** The quiz keeps the illustration but not the text, so

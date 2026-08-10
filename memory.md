@@ -41,7 +41,7 @@
 **Cycle 6 — IN PROGRESS**
 - ✅ Functionality (2026-08-06, automated)
 - ✅ UI (2026-08-07, automated)
-- ⬜ UX
+- ✅ UX (2026-08-10, automated)
 - ⬜ Content
 - ⬜ Gamification
 - ⬜ Monetisation
@@ -57,6 +57,30 @@
 ---
 
 ## Session Log
+
+### 2026-08-10 — UX Pillar (~50 min, automated) — Cycle 6
+
+**Pillar: UX** — Cycle 6.
+
+**Commits `35a635c` + `380c745` — DEPLOYED LIVE (v=20260810).**
+
+- **ux: 5-second undo toast on flashcard word deletion (X3)** — `removeWordFromDeck(word)`
+  now buffers the deleted word (and its full data: def, pos, translation, translationDef) in
+  a module-level `_deletedWord` variable for 5 seconds before the deletion is permanent.
+  - `_showUndoToast(msg, undoLabel)` creates a pill toast with text + a tappable "Undo" /
+    "元に戻す" button (`pointer-events:auto` on `.toast-with-undo`, styled `.toast-undo-btn`).
+    Toast persists 5 seconds (matching the undo window), then fades out.
+  - `undoWordDelete()` checks the buffer, cancels the finalize timer, restores the word data
+    to `state.flashCards`, saves, re-renders, and shows a brief confirmation toast.
+  - Multiple rapid deletes cancel each other's buffer correctly (clearTimeout on each call).
+  - 3 new `UI_STRINGS` keys in both en + ja: `wordRemoved`, `undoBtn`, `wordRestored`.
+  - Verified: word gone after delete; toast present with correct text in en + ja; undo restores
+    word correctly in one sync pass; confirmation toast appears; zero console errors; 375px +
+    desktop clean; 8 new identifiers confirmed LIVE.
+
+**Cycle 6 next pillar: Content.**
+
+---
 
 ### 2026-08-07 — UI Pillar (~30 min, automated) — Cycle 6
 
