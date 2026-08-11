@@ -42,7 +42,7 @@
 - ✅ Functionality (2026-08-06, automated)
 - ✅ UI (2026-08-07, automated)
 - ✅ UX (2026-08-10, automated)
-- ⬜ Content
+- ✅ Content (2026-08-11, automated)
 - ⬜ Gamification
 - ⬜ Monetisation
 
@@ -57,6 +57,31 @@
 ---
 
 ## Session Log
+
+### 2026-08-11 — Content Pillar (~40 min, automated) — Cycle 6
+
+**Pillar: Content** — Cycle 6.
+
+**Commits `90200c2` + `fbb0fbd` — DEPLOYED LIVE (v=20260811).**
+
+- **content: after-reading talk prompts for all 50 Level 4 stories (C2)** — `TALK_PROMPTS` in
+  `ribbit-stories.js` extended with l4.1s1–l4.10s5 (50 entries, both en + ja).
+  - Each prompt is tied to its specific story's theme from the blurb (e.g. "The Science Project"
+    → working through disagreement; "The Translator" → what can't be translated; "The Weather
+    Observer" → what sustained amateur attention can notice that professionals miss).
+  - B1 complexity: sub-levels 1–4 are concrete/personal; 5–7 introduce light reflection and
+    abstract thinking; 8–10 ask for broader perspective and nuance — matching the richer themes
+    at those sub-levels.
+  - No code change needed — `renderTalkPrompt()` already handles lookup and gracefully renders
+    nothing for stories without a key. L5–L6 stories still show nothing (safe).
+  - Verified: 50 L4 keys confirmed in browser JS (total TALK_PROMPTS = 255); l4.1s1 renders
+    correctly on celebration screen (English bold + Japanese gloss + speaker button) in both
+    desktop and 375px; l4.10s5 correct; L5 story gracefully shows no card; zero console
+    errors; LIVE confirmed (l4.1s1 and l4.10s5 both present in served file).
+
+**Cycle 6 next pillar: Gamification.**
+
+---
 
 ### 2026-08-10 — UX Pillar (~50 min, automated) — Cycle 6
 
