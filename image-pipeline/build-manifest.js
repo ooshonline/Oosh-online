@@ -118,6 +118,18 @@ function subIndex(levelId, subNum) {
   return subNum - 1;
 }
 
+/**
+ * b2/b3 (Beginner 2/3) originally illustrated at the spreadsheet's coarser step
+ * granularity — 2 images for 4-paragraph stories, 3 for 6-paragraph stories.
+ * images[] ended up shorter than paragraphs[], so illustrations vanished partway
+ * through the story. Force these onto one image per paragraph instead of letting
+ * mapStepsToParagraphs bind them to the shorter step-based "fine" set.
+ */
+const FORCE_PER_PAGE = new Set([
+  'l1.2s1', 'l1.2s2', 'l1.2s3', 'l1.2s4', 'l1.2s5',
+  'l1.3s1', 'l1.3s2', 'l1.3s3', 'l1.3s4', 'l1.3s5',
+]);
+
 function loadStories() {
   const src = fs.readFileSync(STORIES_JS, 'utf8');
   const fn = new Function(
@@ -192,7 +204,7 @@ function main() {
     claimed.add(story.id);
 
     const paras = story.paragraphs;
-    const mapping = mapStepsToParagraphs(row.steps, paras);
+    const mapping = FORCE_PER_PAGE.has(story.id) ? null : mapStepsToParagraphs(row.steps, paras);
 
     // Decide the scene unit.
     let scenes, pageMap;
