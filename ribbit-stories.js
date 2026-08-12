@@ -1463,7 +1463,8 @@ STORIES[1][7].push({
      feedback:"The story says 'Mum helped me look.'"},
     {question:"Where was the missing glove?",options:["Under the sofa","In the school bag","In the coat pocket","On the floor"],correct:2,
      feedback:"The story says 'She checked the coat pocket. There it was!'"}
-  ]
+  ],
+  images:['images/b8/b8_the_lost_glove_1.webp','images/b8/b8_the_lost_glove_2.webp','images/b8/b8_the_lost_glove_3.webp']
 });
 
 // B1·8 — Story 1
@@ -1729,7 +1730,8 @@ STORIES[1][7].push({
      feedback:"The story says 'I ran to get my sketchbook and pencils.'"},
     {question:"What happened to the rainbow while the child drew it?",options:["It got bigger","It moved","It started to fade","It turned white"],correct:2,
      feedback:"The story says 'the rainbow had started to fade.'"}
-  ]
+  ],
+  images:['images/b8/b8_i_saw_a_rainbow_1.webp','images/b8/b8_i_saw_a_rainbow_2.webp','images/b8/b8_i_saw_a_rainbow_3.webp','images/b8/b8_i_saw_a_rainbow_4.webp']
 });
 
 // B9·1 — The Market in the Rain
