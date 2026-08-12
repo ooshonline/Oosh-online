@@ -1,0 +1,7 @@
+{
+ "_readme": "Hand-written overrides for individual scene descriptions, keyed '<storyId>_<n>'. Used when the manifest's sentence-as-scene-prompt invites a bad interpretation (the model drawing a caption, book title, or multi-panel storyboard to represent an abstract action like 'shouted' or 'searched everywhere'). Only add entries here for scenes that were rejected on first generation.",
+ "l1.8s9_1": "The child sits on a window seat reading a book, rain streaming down the window behind them, sky dark grey outside. The book is closed or held so its cover is not readable — a plain, blank-covered book, no title or lettering on it.",
+ "l1.8s9_2": "The child stands at the window pointing excitedly at a huge rainbow outside, mouth open in delight, one single joyful expression — no speech bubble, caption, or any text anywhere in the frame. Mum is just arriving in the doorway behind them, smiling.",
+ "l1.8s1_1": "The child stands by the front door in their coat and boots, holding up a single glove and looking around with a puzzled expression, the other hand empty. No basket, box, or labelled container anywhere in the scene.",
+ "l1.8s1_2": "The child kneels on the floor peering under a bed, one single moment of searching in one single location — not a montage or multiple search spots in the same frame. Toys are visible under the bed but no glove."
+}

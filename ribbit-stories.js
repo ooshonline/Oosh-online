@@ -641,7 +641,8 @@ STORIES[1][4].push({
      feedback:"The story says 'Every morning, I give Fin his food.'"},
     {question:"What does Fin do when he gets food?",options:["He hides","He sleeps","He swims up","He jumps out"],correct:2,
      feedback:"The story says 'He swims up to eat it.'"}
-  ]
+  ],
+  images:['images/b5/b5_my_pet_fish_1.webp','images/b5/b5_my_pet_fish_2.webp']
 });
 
 // B1·5 — Story 2
@@ -670,7 +671,8 @@ STORIES[1][4].push({
      feedback:"The story says 'I play on the swings' before going on the slide."},
     {question:"How do they feel going home?",options:["Tired and sad","Hungry","Happy","Bored"],correct:2,
      feedback:"The story says 'We go home happy.'"}
-  ]
+  ],
+  images:['images/b5/b5_the_park_1.webp','images/b5/b5_the_park_2.webp']
 });
 
 // B1·5 — Story 3
@@ -699,7 +701,8 @@ STORIES[1][4].push({
      feedback:"The story says 'Dad wins!'"},
     {question:"What do they drink?",options:["Tea","Milk","Water","Hot chocolate"],correct:3,
      feedback:"The story says 'we drink hot chocolate.'"}
-  ]
+  ],
+  images:['images/b5/b5_a_rainy_day_1.webp','images/b5/b5_a_rainy_day_2.webp']
 });
 
 // B1·5 — Story 4
@@ -728,7 +731,8 @@ STORIES[1][4].push({
      feedback:"The story says 'We like football.'"},
     {question:"What does the narrator do in the game?",options:["Runs fast","Scores goals","Plays goalkeeper","Watches"],correct:2,
      feedback:"The story says 'I am a good goalkeeper.'"}
-  ]
+  ],
+  images:['images/b5/b5_my_best_friend_1.webp','images/b5/b5_my_best_friend_2.webp']
 });
 
 // B1·5 — Story 5
@@ -757,7 +761,8 @@ STORIES[1][4].push({
      feedback:"The story says 'I find some biscuits. I ask Mum for them.'"},
     {question:"Does Mum say yes to the biscuits?",options:["No","Yes","Maybe","She does not hear"],correct:1,
      feedback:"The story says 'She says yes!'"}
-  ]
+  ],
+  images:['images/b5/b5_shopping_day_1.webp','images/b5/b5_shopping_day_2.webp']
 });
 
 // ── Sub-level 6 · 14–18 sentences · Conjunctions: and / but / because ──
@@ -792,7 +797,8 @@ STORIES[1][5].push({
      feedback:"The story says 'I feed him every day because he gets hungry.'"},
     {question:"Can Finn come out of the water?",options:["Yes, he can","No, he cannot","Sometimes","Only at night"],correct:1,
      feedback:"The story says 'Finn cannot come out of the water.'"}
-  ]
+  ],
+  images:['images/b6/b6_my_pet_fish_1.webp','images/b6/b6_my_pet_fish_2.webp','images/b6/b6_my_pet_fish_3.webp']
 });
 
 // B1·6 — Story 1
@@ -823,7 +829,8 @@ STORIES[1][5].push({
      feedback:"The story says 'because he wants to play.'"},
     {question:"How does the story end?",options:["The cat runs away","The dog is sad","They become friends","The dog sleeps"],correct:2,
      feedback:"The story says 'They are friends.'"}
-  ]
+  ],
+  images:['images/b6/b6_the_dog_and_the_cat_1.webp','images/b6/b6_the_dog_and_the_cat_2.webp','images/b6/b6_the_dog_and_the_cat_3.webp']
 });
 
 // B6·2 — A Rainy Day
@@ -855,7 +862,8 @@ STORIES[1][5].push({
      feedback:"The story says 'a book about animals and a book about space.'"},
     {question:"What does Mum make?",options:["Hot soup","Hot cocoa","Toast","A sandwich"],correct:1,
      feedback:"The story says 'Mum makes hot cocoa for me.'"}
-  ]
+  ],
+  images:['images/b6/b6_a_rainy_day_1.webp','images/b6/b6_a_rainy_day_2.webp','images/b6/b6_a_rainy_day_3.webp']
 });
 
 // B1·6 — Story 2
@@ -886,7 +894,8 @@ STORIES[1][5].push({
      feedback:"The story says 'I blow out the candles and make a wish.'"},
     {question:"What present does the child love most?",options:["The cake","The robot","The book","The candles"],correct:2,
      feedback:"The story says 'I like the robot but I love the book.'"}
-  ]
+  ],
+  images:['images/b6/b6_my_birthday_1.webp','images/b6/b6_my_birthday_2.webp','images/b6/b6_my_birthday_3.webp']
 });
 
 // B6·3 — My Lunchbox
@@ -918,7 +927,8 @@ STORIES[1][5].push({
      feedback:"The story says 'I find a note from Mum.'"},
     {question:"What does the note say?",options:["Be good!","Eat your apple!","I love you!","Have fun!"],correct:2,
      feedback:"The story says the note says 'I love you!'"}
-  ]
+  ],
+  images:['images/b6/b6_my_lunchbox_1.webp','images/b6/b6_my_lunchbox_2.webp','images/b6/b6_my_lunchbox_3.webp']
 });
 
 // B1·6 — Story 3
@@ -949,7 +959,8 @@ STORIES[1][5].push({
      feedback:"The story says 'My hat blows off my head!'"},
     {question:"What does the child drink at the end?",options:["Hot chocolate","Tea","Juice","Hot soup"],correct:3,
      feedback:"The story says 'I drink hot soup.'"}
-  ]
+  ],
+  images:['images/b6/b6_a_windy_day_1.webp','images/b6/b6_a_windy_day_2.webp','images/b6/b6_a_windy_day_3.webp']
 });
 
 // B6·4 — At the Playground
@@ -981,7 +992,8 @@ STORIES[1][5].push({
      feedback:"The story says 'We play for one hour.'"},
     {question:"How does the child feel at the end?",options:["Sad and cold","Hungry and bored","Tired but very happy","Angry and tired"],correct:2,
      feedback:"The story says 'I am tired but very happy.'"}
-  ]
+  ],
+  images:['images/b6/b6_at_the_playground_1.webp','images/b6/b6_at_the_playground_2.webp','images/b6/b6_at_the_playground_3.webp']
 });
 
 // B1·6 — Story 4
@@ -1012,7 +1024,8 @@ STORIES[1][5].push({
      feedback:"The story says 'Dad builds a sandcastle.'"},
     {question:"What flavour is the child's ice cream?",options:["Chocolate","Vanilla","Strawberry","Lemon"],correct:2,
      feedback:"The story says 'it tastes like strawberries.'"}
-  ]
+  ],
+  images:['images/b6/b6_we_go_to_the_beach_1.webp','images/b6/b6_we_go_to_the_beach_2.webp','images/b6/b6_we_go_to_the_beach_3.webp']
 });
 
 // B6·5 — Bedtime
@@ -1044,7 +1057,8 @@ STORIES[1][5].push({
      feedback:"The story says 'Dad comes to read me a story.'"},
     {question:"What is the story about?",options:["A lion","A robot","A dragon","A ship"],correct:2,
      feedback:"The story says Dad reads 'a story about a dragon.'"}
-  ]
+  ],
+  images:['images/b6/b6_bedtime_1.webp','images/b6/b6_bedtime_2.webp','images/b6/b6_bedtime_3.webp']
 });
 
 // ── Sub-level 7 · 18–22 sentences · Present continuous (-ing) ──
@@ -1078,7 +1092,8 @@ STORIES[1][5].push({
      feedback:"The story says 'because the grass is slippery.'"},
     {question:"What is the final score?",options:["1-0","2-1","3-1","3-0"],correct:2,
      feedback:"The story says 'Our team scores three goals and the other team scores one.'"}
-  ]
+  ],
+  images:['images/b6/b6_i_like_football_1.webp','images/b6/b6_i_like_football_2.webp','images/b6/b6_i_like_football_3.webp']
 });
 
 // ── Sub-level 7 · 18–22 sentences · Present continuous (-ing) ──
@@ -1112,7 +1127,8 @@ STORIES[1][6].push({
      feedback:"The story says 'The bird spreads its wings and flies up into the sky.'"},
     {question:"Where is the bird singing from at the end?",options:["The fence","High above in the sky","The tree","The roof"],correct:1,
      feedback:"The story says the bird is singing 'from high above'."}
-  ]
+  ],
+  images:['images/b7/b7_the_cat_and_the_bird_1.webp','images/b7/b7_the_cat_and_the_bird_2.webp','images/b7/b7_the_cat_and_the_bird_3.webp']
 });
 
 // B1·7 — Story 1
@@ -1145,7 +1161,8 @@ STORIES[1][6].push({
      feedback:"The story says 'He is wearing his glasses.'"},
     {question:"What is the cat dreaming about?",options:["Mice","Dogs","Birds","Fish"],correct:3,
      feedback:"The story says 'I think she is dreaming about fish.'"}
-  ]
+  ],
+  images:['images/b7/b7_what_are_you_doing_1.webp','images/b7/b7_what_are_you_doing_2.webp','images/b7/b7_what_are_you_doing_3.webp','images/b7/b7_what_are_you_doing_4.webp']
 });
 
 // B7·2 — A Morning in the Garden
@@ -1177,7 +1194,8 @@ STORIES[1][6].push({
      feedback:"The story says 'A frog is jumping in the long grass.'"},
     {question:"How does the child feel at the end?",options:["Bored","Sleepy","Excited","Very calm"],correct:3,
      feedback:"The story says 'I feel very calm.'"}
-  ]
+  ],
+  images:['images/b7/b7_a_morning_in_the_garden_1.webp','images/b7/b7_a_morning_in_the_garden_2.webp','images/b7/b7_a_morning_in_the_garden_3.webp']
 });
 
 // B1·7 — Story 2
@@ -1209,7 +1227,8 @@ STORIES[1][6].push({
      feedback:"The story says 'I am laughing because they look funny.'"},
     {question:"What is the child thinking about at the end?",options:["Going home","Having lunch","Coming back to the zoo","The lions"],correct:2,
      feedback:"The story says 'I am already thinking about coming back.'"}
-  ]
+  ],
+  images:['images/b7/b7_at_the_zoo_1.webp','images/b7/b7_at_the_zoo_2.webp','images/b7/b7_at_the_zoo_3.webp','images/b7/b7_at_the_zoo_4.webp']
 });
 
 // B7·3 — Getting Ready
@@ -1241,7 +1260,8 @@ STORIES[1][6].push({
      feedback:"The story says 'Dad is cooking eggs.'"},
     {question:"Who is packing the bag?",options:["The child","Dad","Mum","A sister"],correct:2,
      feedback:"The story says 'Mum is packing my bag.'"}
-  ]
+  ],
+  images:['images/b7/b7_getting_ready_1.webp','images/b7/b7_getting_ready_2.webp','images/b7/b7_getting_ready_3.webp']
 });
 
 // B1·7 — Story 3
@@ -1273,7 +1293,8 @@ STORIES[1][6].push({
      feedback:"The story says 'We are waiting for thirty minutes.'"},
     {question:"What is the child not good at?",options:["Drawing","Mixing","Waiting","Reading"],correct:2,
      feedback:"The story says 'I am not very good at waiting!'"}
-  ]
+  ],
+  images:['images/b7/b7_making_a_cake_1.webp','images/b7/b7_making_a_cake_2.webp','images/b7/b7_making_a_cake_3.webp','images/b7/b7_making_a_cake_4.webp']
 });
 
 // B7·4 — By the River
@@ -1305,7 +1326,8 @@ STORIES[1][6].push({
      feedback:"The story says 'Dad is taking photos.'"},
     {question:"What is the little brother doing?",options:["Sleeping in the grass","Feeding the ducks","Throwing small stones into the water","Walking ahead"],correct:2,
      feedback:"The story says 'My little brother is throwing small stones into the water.'"}
-  ]
+  ],
+  images:['images/b7/b7_by_the_river_1.webp','images/b7/b7_by_the_river_2.webp','images/b7/b7_by_the_river_3.webp']
 });
 
 // B1·7 — Story 4
@@ -1337,7 +1359,8 @@ STORIES[1][6].push({
      feedback:"The story says 'her foot is sticking out!'"},
     {question:"What game are they playing?",options:["Football","Tag","Hide and seek","Racing"],correct:2,
      feedback:"The story says 'Hide and seek is the best game.'"}
-  ]
+  ],
+  images:['images/b7/b7_playing_outside_1.webp','images/b7/b7_playing_outside_2.webp','images/b7/b7_playing_outside_3.webp','images/b7/b7_playing_outside_4.webp']
 });
 
 // B7·5 — Class Assembly
@@ -1369,7 +1392,8 @@ STORIES[1][6].push({
      feedback:"The story says 'My heart is beating very fast.'"},
     {question:"How does the audience react at the end?",options:["They are quiet","They walk out","They are clapping","They boo"],correct:2,
      feedback:"The story says 'everyone is clapping.'"}
-  ]
+  ],
+  images:['images/b7/b7_class_assembly_1.webp','images/b7/b7_class_assembly_2.webp','images/b7/b7_class_assembly_3.webp']
 });
 
 // ── Sub-level 8 · 22–28 sentences · Simple past tense introduced ──
@@ -1404,7 +1428,8 @@ STORIES[1][6].push({
      feedback:"The story says 'I am choosing my socks. I like the ones with stars on them!'"},
     {question:"What time do they leave the house?",options:["Seven o'clock","Seven thirty","Eight o'clock","Eight thirty"],correct:2,
      feedback:"The story says 'We are all leaving the house at eight o'clock.'"}
-  ]
+  ],
+  images:['images/b7/b7_getting_ready_for_school_1.webp','images/b7/b7_getting_ready_for_school_2.webp','images/b7/b7_getting_ready_for_school_3.webp','images/b7/b7_getting_ready_for_school_4.webp']
 });
 
 // ── Sub-level 8 · 22–28 sentences · Simple past tense ──
@@ -1470,7 +1495,8 @@ STORIES[1][7].push({
      feedback:"The story says 'I painted a picture of my house.'"},
     {question:"Why did the child fall asleep quickly?",options:["It was late","They were bored","They were tired","The room was dark"],correct:2,
      feedback:"The story says 'because I was tired.'"}
-  ]
+  ],
+  images:['images/b8/b8_yesterday_1.webp','images/b8/b8_yesterday_2.webp','images/b8/b8_yesterday_3.webp','images/b8/b8_yesterday_4.webp']
 });
 
 // B8·2 — The New Pupil
@@ -1502,7 +1528,8 @@ STORIES[1][7].push({
      feedback:"The story says 'I smiled at her and said hello.'"},
     {question:"How many new friends did Yuna have by the end of the day?",options:["One","Two","Three","Four"],correct:2,
      feedback:"The story says 'Yuna had three new friends.'"}
-  ]
+  ],
+  images:['images/b8/b8_the_new_pupil_1.webp','images/b8/b8_the_new_pupil_2.webp','images/b8/b8_the_new_pupil_3.webp']
 });
 
 // B1·8 — Story 2
@@ -1534,7 +1561,8 @@ STORIES[1][7].push({
      feedback:"The story says 'Grandma won!'"},
     {question:"What did Grandpa show the family?",options:["His garden","Old photos","A film","His books"],correct:1,
      feedback:"The story says 'Grandpa showed us old photos of when Dad was little.'"}
-  ]
+  ],
+  images:['images/b8/b8_my_weekend_1.webp','images/b8/b8_my_weekend_2.webp','images/b8/b8_my_weekend_3.webp','images/b8/b8_my_weekend_4.webp']
 });
 
 // B8·3 — The Muddy Walk
@@ -1566,7 +1594,8 @@ STORIES[1][7].push({
      feedback:"The story says 'I stepped into a large muddy puddle. My boot sank deep into the mud.'"},
     {question:"What did they use to clean the boot?",options:["A cloth","A stream","A puddle","Their hands"],correct:1,
      feedback:"The story says 'We cleaned the boot in a stream.'"}
-  ]
+  ],
+  images:['images/b8/b8_the_muddy_walk_1.webp','images/b8/b8_the_muddy_walk_2.webp','images/b8/b8_the_muddy_walk_3.webp']
 });
 
 // B8·4 — Grandad's Garden
@@ -1598,7 +1627,8 @@ STORIES[1][7].push({
      feedback:"Grandad said 'the seeds needed sunlight and water every day to grow.'"},
     {question:"How long will it take for the tomatoes to grow?",options:["Three weeks","Four weeks","Eight weeks","Ten weeks"],correct:2,
      feedback:"The story says 'Grandad said it would take about eight weeks.'"}
-  ]
+  ],
+  images:['images/b8/b8_grandads_garden_1.webp','images/b8/b8_grandads_garden_2.webp','images/b8/b8_grandads_garden_3.webp']
 });
 
 // B1·8 — Story 3
@@ -1630,7 +1660,8 @@ STORIES[1][7].push({
      feedback:"The story says 'Mum washed him yesterday because he got muddy.'"},
     {question:"How did the child feel when they found Benny Bear?",options:["Still sad","Angry","Relieved","Surprised"],correct:2,
      feedback:"The story says 'I was so relieved.'"}
-  ]
+  ],
+  images:['images/b8/b8_the_lost_toy_1.webp','images/b8/b8_the_lost_toy_2.webp','images/b8/b8_the_lost_toy_3.webp','images/b8/b8_the_lost_toy_4.webp']
 });
 
 // B8·5 — The Talent Show
@@ -1662,7 +1693,8 @@ STORIES[1][7].push({
      feedback:"The story says 'My legs felt shaky.'"},
     {question:"Did the child win a prize?",options:["Yes, first prize","Yes, second prize","No, but they felt proud","No, and they were sad"],correct:2,
      feedback:"The story says 'I did not win a prize, but I felt proud.'"}
-  ]
+  ],
+  images:['images/b8/b8_the_talent_show_1.webp','images/b8/b8_the_talent_show_2.webp','images/b8/b8_the_talent_show_3.webp']
 });
 
 // ── Sub-level 9 · 28–34 sentences · 3 paragraphs · richer vocabulary ──
@@ -1729,7 +1761,8 @@ STORIES[1][8].push({
      feedback:"The story says 'Mum found a jar of local honey.'"},
     {question:"Where did they shelter from the rain?",options:["In a shop","Under a baker's awning","In their car","Under a tree"],correct:1,
      feedback:"The story says 'We squeezed under a baker's awning.'"}
-  ]
+  ],
+  images:['images/b9/b9_the_market_in_the_rain_1.webp','images/b9/b9_the_market_in_the_rain_2.webp','images/b9/b9_the_market_in_the_rain_3.webp']
 });
 
 // B1·8 — Story 5
@@ -1761,7 +1794,8 @@ STORIES[1][7].push({
      feedback:"The story says 'I named him Biscuit because of his golden colour.'"},
     {question:"Where did Biscuit sleep that night?",options:["In the kitchen","In the garden","In a kennel","In the child's room"],correct:3,
      feedback:"The story says 'Biscuit slept in my room.'"}
-  ]
+  ],
+  images:['images/b8/b8_the_new_puppy_1.webp','images/b8/b8_the_new_puppy_2.webp','images/b8/b8_the_new_puppy_3.webp','images/b8/b8_the_new_puppy_4.webp']
 });
 
 // ── Sub-level 9 · 28–34 sentences · 3 paragraphs · Richer detail ──
@@ -1795,7 +1829,8 @@ STORIES[1][8].push({
      feedback:"Grandma said 'That is me.'"},
     {question:"How old was Grandma in the picture?",options:["Five","Eight","Ten","Seven"],correct:3,
      feedback:"Grandma said 'I was seven in that picture.'"}
-  ]
+  ],
+  images:['images/b9/b9_the_old_photo_1.webp','images/b9/b9_the_old_photo_2.webp','images/b9/b9_the_old_photo_3.webp']
 });
 
 // B1·9 — Story 1
@@ -1827,7 +1862,8 @@ STORIES[1][8].push({
      feedback:"The story says 'One tried to steal a chip from my plate!'"},
     {question:"How did they get home?",options:["They walked","They took a bus","They swam","They drove in the car"],correct:3,
      feedback:"The story says 'By the time we got home... I fell asleep in the car.'"}
-  ]
+  ],
+  images:['images/b9/b9_my_best_day_1.webp','images/b9/b9_my_best_day_2.webp','images/b9/b9_my_best_day_3.webp']
 });
 
 // B9·3 — A Letter to a Pen Pal
@@ -1859,7 +1895,8 @@ STORIES[1][8].push({
      feedback:"The story says 'I drew a small picture of Biscuit at the bottom.'"},
     {question:"How does the child feel at the end?",options:["Worried","Bored","Angry","Excited"],correct:3,
      feedback:"The story says 'I am excited to get a letter back.'"}
-  ]
+  ],
+  images:['images/b9/b9_a_letter_to_a_pen_pal_1.webp','images/b9/b9_a_letter_to_a_pen_pal_2.webp','images/b9/b9_a_letter_to_a_pen_pal_3.webp']
 });
 
 // B1·9 — Story 2
@@ -1890,7 +1927,8 @@ STORIES[1][8].push({
      feedback:"The story says 'I tried on seven different pairs of shoes.'"},
     {question:"What did the child do with the old shoes?",options:["Gave them away","Put them in the bin","Kept them","Gave them to a friend"],correct:1,
      feedback:"The story says 'My old shoes went straight in the bin.'"}
-  ]
+  ],
+  images:['images/b9/b9_new_shoes_1.webp','images/b9/b9_new_shoes_2.webp','images/b9/b9_new_shoes_3.webp']
 });
 
 // B9·4 — The Broken Bicycle
@@ -1922,7 +1960,8 @@ STORIES[1][8].push({
      feedback:"The story says 'It took about twenty minutes.'"},
     {question:"What did the child do when the tyre was fixed?",options:["They went home","They pumped it up themselves","They called Ali","They cleaned the bike"],correct:1,
      feedback:"The story says 'I pumped it up myself.'"}
-  ]
+  ],
+  images:['images/b9/b9_the_broken_bicycle_1.webp','images/b9/b9_the_broken_bicycle_2.webp','images/b9/b9_the_broken_bicycle_3.webp']
 });
 
 // B1·9 — Story 3
@@ -1953,7 +1992,8 @@ STORIES[1][8].push({
      feedback:"The story says 'He climbed the ladder and placed the bird back in its nest.'"},
     {question:"How did the child know the mother bird had returned?",options:["She sang loudly","She had food in her beak","She was very large","She knocked on the window"],correct:1,
      feedback:"The story says 'She had food in her beak. She fed the baby bird.'"}
-  ]
+  ],
+  images:['images/b9/b9_the_baby_bird_1.webp','images/b9/b9_the_baby_bird_2.webp','images/b9/b9_the_baby_bird_3.webp']
 });
 
 // B9·5 — Staying at Grandma's
@@ -1985,7 +2025,8 @@ STORIES[1][8].push({
      feedback:"The story says 'We watched a nature programme about penguins.'"},
     {question:"What happened to the child before the story finished?",options:["They asked for more soup","They fell asleep","They got up for water","They turned the light back on"],correct:1,
      feedback:"The story says 'I fell asleep before she got to the end.'"}
-  ]
+  ],
+  images:['images/b9/b9_staying_at_grandmas_1.webp','images/b9/b9_staying_at_grandmas_2.webp','images/b9/b9_staying_at_grandmas_3.webp']
 });
 
 // ── Sub-level 10 · 34–50 sentences · Bridging to Elementary ──
@@ -2019,7 +2060,8 @@ STORIES[1][8].push({
      feedback:"The story says 'He stuffs food into the pouches in his cheeks.'"},
     {question:"How did the child's name get chosen?",options:["They were the best student","They asked first","Their name was pulled from a hat","They won a game"],correct:2,
      feedback:"The story says 'She put all our names in a hat... She pulled out a name — it was mine!'"}
-  ]
+  ],
+  images:['images/b9/b9_our_class_pet_1.webp','images/b9/b9_our_class_pet_2.webp','images/b9/b9_our_class_pet_3.webp']
 });
 
 // B10·1 — The School Garden Project
@@ -2114,7 +2156,8 @@ STORIES[1][8].push({
      feedback:"The story says 'Each time, the number got bigger, which meant the storm was moving away.'"},
     {question:"What was surprising in the garden the next morning?",options:["A rainbow appeared","The flowers were dead","Big branches had fallen but the sunflowers stood tall","The fence had blown down"],correct:2,
      feedback:"The story describes fallen branches but sunflowers 'standing up tall and bright, as if nothing had happened.'"}
-  ]
+  ],
+  images:['images/b9/b9_the_storm_1.webp','images/b9/b9_the_storm_2.webp','images/b9/b9_the_storm_3.webp']
 });
 
 // ── Sub-level 10 · 34–50 sentences · Bridging to Elementary ──
