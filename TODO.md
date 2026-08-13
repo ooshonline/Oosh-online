@@ -145,8 +145,7 @@ star ratings, flashcards, placement test stay free at every level, forever), and
 - [ ] **G3 · Personal bests in Profile.** Only the *current* streak is kept, so a 12-day run that
   breaks vanishes. Track `state.bestStreak` going forward and derive best week, most words saved in a
   week, and first-try perfect quizzes from `state.progress` timestamps.
-- [ ] **G4 · Weekly recap card.** On the first visit of a new week, a dismissible Home card summarising
-  last week from real data ("7 stories · 12 new words · 4-day streak"). No fabricated numbers.
+- [x] **G4 · Weekly recap card — covered by G7 (2026-08-13).** See G7 above.
 - [x] **G5 · Sub-level completion ceremony — SHIPPED (2026-07-30, commit `d4961d5`).** Full-screen
   ceremony fires between story celebration and library when the last story in a sub-level is finished
   for the first time: level icon, "Sub-level N Complete!", pond name, +50 XP bonus pill, and
@@ -156,9 +155,10 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   persisted to `rbt_best_streak`; updated in `updateStreak()` on new highs. `bestWeekStories` derived
   on render from Mon-anchored week buckets of `state.progress`. Two new stat cards (🏆 Best Streak,
   📅 Best Week) added; desktop grid changed from 4→3 columns for a clean 2×3 layout. Both en + ja. LIVE.
-- [ ] **G7 · Weekly recap card.** On the first home visit of a new week, show a dismissible card
-  summarising the previous 7 days from `state.progress` timestamps ("N stories · N words saved · N-day streak").
-  `state.lastWeekRecap` (persisted) tracks when the card was last shown so it shows only once per week.
+- [x] **G7 · Weekly recap card — SHIPPED (2026-08-13, commits `747dcb7`+`81df533`).** Dismissible home
+  card appears on first visit of a new week when learner had stories last week. Stories pill + streak
+  pill (if streak > 0). `state.lastWeekRecap` / `rbt_wkrecap` tracks dismissal per week. Both en + ja.
+  LIVE (v=20260813).
 - [ ] **G8 · "Level Champion" ceremony.** When all 10 sub-levels of a level are completed for the first
   time, fire a bigger ceremony than the sub-level one — the champion badge for that level is already
   in BADGES, this just gives it the fanfare it deserves. Reuses `sublevelCelebration` machinery.

@@ -43,7 +43,7 @@
 - ✅ UI (2026-08-07, automated)
 - ✅ UX (2026-08-10, automated)
 - ✅ Content (2026-08-11, automated)
-- ⬜ Gamification
+- ✅ Gamification (2026-08-13, automated)
 - ⬜ Monetisation
 
 > **Pillar rotation changed 2026-08-04 — six pillars now, not five.**
@@ -57,6 +57,35 @@
 ---
 
 ## Session Log
+
+### 2026-08-13 — Gamification Pillar (~35 min, automated) — Cycle 6
+
+**Pillar: Gamification** — Cycle 6.
+
+**Commits `747dcb7` + `81df533` — DEPLOYED LIVE (v=20260813).**
+
+- **feature: weekly recap card on home screen (G7)** — dismissible card appears at the top of
+  the home dash on any visit where the learner had stories last week (n > 0) and hasn't yet
+  dismissed it this week.
+  - `thisWeekKey()` returns the ISO date of the current week's Monday (local tz, `.slice(0,10)`)
+    as a stable per-week key. Used as both the dismissal token and to bound the "last week" window.
+  - `lastWeekStories()` counts `state.progress` entries where `.at` falls between last Monday
+    00:00 and this Monday 00:00 (UTC ms, consistent with how `at` is stored via `Date.now()`).
+  - `dismissWeekRecap()` sets `state.lastWeekRecap = thisWeekKey()`, saves, re-renders.
+  - Card shows: story count pill (📖 N stories / N話よんだよ) + streak pill (🔥 N-day streak /
+    N日れんぞく, only when streak > 0) + bilingual CTA ("Keep it up this week! 🐸").
+  - `state.lastWeekRecap` persisted to `rbt_wkrecap`. Card absent for brand-new users (no
+    last-week stories → n=0 → silent skip).
+  - 10 new CSS classes; 4 new `UI_STRINGS` keys per language (en + ja).
+  - Verified: card renders ja+en correctly; story pill correct at n=3; streak pill absent at
+    streak=0; card absent when progress empty; dismiss sets lastWeekRecap correctly and removes
+    card; golden path (home/library/reader) clean; zero console errors; 375px + desktop clean;
+    5 new identifiers confirmed LIVE (weekRecapCard, rbt_wkrecap, week-recap-card, weekRecapTitle,
+    v=20260813).
+
+**Cycle 6 next pillar: Monetisation.**
+
+---
 
 ### 2026-08-11 — Content Pillar (~40 min, automated) — Cycle 6
 
