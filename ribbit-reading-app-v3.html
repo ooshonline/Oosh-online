@@ -108,6 +108,15 @@
 
     /* ══ HOME DASHBOARD — literal port, Tablet lines 111-185 ══ */
     .home-dash{padding:18px 16px 16px;display:flex;flex-direction:column;gap:18px}
+    .week-recap-card{background:linear-gradient(135deg,#f0fff4,#e6f4ff);border:1.5px solid #b2dfdb;border-radius:14px;padding:14px 16px 12px;display:flex;flex-direction:column;gap:8px}
+    .week-recap-top{display:flex;align-items:center;justify-content:space-between}
+    .week-recap-title{font-weight:700;font-size:.85rem;color:#1A3260;letter-spacing:.02em;text-transform:uppercase}
+    .week-recap-dismiss{background:none;border:none;color:#888;font-size:1rem;line-height:1;padding:0 2px;cursor:pointer;opacity:.7}
+    .week-recap-dismiss:hover{opacity:1}
+    .week-recap-stats{display:flex;flex-wrap:wrap;gap:8px}
+    .recap-stat-pill{background:#fff;border:1.5px solid #d0e8d0;border-radius:20px;padding:5px 12px;font-size:.88rem;font-weight:600;color:#1A3260;white-space:nowrap}
+    .recap-stat-primary{border-color:var(--primary);color:#2d7a2d}
+    .week-recap-cta{font-size:.82rem;color:#4a7a4a;font-style:italic}
     .home-row1{display:flex;flex-direction:column;gap:12px}
     .continue-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);display:flex;overflow:hidden;text-align:left;min-height:150px}
     .continue-cover{width:96px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
@@ -952,6 +961,7 @@ const state = {
   seenTour: localStorage.getItem('rbt_tour')==="1",
   tourStep: 0, // transient — which tour slide is showing (0=tap word, 1=audio, 2=quests)
   autoPlay: localStorage.getItem('rbt_autoplay')==='1',
+  lastWeekRecap: localStorage.getItem('rbt_wkrecap')||null, // ISO week key "YYYY-MM-DD" (Monday) — set on dismiss, resets each new week
 };
 function save(){
   localStorage.setItem('rbt_uilang', state.uiLang);
@@ -975,12 +985,53 @@ function save(){
   localStorage.setItem('rbt_celeb_sl', JSON.stringify(state.celebratedSublevels||[]));
   localStorage.setItem('rbt_tour', state.seenTour?'1':'');
   localStorage.setItem('rbt_autoplay', state.autoPlay?'1':'');
+  localStorage.setItem('rbt_wkrecap', state.lastWeekRecap||'');
 }
 window.addEventListener('beforeunload', save);
 // beforeunload is unreliable on iOS Safari (backgrounding/switching apps doesn't fire it) —
 // visibilitychange + pagehide catch those cases so progress isn't lost mid-session.
 document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') save(); });
 window.addEventListener('pagehide', save);
+
+// ── WEEKLY RECAP CARD ──────────────────────────────────────────
+// Returns the ISO date string (YYYY-MM-DD) of the Monday of the current week.
+// Used as a stable key: the same value for every moment within one Mon–Sun week.
+function thisWeekKey(){
+  const d=new Date();
+  const mon=new Date(d);
+  mon.setDate(d.getDate()-((d.getDay()||7)-1));
+  mon.setHours(0,0,0,0);
+  return mon.toISOString().slice(0,10);
+}
+// Stories completed during the previous Mon–Sun week (not the current one).
+function lastWeekStories(){
+  const d=new Date();
+  const thisMon=new Date(d); thisMon.setDate(d.getDate()-((d.getDay()||7)-1)); thisMon.setHours(0,0,0,0);
+  const lastMon=new Date(thisMon); lastMon.setDate(thisMon.getDate()-7);
+  const t0=lastMon.getTime(), t1=thisMon.getTime();
+  return Object.values(state.progress).filter(p=>p.at>=t0&&p.at<t1).length;
+}
+function dismissWeekRecap(){ state.lastWeekRecap=thisWeekKey(); save(); render(); }
+function weekRecapCard(){
+  const wk=thisWeekKey();
+  // Already dismissed for this week — nothing to show.
+  if(state.lastWeekRecap===wk) return '';
+  const n=lastWeekStories();
+  // Only show when the learner had stories last week (keeps the card positive and meaningful).
+  if(!n) return '';
+  const streakBit=state.streak?`<span class="recap-stat-pill">${t('weekRecapStreak',state.streak)}</span>`:'';
+  return `<div class="week-recap-card">
+    <div class="week-recap-top">
+      <span class="week-recap-title">${t('weekRecapTitle')}</span>
+      <button class="week-recap-dismiss" onclick="dismissWeekRecap()" aria-label="${t('weekRecapDismiss')}">✕</button>
+    </div>
+    <div class="week-recap-stats">
+      <span class="recap-stat-pill recap-stat-primary">${t('weekRecapStories',n)}</span>
+      ${streakBit}
+    </div>
+    <div class="week-recap-cta">${t('weekRecapCta')}</div>
+  </div>`;
+}
 
 // Keyboard / Chromebook control: ←/→ reader pages, 1–4 quiz answers, Enter quiz advance,
 // Space flip flashcard, Esc close popup/modal.
@@ -2008,6 +2059,9 @@ const UI_STRINGS = {
     tourSkip:'Skip', tourNext:'Next →', tourDone:"Let's go! 🐸",
     autoPlayLabel:'Auto', autoPlayTitle:'Auto-advance pages',
     wordRemoved:'Word removed', undoBtn:'Undo', wordRestored:'↩ Word restored!',
+    weekRecapTitle:'Last Week', weekRecapStories:(n)=>`📖 ${n} ${n===1?'story':'stories'}`,
+    weekRecapStreak:(n)=>`🔥 ${n}-day streak`, weekRecapCta:'Keep it up this week! 🐸',
+    weekRecapDismiss:'Dismiss',
   },
   ja: {
     greeting:(h)=> h<12?'おはよう！':h<18?'こんにちは！':'こんばんは！',
@@ -2126,6 +2180,9 @@ const UI_STRINGS = {
     tourSkip:'スキップ', tourNext:'つぎへ →', tourDone:'はじめよう！🐸',
     autoPlayLabel:'自動', autoPlayTitle:'ページを自動で送る',
     wordRemoved:'単語を削除しました', undoBtn:'元に戻す', wordRestored:'↩ 単語を元に戻しました！',
+    weekRecapTitle:'先週のまとめ', weekRecapStories:(n)=>`📖 ${n}話よんだよ`,
+    weekRecapStreak:(n)=>`🔥 ${n}日れんぞく`, weekRecapCta:'今週もがんばろう！🐸',
+    weekRecapDismiss:'とじる',
   },
 };
 function t(key,...args){
@@ -3172,7 +3229,9 @@ function renderHomeDash(){
     return `<div class="journey-node-wrap">${circle}<span class="journey-node-lbl">${i+1}</span></div>`;
   }).join('');
 
+  const recapCard=weekRecapCard();
   return `<div class="home-dash">
+    ${recapCard}
     <div class="home-row1">
       ${continueCard}
       <div class="goal-card">
