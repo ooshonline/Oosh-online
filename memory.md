@@ -38,13 +38,13 @@
 - ✅ Content (2026-08-05, automated)
 - ✅ Gamification (2026-08-06, automated)
 
-**Cycle 6 — IN PROGRESS**
+**Cycle 6 — COMPLETE**
 - ✅ Functionality (2026-08-06, automated)
 - ✅ UI (2026-08-07, automated)
 - ✅ UX (2026-08-10, automated)
 - ✅ Content (2026-08-11, automated)
 - ✅ Gamification (2026-08-13, automated)
-- ⬜ Monetisation
+- ✅ Monetisation (2026-08-14, automated)
 
 > **Pillar rotation changed 2026-08-04 — six pillars now, not five.**
 > `Functionality → UI → UX → Content → Gamification → Monetisation`, then repeat.
@@ -57,6 +57,31 @@
 ---
 
 ## Session Log
+
+### 2026-08-14 — Monetisation Pillar (~30 min, automated) — Cycle 6 COMPLETE
+
+**Pillar: Monetisation** — Cycle 6 final pillar.
+
+**Commit `fbb8ab5` — DEPLOYED LIVE (v=20260814).**
+
+- **feature: M2 entitlement stub + gate helpers** — pure infrastructure, no user-visible change.
+  - `isSubscribed()` reads `localStorage.rbt_dev_sub==='1'`; body is replaced by S3 with the real
+    Supabase read. Nothing else in the file changes.
+  - `canAccessLevel(levelId)` — Level 1 always free; 2–6 need subscription or weekly allowance.
+  - `canAccessDestination(destId)` — Tokyo always free; others need sub or allowance.
+  - `weeklyFreeRemaining()` — `3 − state.wkFree.storyIds.length` for the current ISO week.
+  - `recordFreeStoryUse(storyId)` — called in `finishStory()` for Level 2+ library and non-Tokyo
+    Journey stories; idempotent (counts each story once per week). Not called from any gamification
+    path (XP, badges, streaks, quests, flashcards all remain gating-free).
+  - `state.wkFree = {weekKey, storyIds[]}` persisted as `rbt_wkfree`. Auto-resets at the Monday
+    week boundary by comparing the stored `weekKey` against `thisWeekKey()` on load.
+  - Dev verified: all 5 helpers console-checkable; dev flag flips `isSubscribed()` correctly;
+    after 3 stories used `canAccessLevel(2)` returns `false`; old weekKey triggers a clean reset;
+    zero console errors; 375px mobile clean; 6 identifiers confirmed LIVE.
+
+**Cycle 6 complete. Cycle 7 starts next run (Functionality pillar — pick from F1, F4).**
+
+---
 
 ### 2026-08-13 — Gamification Pillar (~35 min, automated) — Cycle 6
 

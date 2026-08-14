@@ -115,11 +115,7 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   (~2184), `place-result-meta` (~2452). `cefr` field stays untouched — additive only. Wording must be
   「英検◯級の読解レベル相当」, never 「対策」. Levels 5–6 carry no grade claim. **Kyle to sign off on the
   proposed level→grade table in the handoff spec before building.**
-- [ ] **M2 · Entitlement stub + gate helpers.** `isSubscribed()`, `canAccessLevel(id)`,
-  `canAccessDestination(id)`. Dev-only flag for now; S3 swaps in the real Supabase read later.
-  Free tier: all of Level 1, Tokyo, plus 3 stories/week from any higher level tracked in new
-  `rbt_wkfree` ({weekKey, storyIds[]}) — check existing `rbt_wqp` ISO-week handling before writing a
-  new helper. Gamification paths must never call a gate.
+- [x] **M2 · Entitlement stub + gate helpers — SHIPPED (2026-08-14, commit `fbb8ab5`).** `isSubscribed()` (dev flag `rbt_dev_sub='1'`), `canAccessLevel(id)` (L1 free; 2–6 need sub or allowance), `canAccessDestination(id)` (Tokyo free; others need sub or allowance), `weeklyFreeRemaining()` (3 − storyIds in current week), `recordFreeStoryUse(storyId)` (called in `finishStory()`, idempotent). `state.wkFree` persisted as `rbt_wkfree`; auto-resets at week boundary using `thisWeekKey()`. No gamification path calls a gate. No user-visible change. LIVE (v=20260814).
 - [ ] **M3 · Upgrade screen.** Shown *only* on tapping locked content. Never an interstitial, never
   mid-story, never on home, never timed. Lists what's included + both prices + an easy, honest dismiss.
   No countdown, no "limited offer", no guilt copy. Blocked on M2; best built after S2/S3 exist.
