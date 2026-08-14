@@ -672,9 +672,9 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260813"></script>
-<script src="ribbit-wordlists.js?v=20260813"></script>
-<script src="ribbit-ja-translations.js?v=20260813"></script>
+<script src="ribbit-stories.js?v=20260814"></script>
+<script src="ribbit-wordlists.js?v=20260814"></script>
+<script src="ribbit-ja-translations.js?v=20260814"></script>
 <script src="assets/vendor/lottie.min.js?v=20260804"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
@@ -962,6 +962,9 @@ const state = {
   tourStep: 0, // transient — which tour slide is showing (0=tap word, 1=audio, 2=quests)
   autoPlay: localStorage.getItem('rbt_autoplay')==='1',
   lastWeekRecap: localStorage.getItem('rbt_wkrecap')||null, // ISO week key "YYYY-MM-DD" (Monday) — set on dismiss, resets each new week
+  // Weekly free-story allowance: 3 stories from any Level 2+ or non-Tokyo content per calendar week.
+  // Auto-resets at week boundary. Populated by recordFreeStoryUse() in finishStory().
+  wkFree: (()=>{ const s=JSON.parse(localStorage.getItem('rbt_wkfree')||'null'); const wk=thisWeekKey(); return (!s||s.weekKey!==wk)?{weekKey:wk,storyIds:[]}:s; })(),
 };
 function save(){
   localStorage.setItem('rbt_uilang', state.uiLang);
@@ -986,6 +989,7 @@ function save(){
   localStorage.setItem('rbt_tour', state.seenTour?'1':'');
   localStorage.setItem('rbt_autoplay', state.autoPlay?'1':'');
   localStorage.setItem('rbt_wkrecap', state.lastWeekRecap||'');
+  localStorage.setItem('rbt_wkfree', JSON.stringify(state.wkFree));
 }
 window.addEventListener('beforeunload', save);
 // beforeunload is unreliable on iOS Safari (backgrounding/switching apps doesn't fire it) —
@@ -1012,6 +1016,32 @@ function lastWeekStories(){
   return Object.values(state.progress).filter(p=>p.at>=t0&&p.at<t1).length;
 }
 function dismissWeekRecap(){ state.lastWeekRecap=thisWeekKey(); save(); render(); }
+
+// ── ENTITLEMENT HELPERS (M2 — stub; isSubscribed() body replaced by S3) ──────
+// Dev toggle: set localStorage 'rbt_dev_sub'='1' in the browser console to simulate
+// a paid subscription. S3 replaces the body of isSubscribed() with a real Supabase
+// read; nothing else in this file changes.
+function isSubscribed(){ return localStorage.getItem('rbt_dev_sub')==='1'; }
+// How many of the 3 weekly free story allowances remain for this calendar week.
+function weeklyFreeRemaining(){
+  const wk=thisWeekKey();
+  if(!state.wkFree || state.wkFree.weekKey!==wk) return 3;
+  return Math.max(0, 3-(state.wkFree.storyIds||[]).length);
+}
+// Free tier: Level 1 always open; Levels 2–6 gated (subscription or weekly allowance).
+function canAccessLevel(levelId){ return levelId===1 || isSubscribed() || weeklyFreeRemaining()>0; }
+// Free tier: Tokyo free; all other Journey destinations gated.
+function canAccessDestination(destId){ return destId==='tokyo' || isSubscribed() || weeklyFreeRemaining()>0; }
+// Records one use of the weekly free allowance for a non-L1/non-Tokyo story.
+// Called from finishStory() — idempotent, only counts each storyId once per week.
+function recordFreeStoryUse(storyId){
+  const wk=thisWeekKey();
+  if(!state.wkFree || state.wkFree.weekKey!==wk) state.wkFree={weekKey:wk,storyIds:[]};
+  if(!(state.wkFree.storyIds||[]).includes(storyId)){
+    state.wkFree.storyIds.push(storyId);
+    save();
+  }
+}
 function weekRecapCard(){
   const wk=thisWeekKey();
   // Already dismissed for this week — nothing to show.
@@ -1384,6 +1414,17 @@ function finishStory(story){
     const _slKey=`${_slInfo.lv}.${_slInfo.sl}`;
     if(!(state.celebratedSublevels||[]).includes(_slKey) && subLevelDone(_slInfo.lv,_slInfo.sl)){
       state.pendingSublevel={lv:_slInfo.lv, sl:_slInfo.sl, slKey:_slKey};
+    }
+  }
+  // Track weekly free-story usage for Level 2+ library content and non-Tokyo Journey stories.
+  if(!isSubscribed()){
+    if(_slInfo && parseInt(_slInfo.lv)>1) recordFreeStoryUse(story.id);
+    else if(!_slInfo && typeof JOURNEY_STORIES!=='undefined'){
+      for(const _dId in JOURNEY_STORIES){
+        if(_dId!=='tokyo' && JOURNEY_STORIES[_dId].some(s=>s.id===story.id)){
+          recordFreeStoryUse(story.id); break;
+        }
+      }
     }
   }
 }
