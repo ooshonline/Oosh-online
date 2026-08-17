@@ -46,6 +46,9 @@
 - ✅ Gamification (2026-08-13, automated)
 - ✅ Monetisation (2026-08-14, automated)
 
+**Cycle 7 — IN PROGRESS**
+- ✅ Functionality (2026-08-17, automated)
+
 > **Pillar rotation changed 2026-08-04 — six pillars now, not five.**
 > `Functionality → UI → UX → Content → Gamification → Monetisation`, then repeat.
 > Monetisation draws from the **M-series** backlog in `TODO.md`. Its two extra rules: never gate
@@ -79,7 +82,37 @@
     after 3 stories used `canAccessLevel(2)` returns `false`; old weekKey triggers a clean reset;
     zero console errors; 375px mobile clean; 6 identifiers confirmed LIVE.
 
-**Cycle 6 complete. Cycle 7 starts next run (Functionality pillar — pick from F1, F4).**
+**Cycle 7 next pillar: UI.**
+
+---
+
+### 2026-08-17 — Functionality Pillar (~45 min, automated) — Cycle 7
+
+**Pillar: Functionality** — Cycle 7.
+
+**Commit `f29204a` — DEPLOYED LIVE (v=20260817).**
+
+- **feature: word-by-word highlighting synced to voice (F4)** — each word glows in brand green
+  as the TTS voice reads it aloud. The highest-value decoding support for beginning readers.
+  - `makeWordTappable` now tracks a `pos` counter and adds `data-char="${start}"` to every word
+    span — vocabulary words (`.tappable-word`), challenge words (`.challenge-word`), and plain
+    words (new `.word-tok` inline span). Whitespace tokens return as bare text, unchanged.
+  - `_litWord(charIdx)` removes the previous `.word-lit` class, then adds it to the span whose
+    `data-char` matches `charIdx` exactly; fallback to closest span with `data-char ≤ charIdx`
+    (threshold 30 chars) for any speech-engine rounding.
+  - `speakPage()` hooks `utter.onboundary = function(e){ if(e.name==='word'...) _litWord(e.charIndex); }`.
+    Fires in Chrome/Firefox; iOS Safari never fires `onboundary` so it silently no-ops — no
+    feature detect needed.
+  - `utter.onend` calls `_litWord(-1)` to clear before re-rendering.
+  - `.word-lit { background: rgba(186,218,85,.45); border-radius:3px; padding:0 2px; margin:0 -2px }` —
+    no layout shift, 80ms CSS transition, brand green.
+  - All F-series backlog items now done (F1 remains — Leitner spaced repetition).
+  - Verified: `data-char` positions correct ("This"=0, "is"=5, "a"=8, "cat."=10); `_litWord(5)`
+    highlights "is"; move to next word clears previous; `_litWord(-1)` clears all; golden path
+    (home/library/reader) clean; zero console errors; 375px + desktop clean; 14 new identifiers
+    confirmed LIVE.
+
+**Cycle 7 next pillar: UI.**
 
 ---
 

@@ -47,10 +47,10 @@ off here as they ship, and add the commit hash.
   reader audio strip. `speakPage()` helper auto-advances pages on utterance end when `state.autoPlay`
   is on; stops cleanly on last page. `prevPage()` now cancels TTS. `rbt_autoplay` persisted.
   En "Auto" / ja "自動". LIVE (v=20260807).
-- [ ] **F4 · Word highlighting synced to the voice.** Use `SpeechSynthesisUtterance.onboundary`
-  (`charIndex` → word span) to highlight each word as it is spoken — the single biggest decoding
-  support for a beginning reader. Feature-detect and no-op silently where unsupported (iOS Safari).
-  Pairs with F3.
+- [x] **F4 · Word highlighting synced to the voice — SHIPPED (2026-08-17, commit `f29204a`).** `makeWordTappable`
+  adds `data-char="N"` to every word span; `_litWord(charIdx)` highlights matching span with `.word-lit`
+  (rgba(186,218,85,.45) brand-green pill); `speakPage()` hooks `utter.onboundary` — fires in Chrome/Firefox,
+  silent no-op on iOS Safari. Pairs with F3. LIVE (v=20260817).
 - [x] **F5 · Progress backup / restore — SHIPPED (2026-07-27, commit `2fca1e8`).** Profile →
   "Save Progress" downloads all `rbt_*` localStorage keys as `ribbit-progress-YYYYMMDD.json`;
   "Restore Progress" reads the file back, validates it, confirms, applies, reloads. Both en+ja.
