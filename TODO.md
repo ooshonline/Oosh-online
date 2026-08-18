@@ -61,9 +61,7 @@ off here as they ship, and add the commit hash.
   block under `[data-theme="dark"]` + a Profile toggle + `state.theme` (`rbt_theme`), defaulting to
   `prefers-color-scheme`. Check the monochrome icons still tint (they use `currentColor`) and that
   the genre gradients don't glare.
-- [ ] **U2 · Reader comfort controls.** On top of the automatic `readerTypeScale()`, give the child a
-  font-size stepper (3 steps), an "easy read" mode (looser line-height + letter-spacing), and an
-  optional line-focus tint. Persist per learner.
+- [x] **U2 · Reader comfort controls — SHIPPED (2026-08-18, commit `76192e6`).** Aa button in reader header toggles comfort bar with A−/A/A+ font stepper (×0.85/×1.0/×1.2 on `readerTypeScale()` output, `rbt_font_step`) and Easy Read toggle (line-height 1.6→2.2, letter-spacing +0.03em, word-spacing +0.12em, `rbt_easy_read`). Both en+ja. Line-focus tint skipped (complex, low ESL value vs. spacing gains). LIVE (v=20260818).
 - [x] **U3 · Progress rings on cards — SHIPPED (2026-08-07, commits `01fff96`+`8b39e79`).** `progressRing(done,total,sz,stroke,track)` SVG donut helper. Level cards: 28px white ring in cover top-right; removes the old bar, sub-level text, and 10-dot row. Destination cards: 22px ring + X/Y fraction replaces plain text. 3 new CSS classes. LIVE (v=20260807d).
 - [x] **U4 · Mascot empty states — SHIPPED (2026-08-03, commit `f32b623`).** Flashcards (no words
   saved), Profile recent-badges (0 earned), and World (0 stamps) now show the brand mascot + bilingual

@@ -48,6 +48,7 @@
 
 **Cycle 7 — IN PROGRESS**
 - ✅ Functionality (2026-08-17, automated)
+- ✅ UI (2026-08-18, automated)
 
 > **Pillar rotation changed 2026-08-04 — six pillars now, not five.**
 > `Functionality → UI → UX → Content → Gamification → Monetisation`, then repeat.
@@ -82,7 +83,26 @@
     after 3 stories used `canAccessLevel(2)` returns `false`; old weekKey triggers a clean reset;
     zero console errors; 375px mobile clean; 6 identifiers confirmed LIVE.
 
-**Cycle 7 next pillar: UI.**
+**Cycle 7 next pillar: UX.**
+
+---
+
+### 2026-08-18 — UI Pillar (~50 min, automated) — Cycle 7
+
+**Pillar: UI** — Cycle 7.
+
+**Commit `76192e6` — DEPLOYED LIVE (v=20260818).**
+
+- **feature: reader comfort controls — font stepper + easy read (U2)** — an "Aa" button in the reader header opens a comfort bar giving the child control over text size and reading comfort.
+  - Aa button added between the audio pill and the Exit button; toggles `state.showComfort` (transient, no persist).
+  - Font stepper: A−/A/A+ buttons cycle a multiplier ×0.85/×1.0/×1.2 applied on top of `readerTypeScale()` output. Default is step 1 (medium). Persisted as `rbt_font_step`.
+  - Easy Read toggle: when on, `.reader-text-area.easy-read .reader-page-text` overrides line-height to 2.2 (from 1.6), letter-spacing to +0.03em, word-spacing to +0.12em. Persisted as `rbt_easy_read`.
+  - All buttons have `aria-pressed`; comfort button has `aria-expanded` and `aria-label`.
+  - Both en ("Easy read") and ja ("ゆったり読む") UI strings added.
+  - Line-focus tint (optional per backlog) skipped — complex and lower value vs. spacing gains.
+  - Verified: font sizes 39px/46px/55px at step 0/1/2 on a L1 story (expected ×0.85/1.0/1.2); easy-read lineHeight 101.2px (46×2.2 ✓), letterSpacing 1.38px (46×0.03 ✓); golden path home/library/reader/quiz/celebration clean; zero console errors; 375px + 768px clean; LIVE confirmed.
+
+**Cycle 7 next pillar: UX.**
 
 ---
 
@@ -112,7 +132,7 @@
     (home/library/reader) clean; zero console errors; 375px + desktop clean; 14 new identifiers
     confirmed LIVE.
 
-**Cycle 7 next pillar: UI.**
+**Cycle 7 next pillar: UX.** (UI done 2026-08-18)
 
 ---
 
