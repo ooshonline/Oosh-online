@@ -464,6 +464,14 @@
     .reader-page-text.page-enter-next{animation:page-slide-next .2s ease both}
     .reader-page-text.page-enter-prev{animation:page-slide-prev .2s ease both}
     @media(prefers-reduced-motion:reduce){.reader-page-text.page-enter-next,.reader-page-text.page-enter-prev{animation:none}}
+    .reader-text-area.easy-read .reader-page-text{line-height:2.2;letter-spacing:.03em;word-spacing:.12em}
+    .reader-comfort-bar{background:var(--navy);border-top:1px solid rgba(255,255,255,.14);padding:8px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .reader-font-steps{display:flex;align-items:center;gap:3px;background:rgba(255,255,255,.12);border-radius:8px;padding:3px}
+    .rcb-btn{height:34px;padding:0 12px;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,.6);transition:background .15s,color .15s;white-space:nowrap}
+    .rcb-btn.active{background:white;color:var(--navy)}
+    .reader-font-steps .rcb-btn{padding:0 8px;min-width:34px}
+    .reader-comfort-btn{height:44px;width:44px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.28);border-radius:50%;font-size:14px;font-weight:800;color:rgba(255,255,255,.8);cursor:pointer;flex-shrink:0;transition:background .15s,border-color .15s,color .15s}
+    .reader-comfort-btn.active{background:rgba(255,255,255,.22);border-color:white;color:white}
     .reader-footer{height:64px;background:white;border-top:1.5px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:10px;flex-shrink:0}
     .reader-nav-btn{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px;padding:8px 14px;border-radius:10px;border:1.5px solid var(--border);flex-shrink:0;background:none;font-size:12px;font-weight:700;color:var(--text-muted)}
     .reader-page-counter{flex:1;text-align:center;font-size:12px;font-weight:600;color:var(--text)}
@@ -674,9 +682,9 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260817"></script>
-<script src="ribbit-wordlists.js?v=20260817"></script>
-<script src="ribbit-ja-translations.js?v=20260817"></script>
+<script src="ribbit-stories.js?v=20260818"></script>
+<script src="ribbit-wordlists.js?v=20260818"></script>
+<script src="ribbit-ja-translations.js?v=20260818"></script>
 <script src="assets/vendor/lottie.min.js?v=20260804"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
@@ -967,6 +975,9 @@ const state = {
   // Weekly free-story allowance: 3 stories from any Level 2+ or non-Tokyo content per calendar week.
   // Auto-resets at week boundary. Populated by recordFreeStoryUse() in finishStory().
   wkFree: (()=>{ const s=JSON.parse(localStorage.getItem('rbt_wkfree')||'null'); const wk=thisWeekKey(); return (!s||s.weekKey!==wk)?{weekKey:wk,storyIds:[]}:s; })(),
+  fontStep: parseInt(localStorage.getItem('rbt_font_step')||'1'), // 0=small(×0.85), 1=medium(×1.0), 2=large(×1.2)
+  easyRead: localStorage.getItem('rbt_easy_read')==='1',
+  showComfort: false, // transient — comfort bar open in reader
 };
 function save(){
   localStorage.setItem('rbt_uilang', state.uiLang);
@@ -992,6 +1003,8 @@ function save(){
   localStorage.setItem('rbt_autoplay', state.autoPlay?'1':'');
   localStorage.setItem('rbt_wkrecap', state.lastWeekRecap||'');
   localStorage.setItem('rbt_wkfree', JSON.stringify(state.wkFree));
+  localStorage.setItem('rbt_font_step', state.fontStep);
+  localStorage.setItem('rbt_easy_read', state.easyRead?'1':'');
 }
 window.addEventListener('beforeunload', save);
 // beforeunload is unreliable on iOS Safari (backgrounding/switching apps doesn't fire it) —
@@ -1216,6 +1229,20 @@ function toggleAudio(){
 function toggleAutoPlay(){
   state.autoPlay=!state.autoPlay;
   localStorage.setItem('rbt_autoplay', state.autoPlay?'1':'');
+  render();
+}
+function toggleComfortBar(){
+  state.showComfort=!state.showComfort;
+  render();
+}
+function setFontStep(n){
+  state.fontStep=n;
+  save();
+  render();
+}
+function toggleEasyRead(){
+  state.easyRead=!state.easyRead;
+  save();
   render();
 }
 function speakText(text, rate){
@@ -2123,6 +2150,7 @@ const UI_STRINGS = {
     tourStep3Body:'Finish your quests every day to earn XP and unlock rewards!',
     tourSkip:'Skip', tourNext:'Next →', tourDone:"Let's go! 🐸",
     autoPlayLabel:'Auto', autoPlayTitle:'Auto-advance pages',
+    comfortBtn:'Aa', comfortTitle:'Reading comfort', easyReadLabel:'Easy read',
     wordRemoved:'Word removed', undoBtn:'Undo', wordRestored:'↩ Word restored!',
     weekRecapTitle:'Last Week', weekRecapStories:(n)=>`📖 ${n} ${n===1?'story':'stories'}`,
     weekRecapStreak:(n)=>`🔥 ${n}-day streak`, weekRecapCta:'Keep it up this week! 🐸',
@@ -2244,6 +2272,7 @@ const UI_STRINGS = {
     tourStep3Body:'毎日クエストを達成してXPをゲット！ごほうびをアンロックしよう！',
     tourSkip:'スキップ', tourNext:'つぎへ →', tourDone:'はじめよう！🐸',
     autoPlayLabel:'自動', autoPlayTitle:'ページを自動で送る',
+    comfortBtn:'Aa', comfortTitle:'読みやすさ', easyReadLabel:'ゆったり読む',
     wordRemoved:'単語を削除しました', undoBtn:'元に戻す', wordRestored:'↩ 単語を元に戻しました！',
     weekRecapTitle:'先週のまとめ', weekRecapStories:(n)=>`📖 ${n}話よんだよ`,
     weekRecapStreak:(n)=>`🔥 ${n}日れんぞく`, weekRecapCta:'今週もがんばろう！🐸',
@@ -2530,13 +2559,24 @@ function readerTypeScale(levelId, pageText){
 function renderReader(){
   const story=findStory(state.lastStoryId);
   if(!story) return renderComingSoon();
-  const [typeSm,typeLg]=readerTypeScale(story.levelId, story.paragraphs[state.currentPage]);
+  const [tsRaw,tlRaw]=readerTypeScale(story.levelId, story.paragraphs[state.currentPage]);
+  const fontMult=[0.85,1.0,1.2][state.fontStep??1];
+  const typeSm=Math.round(tsRaw*fontMult), typeLg=Math.round(tlRaw*fontMult);
   const level=story.levelId?LEVELS.find(l=>l.id===story.levelId):null;
   const [levelG1,levelG2]=level?[level.g1,level.g2]:['#E3F3FC','#70C1B3'];
   const total=story.paragraphs.length;
   const isFirst=state.currentPage===0, isLast=state.currentPage===total-1;
   const progressPct=Math.round(((state.currentPage+1)/total)*100);
   const img=story.images&&story.images[state.currentPage];
+  const comfortBar=state.showComfort?`
+    <div class="reader-comfort-bar">
+      <div class="reader-font-steps">
+        <button class="rcb-btn${state.fontStep===0?' active':''}" onclick="setFontStep(0)" aria-label="Small text" aria-pressed="${state.fontStep===0}">A−</button>
+        <button class="rcb-btn${state.fontStep===1?' active':''}" onclick="setFontStep(1)" aria-label="Medium text" aria-pressed="${state.fontStep===1}">A</button>
+        <button class="rcb-btn${state.fontStep===2?' active':''}" onclick="setFontStep(2)" aria-label="Large text" aria-pressed="${state.fontStep===2}">A+</button>
+      </div>
+      <button class="rcb-btn${state.easyRead?' active':''}" onclick="toggleEasyRead()" aria-pressed="${state.easyRead}">${t('easyReadLabel')}</button>
+    </div>`:'';
 
   return `<div class="screen reader-screen" style="--reader-size:${typeSm}px;--reader-size-lg:${typeLg}px">
     <div class="reader-header">
@@ -2545,14 +2585,16 @@ function renderReader(){
         <button class="reader-autoplay-btn${state.autoPlay?' active':''}" onclick="toggleAutoPlay()" aria-label="${t('autoPlayTitle')}" title="${t('autoPlayTitle')}">${t('autoPlayLabel')}</button>
         <div style="flex:1;font-size:12px;font-weight:700;color:#151515;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${story.title}</div>
       </div>
+      <button class="reader-comfort-btn${state.showComfort?' active':''}" onclick="toggleComfortBar()" aria-label="${t('comfortTitle')}" aria-expanded="${state.showComfort}">${t('comfortBtn')}</button>
       <button class="reader-exit-btn" onclick="exitReading()"><span>${icon('ctrl-close',14)}</span><span>${t('exit')}</span></button>
     </div>
+    ${comfortBar}
     <div class="reader-content">
       <div class="reader-illu" style="background:linear-gradient(135deg,${levelG1},${levelG2})">
         <div class="reader-illu-emoji">${story.emoji||'📖'}</div>
         ${img?`<img src="${img}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()">`:''}
       </div>
-      <div class="reader-text-area" onclick="event.stopPropagation()" ontouchstart="readerSwipeStart(event)" ontouchend="readerSwipeEnd(event)">
+      <div class="reader-text-area${state.easyRead?' easy-read':''}" onclick="event.stopPropagation()" ontouchstart="readerSwipeStart(event)" ontouchend="readerSwipeEnd(event)">
         <div class="reader-progress-bar"><div class="reader-progress-fill" style="width:${progressPct}%"></div></div>
         <div class="reader-page-text${state.pageDir?' page-enter-'+state.pageDir:''}" lang="en">${makeWordTappable(story.paragraphs[state.currentPage],story.vocabulary||{})}</div>
         <div id="page-turn-anim" class="page-turn-anim-slot"></div>
