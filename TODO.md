@@ -26,12 +26,17 @@ Five ideas per pillar for the `ribbit-app-update` routine to draw from. Each is 
 `UI_STRINGS.en` **and** `.ja`, extend existing state/CSS tokens, one change per session. Tick items
 off here as they ship, and add the commit hash.
 
-> **Pillar rotation updated 2026-08-04 — there are now SIX pillars.**
-> `Functionality → UI → UX → Content → Gamification → Monetisation`, then repeat.
-> Monetisation is the new sixth pillar; its backlog is the M-series below. Two extra rules apply to
-> that pillar only: **never gate gamification** and **never commit a secret** — both are spelled out
-> in the Monetisation section. The routine takes **M-series items only**; the S-series in
-> `ribbit-monetisation-handoff.md` requires Kyle present and must never run unattended.
+> **Pillar rotation updated 2026-08-21 — there are now SEVEN pillars.**
+> `Functionality → UI → UX → Content → Gamification → Monetisation → Bug Fixes / Implementation Check`,
+> then repeat.
+> Monetisation's backlog is the M-series below. Two extra rules apply to that pillar only: **never gate
+> gamification** and **never commit a secret** — both are spelled out in the Monetisation section. The
+> routine takes **M-series items only**; the S-series in `ribbit-monetisation-handoff.md` requires Kyle
+> present and must never run unattended.
+> **Bug Fixes / Implementation Check** is the new seventh pillar (added 2026-08-21); its backlog is the
+> B-series below. It is an audit-and-fix sweep, not a feature build — the B-series is a checklist of
+> failure classes to hunt through. Reproduce a defect in the browser before fixing it, re-check the
+> golden path for regressions after, and never dress a redesign up as a "fix."
 
 ### Functionality — ideas
 - [ ] **F1 · Spaced repetition for flashcards (Leitner).** `state.deckWordStatus` is effectively
@@ -80,8 +85,7 @@ off here as they ship, and add the commit hash.
   word popup first then story modal. Input-focus guard prevents stealing keystrokes from text fields.
   All 8 test cases verified; golden path clean; zero console errors; LIVE (v=20260729).
 - [x] **X3 · Undo instead of instant loss — SHIPPED (2026-08-10, commits `35a635c`+`380c745`).** `removeWordFromDeck()` buffers the deletion for 5s in `_deletedWord`. `_showUndoToast()` shows a pill toast with tappable Undo button; `undoWordDelete()` restores the word. 3 new UI_STRINGS keys en+ja. LIVE (v=20260810).
-- [ ] **X4 · "Words you tapped" recap.** Track which words a child opened during a story and list them
-  on the celebration screen with one-tap "Save all to my deck" — turns passive tapping into vocabulary.
+- [x] **X4 · "Words you tapped" recap — SHIPPED (2026-08-21, commit `281cc83`).** `_sessionTappedWords[]` tracks popup-opened words per session (cleared on story start). Celebration screen shows a card with word pills + "Save all to my deck (N)" button; pills turn green after saving; "All saved ✓" replaces the button when done. `saveAllTappedWords()` batches the save. 4 new UI_STRINGS keys en+ja. Verified en+ja, 375px, zero console errors. LIVE (v=20260821).
 - [ ] **X5 · Peek at the story during the quiz.** The quiz keeps the illustration but not the text, so
   comprehension questions test memory as much as understanding. Add a "Look again" button overlaying
   the page the question came from.
@@ -156,6 +160,38 @@ star ratings, flashcards, placement test stay free at every level, forever), and
 - [ ] **G8 · "Level Champion" ceremony.** When all 10 sub-levels of a level are completed for the first
   time, fire a bigger ceremony than the sub-level one — the champion badge for that level is already
   in BADGES, this just gives it the fanfare it deserves. Reuses `sublevelCelebration` machinery.
+
+### Bug Fixes / Implementation Check — ideas (added 2026-08-21)
+
+**Audit-and-fix sweep, not a feature build.** These are *classes of implementation defect* to hunt
+through each Bug pillar run — not features to add. Sweep the live app against this list, pick the
+highest-impact **real** defect, **reproduce it in the browser first**, fix it, re-check the golden path
+for regressions, then ship. Tick a class off with the date + commit only when a concrete instance is
+fixed; the classes themselves are recurring, so re-open them in later cycles as new instances appear.
+Rules still apply: real data only, both `UI_STRINGS.en` **and** `.ja` for any copy touched, extend
+existing state/CSS tokens, one change per session, verify-before-deploy.
+
+- [ ] **B1 · Responsive image rendering.** Illustrations get cut off on the sides or top on some
+  devices — the reader illustration, story-card covers, destination cards and the mascot don't scale
+  cleanly to every viewport. Audit `object-fit` / `aspect-ratio` / `max-width` / container overflow on
+  every image surface; test a tall-narrow phone, a short-wide phone (landscape), tablet (>=768) and
+  375px. No image should crop its subject or overflow its frame.
+- [ ] **B2 · Layout overflow & safe areas.** Hunt for anything that causes a horizontal scrollbar or
+  bleeds off-screen at small widths — long story titles, long Japanese strings, wide pills/rows — plus
+  content colliding with the notch / status bar at the top or the home-indicator and bottom nav at the
+  bottom (`env(safe-area-inset-*)`). Nothing should be clipped, overlapped, or force sideways scroll.
+- [ ] **B3 · Broken assets & console errors.** Walk the golden path (landing -> home -> library ->
+  reader -> quiz -> celebration) with the console open: no errors or warnings, no 404s (a missing
+  illustration `.webp` should fall back gracefully, never render a broken-image icon), no failed network
+  requests, and the served cache-bust `?v=` must match the live JS.
+- [ ] **B4 · Touch targets & interaction.** Child-sized fingers: every tappable control >=44px, no
+  overlapping tap zones, no dead buttons, no popup/modal that won't close, no element trapped behind the
+  bottom nav or another layer (z-index). Reader audio pills, word popup, quiz answers and nav are the
+  usual suspects.
+- [ ] **B5 · State & persistence integrity.** Every piece of `state` a feature relies on must survive a
+  reload — check `save()` has the matching `localStorage.setItem` for each `rbt_*` key, partial/corrupt
+  state doesn't crash `render()`, week-boundary resets (`rbt_wkfree`, recap flags) fire correctly, and
+  TTS both starts and cancels cleanly when turning pages or leaving the reader.
 
 ---
 

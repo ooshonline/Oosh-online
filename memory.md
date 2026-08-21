@@ -49,9 +49,13 @@
 **Cycle 7 — IN PROGRESS**
 - ✅ Functionality (2026-08-17, automated)
 - ✅ UI (2026-08-18, automated)
+- ✅ UX (2026-08-21, automated)
 
-> **Pillar rotation changed 2026-08-04 — six pillars now, not five.**
-> `Functionality → UI → UX → Content → Gamification → Monetisation`, then repeat.
+> **Pillar rotation changed 2026-08-21 — SEVEN pillars now.**
+> `Functionality → UI → UX → Content → Gamification → Monetisation → Bug Fixes / Implementation Check`,
+> then repeat. (Bug Fixes / Implementation Check is the new 7th pillar, added 2026-08-21 — an
+> audit-and-fix sweep against the B-series checklist in `TODO.md`, not a feature build; reproduce a
+> defect in the browser before fixing, re-check the golden path after, never ship a redesign as a "fix".)
 > Monetisation draws from the **M-series** backlog in `TODO.md`. Its two extra rules: never gate
 > gamification (XP, badges, streaks, quests, star ratings, flashcards and the placement test stay
 > free at every level, forever) and never commit a secret. **M-series only** may run unattended —
@@ -84,6 +88,25 @@
     zero console errors; 375px mobile clean; 6 identifiers confirmed LIVE.
 
 **Cycle 7 next pillar: UX.**
+
+---
+
+### 2026-08-21 — UX Pillar (~45 min, automated) — Cycle 7
+
+**Pillar: UX** — Cycle 7.
+
+**Commit `281cc83` — DEPLOYED LIVE (v=20260821).**
+
+- **feature: X4 — "Words you tapped" recap on celebration screen** — after finishing a story, any words the child opened via the word popup are shown in a recap card on the celebration screen with a one-tap "Save all to my deck" button.
+  - `_sessionTappedWords[]` module variable tracks words opened via `showWordPopup()` (deduped); cleared on story start in all 3 entry points (`startReadingFromModal`, `readAgain`, `startReadingDirect`).
+  - Celebration screen renders a `.celeb-tapped` card when `_sessionTappedWords.length > 0`: word pills + "Save all to my deck (N)" button counting only unsaved words.
+  - Pills show `.tapped-word-pill--saved` style (green) for words already in the deck.
+  - After saving, button replaced with "All saved to your deck ✓" / "全部デッキに保存ずみ ✓".
+  - `saveAllTappedWords()` batches all unsaved words in one `save()+render()` pass.
+  - 4 new `UI_STRINGS` keys in both en + ja: `tappedTitle`, `tappedSaveBtn`, `tappedSaveAll`, `tappedAllSaved`.
+  - Zero console errors; golden path (home/library/celebration) clean; verified at 375px + live site confirmed.
+
+**Cycle 7 next pillar: Content.**
 
 ---
 
