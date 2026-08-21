@@ -602,6 +602,14 @@
     .celeb-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:280px;animation:fade-up .4s .6s ease both}
     .celeb-btn-secondary{height:50px;background:transparent;border:2px solid var(--navy);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--navy)}
     .celeb-btn-primary{height:50px;background:var(--primary);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:14px;color:#151515}
+    /* ── tapped-words recap card on celebration screen ── */
+    .celeb-tapped{width:100%;max-width:360px;background:#fff;border:2px solid #EBF9DE;border-radius:var(--radius);padding:14px 16px;margin:-4px 0 20px;box-shadow:var(--shadow);animation:fade-up .4s .58s ease both;text-align:left}
+    .celeb-tapped-head{font-family:var(--font-head);font-weight:800;font-size:12px;color:#2D6B12;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
+    .celeb-tapped-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+    .tapped-word-pill{display:inline-block;background:#F0F8E8;border:1.5px solid #C4E89A;color:var(--navy);font-family:var(--font-head);font-weight:700;font-size:13px;padding:4px 10px;border-radius:99px}
+    .tapped-word-pill--saved{background:#E8F5E9;border-color:#A5D6A7;color:#2D6B12}
+    .celeb-tapped-save{width:100%;height:44px;background:var(--primary);border:none;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:13px;color:#151515;cursor:pointer}
+    .celeb-tapped-all-saved{font-size:12px;color:#2D6B12;font-weight:700;text-align:center;padding:4px 0}
 
     /* ══ SUBLEVEL CELEBRATION SCREEN ══ */
     .sl-celeb-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;gap:14px;text-align:center;background:linear-gradient(180deg,#f0fff4 0%,#ffffff 100%)}
@@ -683,8 +691,8 @@
 <div id="app"></div>
 
 <script src="ribbit-stories.js?v=20260821"></script>
-<script src="ribbit-wordlists.js?v=20260818"></script>
-<script src="ribbit-ja-translations.js?v=20260818"></script>
+<script src="ribbit-wordlists.js?v=20260821"></script>
+<script src="ribbit-ja-translations.js?v=20260821"></script>
 <script src="assets/vendor/lottie.min.js?v=20260804"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
@@ -1172,13 +1180,13 @@ function resumePage(storyId){
 function startReadingFromModal(){
   state.lastStoryId=state.selectedStory; state.modalOpen=false;
   state.currentPage=resumePage(state.selectedStory); state.audioPlaying=false; state.audioEverPlayed=false;
-  navigate('reader');
+  _sessionTappedWords=[]; navigate('reader');
 }
 function readAgain(){
   delete state.readingPos[state.lastStoryId]; save();
-  state.currentPage=0; state.audioPlaying=false; state.audioEverPlayed=false; navigate('reader');
+  state.currentPage=0; state.audioPlaying=false; state.audioEverPlayed=false; _sessionTappedWords=[]; navigate('reader');
 }
-function startReadingDirect(id){ state.lastStoryId=id; state.currentPage=resumePage(id); state.audioPlaying=false; state.audioEverPlayed=false; navigate('reader'); }
+function startReadingDirect(id){ state.lastStoryId=id; state.currentPage=resumePage(id); state.audioPlaying=false; state.audioEverPlayed=false; _sessionTappedWords=[]; navigate('reader'); }
 
 // ── READING ──────────────────────────────────────────────
 // Stories are always English, regardless of UI language — without an explicit
@@ -1524,6 +1532,7 @@ function makeWordTappable(text,vocab){
 }
 function showWordPopup(word){
   state.wordPopup=word;
+  if(!_sessionTappedWords.includes(word)) _sessionTappedWords.push(word);
   // speakWord() cancels any queued utterance, which would silently kill story playback
   // while the header still showed a pause icon — clear the flag before it does.
   state.audioPlaying=false;
@@ -1545,6 +1554,7 @@ function addWordToDeck(word){
   render();
 }
 let _deletedWord=null, _deleteTimer=null;
+let _sessionTappedWords=[]; // words opened via popup this reading session; cleared on story start
 function removeWordFromDeck(word){
   clearTimeout(_deleteTimer); _deletedWord=null;
   _deletedWord={word, data:Object.assign({},state.flashCards[word])};
@@ -1558,6 +1568,19 @@ function undoWordDelete(){
   state.flashCards[_deletedWord.word]=_deletedWord.data;
   _deletedWord=null; save(); render();
   showToast(t('wordRestored'));
+}
+function saveAllTappedWords(){
+  const story=findStory(state.lastStoryId);
+  const vocab=story&&story.vocabulary||{};
+  let added=0;
+  _sessionTappedWords.forEach(word=>{
+    if(state.flashCards[word]) return; // already saved — skip
+    const v=vocab[word];
+    const ja=typeof JA_TRANSLATIONS!=='undefined'?JA_TRANSLATIONS[word]:null;
+    state.flashCards[word]={def:v?v.def:'', pos:v?v.pos:'', translation:ja?ja.w:null, translationDef:ja?ja.d:null};
+    added++;
+  });
+  if(added>0){ save(); showToast(t('tappedSaveAll',added)); render(); }
 }
 function levelDoneCount(lv){ let c=0; for(let sl=0;sl<10;sl++) if(subLevelDone(lv,sl)) c++; return c; }
 function backFromCelebration(){
@@ -2155,6 +2178,8 @@ const UI_STRINGS = {
     weekRecapTitle:'Last Week', weekRecapStories:(n)=>`📖 ${n} ${n===1?'story':'stories'}`,
     weekRecapStreak:(n)=>`🔥 ${n}-day streak`, weekRecapCta:'Keep it up this week! 🐸',
     weekRecapDismiss:'Dismiss',
+    tappedTitle:'Words you tapped', tappedSaveBtn:(n)=>`Save all to my deck (${n})`,
+    tappedSaveAll:(n)=>`${n} word${n===1?'':'s'} saved! 📚`, tappedAllSaved:'All saved to your deck ✓',
   },
   ja: {
     greeting:(h)=> h<12?'おはよう！':h<18?'こんにちは！':'こんばんは！',
@@ -2277,6 +2302,8 @@ const UI_STRINGS = {
     weekRecapTitle:'先週のまとめ', weekRecapStories:(n)=>`📖 ${n}話よんだよ`,
     weekRecapStreak:(n)=>`🔥 ${n}日れんぞく`, weekRecapCta:'今週もがんばろう！🐸',
     weekRecapDismiss:'とじる',
+    tappedTitle:'タップした単語', tappedSaveBtn:(n)=>`全部を保存（${n}）`,
+    tappedSaveAll:(n)=>`${n}語を保存しました！📚`, tappedAllSaved:'全部デッキに保存ずみ ✓',
   },
 };
 function t(key,...args){
@@ -2786,6 +2813,20 @@ function renderCelebration(){
     ${xpEarned>0?`<div class="celeb-chip"><span>${t('xpEarned',xpEarned)}</span></div>`:`<div class="celeb-chip" style="background:#F0F3F7"><span style="color:var(--text-muted)">${t('replayGoodJob')}</span></div>`}
     <div class="celeb-perf">${t('celebStarText',accuracyPct)}</div>
     ${renderTalkPrompt(story)}
+    ${(()=>{
+      if(!_sessionTappedWords.length) return '';
+      const unsaved=_sessionTappedWords.filter(w=>!state.flashCards[w]);
+      const pills=_sessionTappedWords.map(w=>{
+        const saved=!!state.flashCards[w];
+        return `<span class="tapped-word-pill${saved?' tapped-word-pill--saved':''}">${w}</span>`;
+      }).join('');
+      return `<div class="celeb-tapped">
+        <div class="celeb-tapped-head">${t('tappedTitle')}</div>
+        <div class="celeb-tapped-pills">${pills}</div>
+        ${unsaved.length?`<button class="celeb-tapped-save" onclick="saveAllTappedWords()">${t('tappedSaveBtn',unsaved.length)}</button>`:
+          `<div class="celeb-tapped-all-saved">${t('tappedAllSaved')}</div>`}
+      </div>`;
+    })()}
     <div class="celeb-btns">
       <button class="celeb-btn-secondary" onclick="readAgain()">${t('readAgainBtn')}</button>
       <button class="celeb-btn-primary" onclick="${story.journeyId?`state.screen='world';state.worldSelectedId='${story.journeyId}';render()`:"backFromCelebration()"}">${story.journeyId?t('backToDestBtn'):t('backToLibraryBtn')}</button>
