@@ -2095,7 +2095,8 @@ STORIES[1][9].push({
      feedback:"The story says 'We watered the patch every morning before lessons.'"},
     {question:"What appeared after two weeks?",options:["Full-grown carrots","The first tiny green shoots","A flower","A lot of weeds"],correct:1,
      feedback:"The story says 'we saw the first tiny green shoots pushing up through the soil.'"}
-  ]
+  ],
+  images:['images/b10/b10_the_school_garden_project_1.webp','images/b10/b10_the_school_garden_project_2.webp','images/b10/b10_the_school_garden_project_3.webp']
 });
 
 // B10·2 — The Longest Day
@@ -2127,7 +2128,8 @@ STORIES[1][9].push({
      feedback:"The story says 'Dad found an old cricket set in the garage.'"},
     {question:"What did they watch in the evening?",options:["A film","The stars","The sun go down","Fireworks"],correct:2,
      feedback:"The story says 'we watched the sun go down over the houses.'"}
-  ]
+  ],
+  images:['images/b10/b10_the_longest_day_1.webp','images/b10/b10_the_longest_day_2.webp','images/b10/b10_the_longest_day_3.webp']
 });
 
 // B1·9 — Story 5
@@ -2193,7 +2195,8 @@ STORIES[1][9].push({
      feedback:"The story says 'The rooms were empty and our voices echoed.'"},
     {question:"What did the child choose at the new house?",options:["The biggest bedroom","The best chair","Their favourite window","Where to put their books"],correct:2,
      feedback:"The story says 'I had already chosen my favourite window — the one that looked out over the park.'"}
-  ]
+  ],
+  images:['images/b10/b10_moving_house_1.webp','images/b10/b10_moving_house_2.webp','images/b10/b10_moving_house_3.webp']
 });
 
 // B1·10 — Story 1
@@ -2226,7 +2229,8 @@ STORIES[1][9].push({
      feedback:"The story says 'she had come from Ireland.'"},
     {question:"What did the two children plan to do on Monday?",options:["Have breakfast together","Walk to school together","Play in the garden","Go to the shops"],correct:1,
      feedback:"The story says 'we had already made plans to walk to school together on Monday.'"}
-  ]
+  ],
+  images:['images/b10/b10_my_new_neighbour_1.webp','images/b10/b10_my_new_neighbour_2.webp','images/b10/b10_my_new_neighbour_3.webp','images/b10/b10_my_new_neighbour_4.webp']
 });
 
 // B10·4 — The Snow Day
@@ -2258,7 +2262,8 @@ STORIES[1][9].push({
      feedback:"The story says 'He had a carrot nose.'"},
     {question:"Why did they go inside in the end?",options:["Mum called them","It started to rain","Their fingers were too cold","The snowman was finished"],correct:2,
      feedback:"The story says 'our fingers were too cold and we had to go inside.'"}
-  ]
+  ],
+  images:['images/b10/b10_the_snow_day_1.webp','images/b10/b10_the_snow_day_2.webp','images/b10/b10_the_snow_day_3.webp']
 });
 
 // B1·10 — Story 2
@@ -2356,7 +2361,8 @@ STORIES[1][9].push({
      feedback:"The story says 'They were only two days old.'"},
     {question:"What did the child decide they might want to do when they grow up?",options:["Be a vet","Work on a farm","Teach school","Drive a coach"],correct:1,
      feedback:"The story says 'I decided that when I grow up, I might like to work on a farm.'"}
-  ]
+  ],
+  images:['images/b10/b10_a_trip_to_the_farm_1.webp','images/b10/b10_a_trip_to_the_farm_2.webp','images/b10/b10_a_trip_to_the_farm_3.webp','images/b10/b10_a_trip_to_the_farm_4.webp']
 });
 
 // B1·10 — Story 4
@@ -2388,7 +2394,8 @@ STORIES[1][9].push({
      feedback:"The story says 'I love kicking piles of leaves on the way to school.'"},
     {question:"What does the child compare the seasons to?",options:["Different countries","Chapters in a long story","Different foods","Songs in an album"],correct:1,
      feedback:"The story says 'I think each season is a chapter in a long story.'"}
-  ]
+  ],
+  images:['images/b10/b10_my_favourite_season_1.webp','images/b10/b10_my_favourite_season_2.webp','images/b10/b10_my_favourite_season_3.webp','images/b10/b10_my_favourite_season_4.webp']
 });
 
 // B1·10 — Story 5
@@ -2421,7 +2428,8 @@ STORIES[1][9].push({
      feedback:"The story says 'the box had belonged to her grandmother — my great-grandmother.'"},
     {question:"What did the child decide at the end?",options:["The box was truly magic","The things inside were like windows into another time","The attic was too dusty","They wanted to keep the box in their room"],correct:1,
      feedback:"The story says 'the things inside it were — they were windows into another time.'"}
-  ]
+  ],
+  images:['images/b10/b10_the_magic_box_1.webp','images/b10/b10_the_magic_box_2.webp','images/b10/b10_the_magic_box_3.webp','images/b10/b10_the_magic_box_4.webp']
 });
 
 // ════════════════════════════════════════════
