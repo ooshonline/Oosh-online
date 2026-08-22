@@ -2296,7 +2296,8 @@ STORIES[1][9].push({
      feedback:"The story says 'Mum helped me every evening after dinner.'"},
     {question:"What happened when the child walked on stage?",options:["They forgot everything","They started to cry","They forgot to be scared","They ran off stage"],correct:2,
      feedback:"The story says 'Something wonderful happened — I forgot to be scared.'"}
-  ]
+  ],
+  images:['images/b10/b10_the_school_play_1.webp','images/b10/b10_the_school_play_2.webp','images/b10/b10_the_school_play_3.webp','images/b10/b10_the_school_play_4.webp']
 });
 
 // B10·5 — The Summer Fair
