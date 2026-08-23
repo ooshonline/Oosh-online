@@ -2329,7 +2329,8 @@ STORIES[1][9].push({
      feedback:"The story says 'three meant a big one.'"},
     {question:"What did the child win?",options:["A teddy bear","A book","A box of colouring pencils and a sketch pad","A board game"],correct:2,
      feedback:"The story says 'a box of colouring pencils and a sketch pad.'"}
-  ]
+  ],
+  images:['images/b10/b10_the_summer_fair_1.webp','images/b10/b10_the_summer_fair_2.webp','images/b10/b10_the_summer_fair_3.webp']
 });
 
 // B1·10 — Story 3
