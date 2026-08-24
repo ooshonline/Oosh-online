@@ -2529,7 +2529,8 @@ STORIES[2][0].push({
      feedback:"The story says 'he let me water the tomatoes with a heavy watering can.'"},
     {question:"What did the child ask for at the end?",options:["A pet","A new watering can","Their own piece of garden","To stay longer"],correct:2,
      feedback:"The story says 'I asked if I could have my own small piece of the garden to look after.'"}
-  ]
+  ],
+  images:['images/e1/e1_grandpas_garden_1.webp','images/e1/e1_grandpas_garden_2.webp','images/e1/e1_grandpas_garden_3.webp']
 });
 
 // E2·1 — Story 4
@@ -2560,7 +2561,8 @@ STORIES[2][0].push({
      feedback:"The story says 'Maya's hardest word was necessary.'"},
     {question:"How did Maya's mum react when she won?",options:["She cheered loudly","She ran on stage","She cried happy tears","She stood up and clapped"],correct:2,
      feedback:"The story says 'she saw her mum crying happy tears.'"}
-  ]
+  ],
+  images:['images/e1/e1_the_spelling_bee_1.webp','images/e1/e1_the_spelling_bee_2.webp','images/e1/e1_the_spelling_bee_3.webp']
 });
 
 // E2·1 — Story 5
@@ -2591,7 +2593,8 @@ STORIES[2][0].push({
      feedback:"The story says 'I chose a bunch of purple carrots.'"},
     {question:"How did the purple carrots taste?",options:["Sweeter than orange ones","Exactly the same as orange ones","A little bitter","Much better than orange ones"],correct:1,
      feedback:"The story says 'they taste exactly the same as orange ones but they look much more interesting.'"}
-  ]
+  ],
+  images:['images/e1/e1_saturday_market_1.webp','images/e1/e1_saturday_market_2.webp','images/e1/e1_saturday_market_3.webp']
 });
 
 // ── Sub-level 2 · ~130–145 words · Past + present · New settings ──
@@ -2626,7 +2629,8 @@ STORIES[2][1].push({
      feedback:"The story says 'he won second place.'"},
     {question:"How did Amir feel about second place at the end?",options:["Still very disappointed","Angry","Proud but still sad","He decided it was actually brilliant"],correct:3,
      feedback:"The story says 'he decided second place was actually brilliant.'"}
-  ]
+  ],
+  images:['images/e2/e2_the_science_fair_1.webp','images/e2/e2_the_science_fair_2.webp','images/e2/e2_the_science_fair_3.webp']
 });
 
 // E2·2 — Story 2
@@ -2657,7 +2661,8 @@ STORIES[2][1].push({
      feedback:"The story says 'We found Jacob still fast asleep. We had to shake him three times.'"},
     {question:"What gave them away at the end?",options:["The torch light","Bea laughing","Jacob walking into the door","The alarm going off again"],correct:2,
      feedback:"The story says 'Jacob walked into the door and made a huge noise.'"}
-  ]
+  ],
+  images:['images/e2/e2_the_midnight_feast_1.webp','images/e2/e2_the_midnight_feast_2.webp','images/e2/e2_the_midnight_feast_3.webp']
 });
 
 // E2·2 — Story 3
@@ -2719,7 +2724,8 @@ STORIES[2][1].push({
      feedback:"The story says 'stay calm, find a member of staff.'"},
     {question:"What did Miss Osei and the child talk about on the way home?",options:["The T-rex","The gift shop","Getting lost","The whale"],correct:3,
      feedback:"The story says 'we talked about the whale the whole way back.'"}
-  ]
+  ],
+  images:['images/e2/e2_lost_in_the_museum_1.webp','images/e2/e2_lost_in_the_museum_2.webp','images/e2/e2_lost_in_the_museum_3.webp']
 });
 
 // E2·2 — Story 5
@@ -2750,7 +2756,8 @@ STORIES[2][1].push({
      feedback:"The story says 'Our table sold out in fourteen minutes.'"},
     {question:"What did they raise enough money for?",options:["A new goal post","Two footballs and tennis rackets","Three basketballs","Sports uniforms"],correct:1,
      feedback:"The story says 'two new footballs and a set of tennis rackets.'"}
-  ]
+  ],
+  images:['images/e2/e2_the_bake_sale_1.webp','images/e2/e2_the_bake_sale_2.webp','images/e2/e2_the_bake_sale_3.webp']
 });
 
 // ── Sub-level 3 · ~145–160 words · Dialogue introduced · Wider vocabulary ──
@@ -2777,7 +2784,8 @@ STORIES[2][2].push({
     { question:"What did Tom do with the puppy?", options:["Took it home","Left it alone","Took it to the park office","Called Mrs Green"], correct:2, feedback:"Tom took the puppy to the park office." },
     { question:"Who owned the puppy?", options:["Tom","The woman at the office","Mrs Green","Tom's friend"], correct:2, feedback:"The puppy belonged to Mrs Green." },
     { question:"How did Tom feel at the end?", options:["Sad","Angry","Happy","Tired"], correct:2, feedback:"Tom felt happy because the puppy would go home." }
-  ]
+  ],
+  images:['images/e3/e3_the_lost_puppy_1.webp','images/e3/e3_the_lost_puppy_2.webp','images/e3/e3_the_lost_puppy_3.webp']
 });
 
 // E3·1 — The School Play
@@ -2809,7 +2817,8 @@ STORIES[2][2].push({
      feedback:"The story says 'I had been given the part of the Old Oak Tree.'"},
     {question:"What did Mrs. Park say about the tree's role?",options:["It was very difficult","It was the smallest part","It held the whole story together","It had the best costume"],correct:2,
      feedback:"Mrs. Park said 'The tree holds the whole story together.'"}
-  ]
+  ],
+  images:['images/e3/e3_the_school_play_1.webp','images/e3/e3_the_school_play_2.webp','images/e3/e3_the_school_play_3.webp','images/e3/e3_the_school_play_4.webp']
 });
 STORIES[2][2].push({
   id:"l2.3s2", levelId:2, subLevel:2,
@@ -2833,7 +2842,8 @@ STORIES[2][2].push({
     { question:"Who answered the phone?", options:["Mia's mum","A teacher","Mia's grandmother","A friend"], correct:2, feedback:"Mia's grandmother answered the call." },
     { question:"What did Mia talk about?", options:["Her dog","School and her new teacher","A book she read","The weather"], correct:1, feedback:"Mia told her grandmother about school and her new teacher." },
     { question:"What did Mia decide at the end?", options:["To write a letter","To visit soon","To call every week","To send a photo"], correct:2, feedback:"Mia said she would call her grandmother every week." }
-  ]
+  ],
+  images:['images/e3/e3_the_phone_call_1.webp','images/e3/e3_the_phone_call_2.webp','images/e3/e3_the_phone_call_3.webp']
 });
 
 // E3·2 — The Dentist
@@ -2865,7 +2875,8 @@ STORIES[2][2].push({
      feedback:"Mr. Hassan said 'Everything looks great. Clean teeth, healthy gums.'"},
     {question:"What did Mr. Hassan say about why it was quick?",options:["Because he is a fast worker","Because there was nothing wrong","When you brush twice a day","Because it was a simple check"],correct:2,
      feedback:"Mr. Hassan said 'It usually is, when you brush twice a day.'"}
-  ]
+  ],
+  images:['images/e3/e3_the_dentist_1.webp','images/e3/e3_the_dentist_2.webp','images/e3/e3_the_dentist_3.webp','images/e3/e3_the_dentist_4.webp']
 });
 STORIES[2][2].push({
   id:"l2.3s3", levelId:2, subLevel:2,
@@ -2889,7 +2900,8 @@ STORIES[2][2].push({
     { question:"What did Sam wear to go outside?", options:["A scarf and gloves","A yellow raincoat and boots","An umbrella and hat","A grey jacket"], correct:1, feedback:"Sam wore his yellow raincoat and boots." },
     { question:"Who was the shopkeeper?", options:["Mr Green","Mr Smith","Mr Patel","Mr Brown"], correct:2, feedback:"The shopkeeper was Mr Patel." },
     { question:"What did Sam's mum do when he got home?", options:["Gave him a gift","Hugged him tight","Made dinner","Laughed at him"], correct:1, feedback:"Sam's mum hugged him tight and called him her brave boy." }
-  ]
+  ],
+  images:['images/e3/e3_the_rainy_day_shop_1.webp','images/e3/e3_the_rainy_day_shop_2.webp','images/e3/e3_the_rainy_day_shop_3.webp']
 });
 
 // E3·3 — The Camping Night
@@ -2946,7 +2958,8 @@ STORIES[2][2].push({
     { question:"How long did Lily work on her painting?", options:["One week","Two weeks","Three days","One month"], correct:1, feedback:"Lily worked on her painting every evening for two weeks." },
     { question:"What did Lily win?", options:["A trophy","Money","A gold certificate","A new paintbrush"], correct:2, feedback:"Lily received a gold certificate for winning the competition." },
     { question:"What did the teacher say about Lily's painting?", options:["It was too small","The waves looked real","The colours were wrong","It needed more work"], correct:1, feedback:"The teacher said Lily's waves looked like they were really moving." }
-  ]
+  ],
+  images:['images/e3/e3_the_art_competition_1.webp','images/e3/e3_the_art_competition_2.webp','images/e3/e3_the_art_competition_3.webp']
 });
 
 // E3·4 — The Missing Cat
@@ -2979,7 +2992,8 @@ STORIES[2][2].push({
      feedback:"Dad said 'Cats often come back on their own.'"},
     {question:"Where was Pepper found the next morning?",options:["Under the hedge","Next door","On the back step","In the kitchen"],correct:2,
      feedback:"The story says 'Pepper was sitting on the back step.'"}
-  ]
+  ],
+  images:['images/e3/e3_the_missing_cat_1.webp','images/e3/e3_the_missing_cat_2.webp','images/e3/e3_the_missing_cat_3.webp','images/e3/e3_the_missing_cat_4.webp']
 });
 STORIES[2][2].push({
   id:"l2.3s5", levelId:2, subLevel:2,
@@ -3003,7 +3017,8 @@ STORIES[2][2].push({
     { question:"What was the score at half-time?", options:["2–0","0–0","1–1","2–1"], correct:2, feedback:"At half-time the score was one goal each — 1–1." },
     { question:"Who scored the winning goal?", options:["Dan","The captain","Jake","A different player"], correct:2, feedback:"Jake kicked the ball hard and it went into the top corner." },
     { question:"What did the captain do after the final whistle?", options:["Ran off the pitch","Lifted the cup high","Hugged Jake","Talked to the coach"], correct:1, feedback:"The captain lifted the cup high above her head." }
-  ]
+  ],
+  images:['images/e3/e3_the_football_match_1.webp','images/e3/e3_the_football_match_2.webp','images/e3/e3_the_football_match_3.webp']
 });
 // ── Sub-level 4 · ~165–180 words · Past tense strengthened · Descriptions grow ──
 STORIES[2][3] = [];
@@ -3038,7 +3053,8 @@ STORIES[2][2].push({
      feedback:"The story says 'It took three hours.'"},
     {question:"What did the child think about when it was finally finished?",options:["How proud Dad looked","Whether the colour was right","Whether to thank Mum","Just wanting to ride"],correct:3,
      feedback:"The story says 'mostly I just wanted to ride.'"}
-  ]
+  ],
+  images:['images/e3/e3_the_new_bicycle_1.webp','images/e3/e3_the_new_bicycle_2.webp','images/e3/e3_the_new_bicycle_3.webp','images/e3/e3_the_new_bicycle_4.webp']
 });
 
 // ── Sub-level 4 · ~160–175 words · More dialogue · Reported speech ──
@@ -3064,7 +3080,8 @@ STORIES[2][3].push({
     { question:"What did Ella find near the trees?", options:["A bird's nest","A small stream","A rabbit","A hidden path"], correct:1, feedback:"Ella found a small stream with shiny stones at the bottom." },
     { question:"What did Mum roast over the campfire?", options:["Sausages","Bread","Marshmallows","Apples"], correct:2, feedback:"Mum roasted marshmallows on sticks." },
     { question:"What sounds did Ella hear in the forest at night?", options:["Dogs and traffic","Crickets, owls, and wind","Rain and thunder","Music and voices"], correct:1, feedback:"Ella heard crickets, owls, and the soft wind in the leaves." }
-  ]
+  ],
+  images:['images/e4/e4_the_camping_trip_1.webp','images/e4/e4_the_camping_trip_2.webp','images/e4/e4_the_camping_trip_3.webp']
 });
 
 // E4·1 — The Spelling Test
@@ -3121,7 +3138,8 @@ STORIES[2][3].push({
     { question:"How did they find the tiny hole?", options:["They used a torch","They used a bowl of water","They used a magnifying glass","They squeezed the tyre"], correct:1, feedback:"They put the tyre in water and watched for bubbles rising from the hole." },
     { question:"How long did the repair take?", options:["Five minutes","An hour","About thirty minutes","All afternoon"], correct:2, feedback:"The repair took about thirty minutes." },
     { question:"What did Ben say when he arrived at the park?", options:["He said nothing","He explained he was learning something new","He apologised and kept riding","He showed his friends the patch"], correct:1, feedback:"Ben laughed and said he was sorry because he was learning something new." }
-  ]
+  ],
+  images:['images/e4/e4_the_broken_bicycle_1.webp','images/e4/e4_the_broken_bicycle_2.webp','images/e4/e4_the_broken_bicycle_3.webp']
 });
 
 // E4·2 — Saturday Morning Football
@@ -3154,7 +3172,8 @@ STORIES[2][3].push({
      feedback:"The story says 'took one touch, and hit it low into the corner.'"},
     {question:"How did Mrs. Okafor react to the goal?",options:["She cheered loudly","She ran onto the pitch","She nodded once from the sideline","She said well done"],correct:2,
      feedback:"The story says 'Mrs. Okafor nodded once from the sideline.'"}
-  ]
+  ],
+  images:['images/e4/e4_saturday_morning_football_1.webp','images/e4/e4_saturday_morning_football_2.webp','images/e4/e4_saturday_morning_football_3.webp','images/e4/e4_saturday_morning_football_4.webp']
 });
 STORIES[2][3].push({
   id:"l2.4s3", levelId:2, subLevel:3,
@@ -3178,7 +3197,8 @@ STORIES[2][3].push({
     { question:"Where had Rosa's family moved from?", options:["France","Italy","Spain","Brazil"], correct:2, feedback:"Rosa said they had just moved from Spain." },
     { question:"How did Nina feel before knocking on the door?", options:["Excited","Shy","Angry","Bored"], correct:1, feedback:"Nina felt shy but took a deep breath and knocked anyway." },
     { question:"What did Nina show Rosa?", options:["Her bedroom","The school","The local park and corner shop","A playground near school"], correct:2, feedback:"Nina showed Rosa the local park and the corner shop." }
-  ]
+  ],
+  images:['images/e4/e4_the_new_neighbour_1.webp','images/e4/e4_the_new_neighbour_2.webp','images/e4/e4_the_new_neighbour_3.webp']
 });
 
 // E4·3 — The Power Cut
@@ -3211,7 +3231,8 @@ STORIES[2][3].push({
      feedback:"The story says 'He asked if we could tell ghost stories.'"},
     {question:"What was the ghost in Dad's story afraid of?",options:["The dark","Loud noises","Spiders","Children"],correct:2,
      feedback:"The story says Dad told 'a long, ridiculous story about a ghost who was afraid of spiders.'"}
-  ]
+  ],
+  images:['images/e4/e4_the_power_cut_1.webp','images/e4/e4_the_power_cut_2.webp','images/e4/e4_the_power_cut_3.webp','images/e4/e4_the_power_cut_4.webp']
 });
 STORIES[2][3].push({
   id:"l2.4s4", levelId:2, subLevel:3,
@@ -3235,7 +3256,8 @@ STORIES[2][3].push({
     { question:"What type of tree did they use for the treehouse?", options:["A pine tree","An apple tree","An oak tree","A willow tree"], correct:2, feedback:"The treehouse was built in an old oak tree." },
     { question:"Who helped them make sure everything was safe?", options:["Omar's mum","Yusuf's dad","Omar's dad","A neighbour"], correct:2, feedback:"Omar's dad helped them make sure the treehouse was safe." },
     { question:"What did they bring up to the treehouse in the afternoon?", options:["Books and a blanket","Biscuits and lemonade","Sandwiches and juice","A game and snacks"], correct:1, feedback:"They climbed up with biscuits and lemonade." }
-  ]
+  ],
+  images:['images/e4/e4_the_treehouse_1.webp','images/e4/e4_the_treehouse_2.webp','images/e4/e4_the_treehouse_3.webp']
 });
 
 // E4·4 — The Library Book
@@ -3268,7 +3290,8 @@ STORIES[2][3].push({
      feedback:"The story says 'there was a chapter about anglerfish that I had read twice.'"},
     {question:"What did Mr. Ng recommend at the end?",options:["A book about sharks","A book about bioluminescence","The same deep-sea book again","A book about whales"],correct:1,
      feedback:"Mr. Ng said there was 'a new book about bioluminescence on the returns shelf.'"}
-  ]
+  ],
+  images:['images/e4/e4_the_library_book_1.webp','images/e4/e4_the_library_book_2.webp','images/e4/e4_the_library_book_3.webp','images/e4/e4_the_library_book_4.webp']
 });
 STORIES[2][3].push({
   id:"l2.4s5", levelId:2, subLevel:3,
@@ -3292,7 +3315,8 @@ STORIES[2][3].push({
     { question:"Which speech did Chloe keep forgetting?", options:["The first","The second","The third","The last"], correct:2, feedback:"Chloe kept forgetting the third speech during her practice." },
     { question:"Why couldn't Chloe see the audience when she began?", options:["She was nervous","The lights were too bright","She forgot her glasses","The curtains were wrong"], correct:1, feedback:"The lights were so bright she could not see the audience at all." },
     { question:"What did Chloe's drama teacher say after the play?", options:["\"Well done, Chloe\"","\"That was a star performance\"","\"You forgot some lines\"","\"You were very brave\""], correct:1, feedback:"The drama teacher said it was a star performance." }
-  ]
+  ],
+  images:['images/e4/e4_the_school_play_1.webp','images/e4/e4_the_school_play_2.webp','images/e4/e4_the_school_play_3.webp']
 });
 // ── Sub-level 5 · ~180–195 words · Longer paragraphs · Feelings and opinions ──
 STORIES[2][4] = [];
@@ -3327,7 +3351,8 @@ STORIES[2][3].push({
      feedback:"Grandad showed 'the direction — always with the grain, never against it.'"},
     {question:"What expression did Grandad have at the end?",options:["Surprise","Concern","Pride","Amusement"],correct:2,
      feedback:"The story says 'Later, Mum told me that expression was pride.'"}
-  ]
+  ],
+  images:['images/e4/e4_grandads_shed_1.webp','images/e4/e4_grandads_shed_2.webp','images/e4/e4_grandads_shed_3.webp','images/e4/e4_grandads_shed_4.webp']
 });
 
 // ── Sub-level 5 · ~175–190 words · 4 paragraphs · Varied tenses ──
@@ -3353,7 +3378,8 @@ STORIES[2][4].push({
     { question:"What did Maya ask her parents?", options:["To come back another day","To take two cats home","To get a dog instead","To let her name the cat"], correct:1, feedback:"Maya asked if they could take the tabby cat too." },
     { question:"What was the cat's name at the end of the story?", options:["Ginger","Stripe","Shadow","Golden"], correct:2, feedback:"Maya's family named the cat Shadow." },
     { question:"What did Maya say about why the cat hid at first?", options:["He was hungry","He missed the shelter","He needed time to trust them","He was afraid of the dark"], correct:2, feedback:"Maya said he just needed time to trust them." }
-  ]
+  ],
+  images:['images/e5/e5_the_rescue_cat_1.webp','images/e5/e5_the_rescue_cat_2.webp','images/e5/e5_the_rescue_cat_3.webp']
 });
 
 // E5·1 — The Newspaper Project
@@ -3410,7 +3436,8 @@ STORIES[2][4].push({
     { question:"What did Finn spot in the reeds?", options:["A toy boat","A small orange inflatable ring","A fish","A bird's nest"], correct:1, feedback:"Finn spotted a small orange inflatable ring in the reeds." },
     { question:"What was tangled around the ring?", options:["A piece of rope","Two baby ducks","A plastic bag","Old fishing wire"], correct:1, feedback:"Two baby ducks had got stuck and tangled in the ring." },
     { question:"What did Dad say at the end of the story?", options:["\"We should come here more often\"","\"We know\" we helped","\"Next time we will bring gloves\"","\"Those ducks were very lucky\""], correct:1, feedback:"Dad said it doesn't matter if the ducks knew — 'We know.'" }
-  ]
+  ],
+  images:['images/e5/e5_the_river_walk_1.webp','images/e5/e5_the_river_walk_2.webp','images/e5/e5_the_river_walk_3.webp']
 });
 STORIES[2][4].push({
   id:"l2.5s3", levelId:2, subLevel:4,
@@ -3434,7 +3461,8 @@ STORIES[2][4].push({
     { question:"What did Priya's mum ask her?", options:["Which was more fun","Which cost less money","Which she would regret giving up more","Which her friends preferred"], correct:2, feedback:"Priya's mum asked which one she would regret giving up more." },
     { question:"What did Priya decide to keep doing?", options:["Science club","Both things","Dance class","Neither — she was still unsure"], correct:2, feedback:"Priya decided to stay in dance class." },
     { question:"What did Priya think at the end of the story?", options:["She regretted her choice","Decisions are hard but making them feels better than not deciding","She wanted to change her mind","Science club was more important"], correct:1, feedback:"Priya thought that some decisions are hard, but making them feels better than not deciding at all." }
-  ]
+  ],
+  images:['images/e5/e5_the_big_decision_1.webp','images/e5/e5_the_big_decision_2.webp','images/e5/e5_the_big_decision_3.webp']
 });
 
 // E5·2 — The Thunderstorm
@@ -3467,7 +3495,8 @@ STORIES[2][4].push({
      feedback:"The story says 'Hailstones bounced off the back patio like small marbles.'"},
     {question:"What did Bruno do when he came back out?",options:["Ate his dinner","Sniffed the doorstep and sneezed","Barked at the rain","Sat in the garden"],correct:1,
      feedback:"The story says 'Bruno came out cautiously, sniffed the back doorstep, and sneezed.'"}
-  ]
+  ],
+  images:['images/e5/e5_the_thunderstorm_1.webp','images/e5/e5_the_thunderstorm_2.webp','images/e5/e5_the_thunderstorm_3.webp','images/e5/e5_the_thunderstorm_4.webp']
 });
 STORIES[2][4].push({
   id:"l2.5s4", levelId:2, subLevel:4,
@@ -3491,7 +3520,8 @@ STORIES[2][4].push({
     { question:"What bird did Leo see fly past and dive into the stream?", options:["A robin","A kingfisher","A swallow","A heron"], correct:1, feedback:"A kingfisher — bright blue and orange — flew past and dived into the stream." },
     { question:"How many species did Leo spot by Sunday evening?", options:["Five","Eight","Eleven","Fifteen"], correct:2, feedback:"By Sunday evening Leo had spotted eleven different species." },
     { question:"What did Leo ask his dad on the drive home?", options:["To go back next week","To buy him binoculars","To order a birdwatching guide","To visit Grandpa more often"], correct:2, feedback:"Leo asked his dad to order him a birdwatching guide." }
-  ]
+  ],
+  images:['images/e5/e5_the_birdwatcher_1.webp','images/e5/e5_the_birdwatcher_2.webp','images/e5/e5_the_birdwatcher_3.webp']
 });
 
 // E5·3 — The Wrong Bus
@@ -3524,7 +3554,8 @@ STORIES[2][4].push({
      feedback:"Mum had said: 'press the stop button, get off at the next stop, and call me.'"},
     {question:"How long did Mum say the walk home would be?",options:["Three minutes","Five minutes","Eight minutes","Twelve minutes"],correct:2,
      feedback:"Mum said 'you were about eight minutes' walk away.'"}
-  ]
+  ],
+  images:['images/e5/e5_the_wrong_bus_1.webp','images/e5/e5_the_wrong_bus_2.webp','images/e5/e5_the_wrong_bus_3.webp','images/e5/e5_the_wrong_bus_4.webp']
 });
 STORIES[2][4].push({
   id:"l2.5s5", levelId:2, subLevel:4,
@@ -3548,7 +3579,8 @@ STORIES[2][4].push({
     { question:"What did Jess tell Aisha to do when she slowed down?", options:["Stop and rest","Run faster","Focus on one lamppost at a time","Think about the medal"], correct:2, feedback:"Jess said to look at the next lamppost and run to there." },
     { question:"How much money did Aisha raise?", options:["Twenty pounds","Thirty pounds","Forty pounds","Fifty pounds"], correct:2, feedback:"Aisha raised forty pounds for the children's hospital." },
     { question:"How did Aisha's mum respond to the photo?", options:["She called immediately","She wrote PROUD in capital letters","She sent a heart emoji","She said she missed the race"], correct:1, feedback:"Aisha's mum replied with PROUD in capital letters." }
-  ]
+  ],
+  images:['images/e5/e5_the_charity_run_1.webp','images/e5/e5_the_charity_run_2.webp','images/e5/e5_the_charity_run_3.webp']
 });
 // ── Sub-level 6 · ~195–210 words · Cause & effect · Complex sentences begin ──
 STORIES[2][5] = [];
@@ -3583,7 +3615,8 @@ STORIES[2][4].push({
      feedback:"The story says 'My job was usually weeding.'"},
     {question:"What did the man in the next plot give Mum?",options:["Tomato seeds","Advice about the soil","A cutting from his raspberry canes","A new spade"],correct:2,
      feedback:"The story says 'He gave Mum a cutting from his raspberry canes.'"}
-  ]
+  ],
+  images:['images/e5/e5_the_allotment_1.webp','images/e5/e5_the_allotment_2.webp','images/e5/e5_the_allotment_3.webp','images/e5/e5_the_allotment_4.webp']
 });
 
 // E5·5 — The Drawing Competition
@@ -3616,7 +3649,8 @@ STORIES[2][4].push({
      feedback:"The story says 'A girl called Amara had drawn the market — thirty-two individual stalls.'"},
     {question:"How long did the child and Amara talk about art?",options:["Five minutes","Ten minutes","Twenty minutes","Half an hour"],correct:2,
      feedback:"The story says 'We talked about art for twenty minutes.'"}
-  ]
+  ],
+  images:['images/e5/e5_the_drawing_competition_1.webp','images/e5/e5_the_drawing_competition_2.webp','images/e5/e5_the_drawing_competition_3.webp','images/e5/e5_the_drawing_competition_4.webp']
 });
 
 // ── Sub-level 6 · ~190–205 words · Descriptive language · Wider vocabulary ──
