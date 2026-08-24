@@ -621,8 +621,19 @@
     .sl-celeb-next{font-size:13px;font-weight:700;color:#72C93A;animation:fade-up .4s .4s ease both}
     .sl-celeb-btn{margin-top:12px;padding:16px 40px;background:var(--primary);color:#151515;border:none;border-radius:16px;font-size:18px;font-family:var(--font-head);font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(114,201,58,0.35);animation:fade-up .4s .5s ease both}
 
+    /* ══ LEVEL CHAMPION CEREMONY ══ */
+    .lc-celeb-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;gap:12px;text-align:center;background:linear-gradient(180deg,#fff8e1 0%,#ffffff 100%)}
+    .lc-celeb-pond{width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,0.12);animation:bounce-in .65s ease both}
+    .lc-celeb-badge{animation:bounce-in .7s .15s ease both}
+    .lc-celeb-label{font-size:12px;font-weight:800;letter-spacing:0.1em;color:#f9ad3b;text-transform:uppercase;animation:fade-up .4s .1s ease both}
+    .lc-celeb-title{font-family:var(--font-head);font-weight:900;font-size:34px;color:var(--text);line-height:1.1;animation:fade-up .4s .2s ease both}
+    .lc-celeb-msg{font-size:15px;color:var(--text-muted);max-width:290px;animation:fade-up .4s .3s ease both}
+    .lc-celeb-xp{display:inline-block;background:linear-gradient(135deg,#f9ad3b,#f5c842);color:#1A3260;font-weight:900;font-size:18px;padding:11px 28px;border-radius:99px;margin-top:4px;animation:fade-up .4s .4s ease both}
+    .lc-celeb-next{font-size:13px;font-weight:700;color:#72C93A;animation:fade-up .4s .5s ease both}
+    .lc-celeb-btn{margin-top:14px;padding:16px 40px;background:linear-gradient(135deg,#f9ad3b,#f5c842);color:#1A3260;border:none;border-radius:16px;font-size:18px;font-family:var(--font-head);font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(249,173,59,0.45);animation:fade-up .4s .6s ease both}
+
     /* Tablet frame adaptation (>=768px), matching the design's native 1024x768 canvas */
-    #app:has(.app-shell),#app:has(.reader-screen),#app:has(.quiz-screen),#app:has(.celeb-screen),#app:has(.place-screen),#app:has(.sl-celeb-screen){max-width:1024px}
+    #app:has(.app-shell),#app:has(.reader-screen),#app:has(.quiz-screen),#app:has(.celeb-screen),#app:has(.place-screen),#app:has(.sl-celeb-screen),#app:has(.lc-celeb-screen){max-width:1024px}
     @media (min-width:768px){
       .app-header{height:56px;padding:0 22px;flex-wrap:nowrap}
       .app-brand{font-size:19px}
@@ -975,7 +986,9 @@ const state = {
   worldSelectedId: null,
   worldLockedNoticeId: null,
   celebratedSublevels: JSON.parse(localStorage.getItem('rbt_celeb_sl')||'[]'), // ["lv.sl"] keys for sub-levels that already had a ceremony
+  celebratedLevels: JSON.parse(localStorage.getItem('rbt_celeb_lv')||'[]'),    // level ids that already had a champion ceremony
   pendingSublevel: null, // transient: set in finishStory() when a new sub-level is completed first time
+  pendingLevelChampion: null, // transient: set in finishSublevelCeremony() when all 10 sub-levels done
   seenTour: localStorage.getItem('rbt_tour')==="1",
   tourStep: 0, // transient — which tour slide is showing (0=tap word, 1=audio, 2=quests)
   autoPlay: localStorage.getItem('rbt_autoplay')==='1',
@@ -1007,6 +1020,7 @@ function save(){
   localStorage.setItem('rbt_dws', JSON.stringify(state.deckWordStatus));
   if(state.lastStoryId) localStorage.setItem('rbt_laststory', state.lastStoryId);
   localStorage.setItem('rbt_celeb_sl', JSON.stringify(state.celebratedSublevels||[]));
+  localStorage.setItem('rbt_celeb_lv', JSON.stringify(state.celebratedLevels||[]));
   localStorage.setItem('rbt_tour', state.seenTour?'1':'');
   localStorage.setItem('rbt_autoplay', state.autoPlay?'1':'');
   localStorage.setItem('rbt_wkrecap', state.lastWeekRecap||'');
@@ -1134,8 +1148,8 @@ function navigate(screen){
   state.screen=screen; state.modalOpen=false; state.audioPlaying=false;
   // Preserve library drill-down context through the reading pipeline so "Back to Library"
   // returns to the exact sublevel the learner came from, not the root level grid.
-  if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration' && screen!=='sublevelCelebration'){ state.libraryLevel=null; state.librarySublevel=null; state.librarySearch=''; }
-  if(screen!=='world' && screen!=='celebration' && screen!=='reader' && screen!=='quiz' && screen!=='sublevelCelebration'){ state.worldSelectedId=null; }
+  if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration' && screen!=='sublevelCelebration' && screen!=='levelChampion'){ state.libraryLevel=null; state.librarySublevel=null; state.librarySearch=''; }
+  if(screen!=='world' && screen!=='celebration' && screen!=='reader' && screen!=='quiz' && screen!=='sublevelCelebration' && screen!=='levelChampion'){ state.worldSelectedId=null; }
   if(screen==='rewards') markBadgesSeen(); // must precede render() so the dot clears in the same frame
   // Entering Flashcards from the nav should land on the deck list, not resume a half-finished
   // study session. openDeck()/startStudy() set flashView and render() directly, so they're unaffected.
@@ -1589,10 +1603,29 @@ function backFromCelebration(){
 }
 function finishSublevelCeremony(){
   if(state.pendingSublevel){
+    const lvId=state.pendingSublevel.lv;
     state.celebratedSublevels=(state.celebratedSublevels||[]);
     state.celebratedSublevels.push(state.pendingSublevel.slKey);
     state.pendingSublevel=null;
     awardXP(50);
+    save();
+    // Check if all 10 sub-levels in the level are now done → Level Champion ceremony
+    if(levelDoneCount(lvId)>=10 && !(state.celebratedLevels||[]).includes(lvId)){
+      state.pendingLevelChampion={lv:lvId};
+      state.screen='levelChampion';
+      render();
+      spawnConfetti();
+      return;
+    }
+  }
+  navigate('library');
+}
+function finishLevelChampionCeremony(){
+  if(state.pendingLevelChampion){
+    state.celebratedLevels=(state.celebratedLevels||[]);
+    state.celebratedLevels.push(state.pendingLevelChampion.lv);
+    state.pendingLevelChampion=null;
+    awardXP(200);
     save();
   }
   navigate('library');
@@ -2165,6 +2198,12 @@ const UI_STRINGS = {
     slXpBonus:'+50 XP Bonus! 🐸',
     slNextUnlocked:(n)=>`Sub-level ${n} is now unlocked!`,
     slContinueBtn:'Keep Going!',
+    lcSuperLabel:'LEVEL COMPLETE',
+    lcTitle:(pond)=>`${pond} Champion! 🏆`,
+    lcMsg:(name)=>`You've read every ${name} story — incredible!`,
+    lcXpBonus:'+200 XP Bonus! 🐸🌟',
+    lcNextLevel:(name)=>`${name} is now unlocked!`,
+    lcContinueBtn:'Keep Going!',
     tourStep1Title:'👆 Tap any word',
     tourStep1Body:'Tap any word while reading to see what it means and hear it out loud!',
     tourStep2Title:'🔊 Listen along',
@@ -2289,6 +2328,12 @@ const UI_STRINGS = {
     slXpBonus:'+50XP ボーナス！🐸',
     slNextUnlocked:(n)=>`サブレベル${n}が解放されたよ！`,
     slContinueBtn:'つぎへ！',
+    lcSuperLabel:'レベルクリア',
+    lcTitle:(pond)=>`${pond}チャンピオン！🏆`,
+    lcMsg:(name)=>`${name}のおはなしをぜんぶよみきったよ！すごい！`,
+    lcXpBonus:'+200XP ボーナス！🐸🌟',
+    lcNextLevel:(name)=>`${name}が解放されたよ！`,
+    lcContinueBtn:'つぎへ！',
     tourStep1Title:'👆 単語をタップしよう',
     tourStep1Body:'おはなしを読みながら、どんな単語でもタップすると意味と発音が見られるよ！',
     tourStep2Title:'🔊 音声で聴こう',
@@ -3476,8 +3521,26 @@ function renderSublevelCelebration(){
   </div>`;
 }
 
+function renderLevelChampionCeremony(){
+  const lc=state.pendingLevelChampion;
+  if(!lc) return renderComingSoon();
+  const lv=LEVELS.find(l=>l.id==lc.lv)||LEVELS[0];
+  const badgeKey='badge-champion-'+lv.icon.replace('lvl-','');
+  const nextLv=LEVELS.find(l=>l.id==lv.id+1);
+  return `<div class="screen lc-celeb-screen">
+    <div class="lc-celeb-pond" style="background:linear-gradient(145deg,${lv.g1},${lv.g2})">${icon(lv.icon,40)}</div>
+    <div class="lc-celeb-badge">${icon(badgeKey,80)}</div>
+    <div class="lc-celeb-label">${t('lcSuperLabel')}</div>
+    <div class="lc-celeb-title">${t('lcTitle',lv.pond)}</div>
+    <div class="lc-celeb-msg">${t('lcMsg',lv.name)}</div>
+    <div class="lc-celeb-xp">${t('lcXpBonus')}</div>
+    ${nextLv?`<div class="lc-celeb-next">${t('lcNextLevel',nextLv.name)}</div>`:''}
+    <button class="lc-celeb-btn" onclick="finishLevelChampionCeremony()">${t('lcContinueBtn')}</button>
+  </div>`;
+}
+
 // ── MASTER RENDER ────────────────────────────────────────────
-const FULLBLEED_SCREENS=['reader','quiz','celebration','placement','sublevelCelebration']; // no header/bottom-nav, matches the design's own top-level screens
+const FULLBLEED_SCREENS=['reader','quiz','celebration','placement','sublevelCelebration','levelChampion']; // no header/bottom-nav, matches the design's own top-level screens
 function render(){
   if(state.screen==='landing'){ renderLanding(); return; }
   if(state.screen==='placement'){ document.getElementById('app').innerHTML=renderPlacement(); return; }
@@ -3485,6 +3548,7 @@ function render(){
   if(state.screen==='quiz'){ document.getElementById('app').innerHTML=renderQuiz(); return; }
   if(state.screen==='celebration'){ document.getElementById('app').innerHTML=renderCelebration(); playCelebrationAnims(); return; }
   if(state.screen==='sublevelCelebration'){ document.getElementById('app').innerHTML=renderSublevelCelebration(); return; }
+  if(state.screen==='levelChampion'){ document.getElementById('app').innerHTML=renderLevelChampionCeremony(); return; }
   let body;
   if(state.screen==='home') body=renderHomeDash();
   else if(state.screen==='library') body=renderLibrary();
