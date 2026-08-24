@@ -51,6 +51,7 @@
 - ✅ UI (2026-08-18, automated)
 - ✅ UX (2026-08-21, automated)
 - ✅ Content (2026-08-21, automated)
+- ✅ Gamification (2026-08-24, automated) — G8 committed, **NOT YET DEPLOYED** (browser verify required)
 
 > **Pillar rotation changed 2026-08-21 — SEVEN pillars now.**
 > `Functionality → UI → UX → Content → Gamification → Monetisation → Bug Fixes / Implementation Check`,
@@ -66,6 +67,41 @@
 ---
 
 ## Session Log
+
+### 2026-08-24 — Gamification Pillar (~30 min, automated) — Cycle 7
+
+**Pillar: Gamification** — Cycle 7.
+
+**Commit `91135d7` — LOCAL ONLY, NOT YET DEPLOYED.**
+
+Browser preview cannot start in unattended sessions. Change is code-complete and JS-verified
+(clean parse), but the verify-before-deploy rule is absolute. Kyle: open the app in a browser,
+drive home → library → simulate finishing sub-level 10 of any level (or manually set
+`state.pendingLevelChampion={lv:1}; state.screen='levelChampion'; render();` in the console to
+preview the ceremony screen), confirm it looks correct and the console is clean, then push:
+`git push origin master`. Cache-bust the `?v=` to `20260824` before pushing.
+
+- **feature: G8 — Level Champion ceremony** — after the last sub-level ceremony for a level,
+  a second gold-themed full-screen ceremony fires automatically:
+  - Level icon + champion badge SVG (already in ICONS registry, e.g. `badge-champion-lily-pad`)
+  - `LEVEL COMPLETE` super-label (gold text)
+  - "Lily Pad Champion! 🏆" / "Lily Padチャンピオン！🏆" headline
+  - "You've read every Beginner story — incredible!" / "Beginnerのおはなしをぜんぶよみきったよ！"
+  - +200 XP pill (gold gradient, 4× the sub-level bonus of +50)
+  - "Pond is now unlocked!" hint when a next level exists
+  - Continue button → `finishLevelChampionCeremony()` → navigate to library
+  - `state.celebratedLevels[]` (persisted `rbt_celeb_lv`) prevents re-firing
+  - `confetti` fires on entry
+  - Gold/amber CSS (`.lc-celeb-*`) visually distinguishes from the green sub-level ceremony
+  - 12 new UI_STRINGS keys en + ja; 10 new CSS classes
+  - `levelChampion` added to FULLBLEED_SCREENS, render() dispatcher, and navigate() preserve lists
+
+**Cycle 7 next pillar: Monetisation.**
+
+**For Kyle:** verify and push `91135d7` before the next automated session runs. If it looks
+wrong, `git revert HEAD` (safe — no push yet).
+
+---
 
 ### 2026-08-14 — Monetisation Pillar (~30 min, automated) — Cycle 6 COMPLETE
 

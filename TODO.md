@@ -157,9 +157,7 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   card appears on first visit of a new week when learner had stories last week. Stories pill + streak
   pill (if streak > 0). `state.lastWeekRecap` / `rbt_wkrecap` tracks dismissal per week. Both en + ja.
   LIVE (v=20260813).
-- [ ] **G8 · "Level Champion" ceremony.** When all 10 sub-levels of a level are completed for the first
-  time, fire a bigger ceremony than the sub-level one — the champion badge for that level is already
-  in BADGES, this just gives it the fanfare it deserves. Reuses `sublevelCelebration` machinery.
+- [~] **G8 · "Level Champion" ceremony — COMMITTED, pending browser verify + deploy (2026-08-24, commit `91135d7`).** Gold-themed full-screen ceremony fires after the last sub-level ceremony: level icon + champion badge, +200 XP, next-level hint, confetti. `state.celebratedLevels[]` → `rbt_celeb_lv` prevents re-firing. **Kyle: verify in browser, then `git push origin master` after bumping `?v=20260824`.**
 
 ### Bug Fixes / Implementation Check — ideas (added 2026-08-21)
 
