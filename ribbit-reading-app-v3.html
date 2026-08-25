@@ -209,6 +209,8 @@
     .lvl-ring-badge{position:absolute;top:7px;right:7px;line-height:0}
     .dest-ring-row{display:flex;align-items:center;gap:4px;margin-top:2px}
     .dest-ring-frac{font-size:10px;color:rgba(255,255,255,.65);font-weight:500}
+    .lib-free-pill{font-size:10.5px;font-weight:700;color:#38B4F5;background:rgba(56,180,245,.1);border-radius:99px;padding:5px 12px;margin-bottom:10px;text-align:center}
+    .lib-free-pill--empty{color:#E87070;background:rgba(232,112,112,.1)}
 
     .sublevel-panel{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:18px 14px}
     .sublevel-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
@@ -2219,6 +2221,8 @@ const UI_STRINGS = {
     weekRecapDismiss:'Dismiss',
     tappedTitle:'Words you tapped', tappedSaveBtn:(n)=>`Save all to my deck (${n})`,
     tappedSaveAll:(n)=>`${n} word${n===1?'':'s'} saved! 📚`, tappedAllSaved:'All saved to your deck ✓',
+    freeLeft:(n)=>`${n} free ${n===1?'story':'stories'} left this week`,
+    freeExhausted:'No free stories left this week',
   },
   ja: {
     greeting:(h)=> h<12?'おはよう！':h<18?'こんにちは！':'こんばんは！',
@@ -2349,6 +2353,8 @@ const UI_STRINGS = {
     weekRecapDismiss:'とじる',
     tappedTitle:'タップした単語', tappedSaveBtn:(n)=>`全部を保存（${n}）`,
     tappedSaveAll:(n)=>`${n}語を保存しました！📚`, tappedAllSaved:'全部デッキに保存ずみ ✓',
+    freeLeft:(n)=>`今週あと${n}話よめます`,
+    freeExhausted:'今週の無料分はおわりました',
   },
 };
 function t(key,...args){
@@ -2440,21 +2446,26 @@ function renderLibraryTierLevels(){
   const q=(state.librarySearch||'').trim().toLowerCase();
   const searchBar=`<div class="lib-search-wrap"><input class="lib-search-input" type="search" value="${escAttr(state.librarySearch||'')}" placeholder="${escAttr(t('libSearchPlaceholder'))}" oninput="setLibrarySearch(this.value)" aria-label="${escAttr(t('libSearchPlaceholder'))}"></div>`;
   if(q.length>=2) return `<div class="library-pane">${searchBar}${renderLibrarySearchResults(q)}</div>`;
+  const sub=isSubscribed(), freeRem=weeklyFreeRemaining();
+  const freeNotice=!sub?(freeRem>0?`<div class="lib-free-pill">📚 ${t('freeLeft',freeRem)}</div>`:`<div class="lib-free-pill lib-free-pill--empty">🔒 ${t('freeExhausted')}</div>`):'';
   const cards=LEVELS.map(level=>{
     const doneCount=levelDoneCount(level.id);
-    return `<button class="lvl-card" onclick="openLibraryLevel(${level.id})">
+    const accessible=sub||level.id===1||freeRem>0;
+    const cornerBadge=accessible?`<div class="lvl-ring-badge">${progressRing(doneCount,10,28,'rgba(255,255,255,0.95)','rgba(255,255,255,0.2)')}</div>`:`<div class="lvl-lock-badge">${icon('status-lock',11)}</div>`;
+    return `<button class="lvl-card${!accessible?' locked':''}" onclick="openLibraryLevel(${level.id})">
       <div class="lvl-cover" style="background:linear-gradient(145deg,${level.g1},${level.g2})">
         <span>${icon(level.icon,20)}</span>
         <div class="lvl-cefr-badge" style="color:${level.color}">${levelBandShort(level)}</div>
-        <div class="lvl-ring-badge">${progressRing(doneCount,10,28,'rgba(255,255,255,0.95)','rgba(255,255,255,0.2)')}</div>
+        ${cornerBadge}
       </div>
       <div class="lvl-body">
         <div class="lvl-name">${t('levelLabel',level.id)} · ${level.pond}</div>
         <div class="lvl-meta">${level.name} · ${t('ages',level.ages)}</div>
+        ${!accessible?`<div class="lvl-locked-text">${t('locked')}</div>`:''}
       </div>
     </button>`;
   }).join('');
-  return `<div class="library-pane">${searchBar}<div class="lvl-grid">${cards}</div></div>`;
+  return `<div class="library-pane">${searchBar}${freeNotice}<div class="lvl-grid">${cards}</div></div>`;
 }
 
 function renderLibrarySearchResults(q){
