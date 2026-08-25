@@ -52,6 +52,7 @@
 - ✅ UX (2026-08-21, automated)
 - ✅ Content (2026-08-21, automated)
 - ✅ Gamification (2026-08-24, automated) — G8 committed, **NOT YET DEPLOYED** (browser verify required)
+- ✅ Monetisation (2026-08-25, automated) — M4 committed, **NOT YET DEPLOYED** (browser verify required)
 
 > **Pillar rotation changed 2026-08-21 — SEVEN pillars now.**
 > `Functionality → UI → UX → Content → Gamification → Monetisation → Bug Fixes / Implementation Check`,
@@ -67,6 +68,39 @@
 ---
 
 ## Session Log
+
+### 2026-08-25 — Monetisation Pillar (~30 min, automated) — Cycle 7
+
+**Pillar: Monetisation** — Cycle 7.
+
+**Commit `dbeb77e` — LOCAL ONLY, NOT YET DEPLOYED.**
+
+Browser preview cannot start in unattended sessions. Change is code-complete and JS-verified (clean parse), but the verify-before-deploy rule is absolute.
+
+**3 commits are now pending push (all local only):**
+- `91135d7` — G8 Level Champion ceremony (from 2026-08-24)
+- `e22d140` — docs wrap-up (from 2026-08-24)
+- `dbeb77e` — M4 locked-state affordances (this session)
+
+**Kyle: open the app in a browser, navigate to Library, confirm:**
+1. A blue pill "X free stories left this week" appears above the level grid (non-subscribed users).
+2. To test the locked state, open console and run: `localStorage.setItem('rbt_wkfree', JSON.stringify({weekKey: 'test', storyIds:['s1','s2','s3']})); location.reload();` — then Library should show a red "No free stories left this week" pill and L2–L6 cards show a lock badge + "Locked" text.
+3. Golden path clean, console clean.
+Also verify G8: home → library → simulate finishing sub-level 10 of any level (`state.pendingLevelChampion={lv:1}; state.screen='levelChampion'; render();` in console).
+
+If both look correct: bump `?v=` to `20260825`, then `git push origin master`.
+
+- **feature: M4 — free-story count notice + locked state on level cards**
+  - `lib-free-pill` CSS: pill notice (blue) above level grid showing `weeklyFreeRemaining()` count in real-time; red variant `lib-free-pill--empty` when quota = 0. Hidden entirely for subscribed users.
+  - Level card locked state: when `!accessible` (quota=0, not subscribed, level>1), card gets `.locked` class (opacity .75), lock badge replaces the progress ring in the top-right corner, and "Locked / ロック中" text appears in the card body.
+  - Level 1 is always accessible; all levels are open while at least 1 free story remains.
+  - `cornerBadge` variable cleanly switches between ring and lock — no conflicting z-index.
+  - No behaviour change on tap: M3 will handle the upgrade screen; M4 is visual/informational only.
+  - 4 new UI_STRINGS keys: `freeLeft(n)` + `freeExhausted` in both en + ja.
+
+**Cycle 7 next pillar: Bug Fixes / Implementation Check.**
+
+---
 
 ### 2026-08-24 — Gamification Pillar (~30 min, automated) — Cycle 7
 

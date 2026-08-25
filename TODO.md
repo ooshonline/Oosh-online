@@ -121,9 +121,7 @@ star ratings, flashcards, placement test stay free at every level, forever), and
 - [ ] **M3 · Upgrade screen.** Shown *only* on tapping locked content. Never an interstitial, never
   mid-story, never on home, never timed. Lists what's included + both prices + an easy, honest dismiss.
   No countdown, no "limited offer", no guilt copy. Blocked on M2; best built after S2/S3 exist.
-- [ ] **M4 · Locked-state affordances.** Extend existing `.lvl-card.locked` / `.jn-locked` styles to
-  Levels 2–6 and locked destinations. Show the real remaining weekly free-story count from `rbt_wkfree`
-  ("今週あと2話読めます" / "2 free stories left this week") — real count, never a placeholder. Blocked on M2.
+- [x] **M4 · Locked-state affordances — COMMITTED, pending browser verify + deploy (2026-08-25, commit `dbeb77e`).** `lib-free-pill` notice above level grid shows real `weeklyFreeRemaining()` count (blue pill) or exhausted state (red pill), hidden for subscribers. Level cards L2–L6: when quota=0 and not subscribed, card gets `.locked` class (opacity .75) + lock badge replaces ring badge + `lvl-locked-text` "Locked/ロック中" in body. Level 1 always accessible; all levels open while freeRem>0. 4 new UI_STRINGS keys en+ja. No behaviour change on tap (M3 adds upgrade screen). **Kyle: verify in browser then push (3 commits pending: `91135d7`, `e22d140`, `dbeb77e`).**
 - [ ] **M5 · Pricing page (Japanese-first).** Standalone page outside the app shell, linkable directly.
   What Ribbit is, the Eiken reading ladder from M1, free vs paid, prices in yen, and honest answers on
   cancellation and lapsed subscriptions (progress stays; Level 1 keeps working). No fabricated
