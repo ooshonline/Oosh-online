@@ -1,0 +1,2483 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Oosh Attendance",
+  "schemaVersion": 1,
+  "description": "OOSH After School attendance tracker with daily register, weekly summary, monthly summary, make-up/absence visual linking, early-arrival/late-departure flagging, and CSV exports."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>OOSH After School — Attendance</title>
+<style>
+:root {
+  --teal: #2bbac5;
+  --teal-dark: #1e98a2;
+  --teal-light: #e8f8f9;
+  --teal-mid: #b2e8ec;
+  --green: #27ae72;
+  --green-light: #e6f7ef;
+  --amber: #e07b00;
+  --amber-light: #fff4e0;
+  --red: #e53935;
+  --red-light: #fde8e8;
+  --bg: #f3f6f7;
+  --surface: #ffffff;
+  --border: #e8ecee;
+  --text: #1a2228;
+  --text2: #4a5568;
+  --muted: #9aacb4;
+  --radius: 12px;
+  --tab-h: 62px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px) + 8px);
+}
+
+/* ── Header ── */
+header {
+  background: var(--teal);
+  color: white;
+  padding: 0 16px;
+  padding-top: env(safe-area-inset-top, 0px);
+  height: calc(52px + env(safe-area-inset-top, 0px));
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding-bottom: 10px;
+  position: sticky; top: 0; z-index: 100;
+}
+.header-title {
+  font-size: 1.05rem; font-weight: 600; letter-spacing: 0.01em;
+}
+.header-btn {
+  background: rgba(255,255,255,0.18); border: none;
+  color: white; border-radius: 8px; padding: 7px 13px;
+  font-size: 0.78rem; cursor: pointer; font-family: inherit; font-weight: 600;
+  display: flex; align-items: center; gap: 5px;
+}
+.header-btn:active { background: rgba(255,255,255,0.3); }
+
+/* ── Bottom Tab Bar ── */
+.tab-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  display: flex;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  height: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.tab-btn {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px;
+  background: none; border: none; cursor: pointer;
+  font-family: inherit; padding: 8px 4px 6px;
+  color: var(--muted); transition: color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tab-btn .tab-icon { font-size: 1.2rem; line-height: 1; }
+.tab-btn .tab-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.tab-btn.active { color: var(--teal); }
+
+/* ── Views ── */
+#dailyView, #weeklyView, #monthlyView, #calendarView { display: none; }
+#dailyView.active, #weeklyView.active, #monthlyView.active, #calendarView.active { display: block; }
+
+/* ── Seasonal School mode (new, isolated dataset & views) ── */
+#seasDailyView, #seasWeeklyView { display: none; }
+#seasDailyView.active, #seasWeeklyView.active { display: block; }
+body.seasonal-mode #tabMonthly, body.seasonal-mode #tabCalendar { display: none; }
+body.seasonal-mode header { background: var(--amber); }
+body.seasonal-mode .add-btn { background: var(--amber); }
+body.seasonal-mode .add-btn:active { background: #c56800; }
+body.seasonal-mode .nav-pill.today-pill { background: var(--amber); border-color: var(--amber); color: white; }
+body.seasonal-mode .summary-table th { background: var(--amber); }
+body.seasonal-mode .summary-table th.col-today, body.seasonal-mode .summary-table th.total-col { background: #c56800; }
+.seas-recent-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.seas-recent-chip { border: 1px solid var(--border); border-radius: 20px; padding: 7px 14px; font-size: 0.8rem; font-family: inherit; font-weight: 600; color: var(--text2); background: var(--surface); cursor: pointer; min-height: 36px; }
+.seas-recent-chip:active { background: var(--amber-light); color: var(--amber); border-color: var(--amber); }
+
+/* ── Date strip (Glide style: pill buttons) ── */
+.date-strip {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  position: sticky; top: 52px; z-index: 90;
+}
+.date-display {
+  font-size: 0.8rem; color: var(--muted);
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 8px;
+}
+.date-display span { font-size: 0.8rem; color: var(--text2); font-weight: 500; }
+.date-display .date-clear { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 0.9rem; line-height: 1; padding: 2px; margin-left: auto; }
+.nav-pills {
+  display: flex; gap: 8px;
+}
+.nav-pill {
+  flex: 1; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface); padding: 8px 6px;
+  font-size: 0.78rem; font-weight: 600; font-family: inherit;
+  color: var(--text2); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  min-height: 38px;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-pill:active { background: var(--teal-light); color: var(--teal); border-color: var(--teal-mid); }
+.nav-pill.today-pill { color: var(--teal); border-color: var(--teal-mid); background: var(--teal-light); }
+
+/* ── Big date heading ── */
+.date-heading {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px 4px;
+}
+.date-heading h2 {
+  font-size: 1.5rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em;
+}
+.add-btn {
+  background: var(--teal); color: white; border: none;
+  border-radius: 20px; padding: 8px 16px;
+  font-size: 0.8rem; font-weight: 700; font-family: inherit;
+  cursor: pointer; display: flex; align-items: center; gap: 5px;
+  -webkit-tap-highlight-color: transparent;
+}
+.add-btn:active { background: var(--teal-dark); }
+
+/* ── Stats row ── */
+.stats { display: flex; gap: 8px; padding: 10px 16px 0; }
+.stat {
+  flex: 1; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 6px; text-align: center;
+}
+.stat .num { font-size: 1.6rem; font-weight: 700; color: var(--teal); line-height: 1; }
+.stat .lbl { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-top: 3px; }
+
+/* ── Export button ── */
+.export-row { padding: 8px 16px 0; }
+.export-btn {
+  width: 100%; border: 1px solid var(--border); border-radius: 8px;
+  padding: 9px 12px; font-size: 0.82rem; cursor: pointer;
+  font-family: inherit; font-weight: 600; background: var(--surface); color: var(--text2);
+  min-height: 40px;
+}
+.export-btn:active { background: var(--teal-light); color: var(--teal); }
+
+/* ── Section header row ── */
+.list-header {
+  display: flex; align-items: center; padding: 14px 16px 6px;
+  gap: 8px;
+}
+.list-header-label {
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--muted); font-weight: 700; flex: 1;
+}
+.list-col-status {
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--muted); font-weight: 700; width: 90px; text-align: right;
+}
+
+/* ════════════════════════════════════════
+   STUDENT LIST — Glide-style rows
+════════════════════════════════════════ */
+.student-list {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 0 0 8px;
+}
+.student-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  -webkit-tap-highlight-color: transparent;
+}
+.student-row:last-child { border-bottom: none; }
+
+/* Avatar */
+.row-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.88rem; flex-shrink: 0;
+  color: white; margin-top: 1px;
+}
+.av-present { background: var(--green); }
+.av-absent  { background: var(--red); }
+.av-makeup  { background: var(--amber); }
+.av-default { background: #bbc8ce; }
+
+/* Row body */
+.row-body { flex: 1; min-width: 0; }
+.row-name { font-size: 0.93rem; font-weight: 600; color: var(--text); line-height: 1.2; }
+.row-sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+
+/* Status + action on right */
+.row-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; padding-top: 1px; }
+
+/* Status label (tappable to toggle) */
+.status-label {
+  font-size: 0.76rem; font-weight: 700;
+  border-radius: 6px; padding: 4px 10px;
+  cursor: pointer; border: none; font-family: inherit;
+  min-width: 80px; text-align: center; min-height: 28px;
+  -webkit-tap-highlight-color: transparent;
+}
+.status-label:active { opacity: 0.75; }
+.sl-present { background: var(--green-light); color: var(--green); }
+.sl-absent  { background: var(--red-light);   color: var(--red); }
+.sl-makeup  { background: var(--amber-light);  color: var(--amber); font-size: 0.7rem; }
+
+/* Remove button */
+.row-remove {
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 0.85rem; padding: 2px 1px;
+  -webkit-tap-highlight-color: transparent;
+}
+.row-remove:active { color: var(--red); }
+
+/* Inline actions row */
+.row-actions {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  margin-top: 8px;
+}
+/* Time chips (tappable) */
+.time-chip {
+  font-size: 0.72rem; font-weight: 600;
+  border-radius: 6px; padding: 3px 9px;
+  cursor: pointer; border: none; font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.time-chip:active { opacity: 0.7; }
+.tc-in   { background: var(--teal-light); color: var(--teal-dark); }
+.tc-out  { background: var(--green-light); color: var(--green); }
+.tc-info { background: var(--amber-light); color: var(--amber); cursor: default; }
+.tc-ok   { background: var(--green-light); color: var(--green); cursor: default; }
+.tc-abs  { background: var(--red-light); color: var(--red); cursor: default; }
+.tc-sched { background: var(--amber-light); color: var(--amber); cursor: default; }
+/* Early arrival / late departure flag */
+.tc-flag { background: var(--amber-light) !important; color: var(--amber) !important; box-shadow: inset 0 0 0 1.5px var(--amber); }
+.time-flag { color: var(--amber); font-weight: 700; }
+/* Picked Up */
+.ib-pickup { background: #e0f2fe; color: #0369a1; }
+.ib-pickup-on { background: #0369a1 !important; color: white !important; }
+.pickup-cell-badge { font-size: 0.62rem; line-height: 1; margin-top: 1px; display: block; }
+/* Notes */
+.ib-note { background: #f3e8ff; color: #7c3aed; }
+.ib-note-on { background: #7c3aed !important; color: white !important; }
+.row-note { font-size: 0.74rem; color: var(--text2); margin-top: 6px; background: var(--bg); border-radius: 8px; padding: 6px 10px; line-height: 1.4; white-space: pre-wrap; }
+.popup-note { font-size: 0.7rem; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+.popup-note-btn { background: none; border: none; cursor: pointer; font-size: 0.85rem; padding: 4px; color: var(--muted); flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+.popup-note-btn:active { color: var(--teal); }
+#noteInput { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 0.88rem; font-family: inherit; resize: vertical; min-height: 74px; outline: none; }
+#noteInput:focus { border-color: var(--teal); }
+.form-row2 { display: flex; gap: 8px; }
+.form-row2 > div { flex: 1; }
+.exp-hint { font-size: 0.68rem; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+.exp-byday-toggle { margin-top: 8px; width: 100%; background: none; border: 1px dashed var(--border); border-radius: 8px; padding: 9px; font-size: 0.75rem; font-weight: 700; color: var(--text2); cursor: pointer; font-family: inherit; }
+.exp-byday-toggle.on { border-style: solid; border-color: var(--teal-mid); color: var(--teal); background: var(--teal-light); }
+.pu-toggle-btn { margin-top: 8px; width: 100%; background: none; border: 1px dashed var(--border); border-radius: 8px; padding: 9px; font-size: 0.75rem; font-weight: 700; color: var(--text2); cursor: pointer; font-family: inherit; }
+.pu-toggle-btn.on { border-style: solid; border-color: #7dd3fc; color: #0369a1; background: #e0f2fe; }
+.exp-byday { display: none; margin-top: 8px; }
+.exp-byday.open { display: block; }
+.exp-day-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.exp-day-row .ed-lbl { width: 34px; font-size: 0.7rem; font-weight: 700; color: var(--muted); flex-shrink: 0; }
+.exp-day-row input { flex: 1; min-width: 0; }
+
+/* Action buttons inline */
+.inline-btn {
+  font-size: 0.75rem; font-weight: 700; border: none;
+  border-radius: 6px; padding: 5px 12px; cursor: pointer;
+  font-family: inherit; min-height: 28px;
+  -webkit-tap-highlight-color: transparent;
+}
+.inline-btn:active { opacity: 0.75; }
+.ib-checkin  { background: var(--teal); color: white; }
+.ib-checkout { background: var(--green); color: white; }
+.ib-schedule { background: var(--amber-light); color: var(--amber); }
+.ib-cancel   { background: var(--red-light); color: var(--red); }
+
+/* Group badges */
+.group-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 6px;
+  font-size: 0.65rem; font-weight: 800; flex-shrink: 0;
+  letter-spacing: 0;
+}
+.gb-G { background: #dbeafe; color: #1d4ed8; }
+.gb-E { background: #dcfce7; color: #15803d; }
+.gb-P { background: #fae8ff; color: #9333ea; }
+.gb-none { background: var(--border); color: var(--muted); }
+
+/* Group picker (roster form) */
+.group-picker { display: flex; gap: 8px; }
+.group-pick-btn {
+  flex: 1; border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 8px; font-size: 0.8rem; font-weight: 800;
+  cursor: pointer; font-family: inherit; color: var(--muted);
+  background: var(--surface); text-align: center; min-height: 42px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.group-pick-btn span.gp-code { font-size: 1rem; font-weight: 900; }
+.group-pick-btn span.gp-label { font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.group-pick-btn.active-G { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
+.group-pick-btn.active-E { background: #dcfce7; color: #15803d; border-color: #86efac; }
+.group-pick-btn.active-P { background: #fae8ff; color: #9333ea; border-color: #d8b4fe; }
+
+/* Group breakdown row */
+.group-breakdown {
+  display: flex; gap: 6px; padding: 8px 16px 0;
+}
+.group-stat {
+  flex: 1; border-radius: 10px; padding: 8px 6px;
+  text-align: center; border: 1px solid transparent;
+}
+.group-stat .gs-num { font-size: 1.4rem; font-weight: 700; line-height: 1; }
+.group-stat .gs-lbl { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; font-weight: 700; }
+.gs-G { background: #dbeafe; border-color: #bfdbfe; }
+.gs-G .gs-num, .gs-G .gs-lbl { color: #1d4ed8; }
+.gs-E { background: #dcfce7; border-color: #bbf7d0; }
+.gs-E .gs-num, .gs-E .gs-lbl { color: #15803d; }
+.gs-P { background: #fae8ff; border-color: #e9d5ff; }
+.gs-P .gs-num, .gs-P .gs-lbl { color: #9333ea; }
+.gs-none { background: var(--bg); border-color: var(--border); }
+.gs-none .gs-num, .gs-none .gs-lbl { color: var(--muted); }
+
+.empty-state { text-align: center; color: var(--muted); padding: 36px 20px; font-size: 0.88rem; line-height: 1.6; background: var(--surface); border-top: 1px solid var(--border); }
+
+/* ── Daily grid (tiles) ── */
+.student-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+  padding: 4px 16px 8px;
+}
+@media (min-width: 420px) { .student-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 640px) { .student-grid { grid-template-columns: repeat(4, 1fr); } }
+.grid-tile {
+  position: relative; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 12px 8px 10px;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  text-align: center; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.grid-tile:active { border-color: var(--teal-mid); background: var(--teal-light); }
+.gt-avatar { width: 40px; height: 40px; font-size: 0.92rem; margin-top: 2px; }
+.gt-name {
+  font-size: 0.8rem; font-weight: 600; color: var(--text); line-height: 1.2;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  min-height: 2.2em; word-break: break-word;
+}
+.gt-tag {
+  font-size: 0.58rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--amber); background: var(--amber-light); border-radius: 5px; padding: 1px 6px;
+}
+.gt-mini { min-height: 26px; display: flex; align-items: center; justify-content: center; }
+.gt-btn {
+  border: none; border-radius: 6px; padding: 5px 10px; font-size: 0.72rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; -webkit-tap-highlight-color: transparent;
+}
+.gt-btn:active { opacity: 0.75; }
+.gt-in { background: var(--teal); color: white; }
+.gt-out { background: var(--green); color: white; }
+.gt-absent { background: var(--red-light); color: var(--red); }
+.gt-mini-row { display: flex; gap: 4px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.gt-time {
+  font-size: 0.66rem; font-weight: 700; color: var(--text2); background: var(--bg);
+  border-radius: 5px; padding: 3px 7px; cursor: pointer; border: none; font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.gt-time:active { background: var(--teal-light); color: var(--teal); }
+.gt-time.gt-flag { background: var(--amber-light); color: var(--amber); }
+.gt-badges { display: flex; align-items: center; gap: 4px; position: absolute; bottom: 6px; left: 8px; }
+.gt-badge { width: 16px; height: 16px; font-size: 0.55rem; border-radius: 4px; }
+.gt-icon { font-size: 0.7rem; line-height: 1; }
+.gt-remove {
+  position: absolute; top: 4px; right: 5px; background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 0.8rem; padding: 3px 5px; line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+}
+.gt-remove:active { color: var(--red); }
+
+/* ══════════════════════════════════════════════════
+   SUMMARY (Weekly/Monthly)
+══════════════════════════════════════════════════ */
+/* period nav for weekly/monthly */
+.period-nav-glide {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  position: sticky; top: 52px; z-index: 90;
+}
+.period-date-row {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+}
+.period-date-row span { font-size: 0.8rem; color: var(--text2); font-weight: 500; flex:1; }
+.period-nav-pills { display: flex; gap: 8px; }
+
+.summary-table-wrap { padding: 12px 16px 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.scroll-hint { text-align: center; font-size: 0.67rem; color: var(--muted); padding: 4px 16px 0; display: none; }
+@media (max-width: 600px) { .scroll-hint { display: block; } }
+
+.summary-table {
+  border-collapse: collapse; font-size: 0.82rem;
+  background: var(--surface); border-radius: var(--radius);
+  overflow: hidden; border: 1px solid var(--border);
+  min-width: 340px; width: 100%;
+}
+.summary-table th {
+  background: var(--teal); color: white;
+  padding: 9px 6px; font-size: 0.68rem;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  font-weight: 700; text-align: center; white-space: nowrap;
+}
+.summary-table th:first-child { text-align: left; padding-left: 13px; min-width: 100px; }
+.summary-table th.col-today { background: var(--teal-dark); }
+.summary-table th.total-col { background: var(--teal-dark); }
+.summary-table th.week-first { border-left: 2px solid rgba(255,255,255,0.25); }
+.summary-table td { padding: 9px 6px; border-top: 1px solid var(--border); text-align: center; vertical-align: middle; }
+.summary-table td:first-child { text-align: left; padding-left: 13px; font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
+.summary-table td.total-col { font-weight: 700; color: var(--teal); font-size: 0.8rem; }
+.summary-table td.week-first { border-left: 2px solid var(--border); }
+.summary-table tbody tr:nth-child(even) td { background: #f8fafb; }
+.summary-table tbody tr:nth-child(even) td.col-today { background: #d4f0f3; }
+.summary-table tbody tr:nth-child(odd) td.col-today { background: var(--teal-light); }
+.summary-table tbody tr.totals-row td { background: #edf4f5 !important; border-top: 2px solid var(--border); font-weight: 700; }
+.summary-table tbody tr.totals-row td:first-child { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; }
+.summary-table tbody tr.totals-row td.col-today { background: #c8eaed !important; }
+.day-cell { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 40px; }
+.day-cell-icon { font-size: 0.95rem; line-height: 1; font-weight: 700; }
+.day-cell-time { font-size: 0.58rem; color: var(--muted); line-height: 1.4; }
+.day-cell-time span { display: block; }
+.day-cell-link { font-size: 0.58rem; line-height: 1.3; font-weight: 600; margin-top: 1px; }
+.cell-present { color: var(--green); }
+.cell-absent { color: var(--red); }
+.cell-absent-linked { color: var(--amber); }
+.cell-makeup { color: var(--amber); }
+.cell-none { color: #c8d4d8; }
+.cell-future { color: #c8d4d8; }
+.makeup-linked-cell { background: var(--amber-light) !important; }
+
+.summary-legend { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px 16px 2px; font-size: 0.72rem; color: var(--muted); }
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.summary-actions { display: flex; gap: 8px; padding: 10px 16px 14px; }
+.action-btn {
+  flex: 1; border: 1px solid var(--border); border-radius: 8px;
+  padding: 10px 12px; font-size: 0.83rem; cursor: pointer;
+  font-family: inherit; font-weight: 600; background: var(--surface); color: var(--text2);
+  min-height: 42px;
+}
+.action-btn:active { background: var(--teal-light); color: var(--teal); }
+.action-btn.primary { background: var(--teal); color: white; border-color: var(--teal); }
+.action-btn.primary:active { background: var(--teal-dark); }
+
+/* ── Modals ── */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: flex-end; justify-content: center; }
+.overlay.open { display: flex; }
+.modal-sheet {
+  background: var(--surface); border-radius: 20px 20px 0 0;
+  width: 100%; max-width: 520px; max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+}
+.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 18px; }
+.modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 14px; }
+.modal-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+.form-group { margin-bottom: 14px; }
+.form-group label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 700; display: block; margin-bottom: 6px; }
+.form-group input, .form-group select { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 0.9rem; font-family: inherit; outline: none; background: var(--surface); min-height: 46px; }
+.form-group input:focus, .form-group select:focus { border-color: var(--teal); }
+.day-picker { display: flex; gap: 7px; flex-wrap: wrap; }
+.day-pill { border: 1px solid var(--border); border-radius: 20px; padding: 8px 16px; font-size: 0.82rem; cursor: pointer; background: var(--surface); font-family: inherit; font-weight: 600; color: var(--muted); min-height: 40px; }
+.day-pill.selected { background: var(--teal); color: white; border-color: var(--teal); }
+.modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+.modal-btns button { border: none; border-radius: 10px; padding: 12px 20px; font-size: 0.88rem; cursor: pointer; font-family: inherit; min-height: 46px; }
+.btn-cancel { background: #f0f3f5; color: var(--text); }
+.btn-confirm { background: var(--teal); color: white; font-weight: 700; }
+.btn-confirm:active { background: var(--teal-dark); }
+
+/* Roster */
+.roster-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 16px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.roster-item { display: flex; align-items: center; gap: 10px; background: var(--surface); padding: 12px 14px; border-top: 1px solid var(--border); }
+.roster-item:first-child { border-top: none; }
+.roster-item:nth-child(even) { background: #f8fafb; }
+.roster-item .r-name { font-weight: 600; font-size: 0.9rem; flex: 1; }
+.roster-item .r-days { font-size: 0.72rem; color: var(--muted); }
+.r-edit, .r-del { background: none; border: none; cursor: pointer; font-size: 0.85rem; padding: 8px; border-radius: 7px; color: var(--muted); min-height: 38px; min-width: 38px; display: flex; align-items: center; justify-content: center; }
+.r-edit:active { background: var(--teal-light); color: var(--teal); }
+.r-del:active { background: var(--red-light); color: var(--red); }
+/* Inline edit panel inside roster item */
+.roster-inline-edit {
+  display: none; padding: 12px 14px 14px; border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.roster-inline-edit.open { display: block; }
+.roster-inline-edit .form-group { margin-bottom: 10px; }
+.roster-inline-edit .form-group:last-child { margin-bottom: 0; }
+.roster-inline-edit label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 700; display: block; margin-bottom: 5px; }
+.roster-inline-edit input { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px; font-size: 0.88rem; font-family: inherit; outline: none; background: var(--surface); min-height: 40px; }
+.roster-inline-edit input:focus { border-color: var(--teal); }
+.inline-edit-btns { display: flex; gap: 7px; margin-top: 12px; }
+.inline-edit-btns button { flex: 1; border: none; border-radius: 8px; padding: 10px 12px; font-size: 0.82rem; font-weight: 700; cursor: pointer; font-family: inherit; min-height: 40px; }
+.rie-cancel { background: var(--border); color: var(--text2); }
+.rie-save { background: var(--teal); color: white; }
+.rie-save:active { background: var(--teal-dark); }
+.add-student-form { background: var(--bg); border-radius: var(--radius); padding: 14px; margin-top: 4px; }
+.add-student-form h4 { font-size: 0.8rem; font-weight: 700; margin-bottom: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.mini-modal { background: var(--surface); border-radius: 16px; padding: 24px; width: 320px; max-width: 92vw; }
+.overlay.center { align-items: center; }
+
+/* ════════════════════════════════════════
+   CALENDAR VIEW
+════════════════════════════════════════ */
+#calendarView { display: none; }
+#calendarView.active { display: block; }
+
+.cal-nav {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  position: sticky; top: 52px; z-index: 90;
+}
+.cal-month-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.cal-month-label { font-size: 1.05rem; font-weight: 700; color: var(--text); flex: 1; }
+
+.cal-dow-row {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 2px; padding: 6px 12px 2px;
+  text-align: center;
+}
+.cal-dow {
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.07em;
+  font-weight: 700; color: var(--muted); padding: 4px 0;
+}
+.cal-dow.weekend { color: #c8d4d8; }
+
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 2px; padding: 2px 12px 12px;
+}
+.cal-cell {
+  background: var(--surface); border-radius: 10px;
+  min-height: 64px; padding: 6px 5px 5px;
+  display: flex; flex-direction: column;
+  cursor: pointer; position: relative;
+  border: 1px solid transparent;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.1s;
+}
+.cal-cell:active { border-color: var(--teal-mid); background: var(--teal-light); }
+.cal-cell.empty { background: transparent; border-color: transparent; cursor: default; pointer-events: none; }
+.cal-cell.other-month { opacity: 0.35; }
+.cal-cell.weekend .cal-date-num { color: var(--muted); }
+.cal-cell.is-today .cal-date-num {
+  background: var(--teal); color: white;
+  border-radius: 50%; width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+}
+.cal-cell.is-future .cal-dots { opacity: 0.5; }
+.cal-cell.is-future .cal-total-badge { opacity: 0.5; }
+.cal-cell.has-data { border-color: var(--border); }
+
+.cal-date-num {
+  font-size: 0.78rem; font-weight: 600; color: var(--text);
+  line-height: 1; margin-bottom: 4px; flex-shrink: 0;
+  width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
+}
+
+.cal-dots {
+  display: flex; flex-wrap: wrap; gap: 2px; flex: 1;
+  align-content: flex-start;
+}
+.cal-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.42rem; font-weight: 700; color: white;
+  flex-shrink: 0;
+}
+.cd-present { background: var(--green); }
+.cd-absent  { background: var(--red); }
+.cd-makeup  { background: var(--amber); }
+.cd-more {
+  background: #c8d4d8; color: var(--text2);
+  font-size: 0.4rem;
+}
+.cal-total-badge {
+  position: absolute; bottom: 4px; right: 5px;
+  font-size: 0.55rem; font-weight: 700; color: var(--muted);
+}
+
+/* Day popup */
+.day-popup-title {
+  font-size: 1.05rem; font-weight: 700; margin-bottom: 2px;
+}
+.day-popup-sub {
+  font-size: 0.78rem; color: var(--muted); margin-bottom: 14px;
+}
+.day-popup-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 14px; }
+.popup-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.popup-row:last-child { border-bottom: none; }
+.popup-av {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.8rem; color: white; flex-shrink: 0;
+}
+.popup-name { font-weight: 600; font-size: 0.88rem; flex: 1; }
+.popup-meta { font-size: 0.7rem; color: var(--muted); }
+.popup-status {
+  font-size: 0.72rem; font-weight: 700; border-radius: 6px;
+  padding: 3px 9px; flex-shrink: 0;
+}
+.ps-present { background: var(--green-light); color: var(--green); }
+.ps-absent  { background: var(--red-light); color: var(--red); }
+.ps-makeup  { background: var(--amber-light); color: var(--amber); }
+.day-popup-empty { text-align: center; color: var(--muted); padding: 20px 0; font-size: 0.85rem; }
+.go-day-btn {
+  width: 100%; background: var(--teal); color: white; border: none;
+  border-radius: 10px; padding: 13px; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; min-height: 46px; margin-bottom: 8px;
+}
+.go-day-btn:active { background: var(--teal-dark); }
+
+/* ── Undo Toast ── */
+.undo-toast {
+  position: fixed;
+  bottom: calc(var(--tab-h) + env(safe-area-inset-bottom, 0px) + 14px);
+  left: 50%; transform: translateX(-50%) translateY(16px);
+  background: #1a2228; color: white;
+  border-radius: 10px; padding: 11px 16px;
+  display: flex; align-items: center; gap: 14px;
+  font-size: 0.84rem; font-weight: 500;
+  opacity: 0; transition: opacity 0.18s, transform 0.18s;
+  pointer-events: none; z-index: 400;
+  white-space: nowrap; box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+}
+.undo-toast.show {
+  opacity: 1; transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.undo-toast .undo-btn {
+  background: var(--teal); border: none; color: white;
+  border-radius: 6px; padding: 5px 12px;
+  font-size: 0.82rem; font-weight: 700; cursor: pointer;
+  font-family: inherit; min-height: 0;
+}
+
+/* ── Print styles ── */
+.print-only { display: none; }
+@media print {
+  header, .tab-bar, .date-strip, .add-btn,
+  .stats, .group-breakdown, .list-header,
+  .export-row, .row-remove, .inline-btn,
+  .row-right button, .undo-toast { display: none !important; }
+  body { padding: 0 !important; background: white !important; }
+  #weeklyView, #monthlyView, #calendarView { display: none !important; }
+  #dailyView { display: block !important; }
+  .print-only { display: block !important; padding: 16px 20px 10px; border-bottom: 2px solid #ccc; margin-bottom: 8px; }
+  .print-only h1 { font-size: 1.15rem; font-weight: 700; margin-bottom: 2px; }
+  .print-only p { font-size: 0.82rem; color: #555; }
+  .student-list { border: 1px solid #ccc !important; margin: 0 !important; }
+  .student-row { break-inside: avoid; border-bottom: 1px solid #eee !important; }
+  .row-actions { display: none !important; }
+  .status-label { pointer-events: none; }
+  .sl-present { background: #e6f7ef !important; color: #27ae72 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sl-absent  { background: #fde8e8 !important; color: #e53935 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sl-makeup  { background: #fff4e0 !important; color: #e07b00 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .av-present { background: #27ae72 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .av-absent  { background: #e53935 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .av-makeup  { background: #e07b00 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .print-notes { display: block !important; border-top: 2px solid #ccc; margin-top: 10px; padding-top: 10px; }
+  .print-notes h1 { font-size: 0.95rem; }
+  .print-notes-list { font-size: 0.82rem; color: #333; line-height: 1.7; }
+}
+</style>
+<!-- ══ PWA ══ -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2bbac5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="OOSH Attendance">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<!-- ══ Firebase (loads when hosted/online; app falls back to local-only if blocked) ══ -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<style>
+.login-overlay{position:fixed;inset:0;z-index:400;background:linear-gradient(160deg,#2bbac5,#1e98a2);display:flex;align-items:center;justify-content:center;padding:24px;}
+.login-card{background:#fff;border-radius:18px;padding:28px 24px;width:100%;max-width:340px;box-shadow:0 18px 50px rgba(0,0,0,.25);text-align:center;}
+.login-logo{font-size:1.35rem;font-weight:700;color:#1a2228;}
+.login-sub{font-size:.85rem;color:#4a5568;margin:8px 0 18px;line-height:1.4;}
+.login-card input{width:100%;padding:12px 14px;border:1.5px solid #e8ecee;border-radius:10px;font-size:1rem;margin-bottom:10px;font-family:inherit;}
+.login-card input:focus{outline:none;border-color:#2bbac5;}
+.login-submit{width:100%;padding:12px;border:none;border-radius:10px;background:#2bbac5;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;}
+.login-submit:active{background:#1e98a2;}
+.login-err{color:#e53935;font-size:.82rem;margin-top:10px;min-height:1em;}
+.cloud-status{font-size:.9rem;font-weight:700;padding:9px 12px;border-radius:9px;background:#eef4f5;color:#1e98a2;text-align:center;}
+.cloud-status.offline{background:#fff4e0;color:#e07b00;}
+.cloud-status.local{background:#f0f0f0;color:#777;}
+.cloud-user{font-size:.8rem;color:#4a5568;text-align:center;margin-top:6px;}
+.menu-row{display:block;width:100%;text-align:left;padding:12px 14px;border:1.5px solid #e8ecee;border-radius:10px;background:#fff;font-size:.95rem;font-family:inherit;cursor:pointer;margin-top:8px;color:#1a2228;}
+.menu-row:active{background:#f3f6f7;}
+.menu-row.danger{color:#e53935;border-color:#f3c0c0;}
+.backup-box{width:100%;height:110px;margin-top:8px;border:1.5px solid #e8ecee;border-radius:10px;padding:10px;font-family:ui-monospace,Menlo,monospace;font-size:.72rem;resize:vertical;}
+#cloudModal .modal-sheet hr{border:none;border-top:1px solid #e8ecee;margin:14px 0;}
+.sync-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#27ae72;margin-right:5px;vertical-align:middle;}
+.sync-dot.offline{background:#e07b00;}
+.sync-dot.local{background:#9aacb4;}
+body.local-only #cloudBtn{opacity:.55;}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <span class="header-title">OOSH Attendance</span>
+  <div style="display:flex;gap:8px;">
+    <button class="header-btn" id="rosterBtn">👥 Roster</button>
+    <button class="header-btn" id="seasonalModeBtn">🏕️ Seasonal School</button>
+    <button class="header-btn" id="cloudBtn" title="Sync &amp; data"><span class="sync-dot local" id="syncDot"></span>Sync</button>
+  </div>
+</header>
+
+<!-- ══ LOGIN OVERLAY ══ -->
+<div id="loginOverlay" class="login-overlay" style="display:none">
+  <div class="login-card">
+    <div class="login-logo">OOSH Attendance</div>
+    <p class="login-sub">Sign in to sync your register across your devices.</p>
+    <input id="loginEmail" type="email" placeholder="Email" autocomplete="username">
+    <input id="loginPass" type="password" placeholder="Password" autocomplete="current-password">
+    <button id="loginBtn" class="login-submit">Sign in</button>
+    <div id="loginErr" class="login-err"></div>
+  </div>
+</div>
+
+<!-- ══ SYNC & DATA MODAL ══ -->
+<div class="overlay center" id="cloudModal">
+  <div class="modal-sheet">
+    <div class="modal-title">Sync &amp; Data</div>
+    <div class="cloud-status local" id="cloudStatus"><span class="sync-dot local"></span>Local only</div>
+    <div class="cloud-user" id="cloudUser"></div>
+    <hr>
+    <button class="menu-row" id="exportBtn">⬇️ Export backup (into box below)</button>
+    <textarea id="backupBox" class="backup-box" placeholder="Backup JSON appears here after Export. To restore or migrate, paste a backup here and press Restore." spellcheck="false"></textarea>
+    <div style="display:flex;gap:8px">
+      <button class="menu-row" id="copyBackupBtn" style="flex:1;margin-top:8px">📋 Copy</button>
+      <button class="menu-row" id="restoreBtn" style="flex:1;margin-top:8px">♻️ Restore</button>
+    </div>
+    <hr>
+    <button class="menu-row danger" id="logoutBtn">Log out</button>
+    <button class="menu-row" id="cloudClose" style="margin-top:8px">Close</button>
+  </div>
+</div>
+
+<!-- ══ DAILY VIEW ══ -->
+<div id="dailyView" class="active">
+  <!-- Print-only header -->
+  <div class="print-only" id="printHeader">
+    <h1>OOSH After School — Daily Register</h1>
+    <p id="printDateLine">—</p>
+  </div>
+
+  <!-- Date strip: Glide-style pill nav -->
+  <div class="date-strip">
+    <div class="date-display">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 1v3M11 1v3M1 7h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span id="dateLabel">—</span>
+    </div>
+    <div class="nav-pills">
+      <button class="nav-pill" id="prevDay">← Previous</button>
+      <button class="nav-pill today-pill" id="todayBtn">↓ Today</button>
+      <button class="nav-pill" id="nextDay">→ Next</button>
+    </div>
+  </div>
+
+  <!-- Big date + add make-up button -->
+  <div class="date-heading">
+    <h2 id="dateShort">—</h2>
+    <button class="add-btn" id="makeupBtn">+ Make-Up</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="num" id="sPresent">0</div><div class="lbl">Present</div></div>
+    <div class="stat"><div class="num" id="sCheckedIn">0</div><div class="lbl">Checked In</div></div>
+    <div class="stat"><div class="num" id="sCheckedOut">0</div><div class="lbl">Checked Out</div></div>
+    <div class="stat"><div class="num" id="sAbsent">0</div><div class="lbl">Absent</div></div>
+  </div>
+
+  <!-- Group breakdown -->
+  <div class="group-breakdown" id="groupBreakdown"></div>
+
+  <!-- Column headers -->
+  <div class="list-header">
+    <span class="list-header-label" id="sectionLbl">Students</span>
+  </div>
+
+  <!-- Student tiles -->
+  <div class="student-grid" id="childrenList"></div>
+
+  <!-- Export -->
+  <div class="export-row" style="display:flex;gap:8px;">
+    <button class="export-btn" id="exportDayBtn" style="flex:1">↓ Export Day CSV</button>
+    <button class="export-btn" id="exportRangeBtn" style="flex:1">📊 Export Range</button>
+    <button class="export-btn" id="printDayBtn" style="flex:1">🖨 Print</button>
+  </div>
+
+  <!-- Print-only notes summary -->
+  <div class="print-only print-notes" id="printNotes">
+    <h1>Notes</h1>
+    <div class="print-notes-list" id="printNotesList"></div>
+  </div>
+</div>
+
+<!-- ══ WEEKLY VIEW ══ -->
+<div id="weeklyView">
+  <div class="period-nav-glide">
+    <div class="period-date-row">
+      <span id="weekLabel">—</span>
+    </div>
+    <div class="period-nav-pills">
+      <button class="nav-pill" id="prevWeek">← Previous</button>
+      <button class="nav-pill today-pill" id="thisWeekBtn">↓ This Week</button>
+      <button class="nav-pill" id="nextWeek">→ Next</button>
+    </div>
+  </div>
+  <div class="stats" style="margin-top:12px;">
+    <div class="stat"><div class="num" id="wTotal">0</div><div class="lbl">Attendances</div></div>
+    <div class="stat"><div class="num" id="wAbsent">0</div><div class="lbl">Absences</div></div>
+    <div class="stat"><div class="num" id="wMakeup">0</div><div class="lbl">Make-Ups</div></div>
+    <div class="stat"><div class="num" id="wRate">—</div><div class="lbl">Rate</div></div>
+  </div>
+  <p class="scroll-hint">← scroll table →</p>
+  <div class="summary-table-wrap">
+    <table class="summary-table" id="weekTable"><thead id="weekHead"></thead><tbody id="weekBody"></tbody></table>
+  </div>
+  <div class="summary-legend">
+    <span class="legend-item"><span class="cell-present" style="font-weight:700">✓</span> Present</span>
+    <span class="legend-item"><span class="cell-absent" style="font-weight:700">✗</span> Absent</span>
+    <span class="legend-item"><span class="cell-makeup" style="font-weight:700">↩</span> Make-up / Extra day</span>
+    <span class="legend-item"><span style="display:inline-block;width:10px;height:10px;background:var(--amber-light);border:1px solid #e5c07a;border-radius:2px;vertical-align:middle"></span> Linked</span>
+    <span class="legend-item"><span class="time-flag">15:02</span> Early in / late out</span>
+    <span class="legend-item"><span style="font-size:0.85rem">🚗</span> Picked Up</span>
+    <span class="legend-item"><span class="cell-none">—</span> Not scheduled</span>
+  </div>
+  <div class="summary-actions"><button class="action-btn" id="exportWeekBtn">↓ Export Week CSV</button></div>
+</div>
+
+<!-- ══ MONTHLY VIEW ══ -->
+<div id="monthlyView">
+  <div class="period-nav-glide">
+    <div class="period-date-row">
+      <span id="monthLabel">—</span>
+    </div>
+    <div class="period-nav-pills">
+      <button class="nav-pill" id="prevMonth">← Previous</button>
+      <button class="nav-pill today-pill" id="thisMonthBtn">↓ This Month</button>
+      <button class="nav-pill" id="nextMonth">→ Next</button>
+    </div>
+  </div>
+  <div class="stats" style="margin-top:12px;">
+    <div class="stat"><div class="num" id="mTotal">0</div><div class="lbl">Attendances</div></div>
+    <div class="stat"><div class="num" id="mAbsent">0</div><div class="lbl">Absences</div></div>
+    <div class="stat"><div class="num" id="mMakeup">0</div><div class="lbl">Make-Ups</div></div>
+    <div class="stat"><div class="num" id="mRate">—</div><div class="lbl">Rate</div></div>
+  </div>
+  <p class="scroll-hint">← scroll table →</p>
+  <div class="summary-table-wrap">
+    <table class="summary-table" id="monthTable"><thead id="monthHead"></thead><tbody id="monthBody"></tbody></table>
+  </div>
+  <div class="summary-legend">
+    <span class="legend-item"><span class="cell-present" style="font-weight:700">✓</span> Present</span>
+    <span class="legend-item"><span class="cell-absent" style="font-weight:700">✗</span> Absent</span>
+    <span class="legend-item"><span class="cell-makeup" style="font-weight:700">↩</span> Make-up / Extra day</span>
+    <span class="legend-item"><span style="display:inline-block;width:10px;height:10px;background:var(--amber-light);border:1px solid #e5c07a;border-radius:2px;vertical-align:middle"></span> Linked</span>
+    <span class="legend-item"><span class="time-flag">15:02</span> Early in / late out</span>
+    <span class="legend-item"><span style="font-size:0.85rem">🚗</span> Picked Up</span>
+    <span class="legend-item"><span class="cell-none">—</span> Not scheduled</span>
+  </div>
+  <div class="summary-actions"><button class="action-btn primary" id="exportMonthBtn">↓ Export Month CSV</button></div>
+</div>
+
+<!-- ══ CALENDAR VIEW ══ -->
+<div id="calendarView">
+  <div class="cal-nav">
+    <div class="cal-month-row">
+      <span class="cal-month-label" id="calMonthLabel">—</span>
+    </div>
+    <div class="period-nav-pills">
+      <button class="nav-pill" id="calPrevMonth">← Previous</button>
+      <button class="nav-pill today-pill" id="calThisMonth">↓ This Month</button>
+      <button class="nav-pill" id="calNextMonth">→ Next</button>
+    </div>
+  </div>
+  <div class="cal-dow-row">
+    <div class="cal-dow weekend">Sun</div>
+    <div class="cal-dow">Mon</div>
+    <div class="cal-dow">Tue</div>
+    <div class="cal-dow">Wed</div>
+    <div class="cal-dow">Thu</div>
+    <div class="cal-dow">Fri</div>
+    <div class="cal-dow weekend">Sat</div>
+  </div>
+  <div class="cal-grid" id="calGrid"></div>
+</div>
+
+<!-- ══ SEASONAL DAILY VIEW (isolated dataset, no persistent roster) ══ -->
+<div id="seasDailyView">
+  <div class="date-strip">
+    <div class="date-display">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 1v3M11 1v3M1 7h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span id="seasDateLabel">—</span>
+    </div>
+    <div class="nav-pills">
+      <button class="nav-pill" id="seasPrevDay">← Previous</button>
+      <button class="nav-pill today-pill" id="seasTodayBtn">↓ Today</button>
+      <button class="nav-pill" id="seasNextDay">→ Next</button>
+    </div>
+  </div>
+  <div class="date-heading">
+    <h2 id="seasDateShort">—</h2>
+    <button class="add-btn" id="seasAddBtn">+ Add Student</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="num" id="seasPresent">0</div><div class="lbl">Present</div></div>
+    <div class="stat"><div class="num" id="seasCheckedIn">0</div><div class="lbl">Checked In</div></div>
+    <div class="stat"><div class="num" id="seasCheckedOut">0</div><div class="lbl">Checked Out</div></div>
+    <div class="stat"><div class="num" id="seasAbsent">0</div><div class="lbl">Absent</div></div>
+    <div class="stat"><div class="num" id="seasExtension">0</div><div class="lbl">Extension</div></div>
+  </div>
+  <p class="scroll-hint" style="text-align:left;padding:6px 16px 0;">Extension = check-in before 10:00am or check-out after 3:00pm</p>
+  <div class="list-header"><span class="list-header-label">Seasonal School — Today's Students</span></div>
+  <div class="student-grid" id="seasChildrenList"></div>
+  <div class="export-row"><button class="export-btn" id="seasExportDayBtn">↓ Export Day CSV</button></div>
+</div>
+
+<!-- ══ SEASONAL WEEKLY VIEW ══ -->
+<div id="seasWeeklyView">
+  <div class="period-nav-glide">
+    <div class="period-date-row"><span id="seasWeekLabel">—</span></div>
+    <div class="period-nav-pills">
+      <button class="nav-pill" id="seasPrevWeek">← Previous</button>
+      <button class="nav-pill today-pill" id="seasThisWeekBtn">↓ This Week</button>
+      <button class="nav-pill" id="seasNextWeek">→ Next</button>
+    </div>
+  </div>
+  <div class="stats" style="margin-top:12px;">
+    <div class="stat"><div class="num" id="seasWTotal">0</div><div class="lbl">Total Attendances</div></div>
+    <div class="stat"><div class="num" id="seasWUnique">0</div><div class="lbl">Unique Students</div></div>
+    <div class="stat"><div class="num" id="seasWExtension">0</div><div class="lbl">Extension Days</div></div>
+  </div>
+  <p class="scroll-hint">← scroll table →</p>
+  <div class="summary-table-wrap">
+    <table class="summary-table" id="seasWeekTable"><thead id="seasWeekHead"></thead><tbody id="seasWeekBody"></tbody></table>
+  </div>
+  <div class="summary-legend">
+    <span class="legend-item"><span class="cell-present" style="font-weight:700">✓</span> Present</span>
+    <span class="legend-item"><span class="cell-absent" style="font-weight:700">✗</span> Absent</span>
+    <span class="legend-item"><span class="time-flag">09:15</span> Extension (before 10am / after 3pm)</span>
+    <span class="legend-item"><span class="cell-none">—</span> Not added</span>
+  </div>
+  <div class="summary-actions"><button class="action-btn" id="seasExportWeekBtn">↓ Export Week CSV</button></div>
+</div>
+
+<!-- ══ BOTTOM TAB BAR ══ -->
+<nav class="tab-bar">
+  <button class="tab-btn active" id="tabDaily"><span class="tab-icon">📋</span><span class="tab-label">Daily</span></button>
+  <button class="tab-btn" id="tabWeekly"><span class="tab-icon">📅</span><span class="tab-label">Weekly</span></button>
+  <button class="tab-btn" id="tabMonthly"><span class="tab-icon">📊</span><span class="tab-label">Monthly</span></button>
+  <button class="tab-btn" id="tabCalendar"><span class="tab-icon">🗓</span><span class="tab-label">Calendar</span></button>
+</nav>
+
+<!-- ══ ROSTER MODAL ══ -->
+<div class="overlay" id="rosterModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Student Roster</div>
+    <p class="modal-sub">Manage students and their scheduled days.</p>
+    <div class="roster-list" id="rosterList"></div>
+    <!-- Add new student form (shown below list) -->
+    <div class="add-student-form" id="addStudentForm" style="display:none;">
+      <h4>New Student</h4>
+      <div class="form-group"><label>Name</label><input type="text" id="studentNameInput" placeholder="Student name…" /></div>
+      <div class="form-group">
+        <label>Class Type</label>
+        <div class="group-picker">
+          <button class="group-pick-btn" data-group="G"><span class="gp-code">G</span><span class="gp-label">Gakudo</span></button>
+          <button class="group-pick-btn" data-group="E"><span class="gp-code">E</span><span class="gp-label">English</span></button>
+          <button class="group-pick-btn" data-group="P"><span class="gp-code">P</span><span class="gp-label">Private</span></button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Scheduled Days</label>
+        <div class="day-picker" id="dayPicker">
+          <button class="day-pill" data-day="Mon">Mon</button>
+          <button class="day-pill" data-day="Tue">Tue</button>
+          <button class="day-pill" data-day="Wed">Wed</button>
+          <button class="day-pill" data-day="Thu">Thu</button>
+          <button class="day-pill" data-day="Fri">Fri</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Expected Times (optional — flags early arrival / late pickup)</label>
+        <div class="form-row2">
+          <div><label>Arrival</label><input type="time" id="studentExpIn" /></div>
+          <div><label>Pickup</label><input type="time" id="studentExpOut" /></div>
+        </div>
+        <div class="exp-hint">Gakudo (G) students automatically default to 13:00–18:00 — only set times here to override.</div>
+        <button type="button" class="exp-byday-toggle" id="addExpByDayToggle">⏱ Vary by day ▾</button>
+        <div class="exp-byday" id="addExpByDay">
+          <div class="exp-day-row" data-day="Mon"><span class="ed-lbl">Mon</span><input type="time" class="ed-in" /><input type="time" class="ed-out" /></div>
+          <div class="exp-day-row" data-day="Tue"><span class="ed-lbl">Tue</span><input type="time" class="ed-in" /><input type="time" class="ed-out" /></div>
+          <div class="exp-day-row" data-day="Wed"><span class="ed-lbl">Wed</span><input type="time" class="ed-in" /><input type="time" class="ed-out" /></div>
+          <div class="exp-day-row" data-day="Thu"><span class="ed-lbl">Thu</span><input type="time" class="ed-in" /><input type="time" class="ed-out" /></div>
+          <div class="exp-day-row" data-day="Fri"><span class="ed-lbl">Fri</span><input type="time" class="ed-in" /><input type="time" class="ed-out" /></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Picked Up tracking</label>
+        <button type="button" class="pu-toggle-btn" id="addPickedUpToggle">🚗 Enable Picked Up (P) marker</button>
+      </div>
+      <div class="modal-btns">
+        <button class="btn-cancel" id="addStudentCancel">Cancel</button>
+        <button class="btn-confirm" id="addStudentSave">Add Student</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px;">
+      <button class="action-btn" id="showAddStudent" style="flex:1">+ New Student</button>
+      <button class="action-btn" id="closeRosterBtn" style="flex:1">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAKE-UP MODAL ══ -->
+<div class="overlay" id="makeupModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Add Make-Up Session</div>
+    <p class="modal-sub" id="makeupModalSub">Select the student and the day they missed. They'll be added to today's register and both days will be linked.</p>
+    <div class="form-group">
+      <label>Type</label>
+      <div class="day-picker" id="makeupTypePicker">
+        <button type="button" class="day-pill selected" data-type="missed" style="flex:1">Missed Day</button>
+        <button type="button" class="day-pill" data-type="extra" style="flex:1">Extra Day</button>
+      </div>
+    </div>
+    <div class="form-group"><label>Student</label><select id="makeupStudent"></select></div>
+    <div class="form-group" id="makeupDateGroup"><label>Making up for (missed date)</label><input type="date" id="makeupDate" /></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="makeupCancel">Cancel</button>
+      <button class="btn-confirm" id="makeupConfirm">Add Make-Up</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TIME MODAL ══ -->
+<div class="overlay center" id="timeModal">
+  <div class="mini-modal">
+    <div class="modal-title" id="timeModalTitle" style="font-size:0.95rem;margin-bottom:8px;">Edit Time</div>
+    <div class="modal-sub" id="timeModalSub"></div>
+    <div class="form-group"><input type="time" id="timeInput" /></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="timeCancel">Cancel</button>
+      <button class="btn-confirm" id="timeConfirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NOTE MODAL ══ -->
+<div class="overlay center" id="noteModal">
+  <div class="mini-modal">
+    <div class="modal-title" id="noteModalTitle" style="font-size:0.95rem;margin-bottom:4px;">Note</div>
+    <div class="modal-sub" id="noteModalSub"></div>
+    <div class="form-group"><textarea id="noteInput" rows="3" placeholder="e.g. Left early — dentist appointment"></textarea></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="noteCancel">Cancel</button>
+      <button class="btn-confirm" id="noteConfirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STUDENT DETAIL MODAL ══ -->
+<div class="overlay" id="studentDetailModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div id="studentDetailBody"></div>
+    <button class="action-btn" id="studentDetailClose" style="margin-top:14px;width:100%;">Close</button>
+  </div>
+</div>
+
+<!-- ══ DAY POPUP MODAL ══ -->
+<div class="overlay" id="dayPopupModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="day-popup-title" id="dayPopupTitle">—</div>
+    <div class="day-popup-sub" id="dayPopupSub">—</div>
+    <div class="day-popup-list" id="dayPopupList"></div>
+    <button class="go-day-btn" id="dayPopupGoBtn">Open Daily Register →</button>
+    <button class="action-btn" id="dayPopupClose">Close</button>
+  </div>
+</div>
+
+<!-- ══ SCHEDULE MAKE-UP MODAL ══ -->
+<div class="overlay center" id="scheduleMakeupModal">
+  <div class="mini-modal" style="width:320px;">
+    <div class="modal-title" style="font-size:0.95rem;margin-bottom:4px;">Schedule Make-Up</div>
+    <p class="modal-sub" id="scheduleMakeupSub"></p>
+    <div class="form-group"><label>Make-up date</label><input type="date" id="scheduleMakeupDate" /></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="scheduleMakeupCancel">Cancel</button>
+      <button class="btn-confirm" id="scheduleMakeupConfirm">Schedule</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ DATE RANGE EXPORT MODAL ══ -->
+<div class="overlay center" id="rangeExportModal">
+  <div class="mini-modal" style="width:340px;max-width:92vw;">
+    <div class="modal-title" style="font-size:0.95rem;margin-bottom:4px;">Export Date Range</div>
+    <p class="modal-sub">Exports all weekdays (Mon–Fri) in the selected range, formatted as a student × day summary.</p>
+    <div class="form-group"><label>From</label><input type="date" id="rangeStart" /></div>
+    <div class="form-group"><label>To</label><input type="date" id="rangeEnd" /></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="rangeExportCancel">Cancel</button>
+      <button class="btn-confirm" id="rangeExportConfirm">Export CSV</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SEASONAL: ADD STUDENT MODAL ══ -->
+<div class="overlay center" id="seasAddModal">
+  <div class="mini-modal" style="width:340px;max-width:92vw;">
+    <div class="modal-title" style="font-size:0.95rem;margin-bottom:4px;">Add Student — Seasonal School</div>
+    <p class="modal-sub" id="seasAddModalSub"></p>
+    <div class="form-group"><label>Name</label><input type="text" id="seasNameInput" placeholder="Student name…" /></div>
+    <div class="form-group" id="seasRecentGroup" style="display:none;">
+      <label>Recent Names</label>
+      <div class="seas-recent-wrap" id="seasRecentWrap"></div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="seasAddCancel">Cancel</button>
+      <button class="btn-confirm" id="seasAddConfirm">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SEASONAL: TIME MODAL (isolated from term-time timeModal) ══ -->
+<div class="overlay center" id="seasTimeModal">
+  <div class="mini-modal">
+    <div class="modal-title" id="seasTimeModalTitle" style="font-size:0.95rem;margin-bottom:8px;">Edit Time</div>
+    <div class="modal-sub" id="seasTimeModalSub"></div>
+    <div class="form-group"><input type="time" id="seasTimeInput" /></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="seasTimeCancel">Cancel</button>
+      <button class="btn-confirm" id="seasTimeConfirm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ UNDO TOAST ══ -->
+<div class="undo-toast" id="undoToast">
+  <span id="undoMsg">Done</span>
+  <button class="undo-btn" id="undoBtn">Undo</button>
+</div>
+
+<script>
+// ══ Data ══
+const STORE='oosh_v2';
+// ── In-memory state is the single source of truth for the UI. Seeded from
+//    localStorage for instant offline paint, then kept live by Firestore. ──
+function _readLocal(k,f){try{return JSON.parse(localStorage.getItem(k))||f;}catch{return f;}}
+function _clone(o){return JSON.parse(JSON.stringify(o));}
+let _state=_readLocal(STORE,{students:[],attendance:{}});
+if(!_state.students)_state.students=[];
+if(!_state.attendance)_state.attendance={};
+function load(){return _clone(_state);}
+function save(d){_state=_clone(d);localStorage.setItem(STORE,JSON.stringify(_state));syncPush(_state);}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+// ══════════════ Cloud sync (Firebase) ══════════════
+const CLOUD={on:false,db:null,auth:null,synced:{students:[],attendance:{}},seasSynced:null};
+const FB_CONFIG={apiKey:"AIzaSyAU7S-4igFYQXX-B2XfwMgt2sPsSbBOz1E",authDomain:"oosh-attendance.firebaseapp.com",projectId:"oosh-attendance",storageBucket:"oosh-attendance.firebasestorage.app",messagingSenderId:"1048740112994",appId:"1:1048740112994:web:0510c8603ad104a61dbf3b"};
+
+// Re-render whichever view is currently visible.
+function _rerender(){try{
+  if(typeof seasonalMode!=='undefined'&&seasonalMode){
+    if(document.getElementById('seasWeeklyView').classList.contains('active'))seasRenderWeekly();else seasRenderDaily();return;
+  }
+  render();
+  if(document.getElementById('weeklyView').classList.contains('active'))renderWeekly();
+  if(document.getElementById('monthlyView').classList.contains('active'))renderMonthly();
+  if(document.getElementById('calendarView').classList.contains('active'))renderCalendar();
+  const rm=document.getElementById('rosterModal');if(rm&&rm.classList.contains('open'))renderRoster();
+}catch(e){console.warn('rerender',e);}}
+
+// Push local changes up — only what changed (roster doc + per-date attendance docs).
+function syncPush(d){
+  if(!CLOUD.on||!CLOUD.db)return;
+  const db=CLOUD.db,prev=CLOUD.synced;
+  try{
+    if(JSON.stringify(d.students||[])!==JSON.stringify(prev.students||[])){
+      db.collection('meta').doc('roster').set({students:d.students||[]});
+    }
+    const cur=d.attendance||{},old=prev.attendance||{};
+    const dates=new Set([...Object.keys(cur),...Object.keys(old)]);
+    dates.forEach(ds=>{
+      if(JSON.stringify(cur[ds])!==JSON.stringify(old[ds])){
+        if(cur[ds]&&cur[ds].length)db.collection('attendance').doc(ds).set({records:cur[ds]});
+        else db.collection('attendance').doc(ds).delete().catch(()=>{});
+      }
+    });
+    CLOUD.synced=_clone(d);
+  }catch(e){console.warn('syncPush',e);}
+}
+function syncPushSeasonal(sd){
+  if(!CLOUD.on||!CLOUD.db)return;
+  try{
+    if(JSON.stringify(sd)!==JSON.stringify(CLOUD.seasSynced)){
+      CLOUD.db.collection('meta').doc('seasonal').set({data:sd});
+      CLOUD.seasSynced=_clone(sd);
+    }
+  }catch(e){console.warn('syncPushSeasonal',e);}
+}
+
+// Live inbound listeners — rebuild state from server and re-render.
+function cloudStart(){
+  const db=CLOUD.db;
+  db.collection('meta').doc('roster').onSnapshot(snap=>{
+    const students=(snap.exists&&snap.data().students)||[];
+    _state.students=students;CLOUD.synced.students=_clone(students);
+    localStorage.setItem(STORE,JSON.stringify(_state));_rerender();
+  },e=>console.warn('roster listen',e));
+  db.collection('attendance').onSnapshot(qs=>{
+    const att={};qs.forEach(doc=>{att[doc.id]=doc.data().records||[];});
+    _state.attendance=att;CLOUD.synced.attendance=_clone(att);
+    localStorage.setItem(STORE,JSON.stringify(_state));_rerender();
+  },e=>console.warn('att listen',e));
+  db.collection('meta').doc('seasonal').onSnapshot(snap=>{
+    const sd=(snap.exists&&snap.data().data)||{days:{}};
+    _seasState=sd;CLOUD.seasSynced=_clone(sd);
+    localStorage.setItem(SEAS_STORE,JSON.stringify(_seasState));
+    if(typeof seasonalMode!=='undefined'&&seasonalMode)_rerender();
+  },e=>console.warn('seas listen',e));
+}
+
+function setSync(state,email){
+  const dot=document.getElementById('syncDot'),st=document.getElementById('cloudStatus'),us=document.getElementById('cloudUser');
+  const map={online:['','Synced — signed in'],offline:['offline','Offline — changes sync when reconnected'],local:['local','Local only (not signed in)']};
+  const pair=map[state]||map.local,cls=pair[0],label=pair[1];
+  if(dot)dot.className='sync-dot '+cls;
+  if(st){st.className='cloud-status '+cls;st.innerHTML='<span class="sync-dot '+cls+'"></span>'+label;}
+  if(us)us.textContent=email?('Account: '+email):'';
+}
+function showLogin(){const o=document.getElementById('loginOverlay');if(o)o.style.display='flex';}
+function hideLogin(){const o=document.getElementById('loginOverlay');if(o)o.style.display='none';}
+
+function cloudInit(){
+  if(typeof firebase==='undefined'){document.body.classList.add('local-only');setSync('local');return;}
+  try{firebase.initializeApp(FB_CONFIG);}catch(e){document.body.classList.add('local-only');setSync('local');return;}
+  CLOUD.auth=firebase.auth();CLOUD.db=firebase.firestore();
+  CLOUD.db.enablePersistence({synchronizeTabs:true}).catch(()=>{});
+  CLOUD.auth.onAuthStateChanged(user=>{
+    if(user){
+      hideLogin();
+      if(!CLOUD.on){CLOUD.on=true;CLOUD.synced={students:[],attendance:{}};CLOUD.seasSynced=null;cloudStart();}
+      setSync(navigator.onLine?'online':'offline',user.email);
+    }else{CLOUD.on=false;setSync('local');showLogin();}
+  });
+  window.addEventListener('online',()=>{if(CLOUD.on)setSync('online',CLOUD.auth.currentUser&&CLOUD.auth.currentUser.email);});
+  window.addEventListener('offline',()=>{if(CLOUD.on)setSync('offline',CLOUD.auth.currentUser&&CLOUD.auth.currentUser.email);});
+}
+function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim(),pass=document.getElementById('loginPass').value,err=document.getElementById('loginErr');
+  err.textContent='';
+  if(!email||!pass){err.textContent='Enter your email and password.';return;}
+  if(!CLOUD.auth){err.textContent='Sign-in needs a connection. Reconnect and reload.';return;}
+  document.getElementById('loginBtn').textContent='Signing in…';
+  CLOUD.auth.signInWithEmailAndPassword(email,pass).catch(er=>{
+    const bad=er&&(er.code==='auth/invalid-credential'||er.code==='auth/wrong-password'||er.code==='auth/user-not-found');
+    err.textContent=bad?'Wrong email or password.':((er&&er.message)||'Sign-in failed.');
+  }).finally(()=>{document.getElementById('loginBtn').textContent='Sign in';});
+}
+
+
+// ══ Undo toast ══
+let _lastSnap=null,_undoTimer=null;
+function _snap(){_lastSnap=JSON.stringify(_state);}
+function _toast(msg){
+  clearTimeout(_undoTimer);
+  document.getElementById('undoMsg').textContent=msg;
+  document.getElementById('undoToast').classList.add('show');
+  _undoTimer=setTimeout(_hideToast,4200);
+}
+function _hideToast(){document.getElementById('undoToast').classList.remove('show');_lastSnap=null;}
+document.getElementById('undoBtn').addEventListener('click',()=>{
+  if(_lastSnap){save(JSON.parse(_lastSnap));_lastSnap=null;}
+  _hideToast();_rerender();
+});
+
+// ══ Login + Sync/Data modal wiring ══
+document.getElementById('loginBtn').addEventListener('click',doLogin);
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('cloudBtn').addEventListener('click',()=>document.getElementById('cloudModal').classList.add('open'));
+document.getElementById('cloudClose').addEventListener('click',()=>document.getElementById('cloudModal').classList.remove('open'));
+document.getElementById('exportBtn').addEventListener('click',()=>{
+  const dump={app:'oosh-attendance',v:2,exportedAt:new Date().toISOString(),data:load(),seasonal:(typeof _seasState!=='undefined'?_clone(_seasState):{days:{}})};
+  document.getElementById('backupBox').value=JSON.stringify(dump);
+  _toast('Backup ready — Copy it');
+});
+document.getElementById('copyBackupBtn').addEventListener('click',()=>{
+  const box=document.getElementById('backupBox');if(!box.value){document.getElementById('exportBtn').click();}
+  box.select();
+  if(navigator.clipboard)navigator.clipboard.writeText(box.value).then(()=>_toast('Backup copied')).catch(()=>{try{document.execCommand('copy');_toast('Backup copied');}catch(e){}});
+  else{try{document.execCommand('copy');_toast('Backup copied');}catch(e){}}
+});
+document.getElementById('restoreBtn').addEventListener('click',()=>{
+  const txt=document.getElementById('backupBox').value.trim();if(!txt){alert('Paste a backup into the box first.');return;}
+  let obj;try{obj=JSON.parse(txt);}catch{alert('That is not valid backup JSON.');return;}
+  const term=obj.data||obj,seas=obj.seasonal;
+  if(!term||!Array.isArray(term.students)){alert('Backup is missing student data.');return;}
+  if(!confirm('Restore this backup? It replaces the current data'+(CLOUD.on?' everywhere it syncs.':'.'))){return;}
+  save(term);
+  if(seas&&typeof seasSave==='function')seasSave(seas);
+  document.getElementById('cloudModal').classList.remove('open');
+  _rerender();_toast('Backup restored');
+});
+document.getElementById('logoutBtn').addEventListener('click',()=>{
+  if(!CLOUD.auth){alert('Not signed in.');return;}
+  if(confirm('Log out of this device? You will need your email and password to sign back in.'))CLOUD.auth.signOut();
+  document.getElementById('cloudModal').classList.remove('open');
+});
+
+// ══ Date helpers ══
+const TODAY=todayStr();
+let currentDate=TODAY;
+let currentWeekMonday=getWeekMonday(TODAY);
+let currentMonthYear=TODAY.slice(0,7);
+
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function dateToDay(ds){return['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(ds+'T12:00:00').getDay()];}
+function displayDateLong(ds){return new Date(ds+'T12:00:00').toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}
+function displayDateShort(ds){const d=new Date(ds+'T12:00:00');return d.toLocaleDateString('en-AU',{day:'2-digit',month:'2-digit',year:'2-digit'});}
+function displayDateHeading(ds){return new Date(ds+'T12:00:00').toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short',year:'numeric'});}
+function shortDate(ds){return new Date(ds+'T12:00:00').toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'});}
+function tinyDate(ds){const d=new Date(ds+'T12:00:00');return d.toLocaleDateString('en-AU',{day:'numeric',month:'short'});}
+function nowTime(){return new Date().toTimeString().slice(0,5);}
+function getWeekMonday(ds){const d=new Date(ds+'T12:00:00'),day=d.getDay();d.setDate(d.getDate()+(day===0?-6:1-day));return d.toISOString().slice(0,10);}
+function getWeekDates(m){const dates=[],d=new Date(m+'T12:00:00');for(let i=0;i<5;i++){dates.push(d.toISOString().slice(0,10));d.setDate(d.getDate()+1);}return dates;}
+function formatWeekLabel(m){const dates=getWeekDates(m);const s=new Date(dates[0]+'T12:00:00'),e=new Date(dates[4]+'T12:00:00');return s.toLocaleDateString('en-AU',{day:'numeric',month:'short'})+' – '+e.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});}
+function pad2(n){return String(n).padStart(2,'0');}
+function localDateStr(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function getMonthWeekdays(ym){const[y,m]=ym.split('-').map(Number);const dates=[],d=new Date(y,m-1,1,12,0,0);while(d.getMonth()===m-1){const dow=d.getDay();if(dow>=1&&dow<=5)dates.push(localDateStr(d));d.setDate(d.getDate()+1);}return dates;}
+function formatMonthLabel(ym){const[y,m]=ym.split('-').map(Number);return new Date(y,m-1,1).toLocaleDateString('en-AU',{month:'long',year:'numeric'});}
+
+// ══ Attendance helpers ══
+function getDayRecords(data,ds){if(!data.attendance[ds])data.attendance[ds]=[];return data.attendance[ds];}
+function getRecord(data,ds,sid){return getDayRecords(data,ds).find(r=>r.studentId===sid)||null;}
+function ensureRecord(data,ds,sid){const recs=getDayRecords(data,ds);let rec=recs.find(r=>r.studentId===sid);if(!rec){rec={id:uid(),studentId:sid,present:true,checkIn:null,checkOut:null,isMakeup:false,makeupFor:null,madeUpOn:null,note:null};recs.push(rec);}return rec;}
+// One-off removal: student stays on the roster but is dropped from this single date.
+function isDayExcluded(data,ds,sid){const r=getDayRecords(data,ds).find(x=>x.studentId===sid&&!x.isMakeup);return !!(r&&r.excluded);}
+
+// ══ Early arrival / late departure flagging ══
+const GRACE_MIN=5;
+const GAKUDO_DEFAULT={in:'13:00',out:'18:00'}; // applies automatically to all G students
+function toMin(t){if(!t)return null;const[h,m]=t.split(':').map(Number);if(isNaN(h)||isNaN(m))return null;return h*60+m;}
+// Effective expected times for a student on a given weekday:
+// per-day override → flat per-student times → Gakudo default (G students)
+function getExpected(student,dayName){
+  if(!student)return{in:null,out:null};
+  const byDay=(student.expectedByDay&&dayName&&student.expectedByDay[dayName])||null;
+  const gIn=student.group==='G'?GAKUDO_DEFAULT.in:null;
+  const gOut=student.group==='G'?GAKUDO_DEFAULT.out:null;
+  return{in:(byDay&&byDay.in)||student.expectedIn||gIn,out:(byDay&&byDay.out)||student.expectedOut||gOut};
+}
+function isEarlyIn(student,checkIn,dayName){const e=toMin(getExpected(student,dayName).in),a=toMin(checkIn);return e!==null&&a!==null&&a<e-GRACE_MIN;}
+function isLateOut(student,checkOut,dayName){const e=toMin(getExpected(student,dayName).out),a=toMin(checkOut);return e!==null&&a!==null&&a>e+GRACE_MIN;}
+function hasByDay(s){return !!(s.expectedByDay&&Object.keys(s.expectedByDay).length);}
+
+// ══ Tabs ══
+let calMonthYear=TODAY.slice(0,7);
+function switchTab(name){
+  ['daily','weekly','monthly','calendar'].forEach(t=>{
+    document.getElementById('tab'+cap(t)).classList.toggle('active',t===name);
+    document.getElementById(t+'View').classList.toggle('active',t===name);
+  });
+  document.getElementById('seasDailyView').classList.remove('active');
+  document.getElementById('seasWeeklyView').classList.remove('active');
+  if(name==='weekly'){currentWeekMonday=getWeekMonday(currentDate);renderWeekly();}
+  if(name==='monthly'){currentMonthYear=currentDate.slice(0,7);renderMonthly();}
+  if(name==='calendar'){calMonthYear=currentDate.slice(0,7);renderCalendar();}
+}
+function cap(s){return s[0].toUpperCase()+s.slice(1);}
+document.getElementById('tabDaily').addEventListener('click',()=>{if(seasonalMode){seasSwitchTab('daily');}else{switchTab('daily');}});
+document.getElementById('tabWeekly').addEventListener('click',()=>{if(seasonalMode){seasSwitchTab('weekly');}else{switchTab('weekly');}});
+document.getElementById('tabMonthly').addEventListener('click',()=>{if(!seasonalMode)switchTab('monthly');});
+document.getElementById('tabCalendar').addEventListener('click',()=>{if(!seasonalMode)switchTab('calendar');});
+
+function initials(name){return name.trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();}
+const GROUP_META={G:{label:'Gakudo',cls:'gb-G',gsCls:'gs-G'},E:{label:'English',cls:'gb-E',gsCls:'gs-E'},P:{label:'Private',cls:'gb-P',gsCls:'gs-P'}};
+function groupBadgeHtml(group){const g=group&&GROUP_META[group];return g?`<span class="group-badge ${g.cls}">${group}</span>`:`<span class="group-badge gb-none">—</span>`;}
+let selectedGroup=null;
+function setGroupPicker(g){selectedGroup=g;document.querySelectorAll('.group-pick-btn').forEach(b=>{const bg=b.dataset.group;b.className='group-pick-btn'+(g===bg?' active-'+bg:'');});}
+document.querySelectorAll('.group-pick-btn').forEach(b=>b.addEventListener('click',()=>setGroupPicker(selectedGroup===b.dataset.group?null:b.dataset.group)));
+
+// ══ DAILY RENDER ══
+function render(){
+  const data=load();
+  const dayName=dateToDay(currentDate);
+  document.getElementById('dateLabel').textContent=displayDateLong(currentDate);document.getElementById('printDateLine').textContent=displayDateLong(currentDate);
+  document.getElementById('dateShort').textContent=displayDateHeading(currentDate);
+  document.getElementById('sectionLbl').textContent=dayName+' Students';
+
+  const scheduled=data.students.filter(s=>s.days.includes(dayName)&&!isDayExcluded(data,currentDate,s.id));
+  const dayRecs=getDayRecords(data,currentDate);
+  const makeupRecs=dayRecs.filter(r=>r.isMakeup);
+
+  let nPresent=0,nIn=0,nOut=0,nAbsent=0;
+  const allItems=[];
+
+  scheduled.forEach(student=>{
+    const rec=getRecord(data,currentDate,student.id);
+    const present=rec?rec.present:true;
+    const checkIn=rec?rec.checkIn:null,checkOut=rec?rec.checkOut:null,madeUpOn=rec?rec.madeUpOn:null;
+    if(present)nPresent++;else nAbsent++;
+    if(checkIn)nIn++;if(checkOut)nOut++;
+    allItems.push({type:'scheduled',student,rec,present,checkIn,checkOut,madeUpOn});
+  });
+  makeupRecs.forEach(rec=>{
+    const student=data.students.find(s=>s.id===rec.studentId);
+    if(!student)return;
+    nPresent++;if(rec.checkIn)nIn++;if(rec.checkOut)nOut++;
+    allItems.push({type:'makeup',student,rec,present:true,checkIn:rec.checkIn,checkOut:rec.checkOut});
+  });
+
+  document.getElementById('sPresent').textContent=nPresent;
+  document.getElementById('sCheckedIn').textContent=nIn;
+  document.getElementById('sCheckedOut').textContent=nOut;
+  document.getElementById('sAbsent').textContent=nAbsent;
+
+  // Group breakdown
+  const gCounts={G:0,E:0,P:0,none:0};
+  allItems.forEach(item=>{
+    const g=item.student.group;
+    if(item.present||(item.type==='makeup')){(g&&gCounts[g]!==undefined?gCounts:{'none':0})[g||'none']++;}
+  });
+  // recalc properly
+  gCounts.G=0;gCounts.E=0;gCounts.P=0;gCounts.none=0;
+  allItems.forEach(item=>{
+    const present=item.type==='makeup'||item.present;
+    if(!present)return;
+    const g=item.student.group;
+    if(g==='G'||g==='E'||g==='P')gCounts[g]++;else gCounts.none++;
+  });
+  const breakdown=document.getElementById('groupBreakdown');
+  const hasAnyGroup=data.students.some(s=>s.group);
+  if(hasAnyGroup){
+    breakdown.innerHTML=['G','E','P'].map(g=>{
+      const meta=GROUP_META[g];
+      return `<div class="group-stat ${meta.gsCls}"><div class="gs-num">${gCounts[g]}</div><div class="gs-lbl">${meta.label}</div></div>`;
+    }).join('')+(gCounts.none>0?`<div class="group-stat gs-none"><div class="gs-num">${gCounts.none}</div><div class="gs-lbl">Other</div></div>`:'');
+  }else{breakdown.innerHTML='';}
+
+  const list=document.getElementById('childrenList');
+  if(allItems.length===0){
+    list.innerHTML='<div class="empty-state">No students scheduled for '+dayName+'.<br>Add students to the roster or use + Make-Up.</div>';
+    return;
+  }
+
+  list.innerHTML='';
+  allItems.forEach((item)=>{
+    const tile=document.createElement('div');
+    tile.innerHTML=buildTileHtml(item,dayName);
+    list.appendChild(tile.firstElementChild);
+  });
+
+  // Mini actions on tiles (check-in/out, absent toggle, remove) — stop propagation so the
+  // tile's own click (which opens the full detail sheet) doesn't also fire.
+  list.querySelectorAll('[data-action]').forEach(el=>{
+    el.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const sid=el.dataset.sid,action=el.dataset.action;
+      if(action==='edit-time'){
+        const type=el.dataset.type,data=load(),rec=getRecord(data,currentDate,sid),student=data.students.find(s=>s.id===sid);
+        openTimeModal(sid,type,type==='in'?(rec?rec.checkIn:null):(rec?rec.checkOut:null),student.name);
+        return;
+      }
+      runDailyAction(action,sid,()=>render());
+    });
+  });
+  // Tap anywhere else on a tile opens the full detail sheet
+  list.querySelectorAll('.grid-tile').forEach(t=>{
+    t.addEventListener('click',()=>openStudentDetail(t.dataset.sid));
+  });
+}
+
+// Shared action handler used by both the grid tiles and the student detail sheet.
+// `afterSave` is called once the data mutates (or immediately for actions that just open another modal).
+function runDailyAction(action,sid,afterSave){
+  const data=load();
+  if(action==='checkin'){_snap();const rec=ensureRecord(data,currentDate,sid);const wasIn=!!rec.checkIn;if(!rec.checkIn){rec.checkIn=nowTime();rec.present=true;}else if(!rec.checkOut){rec.checkOut=nowTime();}save(data);afterSave();_toast(wasIn?'Checked out':'Checked in');}
+  if(action==='toggle'){_snap();const rec=ensureRecord(data,currentDate,sid);rec.present=!rec.present;if(!rec.present){rec.checkIn=null;rec.checkOut=null;rec.pickedUp=false;}save(data);afterSave();_toast(rec.present?'Marked present':'Marked absent');}
+  if(action==='picked-up'){_snap();const rec=ensureRecord(data,currentDate,sid);rec.pickedUp=!rec.pickedUp;save(data);afterSave();_toast(rec.pickedUp?'Marked Picked Up':'Removed Picked Up');}
+  if(action==='note'){const student=data.students.find(s=>s.id===sid);openNoteModal(sid,student.name,currentDate);}
+  if(action==='remove'){const student=data.students.find(s=>s.id===sid);if(confirm('Remove '+student.name+' from today?')){_snap();const recs=getDayRecords(data,currentDate);let rec=recs.find(r=>r.studentId===sid&&!r.isMakeup);if(!rec){rec={id:uid(),studentId:sid,present:false,checkIn:null,checkOut:null,isMakeup:false,makeupFor:null,madeUpOn:null,note:null};recs.push(rec);}rec.excluded=true;rec.present=false;rec.checkIn=null;rec.checkOut=null;rec.pickedUp=false;save(data);afterSave(true);_toast('Removed for today');}}
+  if(action==='remove-makeup'){const student=data.students.find(s=>s.id===sid);const rec0=getDayRecords(data,currentDate).find(r=>r.studentId===sid&&r.isMakeup);const label=rec0&&rec0.isExtra?'Remove extra day for '+student.name+'?':'Remove make-up for '+student.name+'?';if(confirm(label)){const recs=getDayRecords(data,currentDate),ri=recs.findIndex(r=>r.studentId===sid&&r.isMakeup);if(ri>=0){const mr=recs[ri];if(mr.makeupFor){const or=getDayRecords(data,mr.makeupFor).find(r=>r.studentId===sid);if(or)or.madeUpOn=null;}recs.splice(ri,1);}save(data);afterSave(true);}}
+  if(action==='schedule-makeup'){const student=data.students.find(s=>s.id===sid);openScheduleMakeupModal(sid,student.name);}
+  if(action==='cancel-makeup'){const student=data.students.find(s=>s.id===sid),rec=getRecord(data,currentDate,sid);if(!rec||!rec.madeUpOn)return;const label=rec.madeUpOn>TODAY?'Cancel the scheduled make-up for '+student.name+'?':'Remove the make-up link for '+student.name+'?';if(confirm(label)){const linkedRecs=getDayRecords(data,rec.madeUpOn);const li=linkedRecs.findIndex(r=>r.studentId===sid&&r.isMakeup&&!r.checkIn);if(li>=0)linkedRecs.splice(li,1);rec.madeUpOn=null;save(data);afterSave();}}
+}
+
+// Full per-student content (avatar, name, group/days/expected, all actions, note, remove) —
+// used inside the student detail sheet. This is the same content the daily list used to show inline.
+function buildRowInner(item,dayName){
+  const{student,rec,present,checkIn,checkOut,madeUpOn,type}=item;
+  const isMakeup=(type==='makeup');
+  const isExtra=isMakeup&&rec&&!!rec.isExtra;
+
+  let avClass,slClass,slLabel;
+  if(isMakeup){avClass='av-makeup';slClass='sl-makeup';slLabel=isExtra?'Extra Day':'Make-Up';}
+  else if(present){avClass='av-present';slClass='sl-present';slLabel='Present';}
+  else{avClass='av-absent';slClass='sl-absent';slLabel='Absent';}
+
+  const earlyIn=isEarlyIn(student,checkIn,dayName);
+  const lateOut=isLateOut(student,checkOut,dayName);
+
+  let actionsHtml='';
+  if(isMakeup){
+    if(!checkIn) actionsHtml+=`<button class="inline-btn ib-checkin" data-action="checkin" data-sid="${student.id}">▶ Check In</button>`;
+    else actionsHtml+=`<span class="time-chip tc-in${earlyIn?' tc-flag':''}" data-sid="${student.id}" data-type="in">▶ ${checkIn}${earlyIn?' ·early':''}</span>`;
+    if(checkIn&&!checkOut) actionsHtml+=`<button class="inline-btn ib-checkout" data-action="checkin" data-sid="${student.id}">■ Check Out</button>`;
+    else if(checkOut) actionsHtml+=`<span class="time-chip tc-out${lateOut?' tc-flag':''}" data-sid="${student.id}" data-type="out">■ ${checkOut}${lateOut?' ·late':''}</span>`;
+    if(rec.makeupFor) actionsHtml+=`<span class="time-chip tc-info">↩ for ${shortDate(rec.makeupFor)}</span>`;
+    else if(isExtra) actionsHtml+=`<span class="time-chip tc-info">＋ Extra Day</span>`;
+    actionsHtml+=`<button class="inline-btn ib-note${rec&&rec.note?' ib-note-on':''}" data-action="note" data-sid="${student.id}">📝${rec&&rec.note?' Edit Note':' Add Note'}</button>`;
+  } else if(present){
+    if(!checkIn) actionsHtml+=`<button class="inline-btn ib-checkin" data-action="checkin" data-sid="${student.id}">▶ Check In</button>`;
+    else{
+      actionsHtml+=`<span class="time-chip tc-in${earlyIn?' tc-flag':''}" data-sid="${student.id}" data-type="in">▶ ${checkIn}${earlyIn?' ·early':''}</span>`;
+      if(!checkOut) actionsHtml+=`<button class="inline-btn ib-checkout" data-action="checkin" data-sid="${student.id}">■ Check Out</button>`;
+      else actionsHtml+=`<span class="time-chip tc-out${lateOut?' tc-flag':''}" data-sid="${student.id}" data-type="out">■ ${checkOut}${lateOut?' ·late':''}</span>`;
+    }
+    if(student.allowPickedUp){const pu=rec&&rec.pickedUp;actionsHtml+=`<button class="inline-btn ib-pickup${pu?' ib-pickup-on':''}" data-action="picked-up" data-sid="${student.id}">🚗${pu?' Picked Up':''}</button>`;}
+    if(madeUpOn&&madeUpOn>currentDate) actionsHtml+=`<span class="time-chip tc-sched">⏳ ${shortDate(madeUpOn)}</span>`;
+    else if(madeUpOn) actionsHtml+=`<span class="time-chip tc-ok">✓ Made up ${shortDate(madeUpOn)}</span>`;
+    actionsHtml+=`<button class="inline-btn ib-note${rec&&rec.note?' ib-note-on':''}" data-action="note" data-sid="${student.id}">📝${rec&&rec.note?' Edit Note':' Add Note'}</button>`;
+  } else {
+    actionsHtml+=`<span class="time-chip tc-abs">Absent</span>`;
+    if(madeUpOn&&madeUpOn>currentDate){
+      actionsHtml+=`<span class="time-chip tc-sched">⏳ ${shortDate(madeUpOn)}</span>`;
+      actionsHtml+=`<button class="inline-btn ib-cancel" data-action="cancel-makeup" data-sid="${student.id}">✕ Cancel</button>`;
+    } else if(madeUpOn){
+      actionsHtml+=`<span class="time-chip tc-ok">✓ ${shortDate(madeUpOn)}</span>`;
+      actionsHtml+=`<button class="inline-btn ib-cancel" data-action="cancel-makeup" data-sid="${student.id}">✕ Link</button>`;
+    } else {
+      actionsHtml+=`<button class="inline-btn ib-schedule" data-action="schedule-makeup" data-sid="${student.id}">📅 Schedule</button>`;
+    }
+  }
+
+  const removeAction=isMakeup?'remove-makeup':'remove';
+  const exp=getExpected(student,dayName);
+  const expectedHtml=(exp.in||exp.out)?`<span>⏰ ${exp.in||'—'}–${exp.out||'—'}</span>`:'';
+
+  return `
+    <div class="row-avatar ${avClass}">${initials(student.name)}</div>
+    <div class="row-body">
+      <div class="row-name">${esc(student.name)}${isMakeup?` <span style="font-size:0.68rem;color:var(--amber);font-weight:500">(${isExtra?'extra day':'make-up'})</span>`:''}</div>
+      <div class="row-sub" style="display:flex;align-items:center;gap:5px;margin-top:3px;flex-wrap:wrap;">${groupBadgeHtml(student.group)}<span>${student.days.join(' · ')}</span>${expectedHtml}</div>
+      <div class="row-actions">${actionsHtml}</div>
+      ${rec&&rec.note?`<div class="row-note">📝 ${esc(rec.note)}</div>`:''}
+    </div>
+    <div class="row-right">
+      ${isMakeup
+        ?`<span class="status-label sl-makeup">${slLabel}</span>`
+        :`<button class="status-label ${slClass}" data-action="toggle" data-sid="${student.id}">${slLabel}</button>`
+      }
+      <button class="row-remove" data-action="${removeAction}" data-sid="${student.id}">×</button>
+    </div>`;
+}
+
+// Compact grid tile — avatar, name, a quick check-in/out (or absent) action. Everything else
+// (notes, pickup, expected times, remove, make-up linking) lives behind a tap on the tile.
+function buildTileHtml(item,dayName){
+  const{student,rec,present,checkIn,checkOut,type}=item;
+  const isMakeup=(type==='makeup');
+  const isExtra=isMakeup&&rec&&!!rec.isExtra;
+  const avClass=isMakeup?'av-makeup':(present?'av-present':'av-absent');
+  const earlyIn=isEarlyIn(student,checkIn,dayName);
+  const lateOut=isLateOut(student,checkOut,dayName);
+
+  let miniHtml;
+  if(isMakeup||present){
+    // Arrival: quick-set button before it's logged, editable time chip once it is.
+    const inHtml=!checkIn
+      ?`<button class="gt-btn gt-in" data-action="checkin" data-sid="${student.id}">▶ In</button>`
+      :`<button class="gt-time${earlyIn?' gt-flag':''}" data-action="edit-time" data-type="in" data-sid="${student.id}">▶ ${checkIn}</button>`;
+    // Departure: only offered once arrival is set; same quick-set / editable-chip pattern.
+    const outHtml=!checkIn?''
+      :!checkOut
+        ?`<button class="gt-btn gt-out" data-action="checkin" data-sid="${student.id}">■ Out</button>`
+        :`<button class="gt-time${lateOut?' gt-flag':''}" data-action="edit-time" data-type="out" data-sid="${student.id}">■ ${checkOut}</button>`;
+    miniHtml=`<div class="gt-mini-row">${inHtml}${outHtml}</div>`;
+  } else {
+    // Absent already surfaced via the status toggle at the bottom of the tile.
+    miniHtml='';
+  }
+
+  const badges=[];
+  if(student.group)badges.push(groupBadgeHtml(student.group).replace('group-badge','group-badge gt-badge'));
+  if(rec&&rec.pickedUp)badges.push('<span class="gt-icon" title="Picked up">🚗</span>');
+  if(rec&&rec.note)badges.push('<span class="gt-icon" title="Has note">📝</span>');
+  const tagHtml=isMakeup?`<span class="gt-tag">${isExtra?'Extra':'Make-Up'}</span>`:'';
+  const removeAction=isMakeup?'remove-makeup':'remove';
+  // Front-facing status toggle — lets you mark absent/present without opening the detail sheet.
+  // Not shown on make-up/extra-day tiles (those don't have an absent state).
+  const statusToggleHtml=isMakeup?'':`<button class="status-label ${present?'sl-present':'sl-absent'}" data-action="toggle" data-sid="${student.id}" style="margin-top:6px;font-size:0.62rem;padding:3px 8px;min-width:0;min-height:0;">${present?'Present':'Absent'}</button>`;
+
+  return `<div class="grid-tile" data-sid="${student.id}">
+    <button class="gt-remove" data-action="${removeAction}" data-sid="${student.id}" title="Remove">×</button>
+    <div class="row-avatar ${avClass} gt-avatar">${initials(student.name)}</div>
+    <div class="gt-name">${esc(student.name)}</div>
+    ${tagHtml}
+    <div class="gt-mini">${miniHtml}</div>
+    ${badges.length?`<div class="gt-badges">${badges.join('')}</div>`:''}
+    ${statusToggleHtml}
+  </div>`;
+}
+
+// ══ Student detail sheet (full actions, opened from a tile tap) ══
+let currentDetailSid=null;
+function buildDayItem(data,sid){
+  const dayName=dateToDay(currentDate);
+  const student=data.students.find(s=>s.id===sid);
+  if(!student)return null;
+  const dayRecs=getDayRecords(data,currentDate);
+  const makeupRec=dayRecs.find(r=>r.studentId===sid&&r.isMakeup);
+  if(makeupRec)return{type:'makeup',student,rec:makeupRec,present:true,checkIn:makeupRec.checkIn,checkOut:makeupRec.checkOut};
+  const rec=dayRecs.find(r=>r.studentId===sid)||null;
+  const present=rec?rec.present:true;
+  return{type:'scheduled',student,rec,present,checkIn:rec?rec.checkIn:null,checkOut:rec?rec.checkOut:null,madeUpOn:rec?rec.madeUpOn:null};
+}
+function openStudentDetail(sid){
+  const data=load(),item=buildDayItem(data,sid);
+  if(!item)return;
+  currentDetailSid=sid;
+  const dayName=dateToDay(currentDate);
+  const body=document.getElementById('studentDetailBody');
+  body.innerHTML=`<div class="student-row" style="border:none;padding:0;">${buildRowInner(item,dayName)}</div>`;
+  body.querySelectorAll('[data-action]').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const sid2=el.dataset.sid,action=el.dataset.action;
+      runDailyAction(action,sid2,(removed)=>{
+        render();
+        if(removed){closeStudentDetail();}
+        else{openStudentDetail(sid2);}
+      });
+    });
+  });
+  body.querySelectorAll('.time-chip[data-sid][data-type]').forEach(chip=>{
+    chip.addEventListener('click',()=>{const d=load(),rec=getRecord(d,currentDate,chip.dataset.sid),st=d.students.find(s=>s.id===chip.dataset.sid);openTimeModal(chip.dataset.sid,chip.dataset.type,chip.dataset.type==='in'?rec.checkIn:rec.checkOut,st.name);});
+  });
+  document.getElementById('studentDetailModal').classList.add('open');
+}
+function closeStudentDetail(){document.getElementById('studentDetailModal').classList.remove('open');currentDetailSid=null;}
+document.getElementById('studentDetailClose').addEventListener('click',closeStudentDetail);
+function refreshStudentDetailIfOpen(sid){
+  if(currentDetailSid&&currentDetailSid===sid&&document.getElementById('studentDetailModal').classList.contains('open')){
+    openStudentDetail(sid);
+  }
+}
+
+// ══ Summary table ══
+const DAYS=['Mon','Tue','Wed','Thu','Fri'];
+function buildSummaryTable(thead,tbody,dates,statsIds){
+  const data=load();
+  const isToday=d=>d===TODAY,isFuture=d=>d>TODAY;
+  const weekFirstSet=new Set();let lastWeekNum=null;
+  dates.forEach(ds=>{const d=new Date(ds+'T12:00:00'),w=getWeekNumber(d);if(w!==lastWeekNum){weekFirstSet.add(ds);lastWeekNum=w;}});
+  thead.innerHTML='';
+  const hr=document.createElement('tr');let thHtml='<th>Student</th>';
+  dates.forEach(ds=>{const d=new Date(ds+'T12:00:00'),dayShort=DAYS[d.getDay()-1],dayNum=d.getDate();const cls=[isToday(ds)?'col-today':'',weekFirstSet.has(ds)&&dates.length>5?'week-first':''].filter(Boolean).join(' ');thHtml+=`<th class="${cls}">${dayShort}<br><span style="font-weight:400;opacity:0.8">${dayNum}</span></th>`;});
+  thHtml+='<th class="total-col">Total</th>';hr.innerHTML=thHtml;thead.appendChild(hr);
+  tbody.innerHTML='';let gTotal=0,gAbsent=0,gMakeup=0,gExpected=0;
+  data.students.forEach(student=>{
+    const tr=document.createElement('tr');let rowPresent=0,tdHtml=`<td>${esc(student.name)}</td>`;
+    dates.forEach(ds=>{
+      const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1],isScheduled=student.days.includes(dayName)&&!isDayExcluded(data,ds,student.id);
+      const dayRecs=getDayRecords(data,ds),makeupRec=dayRecs.find(r=>r.studentId===student.id&&r.isMakeup);
+      const rec=isScheduled?getRecord(data,ds,student.id):null;
+      const cls=[isToday(ds)?'col-today':'',weekFirstSet.has(ds)&&dates.length>5?'week-first':''].filter(Boolean).join(' ');
+      let icon='',iconCls='',linkHtml='',timeHtml='',cellExtra='',pickupHtml='';
+      if(makeupRec){icon='↩';iconCls='cell-makeup';if(makeupRec.makeupFor){linkHtml=`<span class="day-cell-link" style="color:var(--amber)">for ${tinyDate(makeupRec.makeupFor)}</span>`;}else if(makeupRec.isExtra){linkHtml=`<span class="day-cell-link" style="color:var(--amber)">extra</span>`;}if(makeupRec.checkIn){timeHtml+=`<span${isEarlyIn(student,makeupRec.checkIn,dayName)?' class="time-flag"':''}>${makeupRec.checkIn}</span>`;if(makeupRec.checkOut)timeHtml+=`<span${isLateOut(student,makeupRec.checkOut,dayName)?' class="time-flag"':''}>${makeupRec.checkOut}</span>`;}cellExtra=' makeup-linked-cell';gMakeup++;rowPresent++;gTotal++;}
+      else if(isScheduled){gExpected++;if(isFuture(ds)){icon='·';iconCls='cell-future';}else{const present=rec?rec.present:true;if(present){icon='✓';iconCls='cell-present';rowPresent++;gTotal++;if(rec&&rec.pickedUp)pickupHtml=`<span class="pickup-cell-badge">🚗</span>`;if(rec&&rec.checkIn){timeHtml+=`<span${isEarlyIn(student,rec.checkIn,dayName)?' class="time-flag"':''}>${rec.checkIn}</span>`;if(rec.checkOut)timeHtml+=`<span${isLateOut(student,rec.checkOut,dayName)?' class="time-flag"':''}>${rec.checkOut}</span>`;}}else{if(rec&&rec.madeUpOn){const isPending=rec.madeUpOn>TODAY;icon=isPending?'⏳':'✗';iconCls='cell-absent-linked';linkHtml=`<span class="day-cell-link" style="color:var(--amber)">${isPending?'sched':'→'} ${tinyDate(rec.madeUpOn)}</span>`;cellExtra=' makeup-linked-cell';}else{icon='✗';iconCls='cell-absent';gAbsent++;}}}}
+      else{icon='—';iconCls='cell-none';}
+      tdHtml+=`<td class="${cls}${cellExtra}"><div class="day-cell"><span class="day-cell-icon ${iconCls}">${icon}</span>${timeHtml?`<div class="day-cell-time">${timeHtml}</div>`:''}${pickupHtml}${linkHtml}</div></td>`;
+    });
+    tdHtml+=`<td class="total-col">${rowPresent}</td>`;tr.innerHTML=tdHtml;tbody.appendChild(tr);
+  });
+  const totalsRow=document.createElement('tr');totalsRow.className='totals-row';let totHtml='<td>Total</td>',grandTotal=0;
+  dates.forEach(ds=>{if(isFuture(ds)){totHtml+=`<td></td>`;return;}const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1];let cnt=0;data.students.forEach(s=>{const dr=getDayRecords(data,ds);if(dr.find(r=>r.studentId===s.id&&r.isMakeup)){cnt++;return;}if(!s.days.includes(dayName)||isDayExcluded(data,ds,s.id))return;const rec=getRecord(data,ds,s.id);if(rec?rec.present:true)cnt++;});grandTotal+=cnt;const cls=[isToday(ds)?'col-today':'',weekFirstSet.has(ds)&&dates.length>5?'week-first':''].filter(Boolean).join(' ');totHtml+=`<td class="${cls}" style="font-weight:700;color:var(--teal)">${cnt}</td>`;});
+  totHtml+=`<td class="total-col">${grandTotal}</td>`;totalsRow.innerHTML=totHtml;tbody.appendChild(totalsRow);
+  if(statsIds){document.getElementById(statsIds.total).textContent=gTotal;document.getElementById(statsIds.absent).textContent=gAbsent;document.getElementById(statsIds.makeup).textContent=gMakeup;document.getElementById(statsIds.rate).textContent=gExpected>0?Math.round(gTotal/gExpected*100)+'%':'—';}
+}
+function getWeekNumber(d){const jan1=new Date(d.getFullYear(),0,1);return Math.ceil(((d-jan1)/86400000+jan1.getDay()+1)/7);}
+
+function renderWeekly(){document.getElementById('weekLabel').textContent=formatWeekLabel(currentWeekMonday);const dates=getWeekDates(currentWeekMonday);buildSummaryTable(document.getElementById('weekHead'),document.getElementById('weekBody'),dates,{total:'wTotal',absent:'wAbsent',makeup:'wMakeup',rate:'wRate'});}
+document.getElementById('prevWeek').addEventListener('click',()=>{const d=new Date(currentWeekMonday+'T12:00:00');d.setDate(d.getDate()-7);currentWeekMonday=d.toISOString().slice(0,10);renderWeekly();});
+document.getElementById('nextWeek').addEventListener('click',()=>{const d=new Date(currentWeekMonday+'T12:00:00');d.setDate(d.getDate()+7);currentWeekMonday=d.toISOString().slice(0,10);renderWeekly();});
+document.getElementById('thisWeekBtn').addEventListener('click',()=>{currentWeekMonday=getWeekMonday(TODAY);renderWeekly();});
+
+function renderMonthly(){document.getElementById('monthLabel').textContent=formatMonthLabel(currentMonthYear);const dates=getMonthWeekdays(currentMonthYear);buildSummaryTable(document.getElementById('monthHead'),document.getElementById('monthBody'),dates,{total:'mTotal',absent:'mAbsent',makeup:'mMakeup',rate:'mRate'});}
+document.getElementById('prevMonth').addEventListener('click',()=>{const[y,m]=currentMonthYear.split('-').map(Number);const d=new Date(y,m-2,1,12,0,0);currentMonthYear=d.getFullYear()+'-'+pad2(d.getMonth()+1);renderMonthly();});
+document.getElementById('nextMonth').addEventListener('click',()=>{const[y,m]=currentMonthYear.split('-').map(Number);const d=new Date(y,m,1,12,0,0);currentMonthYear=d.getFullYear()+'-'+pad2(d.getMonth()+1);renderMonthly();});
+document.getElementById('thisMonthBtn').addEventListener('click',()=>{currentMonthYear=TODAY.slice(0,7);renderMonthly();});
+
+// ══ Exports ══
+document.getElementById('exportWeekBtn').addEventListener('click',()=>{exportSummaryCsv(getWeekDates(currentWeekMonday),'oosh-week-'+currentWeekMonday+'.csv');});
+document.getElementById('exportMonthBtn').addEventListener('click',()=>{const dates=getMonthWeekdays(currentMonthYear);exportSummaryCsv(dates,'oosh-'+formatMonthLabel(currentMonthYear).replace(' ','-')+'.csv');});
+function collectNotesForDates(data,dates){
+  const notes=[];
+  dates.forEach(ds=>{
+    if(ds>TODAY)return;
+    const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1];
+    const dayRecs=getDayRecords(data,ds);
+    data.students.forEach(s=>{
+      if(!s.days.includes(dayName)||isDayExcluded(data,ds,s.id))return;
+      const rec=dayRecs.find(r=>r.studentId===s.id&&!r.isMakeup);
+      if(rec&&rec.note)notes.push([tinyDate(ds),s.name,rec.note]);
+    });
+    dayRecs.filter(r=>r.isMakeup).forEach(r=>{
+      const s=data.students.find(st=>st.id===r.studentId);
+      if(s&&r.note)notes.push([tinyDate(ds),s.name+(r.isExtra?' (extra day)':' (make-up)'),r.note]);
+    });
+  });
+  return notes;
+}
+function exportSummaryCsv(dates,filename){const data=load();const rows=[['Student',...dates.map(ds=>{const d=new Date(ds+'T12:00:00');return d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'});}), 'Total Present','Total Absent','Picked Up','Rate']];data.students.forEach(student=>{const row=[student.name];let totP=0,totA=0,totS=0,totPU=0;dates.forEach(ds=>{const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1],dayRecs=getDayRecords(data,ds),makeupRec=dayRecs.find(r=>r.studentId===student.id&&r.isMakeup);if(makeupRec){const t=makeupRec.checkIn?makeupRec.checkIn+(makeupRec.checkOut?'–'+makeupRec.checkOut:''):'';row.push((makeupRec.isExtra?'Extra Day':'Make-up')+(t?' ('+t+')':'')+(makeupRec.makeupFor?' for '+tinyDate(makeupRec.makeupFor):''));totP++;totS++;}else if(student.days.includes(dayName)&&!isDayExcluded(data,ds,student.id)){totS++;if(ds>TODAY){row.push('—');}else{const rec=getRecord(data,ds,student.id),present=rec?rec.present:true;if(present){const t=rec&&rec.checkIn?rec.checkIn+(rec.checkOut?'–'+rec.checkOut:''):'';const flags=[];if(rec&&isEarlyIn(student,rec.checkIn,dayName))flags.push('early in');if(rec&&isLateOut(student,rec.checkOut,dayName))flags.push('late out');const puNote=rec&&rec.pickedUp?' [Picked Up]':'';row.push('Present'+(t?' ('+t+')':'')+(flags.length?' ['+flags.join(', ')+']':'')+puNote);totP++;if(rec&&rec.pickedUp)totPU++;}else{row.push(rec&&rec.madeUpOn?'Absent → made up '+tinyDate(rec.madeUpOn):'Absent');totA++;}}}else{row.push('');}});row.push(totP,totA,totPU,totS>0?Math.round(totP/totS*100)+'%':'—');rows.push(row);});const totRow=['TOTAL'];dates.forEach(ds=>{if(ds>TODAY){totRow.push('—');return;}const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1];let cnt=0;data.students.forEach(s=>{const dr=getDayRecords(data,ds);if(dr.find(r=>r.studentId===s.id&&r.isMakeup)){cnt++;return;}if(!s.days.includes(dayName)||isDayExcluded(data,ds,s.id))return;const rec=getRecord(data,ds,s.id);if(rec?rec.present:true)cnt++;});totRow.push(cnt);});totRow.push('','','','');rows.push(totRow);const notes=collectNotesForDates(data,dates);if(notes.length){rows.push([]);rows.push(['Notes']);rows.push(['Date','Student','Note']);notes.forEach(n=>rows.push(n));}downloadCsv(rows,filename);}
+function downloadCsv(rows,filename){const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);}
+document.getElementById('exportDayBtn').addEventListener('click',()=>{const data=load(),dayName=dateToDay(currentDate);const scheduled=data.students.filter(s=>s.days.includes(dayName)&&!isDayExcluded(data,currentDate,s.id)),dayRecs=getDayRecords(data,currentDate),makeupRecs=dayRecs.filter(r=>r.isMakeup);const rows=[['Name','Type','Present','Check-In','Check-Out','Early/Late','Picked Up','Note']];scheduled.forEach(student=>{const rec=getRecord(data,currentDate,student.id);const flags=[];if(rec&&isEarlyIn(student,rec.checkIn,dayName))flags.push('Early in');if(rec&&isLateOut(student,rec.checkOut,dayName))flags.push('Late out');rows.push([student.name,'Scheduled',rec?(rec.present?'Yes':'No'):'Yes',rec?(rec.checkIn||''):'',rec?(rec.checkOut||''):'',flags.join(', '),rec&&rec.pickedUp?'Yes':'',rec&&rec.madeUpOn?'Made up on '+shortDate(rec.madeUpOn):'']);});makeupRecs.forEach(rec=>{const student=data.students.find(s=>s.id===rec.studentId);if(!student)return;const flags=[];if(isEarlyIn(student,rec.checkIn,dayName))flags.push('Early in');if(isLateOut(student,rec.checkOut,dayName))flags.push('Late out');rows.push([student.name,rec.isExtra?'Extra Day':'Make-Up','Yes',rec.checkIn||'',rec.checkOut||'',flags.join(', '),'',rec.makeupFor?'Making up '+shortDate(rec.makeupFor):(rec.isExtra?'Extra day (no linked date)':'')]);});const dayNotes=[];scheduled.forEach(student=>{const rec=getRecord(data,currentDate,student.id);if(rec&&rec.note)dayNotes.push([student.name,rec.note]);});makeupRecs.forEach(rec=>{const student=data.students.find(s=>s.id===rec.studentId);if(student&&rec.note)dayNotes.push([student.name+(rec.isExtra?' (extra day)':' (make-up)'),rec.note]);});if(dayNotes.length){rows.push([]);rows.push(['Notes']);dayNotes.forEach(n=>rows.push(n));}downloadCsv(rows,'oosh-'+currentDate+'.csv');});
+
+// ══ Roster modal ══
+function renderRoster(){
+  const data=load(),list=document.getElementById('rosterList');
+  list.innerHTML='';
+  if(data.students.length===0){list.innerHTML='<div class="empty-state" style="padding:12px;background:var(--surface);border:none">No students yet.</div>';return;}
+  data.students.forEach(s=>{
+    const wrap=document.createElement('div');
+    wrap.style.cssText='border-top:1px solid var(--border);';
+    const expFlat=getExpected(s,null);
+    const expLabel=hasByDay(s)?' · ⏰ varies by day':(expFlat.in||expFlat.out)?` · ⏰ ${expFlat.in||'—'}–${expFlat.out||'—'}`:'';
+    const puLabel=s.allowPickedUp?' · 🚗':'';
+    wrap.innerHTML=`
+      <div class="roster-item" style="border-top:none">
+        <div style="flex:1">
+          <div class="r-name">${esc(s.name)}</div>
+          <div class="r-days" style="display:flex;align-items:center;gap:5px;margin-top:2px;">${groupBadgeHtml(s.group)}<span>${s.days.length?s.days.join(' · '):'No days set'}${expLabel}${puLabel}</span></div>
+        </div>
+        <button class="r-edit" data-id="${s.id}" title="Edit">✏️</button>
+        <button class="r-del" data-id="${s.id}" title="Remove">🗑</button>
+      </div>
+      <div class="roster-inline-edit" id="rie-${s.id}">
+        <div class="form-group"><label>Name</label><input type="text" class="rie-name" value="${esc(s.name)}" /></div>
+        <div class="form-group">
+          <label>Class Type</label>
+          <div class="group-picker rie-group-picker">
+            <button class="group-pick-btn${s.group==='G'?' active-G':''}" data-group="G"><span class="gp-code">G</span><span class="gp-label">Gakudo</span></button>
+            <button class="group-pick-btn${s.group==='E'?' active-E':''}" data-group="E"><span class="gp-code">E</span><span class="gp-label">English</span></button>
+            <button class="group-pick-btn${s.group==='P'?' active-P':''}" data-group="P"><span class="gp-code">P</span><span class="gp-label">Private</span></button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Scheduled Days</label>
+          <div class="day-picker rie-day-picker">
+            ${['Mon','Tue','Wed','Thu','Fri'].map(d=>`<button class="day-pill${s.days.includes(d)?' selected':''}" data-day="${d}">${d}</button>`).join('')}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Expected Times (optional)</label>
+          <div class="form-row2">
+            <div><label>Arrival</label><input type="time" class="rie-expin" value="${s.expectedIn||''}" /></div>
+            <div><label>Pickup</label><input type="time" class="rie-expout" value="${s.expectedOut||''}" /></div>
+          </div>
+          ${s.group==='G'?'<div class="exp-hint">Gakudo default 13:00–18:00 applies automatically — only set times to override.</div>':''}
+          <button type="button" class="exp-byday-toggle rie-byday-toggle${hasByDay(s)?' on':''}">⏱ Vary by day ▾</button>
+          <div class="exp-byday rie-byday${hasByDay(s)?' open':''}">
+            ${['Mon','Tue','Wed','Thu','Fri'].map(d=>{const bd=(s.expectedByDay&&s.expectedByDay[d])||{};return `<div class="exp-day-row" data-day="${d}"><span class="ed-lbl">${d}</span><input type="time" class="ed-in" value="${bd.in||''}" /><input type="time" class="ed-out" value="${bd.out||''}" /></div>`;}).join('')}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Picked Up tracking</label>
+          <button type="button" class="pu-toggle-btn rie-pickedup-toggle${s.allowPickedUp?' on':''}">🚗 Enable Picked Up (P) marker</button>
+        </div>
+        <div class="inline-edit-btns">
+          <button class="rie-cancel" data-id="${s.id}">Cancel</button>
+          <button class="rie-save" data-id="${s.id}">Save</button>
+        </div>
+      </div>`;
+    // Wire inline group picker toggle (scoped to this student's panel)
+    let rieGroup=s.group||null;
+    wrap.querySelectorAll('.rie-group-picker .group-pick-btn').forEach(b=>{
+      b.addEventListener('click',()=>{
+        rieGroup=rieGroup===b.dataset.group?null:b.dataset.group;
+        wrap.querySelectorAll('.rie-group-picker .group-pick-btn').forEach(bb=>{bb.className='group-pick-btn'+(rieGroup===bb.dataset.group?' active-'+bb.dataset.group:'');});
+      });
+    });
+    // Wire day pills
+    wrap.querySelectorAll('.rie-day-picker .day-pill').forEach(p=>p.addEventListener('click',()=>p.classList.toggle('selected')));
+    // Wire vary-by-day toggle
+    wrap.querySelector('.rie-byday-toggle').addEventListener('click',function(){this.classList.toggle('on');wrap.querySelector('.rie-byday').classList.toggle('open');});
+    // Wire picked-up toggle
+    wrap.querySelector('.rie-pickedup-toggle').addEventListener('click',function(){this.classList.toggle('on');});
+    // Edit toggle
+    wrap.querySelector('.r-edit').addEventListener('click',()=>{
+      const panel=document.getElementById('rie-'+s.id);
+      const isOpen=panel.classList.contains('open');
+      // Close all others
+      document.querySelectorAll('.roster-inline-edit.open').forEach(p=>p.classList.remove('open'));
+      if(!isOpen)panel.classList.add('open');
+    });
+    // Delete
+    wrap.querySelector('.r-del').addEventListener('click',()=>{
+      const data=load(),st=data.students.find(st=>st.id===s.id);
+      if(confirm('Remove '+st.name+'?')){data.students=data.students.filter(st=>st.id!==s.id);save(data);renderRoster();render();}
+    });
+    // Cancel
+    wrap.querySelector('.rie-cancel').addEventListener('click',()=>document.getElementById('rie-'+s.id).classList.remove('open'));
+    // Save
+    wrap.querySelector('.rie-save').addEventListener('click',()=>{
+      const name=wrap.querySelector('.rie-name').value.trim();
+      if(!name){alert('Please enter a name.');return;}
+      const days=[...wrap.querySelectorAll('.rie-day-picker .day-pill.selected')].map(p=>p.dataset.day);
+      const data=load(),st=data.students.find(st=>st.id===s.id);
+      st.name=name;st.days=days;st.group=rieGroup||null;
+      st.expectedIn=wrap.querySelector('.rie-expin').value||null;
+      st.expectedOut=wrap.querySelector('.rie-expout').value||null;
+      st.allowPickedUp=wrap.querySelector('.rie-pickedup-toggle').classList.contains('on');
+      const byDay={};let anyByDay=false;
+      wrap.querySelectorAll('.rie-byday .exp-day-row').forEach(r=>{const i=r.querySelector('.ed-in').value,o=r.querySelector('.ed-out').value;if(i||o){byDay[r.dataset.day]={in:i||null,out:o||null};anyByDay=true;}});
+      st.expectedByDay=anyByDay?byDay:null;
+      save(data);renderRoster();render();
+    });
+    list.appendChild(wrap);
+  });
+}
+
+// New student form (below list)
+document.getElementById('showAddStudent').addEventListener('click',()=>{
+  // Close any open inline edits
+  document.querySelectorAll('.roster-inline-edit.open').forEach(p=>p.classList.remove('open'));
+  document.getElementById('studentNameInput').value='';
+  document.querySelectorAll('#dayPicker .day-pill').forEach(p=>p.classList.remove('selected'));
+  document.getElementById('studentExpIn').value='';
+  document.getElementById('studentExpOut').value='';
+  document.querySelectorAll('#addExpByDay input').forEach(i=>i.value='');
+  document.getElementById('addExpByDay').classList.remove('open');
+  document.getElementById('addExpByDayToggle').classList.remove('on');
+  document.getElementById('addPickedUpToggle').classList.remove('on');
+  setGroupPicker(null);
+  document.getElementById('addStudentForm').style.display='';
+  document.getElementById('showAddStudent').style.display='none';
+});
+document.getElementById('addStudentCancel').addEventListener('click',()=>{
+  document.getElementById('addStudentForm').style.display='none';
+  document.getElementById('showAddStudent').style.display='';
+});
+document.querySelectorAll('#dayPicker .day-pill').forEach(p=>p.addEventListener('click',()=>p.classList.toggle('selected')));
+document.getElementById('addExpByDayToggle').addEventListener('click',function(){this.classList.toggle('on');document.getElementById('addExpByDay').classList.toggle('open');});
+document.getElementById('addPickedUpToggle').addEventListener('click',function(){this.classList.toggle('on');});
+document.getElementById('addStudentSave').addEventListener('click',()=>{
+  const name=document.getElementById('studentNameInput').value.trim();
+  if(!name){alert('Please enter a name.');return;}
+  const days=[...document.querySelectorAll('#dayPicker .day-pill.selected')].map(p=>p.dataset.day),data=load();
+  const byDay={};let anyByDay=false;
+  document.querySelectorAll('#addExpByDay .exp-day-row').forEach(r=>{const i=r.querySelector('.ed-in').value,o=r.querySelector('.ed-out').value;if(i||o){byDay[r.dataset.day]={in:i||null,out:o||null};anyByDay=true;}});
+  data.students.push({id:uid(),name,days,group:selectedGroup||null,expectedIn:document.getElementById('studentExpIn').value||null,expectedOut:document.getElementById('studentExpOut').value||null,expectedByDay:anyByDay?byDay:null,allowPickedUp:document.getElementById('addPickedUpToggle').classList.contains('on')});
+  save(data);
+  document.getElementById('addStudentForm').style.display='none';
+  document.getElementById('showAddStudent').style.display='';
+  renderRoster();render();
+});
+document.getElementById('rosterBtn').addEventListener('click',()=>{
+  renderRoster();
+  document.getElementById('addStudentForm').style.display='none';
+  document.getElementById('showAddStudent').style.display='';
+  document.getElementById('rosterModal').classList.add('open');
+});
+document.getElementById('closeRosterBtn').addEventListener('click',()=>document.getElementById('rosterModal').classList.remove('open'));
+
+// ══ Make-up modal ══
+let makeupType='missed';
+function setMakeupType(t){
+  makeupType=t;
+  document.querySelectorAll('#makeupTypePicker .day-pill').forEach(p=>p.classList.toggle('selected',p.dataset.type===t));
+  const isExtra=t==='extra';
+  document.getElementById('makeupDateGroup').style.display=isExtra?'none':'';
+  document.getElementById('makeupModalSub').textContent=isExtra
+    ?'Select the student getting an additional session today. No missed date needed — this won\'t be linked to any absence.'
+    :'Select the student and the day they missed. They\'ll be added to today\'s register and both days will be linked.';
+  document.getElementById('makeupConfirm').textContent=isExtra?'Add Extra Day':'Add Make-Up';
+}
+document.querySelectorAll('#makeupTypePicker .day-pill').forEach(p=>p.addEventListener('click',()=>setMakeupType(p.dataset.type)));
+document.getElementById('makeupBtn').addEventListener('click',()=>{const data=load(),dayName=dateToDay(currentDate),dayRecs=getDayRecords(data,currentDate);const scheduledIds=new Set(data.students.filter(s=>s.days.includes(dayName)).map(s=>s.id));const makeupIds=new Set(dayRecs.filter(r=>r.isMakeup).map(r=>r.studentId));const eligible=data.students.filter(s=>!scheduledIds.has(s.id)&&!makeupIds.has(s.id));if(eligible.length===0){alert('All students are already on today\'s register.');return;}document.getElementById('makeupStudent').innerHTML=eligible.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');const y=new Date(currentDate+'T12:00:00');y.setDate(y.getDate()-1);document.getElementById('makeupDate').value=y.toISOString().slice(0,10);setMakeupType('missed');document.getElementById('makeupModal').classList.add('open');});
+document.getElementById('makeupCancel').addEventListener('click',()=>document.getElementById('makeupModal').classList.remove('open'));
+document.getElementById('makeupConfirm').addEventListener('click',()=>{
+  const sid=document.getElementById('makeupStudent').value;
+  const data=load();
+  if(makeupType==='extra'){
+    getDayRecords(data,currentDate).push({id:uid(),studentId:sid,present:true,checkIn:null,checkOut:null,isMakeup:true,isExtra:true,makeupFor:null,madeUpOn:null,note:null});
+    save(data);
+    document.getElementById('makeupModal').classList.remove('open');
+    render();
+    return;
+  }
+  const missedDate=document.getElementById('makeupDate').value;
+  if(!missedDate){alert('Please select the missed date.');return;}
+  if(missedDate===currentDate){alert('Missed date can\'t be today.');return;}
+  getDayRecords(data,currentDate).push({id:uid(),studentId:sid,present:true,checkIn:null,checkOut:null,isMakeup:true,isExtra:false,makeupFor:missedDate,madeUpOn:null,note:null});
+  const origRec=ensureRecord(data,missedDate,sid);
+  origRec.present=false;
+  origRec.madeUpOn=currentDate;
+  save(data);
+  document.getElementById('makeupModal').classList.remove('open');
+  render();
+});
+
+// ══ Time modal ══
+let timeCtx=null;
+function openTimeModal(sid,type,current,name){timeCtx={sid,type};document.getElementById('timeModalTitle').textContent=type==='in'?'Edit Check-In Time':'Edit Check-Out Time';document.getElementById('timeModalSub').textContent=name;document.getElementById('timeInput').value=current||'';document.getElementById('timeModal').classList.add('open');}
+document.getElementById('timeCancel').addEventListener('click',()=>{document.getElementById('timeModal').classList.remove('open');timeCtx=null;});
+document.getElementById('timeConfirm').addEventListener('click',()=>{if(!timeCtx)return;const time=document.getElementById('timeInput').value,data=load();const rec=getRecord(data,currentDate,timeCtx.sid)||ensureRecord(data,currentDate,timeCtx.sid);if(timeCtx.type==='in')rec.checkIn=time||null;else rec.checkOut=time||null;save(data);const savedSid=timeCtx.sid;document.getElementById('timeModal').classList.remove('open');timeCtx=null;render();refreshStudentDetailIfOpen(savedSid);});
+
+// ══ Note modal ══
+let noteCtx=null;
+function openNoteModal(sid,name,ds){
+  const data=load(),rec=getRecord(data,ds,sid);
+  noteCtx={sid,ds};
+  document.getElementById('noteModalTitle').textContent=(rec&&rec.note?'Edit Note':'Add Note')+' — '+name;
+  document.getElementById('noteModalSub').textContent=shortDate(ds);
+  document.getElementById('noteInput').value=(rec&&rec.note)||'';
+  document.getElementById('noteModal').classList.add('open');
+  setTimeout(()=>document.getElementById('noteInput').focus(),50);
+}
+document.getElementById('noteCancel').addEventListener('click',()=>{document.getElementById('noteModal').classList.remove('open');noteCtx=null;});
+document.getElementById('noteConfirm').addEventListener('click',()=>{
+  if(!noteCtx)return;
+  const text=document.getElementById('noteInput').value.trim();
+  const data=load();
+  _snap();
+  const rec=ensureRecord(data,noteCtx.ds,noteCtx.sid);
+  rec.note=text||null;
+  save(data);
+  const savedDs=noteCtx.ds,savedSid=noteCtx.sid;
+  document.getElementById('noteModal').classList.remove('open');
+  noteCtx=null;
+  if(savedDs===currentDate){render();refreshStudentDetailIfOpen(savedSid);}
+  if(document.getElementById('calendarView').classList.contains('active'))renderCalendar();
+  if(document.getElementById('dayPopupModal').classList.contains('open')&&currentPopupDs===savedDs){
+    openDayPopup(savedDs,getDayItems(load(),savedDs));
+  }
+  _toast(text?'Note saved':'Note removed');
+});
+
+// ══ Schedule make-up modal ══
+let scheduleMakeupCtx=null;
+function openScheduleMakeupModal(sid,name){scheduleMakeupCtx={sid};document.getElementById('scheduleMakeupSub').textContent=name+' — absent '+shortDate(currentDate);const next=new Date(currentDate+'T12:00:00');next.setDate(next.getDate()+1);while(next.getDay()===0||next.getDay()===6)next.setDate(next.getDate()+1);document.getElementById('scheduleMakeupDate').value=localDateStr(next);document.getElementById('scheduleMakeupDate').min=localDateStr(next);document.getElementById('scheduleMakeupModal').classList.add('open');}
+document.getElementById('scheduleMakeupCancel').addEventListener('click',()=>{document.getElementById('scheduleMakeupModal').classList.remove('open');scheduleMakeupCtx=null;});
+document.getElementById('scheduleMakeupConfirm').addEventListener('click',()=>{if(!scheduleMakeupCtx)return;const futureDate=document.getElementById('scheduleMakeupDate').value;if(!futureDate){alert('Please select a date.');return;}if(futureDate<=currentDate){alert('Make-up date must be in the future.');return;}const data=load(),sid=scheduleMakeupCtx.sid;const rec=ensureRecord(data,currentDate,sid);rec.present=false;rec.madeUpOn=futureDate;const futureRecs=getDayRecords(data,futureDate);if(!futureRecs.find(r=>r.studentId===sid&&r.isMakeup)){futureRecs.push({id:uid(),studentId:sid,present:true,checkIn:null,checkOut:null,isMakeup:true,isExtra:false,makeupFor:currentDate,madeUpOn:null,note:null});}save(data);document.getElementById('scheduleMakeupModal').classList.remove('open');scheduleMakeupCtx=null;render();refreshStudentDetailIfOpen(sid);});
+
+// ══ Date nav ══
+function shiftDate(n){const d=new Date(currentDate+'T12:00:00');d.setDate(d.getDate()+n);currentDate=d.toISOString().slice(0,10);render();}
+document.getElementById('prevDay').addEventListener('click',()=>shiftDate(-1));
+document.getElementById('nextDay').addEventListener('click',()=>shiftDate(1));
+document.getElementById('todayBtn').addEventListener('click',()=>{currentDate=TODAY;render();});
+
+// ══ CALENDAR ══
+let currentPopupDs=null;
+function getDayItems(data,ds){
+  const dow=new Date(ds+'T12:00:00').getDay();
+  if(dow===0||dow===6)return[];
+  const dayName=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dow];
+  const dayRecs=getDayRecords(data,ds);
+  const makeupRecs=dayRecs.filter(r=>r.isMakeup);
+  const scheduledStudents=data.students.filter(s=>s.days.includes(dayName)&&!isDayExcluded(data,ds,s.id));
+  const items=[];
+  scheduledStudents.forEach(s=>{
+    const rec=getRecord(data,ds,s.id);
+    const present=rec?rec.present:true;
+    items.push({sid:s.id,name:s.name,status:present?'present':'absent',checkIn:rec?rec.checkIn:null,checkOut:rec?rec.checkOut:null,madeUpOn:rec?rec.madeUpOn:null,early:rec?isEarlyIn(s,rec.checkIn,dayName):false,late:rec?isLateOut(s,rec.checkOut,dayName):false,pickedUp:rec?!!rec.pickedUp:false,note:rec?rec.note:null});
+  });
+  makeupRecs.forEach(rec=>{
+    const s=data.students.find(st=>st.id===rec.studentId);
+    if(!s)return;
+    items.push({sid:s.id,name:s.name,status:'makeup',checkIn:rec.checkIn,checkOut:rec.checkOut,makeupFor:rec.makeupFor,isExtra:!!rec.isExtra,early:isEarlyIn(s,rec.checkIn,dayName),late:isLateOut(s,rec.checkOut,dayName),pickedUp:false,note:rec.note||null});
+  });
+  return items;
+}
+function renderCalendar(){
+  document.getElementById('calMonthLabel').textContent=formatMonthLabel(calMonthYear);
+  const data=load();
+  const[y,m]=calMonthYear.split('-').map(Number);
+  const firstDay=new Date(y,m-1,1,12,0,0);
+  const lastDay=new Date(y,m,0,12,0,0);
+  // Start grid from Sunday before the 1st
+  const startOffset=firstDay.getDay(); // 0=Sun
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML='';
+
+  // Empty cells before month start
+  for(let i=0;i<startOffset;i++){
+    const empty=document.createElement('div');
+    empty.className='cal-cell empty';
+    grid.appendChild(empty);
+  }
+
+  // One cell per day of month
+  for(let day=1;day<=lastDay.getDate();day++){
+    const ds=y+'-'+pad2(m)+'-'+pad2(day);
+    const dow=new Date(ds+'T12:00:00').getDay();
+    const isWeekend=dow===0||dow===6;
+    const isToday=ds===TODAY;
+    const isFuture=ds>TODAY;
+    const dayName=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dow];
+
+    // Gather who's expected and what their status is
+    const dayRecs=getDayRecords(data,ds);
+    const makeupRecs=dayRecs.filter(r=>r.isMakeup);
+    const scheduledStudents=!isWeekend?data.students.filter(s=>s.days.includes(dayName)&&!isDayExcluded(data,ds,s.id)):[];
+
+    // Build display items
+    const items=!isWeekend&&!isFuture?getDayItems(data,ds):[];
+
+    const hasData=items.length>0&&!isFuture;
+    const cell=document.createElement('div');
+    const classes=['cal-cell'];
+    if(isWeekend)classes.push('weekend');
+    if(isToday)classes.push('is-today');
+    if(isFuture)classes.push('is-future');
+    if(hasData)classes.push('has-data');
+    cell.className=classes.join(' ');
+
+    // Date number
+    const numEl=document.createElement('div');
+    numEl.className='cal-date-num';
+    numEl.textContent=day;
+    cell.appendChild(numEl);
+
+    if(!isWeekend){
+      const dotsEl=document.createElement('div');
+      dotsEl.className='cal-dots';
+      const MAX_DOTS=4;
+      const dotSource=isFuture?scheduledStudents.map(s=>({name:s.name,status:'future'})):items;
+      dotSource.slice(0,MAX_DOTS).forEach(item=>{
+        const dot=document.createElement('div');
+        if(item.status==='future'){dot.className='cal-dot';dot.style.background='#c8d4d8';}
+        else{const cls=item.status==='makeup'?'cd-makeup':item.status==='present'?'cd-present':'cd-absent';dot.className='cal-dot '+cls;}
+        dot.textContent=item.name[0].toUpperCase();
+        dotsEl.appendChild(dot);
+      });
+      if(dotSource.length>MAX_DOTS){
+        const more=document.createElement('div');
+        more.className='cal-dot cd-more';
+        more.textContent='+'+(dotSource.length-MAX_DOTS);
+        dotsEl.appendChild(more);
+      }
+      if(dotSource.length>0)cell.appendChild(dotsEl);
+      // Badge
+      if(dotSource.length>0){
+        const badge=document.createElement('div');
+        badge.className='cal-total-badge';
+        if(isFuture){badge.textContent=scheduledStudents.length+' sch';}
+        else{const presentCnt=items.filter(i=>i.status==='present'||i.status==='makeup').length;badge.textContent=presentCnt+'/'+items.length;}
+        cell.appendChild(badge);
+      }
+      // All weekdays are clickable
+      const popupItems=isFuture
+        ?scheduledStudents.map(s=>({sid:s.id,name:s.name,status:'future'}))
+        :items;
+      cell.addEventListener('click',()=>openDayPopup(ds,popupItems));
+    }
+
+    grid.appendChild(cell);
+  }
+
+  // Fill remaining cells to complete last row
+  const totalCells=startOffset+lastDay.getDate();
+  const remainder=totalCells%7;
+  if(remainder>0){
+    for(let i=0;i<7-remainder;i++){
+      const empty=document.createElement('div');
+      empty.className='cal-cell empty';
+      grid.appendChild(empty);
+    }
+  }
+}
+
+function openDayPopup(ds,items){
+  currentPopupDs=ds;
+  const d=new Date(ds+'T12:00:00');
+  const isFutureDay=ds>TODAY;
+  document.getElementById('dayPopupTitle').textContent=d.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  let subText;
+  if(items.length===0){subText='No students scheduled';}
+  else if(isFutureDay){subText=items.length+' student'+(items.length>1?'s':'')+' scheduled';}
+  else{const presentCnt=items.filter(i=>i.status==='present'||i.status==='makeup').length;subText=presentCnt+' present · '+(items.length-presentCnt)+' absent';}
+  document.getElementById('dayPopupSub').textContent=subText;
+
+  const list=document.getElementById('dayPopupList');
+  list.innerHTML='';
+  if(items.length===0){
+    list.innerHTML='<div class="day-popup-empty">No students scheduled for this day.</div>';
+  } else {
+    items.forEach(item=>{
+      const row=document.createElement('div');
+      row.className='popup-row';
+      const avCls=item.status==='future'?'av-default':item.status==='makeup'?'av-makeup':item.status==='present'?'av-present':'av-absent';
+      const sCls=item.status==='future'?'':item.status==='makeup'?'ps-makeup':item.status==='present'?'ps-present':'ps-absent';
+      const sLabel=item.status==='future'?'Scheduled':item.status==='makeup'?(item.isExtra?'Extra Day':'Make-Up'):item.status==='present'?'Present':'Absent';
+      const canNote=!isFutureDay&&(item.status==='present'||item.status==='makeup');
+      let meta='';
+      if(item.checkIn)meta+=item.early?`<span class="time-flag">${item.checkIn} (early)</span>`:item.checkIn;
+      if(item.checkOut)meta+=' – '+(item.late?`<span class="time-flag">${item.checkOut} (late)</span>`:item.checkOut);
+      if(item.pickedUp)meta+=(meta?' · ':'')+`<span style="color:#0369a1;font-weight:700">🚗 Picked Up</span>`;
+      if(item.makeupFor)meta+=(meta?' · ':'')+' for '+tinyDate(item.makeupFor);
+      if(item.madeUpOn)meta+=(meta?' · ':'')+(item.madeUpOn>TODAY?'⏳ '+tinyDate(item.madeUpOn):'✓ '+tinyDate(item.madeUpOn));
+      row.innerHTML=`
+        <div class="popup-av ${avCls}">${initials(item.name)}</div>
+        <div style="flex:1;min-width:0">
+          <div class="popup-name">${esc(item.name)}</div>
+          ${meta?`<div class="popup-meta">${meta}</div>`:''}
+          ${item.note?`<div class="popup-note">📝 ${esc(item.note)}</div>`:''}
+        </div>
+        ${canNote?`<button class="popup-note-btn" data-action="note" data-sid="${item.sid}" title="${item.note?'Edit note':'Add note'}">📝</button>`:''}
+        <span class="popup-status ${sCls}">${sLabel}</span>`;
+      list.appendChild(row);
+    });
+    list.querySelectorAll('.popup-note-btn').forEach(btn=>{
+      btn.addEventListener('click',(e)=>{
+        e.stopPropagation();
+        const item=items.find(i=>i.sid===btn.dataset.sid);
+        openNoteModal(btn.dataset.sid,item.name,ds);
+      });
+    });
+  }
+
+  document.getElementById('dayPopupGoBtn').onclick=()=>{
+    document.getElementById('dayPopupModal').classList.remove('open');
+    currentDate=ds;
+    switchTab('daily');
+    render();
+  };
+  document.getElementById('dayPopupModal').classList.add('open');
+}
+
+document.getElementById('dayPopupClose').addEventListener('click',()=>document.getElementById('dayPopupModal').classList.remove('open'));
+document.getElementById('calPrevMonth').addEventListener('click',()=>{const[y,m]=calMonthYear.split('-').map(Number);const d=new Date(y,m-2,1,12,0,0);calMonthYear=d.getFullYear()+'-'+pad2(d.getMonth()+1);renderCalendar();});
+document.getElementById('calNextMonth').addEventListener('click',()=>{const[y,m]=calMonthYear.split('-').map(Number);const d=new Date(y,m,1,12,0,0);calMonthYear=d.getFullYear()+'-'+pad2(d.getMonth()+1);renderCalendar();});
+document.getElementById('calThisMonth').addEventListener('click',()=>{calMonthYear=TODAY.slice(0,7);renderCalendar();});
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ══ Date range export ══
+function getWeekdaysInRange(start,end){const dates=[];const d=new Date(start+'T12:00:00');const endD=new Date(end+'T12:00:00');while(d<=endD){const dow=d.getDay();if(dow>=1&&dow<=5)dates.push(localDateStr(d));d.setDate(d.getDate()+1);}return dates;}
+document.getElementById('exportRangeBtn').addEventListener('click',()=>{
+  const y=currentDate.slice(0,7);
+  document.getElementById('rangeStart').value=y+'-01';
+  document.getElementById('rangeEnd').value=currentDate;
+  document.getElementById('rangeExportModal').classList.add('open');
+});
+document.getElementById('rangeExportCancel').addEventListener('click',()=>document.getElementById('rangeExportModal').classList.remove('open'));
+document.getElementById('rangeExportConfirm').addEventListener('click',()=>{
+  const start=document.getElementById('rangeStart').value;
+  const end=document.getElementById('rangeEnd').value;
+  if(!start||!end){alert('Please select both dates.');return;}
+  if(start>end){alert('Start date must be before end date.');return;}
+  const dates=getWeekdaysInRange(start,end);
+  if(dates.length===0){alert('No school days (Mon–Fri) in the selected range.');return;}
+  if(dates.length>65&&!confirm('Export '+dates.length+' days of data. Continue?'))return;
+  exportSummaryCsv(dates,'oosh-report-'+start+'-to-'+end+'.csv');
+  document.getElementById('rangeExportModal').classList.remove('open');
+});
+
+// ══ Print ══
+function updatePrintHeader(){
+  document.getElementById('printDateLine').textContent=displayDateLong(currentDate);
+  const data=load(),dayName=dateToDay(currentDate);
+  const scheduled=data.students.filter(s=>s.days.includes(dayName)&&!isDayExcluded(data,currentDate,s.id));
+  const dayRecs=getDayRecords(data,currentDate);
+  const notesHtml=[];
+  scheduled.forEach(student=>{const rec=getRecord(data,currentDate,student.id);if(rec&&rec.note)notesHtml.push(`<div style="margin-bottom:5px;"><strong>${esc(student.name)}:</strong> ${esc(rec.note)}</div>`);});
+  dayRecs.filter(r=>r.isMakeup).forEach(rec=>{const student=data.students.find(s=>s.id===rec.studentId);if(student&&rec.note)notesHtml.push(`<div style="margin-bottom:5px;"><strong>${esc(student.name)} (${rec.isExtra?'extra day':'make-up'}):</strong> ${esc(rec.note)}</div>`);});
+  document.getElementById('printNotesList').innerHTML=notesHtml.length?notesHtml.join(''):'<em style="color:#999;">No notes for this day.</em>';
+}
+document.getElementById('printDayBtn').addEventListener('click',()=>{updatePrintHeader();window.print();});
+
+// ══════════════════════════════════════════════════
+// SEASONAL SCHOOL MODE
+// Fully separate dataset (localStorage key oosh_seasonal_v1) — no persistent roster.
+// Each day starts empty; students are added fresh, with a "recent names" quick-add list
+// for convenience only (not a roster — no groups, no scheduled days, no expected times).
+// Term-time functions/data above are never called or touched by anything below.
+// ══════════════════════════════════════════════════
+const SEAS_STORE='oosh_seasonal_v1';
+const SEAS_RECENT_KEY='oosh_seasonal_recent_names';
+let _seasState=_readLocal(SEAS_STORE,{days:{}});
+if(!_seasState.days)_seasState.days={};
+function seasLoad(){return _clone(_seasState);}
+function seasSave(d){_seasState=_clone(d);localStorage.setItem(SEAS_STORE,JSON.stringify(_seasState));syncPushSeasonal(_seasState);}
+function seasGetDay(data,ds){if(!data.days[ds])data.days[ds]=[];return data.days[ds];}
+function seasGetRecentNames(){try{return JSON.parse(localStorage.getItem(SEAS_RECENT_KEY))||[];}catch{return[];}}
+function seasAddRecentName(name){let r=seasGetRecentNames().filter(n=>n.toLowerCase()!==name.toLowerCase());r.unshift(name);r=r.slice(0,14);localStorage.setItem(SEAS_RECENT_KEY,JSON.stringify(r));}
+
+let seasonalMode=false;
+let seasCurrentDate=TODAY;
+let seasCurrentWeekMonday=getWeekMonday(TODAY);
+
+// Extension time: check-in before 10:00 or check-out after 15:00 counts as an extension slot
+// (seasonal school runs a core day — early drop-off / late pick-up outside that window is extra).
+const SEAS_EXT_START='10:00', SEAS_EXT_END='15:00';
+function seasIsExtIn(checkIn){const t=toMin(checkIn);return t!==null&&t<toMin(SEAS_EXT_START);}
+function seasIsExtOut(checkOut){const t=toMin(checkOut);return t!==null&&t>toMin(SEAS_EXT_END);}
+function seasIsExtension(st){return seasIsExtIn(st.checkIn)||seasIsExtOut(st.checkOut);}
+
+function toggleSeasonalMode(){
+  seasonalMode=!seasonalMode;
+  document.body.classList.toggle('seasonal-mode',seasonalMode);
+  const btn=document.getElementById('seasonalModeBtn');
+  btn.textContent=seasonalMode?'← Back to Term Time':'🏕️ Seasonal School';
+  if(seasonalMode){
+    seasCurrentDate=TODAY;
+    seasCurrentWeekMonday=getWeekMonday(TODAY);
+    seasSwitchTab('daily');
+  } else {
+    switchTab('daily');
+  }
+}
+document.getElementById('seasonalModeBtn').addEventListener('click',toggleSeasonalMode);
+
+function seasSwitchTab(name){
+  document.getElementById('tabDaily').classList.toggle('active',name==='daily');
+  document.getElementById('tabWeekly').classList.toggle('active',name==='weekly');
+  document.getElementById('tabMonthly').classList.remove('active');
+  document.getElementById('tabCalendar').classList.remove('active');
+  ['dailyView','weeklyView','monthlyView','calendarView','seasDailyView','seasWeeklyView'].forEach(id=>{
+    document.getElementById(id).classList.remove('active');
+  });
+  document.getElementById(name==='daily'?'seasDailyView':'seasWeeklyView').classList.add('active');
+  if(name==='daily')seasRenderDaily();else seasRenderWeekly();
+}
+
+// ── Seasonal Daily ──
+function seasRenderDaily(){
+  const data=seasLoad();
+  document.getElementById('seasDateLabel').textContent=displayDateLong(seasCurrentDate);
+  document.getElementById('seasDateShort').textContent=displayDateHeading(seasCurrentDate);
+  const dayList=seasGetDay(data,seasCurrentDate);
+  let nPresent=0,nIn=0,nOut=0,nAbsent=0,nExt=0;
+  dayList.forEach(st=>{if(st.present)nPresent++;else nAbsent++;if(st.checkIn)nIn++;if(st.checkOut)nOut++;if(st.present&&seasIsExtension(st))nExt++;});
+  document.getElementById('seasPresent').textContent=nPresent;
+  document.getElementById('seasCheckedIn').textContent=nIn;
+  document.getElementById('seasCheckedOut').textContent=nOut;
+  document.getElementById('seasAbsent').textContent=nAbsent;
+  const seasExtEl=document.getElementById('seasExtension');
+  if(seasExtEl)seasExtEl.textContent=nExt;
+
+  const list=document.getElementById('seasChildrenList');
+  if(dayList.length===0){
+    list.innerHTML='<div class="empty-state">No students added yet for '+displayDateHeading(seasCurrentDate)+'.<br>Tap + Add Student to get started.</div>';
+    return;
+  }
+  list.innerHTML=dayList.map(st=>seasBuildTileHtml(st)).join('');
+  list.querySelectorAll('[data-saction]').forEach(el=>{
+    el.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      seasRunAction(el.dataset.saction,el.dataset.sid);
+    });
+  });
+}
+function seasBuildTileHtml(st){
+  const avClass=st.present?'av-present':'av-absent';
+  const slClass=st.present?'sl-present':'sl-absent';
+  const slLabel=st.present?'Present':'Absent';
+  let miniHtml='';
+  if(st.present){
+    const extIn=seasIsExtIn(st.checkIn),extOut=seasIsExtOut(st.checkOut);
+    const inHtml=!st.checkIn
+      ?`<button class="gt-btn gt-in" data-saction="checkin" data-sid="${st.id}">▶ In</button>`
+      :`<button class="gt-time${extIn?' gt-flag':''}" data-saction="edit-in" data-sid="${st.id}">▶ ${st.checkIn}</button>`;
+    const outHtml=!st.checkIn?''
+      :!st.checkOut
+        ?`<button class="gt-btn gt-out" data-saction="checkout" data-sid="${st.id}">■ Out</button>`
+        :`<button class="gt-time${extOut?' gt-flag':''}" data-saction="edit-out" data-sid="${st.id}">■ ${st.checkOut}</button>`;
+    miniHtml=`<div class="gt-mini-row">${inHtml}${outHtml}</div>`;
+    if(extIn||extOut){miniHtml+='<div class="gt-tag" style="margin-top:4px;">Extension</div>';}
+  }
+  return `<div class="grid-tile">
+    <button class="gt-remove" data-saction="remove" data-sid="${st.id}" title="Remove">×</button>
+    <div class="row-avatar ${avClass} gt-avatar">${initials(st.name)}</div>
+    <div class="gt-name">${esc(st.name)}</div>
+    <div class="gt-mini">${miniHtml}</div>
+    <button class="status-label ${slClass}" data-saction="toggle" data-sid="${st.id}" style="margin-top:6px;font-size:0.62rem;padding:3px 8px;min-width:0;min-height:0;">${slLabel}</button>
+  </div>`;
+}
+function seasRunAction(action,sid){
+  const data=seasLoad(),dayList=seasGetDay(data,seasCurrentDate);
+  const st=dayList.find(s=>s.id===sid);
+  if(!st)return;
+  if(action==='checkin'){st.checkIn=nowTime();st.present=true;}
+  else if(action==='checkout'){st.checkOut=nowTime();}
+  else if(action==='toggle'){st.present=!st.present;if(!st.present){st.checkIn=null;st.checkOut=null;}}
+  else if(action==='edit-in'){seasOpenTimeModal(st,'in');return;}
+  else if(action==='edit-out'){seasOpenTimeModal(st,'out');return;}
+  else if(action==='remove'){
+    if(!confirm('Remove '+st.name+' from today?'))return;
+    const i=dayList.findIndex(s=>s.id===sid);
+    if(i>=0)dayList.splice(i,1);
+  }
+  seasSave(data);
+  seasRenderDaily();
+}
+
+// ── Seasonal add-student modal (with recent-names quick add) ──
+document.getElementById('seasAddBtn').addEventListener('click',()=>{
+  document.getElementById('seasAddModalSub').textContent=displayDateHeading(seasCurrentDate);
+  document.getElementById('seasNameInput').value='';
+  const recents=seasGetRecentNames();
+  const rGroup=document.getElementById('seasRecentGroup'),rWrap=document.getElementById('seasRecentWrap');
+  if(recents.length){
+    rGroup.style.display='';
+    rWrap.innerHTML=recents.map(n=>`<button type="button" class="seas-recent-chip" data-name="${esc(n)}">${esc(n)}</button>`).join('');
+    rWrap.querySelectorAll('.seas-recent-chip').forEach(chip=>{
+      chip.addEventListener('click',()=>{document.getElementById('seasNameInput').value=chip.dataset.name;});
+    });
+  } else { rGroup.style.display='none'; rWrap.innerHTML=''; }
+  document.getElementById('seasAddModal').classList.add('open');
+  setTimeout(()=>document.getElementById('seasNameInput').focus(),50);
+});
+document.getElementById('seasAddCancel').addEventListener('click',()=>document.getElementById('seasAddModal').classList.remove('open'));
+document.getElementById('seasAddConfirm').addEventListener('click',()=>{
+  const name=document.getElementById('seasNameInput').value.trim();
+  if(!name){alert('Please enter a name.');return;}
+  const data=seasLoad(),dayList=seasGetDay(data,seasCurrentDate);
+  dayList.push({id:uid(),name,present:true,checkIn:null,checkOut:null,note:null});
+  seasSave(data);
+  seasAddRecentName(name);
+  document.getElementById('seasAddModal').classList.remove('open');
+  seasRenderDaily();
+});
+
+// ── Seasonal time modal (isolated from term-time timeModal/timeCtx) ──
+let seasTimeCtx=null;
+function seasOpenTimeModal(st,type){
+  seasTimeCtx={sid:st.id,type};
+  document.getElementById('seasTimeModalTitle').textContent=type==='in'?'Edit Check-In Time':'Edit Check-Out Time';
+  document.getElementById('seasTimeModalSub').textContent=st.name;
+  document.getElementById('seasTimeInput').value=(type==='in'?st.checkIn:st.checkOut)||'';
+  document.getElementById('seasTimeModal').classList.add('open');
+}
+document.getElementById('seasTimeCancel').addEventListener('click',()=>{document.getElementById('seasTimeModal').classList.remove('open');seasTimeCtx=null;});
+document.getElementById('seasTimeConfirm').addEventListener('click',()=>{
+  if(!seasTimeCtx)return;
+  const time=document.getElementById('seasTimeInput').value;
+  const data=seasLoad(),dayList=seasGetDay(data,seasCurrentDate),st=dayList.find(s=>s.id===seasTimeCtx.sid);
+  if(st){if(seasTimeCtx.type==='in')st.checkIn=time||null;else st.checkOut=time||null;seasSave(data);}
+  document.getElementById('seasTimeModal').classList.remove('open');
+  seasTimeCtx=null;
+  seasRenderDaily();
+});
+
+// ── Seasonal date nav ──
+document.getElementById('seasPrevDay').addEventListener('click',()=>{const d=new Date(seasCurrentDate+'T12:00:00');d.setDate(d.getDate()-1);seasCurrentDate=d.toISOString().slice(0,10);seasRenderDaily();});
+document.getElementById('seasNextDay').addEventListener('click',()=>{const d=new Date(seasCurrentDate+'T12:00:00');d.setDate(d.getDate()+1);seasCurrentDate=d.toISOString().slice(0,10);seasRenderDaily();});
+document.getElementById('seasTodayBtn').addEventListener('click',()=>{seasCurrentDate=TODAY;seasRenderDaily();});
+
+// ── Seasonal Weekly (Mon–Fri, mirrors the term-time week view; unique names rolled up from that week's daily data) ──
+function seasGetWeekDates(monday){const dates=[],d=new Date(monday+'T12:00:00');for(let i=0;i<5;i++){dates.push(d.toISOString().slice(0,10));d.setDate(d.getDate()+1);}return dates;}
+function seasRenderWeekly(){
+  document.getElementById('seasWeekLabel').textContent=formatWeekLabel(seasCurrentWeekMonday);
+  const data=seasLoad();
+  const dates=seasGetWeekDates(seasCurrentWeekMonday);
+  const thead=document.getElementById('seasWeekHead'),tbody=document.getElementById('seasWeekBody');
+  thead.innerHTML='';tbody.innerHTML='';
+  const hr=document.createElement('tr');
+  let thHtml='<th style="text-align:left">Student</th>';
+  dates.forEach(ds=>{const d=new Date(ds+'T12:00:00'),dayShort=DAYS[d.getDay()-1],dayNum=d.getDate();thHtml+=`<th${ds===TODAY?' class="col-today"':''}>${dayShort}<br><span style="font-weight:400;opacity:0.8">${dayNum}</span></th>`;});
+  thHtml+='<th class="total-col">Days</th><th class="total-col">Ext.</th>';
+  hr.innerHTML=thHtml;thead.appendChild(hr);
+
+  // Roll up unique names that appeared this week — no persistent roster, so this is derived
+  // purely from that week's daily entries.
+  const names=new Map();
+  dates.forEach(ds=>{seasGetDay(data,ds).forEach(st=>{names.set(st.name.toLowerCase(),st.name);});});
+
+  let weekTotal=0,weekExt=0;
+  [...names.values()].sort((a,b)=>a.localeCompare(b)).forEach(name=>{
+    const tr=document.createElement('tr');
+    let tdHtml=`<td style="text-align:left;font-weight:600">${esc(name)}</td>`,daysPresent=0,extDays=0;
+    dates.forEach(ds=>{
+      const st=seasGetDay(data,ds).find(s=>s.name.toLowerCase()===name.toLowerCase());
+      let icon='—',cls='cell-none',timeHtml='';
+      if(st){
+        if(st.present){icon='✓';cls='cell-present';daysPresent++;weekTotal++;
+          const extIn=seasIsExtIn(st.checkIn),extOut=seasIsExtOut(st.checkOut);
+          if(extIn||extOut){extDays++;weekExt++;}
+          if(st.checkIn){timeHtml+=`<span${extIn?' class="time-flag"':''}>${st.checkIn}</span>`;if(st.checkOut)timeHtml+=`<span${extOut?' class="time-flag"':''}>${st.checkOut}</span>`;}
+        } else {icon='✗';cls='cell-absent';}
+      }
+      tdHtml+=`<td${ds===TODAY?' class="col-today"':''}><div class="day-cell"><span class="day-cell-icon ${cls}">${icon}</span>${timeHtml?`<div class="day-cell-time">${timeHtml}</div>`:''}</div></td>`;
+    });
+    tdHtml+=`<td class="total-col">${daysPresent}</td><td class="total-col">${extDays||''}</td>`;
+    tr.innerHTML=tdHtml;tbody.appendChild(tr);
+  });
+  if(names.size===0){
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td colspan="${dates.length+3}" style="text-align:center;color:var(--muted);padding:20px 0;">No students added this week yet.</td>`;
+    tbody.appendChild(tr);
+  }
+  document.getElementById('seasWTotal').textContent=weekTotal;
+  document.getElementById('seasWUnique').textContent=names.size;
+  const seasWExtEl=document.getElementById('seasWExtension');
+  if(seasWExtEl)seasWExtEl.textContent=weekExt;
+}
+document.getElementById('seasPrevWeek').addEventListener('click',()=>{const d=new Date(seasCurrentWeekMonday+'T12:00:00');d.setDate(d.getDate()-7);seasCurrentWeekMonday=d.toISOString().slice(0,10);seasRenderWeekly();});
+document.getElementById('seasNextWeek').addEventListener('click',()=>{const d=new Date(seasCurrentWeekMonday+'T12:00:00');d.setDate(d.getDate()+7);seasCurrentWeekMonday=d.toISOString().slice(0,10);seasRenderWeekly();});
+document.getElementById('seasThisWeekBtn').addEventListener('click',()=>{seasCurrentWeekMonday=getWeekMonday(TODAY);seasRenderWeekly();});
+
+// ── Seasonal exports — fully separate CSVs from the term-time exports above ──
+document.getElementById('seasExportDayBtn').addEventListener('click',()=>{
+  const data=seasLoad(),dayList=seasGetDay(data,seasCurrentDate);
+  const rows=[['Name','Present','Check-In','Check-Out','Extension']];
+  dayList.forEach(st=>rows.push([st.name,st.present?'Yes':'No',st.checkIn||'',st.checkOut||'',st.present&&seasIsExtension(st)?'Yes':'']));
+  downloadCsv(rows,'oosh-seasonal-'+seasCurrentDate+'.csv');
+});
+document.getElementById('seasExportWeekBtn').addEventListener('click',()=>{
+  const data=seasLoad(),dates=seasGetWeekDates(seasCurrentWeekMonday);
+  const names=new Map();
+  dates.forEach(ds=>{seasGetDay(data,ds).forEach(st=>{names.set(st.name.toLowerCase(),st.name);});});
+  const rows=[['Student',...dates.map(ds=>{const d=new Date(ds+'T12:00:00');return d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'});}),'Days Present','Extension Days']];
+  [...names.values()].sort((a,b)=>a.localeCompare(b)).forEach(name=>{
+    const row=[name];let daysPresent=0,extDays=0;
+    dates.forEach(ds=>{
+      const st=seasGetDay(data,ds).find(s=>s.name.toLowerCase()===name.toLowerCase());
+      if(!st){row.push('');}
+      else if(st.present){
+        const isExt=seasIsExtension(st);
+        row.push('Present'+(st.checkIn?' ('+st.checkIn+(st.checkOut?'–'+st.checkOut:'')+')':'')+(isExt?' [Ext]':''));
+        daysPresent++;if(isExt)extDays++;
+      }
+      else{row.push('Absent');}
+    });
+    row.push(daysPresent);
+    row.push(extDays);
+    rows.push(row);
+  });
+  downloadCsv(rows,'oosh-seasonal-week-'+seasCurrentWeekMonday+'.csv');
+});
+
+render();
+cloudInit();
+if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
