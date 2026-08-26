@@ -2468,7 +2468,8 @@ STORIES[2][0].push({
      feedback:"The story says 'every Friday we can read anything we like.'"},
     {question:"What did Mr. Ellis give each student?",options:["A book","A pencil case","A small notebook","A map"],correct:2,
      feedback:"The story says 'Mr. Ellis gave each of us a small notebook.'"}
-  ]
+  ],
+  images:['images/e1/e1_the_new_classroom_1.webp','images/e1/e1_the_new_classroom_2.webp','images/e1/e1_the_new_classroom_3.webp']
 });
 
 // E2·1 — Story 2
@@ -2499,7 +2500,8 @@ STORIES[2][0].push({
      feedback:"The story says it 'was about a fox who travelled across a whole country.'"},
     {question:"How long can they keep the books?",options:["One week","Two weeks","Three weeks","One month"],correct:2,
      feedback:"The story says 'We have to bring the books back in three weeks.'"}
-  ]
+  ],
+  images:['images/e1/e1_the_library_1.webp','images/e1/e1_the_library_2.webp','images/e1/e1_the_library_3.webp']
 });
 
 // E2·1 — Story 3
@@ -2693,7 +2695,8 @@ STORIES[2][1].push({
      feedback:"The story says 'she asked me eight questions about my life.'"},
     {question:"What did Sofia say she could not imagine?",options:["Snow","Cold food","Having a dog","So much rain"],correct:3,
      feedback:"Sofia wrote 'I cannot imagine so much rain!'"}
-  ]
+  ],
+  images:['images/e2/e2_the_pen_pal_1.webp','images/e2/e2_the_pen_pal_2.webp','images/e2/e2_the_pen_pal_3.webp']
 });
 
 // E2·2 — Story 4
@@ -2934,7 +2937,8 @@ STORIES[2][2].push({
      feedback:"The story says 'We had brought torches, biscuits, and a deck of cards.'"},
     {question:"When were they both asleep?",options:["By nine o'clock","Just after midnight","By ten-thirty","At eleven"],correct:2,
      feedback:"The story says 'We were both asleep by ten-thirty.'"}
-  ]
+  ],
+  images:['images/e3/e3_the_camping_night_1.webp','images/e3/e3_the_camping_night_2.webp','images/e3/e3_the_camping_night_3.webp','images/e3/e3_the_camping_night_4.webp']
 });
 STORIES[2][2].push({
   id:"l2.3s4", levelId:2, subLevel:2,
@@ -3114,7 +3118,8 @@ STORIES[2][3].push({
      feedback:"The story says 'I wrote it twenty times without a single mistake.'"},
     {question:"What did Mr. Davies write next to the word?",options:["Well done","Good try","Excellent","Perfect"],correct:2,
      feedback:"The story says 'Mr. Davies had circled the word and written Excellent next to it.'"}
-  ]
+  ],
+  images:['images/e4/e4_the_spelling_test_1.webp','images/e4/e4_the_spelling_test_2.webp','images/e4/e4_the_spelling_test_3.webp','images/e4/e4_the_spelling_test_4.webp']
 });
 STORIES[2][3].push({
   id:"l2.4s2", levelId:2, subLevel:3,
@@ -3412,7 +3417,8 @@ STORIES[2][4].push({
      feedback:"Mr. Adeyemi said 'sport was about effort, not talent.'"},
     {question:"What did Miss Bello say about the article?",options:["It needed more detail","It was too short","It was the kind of writing that made a reader want to keep going","It was excellent but needed editing"],correct:2,
      feedback:"Miss Bello said 'it was the kind of writing that made a reader want to keep going.'"}
-  ]
+  ],
+  images:['images/e5/e5_the_newspaper_project_1.webp','images/e5/e5_the_newspaper_project_2.webp','images/e5/e5_the_newspaper_project_3.webp','images/e5/e5_the_newspaper_project_4.webp']
 });
 STORIES[2][4].push({
   id:"l2.5s2", levelId:2, subLevel:4,
@@ -3676,7 +3682,8 @@ STORIES[2][5].push({
     { question:"What did Dad suggest they do during the power cut?", options:["Play a board game","Tell stories","Go to sleep early","Read by candlelight"], correct:1, feedback:"Dad suggested they tell stories." },
     { question:"What was Mia's brother's story about?", options:["A lost puppy","A flying car","A dragon afraid of butterflies","A haunted house"], correct:2, feedback:"He made up a story about a dragon who was afraid of butterflies." },
     { question:"What did Dad say at the end when asked to do it again?", options:["'Only if there's a storm'","'We just need to choose to'","'It was a one-time thing'","'We need more candles first'"], correct:1, feedback:"Dad said they don't need a power cut — they just need to choose to tell stories." }
-  ]
+  ],
+  images:['images/e6/e6_the_power_cut_1.webp','images/e6/e6_the_power_cut_2.webp','images/e6/e6_the_power_cut_3.webp']
 });
 
 // E6·1 — The Old Lighthouse
@@ -3709,7 +3716,8 @@ STORIES[2][5].push({
      feedback:"The story says 'A notice said it was no longer in service.'"},
     {question:"What was unusual on the seaward side of the lighthouse?",options:["A name carved in stone","A locked chest","Wildflowers on a flat rock","An old anchor"],correct:2,
      feedback:"The story says 'someone had left a bunch of wildflowers on a flat rock.'"}
-  ]
+  ],
+  images:['images/e6/e6_the_old_lighthouse_1.webp','images/e6/e6_the_old_lighthouse_2.webp','images/e6/e6_the_old_lighthouse_3.webp','images/e6/e6_the_old_lighthouse_4.webp']
 });
 STORIES[2][5].push({
   id:"l2.6s2", levelId:2, subLevel:5,
@@ -3733,7 +3741,8 @@ STORIES[2][5].push({
     { question:"What did Cal use to find his way home?", options:["He asked a stranger","He called his mum","A map app on his phone","A paper street map"], correct:2, feedback:"Cal used a map app that still worked without internet." },
     { question:"How long did the walk home take?", options:["Ten minutes","Twenty minutes","Half an hour","Forty minutes"], correct:1, feedback:"The route was a twenty-minute walk along one main road." },
     { question:"What did Cal say to his mum when he arrived home?", options:["'I'm sorry I was late'","'Getting lost is fine as long as you know how to find yourself again'","'I will always check the bus number now'","'The map app saved me'"], correct:1, feedback:"Cal told his mum that getting lost is fine as long as you know how to find yourself again." }
-  ]
+  ],
+  images:['images/e6/e6_the_wrong_bus_1.webp','images/e6/e6_the_wrong_bus_2.webp','images/e6/e6_the_wrong_bus_3.webp']
 });
 STORIES[2][5].push({
   id:"l2.6s3", levelId:2, subLevel:5,
@@ -3757,7 +3766,8 @@ STORIES[2][5].push({
     { question:"What made Mr Tanaka's roses stand out?", options:["Their size","Their smell","Their extraordinary deep red colour","Their unusual shape"], correct:2, feedback:"The roses were a deep, velvety red that seemed almost to glow." },
     { question:"What did Mrs Bloom do when Mr Tanaka won?", options:["She left early","She refused to speak to him","She congratulated him warmly","She complained to the judges"], correct:2, feedback:"Mrs Bloom congratulated Mr Tanaka warmly and meant it." },
     { question:"What did Mr Tanaka say when he brought the roses?", options:["'You almost won'","'Without good competition, there is no real reason to try your hardest'","'Your sunflowers were beautiful too'","'I hope you are not upset'"], correct:1, feedback:"Mr Tanaka said that without good competition, there is no real reason to try your hardest." }
-  ]
+  ],
+  images:['images/e6/e6_the_garden_competition_1.webp','images/e6/e6_the_garden_competition_2.webp','images/e6/e6_the_garden_competition_3.webp']
 });
 
 // E6·2 — The Chess Club
@@ -3790,7 +3800,8 @@ STORIES[2][5].push({
      feedback:"The story says 'Within twelve moves, I was completely stuck.'"},
     {question:"What did the child notice by the third game?",options:["They won","They understood the rules fully","They had started to see a move or two ahead","They were tired"],correct:2,
      feedback:"The story says 'by the third game I had started to see a move or two ahead.'"}
-  ]
+  ],
+  images:['images/e6/e6_the_chess_club_1.webp','images/e6/e6_the_chess_club_2.webp','images/e6/e6_the_chess_club_3.webp','images/e6/e6_the_chess_club_4.webp']
 });
 STORIES[2][5].push({
   id:"l2.6s4", levelId:2, subLevel:5,
@@ -3814,7 +3825,8 @@ STORIES[2][5].push({
     { question:"What animal did Zara see in the garden?", options:["A fox","A rabbit","A hedgehog","A cat"], correct:2, feedback:"Zara saw a hedgehog in the beam of the security light." },
     { question:"What did the hedgehog do before it left?", options:["It drank from a puddle","It foraged among the roots for about ten minutes","It dug a hole in the lawn","It climbed the fence"], correct:1, feedback:"The hedgehog spent about ten minutes foraging among the roots." },
     { question:"What did Zara do the next morning?", options:["She told her parents","She put food out for the hedgehog","She put a shallow dish of water near the fence","She looked up hedgehogs online"], correct:2, feedback:"Zara put a shallow dish of water near the fence, hoping the hedgehog would return." }
-  ]
+  ],
+  images:['images/e6/e6_the_midnight_visitor_1.webp','images/e6/e6_the_midnight_visitor_2.webp','images/e6/e6_the_midnight_visitor_3.webp']
 });
 
 // E6·3 — The Long Journey
@@ -3847,7 +3859,8 @@ STORIES[2][5].push({
      feedback:"The story says 'the sea appeared briefly on the right.'"},
     {question:"What happened when the train crossed into Scotland?",options:["It got dark","The hills turned orange and purple","It started raining","The train slowed down"],correct:1,
      feedback:"The story says 'The hills turned orange and deep purple.'"}
-  ]
+  ],
+  images:['images/e6/e6_the_long_journey_1.webp','images/e6/e6_the_long_journey_2.webp','images/e6/e6_the_long_journey_3.webp','images/e6/e6_the_long_journey_4.webp']
 });
 STORIES[2][5].push({
   id:"l2.6s5", levelId:2, subLevel:5,
@@ -3871,7 +3884,8 @@ STORIES[2][5].push({
     { question:"Who suggested making Marco a card?", options:["The teacher","Marco's mum","Suki","A different classmate"], correct:1, feedback:"It was Marco's friend Suki who suggested they make him a card." },
     { question:"How did Marco feel when he opened the card?", options:["Embarrassed","Confused","Moved — he laughed and nearly cried","Disappointed"], correct:2, feedback:"Marco laughed and then blinked quickly as though trying not to cry." },
     { question:"What did Marco say when he saw all the messages?", options:["'This is amazing, thank you'","'I didn't think anyone noticed I was gone'","'I wish I had come back sooner'","'Who drew the funny picture?'"], correct:1, feedback:"Marco said he didn't think anyone noticed he was gone." }
-  ]
+  ],
+  images:['images/e6/e6_the_empty_seat_1.webp','images/e6/e6_the_empty_seat_2.webp','images/e6/e6_the_empty_seat_3.webp']
 });
 // ── Sub-level 7 · ~210–225 words · Varied sentence structure · Richer settings ──
 STORIES[2][6] = [];
@@ -3906,7 +3920,8 @@ STORIES[2][5].push({
      feedback:"The story says 'the reaction... produces carbon dioxide gas.'"},
     {question:"What place did the child come in the science fair?",options:["Second","Third","First","Highly commended"],correct:2,
      feedback:"The story says 'She gave me first place.'"}
-  ]
+  ],
+  images:['images/e6/e6_the_science_fair_1.webp','images/e6/e6_the_science_fair_2.webp','images/e6/e6_the_science_fair_3.webp','images/e6/e6_the_science_fair_4.webp']
 });
 
 // E6·5 — The Autumn Market
@@ -3939,7 +3954,8 @@ STORIES[2][5].push({
      feedback:"The story says 'A man in a wax jacket came and bought six jars.'"},
     {question:"What did Nana June give the child as their commission?",options:["Some jam","A coin","A cheese scone","Half the profits"],correct:2,
      feedback:"The story says 'she bought me a cheese scone from the bakery stall.'"}
-  ]
+  ],
+  images:['images/e6/e6_the_autumn_market_1.webp','images/e6/e6_the_autumn_market_2.webp','images/e6/e6_the_autumn_market_3.webp','images/e6/e6_the_autumn_market_4.webp']
 });
 
 // ── Sub-level 7 · ~205–220 words · Complex sentences · More nuanced characters ──
@@ -3965,7 +3981,8 @@ STORIES[2][6].push({
     { question:"How did Copper alert Mr Haas to the sailor?", options:["He ran outside alone","He barked and tugged at Mr Haas's sleeve","He howled at the window","He brought a rope to the keeper"], correct:1, feedback:"Copper barked sharply and tugged at Mr Haas's sleeve until he followed." },
     { question:"Where was the sailor's boat?", options:["Sinking in the waves","Wedged between two rocks","Drifting past the lighthouse","Tied to the jetty"], correct:1, feedback:"The small boat was wedged between two rocks." },
     { question:"What did the sailor do before he left?", options:["He helped repair the lighthouse","He gave Copper a gift","He shook Copper's paw","He wrote a letter to Mr Haas"], correct:2, feedback:"The sailor shook Copper's paw and called him a smart dog." }
-  ]
+  ],
+  images:['images/e7/e7_the_lighthouse_keepers_dog_1.webp','images/e7/e7_the_lighthouse_keepers_dog_2.webp','images/e7/e7_the_lighthouse_keepers_dog_3.webp']
 });
 
 // E7·1 — The Interview
@@ -3998,7 +4015,8 @@ STORIES[2][6].push({
      feedback:"The story says 'the old post office, the cinema that closed in 1981, and the time the river flooded.'"},
     {question:"What did the child say they hoped for when they were eighty-three?",options:["That the village would be bigger","That technology would be better","That it would still have people who remembered things","That they would live in the same house"],correct:2,
      feedback:"The child said 'I hoped it would still have people who remembered things.'"}
-  ]
+  ],
+  images:['images/e7/e7_the_interview_1.webp','images/e7/e7_the_interview_2.webp','images/e7/e7_the_interview_3.webp','images/e7/e7_the_interview_4.webp']
 });
 STORIES[2][6].push({
   id:"l2.7s2", levelId:2, subLevel:6,
@@ -4022,7 +4040,8 @@ STORIES[2][6].push({
     { question:"Who was the woman in the photograph?", options:["Jade's grandmother","A famous pilot","Jade's great-great-grandmother Mae","An unknown woman"], correct:2, feedback:"Mae was Jade's great-great-grandmother, one of the first women to fly alone." },
     { question:"What had Mae done in 1936?", options:["Won a flying competition","Built her own biplane","Flown alone to deliver medical supplies to a remote village","Taught others to fly"], correct:2, feedback:"Mae flew 160 kilometres through cloud and crosswind to deliver medical supplies." },
     { question:"Why did Jade decide to write a school project about Mae?", options:["Her teacher assigned it","She needed extra marks","Someone that extraordinary deserved to be remembered","Her father asked her to"], correct:2, feedback:"Jade decided Mae deserved to be remembered because she was so extraordinary." }
-  ]
+  ],
+  images:['images/e7/e7_the_old_photograph_1.webp','images/e7/e7_the_old_photograph_2.webp','images/e7/e7_the_old_photograph_3.webp']
 });
 
 // E7·2 — The Night Shift
@@ -4055,7 +4074,8 @@ STORIES[2][6].push({
      feedback:"The story says 'My little brother Rafi always took longer to settle at bedtime.'"},
     {question:"What did Mum always say when she came home?",options:["How was your night?","I'm back!","Morning, love","Did you sleep well?"],correct:2,
      feedback:"The story says she would say 'Morning, love — the same words, every time.'"}
-  ]
+  ],
+  images:['images/e7/e7_the_night_shift_1.webp','images/e7/e7_the_night_shift_2.webp','images/e7/e7_the_night_shift_3.webp','images/e7/e7_the_night_shift_4.webp']
 });
 STORIES[2][6].push({
   id:"l2.7s3", levelId:2, subLevel:6,
@@ -4079,7 +4099,8 @@ STORIES[2][6].push({
     { question:"What was the woman at one stall making?", options:["Fried dough animals","Sugar animals by blowing through a pipe","Paper lanterns","Noodle sculptures"], correct:1, feedback:"A woman was making sugar animals by blowing through a small pipe." },
     { question:"What did Kai and his aunt eat?", options:["Grilled corn and fried dough","Fresh fruit and coconut drink","Oyster noodle soup","Seafood and rice"], correct:2, feedback:"They ordered bowls of oyster noodle soup at a low plastic table." },
     { question:"What did Kai do after finishing his bowl of soup?", options:["He explored more stalls","He asked for more","He felt too full to move","He bought a sugar animal"], correct:1, feedback:"Kai ate the whole bowl and asked for more." }
-  ]
+  ],
+  images:['images/e7/e7_the_night_market_1.webp','images/e7/e7_the_night_market_2.webp','images/e7/e7_the_night_market_3.webp']
 });
 
 // E7·3 — The Lost Wallet
@@ -4136,7 +4157,8 @@ STORIES[2][6].push({
     { question:"What did Nico's teacher tell him about pauses?", options:["To avoid them","To practise removing them","That pauses are part of speaking, not mistakes","That a pause means you should start again"], correct:2, feedback:"His teacher said pauses were not mistakes — they were part of speaking." },
     { question:"What happened when Nico stumbled on a word?", options:["He stopped and sat down","He asked the teacher for help","He breathed, started the word again, and continued","He skipped that sentence"], correct:2, feedback:"Nico breathed, started the word again, and kept going." },
     { question:"How did Nico feel when he walked back to his seat?", options:["Relieved but embarrassed","Taller than he ever had before","Disappointed he stumbled","Ready to do it again"], correct:1, feedback:"Nico walked back feeling taller than he ever had before." }
-  ]
+  ],
+  images:['images/e7/e7_the_speech_1.webp','images/e7/e7_the_speech_2.webp','images/e7/e7_the_speech_3.webp']
 });
 
 // E7·4 — The Flat Tyre
@@ -4169,7 +4191,8 @@ STORIES[2][6].push({
      feedback:"Dad explained: 'loosen the wheel nuts before jacking up the car, not after — otherwise the wheel spins.'"},
     {question:"How long did the tyre change take?",options:["Ten minutes","Fifteen minutes","Twenty minutes","Half an hour"],correct:2,
      feedback:"The story says 'Twenty minutes later, the spare was on.'"}
-  ]
+  ],
+  images:['images/e7/e7_the_flat_tyre_1.webp','images/e7/e7_the_flat_tyre_2.webp','images/e7/e7_the_flat_tyre_3.webp','images/e7/e7_the_flat_tyre_4.webp']
 });
 STORIES[2][6].push({
   id:"l2.7s5", levelId:2, subLevel:6,
@@ -4193,7 +4216,8 @@ STORIES[2][6].push({
     { question:"How old were some of the seeds in the bank?", options:["One hundred years","Two hundred years","Five hundred years","A thousand years"], correct:2, feedback:"Dr Mbeki said some of the seeds were five hundred years old." },
     { question:"What were the seeds in the envelope each student received?", options:["Vegetables for the school garden","A wild flower that had almost disappeared from local meadows","Seeds from a rainforest plant","A new species discovered by Dr Mbeki"], correct:1, feedback:"The seeds were a wild flower that had once grown in local meadows but had almost disappeared." },
     { question:"Why did Petra hold her envelope carefully on the bus?", options:["She didn't want the seeds to fall out","Because it contained something fragile and precious","She was afraid someone would take it","Because Dr Mbeki told her to"], correct:1, feedback:"Petra held it carefully because it contained something fragile and precious — and it did." }
-  ]
+  ],
+  images:['images/e7/e7_the_seed_bank_1.webp','images/e7/e7_the_seed_bank_2.webp','images/e7/e7_the_seed_bank_3.webp']
 });
 // ── Sub-level 8 · ~225–240 words · Multiple perspectives · Inference required ──
 STORIES[2][7] = [];
@@ -4228,7 +4252,8 @@ STORIES[2][6].push({
      feedback:"The story says 'the sugar balanced the acidity of the tomatoes.'"},
     {question:"What did Dad say after trying the sauce?",options:["This needs more salt","You have a real talent","You can make this every week","This is nearly perfect"],correct:2,
      feedback:"Dad said 'You can make this every week.'"}
-  ]
+  ],
+  images:['images/e7/e7_the_first_solo_cook_1.webp','images/e7/e7_the_first_solo_cook_2.webp','images/e7/e7_the_first_solo_cook_3.webp','images/e7/e7_the_first_solo_cook_4.webp']
 });
 
 // ── Sub-level 8 · ~220–235 words · 4–5 paragraphs · Nuanced emotion ──
@@ -4254,7 +4279,8 @@ STORIES[2][7].push({
     { question:"Why was the tree important to Mrs Osei?", options:["She had planted it herself","Her children used to climb it","Her late husband had carved their initials into its bark","It produced fruit she liked"], correct:2, feedback:"Mrs Osei's late husband had carved their initials into the bark." },
     { question:"Who accidentally brought the two neighbours together?", options:["A council worker","A mutual friend","Their shared postman","Mrs Osei's daughter"], correct:2, feedback:"Their shared postman handed them both a parcel at the same moment." },
     { question:"What did Mr Hart ask at the end?", options:["'Can I see the initials?'","'Will you help pay for the path?'","'Could we find another solution?'","'Would you sell me the tree?'"], correct:2, feedback:"Mr Hart asked if they could find another solution — then they went in for tea." }
-  ]
+  ],
+  images:['images/e8/e8_two_sides_of_the_fence_1.webp','images/e8/e8_two_sides_of_the_fence_2.webp','images/e8/e8_two_sides_of_the_fence_3.webp']
 });
 
 // E8·1 — The Swimming Gala
@@ -4288,7 +4314,8 @@ STORIES[2][7].push({
      feedback:"The story says 'My time on the board: sixty-three seconds.'"},
     {question:"What place did the child come?",options:["First","Second","Third","Last"],correct:1,
      feedback:"The story says 'Second place.'"}
-  ]
+  ],
+  images:['images/e8/e8_the_swimming_gala_1.webp','images/e8/e8_the_swimming_gala_2.webp','images/e8/e8_the_swimming_gala_3.webp','images/e8/e8_the_swimming_gala_4.webp','images/e8/e8_the_swimming_gala_5.webp']
 });
 STORIES[2][7].push({
   id:"l2.8s2", levelId:2, subLevel:7,
@@ -4312,7 +4339,8 @@ STORIES[2][7].push({
     { question:"How did Remi decide to get home?", options:["She called a taxi","She asked a stranger for help","She took a night bus","She walked the whole way"], correct:2, feedback:"Remi found a night bus that stopped two streets from her house." },
     { question:"How long did the bus journey take?", options:["Twenty minutes","Forty minutes","Almost an hour","Over two hours"], correct:2, feedback:"The bus was slow, stopping at every street, and took almost an hour." },
     { question:"What was the first thing Remi's mum did when she arrived home?", options:["Told her off","Asked where she had been","Hugged her for a long time without saying anything","Made her a hot drink"], correct:2, feedback:"Her mum hugged her for a long time without saying anything." }
-  ]
+  ],
+  images:['images/e8/e8_the_last_train_1.webp','images/e8/e8_the_last_train_2.webp','images/e8/e8_the_last_train_3.webp']
 });
 
 // E8·2 — The Broken Window
@@ -4346,7 +4374,8 @@ STORIES[2][7].push({
      feedback:"The story says 'I used the word I rather than we, because it had been my hit.'"},
     {question:"How long did it take to pay back their share?",options:["Two weeks","Four weeks","Six weeks","Eight weeks"],correct:2,
      feedback:"The story says 'I paid it over six weeks.'"}
-  ]
+  ],
+  images:['images/e8/e8_the_broken_window_1.webp','images/e8/e8_the_broken_window_2.webp','images/e8/e8_the_broken_window_3.webp','images/e8/e8_the_broken_window_4.webp','images/e8/e8_the_broken_window_5.webp']
 });
 STORIES[2][7].push({
   id:"l2.8s3", levelId:2, subLevel:7,
@@ -4370,7 +4399,8 @@ STORIES[2][7].push({
     { question:"What did Mr Ellis do when Maya raised the issue?", options:["Told Dmitri to move","Said nothing and waited, letting the class think","Wrote a new rule on the board","Sent Dmitri to another class"], correct:1, feedback:"Mr Ellis said it wasn't written anywhere and waited, letting the class work it out." },
     { question:"What had Dmitri's old school done with a disputed wall?", options:["Knocked it down","Given it to one group","Put up a sign","Decided to share it"], correct:3, feedback:"Dmitri's old school fought over the wall for a year before deciding to share it." },
     { question:"What happened to the bench the next day?", options:["Class 6B had it to themselves again","Dmitri's class took it","Two new classes shared it","It was removed by the school"], correct:2, feedback:"The next day there were two new classes on the bench — they had decided to share it." }
-  ]
+  ],
+  images:['images/e8/e8_the_invisible_rule_1.webp','images/e8/e8_the_invisible_rule_2.webp','images/e8/e8_the_invisible_rule_3.webp']
 });
 
 // E8·3 — The Visitor from Osaka
@@ -4404,7 +4434,8 @@ STORIES[2][7].push({
      feedback:"The story says 'She had asked Mum in advance about what we liked and whether anyone had any allergies.'"},
     {question:"Where is the ceramic frog now?",options:["In a drawer","On a shelf","On the windowsill","At Keiko's house"],correct:2,
      feedback:"The story says 'I kept it on my windowsill.'"}
-  ]
+  ],
+  images:['images/e8/e8_the_visitor_from_osaka_1.webp','images/e8/e8_the_visitor_from_osaka_2.webp','images/e8/e8_the_visitor_from_osaka_3.webp','images/e8/e8_the_visitor_from_osaka_4.webp','images/e8/e8_the_visitor_from_osaka_5.webp']
 });
 STORIES[2][7].push({
   id:"l2.8s4", levelId:2, subLevel:7,
@@ -4428,7 +4459,8 @@ STORIES[2][7].push({
     { question:"What did the garden washing line look like?", options:["A frozen rope","A string of diamonds","A long icicle","A silver ribbon"], correct:1, feedback:"Freya thought the washing line looked like a string of diamonds." },
     { question:"How did Freya know the ice was beginning to thaw?", options:["She felt the temperature rise","She heard a soft, constant dripping from the eaves","She saw puddles forming on the path","The birds came back"], correct:1, feedback:"She could hear the thaw — a soft, constant dripping from the eaves." },
     { question:"Why did Freya feel sad as the ice melted?", options:["She had slipped and hurt herself","She hadn't taken any photographs","She felt sad watching something beautiful end","She knew the ice would flood the garden"], correct:2, feedback:"She felt the kind of sadness that comes from watching something beautiful end." }
-  ]
+  ],
+  images:['images/e8/e8_the_ice_storm_1.webp','images/e8/e8_the_ice_storm_2.webp','images/e8/e8_the_ice_storm_3.webp']
 });
 
 // E8·4 — The Composition
@@ -4462,7 +4494,8 @@ STORIES[2][7].push({
      feedback:"The story says 'The piece I eventually wrote was forty-four seconds long.'"},
     {question:"What did Mr. Pryce call the piece?",options:["Simple but effective","Bold and bright","Melancholic but controlled","Thoughtful and mature"],correct:2,
      feedback:"The story says 'Mr. Pryce called it melancholic but controlled.'"}
-  ]
+  ],
+  images:['images/e8/e8_the_composition_1.webp','images/e8/e8_the_composition_2.webp','images/e8/e8_the_composition_3.webp','images/e8/e8_the_composition_4.webp','images/e8/e8_the_composition_5.webp']
 });
 STORIES[2][7].push({
   id:"l2.8s5", levelId:2, subLevel:7,
@@ -4486,7 +4519,8 @@ STORIES[2][7].push({
     { question:"What had Greta kept in her coat pocket?", options:["A food bank leaflet","A handwritten thank-you note from a family","A list of volunteer tasks","A photo of the warehouse"], correct:1, feedback:"Greta had kept a handwritten thank-you note left by a family on the doorstep." },
     { question:"How did Victor feel at the end of the session?", options:["Tired and glad it was over","Proud but a bit bored","Genuinely good in a specific, solid way","Worried he hadn't done enough"], correct:2, feedback:"Victor felt genuinely good — not in a dutiful way, but in a specific, solid way." },
     { question:"What did Greta say about volunteering on the bus home?", options:["'It gets easier every week'","'People think volunteers give, but I always leave with more than I arrived with'","'You should bring a friend next time'","'The first time is always the hardest'"], correct:1, feedback:"Greta said people think volunteers give things, but she always left with more than she arrived with." }
-  ]
+  ],
+  images:['images/e8/e8_the_helper_1.webp','images/e8/e8_the_helper_2.webp','images/e8/e8_the_helper_3.webp']
 });
 // ── Sub-level 9 · ~240–255 words · Abstract themes · Figurative language introduced ──
 STORIES[2][8] = [];
@@ -4522,7 +4556,8 @@ STORIES[2][7].push({
      feedback:"The story says 'a church hall on the third Saturday of every month.'"},
     {question:"How did Barry explain his work to the child?",options:["He handed them a leaflet","He drew diagrams","He ignored the child","He spoke as though they were already an engineer"],correct:3,
      feedback:"The story says Barry spoke 'to me as though I were already an engineer.'"}
-  ]
+  ],
+  images:['images/e8/e8_the_repair_caf_1.webp','images/e8/e8_the_repair_caf_2.webp','images/e8/e8_the_repair_caf_3.webp','images/e8/e8_the_repair_caf_4.webp','images/e8/e8_the_repair_caf_5.webp']
 });
 
 // ── Sub-level 9 · ~235–250 words · Bridging to Pre-Intermediate ──
@@ -4548,7 +4583,8 @@ STORIES[2][8].push({
     { question:"What did Dr Rowe suggest Theo think of his worries as?", options:["Temporary weather","A map he was looking at, not inside","Voices he could ignore","Stories with happy endings"], correct:1, feedback:"Dr Rowe suggested he think of worries as a map he was looking at, not trapped inside." },
     { question:"What did Theo draw that evening?", options:["A list of his worries","A chart of his feelings","An actual map with each worry as a place","A timeline of when his worries started"], correct:2, feedback:"Theo drew an actual map where each worry was a different place." },
     { question:"What did Theo tell himself on difficult days?", options:["'The worries will pass soon'","'I drew this. I am bigger than this map'","'Dr Rowe says I am improving'","'These worries are not real'"], correct:1, feedback:"Theo reminded himself: 'I drew this. I am bigger than this map.'" }
-  ]
+  ],
+  images:['images/e9/e9_the_map_of_worries_1.webp','images/e9/e9_the_map_of_worries_2.webp','images/e9/e9_the_map_of_worries_3.webp']
 });
 
 // E9·1 — The Audition
@@ -4582,7 +4618,8 @@ STORIES[2][8].push({
      feedback:"The story says 'She gave me thirty seconds to look at it before I started.'"},
     {question:"What did Yolanda say about parts in a play?",options:["Small parts are important for beginners","There are no small parts, only actors who stop trying","Lead roles require the most effort","Every actor starts with small parts"],correct:1,
      feedback:"Yolanda said 'There are no small parts. There are only actors who stop trying.'"}
-  ]
+  ],
+  images:['images/e9/e9_the_audition_1.webp','images/e9/e9_the_audition_2.webp','images/e9/e9_the_audition_3.webp','images/e9/e9_the_audition_4.webp','images/e9/e9_the_audition_5.webp']
 });
 STORIES[2][8].push({
   id:"l2.9s2", levelId:2, subLevel:8,
@@ -4640,7 +4677,8 @@ STORIES[2][8].push({
      feedback:"The story says 'It just said: OK. But not yet.'"},
     {question:"When were they eating lunch together again?",options:["The following Monday","The following Wednesday","The following Friday","The next day"],correct:1,
      feedback:"The story says 'By the following Wednesday, we were eating lunch together again.'"}
-  ]
+  ],
+  images:['images/e9/e9_the_argument_1.webp','images/e9/e9_the_argument_2.webp','images/e9/e9_the_argument_3.webp','images/e9/e9_the_argument_4.webp','images/e9/e9_the_argument_5.webp']
 });
 
 // E9·5 — The Summer Reading Challenge
@@ -4674,7 +4712,8 @@ STORIES[2][8].push({
      feedback:"The story says 'a boy who travelled across Central Asia with his grandmother following an old trade route.'"},
     {question:"What did Mrs. Adeyemi write on the certificate?",options:["Well done this year","For a great summer reader","For a serious reader","See you next year"],correct:2,
      feedback:"Mrs. Adeyemi wrote 'For a serious reader.'"}
-  ]
+  ],
+  images:['images/e9/e9_the_summer_reading_challenge_1.webp','images/e9/e9_the_summer_reading_challenge_2.webp','images/e9/e9_the_summer_reading_challenge_3.webp','images/e9/e9_the_summer_reading_challenge_4.webp','images/e9/e9_the_summer_reading_challenge_5.webp']
 });
 
 // ── Sub-level 10 · ~255–270 words · Bridging to Pre-Intermediate · Complex narration ──
@@ -4711,7 +4750,8 @@ STORIES[2][9].push({
      feedback:"The story says 'photographs of moments like this never quite captured what the moment felt like.'"},
     {question:"Why did the child walk home a different way?",options:["They wanted to see a friend","They were avoiding someone","They needed extra time to let the day settle","They had forgotten the usual route"],correct:2,
      feedback:"The story says 'I think I needed the extra few minutes to let the day settle.'"}
-  ]
+  ],
+  images:['images/e10/e10_the_final_year_assembly_1.webp','images/e10/e10_the_final_year_assembly_2.webp','images/e10/e10_the_final_year_assembly_3.webp','images/e10/e10_the_final_year_assembly_4.webp','images/e10/e10_the_final_year_assembly_5.webp']
 });
 
 // E10·2 — The Language Exchange
@@ -4779,7 +4819,8 @@ STORIES[2][9].push({
      feedback:"Uncle Dara said the clock tower hands were at three o'clock, but 'they're always at five past ten.'"},
     {question:"What did the nurse call the child on the way out?",options:["A good visitor","His nephew","His friend","A kind young person"],correct:2,
      feedback:"The nurse said 'Your friend seemed much cheerier after your visit.'"}
-  ]
+  ],
+  images:['images/e10/e10_the_hospital_visit_1.webp','images/e10/e10_the_hospital_visit_2.webp','images/e10/e10_the_hospital_visit_3.webp','images/e10/e10_the_hospital_visit_4.webp','images/e10/e10_the_hospital_visit_5.webp']
 });
 
 // E10·4 — The River Cleanup
@@ -4813,7 +4854,8 @@ STORIES[2][9].push({
      feedback:"The story says 'he named every bird he heard without looking up from what he was doing.'"},
     {question:"How many bags did the child and Graham fill?",options:["Four","Five","Six","Eight"],correct:2,
      feedback:"The story says 'We filled six large bags between us.'"}
-  ]
+  ],
+  images:['images/e10/e10_the_river_cleanup_1.webp','images/e10/e10_the_river_cleanup_2.webp','images/e10/e10_the_river_cleanup_3.webp','images/e10/e10_the_river_cleanup_4.webp','images/e10/e10_the_river_cleanup_5.webp']
 });
 
 // E10·5 — The Note on the Piano
