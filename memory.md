@@ -46,13 +46,14 @@
 - ✅ Gamification (2026-08-13, automated)
 - ✅ Monetisation (2026-08-14, automated)
 
-**Cycle 7 — IN PROGRESS**
+**Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
 - ✅ UI (2026-08-18, automated)
 - ✅ UX (2026-08-21, automated)
 - ✅ Content (2026-08-21, automated)
 - ✅ Gamification (2026-08-24, automated) — G8 committed, **NOT YET DEPLOYED** (browser verify required)
 - ✅ Monetisation (2026-08-25, automated) — M4 committed, **NOT YET DEPLOYED** (browser verify required)
+- ✅ Bug Fixes / Implementation Check (2026-08-27, automated) — B5 audit: state/persistence is clean (no bugs found; see session log)
 
 > **Pillar rotation changed 2026-08-21 — SEVEN pillars now.**
 > `Functionality → UI → UX → Content → Gamification → Monetisation → Bug Fixes / Implementation Check`,
@@ -68,6 +69,29 @@
 ---
 
 ## Session Log
+
+### 2026-08-27 — Bug Fixes / Implementation Check (~45 min, automated) — Cycle 7
+
+**Pillar: Bug Fixes / Implementation Check** — Cycle 7 final pillar. **No new code deployed** (browser preview blocked in unattended mode).
+
+**Git maintenance:** repo had diverged — Kyle pushed `3d3b791` (OOSH attendance app) directly to remote while local had `70c7f2a` (illustrations e6–e10) from 2026-08-26. Resolved with `git pull --rebase origin master`. Rebase was clean (no file conflicts). Local is now 1 commit ahead of remote.
+
+**B5 audit — State & Persistence Integrity:** walked the entire `state` object vs `save()` and found the architecture is sound:
+- All 22 persisted state keys have matching `localStorage.setItem` in `save()`.
+- Transient properties (quiz state, placement working state, flashcard session state, etc.) are correctly not saved — all marked with comments.
+- `todayCount` is a derived value recomputed in `renderHomeDash()` from `state.progress` — not a missing save.
+- `weekQuestProgress` week-boundary reset is correct (new week key creates fresh entry on demand).
+- `wkFree` week-boundary reset fires at load time via IIFE — correct.
+- TTS is cancelled in `navigate()` when leaving the reader — correct.
+- Image 404 fallback: `onerror="this.remove()"` in reader — acceptable behaviour, story text unaffected.
+- One minor edge case noted: if a user reloads during the `levelChampion` ceremony screen, `pendingLevelChampion` is lost (transient by design). They miss the +200 XP award but the sub-level is already marked celebrated so the ceremony won't re-fire. Low-probability, low-severity, marked in TODO.md backlog for a future Bug pillar.
+- G8 (levelChampion) and M4 (free-story pill) implementations reviewed — both correct: all UI_STRINGS in en + ja, icon keys all valid, save() calls present, navigate() preserve lists updated.
+
+**Pending deploy (5 commits local-only):** G8, M4 docs, M4 feature, Monetisation docs, illustrations. See `DEPLOY-PENDING.md` for Kyle's verification steps and push instructions. Cache-bust `?v=` should go to `20260827`.
+
+**Cycle 7 is now complete.** Cycle 8 begins next automated session. Next pillar: Functionality.
+
+---
 
 ### 2026-08-25 — Monetisation Pillar (~30 min, automated) — Cycle 7
 

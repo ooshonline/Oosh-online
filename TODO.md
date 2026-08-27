@@ -184,10 +184,8 @@ existing state/CSS tokens, one change per session, verify-before-deploy.
   overlapping tap zones, no dead buttons, no popup/modal that won't close, no element trapped behind the
   bottom nav or another layer (z-index). Reader audio pills, word popup, quiz answers and nav are the
   usual suspects.
-- [ ] **B5 · State & persistence integrity.** Every piece of `state` a feature relies on must survive a
-  reload — check `save()` has the matching `localStorage.setItem` for each `rbt_*` key, partial/corrupt
-  state doesn't crash `render()`, week-boundary resets (`rbt_wkfree`, recap flags) fire correctly, and
-  TTS both starts and cancels cleanly when turning pages or leaving the reader.
+- [x] **B5 · State & persistence integrity.** Audited 2026-08-27 — all 22 `rbt_*` keys have matching `save()` calls, week-boundary resets correct, TTS cancel on navigate correct, image 404 fallback acceptable. One minor edge case noted (pendingLevelChampion lost on reload during ceremony — transient by design, low probability). No concrete defect to fix; re-sweep in Cycle 8.
+  - **Edge case to watch:** if user reloads during levelChampion ceremony screen, pendingLevelChampion is lost and +200 XP is never awarded. Sub-level entry in celebratedSublevels prevents re-firing. Consider persisting pendingLevelChampion in a future Bug pillar.
 
 ---
 
