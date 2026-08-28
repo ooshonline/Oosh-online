@@ -51,8 +51,8 @@
 - ✅ UI (2026-08-18, automated)
 - ✅ UX (2026-08-21, automated)
 - ✅ Content (2026-08-21, automated)
-- ✅ Gamification (2026-08-24, automated) — G8 committed, **NOT YET DEPLOYED** (browser verify required)
-- ✅ Monetisation (2026-08-25, automated) — M4 committed, **NOT YET DEPLOYED** (browser verify required)
+- ✅ Gamification (2026-08-24, automated) — G8 **DEPLOYED 2026-08-28** (commit 91135d7, live as cdbf346)
+- ✅ Monetisation (2026-08-25, automated) — M4 **DEPLOYED 2026-08-28** (commit dbeb77e, live as cdbf346)
 - ✅ Bug Fixes / Implementation Check (2026-08-27, automated) — B5 audit: state/persistence is clean (no bugs found; see session log)
 
 > **Pillar rotation changed 2026-08-21 — SEVEN pillars now.**
