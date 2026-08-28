@@ -1,5 +1,14 @@
 # Ribbit Reading App 2 — Session Memory
 
+## Content Subpillar Counter
+
+`contentSubpillarRun: 0`
+
+Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
+Next subpillar: **session 2** (when counter = 1).
+
+---
+
 ## Current Cycle
 
 **Cycle 1 — COMPLETE**
