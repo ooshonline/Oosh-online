@@ -975,6 +975,7 @@ const state = {
   flashCards: JSON.parse(localStorage.getItem('rbt_fc')||'{}'), // {word:{def,pos,translation}} — real, saved by tapping words in the reader
   customDecks: JSON.parse(localStorage.getItem('rbt_decks')||'[]'), // [{id,title,wordIds}]
   deckWordStatus: JSON.parse(localStorage.getItem('rbt_dws')||'{}'), // {"deckId:word":"known"|"practiceMore"}
+  cardBox: JSON.parse(localStorage.getItem('rbt_cardbox')||'{}'), // {word:{box:1-4,due:timestamp}} — Leitner SR boxes
   flashView: 'decks',
   selectedDeckId: null,
   studyQueue: [],
@@ -1029,6 +1030,7 @@ function save(){
   localStorage.setItem('rbt_wkfree', JSON.stringify(state.wkFree));
   localStorage.setItem('rbt_font_step', state.fontStep);
   localStorage.setItem('rbt_easy_read', state.easyRead?'1':'');
+  localStorage.setItem('rbt_cardbox', JSON.stringify(state.cardBox));
 }
 window.addEventListener('beforeunload', save);
 // beforeunload is unreliable on iOS Safari (backgrounding/switching apps doesn't fire it) —
@@ -1413,13 +1415,33 @@ function saveCustomDeck(){
   state.flashView='decks';
   render();
 }
+// Leitner box intervals: box 1=1day, 2=3days, 3=7days, 4=21days
+const BOX_INTERVALS=[0, 86400000, 259200000, 604800000, 1814400000];
+function isCardDue(word){ const c=state.cardBox[word]; return !c || Date.now()>=c.due; }
+function dueCardsCount(){ return Object.keys(state.flashCards).filter(w=>isCardDue(w)).length; }
+function promoteCard(word, gotIt){
+  const cur=(state.cardBox[word]||{box:0}).box;
+  const newBox=gotIt ? Math.min(cur+1,4) : 1;
+  state.cardBox[word]={box:newBox, due:Date.now()+BOX_INTERVALS[newBox]};
+}
+
 function startStudy(deckId,queue){
   state.flashView='study'; state.selectedDeckId=deckId; state.studyQueue=queue;
   state.studyIdx=0; state.studyResults={}; state.flashFlipped=false;
   markQuestDone('fc');
   render();
 }
-function startStudyAll(deckId){ const deck=getDeckById(deckId); startStudy(deckId, deck?deck.wordIds.filter(w=>state.flashCards[w]):[]); }
+function startStudyAll(deckId){
+  const deck=getDeckById(deckId); if(!deck) return;
+  const words=deck.wordIds.filter(w=>state.flashCards[w]);
+  // Due cards first (sorted by most overdue), then future cards sorted by soonest due
+  const due=words.filter(w=>isCardDue(w)).sort((a,b)=>{
+    const da=(state.cardBox[a]||{due:0}).due, db=(state.cardBox[b]||{due:0}).due;
+    return da-db;
+  });
+  const future=words.filter(w=>!isCardDue(w)).sort((a,b)=>(state.cardBox[a].due)-(state.cardBox[b].due));
+  startStudy(deckId,[...due,...future]);
+}
 function startPracticeAgain(deckId){
   const deck=getDeckById(deckId); if(!deck) return;
   const leftover=deck.wordIds.filter(id=>state.deckWordStatus[`${deckId}:${id}`]==='practiceMore');
@@ -1434,6 +1456,7 @@ function answerCard(status){
   const wordId=state.studyQueue[state.studyIdx];
   state.deckWordStatus[`${state.selectedDeckId}:${wordId}`]=status;
   state.studyResults[wordId]=status;
+  promoteCard(wordId, status==='known');
   save();
   const nextIdx=state.studyIdx+1;
   if(nextIdx>=state.studyQueue.length){ state.flashView='complete'; state.flashFlipped=false; }
@@ -2101,7 +2124,7 @@ const UI_STRINGS = {
     todaysGoal:"TODAY'S GOAL", storiesLabel:'stories', moreToGo:(n)=>`${n} more to go!`, goalDone:'Goal complete! 🎉',
     quickLinks:'QUICK LINKS',
     exploreLibrary:'Explore Library', storiesWaiting:(n)=>`${n} stories waiting`,
-    flashCards:'Flash Cards', practiceVocab:'Practice vocabulary',
+    flashCards:'Flash Cards', practiceVocab:'Practice vocabulary', cardsDue:(n)=>`${n} word${n===1?'':'s'} due for review`,
     worldJourney:'World Journey', placesFound:(n,t)=>`${n} of ${t} places found`,
     quests:'Quests', questsToday:(n)=>`${n} of 3 today`,
     myProgress:'My Progress', trackLevels:'Track your levels',
@@ -2233,7 +2256,7 @@ const UI_STRINGS = {
     todaysGoal:'今日の目標', storiesLabel:'話', moreToGo:(n)=>`あと${n}話！`, goalDone:'目標達成！🎉',
     quickLinks:'クイックリンク',
     exploreLibrary:'ライブラリ', storiesWaiting:(n)=>`${n}話が待っています`,
-    flashCards:'フラッシュカード', practiceVocab:'単語を練習しよう',
+    flashCards:'フラッシュカード', practiceVocab:'単語を練習しよう', cardsDue:(n)=>`${n}語の復習タイム`,
     worldJourney:'ワールドジャーニー', placesFound:(n,t)=>`${t}か国中${n}か国発見`,
     quests:'クエスト', questsToday:(n)=>`今日は3つ中${n}つ`,
     myProgress:'学習記録', trackLevels:'レベルの進み具合',
@@ -3399,7 +3422,7 @@ function renderHomeDash(){
   const quickLinks=[
     placeTile,
     {icon:'📚', tint:'#E3F3FC', title:t('exploreLibrary'), sub:t('storiesWaiting',storiesWaitingCount), screen:'library'},
-    {icon:'🔤', tint:'#DFF7F2', title:t('flashCards'), sub:t('practiceVocab'), screen:'flashcards'},
+    {icon:'🔤', tint:'#DFF7F2', title:t('flashCards'), sub:(()=>{ const d=dueCardsCount(); return d>0?t('cardsDue',d):t('practiceVocab'); })(), screen:'flashcards'},
     {icon:'🌍', tint:'#E7E9FB', title:t('worldJourney'), sub:t('placesFound',placesFoundCount,placesTotalCount), screen:'world'},
     {icon:'🎯', tint:'#FCF4D6', title:t('quests'), sub:t('questsToday',questsTodayCount), screen:'quests'},
     {icon:'📈', tint:'#FFF0E4', title:t('myProgress'), sub:t('trackLevels'), screen:'profile'},
