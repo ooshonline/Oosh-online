@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 0`
+`contentSubpillarRun: 1`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **session 2** (when counter = 1).
+Next subpillar: **this next session** (counter = 1, now ODD).
 
 ---
 
@@ -55,6 +55,9 @@ Next subpillar: **session 2** (when counter = 1).
 - ✅ Gamification (2026-08-13, automated)
 - ✅ Monetisation (2026-08-14, automated)
 
+**Cycle 8 — IN PROGRESS**
+- ✅ Functionality (2026-08-28, automated) — F1 committed `2882587`, pending browser verify + deploy
+
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
 - ✅ UI (2026-08-18, automated)
@@ -78,6 +81,38 @@ Next subpillar: **session 2** (when counter = 1).
 ---
 
 ## Session Log
+
+### 2026-08-28 — Functionality Pillar (~30 min, automated) — Cycle 8
+
+**Pillar: Functionality** — Cycle 8 starts.
+
+**Commit `2882587` — LOCAL ONLY, NOT YET DEPLOYED.**
+
+Browser preview cannot start in unattended sessions. Change is code-complete and logic-verified (clean JS parse + node unit checks), but the verify-before-deploy rule is absolute.
+
+- **feature: F1 — Leitner spaced repetition for flashcards**
+  - `BOX_INTERVALS` constant: box 1=1 day, 2=3 days, 3=7 days, 4=21 days (in ms).
+  - `state.cardBox` = `{word: {box:1-4, due:timestamp}}`, persisted as `rbt_cardbox`. Word-level (not deck-scoped) — a word learned anywhere carries its box status everywhere.
+  - `isCardDue(word)` — true if no entry or `Date.now() >= due`.
+  - `dueCardsCount()` — count of flashcard words currently due.
+  - `promoteCard(word, gotIt)` — correct → increment box (capped at 4), wrong → reset to box 1; sets new `due` timestamp.
+  - `answerCard()` now calls `promoteCard()` after recording the `deckWordStatus`.
+  - `startStudyAll()` rewritten to sort: due cards first (sorted by most overdue), then future cards (soonest due first) — so a study session always surfaces what needs reviewing.
+  - Home flashcard quick-link subtitle: shows "N words due for review" / "N語の復習タイム" when N > 0; falls back to "Practice vocabulary" for new users with no history yet.
+  - 2 new `UI_STRINGS.cardsDue` keys (function values, called with count) in both en + ja.
+  - All F-series backlog items now complete (F1–F5 shipped).
+
+**Kyle: open the app in a browser, navigate to Flashcards, study a card, mark it known, then go Home. Verify:**
+1. Home "Flash Cards" tile subtitle says "N words due for review" if you have saved words, or "Practice vocabulary" if none saved.
+2. After marking a word known, it should not appear at the front of the next study session until its interval passes.
+3. Golden path (home → library → reader → quiz → celebration) clean, console clean.
+
+If clean: bump `?v=` to `20260828`, then `git push origin master`.
+
+**Cycle 8 next pillar: UI.**
+**Content subpillar fires next session** (counter incremented to 1 — odd).
+
+---
 
 ### 2026-08-27 — Bug Fixes / Implementation Check (~45 min, automated) — Cycle 7
 

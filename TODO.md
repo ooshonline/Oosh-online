@@ -39,10 +39,7 @@ off here as they ship, and add the commit hash.
 > golden path for regressions after, and never dress a redesign up as a "fix."
 
 ### Functionality — ideas
-- [ ] **F1 · Spaced repetition for flashcards (Leitner).** `state.deckWordStatus` is effectively
-  binary (`known` / `practiceMore`), so a word learned once is reviewed as often as one never seen.
-  Add `state.cardBox[word]={box:1–4,due:ts}`; `startStudy()` orders due cards first; Home shows a
-  real "N cards due today" count. Answering right promotes a box (1d→3d→7d→21d), wrong resets to 1.
+- [x] **F1 · Spaced repetition for flashcards (Leitner) — COMMITTED (2026-08-28, commit `2882587`), pending browser verify + deploy.** `BOX_INTERVALS` (1d/3d/7d/21d), `state.cardBox` (word-level, `rbt_cardbox`), `isCardDue()`, `dueCardsCount()`, `promoteCard()`. `answerCard()` calls `promoteCard()`. `startStudyAll()` sorts due cards first. Home flashcard tile shows "N words due for review" / "N語の復習タイム" when N > 0.
 - [x] **F2 · Library search — SHIPPED (2026-08-02, commit `37e58de`).** Search field at library root
   matches story `title`, `blurb`, and `genre` across all 300+ stories. Results render as standard
   story cards with level-coloured badge showing which level they're from. Query ≥2 chars activates
@@ -60,6 +57,11 @@ off here as they ship, and add the commit hash.
   "Save Progress" downloads all `rbt_*` localStorage keys as `ribbit-progress-YYYYMMDD.json`;
   "Restore Progress" reads the file back, validates it, confirms, applies, reloads. Both en+ja.
   LIVE (v=20260727).
+
+**F1–F5 all shipped. Replenishment ideas (F6–F8):**
+- [ ] **F6 · World Journey destination-detail screen.** Destinations currently open to a story list only. Build a detail screen with: flag + name, a short `facts` blurb (from C5 content), a `vocab` list of ~6 culture words (tap to hear + save to deck), and the story list below. Wire it to the existing `openDestination()` path. Depends on C5 content being authored first.
+- [ ] **F7 · "Read Later" bookmark.** A bookmark icon on every story modal adds the story to `state.readLater[]` (persisted `rbt_readlater`). A "Saved" section on the Library screen (collapsible, shown only when non-empty) lists bookmarked stories. Tapping opens the modal as normal. Icon toggles to filled when saved. En + ja.
+- [ ] **F8 · Daily story recommendation.** On the home screen, below the journey track, show one auto-selected recommended story: lowest sub-level not yet started in the learner's current level, or a random unread story from the next level if fully done. Shows story card with blurb and "Read it →" button. Deterministic per day (seeded by date) so it stays stable across renders. En + ja label "Today's pick" / "今日のおすすめ".
 
 ### UI — ideas
 - [ ] **U1 · Night theme.** The CSS is already fully tokenised on `:root`, so this is a second token
