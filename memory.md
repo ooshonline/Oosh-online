@@ -56,7 +56,7 @@ Next subpillar: **this next session** (counter = 1, now ODD).
 - ✅ Monetisation (2026-08-14, automated)
 
 **Cycle 8 — IN PROGRESS**
-- ✅ Functionality (2026-08-28, automated) — F1 committed `2882587`, pending browser verify + deploy
+- ✅ Functionality (2026-08-28, automated) — F1 **DEPLOYED LIVE** (commit `2882587`)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -86,9 +86,7 @@ Next subpillar: **this next session** (counter = 1, now ODD).
 
 **Pillar: Functionality** — Cycle 8 starts.
 
-**Commit `2882587` — LOCAL ONLY, NOT YET DEPLOYED.**
-
-Browser preview cannot start in unattended sessions. Change is code-complete and logic-verified (clean JS parse + node unit checks), but the verify-before-deploy rule is absolute.
+**Commit `2882587` — DEPLOYED LIVE (2026-08-28, verified by Kyle).**
 
 - **feature: F1 — Leitner spaced repetition for flashcards**
   - `BOX_INTERVALS` constant: box 1=1 day, 2=3 days, 3=7 days, 4=21 days (in ms).

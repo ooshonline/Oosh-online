@@ -39,7 +39,7 @@ off here as they ship, and add the commit hash.
 > golden path for regressions after, and never dress a redesign up as a "fix."
 
 ### Functionality — ideas
-- [x] **F1 · Spaced repetition for flashcards (Leitner) — COMMITTED (2026-08-28, commit `2882587`), pending browser verify + deploy.** `BOX_INTERVALS` (1d/3d/7d/21d), `state.cardBox` (word-level, `rbt_cardbox`), `isCardDue()`, `dueCardsCount()`, `promoteCard()`. `answerCard()` calls `promoteCard()`. `startStudyAll()` sorts due cards first. Home flashcard tile shows "N words due for review" / "N語の復習タイム" when N > 0.
+- [x] **F1 · Spaced repetition for flashcards (Leitner) — DEPLOYED LIVE (2026-08-28, commit `2882587`).** `BOX_INTERVALS` (1d/3d/7d/21d), `state.cardBox` (word-level, `rbt_cardbox`), `isCardDue()`, `dueCardsCount()`, `promoteCard()`. `answerCard()` calls `promoteCard()`. `startStudyAll()` sorts due cards first. Home flashcard tile shows "N words due for review" / "N語の復習タイム" when N > 0.
 - [x] **F2 · Library search — SHIPPED (2026-08-02, commit `37e58de`).** Search field at library root
   matches story `title`, `blurb`, and `genre` across all 300+ stories. Results render as standard
   story cards with level-coloured badge showing which level they're from. Query ≥2 chars activates
