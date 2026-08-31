@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 1`
+`contentSubpillarRun: 2`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **this next session** (counter = 1, now ODD).
+Next subpillar: **skip next session** (counter = 2, now EVEN).
 
 ---
 
@@ -57,6 +57,7 @@ Next subpillar: **this next session** (counter = 1, now ODD).
 
 **Cycle 8 — IN PROGRESS**
 - ✅ Functionality (2026-08-28, automated) — F1 **DEPLOYED LIVE** (commit `2882587`)
+- ✅ UI (2026-08-31, automated) — U1 Night theme **LOCAL ONLY** (commit `0c7204a`) — pending Kyle verify + push
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -81,6 +82,35 @@ Next subpillar: **this next session** (counter = 1, now ODD).
 ---
 
 ## Session Log
+
+### 2026-08-31 — UI Pillar + Content Subpillar (~55 min, automated) — Cycle 8
+
+**Pillar: UI** — Cycle 8.
+**Content subpillar: L6 talk prompts.**
+
+**Commit `0c7204a` — LOCAL ONLY, NOT YET DEPLOYED.**
+**Commit `1039e44` — LOCAL ONLY, NOT YET DEPLOYED.**
+
+Browser preview cannot start in unattended sessions. Both changes are JS-clean and follow existing patterns. Verify-before-deploy rule is absolute — Kyle must browser-verify before pushing.
+
+**Kyle: open the app in a browser, then:**
+1. Go to Profile → APPEARANCE section (new). Tap "🌙 Night mode". Verify dark palette looks right (deep forest-green bg, pale text, green border tints). Monochrome icons should auto-tint to light colour. Genre gradients should be vivid but not garish.
+2. Switch back to Day mode (☀️). Verify light theme restores correctly.
+3. Test system preference: remove `data-theme` attribute in DevTools, switch OS to dark mode — verify the `@media` block activates automatically.
+4. Golden path (home → library → reader → quiz → celebration) in both themes — console clean.
+5. If clean: bump `?v=` to `20260831`, then `git push origin master`.
+
+**Content subpillar: all 50 Level 6 talk prompts added.**
+- `TALK_PROMPTS` in `ribbit-stories.js` extended with l6.1s1–l6.10s5 (50 entries, en + ja).
+- Completes the full set: L1(75) + L2(80) + L3(50) + L4(50) + L5(50) + L6(50) = 355 total.
+- C2 complexity: philosophical, open-ended, never yes/no. Each tied to its story's specific theme.
+- `renderTalkPrompt()` requires no code change — the key lookup and graceful empty already handle L6.
+- JS parses cleanly; 50 L6 keys confirmed.
+
+**Cycle 8 next pillar: UX.**
+**Content subpillar counter incremented to 2 (even) — skips next session.**
+
+---
 
 ### 2026-08-28 — Functionality Pillar (~30 min, automated) — Cycle 8
 
