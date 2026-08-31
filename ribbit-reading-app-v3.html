@@ -448,13 +448,13 @@
     .reader-exit-btn{height:44px;background:var(--primary);border-radius:999px;padding:0 16px;display:flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer;color:white}
     .reader-exit-btn span:last-child{font-size:12px;font-weight:700;color:white}
     .reader-content{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
-    .reader-illu{width:100%;height:180px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;background-size:cover;background-position:center}
+    .reader-illu{width:100%;height:clamp(150px,26vh,220px);display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;background-size:cover;background-position:center}
     .reader-illu-emoji{font-size:64px;line-height:1}
     /* `safe center` centres the page when it fits but falls back to flex-start when it doesn't.
        Plain `center` overflows equally in both directions on a scroll container, putting the
        first line above scrollTop:0 where it can never be scrolled back into view.
        The unprefixed `center` below it is the fallback for engines that don't parse `safe`. */
-    .reader-text-area{flex:1;min-height:0;background:#FFFDF8;display:flex;flex-direction:column;justify-content:center;justify-content:safe center;padding:24px 20px;overflow-y:auto;cursor:default;position:relative}
+    .reader-text-area{flex:1;min-height:0;background:#FFFDF8;display:flex;flex-direction:column;justify-content:flex-start;padding:28px 20px 24px;overflow-y:auto;cursor:default;position:relative}
     .page-turn-anim-slot{position:absolute;inset:0;pointer-events:none;z-index:5}
     .reader-progress-bar{height:3px;background:var(--border);border-radius:999px;margin-bottom:20px}
     .reader-progress-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .3s ease}
@@ -501,11 +501,11 @@
     .quiz-dots{display:flex;align-items:center;gap:6px;margin-left:auto}
     .quiz-dot{width:8px;height:8px;border-radius:50%}
     .quiz-counter{font-size:11px;color:var(--text-muted);font-weight:600}
-    .quiz-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+    .quiz-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px}
     /* The story illustration stays on screen through the quiz: Pre-A1 questions like
        "What is this?" refer to the picture, and without it they are unanswerable. */
     .quiz-stage{width:100%;max-width:980px;display:flex;flex-direction:column;align-items:center;gap:18px}
-    .quiz-illu{width:100%;max-width:520px;height:150px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;flex-shrink:0;overflow:hidden;background-size:cover;background-position:center}
+    .quiz-illu{width:100%;max-width:520px;height:clamp(130px,20vh,180px);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;flex-shrink:0;overflow:hidden;background-size:cover;background-position:center}
     .quiz-illu-title{position:absolute;bottom:8px;left:10px;background:rgba(0,0,0,.4);color:#fff;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700}
     .quiz-question-wrap{width:100%;max-width:520px}
     .quiz-label{font-size:11px;font-weight:800;color:var(--text-muted);letter-spacing:.08em;margin-bottom:8px;text-align:center}
