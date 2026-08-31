@@ -448,7 +448,7 @@
     .reader-exit-btn{height:44px;background:var(--primary);border-radius:999px;padding:0 16px;display:flex;align-items:center;gap:6px;flex-shrink:0;border:none;cursor:pointer;color:white}
     .reader-exit-btn span:last-child{font-size:12px;font-weight:700;color:white}
     .reader-content{flex:1;min-height:0;display:flex;flex-direction:row;overflow:hidden}
-    .reader-illu{width:45%;min-width:140px;height:auto;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;background-size:cover;background-position:center}
+    .reader-illu{width:45%;min-width:140px;height:auto;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;background-size:cover;background-position:top center}
     .reader-illu-emoji{font-size:clamp(52px,10vw,90px);line-height:1}
     /* `safe center` centres the page when it fits but falls back to flex-start when it doesn't.
        Plain `center` overflows equally in both directions on a scroll container, putting the
@@ -2698,7 +2698,7 @@ function renderReader(){
     <div class="reader-content">
       <div class="reader-illu" style="background:linear-gradient(135deg,${levelG1},${levelG2})">
         <div class="reader-illu-emoji">${story.emoji||'📖'}</div>
-        ${img?`<img src="${img}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()">`:''}
+        ${img?`<img src="${img}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center" onerror="this.remove()">`:''}
       </div>
       <div class="reader-text-area${state.easyRead?' easy-read':''}" onclick="event.stopPropagation()" ontouchstart="readerSwipeStart(event)" ontouchend="readerSwipeEnd(event)">
         <div class="reader-progress-bar"><div class="reader-progress-fill" style="width:${progressPct}%"></div></div>
