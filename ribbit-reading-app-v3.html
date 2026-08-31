@@ -453,7 +453,13 @@
     .reader-exit-btn span:last-child{font-size:12px;font-weight:700;color:white}
     .reader-content{flex:1;min-height:0;display:flex;flex-direction:row;overflow:hidden}
     .reader-illu{width:45%;min-width:140px;height:auto;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;background-size:cover;background-position:top center}
-    .reader-illu-emoji{font-size:clamp(52px,10vw,90px);line-height:1}
+    /* Emoji is the fallback shown when a story has no illustration, or the file fails to load
+       (the img removes itself on error). It sits behind the img, centred by .reader-illu. */
+    .reader-illu-emoji{position:absolute;font-size:clamp(52px,10vw,90px);line-height:1;z-index:0}
+    /* Every illustration is a square 1024x1024 source. Forcing the img to a square box means a
+       square image in a square frame, so nothing is ever cropped whatever shape the window is.
+       The column keeps its level gradient, which shows above/below the art in tall windows. */
+    .reader-illu img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain}
     /* `safe center` centres the page when it fits but falls back to flex-start when it doesn't.
        Plain `center` overflows equally in both directions on a scroll container, putting the
        first line above scrollTop:0 where it can never be scrolled back into view.
@@ -2701,8 +2707,8 @@ function renderReader(){
     ${comfortBar}
     <div class="reader-content">
       <div class="reader-illu" style="background:linear-gradient(135deg,${levelG1},${levelG2})">
-        <div class="reader-illu-emoji">${story.emoji||'📖'}</div>
-        ${img?`<img src="${img}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center" onerror="this.remove()">`:''}
+        <div class="reader-illu-emoji"${img?' style="display:none"':''}>${story.emoji||'📖'}</div>
+        ${img?`<img src="${img}" alt="" onerror="var p=this.parentElement;this.remove();var e=p.querySelector('.reader-illu-emoji');if(e)e.style.display='';">`:''}
       </div>
       <div class="reader-text-area${state.easyRead?' easy-read':''}" onclick="event.stopPropagation()" ontouchstart="readerSwipeStart(event)" ontouchend="readerSwipeEnd(event)">
         <div class="reader-progress-bar"><div class="reader-progress-fill" style="width:${progressPct}%"></div></div>
@@ -3511,7 +3517,7 @@ function renderLanding(){
     </div>
     <!-- BUILD_ID is bumped on every deploy. It is shown here so a stale cached copy can be
          identified at a glance without opening devtools. -->
-    <div class="landing-footer">OOSH Online · v3.0 · build 20260831d</div>
+    <div class="landing-footer">OOSH Online · v3.0 · build 20260831e</div>
   </div>`;
 }
 
