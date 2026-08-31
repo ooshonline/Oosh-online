@@ -25,8 +25,23 @@
       --font-body:'Nunito Sans',sans-serif; /* TODO(brand): swap to Glacial Indifference once licensed file is supplied */
       --lv1:#c084fc; --lv2:#bada55; --lv3:#4ade80; --lv4:#38bdf8; --lv5:#fb923c; --lv6:#f43f5e;
     }
+    /* ── NIGHT THEME — override surface tokens only; accent/level/primary colours unchanged ── */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg:#14231a; --card:#1e3325; --text:#dde8e1; --text-muted:#7a9e8a; --navy:#94c4b0;
+        --border:#2d4a38; --primary-light:rgba(114,201,58,.2);
+        --correct-bg:rgba(34,197,94,.18); --wrong-bg:rgba(239,68,68,.18);
+        --shadow-sm:0 2px 8px rgba(0,0,0,.35); --shadow:0 2px 10px rgba(0,0,0,.45); --shadow-lg:0 4px 16px rgba(0,0,0,.6);
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg:#14231a; --card:#1e3325; --text:#dde8e1; --text-muted:#7a9e8a; --navy:#94c4b0;
+      --border:#2d4a38; --primary-light:rgba(114,201,58,.2);
+      --correct-bg:rgba(34,197,94,.18); --wrong-bg:rgba(239,68,68,.18);
+      --shadow-sm:0 2px 8px rgba(0,0,0,.35); --shadow:0 2px 10px rgba(0,0,0,.45); --shadow-lg:0 4px 16px rgba(0,0,0,.6);
+    }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
+    html{scroll-behavior:smooth;background:var(--bg)}
     body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
     h1,h2,h3,h4{font-family:var(--font-head)}
     button{font-family:var(--font-body);cursor:pointer;border:none;outline:none;background:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
@@ -1012,6 +1027,7 @@ const state = {
   fontStep: parseInt(localStorage.getItem('rbt_font_step')||'1'), // 0=small(×0.85), 1=medium(×1.0), 2=large(×1.2)
   easyRead: localStorage.getItem('rbt_easy_read')==='1',
   showComfort: false, // transient — comfort bar open in reader
+  theme: localStorage.getItem('rbt_theme')||'auto', // 'auto'=respect prefers-color-scheme, 'dark'=force dark, 'light'=force light
 };
 function save(){
   localStorage.setItem('rbt_uilang', state.uiLang);
@@ -1041,12 +1057,29 @@ function save(){
   localStorage.setItem('rbt_font_step', state.fontStep);
   localStorage.setItem('rbt_easy_read', state.easyRead?'1':'');
   localStorage.setItem('rbt_cardbox', JSON.stringify(state.cardBox));
+  localStorage.setItem('rbt_theme', state.theme);
 }
 window.addEventListener('beforeunload', save);
 // beforeunload is unreliable on iOS Safari (backgrounding/switching apps doesn't fire it) —
 // visibilitychange + pagehide catch those cases so progress isn't lost mid-session.
 document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') save(); });
 window.addEventListener('pagehide', save);
+
+// ── THEME ─────────────────────────────────────────────────────────────────
+function applyTheme(theme){
+  const root=document.documentElement;
+  if(theme==='dark') root.setAttribute('data-theme','dark');
+  else if(theme==='light') root.setAttribute('data-theme','light');
+  else root.removeAttribute('data-theme'); // 'auto' — defer to prefers-color-scheme
+}
+function toggleTheme(){
+  state.theme=state.theme==='dark'?'auto':'dark'; // simple toggle: auto ↔ dark
+  applyTheme(state.theme);
+  save();
+  render();
+}
+// Apply saved theme immediately before first paint
+applyTheme(state.theme);
 
 // ── WEEKLY RECAP CARD ──────────────────────────────────────────
 // Returns the ISO date string (YYYY-MM-DD) of the Monday of the current week.
@@ -2223,6 +2256,8 @@ const UI_STRINGS = {
     comboLabel:'COMBO!', correctLabel:'CORRECT!', wrongLabel:'WRONG!',
     comboStreakLine:(n)=>`${n} in a row!`,
     replayGoodJob:'Great practice! Beat your score to earn more XP.',
+    appearanceTitle:'APPEARANCE',
+    nightModeOn:'🌙 Night mode', nightModeOff:'☀️ Day mode',
     saveProgress:'💾 Save Progress', restoreProgress:'📂 Restore Progress',
     dataTitle:'YOUR DATA', dataHint:'Download a backup · restore on any device',
     saveSuccess:'Progress saved! 💾', restoreSuccess:'Progress restored! Reloading…',
@@ -2355,6 +2390,8 @@ const UI_STRINGS = {
     comboLabel:'コンボ！', correctLabel:'せいかい！', wrongLabel:'ざんねん！',
     comboStreakLine:(n)=>`${n}連続！`,
     replayGoodJob:'よく練習できたね！スコアを上げてXPをゲットしよう。',
+    appearanceTitle:'がめんのせってい',
+    nightModeOn:'🌙 ナイトモード', nightModeOff:'☀️ デイモード',
     saveProgress:'💾 データを保存', restoreProgress:'📂 データを復元',
     dataTitle:'データ管理', dataHint:'バックアップをダウンロード・どのデバイスでも復元できます',
     saveSuccess:'データを保存しました！💾', restoreSuccess:'データを復元しました！再読み込みします…',
@@ -3358,6 +3395,12 @@ function renderProfile(){
           <button class="see-all-link" onclick="navigate('rewards')">${t('seeAll')}</button>
         </div>
         <div class="recent-badges-card">${badgesHtml}</div>
+      </div>
+      <div class="profile-data-row">
+        <div class="section-title">${t('appearanceTitle')}</div>
+        <button class="profile-data-btn" onclick="toggleTheme()" style="width:100%;text-align:center">
+          ${state.theme==='dark'?t('nightModeOff'):t('nightModeOn')}
+        </button>
       </div>
       <div class="profile-data-row">
         <div class="section-title">${t('dataTitle')}</div>
