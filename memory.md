@@ -68,6 +68,8 @@ Next subpillar: **skip next session** (counter = 2, now EVEN).
 - ✅ Monetisation (2026-08-25, automated) — M4 **DEPLOYED 2026-08-28** (commit dbeb77e, live as cdbf346)
 - ✅ Bug Fixes / Implementation Check (2026-08-27, automated) — B5 audit: state/persistence is clean (no bugs found; see session log)
 
+> **2026-09-01 — Browser verify IS available in automated sessions.** Kyle confirmed that `preview_start` works in scheduled/unattended runs. From now on, follow the full Phase 3 verify-then-deploy workflow: start the dev server, drive the golden path, screenshot, push if clean. Do NOT leave changes as "LOCAL ONLY" when the browser tools are available. The only valid reason to skip deploy is a genuine tool error (server won't start), not "unattended mode".
+
 > **Pillar rotation changed 2026-08-21 — SEVEN pillars now.**
 > `Functionality → UI → UX → Content → Gamification → Monetisation → Bug Fixes / Implementation Check`,
 > then repeat. (Bug Fixes / Implementation Check is the new 7th pillar, added 2026-08-21 — an
