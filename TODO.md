@@ -85,15 +85,18 @@ off here as they ship, and add the commit hash.
   All 8 test cases verified; golden path clean; zero console errors; LIVE (v=20260729).
 - [x] **X3 · Undo instead of instant loss — SHIPPED (2026-08-10, commits `35a635c`+`380c745`).** `removeWordFromDeck()` buffers the deletion for 5s in `_deletedWord`. `_showUndoToast()` shows a pill toast with tappable Undo button; `undoWordDelete()` restores the word. 3 new UI_STRINGS keys en+ja. LIVE (v=20260810).
 - [x] **X4 · "Words you tapped" recap — SHIPPED (2026-08-21, commit `281cc83`).** `_sessionTappedWords[]` tracks popup-opened words per session (cleared on story start). Celebration screen shows a card with word pills + "Save all to my deck (N)" button; pills turn green after saving; "All saved ✓" replaces the button when done. `saveAllTappedWords()` batches the save. 4 new UI_STRINGS keys en+ja. Verified en+ja, 375px, zero console errors. LIVE (v=20260821).
-- [ ] **X5 · Peek at the story during the quiz.** The quiz keeps the illustration but not the text, so
-  comprehension questions test memory as much as understanding. Add a "Look again" button overlaying
-  the page the question came from.
+- [x] **X5 · Peek at the story during the quiz — SHIPPED (2026-09-01, commit `4ed2655`).** "📖 Look Again" / "📖 もう一度読む" button between the illustration and the question; tapping opens a `.spk-overlay` showing all story paragraphs as scrollable numbered page cards; × closes it and returns to the quiz; `state.showStoryPeek` (transient); auto-clears on question advance or exit. 4 new UI_STRINGS keys, 11 new CSS classes. LIVE (v=20260901).
+
+**X1–X5 all shipped. Replenishment ideas (X6–X8):**
+- [ ] **X6 · "Read aloud" on the celebration screen.** After finishing a story the talk-prompt question appears but there's no way to hear it spoken. Add a speaker button next to the Japanese gloss so the child can hear the English prompt read aloud at a comfortable pace.
+- [ ] **X7 · Smooth story-end transition.** Currently the last quiz answer immediately jumps to the celebration screen. Add a brief 0.5s "Story complete!" interstitial frame (the story emoji, "All done!", a gentle animation) before the celebration screen so the ending feels earned rather than abrupt.
+- [ ] **X8 · Vocabulary recap before the quiz.** Before the first quiz question appears, show a 3-second "Quick vocab check" card displaying the story's 4–6 vocabulary words (word + definition). Builds recall context right before comprehension questions. Tappable to skip.
 
 ### Content — ideas
 - [ ] **C1 · Quiz question variety.** Every item is literal recall — the `feedback` line is almost
   always "The story says…". Add inference ("How does she feel?"), sequencing ("What happened first?")
   and vocab-in-context types. Retro-fit one sub-level per run, starting at Level 3.
-- [~] **C2 · After-reading talk prompt — L1 + L2 + L3 + L4 + L5 SHIPPED.** L1: 2026-07-24 commit `e15f2f9`. L2: 2026-07-29 commit `43cc844`. L3: 2026-08-05 commit `dad0610`. L4: 2026-08-11 commit `90200c2`. L5: 2026-08-21 commit `bd562b1` (50 stories, l5.1s1–l5.10s5, both en+ja, LIVE v=20260821b). A story with no prompt renders nothing so partial coverage is safe. **Remaining: Level 6 (50 stories)** — one more batch, no code needed.
+- [x] **C2 · After-reading talk prompt — ALL 6 LEVELS SHIPPED (355 total prompts).** L1: 2026-07-24 commit `e15f2f9`. L2: 2026-07-29 commit `43cc844`. L3: 2026-08-05 commit `dad0610`. L4: 2026-08-11 commit `90200c2`. L5: 2026-08-21 commit `bd562b1`. L6: 2026-08-31 commit `1039e44` (50 stories, l6.1s1–l6.10s5, both en+ja, LIVE v=20260901). Complete: L1(75)+L2(80)+L3(50)+L4(50)+L5(50)+L6(50)=355.
 - [ ] **C3 · Non-fiction fact files.** The genre mix is almost entirely narrative; ESL readers need
   informational text (animals, weather, places, how things work). Author a set at Levels 2–4 using
   the existing story schema so no code changes are needed.
