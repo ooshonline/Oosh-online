@@ -566,6 +566,19 @@
     @keyframes ptsPop{from{opacity:0;transform:scale(.5) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
     .combo-streak-line{font-size:.8rem;color:var(--text-muted);margin-top:5px;font-family:var(--font-body)}
 
+    /* ══ STORY PEEK — "Look again" overlay inside the quiz ══ */
+    .quiz-look-btn{width:100%;max-width:520px;height:38px;background:var(--card);border-radius:12px;border:none;font-size:13px;font-weight:700;color:var(--navy);box-shadow:var(--shadow-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;flex-shrink:0}
+    .quiz-look-btn:active{background:var(--primary-light)}
+    .spk-overlay{position:fixed;inset:0;z-index:400;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;animation:fade-up .2s ease both}
+    .spk-header{height:56px;background:var(--card);border-bottom:1.5px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0}
+    .spk-title{font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--text);flex:1}
+    .spk-close-btn{width:44px;height:44px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center;border:none;color:var(--text-muted);cursor:pointer;flex-shrink:0}
+    .spk-close-btn:active{opacity:.7}
+    .spk-pages{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:12px;-webkit-overflow-scrolling:touch}
+    .spk-page{background:var(--card);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow-sm)}
+    .spk-page-num{font-size:10px;font-weight:800;color:var(--text-muted);letter-spacing:.08em;margin-bottom:8px;text-transform:uppercase}
+    .spk-page-text{font-size:17px;line-height:1.75;color:var(--text)}
+
     /* ══ PLACEMENT TEST — full-bleed, no app shell. Never shows a score or a wrong answer:
        the frog is finding its pond, not passing an exam. ══ */
     .place-screen{min-height:100vh;display:flex;flex-direction:column;background:#F5F9EF}
@@ -728,9 +741,9 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260831"></script>
-<script src="ribbit-wordlists.js?v=20260831"></script>
-<script src="ribbit-ja-translations.js?v=20260831"></script>
+<script src="ribbit-stories.js?v=20260901"></script>
+<script src="ribbit-wordlists.js?v=20260901"></script>
+<script src="ribbit-ja-translations.js?v=20260901"></script>
 <script src="assets/vendor/lottie.min.js?v=20260804"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
@@ -997,6 +1010,7 @@ const state = {
   quizStartTime: null,
   quizElapsedSec: 0,
   comboStreak: 0,
+  showStoryPeek: false, // transient — open/close "Look again" overlay; never persisted
   flashCards: JSON.parse(localStorage.getItem('rbt_fc')||'{}'), // {word:{def,pos,translation}} — real, saved by tapping words in the reader
   customDecks: JSON.parse(localStorage.getItem('rbt_decks')||'[]'), // [{id,title,wordIds}]
   deckWordStatus: JSON.parse(localStorage.getItem('rbt_dws')||'{}'), // {"deckId:word":"known"|"practiceMore"}
@@ -1370,7 +1384,7 @@ function nextPage(){
   } else {
     state.screen='quiz'; state.quizIndex=0; state.quizAnswered=false;
     state.quizSelected=null; state.quizCorrectCount=0; state.quizStartTime=Date.now();
-    state.comboStreak=0;
+    state.comboStreak=0; state.showStoryPeek=false;
     render();
   }
 }
@@ -1408,7 +1422,7 @@ function advanceQuiz(){
   if(!state.quizAnswered) return;
   const story=findStory(state.lastStoryId);
   if(state.quizIndex < story.quiz.length-1){
-    state.quizIndex++; state.quizAnswered=false; state.quizSelected=null;
+    state.quizIndex++; state.quizAnswered=false; state.quizSelected=null; state.showStoryPeek=false;
     render();
   } else {
     state.quizElapsedSec=Math.max(1,Math.round((Date.now()-(state.quizStartTime||Date.now()))/1000));
@@ -1417,7 +1431,8 @@ function advanceQuiz(){
     render(); // master render() spawns the confetti for the celebration screen
   }
 }
-function exitQuiz(){ navigate(state.worldSelectedId ? 'world' : state.libraryLevel ? 'library' : 'home'); }
+function exitQuiz(){ state.showStoryPeek=false; navigate(state.worldSelectedId ? 'world' : state.libraryLevel ? 'library' : 'home'); }
+function toggleStoryPeek(){ state.showStoryPeek=!state.showStoryPeek; render(); }
 
 // ── FLASHCARDS — real deck model: "My Words" auto-deck built from state.flashCards
 // (populated by tap-to-save in the reader), plus user-created custom decks that
@@ -2183,6 +2198,7 @@ const UI_STRINGS = {
     quickQuiz:'📝 Quick Quiz', question:'QUESTION',
     nextQuestion:'Next Question →', seeResults:'See Results →',
     hearQuestion:'Hear the question', hearOption:'Hear this answer',
+    lookAgain:'📖 Look Again', storyPeekTitle:'Story Text', storyPeekClose:'Back to Quiz', pageLabel:'Page',
     placeTitle:'Find My Pond',
     placeIntroTitle:'Which pond is yours?',
     placeIntroBody:"Answer a few questions and Ribbit will find the right stories for you. There are no wrong answers — just do your best!",
@@ -2317,6 +2333,7 @@ const UI_STRINGS = {
     quickQuiz:'📝 クイズタイム', question:'もんだい',
     nextQuestion:'つぎのもんだい →', seeResults:'けっかを見る →',
     hearQuestion:'もんだいを聞く', hearOption:'こたえを聞く',
+    lookAgain:'📖 もう一度読む', storyPeekTitle:'おはなしのぶん', storyPeekClose:'クイズにもどる', pageLabel:'ページ',
     placeTitle:'わたしのいけ さがし',
     placeIntroTitle:'きみのいけは どこ？',
     placeIntroBody:'いくつか こたえると、ぴったりのおはなしを リビットが さがすよ。まちがいはないから、あんしんしてね！',
@@ -2798,6 +2815,21 @@ function renderQuiz(){
   const nextBtn=state.quizAnswered
     ?`<button class="quiz-next-btn" onclick="advanceQuiz()">${isLastQuestion?t('seeResults'):t('nextQuestion')}</button>`
     :'';
+  // "Look again" overlay — shows all story pages so the child can re-read before answering
+  const peekOverlay=state.showStoryPeek&&story.paragraphs
+    ?`<div class="spk-overlay" role="dialog" aria-label="${t('storyPeekTitle')}">
+        <div class="spk-header">
+          <div class="spk-title">📖 ${t('storyPeekTitle')}</div>
+          <button class="spk-close-btn" onclick="toggleStoryPeek()" aria-label="${t('storyPeekClose')}">${icon('ctrl-close',16)}</button>
+        </div>
+        <div class="spk-pages">
+          ${story.paragraphs.map((pg,i)=>`<div class="spk-page">
+            <div class="spk-page-num">${t('pageLabel')} ${i+1}</div>
+            <div class="spk-page-text" lang="en">${pg}</div>
+          </div>`).join('')}
+        </div>
+      </div>`
+    :'';
 
   return `<div class="screen quiz-screen">
     <div class="quiz-topbar">
@@ -2813,6 +2845,7 @@ function renderQuiz(){
           ${illuImg?'':`<span>${story.emoji||'📖'}</span>`}
           <div class="quiz-illu-title" lang="en">${story.title}</div>
         </div>
+        ${story.paragraphs&&story.paragraphs.length?`<button class="quiz-look-btn" onclick="toggleStoryPeek()">${t('lookAgain')}</button>`:''}
         <div class="quiz-question-wrap">
           <div class="quiz-label">${t('question')} ${state.quizIndex+1} / ${story.quiz.length}</div>
           <div class="quiz-question-row">
@@ -2825,6 +2858,7 @@ function renderQuiz(){
         </div>
       </div>
     </div>
+    ${peekOverlay}
   </div>`;
 }
 
