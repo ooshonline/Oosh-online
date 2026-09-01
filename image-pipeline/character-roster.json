@@ -1,0 +1,46 @@
+{
+ "_readme": [
+  "The recurring cast for the Ribbit Reading App, confirmed with Kyle 2026-08-12.",
+  "Six diverse children, each with a locked physical description. Assign 1-2 per",
+  "sub-level (mirroring the Beginner 4 / Mika pattern) so each batch has a",
+  "consistent, recognizable protagonist, and rotate through the roster across",
+  "sub-levels so a reader who progresses through the app starts recognizing faces.",
+  "",
+  "When writing a story's character-guides.json entry, copy a character's",
+  "'description' field VERBATIM — identical wording across every story they",
+  "appear in is what holds the look together across independent generation calls.",
+  "Clothing is deliberately left out of the locked description (unlike Mika, who",
+  "wore one outfit across one continuous day) so it can vary sensibly per story",
+  "(school uniform, swimwear, winter coat) while face and hair stay the anchor.",
+  "",
+  "Assignment log — which character(s) covered which sub-level:",
+  "  b10 (l1.10s1-5): Priya",
+  "  b10 (l1.10s6-10): Ollie"
+ ],
+ "characters": {
+  "Amara": {
+   "identity": "a cheerful 7-year-old Black British girl",
+   "description": "Round face, warm dark brown skin, big expressive brown eyes, a wide smile with a visible gap between her front teeth. Hair worn in two puffy afro bunches, each with a colourful bobble."
+  },
+  "Kenji": {
+   "identity": "a cheerful 7-year-old Japanese boy",
+   "description": "Round face, light tan skin, short tousled black hair, small round glasses, a gentle easy smile."
+  },
+  "Priya": {
+   "identity": "a cheerful 7-year-old South Asian (Indian) girl",
+   "description": "Warm brown skin, long dark hair worn in a single thick braid over one shoulder, bright dark eyes, a wide cheerful smile."
+  },
+  "Tom": {
+   "identity": "a cheerful 7-year-old white British boy",
+   "description": "Fair skin with light freckles across his nose and cheeks, sandy-blonde messy hair, a big gap-toothed grin."
+  },
+  "Mei": {
+   "identity": "a cheerful 6-year-old East Asian (Chinese) girl",
+   "description": "Pale skin, straight black hair in a neat bob with a blue ribbon clip, round cheeks, a soft smile."
+  },
+  "Ollie": {
+   "identity": "a cheerful 7-year-old mixed-race (South Asian/white) boy",
+   "description": "Light-brown skin, curly brown hair, a gap-toothed grin, light freckles across his nose."
+  }
+ }
+}
