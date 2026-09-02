@@ -4934,8 +4934,8 @@ STORIES[3][0].push({
      feedback:"The story says 'we had no signal.'"},
     {question:"What did the child notice on the uphill path?",options:["A marker stone","The roof of a farm building","A second signpost","A stream leading back"],correct:1,
      feedback:"The story says 'I could see the roof of what looked like a farm building about a kilometre away.'"},
-    {question:"How long did it take to reach the village from the farm?",options:["Twenty minutes","Thirty minutes","Forty minutes","An hour"],correct:2,
-     feedback:"The story says 'It took another forty minutes but we found our way.'"}
+    {question:"What does the way the child solved the problem tell us about them?",options:["They were better at navigating than the adults","They were calm and observant, studying the landscape while the adults argued","They had walked this trail before","They were lucky to notice the farm building"],correct:1,
+     feedback:"The child 'looked at the landscape instead of listening to the argument' — their quiet observation led to the solution."}
   ]
 });
 
@@ -4962,8 +4962,8 @@ STORIES[3][0].push({
     "confirmed":{def:"Proved that something is true or correct.",pos:"verb"}
   },
   quiz:[
-    {question:"What were Kwame and the child investigating?",options:["Which soil made beans grow fastest","Whether light or temperature affected growth","Whether plain water or fertiliser water grew plants faster","How often beans needed to be watered"],correct:2,
-     feedback:"They were investigating 'whether plants grew faster in plain water or in water mixed with a small amount of fertiliser.'"},
+    {question:"Why was Mr. Obasi not disappointed when the experiment went wrong?",options:["He had expected it to fail from the start","A surprising result can be more valuable than a confirming one","They had followed the correct methodology","Failed experiments still count for marks"],correct:1,
+     feedback:"Mr. Obasi said 'a result that surprised you was often more valuable than one that confirmed what you expected' — so an unexpected outcome is scientifically useful."},
     {question:"What happened to the group B plants in week two?",options:["They grew too tall","They stopped growing entirely","Five began to turn yellow","They died completely"],correct:2,
      feedback:"The story says 'five of the six plants in group B were beginning to turn yellow at the edges.'"},
     {question:"What did Mr. Obasi explain had gone wrong?",options:["The windowsill was too cold","They had watered too often","Too much fertiliser damages plants through osmosis","The seeds were old"],correct:2,
@@ -5030,8 +5030,8 @@ STORIES[3][0].push({
     "reverse":{def:"The opposite direction or position.",pos:"noun"}
   },
   quiz:[
-    {question:"Which side were the child and Sasha assigned?",options:["Homework is essential","Homework should be abolished","Homework should be shorter","Homework should be optional"],correct:1,
-     feedback:"The story says they were assigned 'to argue that homework should be abolished.'"},
+    {question:"What did both teams discover after arguing a position they did not personally hold?",options:["Their original opinion had been completely wrong","They began to question their own original position","They found arguing easier than they expected","They wished they had been given the other side"],correct:1,
+     feedback:"Both Leon and the child said that arguing the other side had made them question their own view — showing that genuinely understanding an argument changes how you see it."},
     {question:"What were the child's three arguments against homework?",options:["Time, cost, and stress","Time, mixed evidence, and better outcomes elsewhere","Difficulty, time, and unfairness","Health, sleep, and family"],correct:1,
      feedback:"The three arguments were: 'homework consumed family time, evidence for its benefit was mixed, and countries with less homework often had better educational outcomes.'"},
     {question:"Who judged the debate?",options:["Another class","A head teacher","Miss Nwosu","A panel of students"],correct:2,
