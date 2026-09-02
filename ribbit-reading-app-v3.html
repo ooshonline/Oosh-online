@@ -954,19 +954,214 @@ function badgeProgress(b){
 // flashcard word banks) — completion here means all of a destination's real
 // stories are read, checked via the same state.progress used everywhere else.
 const DESTINATIONS=[
-  {id:'tokyo',     name:'Tokyo',     country:'Japan',     emoji:'🗼', description:'A city of ancient shrines and neon towers, fresh fish markets and bullet trains.', cefr:'A2', storyCount:4, unlockAfter:null},
-  {id:'australia', name:'Australia', country:'Australia', emoji:'🦘', description:'A vast continent of coral reefs, red desert, and cities where the coffee is taken very seriously.', cefr:'A2', storyCount:4, unlockAfter:'tokyo'},
-  {id:'england',   name:'England',   country:'England',   emoji:'🎡', description:'Rolling green hills, red telephone boxes, very strong opinions about tea — and a queue for absolutely everything.', cefr:'A2', storyCount:4, unlockAfter:'australia'},
-  {id:'brazil',    name:'Brazil',    country:'Brazil',    emoji:'🌿', description:'The Amazon, the samba, the churrasco, and the most passionate football culture on Earth.', cefr:'A2', storyCount:4, unlockAfter:'england'},
-  {id:'egypt',     name:'Egypt',     country:'Egypt',     emoji:'🏺', description:'Ancient pyramids, the eternal Nile, a bazaar that has traded for seven centuries.', cefr:'A2', storyCount:4, unlockAfter:'brazil'},
-  {id:'china',     name:'China',     country:'China',     emoji:'🏮', description:"The Great Wall, ancient tea houses, glowing lanterns on New Year's Eve — and the hutong alleyways of Beijing.", cefr:'A2', storyCount:4, unlockAfter:'egypt'},
-  {id:'india',     name:'India',     country:'India',     emoji:'🇮🇳', description:"A country of extraordinary variety — from Holi festivals to Mumbai's lunch-box delivery network.", cefr:'A2', storyCount:4, unlockAfter:'china'},
-  {id:'france',    name:'France',    country:'France',    emoji:'🥐', description:'Lavender fields and cathedral cities, a boulangerie on every corner, and more roundabouts than any other country on Earth.', cefr:'A2', storyCount:4, unlockAfter:'india'},
-  {id:'mexico',    name:'Mexico',    country:'Mexico',    emoji:'🇲🇽', description:'From the pre-dawn chaos of an Oaxacan market to the coloured alleyways of Guanajuato.', cefr:'A2', storyCount:4, unlockAfter:'france'},
-  {id:'kenya',     name:'Kenya',     country:'Kenya',     emoji:'🇰🇪', description:'From mist-covered tea farms in the highlands to the spectacle of the Great Migration at the Maasai Mara.', cefr:'A2', storyCount:4, unlockAfter:'mexico'},
-  {id:'italy',     name:'Italy',     country:'Italy',     emoji:'🇮🇹', description:'From the ancient ruins of Rome to the canals of Venice and the cave cities of the south.', cefr:'A2', storyCount:4, unlockAfter:'kenya'},
-  {id:'peru',      name:'Peru',      country:'Peru',      emoji:'🦙', description:'From the fish markets of Lima to the Inca citadels high in the Andes.', cefr:'A2', storyCount:4, unlockAfter:'italy'},
-  {id:'south-korea', name:'South Korea', country:'South Korea', emoji:'🇰🇷', description:'Street tteokbokki, ancient palaces, mountain temples, and the world\'s most passionate pop music fans.', cefr:'A2', storyCount:4, unlockAfter:'peru'},
+  {id:'tokyo', name:'Tokyo', country:'Japan', emoji:'🗼',
+   description:'A city of ancient shrines and neon towers, fresh fish markets and bullet trains.',
+   cefr:'A2', storyCount:4, unlockAfter:null,
+   facts:[
+     {en:'Tokyo\'s bullet trains travel at up to 320 km/h and arrive within one minute of their scheduled time.', ja:'東京の新幹線は時速最大320kmで走り、定刻の1分以内に到着します。'},
+     {en:'Japan has more vending machines than any other country — about one machine for every 23 people.', ja:'日本は世界一自動販売機が多く、約23人に1台あります。'},
+     {en:'Cherry blossom season lasts only about two weeks each spring, and families picnic under the trees to celebrate.', ja:'桜の季節は毎年春に約2週間だけで、家族が木の下でお花見を楽しみます。'}
+   ],
+   vocab:[
+     {word:'shrine', definition:'A holy place where people go to pray or give thanks.', partOfSpeech:'noun'},
+     {word:'lantern', definition:'A decorative light in a paper or glass frame, used at festivals.', partOfSpeech:'noun'},
+     {word:'temple', definition:'A building where people go to pray or worship.', partOfSpeech:'noun'},
+     {word:'bullet train', definition:'An extremely fast train that can travel across a country in just a few hours.', partOfSpeech:'noun'},
+     {word:'cherry blossom', definition:'The soft pink flowers that bloom on cherry trees in spring.', partOfSpeech:'noun'},
+     {word:'futon', definition:'A thin Japanese mattress that is folded away in the morning.', partOfSpeech:'noun'}
+   ]},
+  {id:'australia', name:'Australia', country:'Australia', emoji:'🦘',
+   description:'A vast continent of coral reefs, red desert, and cities where the coffee is taken very seriously.',
+   cefr:'A2', storyCount:4, unlockAfter:'tokyo',
+   facts:[
+     {en:'Kangaroos cannot walk backwards because their large tail gets in the way.', ja:'カンガルーは大きな尾が邪魔になるため、後ろに歩くことができません。'},
+     {en:'The Great Barrier Reef is the world\'s largest living structure and is home to over 1,500 species of fish.', ja:'グレートバリアリーフは世界最大の生きた構造物で、1,500種以上の魚が住んでいます。'},
+     {en:'Koalas sleep up to 22 hours a day because eucalyptus leaves — their only food — give them very little energy.', ja:'コアラはユーカリの葉しか食べないため栄養が少なく、1日に最大22時間も眠ります。'}
+   ],
+   vocab:[
+     {word:'marsupial', definition:'An animal that carries its young in a pouch on its body, like a kangaroo or koala.', partOfSpeech:'noun'},
+     {word:'reef', definition:'A long ridge of rock or coral near the surface of the sea, full of marine life.', partOfSpeech:'noun'},
+     {word:'outback', definition:'The remote, hot, dry land in the middle of Australia, far from any city.', partOfSpeech:'noun'},
+     {word:'eucalyptus', definition:'A tall tree native to Australia whose oil-rich leaves are the only food koalas eat.', partOfSpeech:'noun'},
+     {word:'boomerang', definition:'A curved piece of wood thrown by Aboriginal Australians that returns to the thrower.', partOfSpeech:'noun'},
+     {word:'didgeridoo', definition:'A long wooden instrument played by Aboriginal Australians that makes a deep, vibrating sound.', partOfSpeech:'noun'}
+   ]},
+  {id:'england', name:'England', country:'England', emoji:'🎡',
+   description:'Rolling green hills, red telephone boxes, very strong opinions about tea — and a queue for absolutely everything.',
+   cefr:'A2', storyCount:4, unlockAfter:'australia',
+   facts:[
+     {en:'London has been a city for over 2,000 years — it was founded by the Romans around 43 AD.', ja:'ロンドンは約2,000年以上前にローマ人によって建設された都市です。'},
+     {en:'The British royal family has lived in Buckingham Palace in London since 1837.', ja:'イギリス王室は1837年からロンドンのバッキンガム宮殿に住んでいます。'},
+     {en:'People in England drink about 60 billion cups of tea every year — more per person than almost any other country.', ja:'イングランドでは毎年約600億杯のお茶が飲まれており、一人当たりの消費量は世界最高水準です。'}
+   ],
+   vocab:[
+     {word:'cathedral', definition:'A very large, important church, usually the main church of a region.', partOfSpeech:'noun'},
+     {word:'cobblestone', definition:'A small, rounded stone used to pave old roads and streets.', partOfSpeech:'noun'},
+     {word:'parliament', definition:'The group of elected people who make the laws for a country.', partOfSpeech:'noun'},
+     {word:'manor', definition:'A large old house in the countryside, usually with farmland around it.', partOfSpeech:'noun'},
+     {word:'queue', definition:'A line of people waiting for something, one behind the other.', partOfSpeech:'noun'},
+     {word:'cricket', definition:'A sport played with a bat and ball, very popular in England and many other countries.', partOfSpeech:'noun'}
+   ]},
+  {id:'brazil', name:'Brazil', country:'Brazil', emoji:'🌿',
+   description:'The Amazon, the samba, the churrasco, and the most passionate football culture on Earth.',
+   cefr:'A2', storyCount:4, unlockAfter:'england',
+   facts:[
+     {en:'Brazil is the largest country in South America and the fifth largest in the whole world.', ja:'ブラジルは南アメリカ最大の国で、世界でも5番目に大きな国です。'},
+     {en:'The Amazon rainforest in Brazil is home to about 10% of all animal species on Earth.', ja:'ブラジルのアマゾン熱帯雨林には、地球上の全動物種の約10%が生息しています。'},
+     {en:'The Carnival of Rio de Janeiro attracts over 2 million people to the streets every day for five days.', ja:'リオのカーニバルは5日間、毎日200万人以上の人が通りに集まる世界最大級のお祭りです。'}
+   ],
+   vocab:[
+     {word:'carnival', definition:'A big, lively street festival with music, dancing, and colourful costumes.', partOfSpeech:'noun'},
+     {word:'samba', definition:'A lively Brazilian dance with a fast, bouncy rhythm.', partOfSpeech:'noun'},
+     {word:'rainforest', definition:'A very thick, wet forest where it rains heavily almost every day.', partOfSpeech:'noun'},
+     {word:'canopy', definition:'The top layer of a rainforest, formed by the highest branches and leaves.', partOfSpeech:'noun'},
+     {word:'piranha', definition:'A small fish with very sharp teeth that lives in South American rivers.', partOfSpeech:'noun'},
+     {word:'hammock', definition:'A hanging bed made of woven fabric or rope, tied between two trees.', partOfSpeech:'noun'}
+   ]},
+  {id:'egypt', name:'Egypt', country:'Egypt', emoji:'🏺',
+   description:'Ancient pyramids, the eternal Nile, a bazaar that has traded for seven centuries.',
+   cefr:'A2', storyCount:4, unlockAfter:'brazil',
+   facts:[
+     {en:'The Great Pyramid of Giza is one of the Seven Wonders of the Ancient World and is over 4,500 years old.', ja:'ギザの大ピラミッドは古代世界の七不思議の一つで、4,500年以上前に建てられました。'},
+     {en:'Ancient Egyptians invented papyrus — one of the world\'s first writing materials — made from river reeds.', ja:'古代エジプト人は川のアシから紙の前身「パピルス」を発明しました。'},
+     {en:'The River Nile flows for over 6,600 kilometres, making it one of the longest rivers in the world.', ja:'ナイル川の全長は6,600km以上で、世界最長クラスの川の一つです。'}
+   ],
+   vocab:[
+     {word:'pyramid', definition:'A large ancient stone structure with a square base and four sloping triangular sides.', partOfSpeech:'noun'},
+     {word:'pharaoh', definition:'The title of the kings of ancient Egypt, who were thought to be gods.', partOfSpeech:'noun'},
+     {word:'hieroglyph', definition:'A picture symbol used as a letter or word in the ancient Egyptian writing system.', partOfSpeech:'noun'},
+     {word:'oasis', definition:'A green area in a desert with water, where plants and animals can survive.', partOfSpeech:'noun'},
+     {word:'mummy', definition:'A dead body preserved by drying, especially those of ancient Egyptian rulers.', partOfSpeech:'noun'},
+     {word:'sphinx', definition:'A famous ancient statue in Egypt with a human head and a lion\'s body.', partOfSpeech:'noun'}
+   ]},
+  {id:'china', name:'China', country:'China', emoji:'🏮',
+   description:"The Great Wall, ancient tea houses, glowing lanterns on New Year's Eve — and the hutong alleyways of Beijing.",
+   cefr:'A2', storyCount:4, unlockAfter:'egypt',
+   facts:[
+     {en:'The Great Wall of China stretches over 21,000 kilometres — long enough to go halfway around the Earth.', ja:'万里の長城は全長21,000km以上で、地球を半周できるほどの長さです。'},
+     {en:'China invented paper, printing, gunpowder, and the compass — four of the most important inventions in history.', ja:'中国は紙・印刷術・火薬・羅針盤を発明し、これらは歴史上最も重要な四大発明と呼ばれています。'},
+     {en:'Chinese New Year is celebrated for 15 days and is the world\'s most widely celebrated new year festival.', ja:'中国の旧正月は15日間お祝いされる、世界で最も広く祝われる新年祭です。'}
+   ],
+   vocab:[
+     {word:'dynasty', definition:'A line of rulers from the same family who rule a country for many years.', partOfSpeech:'noun'},
+     {word:'calligraphy', definition:'The art of beautiful handwriting, using a brush and ink.', partOfSpeech:'noun'},
+     {word:'pagoda', definition:'A tall tower with many levels, found in Asian countries and used as a temple.', partOfSpeech:'noun'},
+     {word:'porcelain', definition:'A hard, white, delicate material used to make fine cups, plates, and decorations.', partOfSpeech:'noun'},
+     {word:'lantern', definition:'A decorative light inside a paper or glass frame, used especially at Chinese New Year.', partOfSpeech:'noun'},
+     {word:'chopsticks', definition:'A pair of thin sticks used to pick up and eat food in many Asian countries.', partOfSpeech:'noun'}
+   ]},
+  {id:'india', name:'India', country:'India', emoji:'🇮🇳',
+   description:"A country of extraordinary variety — from Holi festivals to Mumbai's lunch-box delivery network.",
+   cefr:'A2', storyCount:4, unlockAfter:'china',
+   facts:[
+     {en:'India is home to more than 1,600 different languages, more than any other country in the world.', ja:'インドには世界最多の1,600以上の言語が存在します。'},
+     {en:'Holi, the Festival of Colours, is celebrated in spring when people throw bright coloured powder at each other.', ja:'色彩の祭典「ホーリー」は毎年春に開催され、人々は色とりどりの粉を互いに投げ合います。'},
+     {en:'The lotus flower is the national flower of India and is a symbol of purity, beauty, and good luck.', ja:'蓮はインドの国花で、清純さ・美しさ・幸運の象徴とされています。'}
+   ],
+   vocab:[
+     {word:'sari', definition:'A long piece of cloth worn as a dress by women in India and other South Asian countries.', partOfSpeech:'noun'},
+     {word:'monsoon', definition:'A season of very heavy rain that comes to South Asia every summer.', partOfSpeech:'noun'},
+     {word:'spice', definition:'A plant-based flavouring — such as pepper, ginger, or turmeric — added to food for taste.', partOfSpeech:'noun'},
+     {word:'henna', definition:'A reddish-brown dye used to paint beautiful patterns on the skin for celebrations.', partOfSpeech:'noun'},
+     {word:'bazaar', definition:'A lively market, especially in Asia or the Middle East, with many small shops.', partOfSpeech:'noun'},
+     {word:'rupee', definition:'The unit of money used in India.', partOfSpeech:'noun'}
+   ]},
+  {id:'france', name:'France', country:'France', emoji:'🥐',
+   description:'Lavender fields and cathedral cities, a boulangerie on every corner, and more roundabouts than any other country on Earth.',
+   cefr:'A2', storyCount:4, unlockAfter:'india',
+   facts:[
+     {en:'France is the most visited country in the world, welcoming about 90 million tourists every year.', ja:'フランスは世界で最も多くの観光客が訪れる国で、毎年約9,000万人が訪れます。'},
+     {en:'French bakers produce about 10 billion baguettes every year — that is around 320 every second.', ja:'フランスのパン職人は毎年約100億本のバゲットを焼いており、1秒間に約320本のペースです。'},
+     {en:'The Eiffel Tower grows about 15 centimetres taller in summer because the iron expands in the heat.', ja:'エッフェル塔は夏に鉄が熱で膨張するため、約15cm高くなります。'}
+   ],
+   vocab:[
+     {word:'boulangerie', definition:'A French bakery that specialises in bread, especially the long thin baguette.', partOfSpeech:'noun'},
+     {word:'château', definition:'A large French castle or stately house, often surrounded by vineyards.', partOfSpeech:'noun'},
+     {word:'boulevard', definition:'A wide road in a city, often lined with trees on both sides.', partOfSpeech:'noun'},
+     {word:'croissant', definition:'A flaky, buttery pastry in the shape of a crescent, originally from France.', partOfSpeech:'noun'},
+     {word:'vineyard', definition:'A field where grapes are grown to make wine.', partOfSpeech:'noun'},
+     {word:'café', definition:'A small restaurant where you can buy drinks and light meals.', partOfSpeech:'noun'}
+   ]},
+  {id:'mexico', name:'Mexico', country:'Mexico', emoji:'🇲🇽',
+   description:'From the pre-dawn chaos of an Oaxacan market to the coloured alleyways of Guanajuato.',
+   cefr:'A2', storyCount:4, unlockAfter:'france',
+   facts:[
+     {en:'Mexico was the first country to grow cacao — the Aztec people drank it as a spiced liquid long before chocolate was invented.', ja:'メキシコはカカオを最初に栽培した国で、アステカの人々はチョコレートが発明されるずっと前から香辛料入りの液体として飲んでいました。'},
+     {en:'Día de los Muertos (Day of the Dead) is a festival where families remember and celebrate those who have died.', ja:'「死者の日（ディア・デ・ロス・ムエルトス）」は、家族が亡くなった人を偲び祝うメキシコのお祭りです。'},
+     {en:'Monarch butterflies travel up to 4,000 kilometres from Canada to the forests of central Mexico every autumn.', ja:'オオカバマダラは毎年秋、カナダからメキシコ中部の森まで最大4,000kmを旅します。'}
+   ],
+   vocab:[
+     {word:'fiesta', definition:'A lively celebration with music, dancing, and food, especially in Mexico.', partOfSpeech:'noun'},
+     {word:'mariachi', definition:'A type of traditional Mexican music played by a group in colourful costumes.', partOfSpeech:'noun'},
+     {word:'tortilla', definition:'A thin, flat bread made from corn or wheat flour, used in Mexican cooking.', partOfSpeech:'noun'},
+     {word:'cactus', definition:'A plant with thick, water-storing stems and sharp spines that grows in hot, dry places.', partOfSpeech:'noun'},
+     {word:'volcano', definition:'A mountain with an opening at the top where melted rock from inside the Earth can erupt.', partOfSpeech:'noun'},
+     {word:'monarch', definition:'A type of orange and black butterfly famous for migrating thousands of kilometres.', partOfSpeech:'noun'}
+   ]},
+  {id:'kenya', name:'Kenya', country:'Kenya', emoji:'🇰🇪',
+   description:'From mist-covered tea farms in the highlands to the spectacle of the Great Migration at the Maasai Mara.',
+   cefr:'A2', storyCount:4, unlockAfter:'mexico',
+   facts:[
+     {en:'The Great Migration sees over 1.5 million wildebeest cross the Maasai Mara every year in one of the greatest wildlife spectacles on Earth.', ja:'グレート・マイグレーションでは150万頭以上のヌーが毎年マサイマラを横断し、地球最大の野生動物の移動とされています。'},
+     {en:'Kenya has 47 different ethnic groups, each with their own languages, customs, and traditions.', ja:'ケニアには47の異なる民族がおり、それぞれ独自の言語・習慣・伝統を持っています。'},
+     {en:'Kenya grows some of the world\'s finest tea and coffee on its cool, fertile highlands.', ja:'ケニアは涼しく肥沃な高地で、世界最高品質のお茶とコーヒーを栽培しています。'}
+   ],
+   vocab:[
+     {word:'safari', definition:'A trip through wild countryside to observe animals living in their natural habitat.', partOfSpeech:'noun'},
+     {word:'savannah', definition:'A large, flat area of grassland with scattered trees, found across Africa.', partOfSpeech:'noun'},
+     {word:'migration', definition:'The regular journey that animals make between their summer and winter feeding grounds.', partOfSpeech:'noun'},
+     {word:'cheetah', definition:'The fastest land animal on Earth, which can run at up to 120 km/h in short bursts.', partOfSpeech:'noun'},
+     {word:'wildebeest', definition:'A large African antelope with curved horns that travels in enormous herds.', partOfSpeech:'noun'},
+     {word:'acacia', definition:'A flat-topped tree common on the African savannah, recognisable from wildlife documentaries.', partOfSpeech:'noun'}
+   ]},
+  {id:'italy', name:'Italy', country:'Italy', emoji:'🇮🇹',
+   description:'From the ancient ruins of Rome to the canals of Venice and the cave cities of the south.',
+   cefr:'A2', storyCount:4, unlockAfter:'kenya',
+   facts:[
+     {en:'Italy has more UNESCO World Heritage Sites than any other country in the world.', ja:'イタリアは世界で最も多くのユネスコ世界遺産を持つ国です。'},
+     {en:'Ancient Rome was the most powerful empire in the world for over 500 years, covering most of Europe and North Africa.', ja:'古代ローマは500年以上にわたり世界最強の帝国として、ヨーロッパと北アフリカの大部分を支配しました。'},
+     {en:'Italians are so passionate about pizza that UNESCO added the art of Neapolitan pizza-making to its world cultural heritage list.', ja:'イタリア人のピザへの情熱は本物で、ユネスコがナポリのピッツァ職人の技術を無形文化遺産に登録しました。'}
+   ],
+   vocab:[
+     {word:'piazza', definition:'An open public square in an Italian town or city, where people meet and relax.', partOfSpeech:'noun'},
+     {word:'gondola', definition:'A long, narrow boat used to carry people through the canals of Venice.', partOfSpeech:'noun'},
+     {word:'colosseum', definition:'A large oval arena in ancient Rome where crowds watched gladiator fights and other events.', partOfSpeech:'noun'},
+     {word:'gelato', definition:'Italian ice cream, made with milk and natural flavours — creamier than ordinary ice cream.', partOfSpeech:'noun'},
+     {word:'fresco', definition:'A painting made on a wall or ceiling while the plaster is still wet, so the colour soaks in.', partOfSpeech:'noun'},
+     {word:'aqueduct', definition:'A channel or bridge built to carry water from one place to another over a long distance.', partOfSpeech:'noun'}
+   ]},
+  {id:'peru', name:'Peru', country:'Peru', emoji:'🦙',
+   description:'From the fish markets of Lima to the Inca citadels high in the Andes.',
+   cefr:'A2', storyCount:4, unlockAfter:'italy',
+   facts:[
+     {en:'Machu Picchu, the ancient Inca city, was built 2,430 metres above sea level in the Andes mountains.', ja:'古代インカの都市マチュピチュは、アンデス山脈の標高2,430mに建設されました。'},
+     {en:'The potato was first grown in Peru about 8,000 years ago, before spreading to the rest of the world.', ja:'ジャガイモは約8,000年前にペルーで初めて栽培され、その後世界中に広まりました。'},
+     {en:'The Inca Empire was the largest empire in the Americas before European explorers arrived in the 1500s.', ja:'インカ帝国は1500年代にヨーロッパ人が到来する以前、アメリカ大陸で最大の帝国でした。'}
+   ],
+   vocab:[
+     {word:'llama', definition:'A large South American animal with a long neck, related to the camel, used to carry loads.', partOfSpeech:'noun'},
+     {word:'citadel', definition:'A strong fortress built on high ground to protect a city or community.', partOfSpeech:'noun'},
+     {word:'altitude', definition:'The height of a place above sea level.', partOfSpeech:'noun'},
+     {word:'terrace', definition:'A flat area cut into a hillside like a step, used for growing crops on steep slopes.', partOfSpeech:'noun'},
+     {word:'quinoa', definition:'A grain from the Andes mountains, eaten for thousands of years and very high in protein.', partOfSpeech:'noun'},
+     {word:'condor', definition:'A very large bird of prey with black feathers and a bald head that soars over the Andes.', partOfSpeech:'noun'}
+   ]},
+  {id:'south-korea', name:'South Korea', country:'South Korea', emoji:'🇰🇷',
+   description:'Street tteokbokki, ancient palaces, mountain temples, and the world\'s most passionate pop music fans.',
+   cefr:'A2', storyCount:4, unlockAfter:'peru',
+   facts:[
+     {en:'South Korea consistently has the fastest average internet speed in the world.', ja:'韓国は常に世界最速クラスのインターネット速度を誇っています。'},
+     {en:'Kimchi — fermented vegetables with spices — is eaten at almost every meal, and there are over 200 types.', ja:'キムチは発酵野菜の辛い漬物で、ほぼ毎食食べられており、200種類以上あります。'},
+     {en:'Chuseok is a major Korean harvest festival celebrated in autumn when families visit ancestors and share traditional food.', ja:'チュソクは秋の収穫祭で、家族が先祖の墓を訪れ、伝統料理を分かち合う韓国の重要な祝日です。'}
+   ],
+   vocab:[
+     {word:'hanbok', definition:'The traditional Korean costume — a colourful long skirt and jacket worn at celebrations.', partOfSpeech:'noun'},
+     {word:'kimchi', definition:'A traditional Korean side dish of fermented, spicy vegetables, usually cabbage.', partOfSpeech:'noun'},
+     {word:'tteokbokki', definition:'A popular Korean street food of chewy rice cakes cooked in a spicy red sauce.', partOfSpeech:'noun'},
+     {word:'ondol', definition:'A traditional Korean underfloor heating system that warms a room from below.', partOfSpeech:'noun'},
+     {word:'palace', definition:'A large, grand building where a king, queen, or other ruler lives or lived.', partOfSpeech:'noun'},
+     {word:'hanji', definition:'Traditional Korean paper made from mulberry bark, used for writing and crafts.', partOfSpeech:'noun'}
+   ]},
 ];
 function destStories(destId){ return (typeof JOURNEY_STORIES!=='undefined'&&JOURNEY_STORIES[destId])||[]; }
 function destDoneCount(destId){ return destStories(destId).filter(s=>storyDone(s.id)).length; }
