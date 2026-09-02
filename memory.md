@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 3`
+`contentSubpillarRun: 4`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **RUN next session** (counter = 3, now ODD).
+Next subpillar: **SKIP next session** (counter = 4, now EVEN).
 
 ---
 
@@ -59,6 +59,7 @@ Next subpillar: **RUN next session** (counter = 3, now ODD).
 - ✅ Functionality (2026-08-28, automated) — F1 **DEPLOYED LIVE** (commit `2882587`)
 - ✅ UI (2026-08-31, automated) — U1 Night theme **DEPLOYED LIVE** (commit `0c7204a`)
 - ✅ UX (2026-09-01, automated) — X5 "Look Again" quiz peek **DEPLOYED LIVE** (commit `4ed2655`)
+- ✅ Content (2026-09-02, automated) — C5 World Journey culture data **DEPLOYED LIVE** (commit `d178bbb`, build 20260902)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -85,6 +86,39 @@ Next subpillar: **RUN next session** (counter = 3, now ODD).
 ---
 
 ## Session Log
+
+### 2026-09-02 — Content Pillar + Content Subpillar (~55 min, automated) — Cycle 8
+
+**Pillar: Content** — Cycle 8.
+**Content subpillar: FIRED** (counter was 3 = odd; incremented to 4).
+
+**Commits `d178bbb`, `9131b4a`, `d532f6b` — DEPLOYED LIVE (build 20260902).**
+
+- **content: C5 — World Journey culture data (commit `d178bbb`)**
+  - Added `facts` (3 items, en + ja) and `vocab` (6 words) to every DESTINATIONS entry.
+  - Covers all 13 destinations: Tokyo, Australia, England, Brazil, Egypt, China, India,
+    France, Mexico, Kenya, Italy, Peru, South Korea.
+  - Facts are child-appropriate, factually accurate, A2-level English with accurate Japanese.
+  - Vocab uses the same `{word, definition, partOfSpeech}` shape as story vocabulary.
+  - This data directly feeds the F6 destination-detail screen (stranded in F-backlog; ready to wire).
+  - JS verified: 13/13 destinations, 3 facts + 6 vocab each, browser-confirmed in live JS.
+
+- **Content Subpillar: Option E — quiz question polish for L3.1 (commit `9131b4a`)**
+  - Improved 3 of 5 L3.1 quiz questions — replaced trivial literal-recall items with inference
+    and evaluation questions:
+    - l3.1s1: Q4 now asks what child's approach reveals about their character vs. "how long did it take?"
+    - l3.1s2: Q1 now asks why Mr. Obasi wasn't disappointed vs. "what were they investigating?"
+    - l3.1s4: Q1 now asks what both teams discovered about arguing the other side vs. "which side?"
+
+- **Golden path verified:** landing → home → library → reader → quiz → celebration — all screens
+  clean. Quiz interaction (wrong answer feedback, correct selection, celebration) confirmed working.
+  Zero console errors throughout. Live build confirmed (build 20260902, "bullet trains travel" from
+  Tokyo facts present in served file).
+
+**Cycle 8 next pillar: Gamification.**
+**Content subpillar counter incremented to 4 (even) — skips next session.**
+
+---
 
 ### 2026-09-01 — UX Pillar (~45 min, automated) — Cycle 8
 

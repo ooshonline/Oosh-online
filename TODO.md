@@ -59,7 +59,7 @@ off here as they ship, and add the commit hash.
   LIVE (v=20260727).
 
 **F1–F5 all shipped. Replenishment ideas (F6–F8):**
-- [ ] **F6 · World Journey destination-detail screen.** Destinations currently open to a story list only. Build a detail screen with: flag + name, a short `facts` blurb (from C5 content), a `vocab` list of ~6 culture words (tap to hear + save to deck), and the story list below. Wire it to the existing `openDestination()` path. Depends on C5 content being authored first.
+- [ ] **F6 · World Journey destination-detail screen.** Destinations currently open to a story list only. Build a detail screen with: flag + name, a short `facts` blurb (from C5 content), a `vocab` list of ~6 culture words (tap to hear + save to deck), and the story list below. Wire it to the existing `openDestination()` path. **C5 content now complete (2026-09-02) — this feature is unblocked.**
 - [ ] **F7 · "Read Later" bookmark.** A bookmark icon on every story modal adds the story to `state.readLater[]` (persisted `rbt_readlater`). A "Saved" section on the Library screen (collapsible, shown only when non-empty) lists bookmarked stories. Tapping opens the modal as normal. Icon toggles to filled when saved. En + ja.
 - [ ] **F8 · Daily story recommendation.** On the home screen, below the journey track, show one auto-selected recommended story: lowest sub-level not yet started in the learner's current level, or a random unread story from the next level if fully done. Shows story card with blurb and "Read it →" button. Deterministic per day (seeded by date) so it stays stable across renders. En + ja label "Today's pick" / "今日のおすすめ".
 
@@ -103,9 +103,7 @@ off here as they ship, and add the commit hash.
 - [ ] **C4 · Decodable phonics set at Level 1.** Absolute beginners currently get sight-word exposure,
   not systematic decoding. Add short-vowel word-family stories (-at, -ig, -op, -en, -ug) so a child
   can actually sound them out.
-- [ ] **C5 · World Journey culture data.** Author `facts` (3 per destination, en + ja) and `vocab`
-  (~6 words) for all 13 destinations — this is the missing content half of the stranded
-  destination-detail feature listed under Functionality below.
+- [x] **C5 · World Journey culture data — SHIPPED 2026-09-02 (commit `d178bbb`).** Added `facts` (3 items, en + ja) and `vocab` (6 words) to all 13 DESTINATIONS entries. Data feeds the F6 destination-detail screen whenever that ships.
 
 ### Monetisation — ideas (added 2026-08-04)
 
