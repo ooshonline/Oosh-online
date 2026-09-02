@@ -4133,7 +4133,8 @@ STORIES[2][6].push({
      feedback:"The story says 'I could hand it in to the police station two streets away.'"},
     {question:"What arrived at the child's house six weeks later?",options:["The wallet returned","Some money","A thank-you card from D. Osei","A letter from the police"],correct:2,
      feedback:"The story says 'a card arrived at my house from D. Osei, thanking me.'"}
-  ]
+  ],
+  images:['images/e7/e7_the_lost_wallet_1.webp','images/e7/e7_the_lost_wallet_2.webp','images/e7/e7_the_lost_wallet_3.webp','images/e7/e7_the_lost_wallet_4.webp']
 });
 STORIES[2][6].push({
   id:"l2.7s4", levelId:2, subLevel:6,
@@ -4643,7 +4644,8 @@ STORIES[2][8].push({
     { question:"What did she find written on a very old piece of soft paper?", options:["A birthday message","His favourite poem","His recipe for winter soup","A letter he never sent"], correct:2, feedback:"She found his recipe for the soup he made every winter, in his own words." },
     { question:"What was her grandfather's voicemail about?", options:["He wanted to say goodbye","He was calling about a family event","He had found a book for her and was posting it","He wanted to arrange a visit"], correct:2, feedback:"He was calling to say he had found a book she might like and was posting it." },
     { question:"What did Sana understand at the end of the story?", options:["That photographs are more important than memories","That grief is about learning to treasure what remained","That she should have spent more time with him","That voicemails should always be saved"], correct:1, feedback:"Sana understood that grief is not just about what is missing, but about treasuring what remains." }
-  ]
+  ],
+  images:['images/e9/e9_the_photograph_taken_too_late_1.webp','images/e9/e9_the_photograph_taken_too_late_2.webp','images/e9/e9_the_photograph_taken_too_late_3.webp']
 });
 
 // E9·4 — The Argument
@@ -4785,7 +4787,8 @@ STORIES[2][9].push({
      feedback:"The story says 'We wrote to each other every two weeks.'"},
     {question:"What did Elif say about silent letters in English?",options:["They are interesting","They are useful once you know them","They are an act of aggression","They make reading easier"],correct:2,
      feedback:"Elif said she found silent letters in English 'an act of aggression.'"}
-  ]
+  ],
+  images:['images/e10/e10_the_language_exchange_1.webp','images/e10/e10_the_language_exchange_2.webp','images/e10/e10_the_language_exchange_3.webp','images/e10/e10_the_language_exchange_4.webp','images/e10/e10_the_language_exchange_5.webp']
 });
 
 // E10·3 — The Hospital Visit
@@ -4889,7 +4892,8 @@ STORIES[2][9].push({
      feedback:"The story says 'I knocked on Mrs. Vasiliou's door with a small tin of biscuits Mum had baked.'"},
     {question:"What was the piece Mrs. Vasiliou had been playing?",options:["A Bach prelude","A Mozart sonata","A Chopin nocturne","A Beethoven bagatelle"],correct:2,
      feedback:"Mrs. Vasiliou said 'It was a Chopin nocturne — a piece written for the evening.'"}
-  ]
+  ],
+  images:['images/e10/e10_the_note_on_the_piano_1.webp','images/e10/e10_the_note_on_the_piano_2.webp','images/e10/e10_the_note_on_the_piano_3.webp','images/e10/e10_the_note_on_the_piano_4.webp','images/e10/e10_the_note_on_the_piano_5.webp']
 });
 
 // ════════════════════════════════════════════
@@ -5974,7 +5978,8 @@ STORIES[3][6].push({
      feedback:"'The light from Saturn takes approximately 1.3 hours to reach us.'"},
     {question:"What thought occurred to the narrator when looking at a distant star afterwards?",options:["The star might not be real","The telescope was not powerful enough","This is the past — they were seeing old light","Stars look very different up close"],correct:2,
      feedback:"'I looked at a star through the telescope afterwards and thought: this is the past.'"}
-  ]
+  ],
+  images:['images/p7/p7_the_observatory_1.webp','images/p7/p7_the_observatory_2.webp','images/p7/p7_the_observatory_3.webp','images/p7/p7_the_observatory_4.webp','images/p7/p7_the_observatory_5.webp']
 });
 
 STORIES[3][6].push({
@@ -6040,7 +6045,8 @@ STORIES[3][6].push({
      feedback:"'The electronics volunteer opened it and found that a single capacitor had failed.'"},
     {question:"How much did the replacement part for the blender cost?",options:["About fifteen pence","About five pounds","About fifty pence","Nothing — it was donated"],correct:0,
      feedback:"'The replacement cost roughly fifteen pence.'"}
-  ]
+  ],
+  images:['images/p7/p7_the_repair_caf_1.webp','images/p7/p7_the_repair_caf_2.webp','images/p7/p7_the_repair_caf_3.webp','images/p7/p7_the_repair_caf_4.webp','images/p7/p7_the_repair_caf_5.webp']
 });
 
 STORIES[3][6].push({
@@ -6073,7 +6079,8 @@ STORIES[3][6].push({
      feedback:"'A rhubarb crown that old was worth more than anything we could plant.'"},
     {question:"How did the rhubarb taste when they finally harvested it?",options:["Too bitter after years without care","Reasonable but needed sweetening","The best rhubarb any of them had ever tasted","They were unsure — it was their first time eating rhubarb"],correct:2,
      feedback:"'Nine years of neglect, and it was the best rhubarb any of us had ever tasted.'"}
-  ]
+  ],
+  images:['images/p7/p7_the_last_allotment_plot_1.webp','images/p7/p7_the_last_allotment_plot_2.webp','images/p7/p7_the_last_allotment_plot_3.webp','images/p7/p7_the_last_allotment_plot_4.webp','images/p7/p7_the_last_allotment_plot_5.webp']
 });
 
 STORIES[3][6].push({
@@ -6106,7 +6113,8 @@ STORIES[3][6].push({
      feedback:"'Force 9, which is severe — the kind of conditions where waves can be nine metres high.'"},
     {question:"What does the narrator find moving about the keepers' way of recording?",options:["The beautiful handwriting","That they worked so long without seeing other people","Doing something important carefully, without performing the emotion of it","The fact that the logbooks survived so long"],correct:2,
      feedback:"'Doing something important, carefully, without being asked to perform the emotion of it.'"}
-  ]
+  ],
+  images:['images/p7/p7_the_lighthouse_keepers_logbook_1.webp','images/p7/p7_the_lighthouse_keepers_logbook_2.webp','images/p7/p7_the_lighthouse_keepers_logbook_3.webp','images/p7/p7_the_lighthouse_keepers_logbook_4.webp','images/p7/p7_the_lighthouse_keepers_logbook_5.webp']
 });
 
 // ── Level 3 · Sub-level 8 (PI8) ──────────────────────────────────────────────
@@ -6175,7 +6183,8 @@ STORIES[3][7].push({
      feedback:"'A specific flatness around the eyes that I recognised from other mornings.'"},
     {question:"What does the narrator say about overnight work at the end?",options:["They think night work should be better paid","Most of it stays invisible, which is partly what makes it work","More people should try working at night","Night shifts are only necessary in hospitals"],correct:1,
      feedback:"'Most of it stays invisible, which is partly what makes it work.'"}
-  ]
+  ],
+  images:['images/p8/p8_the_night_shift_1.webp','images/p8/p8_the_night_shift_2.webp','images/p8/p8_the_night_shift_3.webp','images/p8/p8_the_night_shift_4.webp','images/p8/p8_the_night_shift_5.webp']
 });
 
 STORIES[3][7].push({
@@ -6208,7 +6217,8 @@ STORIES[3][7].push({
      feedback:"'Stonefly larvae cannot survive in water above a certain pollution threshold. Finding them in good numbers means the water is clean.'"},
     {question:"What could data from one volunteer group's survey potentially do?",options:["Replace professional monitoring","Allow the group to manage the land directly","Trigger an investigation that changed how nearby land was managed","Prove the river was safe for swimming"],correct:2,
      feedback:"'One day's data from one volunteer group could trigger an investigation that changed how land nearby was managed.'"}
-  ]
+  ],
+  images:['images/p8/p8_what_the_river_knows_1.webp','images/p8/p8_what_the_river_knows_2.webp','images/p8/p8_what_the_river_knows_3.webp','images/p8/p8_what_the_river_knows_4.webp','images/p8/p8_what_the_river_knows_5.webp']
 });
 
 STORIES[3][7].push({
@@ -6241,7 +6251,8 @@ STORIES[3][7].push({
      feedback:"'Two schools sharing one building, using it in shifts.'"},
     {question:"What did the teacher say in her note at the end of the project?",options:["Only that the word count was too long","That the research was poor","That the word count was too long, but also that the St Columba's discovery was genuinely interesting","That the narrator should visit the archive again"],correct:2,
      feedback:"She noted the brief was not followed, but added 'the discovery about St Columba's was genuinely interesting.'"}
-  ]
+  ],
+  images:['images/p8/p8_the_archive_1.webp','images/p8/p8_the_archive_2.webp','images/p8/p8_the_archive_3.webp','images/p8/p8_the_archive_4.webp','images/p8/p8_the_archive_5.webp']
 });
 
 STORIES[3][7].push({
@@ -6310,7 +6321,8 @@ STORIES[3][8].push({
      feedback:"'Exercising that right unilaterally would have damaged the relationship.'"},
     {question:"What is the narrator's conclusion about property disputes?",options:["They are mostly about money","The territory involved is small, but something else is being argued about","Privacy is always more important than light","Planning rules should cover these situations"],correct:1,
      feedback:"'The territory involved is always very small, but something else is being argued about.'"}
-  ]
+  ],
+  images:['images/p9/p9_the_disputed_fence_1.webp','images/p9/p9_the_disputed_fence_2.webp','images/p9/p9_the_disputed_fence_3.webp','images/p9/p9_the_disputed_fence_4.webp','images/p9/p9_the_disputed_fence_5.webp']
 });
 
 STORIES[3][8].push({
@@ -6343,7 +6355,8 @@ STORIES[3][8].push({
      feedback:"'A cold front moving south across Norway and Sweden at night pushes migrants ahead of it.'"},
     {question:"How does the narrator describe the decline in fall counts since the 1980s?",options:["The coordinator pointed it out directly","The narrator calculated it from memory","The numbers were in the database — the coordinator did not make a point of saying it","The trust published an annual report about it"],correct:2,
      feedback:"'The coordinator did not make a point of saying this. The numbers were in the database. You could look them up.'"}
-  ]
+  ],
+  images:['images/p9/p9_the_migration_count_1.webp','images/p9/p9_the_migration_count_2.webp','images/p9/p9_the_migration_count_3.webp','images/p9/p9_the_migration_count_4.webp','images/p9/p9_the_migration_count_5.webp']
 });
 
 STORIES[3][8].push({
@@ -6376,7 +6389,8 @@ STORIES[3][8].push({
      feedback:"'It showed a street scene in what appeared to be the 1930s: figures, vehicles, a market stall.'"},
     {question:"What was left unfinished when Asha's four weeks ended?",options:["The condition report","About two thirds of the mural, still under covering paint","Finding the artist's name","Treating the damp that had caused the original flaking"],correct:1,
      feedback:"'After four weeks, she had uncovered about a third of the mural' — so two thirds remained covered."}
-  ]
+  ],
+  images:['images/p9/p9_the_restoration_project_1.webp','images/p9/p9_the_restoration_project_2.webp','images/p9/p9_the_restoration_project_3.webp','images/p9/p9_the_restoration_project_4.webp','images/p9/p9_the_restoration_project_5.webp']
 });
 
 STORIES[3][8].push({
@@ -6442,7 +6456,8 @@ STORIES[3][8].push({
      feedback:"'A mistake... changed the meaning of a sentence about their mother from a memory to a criticism.'"},
     {question:"What does the narrator say at the end about precision?",options:["Precision is essential in translation","Some things are more important than precision","Precision improves with practice","The grandmother values precision above all else"],correct:1,
      feedback:"'Some things are more important than precision.'"}
-  ]
+  ],
+  images:['images/p9/p9_the_translation_1.webp','images/p9/p9_the_translation_2.webp','images/p9/p9_the_translation_3.webp','images/p9/p9_the_translation_4.webp','images/p9/p9_the_translation_5.webp']
 });
 
 // ── Level 3 · Sub-level 10 (PI10) ────────────────────────────────────────────
@@ -6478,7 +6493,8 @@ STORIES[3][9].push({
      feedback:"'A valuer came, looked at the back of the canvas, and named a figure that made my aunt sit down.'"},
     {question:"What did the aunt say after the clearance?",options:["She regretted giving so much away","She said it was lighter","She wished she had kept the painting","She was unsure about the new flat"],correct:1,
      feedback:"'She said it was lighter, after.'"}
-  ]
+  ],
+  images:['images/p10/p10_the_inventory_1.webp','images/p10/p10_the_inventory_2.webp','images/p10/p10_the_inventory_3.webp','images/p10/p10_the_inventory_4.webp','images/p10/p10_the_inventory_5.webp']
 });
 
 STORIES[3][9].push({
@@ -6511,7 +6527,8 @@ STORIES[3][9].push({
      feedback:"'Most reliably when the new information is plausible and presented by someone who appears authoritative.'"},
     {question:"What conclusion does the narrator draw at the end?",options:["They will trust their memory less and verify more","They are considerably more cautious about anything they feel certain about","Memory experiments are unreliable themselves","They would not participate in studies again"],correct:1,
      feedback:"'I am now considerably more cautious about anything I feel certain about.'"}
-  ]
+  ],
+  images:['images/p10/p10_the_memory_test_1.webp','images/p10/p10_the_memory_test_2.webp','images/p10/p10_the_memory_test_3.webp','images/p10/p10_the_memory_test_4.webp','images/p10/p10_the_memory_test_5.webp']
 });
 
 STORIES[3][9].push({
@@ -6544,7 +6561,8 @@ STORIES[3][9].push({
      feedback:"'Two of them became insolvent.'"},
     {question:"What does the narrator say about the computer-generated image on the hoarding?",options:["It is an accurate representation of the future building","It no longer matches the current design","It shows people frozen mid-stride in a forecourt that is still a construction site","It has been replaced three times over twelve years"],correct:2,
      feedback:"'The people with coffee cups are frozen mid-stride, permanently about to walk past a forecourt that is still a construction site.'"}
-  ]
+  ],
+  images:['images/p10/p10_the_unfinished_building_1.webp','images/p10/p10_the_unfinished_building_2.webp','images/p10/p10_the_unfinished_building_3.webp','images/p10/p10_the_unfinished_building_4.webp','images/p10/p10_the_unfinished_building_5.webp']
 });
 
 STORIES[3][9].push({
@@ -6577,7 +6595,8 @@ STORIES[3][9].push({
      feedback:"'The grade boundaries had shifted slightly... I spent thirty minutes online working out whether I had what was needed.'"},
     {question:"Why did the narrator keep the results slip?",options:["For a future application","It was a legal requirement","They could not say exactly why — it seemed worth keeping","Their mother asked them to"],correct:2,
      feedback:"'I do not know entirely why. It is in the drawer with the other things that seemed, at the time, worth keeping.'"}
-  ]
+  ],
+  images:['images/p10/p10_the_exam_result_1.webp','images/p10/p10_the_exam_result_2.webp','images/p10/p10_the_exam_result_3.webp','images/p10/p10_the_exam_result_4.webp','images/p10/p10_the_exam_result_5.webp']
 });
 
 STORIES[3][9].push({
@@ -6610,7 +6629,8 @@ STORIES[3][9].push({
      feedback:"'Ordinary days that were particularly themselves... saturated with a quality of being fully present.'"},
     {question:"What is the narrator's conclusion about creating more such days?",options:["Plan more special activities","You cannot engineer them, but paying attention more often increases the likelihood","Write about each day in a journal","Spend more time outside"],correct:1,
      feedback:"'You can perhaps increase the likelihood by paying attention more often.'"}
-  ]
+  ],
+  images:['images/p10/p10_everything_ordinary_1.webp','images/p10/p10_everything_ordinary_2.webp','images/p10/p10_everything_ordinary_3.webp','images/p10/p10_everything_ordinary_4.webp','images/p10/p10_everything_ordinary_5.webp']
 });
 
 // ════════════════════════════════════════════
@@ -6677,7 +6697,8 @@ STORIES[4][0].push({
      feedback:"'One morning, Lily found three small cubs playing in the garden.'"},
     {question:"What did Lily do after watching the cubs?",options:["Told her parents to call animal control","Wrote about them in her nature notebook","Put food out for them","Took photographs"],correct:1,
      feedback:"'That evening, she wrote about the cubs in her nature notebook with careful detail.'"}
-  ]
+  ],
+  images:['images/i1/i1_the_fox_in_the_garden_1.webp','images/i1/i1_the_fox_in_the_garden_2.webp','images/i1/i1_the_fox_in_the_garden_3.webp']
 });
 
 STORIES[4][0].push({
@@ -6707,7 +6728,8 @@ STORIES[4][0].push({
      feedback:"Recipes from neighbours and family members carry the stories and memories of people's lives."},
     {question:"What did Theo think the recipe box really was?",options:["A collection of cooking instructions","A map of his family's life","A gift for the future","A school project idea"],correct:1,
      feedback:"'Theo understood that the recipe box was not just about food. It was a map of his family's life.'"}
-  ]
+  ],
+  images:['images/i1/i1_grandmas_recipe_box_1.webp','images/i1/i1_grandmas_recipe_box_2.webp','images/i1/i1_grandmas_recipe_box_3.webp']
 });
 
 STORIES[4][0].push({
@@ -6737,7 +6759,8 @@ STORIES[4][0].push({
      feedback:"'Good pacing in the second half. You didn't give up speed early.'"},
     {question:"What was Priya's result at the regional trials?",options:["First place","Seventh out of forty-two","She did not attend","She came last again"],correct:1,
      feedback:"'She finished seventh out of forty-two runners.'"}
-  ]
+  ],
+  images:['images/i1/i1_the_long_distance_runner_1.webp','images/i1/i1_the_long_distance_runner_2.webp','images/i1/i1_the_long_distance_runner_3.webp']
 });
 
 STORIES[4][0].push({
