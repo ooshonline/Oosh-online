@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 4`
+`contentSubpillarRun: 5`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **SKIP next session** (counter = 4, now EVEN).
+Next subpillar: **FIRES next session** (counter = 5, now ODD).
 
 ---
 
@@ -60,6 +60,7 @@ Next subpillar: **SKIP next session** (counter = 4, now EVEN).
 - ✅ UI (2026-08-31, automated) — U1 Night theme **DEPLOYED LIVE** (commit `0c7204a`)
 - ✅ UX (2026-09-01, automated) — X5 "Look Again" quiz peek **DEPLOYED LIVE** (commit `4ed2655`)
 - ✅ Content (2026-09-02, automated) — C5 World Journey culture data **DEPLOYED LIVE** (commit `d178bbb`, build 20260902)
+- ✅ Gamification (2026-09-03, automated) — G9 vocabulary milestone toasts **DEPLOYED LIVE** (commit `35820e4`, build 20260903)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -86,6 +87,28 @@ Next subpillar: **SKIP next session** (counter = 4, now EVEN).
 ---
 
 ## Session Log
+
+### 2026-09-03 — Gamification Pillar (~35 min, automated) — Cycle 8
+
+**Pillar: Gamification** — Cycle 8.
+**Content subpillar: SKIPPED** (counter was 4 = even; incremented to 5).
+
+**Commits `35820e4`, `e9176f6` — DEPLOYED LIVE (build 20260903).**
+
+- **feature: G9 — vocabulary milestone toasts at 10/25/50/100 words**
+  - `VOCAB_MILESTONES=[10,25,50,100]` constant + `checkVocabMilestone(oldCount,newCount)` helper.
+  - Fires when word count crosses a milestone in `addWordToDeck()` or `saveAllTappedWords()`.
+  - Awards +20 XP and shows a bilingual toast at each milestone (600ms delay, matching existing pattern).
+  - 2 new `UI_STRINGS` keys in en + ja: `vocabMilestone(n)`.
+  - Existing vocabulary badges (5/25/50 words) give deferred Rewards-screen recognition; the toast gives immediate in-context feedback — complementary reward loop, not redundant.
+  - G9 chosen because G1 (XP shop) is too large for one session; G9 is new, achievable, and uses existing infrastructure (`awardXP`, `showToast`, `state.flashCards`).
+  - Verified: VOCAB_MILESTONES constant + function present; en/ja strings correct; XP +20 awarded when 10th word saved; toast text confirmed ("📚 10 words saved! You're building your vocabulary! 🐸"); all 6 main screens navigate without errors; zero console errors; live confirmed.
+  - G10/G11 replenishment ideas added to TODO.md Gamification backlog.
+
+**Cycle 8 next pillar: Monetisation.**
+**Content subpillar fires next session** (counter = 5, odd).
+
+---
 
 ### 2026-09-02 — Content Pillar + Content Subpillar (~55 min, automated) — Cycle 8
 
