@@ -1730,6 +1730,11 @@ const STREAK_MILESTONES=[7,14,30];
 function checkStreakMilestone(n){
   if(STREAK_MILESTONES.includes(n)) setTimeout(()=>showToast(t('streakMilestone',n)),1800);
 }
+const VOCAB_MILESTONES=[10,25,50,100];
+function checkVocabMilestone(oldCount,newCount){
+  const hit=VOCAB_MILESTONES.find(m=>m>oldCount&&m<=newCount);
+  if(hit){ awardXP(20); setTimeout(()=>showToast(t('vocabMilestone',hit)),600); }
+}
 function updateStreak(){
   const today=new Date().toDateString();
   const yesterday=new Date(Date.now()-86400000).toDateString();
@@ -1835,6 +1840,7 @@ function showWordPopup(word){
 }
 function closeWordPopup(){ state.wordPopup=null; render(); }
 function addWordToDeck(word){
+  const oldCount=Object.keys(state.flashCards).length;
   const story=findStory(state.lastStoryId);
   const vocab=story&&story.vocabulary&&story.vocabulary[word];
   const ja=typeof JA_TRANSLATIONS!=='undefined'?JA_TRANSLATIONS[word]:null;
@@ -1842,6 +1848,7 @@ function addWordToDeck(word){
     def: vocab?vocab.def:'', pos: vocab?vocab.pos:'',
     translation: ja?ja.w:null, translationDef: ja?ja.d:null,
   };
+  checkVocabMilestone(oldCount,Object.keys(state.flashCards).length);
   save();
   render();
 }
@@ -1862,6 +1869,7 @@ function undoWordDelete(){
   showToast(t('wordRestored'));
 }
 function saveAllTappedWords(){
+  const oldCount=Object.keys(state.flashCards).length;
   const story=findStory(state.lastStoryId);
   const vocab=story&&story.vocabulary||{};
   let added=0;
@@ -1872,7 +1880,7 @@ function saveAllTappedWords(){
     state.flashCards[word]={def:v?v.def:'', pos:v?v.pos:'', translation:ja?ja.w:null, translationDef:ja?ja.d:null};
     added++;
   });
-  if(added>0){ save(); showToast(t('tappedSaveAll',added)); render(); }
+  if(added>0){ checkVocabMilestone(oldCount,Object.keys(state.flashCards).length); save(); showToast(t('tappedSaveAll',added)); render(); }
 }
 function levelDoneCount(lv){ let c=0; for(let sl=0;sl<10;sl++) if(subLevelDone(lv,sl)) c++; return c; }
 function backFromCelebration(){
@@ -2463,6 +2471,7 @@ const UI_STRINGS = {
     loginBonus:(xp)=>`☀️ Welcome back! Daily bonus +${xp} XP!`,
     loginBonusStreak:(days,xp)=>`🔥 ${days}-day streak! Bonus +${xp} XP!`,
     streakMilestone:(days)=>`🔥 ${days}-day streak! Amazing work! 🐸`,
+    vocabMilestone:(n)=>`📚 ${n} words saved! You're building your vocabulary! 🐸`,
     destStamped:(name)=>`🪪 ${name} passport stamped! +200 XP`,
     comboLabel:'COMBO!', correctLabel:'CORRECT!', wrongLabel:'WRONG!',
     comboStreakLine:(n)=>`${n} in a row!`,
@@ -2598,6 +2607,7 @@ const UI_STRINGS = {
     loginBonus:(xp)=>`☀️ おかえり！デイリーボーナス +${xp} XP！`,
     loginBonusStreak:(days,xp)=>`🔥 ${days}日連続！ボーナス +${xp} XP！`,
     streakMilestone:(days)=>`🔥 ${days}日連続達成！すごい！🐸`,
+    vocabMilestone:(n)=>`📚 ${n}語保存した！どんどん語彙が増えてるよ！🐸`,
     destStamped:(name)=>`🪪 ${name}のパスポートにスタンプ！ +200 XP`,
     comboLabel:'コンボ！', correctLabel:'せいかい！', wrongLabel:'ざんねん！',
     comboStreakLine:(n)=>`${n}連続！`,
