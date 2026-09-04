@@ -5609,6 +5609,37 @@ STORIES[3][3].push({
   ]
 });
 
+STORIES[3][3].push({
+  id:"l3.4s6", levelId:3, subLevel:3,
+  title:"The Mangrove Forest", emoji:"🌿", genre:"Nature / Science",
+  wordCount:291, readMins:3,
+  blurb:"A boat trip through a mangrove forest reveals how extraordinary — and essential — these strange trees are.",
+  paragraphs:[
+    "The mangrove forest at the edge of the estuary looked nothing like the forests we had visited before. The trees grew directly out of the water, their roots arching above the surface in tangled loops. Our guide explained that these were aerial roots, which allowed the trees to take in oxygen even though the lower roots were submerged in mud. Without them, he said, the trees would suffocate.",
+    "We moved slowly through the forest in a flat-bottomed boat. The water was brackish — a mixture of fresh river water and salt from the sea. Mangroves were one of the few trees that could survive in salt water. They had a way of filtering it out at the roots, a process that took a constant supply of energy.",
+    "The animals we saw were adapted to the same difficult conditions. Small crabs picked their way across the mud between the roots. Mudskippers — fish that can move on land using their front fins — rested on the exposed wood. A monitor lizard watched us from the far bank, then slid silently into the water. Our guide said that at high tide, the whole forest floor was submerged, and the fish came in among the roots to feed.",
+    "What surprised me most was learning how important the forest was to the coastline further south. Mangrove roots trap sediment carried by the river, which gradually builds up the shoreline. Without the mangroves, the coast would erode much faster. They were not just a habitat — they were holding the land in place."
+  ],
+  vocabulary:{
+    "estuary":{def:"The wide mouth of a river where it meets the sea.",pos:"noun"},
+    "aerial root":{def:"A root that grows above the ground or water surface.",pos:"noun"},
+    "brackish":{def:"Slightly salty — a mix of fresh and salt water.",pos:"adjective"},
+    "submerged":{def:"Under the surface of water.",pos:"adjective"},
+    "sediment":{def:"Tiny pieces of soil and rock carried by water.",pos:"noun"},
+    "erode":{def:"To gradually wear away the surface of land.",pos:"verb"}
+  },
+  quiz:[
+    {question:"What were the arching loops above the water's surface?",options:["Branches of the mangrove trees","Aerial roots for taking in oxygen","Vines hanging from other plants","Animal nests"],correct:1,
+     feedback:"'Our guide explained that these were aerial roots, which allowed the trees to take in oxygen.'"},
+    {question:"What does 'brackish' mean, as used in the story?",options:["Very cold water","Water full of mud","A mix of fresh and salt water","Deep, still water"],correct:2,
+     feedback:"'The water was brackish — a mixture of fresh river water and salt from the sea.'"},
+    {question:"What happened to the forest floor at high tide?",options:["The animals moved to higher ground","It was completely submerged","The mud dried out","The trees stopped growing"],correct:1,
+     feedback:"'At high tide, the whole forest floor was submerged.'"},
+    {question:"How did the mangrove roots help the coastline to the south?",options:["They provided shade that kept the water cool","They trapped sediment that built up the shoreline","They filtered salt water for other plants nearby","They formed a barrier against storm waves"],correct:1,
+     feedback:"'Mangrove roots trap sediment carried by the river, which gradually builds up the shoreline.'"}
+  ]
+});
+
 // ── Level 3 · Sub-level 5 (PI5) ──────────────────────────────────────────────
 STORIES[3][4] = [];
 
