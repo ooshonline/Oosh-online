@@ -122,10 +122,7 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   mid-story, never on home, never timed. Lists what's included + both prices + an easy, honest dismiss.
   No countdown, no "limited offer", no guilt copy. Blocked on M2; best built after S2/S3 exist.
 - [x] **M4 · Locked-state affordances — COMMITTED, pending browser verify + deploy (2026-08-25, commit `dbeb77e`).** `lib-free-pill` notice above level grid shows real `weeklyFreeRemaining()` count (blue pill) or exhausted state (red pill), hidden for subscribers. Level cards L2–L6: when quota=0 and not subscribed, card gets `.locked` class (opacity .75) + lock badge replaces ring badge + `lvl-locked-text` "Locked/ロック中" in body. Level 1 always accessible; all levels open while freeRem>0. 4 new UI_STRINGS keys en+ja. No behaviour change on tap (M3 adds upgrade screen). **Kyle: verify in browser then push (3 commits pending: `91135d7`, `e22d140`, `dbeb77e`).**
-- [ ] **M5 · Pricing page (Japanese-first).** Standalone page outside the app shell, linkable directly.
-  What Ribbit is, the Eiken reading ladder from M1, free vs paid, prices in yen, and honest answers on
-  cancellation and lapsed subscriptions (progress stays; Level 1 keeps working). No fabricated
-  testimonials, user counts, or claims of any kind.
+- [x] **M5 · Pricing page (Japanese-first) — SHIPPED (2026-09-04, commit `ba30faa`).** `ribbit-pricing.html`: standalone page, Japanese-primary; 6-level Eiken ladder, free-vs-paid compare table, ¥850/month + ¥6,800/year pricing cards, 6-item FAQ. CTA → live app. No fake data. Mobile-first, 375px clean. LIVE.
 - [ ] **M6 · Analytics instrumentation.** Vercel Analytics + custom events: placement completed, first
   story completed, Level 1 completed, locked-content tap, upgrade screen viewed, checkout started,
   checkout completed. Fire once each, not on re-render. No child PII leaves the device.

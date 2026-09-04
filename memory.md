@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 5`
+`contentSubpillarRun: 6`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **FIRES next session** (counter = 5, now ODD).
+Next subpillar: **SKIPS next session** (counter = 6, now EVEN).
 
 ---
 
@@ -61,6 +61,10 @@ Next subpillar: **FIRES next session** (counter = 5, now ODD).
 - ✅ UX (2026-09-01, automated) — X5 "Look Again" quiz peek **DEPLOYED LIVE** (commit `4ed2655`)
 - ✅ Content (2026-09-02, automated) — C5 World Journey culture data **DEPLOYED LIVE** (commit `d178bbb`, build 20260902)
 - ✅ Gamification (2026-09-03, automated) — G9 vocabulary milestone toasts **DEPLOYED LIVE** (commit `35820e4`, build 20260903)
+- ✅ Monetisation (2026-09-04, automated) — M5 Japanese-first pricing page **DEPLOYED LIVE** (commits `a62b7e3`+`ba30faa`, build 20260904e)
+
+**Cycle 8 next pillar: Bug Fixes / Implementation Check.**
+**Content subpillar fires next session** → SKIPS (counter = 6, even).
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -87,6 +91,36 @@ Next subpillar: **FIRES next session** (counter = 5, now ODD).
 ---
 
 ## Session Log
+
+### 2026-09-04 — Monetisation Pillar + Content Subpillar (~55 min, automated) — Cycle 8
+
+**Pillar: Monetisation** — Cycle 8.
+**Content subpillar: FIRED** (counter was 5 = odd; incremented to 6).
+
+**Commits `a62b7e3`, `ba30faa` — DEPLOYED LIVE (build 20260904e).**
+
+- **feature: M5 — Japanese-first pricing page (`ribbit-pricing.html`)**
+  - Standalone marketing page, not part of app shell — linkable directly as `ribbit-pricing.html`.
+  - Japanese-primary; brand fonts (Baloo 2 + Nunito Sans) + brand colours (#bada55, #f9ad3b, #1A3260).
+  - Sections: "Ribbitとは" intro, 6-level Eiken ladder (using M1 `eikenFull` labels), free-vs-paid comparison table, ¥850/month + ¥6,800/year pricing cards (annual shown as default/recommended), 6-item FAQ (cancel, lapsed data, age, Eiken, offline, profiles).
+  - CTA button links to live app (`ooshonline.github.io`). No fabricated testimonials, user counts, or claims.
+  - Mobile-first, max-width 480px, readable at 375px.
+  - Verified live: title "Ribbit — 料金プラン" confirmed at `https://ooshonline.github.io/Oosh-online/ribbit-pricing.html`.
+
+- **content: l3.4s6 — "The Mangrove Forest" (Nature/Science, A2)**
+  - Added as 6th story to STORIES[3][3] (Level 3, sub-level 4). Level 3 now has 51 stories.
+  - 291 words, 4 paragraphs; non-fiction/factual style addressing C3 (non-fiction fact files) gap.
+  - Vocab: estuary, aerial root, brackish, submerged, sediment, erode (6 words).
+  - Quiz: 4 comprehension questions (inference + factual recall).
+  - `ribbit-stories.js` cache-busted to `v=20260904e`.
+  - Verified: Node.js validation clean; story found in STORIES[3][3]; Level 3 count 51. Live CDN propagation pending at session end (push confirmed at `ba30faa`).
+
+- **Note: dev server unavailable in unattended mode (genuine tool error).** Verification was via Node.js JS execution (stories.js syntax + story presence) + pricing page live URL check. App landing screen also verified in browser — zero console errors. This is an ongoing limitation for automated sessions when `preview_start {name}` is blocked; `preview_start {url}` to live site remains available.
+
+**Cycle 8 next pillar: Bug Fixes / Implementation Check.**
+**Content subpillar counter incremented to 6 (even) — skips next session.**
+
+---
 
 ### 2026-09-03 — Gamification Pillar (~35 min, automated) — Cycle 8
 
