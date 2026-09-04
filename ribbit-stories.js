@@ -6151,7 +6151,8 @@ STORIES[3][7].push({
      feedback:"'You are both yourself and a version of yourself you are presenting.'"},
     {question:"Why did Niall say they needed someone like the narrator?",options:["Their timetable was flexible","Someone who had read things and cared about them was harder to find than it should be","They had strong retail experience","They were available immediately"],correct:1,
      feedback:"'They needed someone who had read things and cared about them, and that was harder to find than it should be.'"}
-  ]
+  ],
+  images:['images/p8/p8_the_interview_1.webp','images/p8/p8_the_interview_2.webp','images/p8/p8_the_interview_3.webp','images/p8/p8_the_interview_4.webp','images/p8/p8_the_interview_5.webp']
 });
 
 STORIES[3][7].push({
@@ -6286,7 +6287,8 @@ STORIES[3][7].push({
      feedback:"'You have to watch the dough, not the clock. If it looks ready, it is ready.'"},
     {question:"How does the narrator track the starter's growth between feedings?",options:["A temperature gauge","A rubber band marking the level after each feeding","A daily photograph","Weighing the jar"],correct:1,
      feedback:"'A jar with a rubber band marking where it was after the last feeding.'"}
-  ]
+  ],
+  images:['images/p8/p8_slow_bread_1.webp','images/p8/p8_slow_bread_2.webp','images/p8/p8_slow_bread_3.webp','images/p8/p8_slow_bread_4.webp','images/p8/p8_slow_bread_5.webp']
 });
 
 // ── Level 3 · Sub-level 9 (PI9) ──────────────────────────────────────────────
@@ -6424,7 +6426,8 @@ STORIES[3][8].push({
      feedback:"'The appeal from the fielders was genuine and loud.'"},
     {question:"What struck the narrator about the pause in the grandfather's speech?",options:["It suggested he was upset","It felt like a performance for the audience","Forty-one years of the same ground had produced something worth pausing for","The grandfather could not remember the names he wanted to thank"],correct:2,
      feedback:"'Forty-one years of the same ground, the same rota, the same tea — and at the end of it, something worth pausing for.'"}
-  ]
+  ],
+  images:['images/p9/p9_the_last_season_1.webp','images/p9/p9_the_last_season_2.webp','images/p9/p9_the_last_season_3.webp','images/p9/p9_the_last_season_4.webp','images/p9/p9_the_last_season_5.webp']
 });
 
 STORIES[3][8].push({
@@ -6668,7 +6671,8 @@ STORIES[4][0].push({
      feedback:"'They received a special mention for originality.'"},
     {question:"What did Jordan admit on the walk home?",options:["He still preferred the volcano idea","Combining both ideas had been better","The project had taken too long","He wanted a new partner next time"],correct:1,
      feedback:"'Jordan admitted that combining the ideas had been better than either idea alone.'"}
-  ]
+  ],
+  images:['images/i1/i1_the_science_project_1.webp','images/i1/i1_the_science_project_2.webp','images/i1/i1_the_science_project_3.webp']
 });
 
 STORIES[4][0].push({
@@ -6855,7 +6859,8 @@ STORIES[4][1].push({
      feedback:"'It was a technique she had practised dozens of times in calm water.'"},
     {question:"What was Sofia most proud of after the storm?",options:["Surviving the rough water","Having seen the storm coming in advance","Helping her father","Reaching the dock first"],correct:1,
      feedback:"'Sofia felt proud — not of surviving the storm, but of having seen it coming.'"}
-  ]
+  ],
+  images:['images/i2/i2_deep_water_1.webp','images/i2/i2_deep_water_2.webp','images/i2/i2_deep_water_3.webp']
 });
 
 STORIES[4][1].push({
@@ -6885,7 +6890,8 @@ STORIES[4][1].push({
      feedback:"'Rosa realised she had stopped feeling nervous.'"},
     {question:"What conclusion did Rosa come to on the walk back?",options:["Night markets are noisy and difficult","Unfamiliar was not the same as unwelcoming","Taiwan was very different from home","She would never return"],correct:1,
      feedback:"'Unfamiliar was not the same as unwelcoming. Taiwan had made her feel immediately at home.'"}
-  ]
+  ],
+  images:['images/i2/i2_the_night_market_1.webp','images/i2/i2_the_night_market_2.webp','images/i2/i2_the_night_market_3.webp']
 });
 
 STORIES[4][1].push({
@@ -6945,7 +6951,8 @@ STORIES[4][1].push({
      feedback:"'He found three wild bee colonies already living in the old tree trunks.'"},
     {question:"How did the council respond to Yuki's report?",options:["They ignored it","They asked for more evidence","They reversed their decision and preserved the orchard","They reduced the size of the car park"],correct:2,
      feedback:"'The council reversed its decision. The orchard would be preserved and officially registered as a local wildlife habitat.'"}
-  ]
+  ],
+  images:['images/i2/i2_the_beehive_project_1.webp','images/i2/i2_the_beehive_project_2.webp','images/i2/i2_the_beehive_project_3.webp']
 });
 
 
