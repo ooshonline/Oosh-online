@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ribbit — 料金プラン</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #bada55;
+      --accent:  #f9ad3b;
+      --navy:    #1A3260;
+      --dark:    #151515;
+      --bg:      #f7faf3;
+      --card:    #ffffff;
+      --text:    #2a2a2a;
+      --muted:   #6b7280;
+      --border:  #e4ead8;
+      --radius:  16px;
+      --font-head: 'Baloo 2', sans-serif;
+      --font-body: 'Nunito Sans', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ── */
+    .header {
+      background: var(--navy);
+      padding: 28px 20px 36px;
+      text-align: center;
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .logo-icon {
+      width: 46px; height: 46px;
+      background: var(--primary);
+      border-radius: 13px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+    }
+    .logo-name {
+      font-family: var(--font-head);
+      font-size: 28px; font-weight: 900;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+    .header-tag {
+      font-size: 14px;
+      color: rgba(255,255,255,.7);
+      font-weight: 400;
+    }
+
+    .page {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 20px 64px;
+    }
+
+    section { padding: 28px 0 8px; }
+    h2 {
+      font-family: var(--font-head);
+      font-size: 20px; font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 20px 0 0;
+    }
+    p.note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+    /* ── Intro ── */
+    .intro p { font-size: 15px; margin-bottom: 10px; }
+
+    /* ── Level ladder ── */
+    .level-card {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--card);
+      border-radius: 12px; padding: 12px 14px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .level-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%; flex-shrink: 0;
+    }
+    .level-info { flex: 1; min-width: 0; }
+    .level-name { font-weight: 700; font-size: 14px; }
+    .level-eiken { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .level-cefr  { font-size: 11px; color: var(--muted); }
+    .level-badge {
+      flex-shrink: 0;
+      font-size: 12px; font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* ── Compare grid ── */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .compare-card {
+      background: var(--card);
+      border-radius: var(--radius); padding: 16px 14px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07);
+    }
+    .compare-card.featured { border: 2px solid var(--primary); }
+    .compare-label {
+      font-family: var(--font-head);
+      font-weight: 800; font-size: 13px;
+      text-transform: uppercase; letter-spacing: .05em;
+      margin-bottom: 12px;
+    }
+    .compare-label.free { color: var(--muted); }
+    .compare-label.paid { color: var(--navy); }
+    .compare-item {
+      display: flex; align-items: flex-start;
+      gap: 5px; margin-bottom: 7px;
+      font-size: 13px; line-height: 1.4;
+    }
+    .ci { flex-shrink: 0; }
+
+    /* ── Pricing ── */
+    .plan-annual {
+      background: var(--primary);
+      border-radius: var(--radius); padding: 20px;
+      margin-bottom: 12px;
+      position: relative; overflow: hidden;
+    }
+    .plan-best {
+      position: absolute; top: 14px; right: 14px;
+      background: var(--accent); color: var(--dark);
+      font-family: var(--font-head); font-weight: 800;
+      font-size: 11px; border-radius: 999px; padding: 3px 10px;
+    }
+    .plan-annual h3 {
+      font-family: var(--font-head);
+      font-size: 16px; font-weight: 700;
+      color: var(--dark); margin-bottom: 8px;
+    }
+    .plan-price {
+      font-family: var(--font-head);
+      font-size: 36px; font-weight: 900;
+      color: var(--dark); line-height: 1.1;
+    }
+    .plan-price sup { font-size: 18px; font-weight: 700; vertical-align: top; margin-top: 5px; }
+    .plan-price .unit { font-size: 16px; font-weight: 600; }
+    .plan-sub { font-size: 13px; color: rgba(0,0,0,.5); margin-top: 4px; }
+
+    .plan-monthly {
+      background: var(--card);
+      border-radius: var(--radius); padding: 18px;
+      border: 1.5px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .plan-monthly h3 {
+      font-family: var(--font-head);
+      font-size: 16px; font-weight: 700;
+      color: var(--dark); margin-bottom: 8px;
+    }
+    .plan-monthly .plan-price { font-size: 30px; }
+    .plan-monthly .plan-sub { color: var(--muted); }
+
+    .cta-btn {
+      display: block; width: 100%; padding: 16px;
+      text-align: center; text-decoration: none;
+      background: var(--accent); color: var(--dark);
+      font-family: var(--font-head); font-size: 18px; font-weight: 900;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(249,173,59,.4);
+    }
+    .cta-sub {
+      text-align: center; font-size: 12px;
+      color: var(--muted); margin-top: 10px;
+    }
+
+    /* ── FAQ ── */
+    .faq-item { margin-bottom: 18px; }
+    .faq-q { font-weight: 700; font-size: 14px; color: var(--navy); margin-bottom: 4px; }
+    .faq-a { font-size: 14px; }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 36px; padding-top: 20px;
+      border-top: 1px solid var(--border);
+      text-align: center; font-size: 12px; color: var(--muted);
+    }
+    .footer a { color: var(--muted); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">🐸</div>
+      <span class="logo-name">Ribbit</span>
+    </div>
+    <p class="header-tag">子どもの英語多読アプリ — 料金プラン</p>
+  </div>
+
+  <div class="page">
+
+    <!-- What is Ribbit -->
+    <section class="intro">
+      <h2>Ribbitとは</h2>
+      <p>Ribbitは、英語を学ぶ子どもたちのための多読アプリです。Pre-A1からC1まで6段階のレベルに分かれた350以上の英語ショートストーリーを読み、語彙力・リスニング・読解力を楽しく育てます。</p>
+      <p>単語タップで意味を確認、音声で発音を聞く、クイズで読解チェック。XP・バッジ・連続読書ストリークで毎日続けたくなる設計です。</p>
+    </section>
+    <hr class="divider">
+
+    <!-- Level ladder -->
+    <section>
+      <h2>英検対応レベル</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">6段階のレベルは英検の読解レベルを基準にしています。</p>
+
+      <div class="level-card">
+        <div class="level-dot" style="background:#72C93A"></div>
+        <div class="level-info">
+          <div class="level-name">レベル1</div>
+          <div class="level-eiken">英検5級の準備レベル</div>
+          <div class="level-cefr">CEFR Pre-A1 · 5〜7歳対象</div>
+        </div>
+        <div class="level-badge" style="color:#72C93A">無料</div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-dot" style="background:#70C1B3"></div>
+        <div class="level-info">
+          <div class="level-name">レベル2</div>
+          <div class="level-eiken">英検5〜4級の読解レベル相当</div>
+          <div class="level-cefr">CEFR A1 · 7〜9歳対象</div>
+        </div>
+        <div class="level-badge" style="color:var(--muted)">🔒</div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-dot" style="background:#F5C842"></div>
+        <div class="level-info">
+          <div class="level-name">レベル3</div>
+          <div class="level-eiken">英検3〜準2級の読解レベル相当</div>
+          <div class="level-cefr">CEFR A2 · 9〜11歳対象</div>
+        </div>
+        <div class="level-badge" style="color:var(--muted)">🔒</div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-dot" style="background:#F4844A"></div>
+        <div class="level-info">
+          <div class="level-name">レベル4</div>
+          <div class="level-eiken">英検2級の読解レベル相当</div>
+          <div class="level-cefr">CEFR B1 · 11〜13歳対象</div>
+        </div>
+        <div class="level-badge" style="color:var(--muted)">🔒</div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-dot" style="background:#E05C5C"></div>
+        <div class="level-info">
+          <div class="level-name">レベル5</div>
+          <div class="level-eiken">上級読解（英検の級付けなし）</div>
+          <div class="level-cefr">CEFR B2 · 13〜15歳対象</div>
+        </div>
+        <div class="level-badge" style="color:var(--muted)">🔒</div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-dot" style="background:#9B72CF"></div>
+        <div class="level-info">
+          <div class="level-name">レベル6</div>
+          <div class="level-eiken">最上級読解（英検の級付けなし）</div>
+          <div class="level-cefr">CEFR C1 · 15歳以上対象</div>
+        </div>
+        <div class="level-badge" style="color:var(--muted)">🔒</div>
+      </div>
+
+      <p class="note">※「読解レベル相当」は英検の読解セクションを指します。Ribbitは英検試験対策コースではありません。</p>
+    </section>
+    <hr class="divider">
+
+    <!-- Free vs Paid -->
+    <section>
+      <h2>無料・有料の違い</h2>
+      <div class="compare-grid">
+        <div class="compare-card">
+          <div class="compare-label free">無料</div>
+          <div class="compare-item"><span class="ci">✅</span> レベル1（全50話）</div>
+          <div class="compare-item"><span class="ci">✅</span> 毎週3話、他のレベルから無料</div>
+          <div class="compare-item"><span class="ci">✅</span> XP・バッジ・ストリーク</div>
+          <div class="compare-item"><span class="ci">✅</span> フラッシュカード</div>
+          <div class="compare-item"><span class="ci">✅</span> プレイスメントテスト</div>
+          <div class="compare-item"><span class="ci">✅</span> 音声読み上げ</div>
+        </div>
+        <div class="compare-card featured">
+          <div class="compare-label paid">有料</div>
+          <div class="compare-item"><span class="ci">✅</span> 全6レベル</div>
+          <div class="compare-item"><span class="ci">✅</span> 350話以上、無制限</div>
+          <div class="compare-item"><span class="ci">✅</span> XP・バッジ・ストリーク</div>
+          <div class="compare-item"><span class="ci">✅</span> フラッシュカード</div>
+          <div class="compare-item"><span class="ci">✅</span> プレイスメントテスト</div>
+          <div class="compare-item"><span class="ci">✅</span> 音声読み上げ</div>
+          <div class="compare-item"><span class="ci">✅</span> 進捗バックアップ</div>
+          <div class="compare-item"><span class="ci">✅</span> ワールドジャーニー（全13か国）</div>
+        </div>
+      </div>
+      <p class="note">※ゲーム機能（XP・バッジ・ストリーク・クエスト・フラッシュカード）はすべてのプランで永久に無料です。</p>
+    </section>
+    <hr class="divider">
+
+    <!-- Pricing -->
+    <section>
+      <h2>料金</h2>
+
+      <div class="plan-annual">
+        <div class="plan-best">おすすめ</div>
+        <h3>年間プラン</h3>
+        <div class="plan-price"><sup>¥</sup>6,800<span class="unit">/年</span></div>
+        <div class="plan-sub">月あたり ¥567（月額より33%お得）</div>
+      </div>
+
+      <div class="plan-monthly">
+        <h3>月額プラン</h3>
+        <div class="plan-price"><sup>¥</sup>850<span class="unit" style="font-size:14px">/月</span></div>
+        <div class="plan-sub">いつでもキャンセル可能</div>
+      </div>
+
+      <a href="https://ooshonline.github.io/Oosh-online/" class="cta-btn">まず無料で試す →</a>
+      <p class="cta-sub">クレジットカード不要 · 登録なしですぐに開始できます</p>
+    </section>
+    <hr class="divider">
+
+    <!-- FAQ -->
+    <section>
+      <h2>よくあるご質問</h2>
+
+      <div class="faq-item">
+        <div class="faq-q">いつでもキャンセルできますか？</div>
+        <div class="faq-a">はい。月額プランはいつでもキャンセルでき、次の更新日以降は請求されません。年間プランも同様に途中でキャンセル可能です。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">解約後、子どものデータはどうなりますか？</div>
+        <div class="faq-a">学習データ（XP・バッジ・読書履歴）はすべてデバイスに保存されます。解約後もレベル1は引き続き無料でご利用いただけます。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">何歳から使えますか？</div>
+        <div class="faq-a">レベル1はひらがなが読めるお子さん（5歳〜）を対象としています。レベル6は高校生・大学生レベルの英語力を想定しています。プレイスメントテストで適切なレベルを確認できます。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">英検対策になりますか？</div>
+        <div class="faq-a">Ribbitは英語の読解力・語彙力・リスニング力を伸ばすことを目的としています。英検の試験対策コースではありませんが、継続的な多読は英検の読解セクションに役立ちます。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">オフラインでも使えますか？</div>
+        <div class="faq-a">Ribbitはブラウザアプリです。音声読み上げにはインターネット接続が必要ですが、テキストとクイズは初回読み込み後にオフラインでも動作します。</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">複数の子どもで使えますか？</div>
+        <div class="faq-a">現在、1つのサブスクリプションで1プロフィールをサポートしています。兄弟で使う場合は、別々のブラウザまたはデバイスでご利用ください。</div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <p>Ribbit Reading App &mdash; <a href="https://ooshonline.github.io/Oosh-online/">アプリを開く</a></p>
+      <p style="margin-top:5px">© Oosh Online &nbsp;·&nbsp; <a href="mailto:kyle.iain.hope@gmail.com">お問い合わせ</a></p>
+    </div>
+
+  </div>
+</body>
+</html>
