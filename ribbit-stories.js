@@ -6923,7 +6923,8 @@ STORIES[4][1].push({
      feedback:"'Amir looked once at the bottom-right corner of the net — the side he had decided on.'"},
     {question:"What did Amir remember most clearly afterwards?",options:["The sound of his teammates cheering","The brief silence before the crowd erupted","The goalkeeper diving","His coach jumping up"],correct:1,
      feedback:"'Later, he would remember the silence best — that brief moment before the world erupted.'"}
-  ]
+  ],
+  images:['images/i2/i2_the_penalty_kick_1.webp','images/i2/i2_the_penalty_kick_2.webp','images/i2/i2_the_penalty_kick_3.webp']
 });
 
 STORIES[4][1].push({
