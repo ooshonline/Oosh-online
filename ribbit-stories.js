@@ -6012,7 +6012,8 @@ STORIES[3][6].push({
      feedback:"'She had stopped being annoyed about it and started thinking of it as reading time.'"},
     {question:"What was the toddler doing when the narrator's train finally arrived?",options:["Running around the concourse","Crying","Asleep in his pushchair with a half-eaten biscuit","Watching the departure board"],correct:2,
      feedback:"'A toddler fell asleep in his pushchair with a half-eaten biscuit in his hand.'"}
-  ]
+  ],
+  images:['images/p7/p7_the_departure_board_1.webp','images/p7/p7_the_departure_board_2.webp','images/p7/p7_the_departure_board_3.webp','images/p7/p7_the_departure_board_4.webp','images/p7/p7_the_departure_board_5.webp']
 });
 
 STORIES[3][6].push({
