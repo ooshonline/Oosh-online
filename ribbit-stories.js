@@ -6795,7 +6795,8 @@ STORIES[4][0].push({
      feedback:"'They're installing something new. Something for the whole school.'"},
     {question:"What did Elias do after seeing the recording studio?",options:["He told his friends and went home","He went to the office to apply to be a presenter","He started recording immediately","He went back to class"],correct:1,
      feedback:"'He went straight to the main office and asked how to apply to be a presenter.'"}
-  ]
+  ],
+  images:['images/i1/i1_the_locked_classroom_1.webp','images/i1/i1_the_locked_classroom_2.webp','images/i1/i1_the_locked_classroom_3.webp']
 });
 
 
@@ -6829,7 +6830,8 @@ STORIES[4][1].push({
      feedback:"'Marcus noticed that Baran was absorbing language quickly, like a sponge.'"},
     {question:"What did Baran say to Marcus in December?",options:["He wanted to move to a different table","He thought Marcus was a real friend","He wanted to go back to Turkey","He could now speak English perfectly"],correct:1,
      feedback:"'I think I have one real one.'"}
-  ]
+  ],
+  images:['images/i2/i2_the_new_student_1.webp','images/i2/i2_the_new_student_2.webp','images/i2/i2_the_new_student_3.webp']
 });
 
 STORIES[4][1].push({
