@@ -4971,7 +4971,8 @@ STORIES[3][0].push({
      feedback:"Mr. Obasi explained 'too much fertiliser can damage plants by drawing water out of the roots through osmosis.'"},
     {question:"What did Mr. Obasi say was often more valuable in science?",options:["A result that confirmed what you expected","A result that surprised you","A well-presented writeup","A large sample size"],correct:1,
      feedback:"Mr. Obasi said 'a result that surprised you was often more valuable than one that confirmed what you expected.'"}
-  ]
+  ],
+  images:['images/p1/p1_the_science_experiment_that_went_wrong_1.webp','images/p1/p1_the_science_experiment_that_went_wrong_2.webp','images/p1/p1_the_science_experiment_that_went_wrong_3.webp','images/p1/p1_the_science_experiment_that_went_wrong_4.webp','images/p1/p1_the_science_experiment_that_went_wrong_5.webp']
 });
 
 // PI1·3 — The Night Market
@@ -5005,7 +5006,8 @@ STORIES[3][0].push({
      feedback:"The story says 'slices of pork, and spring onions' with 'a soft-boiled egg.'"},
     {question:"Why did Aunt Clara visit on different evenings each week?",options:["To avoid the biggest crowds","Because vendors rotated and you might miss something","She worked different shifts","She liked variety"],correct:1,
      feedback:"Aunt Clara said 'the vendors rotated and you might miss something.'"}
-  ]
+  ],
+  images:['images/p1/p1_the_night_market_1.webp','images/p1/p1_the_night_market_2.webp','images/p1/p1_the_night_market_3.webp','images/p1/p1_the_night_market_4.webp','images/p1/p1_the_night_market_5.webp']
 });
 
 // PI1·4 — The Debate
@@ -5074,7 +5076,8 @@ STORIES[3][0].push({
      feedback:"The story says 'there simply had not been a moment when I thought to reach for it.'"},
     {question:"What did the child notice on the last evening?",options:["How tired everyone was","That the fire was very warm","That the silence between them was comfortable","That their brother was good at drawing"],correct:2,
      feedback:"The story says 'the silence between us was comfortable rather than empty.'"}
-  ]
+  ],
+  images:['images/p1/p1_the_long_weekend_1.webp','images/p1/p1_the_long_weekend_2.webp','images/p1/p1_the_long_weekend_3.webp','images/p1/p1_the_long_weekend_4.webp','images/p1/p1_the_long_weekend_5.webp']
 });
 
 // ── Sub-level 2 · ~275–290 words · Stronger character voice · More figurative language ──
@@ -5181,7 +5184,8 @@ STORIES[3][1].push({
      feedback:"The story says 'a coffee shop was fitting out the interior.'"},
     {question:"What does the child still do when passing the corner?",options:["Cross the road to avoid it","Stop and look in the window","Look at the corner as though the clocks might come back","Think about Mr. Feldstein"],correct:2,
      feedback:"The story says 'I still look at the corner as I pass, as though the clocks might come back.'"}
-  ]
+  ],
+  images:['images/p2/p2_the_clockmakers_window_1.webp','images/p2/p2_the_clockmakers_window_2.webp','images/p2/p2_the_clockmakers_window_3.webp','images/p2/p2_the_clockmakers_window_4.webp','images/p2/p2_the_clockmakers_window_5.webp']
 });
 
 // PI2·4 — The Understudy
@@ -5517,7 +5521,8 @@ STORIES[3][3].push({
      feedback:"'At home, someone always needs the room or asks how much longer I am going to be.'"},
     {question:"How did the teacher react when told it was the best practice ever?",options:["She suggested doing it every week","She smiled and said nothing","She asked what had changed","She seemed surprised"],correct:1,
      feedback:"'She smiled and said nothing, which I think was deliberate.'"}
-  ]
+  ],
+  images:['images/p4/p4_the_practice_room_1.webp','images/p4/p4_the_practice_room_2.webp','images/p4/p4_the_practice_room_3.webp','images/p4/p4_the_practice_room_4.webp','images/p4/p4_the_practice_room_5.webp']
 });
 
 STORIES[3][3].push({
