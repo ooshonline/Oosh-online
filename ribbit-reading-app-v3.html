@@ -1166,7 +1166,7 @@ const DESTINATIONS=[
 function destStories(destId){ return (typeof JOURNEY_STORIES!=='undefined'&&JOURNEY_STORIES[destId])||[]; }
 function destDoneCount(destId){ return destStories(destId).filter(s=>storyDone(s.id)).length; }
 function destComplete(destId){ const st=destStories(destId); return st.length>0 && st.every(s=>storyDone(s.id)); }
-function destLocked(d){ return d.unlockAfter && !destComplete(d.unlockAfter); }
+function destLocked(d){ return false; /* DEV: all stories unlocked — remove when pathway system ships */ }
 
 // ── STATE (same localStorage keys as the live app, so progress carries over) ──
 const state = {
@@ -1805,7 +1805,7 @@ function subLevelDone(lv,sl){
   const stories=STORIES[lv]&&STORIES[lv][sl]||[];
   return stories.length>0 && stories.every(s=>storyDone(s.id));
 }
-function subLevelAvailable(lv,sl){ return sl===0 || subLevelDone(lv,sl-1); }
+function subLevelAvailable(lv,sl){ return true; /* DEV: all stories unlocked — remove when pathway system ships */ }
 function hasStoriesFor(lv,sl){ return !!(STORIES[lv]&&STORIES[lv][sl]&&STORIES[lv][sl].length); }
 // Escapes a value for safe interpolation into an HTML attribute (e.g. value="...", onclick='...').
 function escAttr(str){ return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }

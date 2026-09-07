@@ -5,6 +5,12 @@
   attribution replaced with CEFR-J v1.5 (Tono, TUFS — CC BY 4.0, A1–B2) + Octanove v1.0
   (CC BY-SA 4.0, C1). Word counts: A2=1221, B1=2099, B2=2427, C1=921, non-overlapping. LIVE.
 
+- [ ] **DEV: all stories are unlocked on purpose (2026-09-07).** While developing, Kyle asked to open
+  every story. `destLocked()` and `subLevelAvailable()` in `ribbit-reading-app-v3.html` are hard-wired to
+  return unlocked (search `DEV: all stories unlocked`). **Do not "fix" this as a bug** — it is intentional
+  until the pathway system (below) replaces it. When you build the pathway system, remove these two
+  overrides as part of that work.
+
 ## Pending Kyle's decision (do NOT auto-ship)
 - [x] **Redesigned icon set SHIPPED (2026-07-15, commit `c5f152e`).** All 41 registry icons inlined + live.
 - [ ] **3 icons flagged for a Design tweak** (legible but weakest — optional polish): `status/streak-flame`
@@ -155,6 +161,17 @@ star ratings, flashcards, placement test stay free at every level, forever), and
 - [~] **G8 · "Level Champion" ceremony — COMMITTED, pending browser verify + deploy (2026-08-24, commit `91135d7`).** Gold-themed full-screen ceremony fires after the last sub-level ceremony: level icon + champion badge, +200 XP, next-level hint, confetti. `state.celebratedLevels[]` → `rbt_celeb_lv` prevents re-firing. **Kyle: verify in browser, then `git push origin master` after bumping `?v=20260824`.**
 - [x] **G9 · Vocabulary milestone toasts — SHIPPED (2026-09-03, commit `35820e4`).** `VOCAB_MILESTONES=[10,25,50,100]` + `checkVocabMilestone(oldCount,newCount)` fires a toast + +20 XP when word count crosses a milestone in `addWordToDeck` or `saveAllTappedWords`. Both en + ja. LIVE (build 20260903).
 - [ ] **G10 · Daily reading goal ring.** Show a small progress ring on the Home dash for today's story goal (1 story/day default). Ring fills as stories are read today. Tapping it opens a simple goal picker (1/2/3 stories). Derived from `todayCount` (already computed) + `state.dailyGoal` (new, persisted `rbt_goal`). No gating.
+- [ ] **G12 · Pathway system (upgraded progression) — replaces the current lock system.** Right now
+  stories/destinations gate linearly via `subLevelAvailable()` (sub-level N needs N-1 done) and
+  `destLocked()` (each World destination needs the previous one complete). Both are currently
+  DEV-overridden to "always unlocked" (see the P0 note at the top of this file) — that override is
+  temporary scaffolding, not the destination. Design and build a proper **pathway**: a visible,
+  motivating progression map (branching or milestone-based rather than a strict single chain), with
+  clear "you are here" / next-goal signposting, so learners see where they're going and why. This is a
+  larger, multi-run effort — start with a design note (how paths branch, what unlocks what, how it maps
+  onto levels + World Journey), get Kyle's sign-off on the model before building, then implement in
+  slices. When it ships, delete the two `DEV: all stories unlocked` overrides and route gating through
+  the pathway instead. Bigger than one run — scope carefully.
 - [ ] **G11 · "First try" perfect-quiz bonus.** When a learner gets 100% on their first attempt at a story's quiz, show a "+10 XP First Try!" chip on the celebration screen. Track `state.firstTryPerfect[]` (persisted `rbt_ftp`). Small, motivating, zero new screens.
 
 ### Bug Fixes / Implementation Check — ideas (added 2026-08-21)
