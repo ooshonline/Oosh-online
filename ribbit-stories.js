@@ -4936,7 +4936,8 @@ STORIES[3][0].push({
      feedback:"The story says 'I could see the roof of what looked like a farm building about a kilometre away.'"},
     {question:"What does the way the child solved the problem tell us about them?",options:["They were better at navigating than the adults","They were calm and observant, studying the landscape while the adults argued","They had walked this trail before","They were lucky to notice the farm building"],correct:1,
      feedback:"The child 'looked at the landscape instead of listening to the argument' — their quiet observation led to the solution."}
-  ]
+  ],
+  images:['images/p1/p1_the_lost_map_1.webp','images/p1/p1_the_lost_map_2.webp','images/p1/p1_the_lost_map_3.webp','images/p1/p1_the_lost_map_4.webp','images/p1/p1_the_lost_map_5.webp']
 });
 
 // PI1·2 — The Science Experiment That Went Wrong
@@ -5038,7 +5039,8 @@ STORIES[3][0].push({
      feedback:"The story says 'which was our teacher, Miss Nwosu.'"},
     {question:"What did Miss Nwosu say was the real point of the exercise?",options:["To practise public speaking","To research a topic deeply","To understand that most positions are more complicated than they appear","To learn how to win arguments"],correct:2,
      feedback:"Miss Nwosu said 'most positions are more complicated than they first appear.'"}
-  ]
+  ],
+  images:['images/p1/p1_the_debate_1.webp','images/p1/p1_the_debate_2.webp','images/p1/p1_the_debate_3.webp','images/p1/p1_the_debate_4.webp','images/p1/p1_the_debate_5.webp']
 });
 
 // PI1·5 — The Long Weekend
@@ -5109,7 +5111,8 @@ STORIES[3][1].push({
      feedback:"He wrote 'Rufiji Delta, October 1979. Two weeks here. Perfect.'"},
     {question:"What did Grandmother say Bertrand believed maps were about?",options:["Accuracy above all else","Getting from one place to another efficiently","Paying attention to where you were","Recording history"],correct:2,
      feedback:"Grandmother said Bertrand 'believed that maps were not just about getting somewhere — they were about paying attention to where you were.'"}
-  ]
+  ],
+  images:['images/p2/p2_the_cartographers_gift_1.webp','images/p2/p2_the_cartographers_gift_2.webp','images/p2/p2_the_cartographers_gift_3.webp','images/p2/p2_the_cartographers_gift_4.webp','images/p2/p2_the_cartographers_gift_5.webp']
 });
 
 // PI2·2 — The Fastest Runner
@@ -5143,7 +5146,8 @@ STORIES[3][1].push({
      feedback:"The story says 'I had two options: feel threatened by this, or be interested in it.'"},
     {question:"Why had Dami been so much faster?",options:["She was naturally gifted only","She had been running with a club since she was seven","She trained every day alone","She had a specialist coach at school"],correct:1,
      feedback:"The story says 'She had been running with a club since she was seven.'"}
-  ]
+  ],
+  images:['images/p2/p2_the_fastest_runner_1.webp','images/p2/p2_the_fastest_runner_2.webp','images/p2/p2_the_fastest_runner_3.webp','images/p2/p2_the_fastest_runner_4.webp','images/p2/p2_the_fastest_runner_5.webp']
 });
 
 // PI2·3 — The Clockmaker's Window
@@ -5245,7 +5249,8 @@ STORIES[3][1].push({
      feedback:"The story says 'something that was not quite alarm — more like a sharp reminder that the world moves whether you are watching or not.'"},
     {question:"What had happened to Dad in Cornwall?",options:["He was stung by a jellyfish","He swam too far out","He was caught by a tide and waited on a ledge for two hours","He lost his belongings to the sea"],correct:2,
      feedback:"Dad 'had once been caught properly by a tide in Cornwall and had to wait on a ledge for two hours.'"}
-  ]
+  ],
+  images:['images/p2/p2_the_tide_1.webp','images/p2/p2_the_tide_2.webp','images/p2/p2_the_tide_3.webp','images/p2/p2_the_tide_4.webp','images/p2/p2_the_tide_5.webp']
 });
 
 // ── Sub-level 3 · ~290–305 words · Complex sentences · Richer setting ──
@@ -5306,7 +5311,8 @@ STORIES[3][2].push({
      feedback:"Grandma said 'Margaret had been her closest friend at school.'"},
     {question:"Why had Grandma never posted the letter?",options:["She forgot","She thought it was too late","She lost Margaret's address","They made up before she could send it"],correct:1,
      feedback:"Grandma said 'she had written the letter but never posted it because she thought it was too late.'"}
-  ]
+  ],
+  images:['images/p3/p3_the_letter_that_was_never_sent_1.webp','images/p3/p3_the_letter_that_was_never_sent_2.webp','images/p3/p3_the_letter_that_was_never_sent_3.webp','images/p3/p3_the_letter_that_was_never_sent_4.webp','images/p3/p3_the_letter_that_was_never_sent_5.webp']
 });
 
 STORIES[3][2].push({
@@ -5339,7 +5345,8 @@ STORIES[3][2].push({
      feedback:"She said: 'you look hard at the ordinary world until it becomes interesting.'"},
     {question:"What did some students do after Thursday's lesson?",options:["They asked Miss Brennan to stay longer","They started carrying small notebooks","They showed Mr Yates their sentences","They gave Miss Brennan a card"],correct:1,
      feedback:"'Some of us still carry a small notebook' — they started writing down things they observed."}
-  ]
+  ],
+  images:['images/p3/p3_the_substitute_1.webp','images/p3/p3_the_substitute_2.webp','images/p3/p3_the_substitute_3.webp','images/p3/p3_the_substitute_4.webp','images/p3/p3_the_substitute_5.webp']
 });
 
 STORIES[3][2].push({
@@ -5372,7 +5379,8 @@ STORIES[3][2].push({
      feedback:"'The shelter has lost two of its roof panels in autumn storms.'"},
     {question:"What does the writer say you cannot get in summer?",options:["Empty car parks","The sea smell in your coat for days","Sandwiches on the beach","Clear roads on the way home"],correct:1,
      feedback:"The story ends: 'The sea smell stays in your coat for days. You cannot get that in summer.'"}
-  ]
+  ],
+  images:['images/p3/p3_salt_1.webp','images/p3/p3_salt_2.webp','images/p3/p3_salt_3.webp','images/p3/p3_salt_4.webp','images/p3/p3_salt_5.webp']
 });
 
 STORIES[3][2].push({
@@ -5405,7 +5413,8 @@ STORIES[3][2].push({
      feedback:"'We would zip up our jackets and step outside... checked the temperature gauge, refilled the paraffin heater if needed.'"},
     {question:"When did the frost arrive?",options:["At ten o'clock","Just after midnight","At four in the morning","At six, when it was over"],correct:2,
      feedback:"'The frost came at four in the morning.'"}
-  ]
+  ],
+  images:['images/p3/p3_the_night_watch_1.webp','images/p3/p3_the_night_watch_2.webp','images/p3/p3_the_night_watch_3.webp','images/p3/p3_the_night_watch_4.webp','images/p3/p3_the_night_watch_5.webp']
 });
 
 STORIES[3][2].push({
@@ -5474,7 +5483,8 @@ STORIES[3][3].push({
      feedback:"'There was a colony behind the plaster, in the cavity between the inner and outer walls.'"},
     {question:"What did the family decide to do?",options:["Call pest control","Have Irene remove the colony","Leave the bees alone","Block the entry point"],correct:2,
      feedback:"'In the end, we left them.'"}
-  ]
+  ],
+  images:['images/p4/p4_the_bees_in_the_wall_1.webp','images/p4/p4_the_bees_in_the_wall_2.webp','images/p4/p4_the_bees_in_the_wall_3.webp','images/p4/p4_the_bees_in_the_wall_4.webp','images/p4/p4_the_bees_in_the_wall_5.webp']
 });
 
 STORIES[3][3].push({
@@ -5540,7 +5550,8 @@ STORIES[3][3].push({
      feedback:"'She did not comment on this. She said they would tighten as they settled.'"},
     {question:"What does the narrator say about mended things at the end?",options:["They look as good as new","Grandmother says they are more interesting than perfect ones","They are harder to wear in public","They need re-mending every few years"],correct:1,
      feedback:"'She says mended things are more interesting than perfect ones.'"}
-  ]
+  ],
+  images:['images/p4/p4_mending_1.webp','images/p4/p4_mending_2.webp','images/p4/p4_mending_3.webp','images/p4/p4_mending_4.webp','images/p4/p4_mending_5.webp']
 });
 
 STORIES[3][3].push({
@@ -5573,7 +5584,8 @@ STORIES[3][3].push({
      feedback:"He said it 'had a particular kind of arch that needed no mortar — the stones held each other up through compression alone.'"},
     {question:"How did the man respond when they thanked him for the company?",options:["He gave them his number","He said it was he who should thank them","He invited them back again","He said he was here every day"],correct:1,
      feedback:"'He said it was he who should thank us.'"}
-  ]
+  ],
+  images:['images/p4/p4_under_the_bridge_1.webp','images/p4/p4_under_the_bridge_2.webp','images/p4/p4_under_the_bridge_3.webp','images/p4/p4_under_the_bridge_4.webp','images/p4/p4_under_the_bridge_5.webp']
 });
 
 STORIES[3][3].push({
@@ -5606,7 +5618,8 @@ STORIES[3][3].push({
      feedback:"The grandmother said 'it cut ten minutes off the walk, and everybody used it.'"},
     {question:"What did the narrator find out about the footpath legally?",options:["It was properly closed in the 1970s","It was never a public right of way","It was legally extinguished in 1973","It was still a public right of way and had never been properly closed"],correct:3,
      feedback:"'The path is listed as a public right of way. It has never been legally extinguished.'"}
-  ]
+  ],
+  images:['images/p4/p4_the_map_on_the_wall_1.webp','images/p4/p4_the_map_on_the_wall_2.webp','images/p4/p4_the_map_on_the_wall_3.webp','images/p4/p4_the_map_on_the_wall_4.webp','images/p4/p4_the_map_on_the_wall_5.webp']
 });
 
 STORIES[3][3].push({
@@ -5672,7 +5685,8 @@ STORIES[3][4].push({
      feedback:"'He called it the gap. He said in that gap, ordinary people were all there was.'"},
     {question:"How does the narrator describe how they now look at people in public?",options:["With worry","With fear","With a kind of quiet attention","With confidence"],correct:2,
      feedback:"'You look at people differently... More with a kind of quiet attention.'"}
-  ]
+  ],
+  images:['images/p5/p5_first_aid_1.webp','images/p5/p5_first_aid_2.webp','images/p5/p5_first_aid_3.webp','images/p5/p5_first_aid_4.webp']
 });
 
 STORIES[3][4].push({
@@ -5705,7 +5719,8 @@ STORIES[3][4].push({
      feedback:"'He thought it might be a woman called Eileen who had worked with his father in the early 1960s.'"},
     {question:"What did the cousin do with the car's registration plate?",options:["Posted it on a genealogy website","Reported it to the licensing office","Tried to trace the car and wrote to the current house occupants","Matched it to a local newspaper archive"],correct:2,
      feedback:"She 'tried to trace her through the registration plate' and 'wrote a letter to the current occupants of the house.'"}
-  ]
+  ],
+  images:['images/p5/p5_the_photograph_in_the_box_1.webp','images/p5/p5_the_photograph_in_the_box_2.webp','images/p5/p5_the_photograph_in_the_box_3.webp','images/p5/p5_the_photograph_in_the_box_4.webp','images/p5/p5_the_photograph_in_the_box_5.webp']
 });
 
 STORIES[3][4].push({
@@ -5738,7 +5753,8 @@ STORIES[3][4].push({
      feedback:"'There was a gate, and beyond it a gravel track, and the track met the ridge path.'"},
     {question:"What was inside the metal box at the summit cairn?",options:["A map of the area","Emergency supplies","A visitor book","A compass"],correct:2,
      feedback:"'The summit cairn was just visible. We signed the visitor book inside its metal box.'"}
-  ]
+  ],
+  images:['images/p5/p5_the_wrong_turn_1.webp','images/p5/p5_the_wrong_turn_2.webp','images/p5/p5_the_wrong_turn_3.webp','images/p5/p5_the_wrong_turn_4.webp','images/p5/p5_the_wrong_turn_5.webp']
 });
 
 STORIES[3][4].push({
@@ -5771,7 +5787,8 @@ STORIES[3][4].push({
      feedback:"'Sound arrived before the crowd — the PA system playing something generic, the smell of frying onions... then voices.'"},
     {question:"What did the father do for both goals?",options:["Cheered loudly for a long time","Stood up, then sat down again quickly","High-fived the people around him","Shouted the scorer's name"],correct:1,
      feedback:"'My father stood for both goals and sat down again quickly, like he was embarrassed by himself.'"}
-  ]
+  ],
+  images:['images/p5/p5_before_the_match_1.webp','images/p5/p5_before_the_match_2.webp','images/p5/p5_before_the_match_3.webp','images/p5/p5_before_the_match_4.webp','images/p5/p5_before_the_match_5.webp']
 });
 
 STORIES[3][4].push({
