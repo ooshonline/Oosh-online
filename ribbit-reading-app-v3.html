@@ -136,6 +136,14 @@
     .recap-stat-pill{background:#fff;border:1.5px solid #d0e8d0;border-radius:20px;padding:5px 12px;font-size:.88rem;font-weight:600;color:#1A3260;white-space:nowrap}
     .recap-stat-primary{border-color:var(--primary);color:#2d7a2d}
     .week-recap-cta{font-size:.82rem;color:#4a7a4a;font-style:italic}
+    .daily-pick-label{font-weight:700;font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+    .daily-pick-btn{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:10px 14px 10px 10px;cursor:pointer;text-align:left;width:100%;box-shadow:var(--shadow)}
+    .daily-pick-btn:active{transform:scale(.98)}
+    .daily-pick-cover{width:48px;height:48px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+    .daily-pick-body{flex:1;min-width:0}
+    .daily-pick-title{font-weight:600;font-size:.9rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .daily-pick-meta{font-size:.78rem;color:var(--muted);margin-top:2px}
+    .daily-pick-arrow{color:var(--muted);font-size:1.1rem;flex-shrink:0}
     .home-row1{display:flex;flex-direction:column;gap:12px}
     .continue-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);display:flex;overflow:hidden;text-align:left;min-height:150px}
     .continue-cover{width:96px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
@@ -1937,6 +1945,52 @@ function getContinueStory(){
   }
   return {story:null, isNew:true};
 }
+// Returns a single story to highlight as "Today's pick" — deterministic for the day,
+// distinct from whatever getContinueStory() already surfaces.
+function dailyRecommendation(){
+  const lv=currentLevelId();
+  const dateStr=new Date().toISOString().slice(0,10); // YYYY-MM-DD
+  const seed=dateStr.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  // Scan sub-levels of current level lowest→highest, return a day-seeded unread story.
+  for(let sl=0;sl<10;sl++){
+    const stories=(STORIES[lv]&&STORIES[lv][sl])||[];
+    const unread=stories.filter(s=>!storyDone(s.id));
+    if(unread.length) return unread[seed%unread.length];
+  }
+  // Current level fully done — try next level.
+  const maxLv=LEVELS[LEVELS.length-1].id;
+  const nextLv=Math.min(lv+1,maxLv);
+  if(nextLv!==lv){
+    for(let sl=0;sl<10;sl++){
+      const stories=(STORIES[nextLv]&&STORIES[nextLv][sl])||[];
+      const unread=stories.filter(s=>!storyDone(s.id));
+      if(unread.length) return unread[seed%unread.length];
+    }
+  }
+  return null;
+}
+function renderDailyPick(){
+  const story=dailyRecommendation();
+  if(!story) return '';
+  // Skip if this story is already shown in the continue card to avoid duplication.
+  const {story:contStory}=getContinueStory();
+  if(contStory&&contStory.id===story.id) return '';
+  const lvObj=LEVELS.find(l=>l.id===story.levelId)||LEVELS[0];
+  const [g1,g2]=storyGradient(story,lvObj.g1,lvObj.g2);
+  return `<div>
+    <div class="daily-pick-label">${t('dailyPickLabel')}</div>
+    <button class="daily-pick-btn" onclick="openStoryModal('${story.id}')">
+      <div class="daily-pick-cover" style="background:linear-gradient(135deg,${g1},${g2})">
+        <span>${story.emoji||'📖'}</span>
+      </div>
+      <div class="daily-pick-body">
+        <div class="daily-pick-title">${story.title}</div>
+        <div class="daily-pick-meta">${t('pageMeta',story)}</div>
+      </div>
+      <span class="daily-pick-arrow">→</span>
+    </button>
+  </div>`;
+}
 function calcTodayCount(){
   const today=new Date().toDateString();
   state.todayCount=Object.values(state.progress).filter(p=>new Date(p.at).toDateString()===today).length;
@@ -2507,6 +2561,7 @@ const UI_STRINGS = {
     weekRecapTitle:'Last Week', weekRecapStories:(n)=>`📖 ${n} ${n===1?'story':'stories'}`,
     weekRecapStreak:(n)=>`🔥 ${n}-day streak`, weekRecapCta:'Keep it up this week! 🐸',
     weekRecapDismiss:'Dismiss',
+    dailyPickLabel:"TODAY'S PICK",
     tappedTitle:'Words you tapped', tappedSaveBtn:(n)=>`Save all to my deck (${n})`,
     tappedSaveAll:(n)=>`${n} word${n===1?'':'s'} saved! 📚`, tappedAllSaved:'All saved to your deck ✓',
     freeLeft:(n)=>`${n} free ${n===1?'story':'stories'} left this week`,
@@ -2643,6 +2698,7 @@ const UI_STRINGS = {
     weekRecapTitle:'先週のまとめ', weekRecapStories:(n)=>`📖 ${n}話よんだよ`,
     weekRecapStreak:(n)=>`🔥 ${n}日れんぞく`, weekRecapCta:'今週もがんばろう！🐸',
     weekRecapDismiss:'とじる',
+    dailyPickLabel:'今日のおすすめ',
     tappedTitle:'タップした単語', tappedSaveBtn:(n)=>`全部を保存（${n}）`,
     tappedSaveAll:(n)=>`${n}語を保存しました！📚`, tappedAllSaved:'全部デッキに保存ずみ ✓',
     freeLeft:(n)=>`今週あと${n}話よめます`,
@@ -3749,6 +3805,7 @@ function renderHomeDash(){
   }).join('');
 
   const recapCard=weekRecapCard();
+  const dailyPickHtml=renderDailyPick();
   return `<div class="home-dash">
     ${recapCard}
     <div class="home-row1">
@@ -3764,6 +3821,8 @@ function renderHomeDash(){
         <div class="goal-remaining">${isGoalDone?t('goalDone'):t('moreToGo',goalTotal-goalDone)}</div>
       </div>
     </div>
+
+    ${dailyPickHtml}
 
     <div>
       <div class="section-title">${t('quickLinks')}</div>
