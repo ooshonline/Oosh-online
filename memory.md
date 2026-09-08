@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 7`
+`contentSubpillarRun: 8`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **FIRES next session** (counter = 7, now ODD).
+Next subpillar: **SKIPS next session** (counter = 8, now EVEN).
 
 ---
 
@@ -65,8 +65,9 @@ Next subpillar: **FIRES next session** (counter = 7, now ODD).
 - ✅ Bug Fixes (2026-09-08, automated) — B4 touch targets **DEPLOYED LIVE** (commit `3c8a93d`, build 20260908)
 
 **Cycle 8 COMPLETE.**
-**Cycle 9 next pillar: Functionality.**
-**Content subpillar fires next session** (counter = 7, odd).
+
+**Cycle 9 — IN PROGRESS**
+- ✅ Functionality (2026-09-08, automated) — F8 daily story rec **DEPLOYED LIVE** (commit `9fe4bcb`)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -93,6 +94,32 @@ Next subpillar: **FIRES next session** (counter = 7, now ODD).
 ---
 
 ## Session Log
+
+### 2026-09-08 — Functionality Pillar + Content Subpillar (~55 min, automated) — Cycle 9 start
+
+**Pillar: Functionality** — Cycle 9, first pillar.
+**Content subpillar: FIRED** (counter was 7 = odd; incremented to 8).
+
+**Commits `9fe4bcb`, `d9bf08d` — DEPLOYED LIVE.**
+
+- **feature: F8 — Daily story recommendation on Home screen**
+  - `dailyRecommendation()`: picks the lowest unread sub-level story at the learner's current level; day-seeded (YYYY-MM-DD char-code sum) for determinism; falls back to next level when current level is fully done.
+  - `renderDailyPick()`: compact card with gradient cover, story title, and meta; rendered between the goal ring and Quick Links; hidden when pick duplicates the continue-card story.
+  - 2 new UI_STRINGS: `dailyPickLabel` en ("TODAY'S PICK") + ja ("今日のおすすめ").
+  - 9 new CSS classes; verified live — card shows "My Dog" (today's date seed), label "今日のおすすめ", meta "16語 · 1分", arrow "→", zero console errors.
+  - Commit `9fe4bcb`. LIVE.
+
+- **content: l3.1s6 — "The Life of Bees" (Animals, A2 non-fiction — C3 gap)**
+  - 6th story in Level 3 sub-level 0. Non-fiction fact file addressing C3 informational text gap.
+  - 3 paragraphs (~189 words), 6 vocab items (colony, hive, nectar, pollen, pollination, cell).
+  - 4 comprehension questions (2 factual recall, 2 inference). Child-friendly definitions throughout.
+  - Level 3 now has 52 stories. `ribbit-stories.js` cache-busted → v=20260908b.
+  - Commit `d9bf08d`. LIVE.
+
+**Cycle 9 next pillar: UI.**
+**Content subpillar counter incremented to 8 (even) — skips next session.**
+
+---
 
 ### 2026-09-08 — Bug Fixes / Implementation Check (~45 min, automated) — Cycle 8 COMPLETE
 

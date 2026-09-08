@@ -79,7 +79,7 @@ off here as they ship, and add the commit hash.
 **F1–F5 all shipped. Replenishment ideas (F6–F8):**
 - [ ] **F6 · World Journey destination-detail screen.** Destinations currently open to a story list only. Build a detail screen with: flag + name, a short `facts` blurb (from C5 content), a `vocab` list of ~6 culture words (tap to hear + save to deck), and the story list below. Wire it to the existing `openDestination()` path. **C5 content now complete (2026-09-02) — this feature is unblocked.**
 - [ ] **F7 · "Read Later" bookmark.** A bookmark icon on every story modal adds the story to `state.readLater[]` (persisted `rbt_readlater`). A "Saved" section on the Library screen (collapsible, shown only when non-empty) lists bookmarked stories. Tapping opens the modal as normal. Icon toggles to filled when saved. En + ja.
-- [ ] **F8 · Daily story recommendation.** On the home screen, below the journey track, show one auto-selected recommended story: lowest sub-level not yet started in the learner's current level, or a random unread story from the next level if fully done. Shows story card with blurb and "Read it →" button. Deterministic per day (seeded by date) so it stays stable across renders. En + ja label "Today's pick" / "今日のおすすめ".
+- [x] **F8 · Daily story recommendation — SHIPPED (2026-09-08, commit `9fe4bcb`).** `dailyRecommendation()` + `renderDailyPick()` card on Home between goal ring and Quick Links. Day-seeded determinism; falls back to next level. "TODAY'S PICK" / "今日のおすすめ". LIVE.
 
 ### UI — ideas
 - [x] **U1 · Night theme — commit `0c7204a`, LOCAL ONLY (2026-08-31, pending Kyle verify + push).** Dark token block under `@media prefers-color-scheme:dark` + `[data-theme="dark"]`. Palette: #14231a bg, #1e3325 card, #dde8e1 text, #7a9e8a muted, #94c4b0 navy, #2d4a38 border. `applyTheme()` / `toggleTheme()` in script; `state.theme` → `rbt_theme`. Profile APPEARANCE / がめんのせってい section with 🌙/☀️ toggle. Icons use currentColor — auto-tint. JS clean, 18 identifiers.
@@ -115,9 +115,7 @@ off here as they ship, and add the commit hash.
   always "The story says…". Add inference ("How does she feel?"), sequencing ("What happened first?")
   and vocab-in-context types. Retro-fit one sub-level per run, starting at Level 3.
 - [x] **C2 · After-reading talk prompt — ALL 6 LEVELS SHIPPED (355 total prompts).** L1: 2026-07-24 commit `e15f2f9`. L2: 2026-07-29 commit `43cc844`. L3: 2026-08-05 commit `dad0610`. L4: 2026-08-11 commit `90200c2`. L5: 2026-08-21 commit `bd562b1`. L6: 2026-08-31 commit `1039e44` (50 stories, l6.1s1–l6.10s5, both en+ja, LIVE v=20260901). Complete: L1(75)+L2(80)+L3(50)+L4(50)+L5(50)+L6(50)=355.
-- [ ] **C3 · Non-fiction fact files.** The genre mix is almost entirely narrative; ESL readers need
-  informational text (animals, weather, places, how things work). Author a set at Levels 2–4 using
-  the existing story schema so no code changes are needed.
+- [~] **C3 · Non-fiction fact files.** Started 2026-09-08 (commit `d9bf08d`): l3.1s6 "The Life of Bees" (Animals, A2) added to Level 3 sub-level 0. More non-fiction needed at Levels 2–4 to close the genre gap — continue in future content subpillar runs.
 - [ ] **C4 · Decodable phonics set at Level 1.** Absolute beginners currently get sight-word exposure,
   not systematic decoding. Add short-vowel word-family stories (-at, -ig, -op, -en, -ug) so a child
   can actually sound them out.
