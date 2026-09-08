@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 6`
+`contentSubpillarRun: 7`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **SKIPS next session** (counter = 6, now EVEN).
+Next subpillar: **FIRES next session** (counter = 7, now ODD).
 
 ---
 
@@ -55,16 +55,18 @@ Next subpillar: **SKIPS next session** (counter = 6, now EVEN).
 - ✅ Gamification (2026-08-13, automated)
 - ✅ Monetisation (2026-08-14, automated)
 
-**Cycle 8 — IN PROGRESS**
+**Cycle 8 — COMPLETE**
 - ✅ Functionality (2026-08-28, automated) — F1 **DEPLOYED LIVE** (commit `2882587`)
 - ✅ UI (2026-08-31, automated) — U1 Night theme **DEPLOYED LIVE** (commit `0c7204a`)
 - ✅ UX (2026-09-01, automated) — X5 "Look Again" quiz peek **DEPLOYED LIVE** (commit `4ed2655`)
 - ✅ Content (2026-09-02, automated) — C5 World Journey culture data **DEPLOYED LIVE** (commit `d178bbb`, build 20260902)
 - ✅ Gamification (2026-09-03, automated) — G9 vocabulary milestone toasts **DEPLOYED LIVE** (commit `35820e4`, build 20260903)
 - ✅ Monetisation (2026-09-04, automated) — M5 Japanese-first pricing page **DEPLOYED LIVE** (commits `a62b7e3`+`ba30faa`, build 20260904e)
+- ✅ Bug Fixes (2026-09-08, automated) — B4 touch targets **DEPLOYED LIVE** (commit `3c8a93d`, build 20260908)
 
-**Cycle 8 next pillar: Bug Fixes / Implementation Check.**
-**Content subpillar fires next session** → SKIPS (counter = 6, even).
+**Cycle 8 COMPLETE.**
+**Cycle 9 next pillar: Functionality.**
+**Content subpillar fires next session** (counter = 7, odd).
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -91,6 +93,25 @@ Next subpillar: **SKIPS next session** (counter = 6, now EVEN).
 ---
 
 ## Session Log
+
+### 2026-09-08 — Bug Fixes / Implementation Check (~45 min, automated) — Cycle 8 COMPLETE
+
+**Pillar: Bug Fixes / Implementation Check** — Cycle 8 final pillar.
+**Content subpillar: SKIPPED** (counter was 6 = even; incremented to 7).
+
+**Commit `3c8a93d` — DEPLOYED LIVE (build 20260908).**
+
+- **fix: B4 — two touch target defects fixed**
+  - `reader-autoplay-btn` ("Auto" pill in reader header): 28px → 44px. Was the minimum for child fingers — padded from 10px to 14px to match. Measured live at 375px + 1280px both confirm 44px.
+  - `quiz-look-btn` ("📖 Look Again" button in quiz): 38px → 44px. Direct height bump, no layout change needed.
+  - All other reader and quiz buttons (play, Aa comfort, Exit, quiz answers, nav) already passed at ≥44px.
+  - Golden path (landing → home → reader → quiz) walked — zero console errors, no horizontal overflow.
+  - Both defects reproduced and measured in browser at 375px before fixing; both re-measured at 375px and 1280px after fixing. Confirmed live via curl (both `height:44px` in served CSS).
+
+**Cycle 8 complete. Cycle 9 starts next session — Functionality pillar (F-series backlog, or new ideas).**
+**Content subpillar counter incremented to 7 (odd) — fires next session.**
+
+---
 
 ### 2026-09-04 — Monetisation Pillar + Content Subpillar (~55 min, automated) — Cycle 8
 

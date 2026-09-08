@@ -11,6 +11,18 @@
   until the pathway system (below) replaces it. When you build the pathway system, remove these two
   overrides as part of that work.
 
+- [ ] **image-pipeline: 6 in-flight reroll images are now UNWANTED — do not blindly ingest them (2026-09-07).**
+  An automated QC pass flagged 10 p1-batch scenes and submitted rerolls for all 10 before Kyle reviewed them
+  himself. Kyle overturned 6 of the 10 rejections (the originals were fine) and those 6 scenes were restored
+  and shipped in commit `aebed88`. But their rerolls were already submitted and can't be recalled — when
+  `collect-batch.js` next picks up jobs `p1`, `p2`, and `p4`, these specific keys are unwanted extras that
+  would silently overwrite the now-shipped, Kyle-approved images if ingested: `l3.1s2_2`, `l3.1s2_3`,
+  `l3.1s3_4`, `l3.1s5_3` (from job `p1`), `l3.2s3_4` (from job `p2`, alongside the still-wanted `l3.2s4_1`),
+  and `l3.4s2_5` (from job `p4`). When those jobs land in `drop/_inbox/`, delete those 6 specific files
+  before running `ingest.js` rather than let them sweep into `drop/<storyId>/` and overwrite the current
+  source jpgs. (The other 4 rejected scenes from that same QC pass — `l3.2s4_1`, `l3.3s5_3`, `l3.5s5_1`,
+  `l3.5s5_2` — are genuinely still wanted; ingest those normally.)
+
 ## Pending Kyle's decision (do NOT auto-ship)
 - [x] **Redesigned icon set SHIPPED (2026-07-15, commit `c5f152e`).** All 41 registry icons inlined + live.
 - [ ] **3 icons flagged for a Design tweak** (legible but weakest — optional polish): `status/streak-flame`
@@ -197,10 +209,7 @@ existing state/CSS tokens, one change per session, verify-before-deploy.
   reader -> quiz -> celebration) with the console open: no errors or warnings, no 404s (a missing
   illustration `.webp` should fall back gracefully, never render a broken-image icon), no failed network
   requests, and the served cache-bust `?v=` must match the live JS.
-- [ ] **B4 · Touch targets & interaction.** Child-sized fingers: every tappable control >=44px, no
-  overlapping tap zones, no dead buttons, no popup/modal that won't close, no element trapped behind the
-  bottom nav or another layer (z-index). Reader audio pills, word popup, quiz answers and nav are the
-  usual suspects.
+- [x] **B4 · Touch targets & interaction.** Audited 2026-09-08 — two defects found and fixed (commit `3c8a93d`, DEPLOYED LIVE build 20260908): `.reader-autoplay-btn` 28px→44px; `.quiz-look-btn` 38px→44px. All other reader/quiz/nav buttons passed at 375px and 1280px. Re-sweep in Cycle 9 for new surfaces.
 - [x] **B5 · State & persistence integrity.** Audited 2026-08-27 — all 22 `rbt_*` keys have matching `save()` calls, week-boundary resets correct, TTS cancel on navigate correct, image 404 fallback acceptable. One minor edge case noted (pendingLevelChampion lost on reload during ceremony — transient by design, low probability). No concrete defect to fix; re-sweep in Cycle 8.
   - **Edge case to watch:** if user reloads during levelChampion ceremony screen, pendingLevelChampion is lost and +200 XP is never awarded. Sub-level entry in celebratedSublevels prevents re-firing. Consider persisting pendingLevelChampion in a future Bug pillar.
 
