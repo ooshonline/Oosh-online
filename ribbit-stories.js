@@ -5080,6 +5080,45 @@ STORIES[3][0].push({
   images:['images/p1/p1_the_long_weekend_1.webp','images/p1/p1_the_long_weekend_2.webp','images/p1/p1_the_long_weekend_3.webp','images/p1/p1_the_long_weekend_4.webp','images/p1/p1_the_long_weekend_5.webp']
 });
 
+// PI1·6 — The Life of Bees (non-fiction fact file — addresses C3 informational text gap)
+STORIES[3][0].push({
+  id:"l3.1s6", levelId:3, subLevel:0,
+  title:"The Life of Bees", emoji:"🐝", genre:"Animals",
+  wordCount:189, readMins:2,
+  blurb:"Inside a beehive, every bee has a job — and together they keep the world fed.",
+  paragraphs:[
+    "Bees are insects that live in almost every part of the world. The most common type is the honeybee. Honeybees live together in large groups called colonies. A colony can have up to 50,000 bees living in one hive. Inside the hive, each bee has an important job to do.",
+    "Worker bees are the busiest members of the colony. They fly from flower to flower, collecting a sweet liquid called nectar. They also pick up tiny grains of yellow dust called pollen. Back at the hive, workers turn the nectar into honey. They store it in small sections of the hive called cells. A single worker bee makes only a small spoonful of honey in its entire life.",
+    "Bees are very important for nature. When a bee moves from flower to flower, it carries pollen with it. This process is called pollination. Without pollination, many plants cannot grow fruits or seeds. Farmers depend on bees to help grow food such as apples, almonds, and berries. Scientists say that about one third of the food we eat needs bees to survive."
+  ],
+  vocabulary:{
+    "colony":{def:"A large group of insects or animals living together.",pos:"noun"},
+    "hive":{def:"The home where a bee colony lives and stores its food.",pos:"noun"},
+    "nectar":{def:"A sweet liquid found inside flowers.",pos:"noun"},
+    "pollen":{def:"Tiny yellow dust grains found inside flowers.",pos:"noun"},
+    "pollination":{def:"The process of carrying pollen from flower to flower so plants can grow fruit and seeds.",pos:"noun"},
+    "cell":{def:"A small section inside a beehive used to store honey or bee eggs.",pos:"noun"}
+  },
+  quiz:[
+    {question:"What do worker bees collect from flowers?",
+     options:["Leaves and water","Nectar and pollen","Honey and wax","Fruit and seeds"],
+     correct:1,
+     feedback:"The story says worker bees collect 'a sweet liquid called nectar' and 'tiny grains of yellow dust called pollen'."},
+    {question:"What is pollination?",
+     options:["Making honey in a hive","Building new cells in the hive","Carrying pollen from flower to flower","Finding water in fields"],
+     correct:2,
+     feedback:"The story says 'When a bee moves from flower to flower, it carries pollen with it. This process is called pollination.'"},
+    {question:"Why are bees important for humans?",
+     options:["They keep flowers alive in winter","They help grow the food we eat","They protect farmers from other insects","They make wax for candles"],
+     correct:1,
+     feedback:"The story says 'about one third of the food we eat needs bees to survive.'"},
+    {question:"What does the story suggest would happen if there were no bees?",
+     options:["Flowers would grow more slowly","Many fruits and crops could not grow","Farmers would need to use more water","Animals would eat different plants"],
+     correct:1,
+     feedback:"The story says 'Without pollination, many plants cannot grow fruits or seeds' — and farmers depend on bees to help grow food."}
+  ]
+});
+
 // ── Sub-level 2 · ~275–290 words · Stronger character voice · More figurative language ──
 STORIES[3][1] = [];
 
