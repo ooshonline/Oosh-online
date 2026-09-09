@@ -3298,7 +3298,10 @@ function playCelebrationAnims(){
         if(!badgeSlot.isConnected) return;
         const recolored=recolorLottieData(data,badge.color);
         if(prefersReducedMotion()){ badgeSlot.innerHTML=icon(badge.icon,72); return; }
-        lottie.loadAnimation({ container:badgeSlot, renderer:'svg', loop:false, autoplay:true, animationData:recolored });
+        const showBadgeIcon=()=>{ if(badgeSlot.isConnected && !badgeSlot.querySelector('.ico')) badgeSlot.innerHTML=icon(badge.icon,72); };
+        const badgeAnim=lottie.loadAnimation({ container:badgeSlot, renderer:'svg', loop:false, autoplay:true, animationData:recolored });
+        badgeAnim.addEventListener('complete',showBadgeIcon);
+        setTimeout(showBadgeIcon,1500); // fallback: show icon if complete event doesn't fire
       }).catch(()=>{ badgeSlot.innerHTML=icon(badge.icon,72); });
     }
   }
