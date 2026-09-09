@@ -91,6 +91,9 @@ off here as they ship, and add the commit hash.
 - [x] **U5 · Reader page transition — SHIPPED (2026-07-27, commit `bfb8e8b`).** `.reader-page-text`
   now slides in from the right on Next and from the left on Prev (translateX ±22px + fade, .2s).
   `state.pageDir` transient flag; disabled under `prefers-reduced-motion`. LIVE.
+- [x] **U6 · Badge-unlock animation fix — SHIPPED (2026-09-09, commit `4f246b0`).** After the Lottie animation plays, `showBadgeIcon()` replaces the green-disc last-frame with the actual badge SVG. `complete` event + 1500ms `setTimeout` fallback. `.ico` guard prevents double-write. LIVE.
+- [ ] **U7 · Story-card genre gradient covers.** Currently all story cards in a sub-level share the same flat-colour gradient. Extend the genre-colour system so each card cover has a subtle radial-glow or noise texture — distinct per genre tag — making the library feel richer at a glance. Implement via a `genreCoverStyle(genre)` helper that returns a CSS `background` value; wire to `.story-cover` background. No extra images — pure CSS. Both light + dark theme tokens.
+- [ ] **U8 · Animated XP counter on Profile.** When the learner navigates to Profile, the XP number counts up from 0 to `state.xp` over ~600ms using `requestAnimationFrame`. A small celebratory pulse (`transform: scale(1.15)`) fires when it lands. Purely additive — doesn't touch XP logic, just the display in `renderProfile()`. Uses `state.xp` directly; counter clears if the learner navigates away before it finishes.
 
 ### UX — ideas
 - [x] **X1 · First-run coach tour — SHIPPED (2026-08-04, commit `d96d000`).** 3-slide modal overlay
@@ -239,11 +242,7 @@ existing state/CSS tokens, one change per session, verify-before-deploy.
 - [ ] Genre / topic browse screens — Quick Links "Explore Library" goes to the main library; genre browse tiles that v1 had are not in v3
 
 ### UI
-- [ ] **Badge-unlock animation on the celebration screen reads as a plain green circle.** Spotted
-  2026-07-24 while fixing the completion-animation bug. `.celeb-badge-anim-slot` (96×96) is sized
-  correctly and the animation plays, but it ends on a flat green disc with no visible badge, so a
-  child who just earned a badge sees a green dot. Either the Lottie is wrong for the slot or it
-  needs the same `onComplete` clear as `playCelebrationAnims()` now has. Low risk, small fix.
+- [x] **Badge-unlock animation fix — SHIPPED (2026-09-09, commit `4f246b0`).** Added `showBadgeIcon()` called on Lottie's `complete` event + a 1500ms `setTimeout` fallback (handles throttled-tab browsers where the event never fires). `.ico` guard prevents double-write. The green-disc last-frame is now always replaced by the actual badge SVG. U6.
 - [x] Journey track sub-level labels — nodes now show numbers 1–5 + title shows "X/10 done" progress count (2026-07-21, commit `b66f955`)
 - [x] **Star ratings on completed story cards (2026-07-24, commit `f564d4f`).** `storyStarCount()` + `.story-stars` row of gold stars below title for completed stories. LIVE.
 - [ ] Pond Map home screen — v1 had a winding lily-pad SVG path (10 nodes per sub-level, frog on current node); the v3 home dash has a 5-node preview track but not the full Pond Map

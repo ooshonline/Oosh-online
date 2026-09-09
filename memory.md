@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 8`
+`contentSubpillarRun: 9`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **SKIPS next session** (counter = 8, now EVEN).
+Next subpillar: **FIRES next session** (counter = 9, now ODD).
 
 ---
 
@@ -68,6 +68,7 @@ Next subpillar: **SKIPS next session** (counter = 8, now EVEN).
 
 **Cycle 9 — IN PROGRESS**
 - ✅ Functionality (2026-09-08, automated) — F8 daily story rec **DEPLOYED LIVE** (commit `9fe4bcb`)
+- ✅ UI (2026-09-09, automated) — U6 badge-unlock animation fix **DEPLOYED LIVE** (commit `4f246b0`)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -94,6 +95,27 @@ Next subpillar: **SKIPS next session** (counter = 8, now EVEN).
 ---
 
 ## Session Log
+
+### 2026-09-09 — UI Pillar (~30 min, automated) — Cycle 9
+
+**Pillar: UI** — Cycle 9, second pillar.
+**Content subpillar: SKIPPED** (counter was 8 = even; incremented to 9).
+
+**Commit `4f246b0` — DEPLOYED LIVE.**
+
+- **fix: U6 — badge-unlock animation no longer ends on a green disc**
+  - `showBadgeIcon()` helper replaces the slot's Lottie SVG with the real badge icon (`icon(badge.icon,72)`).
+  - Fires on Lottie's `complete` event (standard path for browsers with active `requestAnimationFrame`).
+  - `setTimeout(showBadgeIcon, 1500)` fallback handles throttled/background tabs where the event never fires.
+  - `.ico` guard on `showBadgeIcon` prevents double-write if both paths race.
+  - Existing `prefersReducedMotion` and `.catch()` fallbacks unchanged.
+  - Verified: badge icon appears after 1500ms in throttled preview pane; `prefersReducedMotion` path shows icon immediately; golden path clean; zero console errors. LIVE confirmed (`showBadgeIcon` present in served file).
+  - 2 new replenishment ideas added: U7 (genre gradient covers) + U8 (animated XP counter) in TODO.md.
+
+**Cycle 9 next pillar: UX.**
+**Content subpillar fires next session** (counter = 9, odd).
+
+---
 
 ### 2026-09-08 — Functionality Pillar + Content Subpillar (~55 min, automated) — Cycle 9 start
 
