@@ -5490,7 +5490,8 @@ STORIES[3][2].push({
      feedback:"'The windows had been bricked up in a slightly different shade, so you could see the outline of every pane.'"},
     {question:"What did the narrator feel at dinner?",options:["Frustrated about their dead phone","Annoyed about being late","As though they understood the town slightly better","Excited to take the long route every day"],correct:2,
      feedback:"'I felt... as though I understood the town slightly better than I had that morning.'"}
-  ]
+  ],
+  images:['images/p3/p3_the_long_way_round_1.webp','images/p3/p3_the_long_way_round_2.webp','images/p3/p3_the_long_way_round_3.webp','images/p3/p3_the_long_way_round_4.webp','images/p3/p3_the_long_way_round_5.webp']
 });
 
 // ── Level 3 · Sub-level 4 (PI4) ──────────────────────────────────────────────
@@ -5865,7 +5866,8 @@ STORIES[3][4].push({
      feedback:"'My grandmother, who was visiting, said she would teach us to play a card game called Spite and Malice.'"},
     {question:"What happened when the power came back at ten?",options:["Everyone felt relieved and went to bed","Every screen lit up simultaneously and the kitchen felt different","They kept playing cards","They blew out the candles one by one"],correct:1,
      feedback:"'Every screen in the house lit up simultaneously, along with the refrigerator hum and the ceiling lights.'"}
-  ]
+  ],
+  images:['images/p5/p5_the_night_the_power_went_out_1.webp','images/p5/p5_the_night_the_power_went_out_2.webp','images/p5/p5_the_night_the_power_went_out_3.webp','images/p5/p5_the_night_the_power_went_out_4.webp','images/p5/p5_the_night_the_power_went_out_5.webp']
 });
 
 // ── Level 3 · Sub-level 6 (PI6) ──────────────────────────────────────────────
@@ -5934,7 +5936,8 @@ STORIES[3][5].push({
      feedback:"'An hour spent moving... compresses it, perhaps, or gives it a different shape.'"},
     {question:"What does the narrator say about their running performance?",options:["They are working toward a race","They track their times carefully","They are not fast and do not run races","They run with a friend most days"],correct:2,
      feedback:"'I am not fast. I do not run races. I do not track my times or wear anything with sensors.'"}
-  ]
+  ],
+  images:['images/p6/p6_the_runner_1.webp','images/p6/p6_the_runner_2.webp','images/p6/p6_the_runner_3.webp','images/p6/p6_the_runner_4.webp','images/p6/p6_the_runner_5.webp']
 });
 
 STORIES[3][5].push({
@@ -5968,7 +5971,8 @@ STORIES[3][5].push({
      feedback:"'Mrs Osei came home after six weeks.'"},
     {question:"What does the father say about losing six kilograms?",options:["He attributes it to the morning walks with Bramble","He says it is nothing to do with the dog","He says it is due to a change in diet","He refuses to discuss it"],correct:1,
      feedback:"'He has lost six kilograms. He says it is nothing to do with the dog.'"}
-  ]
+  ],
+  images:['images/p6/p6_the_neighbours_dog_1.webp','images/p6/p6_the_neighbours_dog_2.webp','images/p6/p6_the_neighbours_dog_3.webp','images/p6/p6_the_neighbours_dog_4.webp','images/p6/p6_the_neighbours_dog_5.webp','images/p6/p6_the_neighbours_dog_6.webp']
 });
 
 STORIES[3][5].push({
@@ -6001,7 +6005,8 @@ STORIES[3][5].push({
      feedback:"'You have to be there, in the room, paying attention with your hands. I find that a relief.'"},
     {question:"How many of the eleven pots did the narrator give to relatives at Christmas?",options:["Two","Three","Four","Five"],correct:1,
      feedback:"'Three went to relatives at Christmas.'"}
-  ]
+  ],
+  images:['images/p6/p6_the_ceramics_room_1.webp','images/p6/p6_the_ceramics_room_2.webp','images/p6/p6_the_ceramics_room_3.webp','images/p6/p6_the_ceramics_room_4.webp','images/p6/p6_the_ceramics_room_5.webp']
 });
 
 STORIES[3][5].push({
@@ -6034,7 +6039,8 @@ STORIES[3][5].push({
      feedback:"'A large section of fence between our garden and the Hargreaves' next door came down completely.'"},
     {question:"What does the narrator say about the following Friday?",options:["More storm damage was found","The rowan tree still blocked the pavement","Most of the evidence had been cleared","School was closed again"],correct:2,
      feedback:"'By Friday, most of it had been cleared. You would not have known, unless you had been there.'"}
-  ]
+  ],
+  images:['images/p6/p6_storm_day_1.webp','images/p6/p6_storm_day_2.webp','images/p6/p6_storm_day_3.webp','images/p6/p6_storm_day_4.webp','images/p6/p6_storm_day_5.webp']
 });
 
 // ── Level 3 · Sub-level 7 (PI7) ──────────────────────────────────────────────
@@ -7111,7 +7117,8 @@ STORIES[4][2].push({
      feedback:"'Nour had brought a sketchbook, and she drew the shapes the fish made.'"},
     {question:"What broader thought did Nour have on the walk back?",options:["That winter was the best season","That sometimes the most difficult conditions reveal what is usually hidden","That she preferred the lake in summer","That the walk had been too long"],correct:1,
      feedback:"'Sometimes the conditions that seem most difficult are exactly the ones that reveal what is usually hidden.'"}
-  ]
+  ],
+  images:['images/i3/i3_the_frozen_lake_1.webp','images/i3/i3_the_frozen_lake_2.webp','images/i3/i3_the_frozen_lake_3.webp']
 });
 
 STORIES[4][2].push({
@@ -7141,7 +7148,8 @@ STORIES[4][2].push({
      feedback:"'It took forty-five minutes, not twenty, but the clock was fixed.'"},
     {question:"What did Felix's grandmother say she would like to do one day?",options:["Buy a new clock","Visit the Repair Café and help with something herself","Learn to fix clocks","Thank Mr. Adeyemi personally"],correct:1,
      feedback:"'I think I would like to go there myself one day, and help with something.'"}
-  ]
+  ],
+  images:['images/i3/i3_the_repair_caf_1.webp','images/i3/i3_the_repair_caf_2.webp','images/i3/i3_the_repair_caf_3.webp']
 });
 
 STORIES[4][2].push({
@@ -7171,7 +7179,8 @@ STORIES[4][2].push({
      feedback:"'She had not previously been good at maths, but the astronomy context made it feel purposeful.'"},
     {question:"How did Cora respond when asked if the universe's age made her feel small?",options:["Yes — very small","No — it made her feel curious about what hasn't been worked out yet","It made her feel frightened","She wasn't sure"],correct:1,
      feedback:"'It makes me feel curious. If the universe is that old, there must be so much we haven't worked out yet.'"}
-  ]
+  ],
+  images:['images/i3/i3_the_astronomy_club_1.webp','images/i3/i3_the_astronomy_club_2.webp','images/i3/i3_the_astronomy_club_3.webp']
 });
 
 STORIES[4][2].push({
@@ -7201,7 +7210,8 @@ STORIES[4][2].push({
      feedback:"'A small shelf labelled 'Books About Books', which she had never seen in a shop before.'"},
     {question:"How did the owner know which fourth book to suggest?",options:["He had memorised all his stock","He guessed from her age","He noticed that all three of her choices were about writers and writing","She had told him her interests"],correct:2,
      feedback:"'He had not consciously noticed the connection, but all three books were about writers and writing.' The owner saw this pattern and selected accordingly."}
-  ]
+  ],
+  images:['images/i3/i3_the_old_bookshop_1.webp','images/i3/i3_the_old_bookshop_2.webp','images/i3/i3_the_old_bookshop_3.webp']
 });
 
 
@@ -7235,7 +7245,8 @@ STORIES[4][3].push({
      feedback:"'Yuki was leaving in three months. There were not that many days left.'"},
     {question:"How was the evening between the sisters after the apology?",options:["Tense and awkward","They talked for a long time about what had happened","They watched films together, not speaking much but not needing to","They played games and laughed"],correct:2,
      feedback:"'They spent the evening on the sofa watching films, not speaking much but not needing to.'"}
-  ]
+  ],
+  images:['images/i4/i4_the_argument_1.webp','images/i4/i4_the_argument_2.webp','images/i4/i4_the_argument_3.webp']
 });
 
 STORIES[4][3].push({
@@ -7265,7 +7276,8 @@ STORIES[4][3].push({
      feedback:"'The camera captured eight different species.'"},
     {question:"What did Matteo do with the footage?",options:["He kept it private","He sent it to his school","He uploaded it to a wildlife recording website","He deleted all but the best clips"],correct:2,
      feedback:"'Matteo uploaded the footage to a wildlife recording website and received comments from ecologists.'"}
-  ]
+  ],
+  images:['images/i4/i4_the_wildlife_camera_1.webp','images/i4/i4_the_wildlife_camera_2.webp','images/i4/i4_the_wildlife_camera_3.webp']
 });
 
 STORIES[4][3].push({
@@ -7295,7 +7307,8 @@ STORIES[4][3].push({
      feedback:"'She called names quietly, pointed to open spaces, and asked questions during breaks instead of giving instructions.'"},
     {question:"What did the coach mean by calling Isabelle 'a different kind of player'?",options:["Her technical skills had improved","She had stopped being a team player","She had grown from thinking only about herself to leading the whole team","She was playing a different position"],correct:2,
      feedback:"Isabelle 'had not been a true captain until she had stopped thinking only about herself.'"}
-  ]
+  ],
+  images:['images/i4/i4_the_team_captain_1.webp','images/i4/i4_the_team_captain_2.webp','images/i4/i4_the_team_captain_3.webp']
 });
 
 STORIES[4][3].push({
@@ -7325,7 +7338,8 @@ STORIES[4][3].push({
      feedback:"'They played three different card games, eaten cold bread and cheese for dinner, and told four separate stories.'"},
     {question:"What did the family do when the power came back on?",options:["They immediately turned the TV on","They went to bed","Nobody moved to turn anything on — they finished the card game","They called relatives to say they were safe"],correct:2,
      feedback:"'Nobody moved to turn anything on... The card game lasted until midnight.'"}
-  ]
+  ],
+  images:['images/i4/i4_the_power_cut_1.webp','images/i4/i4_the_power_cut_2.webp','images/i4/i4_the_power_cut_3.webp']
 });
 
 STORIES[4][3].push({
@@ -7355,7 +7369,8 @@ STORIES[4][3].push({
      feedback:"'Rafi lost four of his five matches.'"},
     {question:"What key feeling did Rafi experience again after the tournament?",options:["Boredom","Pride","Genuine uncertainty — not knowing the right move","Anger at losing"],correct:2,
      feedback:"'He recognised from the very beginning of learning chess — genuine uncertainty. He did not know what the right move would be.'"}
-  ]
+  ],
+  images:['images/i4/i4_the_chess_champion_1.webp','images/i4/i4_the_chess_champion_2.webp','images/i4/i4_the_chess_champion_3.webp']
 });
 
 
