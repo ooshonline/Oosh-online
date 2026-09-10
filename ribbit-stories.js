@@ -5258,7 +5258,8 @@ STORIES[3][1].push({
      feedback:"The story says 'approximately halfway through scene two, when I realised the audience was with me.'"},
     {question:"What did Marcus say after the final night?",options:["He wished he had performed more nights","He was disappointed","He said the child had made the character their own","He said he would have done it differently"],correct:2,
      feedback:"Marcus 'said I had made the character mine.'"}
-  ]
+  ],
+  images:['images/p2/p2_the_understudy_1.webp','images/p2/p2_the_understudy_2.webp','images/p2/p2_the_understudy_3.webp','images/p2/p2_the_understudy_4.webp','images/p2/p2_the_understudy_5.webp']
 });
 
 // PI2·5 — The Tide
@@ -5935,7 +5936,8 @@ STORIES[3][5].push({
      feedback:"'At midnight... the chime and strike together last nearly a minute.'"},
     {question:"How often does the clock need winding?",options:["Every day","Twice a week","Once a week","Once a fortnight"],correct:1,
      feedback:"'It needs winding twice a week.'"}
-  ]
+  ],
+  images:['images/p6/p6_the_oldest_clock_1.webp','images/p6/p6_the_oldest_clock_2.webp','images/p6/p6_the_oldest_clock_3.webp','images/p6/p6_the_oldest_clock_4.webp','images/p6/p6_the_oldest_clock_5.webp']
 });
 
 STORIES[3][5].push({
@@ -7119,7 +7121,8 @@ STORIES[4][2].push({
      feedback:"'Why choose one? The history design and the abstract one could exist on the same wall... the middle left open for the community to add.'"},
     {question:"What happened to the centre section two years later?",options:["It was repainted","It was left blank","It was completely covered in messages, drawings, and signatures","It showed a new design"],correct:2,
      feedback:"'Two years later, the centre section was completely covered in messages, drawings, and signatures.'"}
-  ]
+  ],
+  images:['images/i3/i3_the_mural_1.webp','images/i3/i3_the_mural_2.webp','images/i3/i3_the_mural_3.webp']
 });
 
 STORIES[4][2].push({
@@ -7437,7 +7440,8 @@ STORIES[4][4].push({
      feedback:"'Whether I personally agree is separate from whether the argument is valid.'"},
     {question:"What did Lena realise on the walk home?",options:["She now believed phones should be banned","She had performed badly in the debate","She had not previously thought carefully about why she disagreed with the ban","The debate had been unfair"],correct:2,
      feedback:"'She understood now that she had not, until that week, thought carefully about why.'"}
-  ]
+  ],
+  images:['images/i5/i5_the_debate_1.webp','images/i5/i5_the_debate_2.webp','images/i5/i5_the_debate_3.webp','images/i5/i5_the_debate_4.webp']
 });
 
 STORIES[4][4].push({
@@ -7468,7 +7472,8 @@ STORIES[4][4].push({
      feedback:"'Most of the plastic in the river had not been dumped deliberately. It had come from streets, drains, and everyday consumer products.'"},
     {question:"What 'complicated question' did Tomás take home?",options:["Why rivers attract so much rubbish","Whether volunteer cleanups really help","How his own everyday choices and waste contribute to the problem","Whether microplastics can be removed from water"],correct:2,
      feedback:"He went home thinking about his own bin, packaging, and everyday decisions — a personal environmental question."}
-  ]
+  ],
+  images:['images/i5/i5_the_river_cleanup_1.webp','images/i5/i5_the_river_cleanup_2.webp','images/i5/i5_the_river_cleanup_3.webp','images/i5/i5_the_river_cleanup_4.webp']
 });
 
 STORIES[4][4].push({
@@ -7499,7 +7504,8 @@ STORIES[4][4].push({
      feedback:"'Maya spent three evenings on the reply. It was four paragraphs long and took her longer to write than any essay she had done at school.'"},
     {question:"What did Maya say she had learned at the end of the programme?",options:["That grammar is the most important thing","That making mistakes with someone is how you get to know them","That video calls are better than letters","That Japanese is very different from English"],correct:1,
      feedback:"'Making mistakes with someone is actually how you get to know them.'"}
-  ]
+  ],
+  images:['images/i5/i5_the_language_swap_1.webp','images/i5/i5_the_language_swap_2.webp','images/i5/i5_the_language_swap_3.webp','images/i5/i5_the_language_swap_4.webp']
 });
 
 STORIES[4][4].push({
@@ -7530,7 +7536,8 @@ STORIES[4][4].push({
      feedback:"'On day nineteen, he climbed onto the sofa beside her while she was reading.'"},
     {question:"What did Cleo say she had unexpectedly learned from adopting Pepper?",options:["How to train dogs effectively","How to be around another creature on its own terms","That rescue dogs are always difficult","That terriers are the friendliest dogs"],correct:1,
      feedback:"'She had not expected it to teach her so much about how to be around another creature — that the pace was his, and that was exactly right.'"}
-  ]
+  ],
+  images:['images/i5/i5_the_shelter_dog_1.webp','images/i5/i5_the_shelter_dog_2.webp','images/i5/i5_the_shelter_dog_3.webp','images/i5/i5_the_shelter_dog_4.webp']
 });
 
 STORIES[4][4].push({
@@ -7627,7 +7634,8 @@ STORIES[4][5].push({
      feedback:"'Colonial maps replaced the blank spaces with European names and administrative borders that often cut straight through existing communities.'"},
     {question:"What did Kemi's final project focus on?",options:["How cartographic technology improved","What maps leave out, and why, and who decides","The most famous map makers in history","The accuracy of modern maps"],correct:1,
      feedback:"'She wrote about what maps leave out, and why, and who decides.'"}
-  ]
+  ],
+  images:['images/i6/i6_the_map_makers_1.webp','images/i6/i6_the_map_makers_2.webp','images/i6/i6_the_map_makers_3.webp','images/i6/i6_the_map_makers_4.webp']
 });
 
 STORIES[4][5].push({
@@ -7658,7 +7666,8 @@ STORIES[4][5].push({
      feedback:"'He did not mean the house. He meant the family — and what the family could do with the time and energy that would otherwise go into repeated repair.'"},
     {question:"Why did Nia carry a photograph of the house after they moved?",options:["She planned to return one day","She wanted to sell it","She thought the house deserved to be remembered","She missed her old room"],correct:2,
      feedback:"'She thought the house deserved to be remembered by someone.'"}
-  ]
+  ],
+  images:['images/i6/i6_flooding_season_1.webp','images/i6/i6_flooding_season_2.webp','images/i6/i6_flooding_season_3.webp','images/i6/i6_flooding_season_4.webp']
 });
 
 STORIES[4][5].push({
@@ -7689,7 +7698,8 @@ STORIES[4][5].push({
      feedback:"'Four members of her team finished within three minutes of their target time.'"},
     {question:"Why wasn't Ana disappointed about finishing behind her personal best?",options:["She had not expected to do well","She was injured during the race","She felt a deeper satisfaction knowing she had helped four people reach their goal","She planned to run again next year"],correct:2,
      feedback:"'Four people had reached their goal partly because of her pace. That was worth two minutes.'"}
-  ]
+  ],
+  images:['images/i6/i6_the_marathon_pacer_1.webp','images/i6/i6_the_marathon_pacer_2.webp','images/i6/i6_the_marathon_pacer_3.webp','images/i6/i6_the_marathon_pacer_4.webp']
 });
 
 STORIES[4][5].push({
@@ -7755,7 +7765,8 @@ STORIES[4][6].push({
      feedback:"'He had learned that the moments after his grandfather went quiet were often the most informative — and that asking another question could close things off.'"},
     {question:"What did Leo reflect on during the drive home?",options:["How much he had missed by not asking sooner","How strange the photograph looked","That all the people he knew had unknown histories he might never discover unless he asked","That his grandfather had been hiding information"],correct:2,
      feedback:"'He thought about all the things that must exist in the histories of the people around him that he would never know unless he asked.'"}
-  ]
+  ],
+  images:['images/i7/i7_the_photograph_on_the_wall_1.webp','images/i7/i7_the_photograph_on_the_wall_2.webp','images/i7/i7_the_photograph_on_the_wall_3.webp','images/i7/i7_the_photograph_on_the_wall_4.webp']
 });
 
 STORIES[4][6].push({
@@ -7786,7 +7797,8 @@ STORIES[4][6].push({
      feedback:"'Two other students — both quiet, both at the back — straightened slightly in their seats.'"},
     {question:"What conclusion did Maya reach about 'presence' in class?",options:["Quiet students are not really present","Putting your hand up is the only real sign of engagement","Presence comes in many forms — most invisible to those only looking for raised hands","Engaged students are always the loudest"],correct:2,
      feedback:"'Presence came in many forms — and most of them were invisible to people who were only looking for raised hands.'"}
-  ]
+  ],
+  images:['images/i7/i7_the_quiet_student_1.webp','images/i7/i7_the_quiet_student_2.webp','images/i7/i7_the_quiet_student_3.webp','images/i7/i7_the_quiet_student_4.webp']
 });
 
 STORIES[4][6].push({
@@ -7817,7 +7829,8 @@ STORIES[4][6].push({
      feedback:"'History was full of examples of plants that had been dismissed as insignificant and later found to contain compounds that led to important medicines.'"},
     {question:"What did the student mean when he said 'That's a different kind of question than I asked'?",options:["He had asked a simple question but received a much larger, more philosophical answer","He felt the guide had ignored his question","He wanted to ask a different question","He thought the guide was wrong"],correct:0,
      feedback:"He had asked about practical usefulness; the guide answered about moral responsibility to future generations — a much bigger question."}
-  ]
+  ],
+  images:['images/i7/i7_the_seed_bank_1.webp','images/i7/i7_the_seed_bank_2.webp','images/i7/i7_the_seed_bank_3.webp','images/i7/i7_the_seed_bank_4.webp']
 });
 
 STORIES[4][6].push({
@@ -7848,7 +7861,8 @@ STORIES[4][6].push({
      feedback:"'The fear had a different quality from what she had imagined. It was sharpening rather than paralyzing.'"},
     {question:"What was Paloma trying to understand after the performance?",options:["Why she hadn't been cast originally","How the audience had reacted","How fear, at the right intensity, had turned into clarity","Whether she wanted to act again"],correct:2,
      feedback:"'She was trying to understand what had happened — how fear, at the right intensity, had turned into something she could only describe as clarity.'"}
-  ]
+  ],
+  images:['images/i7/i7_the_understudy_1.webp','images/i7/i7_the_understudy_2.webp','images/i7/i7_the_understudy_3.webp','images/i7/i7_the_understudy_4.webp']
 });
 
 STORIES[4][6].push({
@@ -7914,7 +7928,8 @@ STORIES[4][7].push({
      feedback:"'Sitting in a kitchen with a woman who had actually experienced it made the historical account feel flat by comparison. It was that they had been at a distance he had not previously noticed.'"},
     {question:"How did Kieran describe what he had done in his written project?",options:["He felt he had done excellent research","He wasn't sure it was writing — it felt more like listening transferred to the page","He thought it was his weakest piece of work","He felt he had captured history accurately"],correct:1,
      feedback:"'It felt more like listening, transferred to the page.'"}
-  ]
+  ],
+  images:['images/i8/i8_the_interview_1.webp','images/i8/i8_the_interview_2.webp','images/i8/i8_the_interview_3.webp','images/i8/i8_the_interview_4.webp']
 });
 
 STORIES[4][7].push({
@@ -7945,7 +7960,8 @@ STORIES[4][7].push({
      feedback:"'Coral expelled the algae that gave it colour and nutrition. If temperatures stayed high, the coral died.'"},
     {question:"What key difference did Finn identify between seeing photographs and being there in person?",options:["Photographs are inaccurate","Photographs make things look worse than they are","Accuracy and comprehension are not the same — the gap between a healthy and dying reef was not understandable from photographs","Photographs are too emotional"],correct:2,
      feedback:"'Accuracy and comprehension were not the same thing... the gap between them was not something he could have understood from a photograph.'"}
-  ]
+  ],
+  images:['images/i8/i8_the_coral_reef_1.webp','images/i8/i8_the_coral_reef_2.webp','images/i8/i8_the_coral_reef_3.webp','images/i8/i8_the_coral_reef_4.webp']
 });
 
 STORIES[4][7].push({
@@ -7976,7 +7992,8 @@ STORIES[4][7].push({
      feedback:"'Amara had learned, without being taught, to translate in ways that maintained her parents' dignity: to project the confidence they actually had.'"},
     {question:"What did reading about 'language brokering' make Amara realise?",options:["That she should stop translating for her parents","That her role had also shaped her, not just helped her family","That she wanted to become a professional translator","That other children did not have this experience"],correct:1,
      feedback:"'She had not previously thought of it as something that had also shaped her.'"}
-  ]
+  ],
+  images:['images/i8/i8_the_translator_1.webp','images/i8/i8_the_translator_2.webp','images/i8/i8_the_translator_3.webp','images/i8/i8_the_translator_4.webp']
 });
 
 STORIES[4][7].push({
@@ -8007,7 +8024,8 @@ STORIES[4][7].push({
      feedback:"'Without the awareness of being watched, several players found themselves listening differently — to the other parts, to the overall shape of the piece.'"},
     {question:"Why did the experience become memorable for the orchestra?",options:["Because it was the best performance they had ever given","Because it appeared in the local newspaper","Because it revealed something about why they played that a normal concert might not have shown","Because Mr. Abiola praised them afterwards"],correct:2,
      feedback:"'It had revealed something about why they played that a normal concert, with its expectations and applause, might not have shown.'"}
-  ]
+  ],
+  images:['images/i8/i8_the_empty_stand_1.webp','images/i8/i8_the_empty_stand_2.webp','images/i8/i8_the_empty_stand_3.webp','images/i8/i8_the_empty_stand_4.webp']
 });
 
 STORIES[4][7].push({
@@ -8038,7 +8056,8 @@ STORIES[4][7].push({
      feedback:"'Through conversations with the owner... through Mei, and through pointing, and through the language of plants themselves.'"},
     {question:"Why did the garden make Mei feel less like a newcomer?",options:["Because it looked like home","Because her friends visited there","Because her grandmother's knowledge had a use there — and useful knowledge was a kind of belonging","Because the plants grew better than at home"],correct:2,
      feedback:"'Her grandmother's knowledge had a use, and useful knowledge, Mei decided, was a kind of belonging.'"}
-  ]
+  ],
+  images:['images/i8/i8_the_rainy_season_garden_1.webp','images/i8/i8_the_rainy_season_garden_2.webp','images/i8/i8_the_rainy_season_garden_3.webp','images/i8/i8_the_rainy_season_garden_4.webp']
 });
 
 
@@ -8105,7 +8124,8 @@ STORIES[4][8].push({
      feedback:"'You did not need to understand the briefing if your routine spoke clearly.'"},
     {question:"What did one student suggest about sport and language on the journey home?",options:["Sport is better without language barriers","Sport should have universal rules in one language","Sport, like music, has a grammar that exists before and beneath any particular language","The competition should have provided better translation"],correct:2,
      feedback:"'Sport was like music: it had a grammar that existed before and beneath the particular language you happened to speak.'"}
-  ]
+  ],
+  images:['images/i9/i9_the_language_of_sport_1.webp','images/i9/i9_the_language_of_sport_2.webp','images/i9/i9_the_language_of_sport_3.webp','images/i9/i9_the_language_of_sport_4.webp']
 });
 
 STORIES[4][8].push({
@@ -8136,7 +8156,8 @@ STORIES[4][8].push({
      feedback:"'Not because they expressed despair, but because they did not. Morrow had, apparently, found the solitude productive.'"},
     {question:"What did Rach mean by 'place was part of meaning'?",options:["Lighthouses are the most meaningful places","Reading the logbook in the lighthouse gave the words a different weight than reading them elsewhere","Heritage sites should be preserved","Old buildings should not be changed"],correct:1,
      feedback:"'She found, standing in the place where it had been written, that the words had a different weight from the same words read at a kitchen table.'"}
-  ]
+  ],
+  images:['images/i9/i9_the_lightkeepers_logbook_1.webp','images/i9/i9_the_lightkeepers_logbook_2.webp','images/i9/i9_the_lightkeepers_logbook_3.webp','images/i9/i9_the_lightkeepers_logbook_4.webp']
 });
 
 STORIES[4][8].push({
@@ -8167,7 +8188,8 @@ STORIES[4][8].push({
      feedback:"'Floods were seen as weather, not as evidence of a systematic problem with where things had been built.'"},
     {question:"What was Nadia's key discovery about why data can remain unknown?",options:["Data collection was too expensive","Government databases were restricted","She had found something non-obvious about why some things remained unmapped — despite available evidence","The data was too old to be reliable"],correct:2,
      feedback:"'She had found something non-obvious about why some things remained unmapped' — available data existed but wasn't publicly known or acted upon."}
-  ]
+  ],
+  images:['images/i9/i9_the_flood_map_1.webp','images/i9/i9_the_flood_map_2.webp','images/i9/i9_the_flood_map_3.webp','images/i9/i9_the_flood_map_4.webp']
 });
 
 STORIES[4][8].push({
@@ -8198,7 +8220,8 @@ STORIES[4][8].push({
      feedback:"'Cassius was now understanding that it could hold all of these readings simultaneously.'"},
     {question:"What was Cassius trying to work out on the way home?",options:["Whether he had enjoyed the book","Whether his grandmother's interpretation was correct","What had made those conversations different — whether it was the people, the book, or the room","Whether to recommend the group to his friends"],correct:2,
      feedback:"'He needed the time to think about what had made those conversations different — and whether it was the people, or the book, or the room, or some combination.'"}
-  ]
+  ],
+  images:['images/i9/i9_the_reading_group_1.webp','images/i9/i9_the_reading_group_2.webp','images/i9/i9_the_reading_group_3.webp','images/i9/i9_the_reading_group_4.webp']
 });
 
 
