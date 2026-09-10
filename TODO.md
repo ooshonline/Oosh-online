@@ -111,7 +111,7 @@ off here as they ship, and add the commit hash.
 **X1–X5 all shipped. Replenishment ideas (X6–X8):**
 - [ ] **X6 · "Read aloud" on the celebration screen.** After finishing a story the talk-prompt question appears but there's no way to hear it spoken. Add a speaker button next to the Japanese gloss so the child can hear the English prompt read aloud at a comfortable pace.
 - [ ] **X7 · Smooth story-end transition.** Currently the last quiz answer immediately jumps to the celebration screen. Add a brief 0.5s "Story complete!" interstitial frame (the story emoji, "All done!", a gentle animation) before the celebration screen so the ending feels earned rather than abrupt.
-- [ ] **X8 · Vocabulary recap before the quiz.** Before the first quiz question appears, show a 3-second "Quick vocab check" card displaying the story's 4–6 vocabulary words (word + definition). Builds recall context right before comprehension questions. Tappable to skip.
+- [x] **X8 · Vocabulary recap before the quiz.** ✅ 2026-09-10 `c76ca93` — 3s auto-dismiss + tap to skip; en+ja strings; keyboard Enter/Space support. Activates when story.vocab[] is defined. First story with vocab: l3.2s6 (The Night Sky, `2bf908e`).
 
 ### Content — ideas
 - [ ] **C1 · Quiz question variety.** Every item is literal recall — the `feedback` line is almost

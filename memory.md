@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 9`
+`contentSubpillarRun: 10`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **FIRES next session** (counter = 9, now ODD).
+Next subpillar: **SKIPS next session** (counter = 10, even).
 
 ---
 
@@ -69,6 +69,7 @@ Next subpillar: **FIRES next session** (counter = 9, now ODD).
 **Cycle 9 — IN PROGRESS**
 - ✅ Functionality (2026-09-08, automated) — F8 daily story rec **DEPLOYED LIVE** (commit `9fe4bcb`)
 - ✅ UI (2026-09-09, automated) — U6 badge-unlock animation fix **DEPLOYED LIVE** (commit `4f246b0`)
+- ✅ UX (2026-09-10, automated) — X8 vocab recap before quiz **DEPLOYED LIVE** (commits `c76ca93`+`2bf908e`, build 20260910)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -95,6 +96,36 @@ Next subpillar: **FIRES next session** (counter = 9, now ODD).
 ---
 
 ## Session Log
+
+### 2026-09-10 — UX Pillar + Content Subpillar (~55 min, automated) — Cycle 9
+
+**Pillar: UX** — Cycle 9, third pillar.
+**Content subpillar: FIRED** (counter was 9 = odd; incremented to 10).
+
+**Commits `c76ca93`, `2bf908e` — DEPLOYED LIVE (build 20260910).**
+
+- **feature: X8 — Vocabulary recap card before quiz**
+  - `renderVocabRecap(story)`: full-bleed screen (reuses quiz-screen shell) showing all `story.vocab[]` words — word + part-of-speech label + definition — before the first quiz question.
+  - 3-second auto-dismiss via `_vocabRecapTimer` (module-level, set in render dispatcher); only starts when `state.vocabRecap=true` and no timer is pending.
+  - Manual dismiss: "Start the quiz →" / "クイズへ →" button calls `dismissVocabRecap()` — cancels timer, sets `vocabRecap=false`, re-renders quiz.
+  - Exit (× button): `exitQuiz()` extended to clear timer + reset flag before navigating away.
+  - Keyboard: Enter/Space dismisses recap instead of answering quiz Q1 (guard in keyboard handler); `selectQuizAnswer()` guarded with `if(state.vocabRecap||...)`.
+  - Feature safely no-ops for stories without `vocab[]`; activates immediately for any story with the field.
+  - 11 new CSS classes (`.vr-card`, `.vr-title`, `.vr-subtitle`, `.vr-word-row`, `.vr-word`, `.vr-pos`, `.vr-def`, `.vr-start-btn`).
+  - 3 new UI_STRINGS keys en + ja: `vocabRecapTitle`, `vocabRecapBody`, `vocabRecapStart`.
+  - Verified: auto-dismiss fires at 3s; manual dismiss clears timer; exitQuiz clears timer; quiz loads after dismissal; Japanese strings correct; 375px + desktop clean; zero console errors. Live confirmed (5 identifiers in served HTML).
+
+- **content: l3.2s6 — "The Night Sky" (Nature, A2) — first story with vocab[]**
+  - 6th story in Level 3 sub-level 1 (L3 now has 53 stories).
+  - Parent-child stargazing story; 4 paragraphs (~303 words).
+  - 6 vocab items (constellation, ancient, navigate, reflect, planet, visible) — first story in the app using the `vocab[]` array format, making X8 immediately active for real learners.
+  - 4 comprehension questions (factual recall + inference).
+  - Talk prompt: l3.2s6 added in en + ja. ribbit-stories.js → v=20260910.
+
+**Cycle 9 next pillar: Content.**
+**Content subpillar counter incremented to 10 (even) — skips next session.**
+
+---
 
 ### 2026-09-09 — UI Pillar (~30 min, automated) — Cycle 9
 
