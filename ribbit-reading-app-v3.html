@@ -556,6 +556,16 @@
     .quiz-feedback{margin-top:14px;font-size:14px;color:var(--text);text-align:center;line-height:1.5;background:white;border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-sm)}
     .quiz-next-btn{margin-top:18px;width:100%;min-height:52px;background:var(--primary);border-radius:14px;font-family:var(--font-head);font-weight:800;font-size:15px;color:#151515;box-shadow:0 4px 14px rgba(186,218,85,.4);animation:fade-up .25s ease both}
     .combo-pill{display:flex;align-items:center;gap:5px;margin-left:8px;background:#fff3e0;border-radius:20px;padding:4px 10px;font-family:var(--font-head);font-weight:900;font-size:12px;color:var(--accent-dark);white-space:nowrap}
+    /* ══ VOCAB RECAP — shown for 3 s before quiz when story has vocab ══ */
+    .vr-card{width:100%;max-width:520px;background:var(--card);border-radius:20px;padding:20px 20px 24px;box-shadow:var(--shadow)}
+    .vr-title{font-family:var(--font-head);font-size:15px;font-weight:800;color:var(--navy);margin-bottom:4px}
+    .vr-subtitle{font-size:12px;color:var(--text-muted);margin-bottom:14px}
+    .vr-word-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+    .vr-word-row:last-child{border-bottom:none}
+    .vr-word{font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--navy);min-width:72px;flex-shrink:0}
+    .vr-pos{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
+    .vr-def{font-size:13px;color:var(--text);line-height:1.4;flex:1;min-width:160px}
+    .vr-start-btn{width:100%;margin-top:18px;padding:13px;background:var(--primary);color:#151515;font-family:var(--font-head);font-weight:800;font-size:15px;border:none;border-radius:12px;cursor:pointer;letter-spacing:.02em}
 
     /* Combo-streak overlay — purely cosmetic feedback layered on top of the quiz-answer flow.
        Anchored to the top, NOT centred: centring parked the card directly over the answer
@@ -1384,6 +1394,10 @@ document.addEventListener('keydown', function handleKeyDown(e){
   }
 
   if(s==='quiz'){
+    if(state.vocabRecap){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); dismissVocabRecap(); }
+      return;
+    }
     if(!state.quizAnswered){
       if(e.key==='1'){ e.preventDefault(); selectQuizAnswer(0); }
       else if(e.key==='2'){ e.preventDefault(); selectQuizAnswer(1); }
@@ -1588,6 +1602,7 @@ function nextPage(){
     state.screen='quiz'; state.quizIndex=0; state.quizAnswered=false;
     state.quizSelected=null; state.quizCorrectCount=0; state.quizStartTime=Date.now();
     state.comboStreak=0; state.showStoryPeek=false;
+    state.vocabRecap=!!(story.vocab&&story.vocab.length);
     render();
   }
 }
@@ -1609,7 +1624,7 @@ function exitReading(){
 
 // ── QUIZ ─────────────────────────────────────────────────
 function selectQuizAnswer(i){
-  if(state.quizAnswered) return;
+  if(state.vocabRecap||state.quizAnswered) return;
   const story=findStory(state.lastStoryId);
   const q=story.quiz[state.quizIndex];
   const isCorrect=i===q.correct;
@@ -1634,7 +1649,8 @@ function advanceQuiz(){
     render(); // master render() spawns the confetti for the celebration screen
   }
 }
-function exitQuiz(){ state.showStoryPeek=false; navigate(state.worldSelectedId ? 'world' : state.libraryLevel ? 'library' : 'home'); }
+function exitQuiz(){ state.showStoryPeek=false; if(_vocabRecapTimer){clearTimeout(_vocabRecapTimer);_vocabRecapTimer=null;} state.vocabRecap=false; navigate(state.worldSelectedId ? 'world' : state.libraryLevel ? 'library' : 'home'); }
+function dismissVocabRecap(){ if(_vocabRecapTimer){clearTimeout(_vocabRecapTimer);_vocabRecapTimer=null;} state.vocabRecap=false; render(); }
 function toggleStoryPeek(){ state.showStoryPeek=!state.showStoryPeek; render(); }
 
 // ── FLASHCARDS — real deck model: "My Words" auto-deck built from state.flashCards
@@ -1861,6 +1877,7 @@ function addWordToDeck(word){
   render();
 }
 let _deletedWord=null, _deleteTimer=null;
+let _vocabRecapTimer=null; // auto-dismiss timer for vocab recap screen before quiz
 let _sessionTappedWords=[]; // words opened via popup this reading session; cleared on story start
 function removeWordFromDeck(word){
   clearTimeout(_deleteTimer); _deletedWord=null;
@@ -2526,6 +2543,7 @@ const UI_STRINGS = {
     loginBonusStreak:(days,xp)=>`🔥 ${days}-day streak! Bonus +${xp} XP!`,
     streakMilestone:(days)=>`🔥 ${days}-day streak! Amazing work! 🐸`,
     vocabMilestone:(n)=>`📚 ${n} words saved! You're building your vocabulary! 🐸`,
+    vocabRecapTitle:'📚 Quick vocab check', vocabRecapBody:'Remember these words from the story?', vocabRecapStart:'Start the quiz →',
     destStamped:(name)=>`🪪 ${name} passport stamped! +200 XP`,
     comboLabel:'COMBO!', correctLabel:'CORRECT!', wrongLabel:'WRONG!',
     comboStreakLine:(n)=>`${n} in a row!`,
@@ -2663,6 +2681,7 @@ const UI_STRINGS = {
     loginBonusStreak:(days,xp)=>`🔥 ${days}日連続！ボーナス +${xp} XP！`,
     streakMilestone:(days)=>`🔥 ${days}日連続達成！すごい！🐸`,
     vocabMilestone:(n)=>`📚 ${n}語保存した！どんどん語彙が増えてるよ！🐸`,
+    vocabRecapTitle:'📚 単語チェック', vocabRecapBody:'おはなしに出てきた単語を覚えてる？', vocabRecapStart:'クイズへ →',
     destStamped:(name)=>`🪪 ${name}のパスポートにスタンプ！ +200 XP`,
     comboLabel:'コンボ！', correctLabel:'せいかい！', wrongLabel:'ざんねん！',
     comboStreakLine:(n)=>`${n}連続！`,
@@ -3040,10 +3059,39 @@ function renderReader(){
   </div>`;
 }
 
+// ── VOCAB RECAP — shown for 3 s before quiz questions; auto-dismissed or tapped to skip ──
+function renderVocabRecap(story){
+  const quizLevel=story.levelId?LEVELS.find(l=>l.id===story.levelId):null;
+  const [illuG1,illuG2]=quizLevel?[quizLevel.g1,quizLevel.g2]:['#E3F3FC','#70C1B3'];
+  const illuImg=story.images&&story.images[0];
+  const illuBg=illuImg?`url('${escAttr(illuImg)}') center/cover no-repeat`:`linear-gradient(135deg,${illuG1},${illuG2})`;
+  const words=(story.vocab||[]).map(v=>`<div class="vr-word-row">
+      <span class="vr-word">${v.word}</span>${v.partOfSpeech?`<span class="vr-pos">${v.partOfSpeech}</span>`:''}
+      <span class="vr-def">${v.definition}</span></div>`).join('');
+  return `<div class="quiz-screen">
+    <div class="quiz-topbar">
+      <div class="quiz-title">${story.title||''}</div>
+      <button class="quiz-exit-btn" onclick="exitQuiz()">${icon('ctrl-close',16)}</button>
+    </div>
+    <div style="width:100%;height:clamp(80px,12vh,110px);background:${illuBg};flex-shrink:0"></div>
+    <div class="quiz-body">
+      <div class="quiz-stage">
+        <div class="vr-card">
+          <div class="vr-title">${t('vocabRecapTitle')}</div>
+          <div class="vr-subtitle">${t('vocabRecapBody')}</div>
+          <div>${words}</div>
+          <button class="vr-start-btn" onclick="dismissVocabRecap()">${t('vocabRecapStart')}</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
 // ── QUIZ — literal port, Tablet lines 901-958 (MC branch only; real story.quiz is all multiple-choice) ──
 function renderQuiz(){
   const story=findStory(state.lastStoryId);
   if(!story||!story.quiz||!story.quiz.length) return renderComingSoon();
+  if(state.vocabRecap&&story.vocab&&story.vocab.length) return renderVocabRecap(story);
   const q=story.quiz[state.quizIndex];
   // Reuse the reader's own illustration + gradient fallback so the quiz looks like the story.
   const quizLevel=story.levelId?LEVELS.find(l=>l.id===story.levelId):null;
@@ -3935,7 +3983,11 @@ function render(){
   if(state.screen==='landing'){ renderLanding(); return; }
   if(state.screen==='placement'){ document.getElementById('app').innerHTML=renderPlacement(); return; }
   if(state.screen==='reader'){ document.getElementById('app').innerHTML=renderReader(); return; }
-  if(state.screen==='quiz'){ document.getElementById('app').innerHTML=renderQuiz(); return; }
+  if(state.screen==='quiz'){
+    document.getElementById('app').innerHTML=renderQuiz();
+    if(state.vocabRecap&&!_vocabRecapTimer){ _vocabRecapTimer=setTimeout(()=>{ _vocabRecapTimer=null; state.vocabRecap=false; render(); },3000); }
+    return;
+  }
   if(state.screen==='celebration'){ document.getElementById('app').innerHTML=renderCelebration(); playCelebrationAnims(); return; }
   if(state.screen==='sublevelCelebration'){ document.getElementById('app').innerHTML=renderSublevelCelebration(); return; }
   if(state.screen==='levelChampion'){ document.getElementById('app').innerHTML=renderLevelChampionCeremony(); return; }
