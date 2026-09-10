@@ -5296,6 +5296,38 @@ STORIES[3][1].push({
   images:['images/p2/p2_the_tide_1.webp','images/p2/p2_the_tide_2.webp','images/p2/p2_the_tide_3.webp','images/p2/p2_the_tide_4.webp','images/p2/p2_the_tide_5.webp']
 });
 
+// PI2·6 — The Night Sky
+STORIES[3][1].push({
+  id:"l3.2s6", levelId:3, subLevel:1,
+  title:"The Night Sky", emoji:"⭐", genre:"Nature",
+  wordCount:303, readMins:3,
+  blurb:"Dad wakes the child up at midnight to look at the stars — and explains what they are really seeing.",
+  paragraphs:[
+    "Last night, my dad woke me up just after midnight. 'Come outside,' he said quietly. 'I want to show you something special.' I put on my coat and followed him into the garden. The air was cold and still. Above us, thousands of stars were shining against a perfectly black sky.",
+    "Dad pointed to a group of stars that made the shape of a belt and shoulders. 'That is Orion,' he said. 'Ancient sailors used constellations like that one to navigate at sea — before GPS, before maps, they followed the stars.' He said the word 'Orion' as though it was important, and I realised I had heard it before but never looked for it.",
+    "'Some of those lights are not stars at all,' Dad said. 'They are planets — Jupiter and Saturn are both visible tonight. They do not make their own light. They reflect the sun's light back towards us, the same way the moon does.' I thought about that for a moment — sunlight travelling millions of kilometres, bouncing off a distant planet, and landing in my eyes.",
+    "We stayed outside for almost an hour. I lay on the grass and let my eyes adjust. Slowly, more and more stars appeared. Dad said that on a clear night, far from city lights, you can see over five thousand stars with the naked eye. I counted twenty-three before I stopped. The universe felt both enormous and, somehow, very close."
+  ],
+  vocab:[
+    {word:"constellation", definition:"A group of stars that form a pattern in the sky and have a name.", partOfSpeech:"noun"},
+    {word:"ancient", definition:"From a very long time ago — thousands of years in the past.", partOfSpeech:"adjective"},
+    {word:"navigate", definition:"To find your way from one place to another, especially over a long distance.", partOfSpeech:"verb"},
+    {word:"reflect", definition:"To send light back from a surface instead of absorbing it.", partOfSpeech:"verb"},
+    {word:"planet", definition:"A large round object in space that moves around a star.", partOfSpeech:"noun"},
+    {word:"visible", definition:"Able to be seen.", partOfSpeech:"adjective"}
+  ],
+  quiz:[
+    {question:"Why did Dad wake the child up at midnight?",options:["To ask for help in the garden","To show them something special","Because the child was sleepwalking","Because they heard a strange noise"],correct:1,
+     feedback:"Dad said: 'I want to show you something special.'"},
+    {question:"How did ancient sailors use constellations?",options:["To predict the weather","To navigate at sea","To measure time","To tell stories around a fire"],correct:1,
+     feedback:"Dad explained that sailors used constellations 'to navigate at sea — before GPS, before maps.'"},
+    {question:"Why do planets shine in the night sky?",options:["Because they make their own light","Because they are very hot","Because they reflect the sun's light","Because they are close to Earth"],correct:2,
+     feedback:"Dad said planets 'do not make their own light. They reflect the sun's light back towards us.'"},
+    {question:"What does the last paragraph tell us about how the child feels?",options:["Bored and ready to go back to sleep","Amazed by how big the universe is","Confused by everything Dad said","Worried about being outside so late"],correct:1,
+     feedback:"The child counts stars, and feels that 'the universe felt both enormous and, somehow, very close.'"}
+  ]
+});
+
 // ── Sub-level 3 · ~290–305 words · Complex sentences · Richer setting ──
 STORIES[3][2] = [];
 
@@ -13420,6 +13452,7 @@ const TALK_PROMPTS = {
   'l3.2s3':{en:"Is there a place that has always been part of your life — a shop, a building, a space — that you cannot imagine disappearing?", ja:"じぶんの せいかつに ずっと あった 場所 — おみせ、たてもの、スペース — なくなるなんて かんがえられないものは ある？"},
   'l3.2s4':{en:"Have you ever prepared thoroughly for something you did not expect to actually do? What happened when you were suddenly needed?", ja:"じっさいには しないと おもいながら、なにかの じゅんびを したことは ある？いざ ひつようと なったとき、どうなった？"},
   'l3.2s5':{en:"Can you think of a time you lost track of time completely — absorbed in a place or something you were watching? What were you doing?", ja:"なにかに ぐっと むちゅうに なって、じかんを わすれてしまったことは ある？なにを していた？"},
+  'l3.2s6':{en:"Have you ever looked up at the night sky and felt small? What were you thinking about?", ja:"よぞらを みあげて、じぶんが ちいさいな と かんじたことは ある？そのとき なにを かんがえていた？"},
 
   // ── Level 3 · Sub-level 3 ──
   'l3.3s1':{en:"Have you ever found something private that was not meant for you? What did you decide to do — and why?", ja:"じぶんに あてたものじゃない、しとくな なにかを みつけたことは ある？どうすることに した？それは なぜ？"},
