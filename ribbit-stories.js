@@ -5527,6 +5527,38 @@ STORIES[3][2].push({
   images:['images/p3/p3_the_long_way_round_1.webp','images/p3/p3_the_long_way_round_2.webp','images/p3/p3_the_long_way_round_3.webp','images/p3/p3_the_long_way_round_4.webp','images/p3/p3_the_long_way_round_5.webp']
 });
 
+// PI3·6 — The Community Garden
+STORIES[3][2].push({
+  id:"l3.3s6", levelId:3, subLevel:2,
+  title:"The Community Garden", emoji:"🌱", genre:"Community",
+  wordCount:305, readMins:3,
+  blurb:"A patch of unused school land becomes something remarkable when a class decides to grow their own food.",
+  paragraphs:[
+    "Our school had a small piece of unused land behind the car park — a rectangle of bare earth that nobody paid much attention to. Last spring, our class teacher suggested we turn it into a community garden. Most of us were uncertain at first. It looked unpromising: hard, pale soil with a few weeds growing in the corners. But our teacher said we would be surprised at what the ground could produce if we looked after it properly.",
+    "We began by loosening the soil and mixing in compost — a dark, crumbly material made from old food scraps and leaves that had broken down slowly over many months. It smelled earthy and rich. Our teacher explained that compost adds nutrients to the soil: the minerals and substances that plants need to grow well. 'Think of it as feeding the earth,' she said. We worked in pairs, turning the soil over until it was soft and dark all the way through.",
+    "In March, we planted seedlings — young plants that had been grown in small trays indoors, already several centimetres tall. We pressed each one gently into the earth in careful rows and watered them every morning. Watching the same patch of ground change from week to week was unexpectedly satisfying. Small green leaves appeared where there had been nothing.",
+    "By July, the garden had transformed completely. Tomatoes hung in heavy clusters; bean plants climbed the wire fence in a tangle of green. We harvested everything at the end of term and cooked a simple meal together, which we ate outside on the last day of school. Two students who had barely spoken all year ended up spending the whole summer working side by side. I am still not sure whether the garden grew more food than it grew friendship."
+  ],
+  vocab:[
+    {word:"compost", definition:"A dark material made from rotted food scraps and plants, mixed into soil to help things grow.", partOfSpeech:"noun"},
+    {word:"nutrient", definition:"A substance in food or soil that living things need to grow and stay healthy.", partOfSpeech:"noun"},
+    {word:"seedling", definition:"A very young plant that has recently started to grow from a seed.", partOfSpeech:"noun"},
+    {word:"harvest", definition:"To collect crops or plants when they are ready to eat or use.", partOfSpeech:"verb"},
+    {word:"cluster", definition:"A group of things that are close together.", partOfSpeech:"noun"},
+    {word:"transform", definition:"To change completely in appearance or character.", partOfSpeech:"verb"}
+  ],
+  quiz:[
+    {question:"What did the teacher suggest doing with the unused land?",options:["Building a car park","Turning it into a community garden","Planting trees around the school","Leaving it for the birds"],correct:1,
+     feedback:"The teacher 'suggested we turn it into a community garden.'"},
+    {question:"What is compost made from?",options:["Chemicals bought from a shop","Rotted food scraps and leaves","Sand and gravel mixed together","Crushed rocks and minerals"],correct:1,
+     feedback:"The story says compost is 'a dark, crumbly material made from old food scraps and leaves that had broken down slowly over many months.'"},
+    {question:"Which of these happened FIRST in the story?",options:["The class planted seedlings","They ate a meal on the last day of school","The teacher suggested making a garden","The tomatoes hung in heavy clusters"],correct:2,
+     feedback:"The teacher's suggestion came first — before any of the planting, watering, or harvesting took place."},
+    {question:"'I am still not sure whether the garden grew more food than it grew friendship.' What does this tell us?",options:["The harvest was smaller than expected","The two students had always been close","Working together in the garden helped students become friends","The narrator wished they had grown more vegetables"],correct:2,
+     feedback:"This is an inference — two students who barely knew each other became close friends through the garden. The narrator feels this may have been the garden's most valuable result."}
+  ]
+});
+
 // ── Level 3 · Sub-level 4 (PI4) ──────────────────────────────────────────────
 STORIES[3][3] = [];
 
@@ -13483,6 +13515,7 @@ const TALK_PROMPTS = {
   'l3.3s3':{en:"What changes about a place when you visit it out of season — fewer people, different weather? What do you notice that you usually miss?", ja:"きせつはずれに ある 場所を おとずれると、ひとが すくなくて てんきも ちがう。ふだん きづかない、なにが みえる？"},
   'l3.3s4':{en:"Have you ever taken on a duty that felt boring at first but turned out to be more interesting than you expected? What changed?", ja:"はじめは つまらないと おもっていた やくめが、おもったより おもしろかったことは ある？なにが かわった？"},
   'l3.3s5':{en:"Has an unexpected change of plan ever led you somewhere better than the original destination? What happened?", ja:"よていが かわって、もともとの ものより よい けいけんに なったことは ある？どうなった？"},
+  'l3.3s6':{en:"Have you ever worked on something with others that took weeks or months? What did you learn — about the project, and about the people you worked with?", ja:"なんしゅうかん や なんかげつも かかる プロジェクトを、ほかの ひとと いっしょに とりくんだことは ある？プロジェクトや、いっしょに とりくんだ ひとについて、なにを まなんだ？"},
 
   // ── Level 3 · Sub-level 4 ──
   'l3.4s1':{en:"Have you ever discovered something surprising hidden in a familiar place? How did finding it change the way you saw that place?", ja:"よく しっている 場所に かくれた、おどろくような ものを みつけたことは ある？みつけたことで、その 場所の みかたが かわった？"},
