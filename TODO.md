@@ -114,9 +114,7 @@ off here as they ship, and add the commit hash.
 - [x] **X8 · Vocabulary recap before the quiz.** ✅ 2026-09-10 `c76ca93` — 3s auto-dismiss + tap to skip; en+ja strings; keyboard Enter/Space support. Activates when story.vocab[] is defined. First story with vocab: l3.2s6 (The Night Sky, `2bf908e`).
 
 ### Content — ideas
-- [ ] **C1 · Quiz question variety.** Every item is literal recall — the `feedback` line is almost
-  always "The story says…". Add inference ("How does she feel?"), sequencing ("What happened first?")
-  and vocab-in-context types. Retro-fit one sub-level per run, starting at Level 3.
+- [~] **C1 · Quiz question variety.** Started 2026-09-14 (commit `d28a63d`): L3 sub-level 2 (6 stories) retrofitted with 5 inference + 3 vocab-in-context + 2 sequencing + 1 character-inference questions. Continue one sub-level per run — next: L3 sub-level 3, then L3 sub-levels 4–10, then L2, L4 etc.
 - [x] **C2 · After-reading talk prompt — ALL 6 LEVELS SHIPPED (355 total prompts).** L1: 2026-07-24 commit `e15f2f9`. L2: 2026-07-29 commit `43cc844`. L3: 2026-08-05 commit `dad0610`. L4: 2026-08-11 commit `90200c2`. L5: 2026-08-21 commit `bd562b1`. L6: 2026-08-31 commit `1039e44` (50 stories, l6.1s1–l6.10s5, both en+ja, LIVE v=20260901). Complete: L1(75)+L2(80)+L3(50)+L4(50)+L5(50)+L6(50)=355.
 - [~] **C3 · Non-fiction fact files.** Started 2026-09-08 (commit `d9bf08d`): l3.1s6 "The Life of Bees" (Animals, A2) added to Level 3 sub-level 0. More non-fiction needed at Levels 2–4 to close the genre gap — continue in future content subpillar runs.
 - [ ] **C4 · Decodable phonics set at Level 1.** Absolute beginners currently get sight-word exposure,

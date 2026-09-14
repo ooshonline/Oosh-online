@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 10`
+`contentSubpillarRun: 11`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **SKIPS next session** (counter = 10, even).
+Next subpillar: **FIRES next session** (counter = 11, odd).
 
 ---
 
@@ -70,6 +70,7 @@ Next subpillar: **SKIPS next session** (counter = 10, even).
 - ✅ Functionality (2026-09-08, automated) — F8 daily story rec **DEPLOYED LIVE** (commit `9fe4bcb`)
 - ✅ UI (2026-09-09, automated) — U6 badge-unlock animation fix **DEPLOYED LIVE** (commit `4f246b0`)
 - ✅ UX (2026-09-10, automated) — X8 vocab recap before quiz **DEPLOYED LIVE** (commits `c76ca93`+`2bf908e`, build 20260910)
+- ✅ Content (2026-09-14, automated) — C1 quiz variety retro-fit L3.2 **DEPLOYED LIVE** (commit `d28a63d`, build 20260914)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -96,6 +97,28 @@ Next subpillar: **SKIPS next session** (counter = 10, even).
 ---
 
 ## Session Log
+
+### 2026-09-14 — Content Pillar (~40 min, automated) — Cycle 9
+
+**Pillar: Content** — Cycle 9, fourth pillar.
+**Content subpillar: SKIPPED** (counter was 10 = even; incremented to 11).
+
+**Commit `d28a63d` — DEPLOYED LIVE (build 20260914).**
+
+- **content: C1 — Quiz question variety retro-fit for L3 sub-level 2 (6 stories)**
+  - Replaced 11 literal-recall questions across l3.2s1–l3.2s6 with a diverse question mix:
+  - **5 inference questions**: l3.2s1 Q4 (narrator's connection to Bertrand), l3.2s2 Q4 (what "ran differently" means), l3.2s3 Q3 (narrator's claimed neutrality vs. behaviour), l3.2s4 Q2 (saying yes before question finished), l3.2s5 Q2 (Dad's calmness), l3.2s5 Q4 (downplaying the Cornwall incident).
+  - **3 vocab-in-context questions**: l3.2s1 Q3 ("tributaries"), l3.2s3 Q2 ("custom"), l3.2s4 Q4 ("generous").
+  - **2 sequencing questions**: l3.2s2 Q1 (which event happened LAST), l3.2s6 Q1 (which happened FIRST).
+  - All inference feedback lines start with "This is an inference —" to cue the question type.
+  - Correct answer indices verified in browser; quiz renders cleanly in local preview + confirmed LIVE.
+  - All kept questions (approx half) are already solid comprehension questions — only weakest literal-recall ones were replaced.
+  - Cache-bust bumped to v=20260914.
+
+**Cycle 9 next pillar: Gamification.**
+**Content subpillar fires next session** (counter = 11, odd).
+
+---
 
 ### 2026-09-10 — UX Pillar + Content Subpillar (~55 min, automated) — Cycle 9
 
