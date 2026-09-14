@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 11`
+`contentSubpillarRun: 12`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **FIRES next session** (counter = 11, odd).
+Next subpillar: **SKIPS next session** (counter = 12, even).
 
 ---
 
@@ -71,6 +71,7 @@ Next subpillar: **FIRES next session** (counter = 11, odd).
 - ✅ UI (2026-09-09, automated) — U6 badge-unlock animation fix **DEPLOYED LIVE** (commit `4f246b0`)
 - ✅ UX (2026-09-10, automated) — X8 vocab recap before quiz **DEPLOYED LIVE** (commits `c76ca93`+`2bf908e`, build 20260910)
 - ✅ Content (2026-09-14, automated) — C1 quiz variety retro-fit L3.2 **DEPLOYED LIVE** (commit `d28a63d`, build 20260914)
+- ✅ Gamification (2026-09-14, automated) — G10 goal picker + Content subpillar l3.3s6 **DEPLOYED LIVE** (commits `ba6925a`+`44c9248`, build 20260914b)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -97,6 +98,35 @@ Next subpillar: **FIRES next session** (counter = 11, odd).
 ---
 
 ## Session Log
+
+### 2026-09-14 — Gamification Pillar + Content Subpillar (~50 min, automated) — Cycle 9
+
+**Pillar: Gamification** — Cycle 9, fifth pillar.
+**Content subpillar: FIRED** (counter was 11 = odd; incremented to 12).
+
+**Commits `ba6925a`, `44c9248` — DEPLOYED LIVE (build 20260914b).**
+
+- **feature: G10 — tap-to-set daily reading goal picker**
+  - The home-dash goal ring already existed (ring, state, CSS). What was missing: the ability to change the goal.
+  - Tapping the "あと N 話！" / "N more to go!" / "Goal complete! 🎉" text below the ring now toggles a 3-button picker (1 / 2 / 3 stories); active goal highlighted with `--primary` green; closing restores the text.
+  - `toggleGoalPicker()` flips `state.showGoalPicker` (transient); `setGoal(n)` sets `state.dailyGoal`, saves to `rbt_goal`, closes picker.
+  - 3 new CSS classes: `.goal-picker`, `.goal-btn`, `.goal-btn--active`. `.goal-remaining` gets `cursor:pointer`.
+  - Verified: picker opens/closes via click; setGoal(2) → ring updates to 0/2; mobile 375px buttons render cleanly with good touch targets; desktop clean; zero console errors. LIVE confirmed (`toggleGoalPicker` + `v=20260914b` in served file).
+  - G10 ticked in TODO.md. G13 (streak freeze) added as replenishment idea.
+
+- **content: l3.3s6 — "The Community Garden" (Community, A2+)**
+  - 6th story in STORIES[3][2] (L3, Sub-level 3). Level 3 now has 54 stories.
+  - 305 words, 4 paragraphs. Theme: school class turns unused land into a community garden.
+  - 6 vocab items using `vocab[]` format (compost, nutrient, seedling, harvest, cluster, transform) — second story in the app to use vocab[] after l3.2s6; activates X8 vocab recap for learners.
+  - 4 quiz questions: factual recall (what was the land like?), vocab definition (compost), sequencing (which happened FIRST?), inference (garden grew more food than friendship).
+  - Talk prompt l3.3s6 added (en + ja) — about long-term collaborative work.
+  - ribbit-stories.js → v=20260914b.
+  - Verified: story found in STORIES[3][2]; vocab recap fires before quiz (6 vocab cards displayed); reader text renders correctly; talk prompt en + ja correct; zero console errors. LIVE confirmed (l3.3s6, "The Community Garden", "compost" in served stories file).
+
+**Cycle 9 next pillar: Monetisation.**
+**Content subpillar counter incremented to 12 (even) — skips next session.**
+
+---
 
 ### 2026-09-14 — Content Pillar (~40 min, automated) — Cycle 9
 

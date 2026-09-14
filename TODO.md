@@ -171,7 +171,7 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   LIVE (v=20260813).
 - [~] **G8 · "Level Champion" ceremony — COMMITTED, pending browser verify + deploy (2026-08-24, commit `91135d7`).** Gold-themed full-screen ceremony fires after the last sub-level ceremony: level icon + champion badge, +200 XP, next-level hint, confetti. `state.celebratedLevels[]` → `rbt_celeb_lv` prevents re-firing. **Kyle: verify in browser, then `git push origin master` after bumping `?v=20260824`.**
 - [x] **G9 · Vocabulary milestone toasts — SHIPPED (2026-09-03, commit `35820e4`).** `VOCAB_MILESTONES=[10,25,50,100]` + `checkVocabMilestone(oldCount,newCount)` fires a toast + +20 XP when word count crosses a milestone in `addWordToDeck` or `saveAllTappedWords`. Both en + ja. LIVE (build 20260903).
-- [ ] **G10 · Daily reading goal ring.** Show a small progress ring on the Home dash for today's story goal (1 story/day default). Ring fills as stories are read today. Tapping it opens a simple goal picker (1/2/3 stories). Derived from `todayCount` (already computed) + `state.dailyGoal` (new, persisted `rbt_goal`). No gating.
+- [x] **G10 · Daily reading goal picker — SHIPPED (2026-09-14, commits `ba6925a`).** Tapping the "あと N 話！" / "N more to go!" text below the home-dash goal ring opens a 3-button picker (1/2/3); active goal highlighted green. `toggleGoalPicker()` / `setGoal(n)` functions; `state.showGoalPicker` transient flag; `state.dailyGoal` + `rbt_goal` already existed. LIVE (build 20260914b).
 - [ ] **G12 · Pathway system (upgraded progression) — replaces the current lock system.** Right now
   stories/destinations gate linearly via `subLevelAvailable()` (sub-level N needs N-1 done) and
   `destLocked()` (each World destination needs the previous one complete). Both are currently
@@ -184,6 +184,7 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   slices. When it ships, delete the two `DEV: all stories unlocked` overrides and route gating through
   the pathway instead. Bigger than one run — scope carefully.
 - [ ] **G11 · "First try" perfect-quiz bonus.** When a learner gets 100% on their first attempt at a story's quiz, show a "+10 XP First Try!" chip on the celebration screen. Track `state.firstTryPerfect[]` (persisted `rbt_ftp`). Small, motivating, zero new screens.
+- [ ] **G13 · Streak freeze / grace day.** When the daily streak would reset because the learner missed a day, award a one-use "freeze" that holds the streak for one missed day (one free freeze granted at streak 7+). State: `state.streakFreezes` (persisted `rbt_sfreezes`). Shows as a small shield icon next to the streak pill. No XP cost — motivating, not punishing.
 
 ### Bug Fixes / Implementation Check — ideas (added 2026-08-21)
 
