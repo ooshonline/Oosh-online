@@ -163,7 +163,10 @@
     .goal-ring-inner{width:60px;height:60px;border-radius:50%;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center}
     .goal-fraction{font-family:var(--font-head);font-weight:900;font-size:15px;color:var(--text);line-height:1}
     .goal-stories-label{font-size:8.5px;color:var(--text-muted);font-weight:600}
-    .goal-remaining{font-size:11px;font-weight:700;color:var(--primary-dark)}
+    .goal-remaining{font-size:11px;font-weight:700;color:var(--primary-dark);cursor:pointer}
+    .goal-picker{display:flex;gap:6px;width:100%}
+    .goal-btn{flex:1;padding:4px 0;border-radius:7px;border:2px solid var(--border);background:var(--bg);color:var(--text);font-size:12px;font-weight:800;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+    .goal-btn--active{border-color:var(--primary);background:var(--primary);color:#fff}
 
     .section-title{font-size:11px;font-weight:800;color:var(--text);letter-spacing:.06em;margin-bottom:8px}
     .ql-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -759,7 +762,7 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260914"></script>
+<script src="ribbit-stories.js?v=20260914b"></script>
 <script src="ribbit-wordlists.js?v=20260910"></script>
 <script src="ribbit-ja-translations.js?v=20260910"></script>
 <script src="assets/vendor/lottie.min.js?v=20260804"></script>
@@ -1254,6 +1257,7 @@ const state = {
   fontStep: parseInt(localStorage.getItem('rbt_font_step')||'1'), // 0=small(×0.85), 1=medium(×1.0), 2=large(×1.2)
   easyRead: localStorage.getItem('rbt_easy_read')==='1',
   showComfort: false, // transient — comfort bar open in reader
+  showGoalPicker: false, // transient — goal-picker open on home dash
   theme: localStorage.getItem('rbt_theme')||'auto', // 'auto'=respect prefers-color-scheme, 'dark'=force dark, 'light'=force light
 };
 function save(){
@@ -1327,6 +1331,8 @@ function lastWeekStories(){
   return Object.values(state.progress).filter(p=>p.at>=t0&&p.at<t1).length;
 }
 function dismissWeekRecap(){ state.lastWeekRecap=thisWeekKey(); save(); render(); }
+function toggleGoalPicker(){ state.showGoalPicker=!state.showGoalPicker; render(); }
+function setGoal(n){ state.dailyGoal=n; state.showGoalPicker=false; save(); render(); }
 
 // ── ENTITLEMENT HELPERS (M2 — stub; isSubscribed() body replaced by S3) ──────
 // Dev toggle: set localStorage 'rbt_dev_sub'='1' in the browser console to simulate
@@ -3869,7 +3875,9 @@ function renderHomeDash(){
             <div class="goal-stories-label">${t('storiesLabel')}</div>
           </div>
         </div>
-        <div class="goal-remaining">${isGoalDone?t('goalDone'):t('moreToGo',goalTotal-goalDone)}</div>
+        ${state.showGoalPicker
+          ? `<div class="goal-picker">${[1,2,3].map(n=>`<button class="goal-btn${n===state.dailyGoal?' goal-btn--active':''}" onclick="setGoal(${n})">${n}</button>`).join('')}</div>`
+          : `<div class="goal-remaining" onclick="toggleGoalPicker()">${isGoalDone?t('goalDone'):t('moreToGo',goalTotal-goalDone)}</div>`}
       </div>
     </div>
 
