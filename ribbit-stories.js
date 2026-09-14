@@ -5149,10 +5149,10 @@ STORIES[3][1].push({
      feedback:"The story says 'My great-uncle Bertrand had been a cartographer — someone who makes maps.'"},
     {question:"What made the one map different from the others?",options:["It was much larger","It was in colour","It showed a river bend in detail with a heron and boat — more like art","It had no writing on it"],correct:2,
      feedback:"The story says it was 'less a technical document and more a piece of art.'"},
-    {question:"What had Bertrand written on the back of the special map?",options:["'For my family'","'My best work'","'Rufiji Delta, October 1979. Two weeks here. Perfect.'","'Draw what you see, not what you know.'"],correct:2,
-     feedback:"He wrote 'Rufiji Delta, October 1979. Two weeks here. Perfect.'"},
-    {question:"What did Grandmother say Bertrand believed maps were about?",options:["Accuracy above all else","Getting from one place to another efficiently","Paying attention to where you were","Recording history"],correct:2,
-     feedback:"Grandmother said Bertrand 'believed that maps were not just about getting somewhere — they were about paying attention to where you were.'"}
+    {question:"In the story, Bertrand mapped 'the names of tributaries.' What does 'tributaries' most likely mean here?",options:["Large waterfalls","Smaller rivers that flow into a larger river","Ancient river names","River crossings"],correct:1,
+     feedback:"A tributary is a smaller river or stream that flows into a larger one — Bertrand's maps were detailed enough to record all of them by name."},
+    {question:"The narrator says: 'I do not know the Rufiji Delta, but he did, and somehow that is enough.' What does this suggest?",options:["They plan to visit Africa one day","They feel connected to Bertrand through his map even without knowing the place","They wish they had met Bertrand more often","They find the maps too old to be interesting"],correct:1,
+     feedback:"This is an inference — the narrator finds meaning through the map itself, showing a sense of connection to someone they barely knew."}
   ],
   images:['images/p2/p2_the_cartographers_gift_1.webp','images/p2/p2_the_cartographers_gift_2.webp','images/p2/p2_the_cartographers_gift_3.webp','images/p2/p2_the_cartographers_gift_4.webp','images/p2/p2_the_cartographers_gift_5.webp']
 });
@@ -5180,14 +5180,14 @@ STORIES[3][1].push({
     "drills":{def:"Repeated exercises practised to improve a skill.",pos:"noun"}
   },
   quiz:[
-    {question:"How long had the child been the fastest runner in their year?",options:["One year","Two years","Three years","Since Year Three"],correct:1,
-     feedback:"The story says 'For two years, I had been the fastest runner in my year group.'"},
+    {question:"Which of these events happened LAST in the story?",options:["Dami joined the school from Leeds","Dami pulled ahead within fifty metres","The child asked Dami about her running","The child's times improved over the next term"],correct:3,
+     feedback:"In order: Dami joins school → pulls ahead in PE → the child asks about her running → Dami offers drills → times improve. The improvement came last."},
     {question:"What was different about the way Dami ran?",options:["She had longer legs","She started faster","Her movement was economical and upright","She breathed differently"],correct:2,
      feedback:"The story says she ran with 'economical and upright' movement."},
     {question:"What were the child's two options after being overtaken?",options:["Give up running or train harder","Feel threatened or be interested","Ignore it or ask for advice","Practise alone or join a club"],correct:1,
      feedback:"The story says 'I had two options: feel threatened by this, or be interested in it.'"},
-    {question:"Why had Dami been so much faster?",options:["She was naturally gifted only","She had been running with a club since she was seven","She trained every day alone","She had a specialist coach at school"],correct:1,
-     feedback:"The story says 'She had been running with a club since she was seven.'"}
+    {question:"The narrator says 'I ran differently after knowing her.' What does 'ran differently' most likely mean?",options:["They eventually became faster than Dami","Both their technique and their approach to running changed, not just their speed","They stopped competing in races","They copied Dami's running style exactly"],correct:1,
+     feedback:"This is an inference — the narrator's times improved but never reached Dami's, yet they 'ran differently,' suggesting a change in mindset and approach, not just speed."}
   ],
   images:['images/p2/p2_the_fastest_runner_1.webp','images/p2/p2_the_fastest_runner_2.webp','images/p2/p2_the_fastest_runner_3.webp','images/p2/p2_the_fastest_runner_4.webp','images/p2/p2_the_fastest_runner_5.webp']
 });
@@ -5217,10 +5217,10 @@ STORIES[3][1].push({
   quiz:[
     {question:"What struck the child as pleasingly wrong about the clock display?",options:["The clocks were very old","All the clocks showed different times","The grandfather clock was too big","The window was always dusty"],correct:1,
      feedback:"The story says 'They all showed different times, which struck me as pleasingly wrong.'"},
-    {question:"How many years had the clockmaker's shop been open?",options:["37 years","42 years","47 years","52 years"],correct:2,
-     feedback:"The sign said 'Closing after 47 years.'"},
-    {question:"What happened to the shop by March?",options:["It became a watch shop","It was still empty","It was being fitted out as a coffee shop","It had been knocked down"],correct:2,
-     feedback:"The story says 'a coffee shop was fitting out the interior.'"},
+    {question:"The closing sign said 'Thank you for your custom.' What does 'custom' mean in this context?",options:["A long-standing tradition","The business of regular customers; their trade","The furniture in the shop","A formal rule or law"],correct:1,
+     feedback:"Here 'custom' means the trade or business of customers — thanking people for their 'custom' means thanking them for choosing to shop there."},
+    {question:"The narrator claims not to 'have a strong feeling about coffee shops' — but also says they still look for the clocks. What does this tell us?",options:["The narrator genuinely feels nothing about the change","The narrator is claiming neutrality but their behaviour shows they do care","The narrator is looking to buy a new clock","The narrator dislikes both coffee shops and clocks"],correct:1,
+     feedback:"This is an inference — claiming not to care while still looking for the clocks reveals that the narrator does mind the loss, even if they cannot fully admit it."},
     {question:"What does the child still do when passing the corner?",options:["Cross the road to avoid it","Stop and look in the window","Look at the corner as though the clocks might come back","Think about Mr. Feldstein"],correct:2,
      feedback:"The story says 'I still look at the corner as I pass, as though the clocks might come back.'"}
   ],
@@ -5252,12 +5252,12 @@ STORIES[3][1].push({
   quiz:[
     {question:"Why was the child also playing the harbour master?",options:["They auditioned for it","It was their main role while also understudying","Ms. Abiodun asked them to take it on","Marcus asked them to cover it"],correct:1,
      feedback:"The child was both understudy for the lead and played the harbour master in three scenes."},
-    {question:"Why couldn't Marcus perform?",options:["He broke his arm","He forgot his lines","He had a fever","He moved schools"],correct:2,
-     feedback:"The story says 'Marcus came down with a fever.'"},
+    {question:"The child said yes before Ms. Abiodun had finished her sentence. What does this suggest?",options:["They did not understand what they were agreeing to","They had secretly been hoping for this chance all along","They wanted to appear confident to their teacher","They were afraid to say no"],correct:1,
+     feedback:"This is an inference — answering before a question is finished suggests the child had been waiting for exactly this opportunity and was already decided."},
     {question:"When did the child stop thinking about the lines during the performance?",options:["From the very start","After the first scene","Halfway through scene two","After the interval"],correct:2,
      feedback:"The story says 'approximately halfway through scene two, when I realised the audience was with me.'"},
-    {question:"What did Marcus say after the final night?",options:["He wished he had performed more nights","He was disappointed","He said the child had made the character their own","He said he would have done it differently"],correct:2,
-     feedback:"Marcus 'said I had made the character mine.'"}
+    {question:"The story says Marcus 'was generous about it.' What does 'generous' mean in this situation?",options:["He gave the child a gift","He was gracious and not resentful about someone else performing his role","He agreed to share the part in future shows","He was excited by what he had seen"],correct:1,
+     feedback:"In this context, 'generous' means gracious and big-hearted — Marcus could have felt resentful that someone else performed his role, but instead he was kind about it."}
   ],
   images:['images/p2/p2_the_understudy_1.webp','images/p2/p2_the_understudy_2.webp','images/p2/p2_the_understudy_3.webp','images/p2/p2_the_understudy_4.webp','images/p2/p2_the_understudy_5.webp']
 });
@@ -5287,12 +5287,12 @@ STORIES[3][1].push({
   quiz:[
     {question:"What had happened to the rocks the child had been sitting on?",options:["They had become too hot to sit on","They were now knee-deep in water","They had been covered in seaweed","They had disappeared completely"],correct:1,
      feedback:"The story says 'The rocks I had been sitting on an hour earlier were now knee-deep.'"},
-    {question:"What time had Dad said high tide would be?",options:["Three forty-five","Four o'clock","Four seventeen","Four thirty"],correct:2,
-     feedback:"The story says 'high tide was at four-seventeen.'"},
+    {question:"Dad collected their things 'unhurried, which I found reassuring.' What does Dad's calmness suggest?",options:["He was not aware of how fast the tide was coming in","He had grown up by the sea and knew they had time","He was hiding his fear from the child","He had forgotten what time high tide was"],correct:1,
+     feedback:"This is an inference — someone who 'could read the beach the way some people read a room' would be calm because they understood tides and knew they were not in real danger."},
     {question:"What feeling did the child have when the water was closer than expected?",options:["Fear","Excitement","Not quite alarm — a sharp reminder the world moves without you watching","Confusion"],correct:2,
      feedback:"The story says 'something that was not quite alarm — more like a sharp reminder that the world moves whether you are watching or not.'"},
-    {question:"What had happened to Dad in Cornwall?",options:["He was stung by a jellyfish","He swam too far out","He was caught by a tide and waited on a ledge for two hours","He lost his belongings to the sea"],correct:2,
-     feedback:"Dad 'had once been caught properly by a tide in Cornwall and had to wait on a ledge for two hours.'"}
+    {question:"The narrator says 'I suspected it had been more frightening than that.' What does this tell us about Dad?",options:["He had exaggerated the story to impress the narrator","He kept calm and downplayed a genuinely frightening experience","He had forgotten how scared he was at the time","He was making up the story about Cornwall"],correct:1,
+     feedback:"This is an inference — Dad described being stranded as merely 'inconvenient,' but the narrator senses he was downplaying how frightening it really was, showing that Dad keeps his composure."}
   ],
   images:['images/p2/p2_the_tide_1.webp','images/p2/p2_the_tide_2.webp','images/p2/p2_the_tide_3.webp','images/p2/p2_the_tide_4.webp','images/p2/p2_the_tide_5.webp']
 });
@@ -5318,8 +5318,8 @@ STORIES[3][1].push({
     {word:"visible", definition:"Able to be seen.", partOfSpeech:"adjective"}
   ],
   quiz:[
-    {question:"Why did Dad wake the child up at midnight?",options:["To ask for help in the garden","To show them something special","Because the child was sleepwalking","Because they heard a strange noise"],correct:1,
-     feedback:"Dad said: 'I want to show you something special.'"},
+    {question:"Which of these happened FIRST in the story?",options:["The child counted twenty-three stars","Dad explained that planets reflect sunlight","Dad pointed to Orion","The child lay on the grass"],correct:2,
+     feedback:"In order: Dad woke the child → they went outside → Dad pointed to Orion → Dad explained planets → the child lay on the grass counting stars. Orion came first."},
     {question:"How did ancient sailors use constellations?",options:["To predict the weather","To navigate at sea","To measure time","To tell stories around a fire"],correct:1,
      feedback:"Dad explained that sailors used constellations 'to navigate at sea — before GPS, before maps.'"},
     {question:"Why do planets shine in the night sky?",options:["Because they make their own light","Because they are very hot","Because they reflect the sun's light","Because they are close to Earth"],correct:2,
