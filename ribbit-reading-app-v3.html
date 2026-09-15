@@ -762,9 +762,9 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260914b"></script>
-<script src="ribbit-wordlists.js?v=20260910"></script>
-<script src="ribbit-ja-translations.js?v=20260910"></script>
+<script src="ribbit-stories.js?v=20260915"></script>
+<script src="ribbit-wordlists.js?v=20260915"></script>
+<script src="ribbit-ja-translations.js?v=20260915"></script>
 <script src="assets/vendor/lottie.min.js?v=20260804"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
@@ -1345,6 +1345,10 @@ function weeklyFreeRemaining(){
   if(!state.wkFree || state.wkFree.weekKey!==wk) return 3;
   return Math.max(0, 3-(state.wkFree.storyIds||[]).length);
 }
+// M6: thin Vercel Analytics wrapper — silently no-ops on GitHub Pages, active after S1 (Vercel migration).
+// Never passes child PII; props limited to level ids, story ids, and event type labels.
+function trackEvent(name,props){ if(typeof window.va==='function') window.va('event',{name,...(props||{})}); }
+
 // Free tier: Level 1 always open; Levels 2–6 gated (subscription or weekly allowance).
 function canAccessLevel(levelId){ return levelId===1 || isSubscribed() || weeklyFreeRemaining()>0; }
 // Free tier: Tokyo free; all other Journey destinations gated.
@@ -1445,7 +1449,7 @@ function enterFromLanding(){
   navigate('home');
   setTimeout(checkDailyLoginBonus, 600); // boot-time call was skipped while on the splash
 }
-function openLibraryLevel(id){ state.libraryLevel=id; state.librarySublevel=null; state.librarySearch=''; render(); }
+function openLibraryLevel(id){ if(!canAccessLevel(id)) trackEvent('lockedContentTap',{type:'level',levelId:id}); state.libraryLevel=id; state.librarySublevel=null; state.librarySearch=''; render(); }
 function openLibrarySublevel(levelId,sub,locked){ if(locked) return; state.librarySublevel=sub; render(); }
 // "View path" belongs on the lily-pad sub-level track, not the stats screen. navigate() clears
 // libraryLevel for non-library screens, so set the drill-down after switching.
@@ -1751,7 +1755,7 @@ function toggleBadgeTooltip(id){ state.openBadgeTooltip = state.openBadgeTooltip
 
 function openDestination(id){
   const d=DESTINATIONS.find(x=>x.id===id); if(!d) return;
-  if(destLocked(d)){ state.worldLockedNoticeId=d.id; render(); setTimeout(()=>{ state.worldLockedNoticeId=null; render(); },2500); return; }
+  if(destLocked(d)){ trackEvent('lockedContentTap',{type:'destination',destId:id}); state.worldLockedNoticeId=d.id; render(); setTimeout(()=>{ state.worldLockedNoticeId=null; render(); },2500); return; }
   state.worldSelectedId=d.id; render();
 }
 function goWorldRoot(){ state.worldSelectedId=null; render(); }
@@ -1810,6 +1814,12 @@ function finishStory(story){
         }
       }
     }
+  }
+  // M6: funnel events — fire once each, no PII, silent on GitHub Pages
+  if(!prev && Object.keys(state.progress).length===1) trackEvent('firstStoryCompleted',{storyId:story.id});
+  if(_slInfo && parseInt(_slInfo.lv)===1){
+    const _l1Stories=STORIES[1]?Object.values(STORIES[1]).flat():[];
+    if(_l1Stories.length>0 && _l1Stories.every(s=>!!state.progress[s.id])) trackEvent('level1Completed');
   }
 }
 
@@ -2442,6 +2452,7 @@ function advancePlacement(){
 function finishPlacement(level){
   state.placeLevel=capPlacement(level, state.placeAge||7);
   state.placeStep='result';
+  trackEvent('placementCompleted',{level:state.placeLevel}); // M6
   render();
 }
 function choosePlacementLevel(level){ state.placeLevel=level; render(); }
