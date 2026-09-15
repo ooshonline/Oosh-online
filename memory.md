@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 12`
+`contentSubpillarRun: 13`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **SKIPS next session** (counter = 12, even).
+Next subpillar: **FIRES next session** (counter = 13, odd).
 
 ---
 
@@ -123,8 +123,31 @@ Next subpillar: **SKIPS next session** (counter = 12, even).
   - ribbit-stories.js → v=20260914b.
   - Verified: story found in STORIES[3][2]; vocab recap fires before quiz (6 vocab cards displayed); reader text renders correctly; talk prompt en + ja correct; zero console errors. LIVE confirmed (l3.3s6, "The Community Garden", "compost" in served stories file).
 
-**Cycle 9 next pillar: Monetisation.**
-**Content subpillar counter incremented to 12 (even) — skips next session.**
+**Cycle 9 next pillar: Bug Fixes / Implementation Check.**
+**Content subpillar counter incremented to 13 (odd) — fires next session.**
+
+---
+
+### 2026-09-15 — Monetisation Pillar (~45 min, automated) — Cycle 9
+
+**Pillar: Monetisation** — Cycle 9, sixth pillar.
+**Content subpillar: SKIPPED** (counter was 12 = even; incremented to 13).
+
+**Commit `bead38c` — DEPLOYED LIVE (build 20260915).**
+
+- **feature: M6 — Vercel Analytics instrumentation**
+  - `trackEvent(name, props)`: thin wrapper around `window.va('event',{...})`. Silently no-ops when `window.va` is absent (i.e., on GitHub Pages); activates automatically after S1 (Vercel migration) because Vercel auto-injects the analytics script at `/_vercel/insights/script.js` on their platform.
+  - No child PII leaves the device; props limited to level/story ids and event type labels.
+  - 4 funnel events wired (all fire once per user action, never on re-render):
+    - `placementCompleted` (level) — in `finishPlacement()`
+    - `firstStoryCompleted` (storyId) — in `finishStory()` when `state.progress` length goes 0 → 1
+    - `level1Completed` — in `finishStory()` when the last L1 story is finished
+    - `lockedContentTap` (type, levelId/destId) — in `openLibraryLevel()` and `openDestination()` when gated content is tapped; covers future destLocked pathway system
+  - Upgrade-screen and checkout events (spec items 5–7) not wired yet — M3 and S-series aren't built.
+  - Verified: trackEvent correctly no-ops without `window.va`; fires `window.va('event',{...})` with correct shape when present; all 4 events tested with console spy and confirmed correct payloads; golden path clean; zero console errors; 375px clean; all 6 identifiers (trackEvent, v=20260915, placementCompleted, firstStoryCompleted, level1Completed, lockedContentTap) confirmed in served file.
+
+**Cycle 9 next pillar: Bug Fixes / Implementation Check.**
+**Content subpillar counter incremented to 13 (odd) — fires next session.**
 
 ---
 
