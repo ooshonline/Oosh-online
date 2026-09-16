@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 13`
+`contentSubpillarRun: 14`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **FIRES next session** (counter = 13, odd).
+Next subpillar: **SKIPS next session** (counter = 14, even).
 
 ---
 
@@ -66,12 +66,14 @@ Next subpillar: **FIRES next session** (counter = 13, odd).
 
 **Cycle 8 COMPLETE.**
 
-**Cycle 9 — IN PROGRESS**
+**Cycle 9 — COMPLETE**
 - ✅ Functionality (2026-09-08, automated) — F8 daily story rec **DEPLOYED LIVE** (commit `9fe4bcb`)
 - ✅ UI (2026-09-09, automated) — U6 badge-unlock animation fix **DEPLOYED LIVE** (commit `4f246b0`)
 - ✅ UX (2026-09-10, automated) — X8 vocab recap before quiz **DEPLOYED LIVE** (commits `c76ca93`+`2bf908e`, build 20260910)
 - ✅ Content (2026-09-14, automated) — C1 quiz variety retro-fit L3.2 **DEPLOYED LIVE** (commit `d28a63d`, build 20260914)
 - ✅ Gamification (2026-09-14, automated) — G10 goal picker + Content subpillar l3.3s6 **DEPLOYED LIVE** (commits `ba6925a`+`44c9248`, build 20260914b)
+- ✅ Monetisation (2026-09-15, automated) — M6 Vercel Analytics instrumentation **DEPLOYED LIVE** (commit `bead38c`, build 20260915)
+- ✅ Bug Fixes / Implementation Check (2026-09-16, automated) — B3/B2/B1 sweep: ALL CLEAN. No console errors, no 404s, no layout overflow at 375px; images render correctly. Content subpillar: l3.6s6 "The Recipe Book" **DEPLOYED LIVE** (commit `f7a4c4f`, build 20260916)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -98,6 +100,33 @@ Next subpillar: **FIRES next session** (counter = 13, odd).
 ---
 
 ## Session Log
+
+### 2026-09-16 — Bug Fixes Pillar + Content Subpillar (~55 min, automated) — Cycle 9 COMPLETE
+
+**Pillar: Bug Fixes / Implementation Check** — Cycle 9, seventh and final pillar.
+**Content subpillar: FIRED** (counter was 13 = odd; incremented to 14).
+
+**Commit `f7a4c4f` — DEPLOYED LIVE (build 20260916).**
+
+- **Bug pillar: B3/B2/B1 sweep — ALL CLEAN**
+  - **B3 (Console errors & 404s):** Walked full golden path (landing → home → library → reader → quiz → celebration) + flashcards, rewards, world, profile. Zero console errors, zero 404s. All scripts, animations, and assets returned 200 OK. Cache-bust `v=20260915` matched served files. CLEAN.
+  - **B2 (Layout overflow):** Checked all screens at 375px mobile width via `scrollWidth > innerWidth` test. Reader also checked. ALL CLEAN — no horizontal overflow on any screen.
+  - **B1 (Responsive image rendering):** Screenshot at 375px confirmed cat illustration fully visible with subject uncropped in reader split layout. CLEAN.
+  - No genuine defects found this Bug cycle. Recorded in TODO.md (B3/B2/B1 all noted as clean in Cycle 9). Per instructions, proceeded to Content subpillar.
+
+- **Content subpillar: l3.6s6 — "The Recipe Book" (Food/Family, A2+)**
+  - 6th story in STORIES[3][5] (L3, Sub-level 5). L3 sub-levels 0–3 now all have 6 stories; 0–5 each have 6.
+  - 292 words, 4 paragraphs. Theme: grandmother's handwritten recipe book; baking together; recognising a taste through an imperfect result.
+  - 6 vocab items using `vocab[]` array format — activates X8 vocab recap before quiz.
+  - 4 quiz questions: 2 factual recall, 2 inference (imperfect-but-working; photographing to preserve).
+  - Talk prompt l3.6s6 added (en + ja): "Have you ever tried to cook or make something using an old recipe..."
+  - `ribbit-stories.js` → `v=20260916`.
+  - Verified: story found in STORIES[3][5][5]; vocab recap fired then auto-dismissed; quiz answered through; celebration rendered with 3 stars + correct talk prompt (en + ja); zero console errors. LIVE confirmed (l3.6s6 + talk prompt in served file).
+
+**Cycle 9 COMPLETE. Cycle 10 starts next session — Functionality pillar.**
+**Content subpillar counter incremented to 14 (even) — skips next session.**
+
+---
 
 ### 2026-09-14 — Gamification Pillar + Content Subpillar (~50 min, automated) — Cycle 9
 

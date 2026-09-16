@@ -76,10 +76,11 @@ off here as they ship, and add the commit hash.
   "Restore Progress" reads the file back, validates it, confirms, applies, reloads. Both en+ja.
   LIVE (v=20260727).
 
-**F1–F5 all shipped. Replenishment ideas (F6–F8):**
+**F1–F5 all shipped. Replenishment ideas (F6–F9):**
 - [ ] **F6 · World Journey destination-detail screen.** Destinations currently open to a story list only. Build a detail screen with: flag + name, a short `facts` blurb (from C5 content), a `vocab` list of ~6 culture words (tap to hear + save to deck), and the story list below. Wire it to the existing `openDestination()` path. **C5 content now complete (2026-09-02) — this feature is unblocked.**
 - [ ] **F7 · "Read Later" bookmark.** A bookmark icon on every story modal adds the story to `state.readLater[]` (persisted `rbt_readlater`). A "Saved" section on the Library screen (collapsible, shown only when non-empty) lists bookmarked stories. Tapping opens the modal as normal. Icon toggles to filled when saved. En + ja.
 - [x] **F8 · Daily story recommendation — SHIPPED (2026-09-08, commit `9fe4bcb`).** `dailyRecommendation()` + `renderDailyPick()` card on Home between goal ring and Quick Links. Day-seeded determinism; falls back to next level. "TODAY'S PICK" / "今日のおすすめ". LIVE.
+- [ ] **F9 · Sentence tap-to-replay.** In the reader, tapping a sentence (not just a word) re-reads that sentence aloud at reading speed. Helps pronunciation and self-correction. Wire to the existing `speakText()` call with the sentence string extracted from the tapped element's closest paragraph. No UI chrome needed — just a subtle ripple on tap and TTS. En + ja (Japanese voice uses same mechanism).
 
 ### UI — ideas
 - [x] **U1 · Night theme — commit `0c7204a`, LOCAL ONLY (2026-08-31, pending Kyle verify + push).** Dark token block under `@media prefers-color-scheme:dark` + `[data-theme="dark"]`. Palette: #14231a bg, #1e3325 card, #dde8e1 text, #7a9e8a muted, #94c4b0 navy, #2d4a38 border. `applyTheme()` / `toggleTheme()` in script; `state.theme` → `rbt_theme`. Profile APPEARANCE / がめんのせってい section with 🌙/☀️ toggle. Icons use currentColor — auto-tint. JS clean, 18 identifiers.
@@ -201,14 +202,17 @@ existing state/CSS tokens, one change per session, verify-before-deploy.
   cleanly to every viewport. Audit `object-fit` / `aspect-ratio` / `max-width` / container overflow on
   every image surface; test a tall-narrow phone, a short-wide phone (landscape), tablet (>=768) and
   375px. No image should crop its subject or overflow its frame.
+  - *Audited 2026-09-16 at 375px — reader illustration (A Cat) fully visible, subject uncropped in split layout. CLEAN. Re-sweep in Cycle 10 for landscape and more image-heavy screens.*
 - [ ] **B2 · Layout overflow & safe areas.** Hunt for anything that causes a horizontal scrollbar or
   bleeds off-screen at small widths — long story titles, long Japanese strings, wide pills/rows — plus
   content colliding with the notch / status bar at the top or the home-indicator and bottom nav at the
   bottom (`env(safe-area-inset-*)`). Nothing should be clipped, overlapped, or force sideways scroll.
+  - *Audited 2026-09-16 — all 8 screens (home, library, flashcards, rewards, world, profile, reader) checked at 375px via scrollWidth test. ALL CLEAN. Re-sweep in Cycle 10 for any new screens.*
 - [ ] **B3 · Broken assets & console errors.** Walk the golden path (landing -> home -> library ->
   reader -> quiz -> celebration) with the console open: no errors or warnings, no 404s (a missing
   illustration `.webp` should fall back gracefully, never render a broken-image icon), no failed network
   requests, and the served cache-bust `?v=` must match the live JS.
+  - *Audited 2026-09-16 — full golden path + all secondary screens walked. Zero console errors, zero 404s, all assets 200 OK, v=20260915 matched served scripts. CLEAN. Re-sweep in Cycle 10.*
 - [x] **B4 · Touch targets & interaction.** Audited 2026-09-08 — two defects found and fixed (commit `3c8a93d`, DEPLOYED LIVE build 20260908): `.reader-autoplay-btn` 28px→44px; `.quiz-look-btn` 38px→44px. All other reader/quiz/nav buttons passed at 375px and 1280px. Re-sweep in Cycle 9 for new surfaces.
 - [x] **B5 · State & persistence integrity.** Audited 2026-08-27 — all 22 `rbt_*` keys have matching `save()` calls, week-boundary resets correct, TTS cancel on navigate correct, image 404 fallback acceptable. One minor edge case noted (pendingLevelChampion lost on reload during ceremony — transient by design, low probability). No concrete defect to fix; re-sweep in Cycle 8.
   - **Edge case to watch:** if user reloads during levelChampion ceremony screen, pendingLevelChampion is lost and +200 XP is never awarded. Sub-level entry in celebratedSublevels prevents re-firing. Consider persisting pendingLevelChampion in a future Bug pillar.
