@@ -6109,6 +6109,38 @@ STORIES[3][5].push({
   images:['images/p6/p6_storm_day_1.webp','images/p6/p6_storm_day_2.webp','images/p6/p6_storm_day_3.webp','images/p6/p6_storm_day_4.webp','images/p6/p6_storm_day_5.webp']
 });
 
+// PI3·6·6 — The Recipe Book
+STORIES[3][5].push({
+  id:"l3.6s6", levelId:3, subLevel:5,
+  title:"The Recipe Book", emoji:"📖", genre:"Food / Family",
+  wordCount:292, readMins:3,
+  blurb:"An old handwritten recipe book found in a grandmother's belongings — and what happens when you try to cook from it.",
+  paragraphs:[
+    "My grandmother came to stay with us for a month after her flat was repainted, and she brought several boxes with her. Most of them went straight into the spare room. But one evening she brought a small notebook to the kitchen table — dark blue, worn at the corners, with a faded label on the front that said Recipes. She had written it herself over thirty years ago, in a careful, sloping handwriting I did not recognise as hers.",
+    "The instructions were not like anything I had seen in a modern cookbook. Instead of grams and millilitres, the measurements were things like a teacup of flour, two good spoonfuls of butter, or enough milk to bring it together. Some ingredients had been crossed out and replaced. A few entries had small notes in the margins, such as not too much sugar or better the second day. My grandmother could not always remember what the notes had meant.",
+    "She showed me a recipe for a plain sweet dough — something between bread and a bun, she said, that her own mother used to make. We decided to try it together. We mixed the ingredients in a large bowl, left the dough to rest, then shaped it into rolls and put them in the oven. The kitchen smelled warm and slightly sweet for an hour.",
+    "The rolls were not quite right — slightly too flat, possibly because the kitchen was not warm enough. But when we tasted one, my grandmother was quiet for a moment, then said: yes, that's it. She recognised the taste, even through the imperfect result. We ate them with butter and did not talk much. I photographed the recipe page before she left, in case the notebook ever got lost."
+  ],
+  vocab:[
+    {word:"recipe", definition:"A set of written instructions for making a particular food.", partOfSpeech:"noun"},
+    {word:"ingredient", definition:"One of the foods you use when making a dish.", partOfSpeech:"noun"},
+    {word:"measurement", definition:"An amount found by measuring — here, how much of each ingredient to add.", partOfSpeech:"noun"},
+    {word:"margin", definition:"The blank space at the side of a written page.", partOfSpeech:"noun"},
+    {word:"dough", definition:"A thick mixture of flour and liquid that is shaped and baked into bread or rolls.", partOfSpeech:"noun"},
+    {word:"recognise", definition:"To know something again because you have experienced it before.", partOfSpeech:"verb"}
+  ],
+  quiz:[
+    {question:"Why did Maya's grandmother come to stay?",options:["Her flat was flooded","Her flat was being repainted","She was visiting for a holiday","She had been unwell"],correct:1,
+     feedback:"'My grandmother came to stay with us for a month after her flat was repainted.'"},
+    {question:"What made the recipe measurements unusual?",options:["They were in kilograms and litres","They were in old descriptions like 'a teacup of flour'","They were written in another language","They had been completely erased"],correct:1,
+     feedback:"Instead of grams and millilitres, the recipe used descriptions like 'a teacup of flour' and 'enough milk to bring it together.'"},
+    {question:"The rolls were 'slightly too flat.' Why does the narrator mention this?",options:["To show the recipe was wrong","To suggest the grandmother had lied","To show that even an imperfect result still worked","To explain why they were disappointed"],correct:2,
+     feedback:"This is an inference — despite the imperfect rolls, the grandmother still recognised the taste. The detail shows an honest attempt can succeed without a perfect result."},
+    {question:"Why does the narrator photograph the recipe page at the end?",options:["To send it to a cooking website","To copy it into their own notebook","In case the notebook is lost some day","Because it was the most interesting page"],correct:2,
+     feedback:"'I photographed the recipe page before she left, in case the notebook ever got lost.' The narrator wants to preserve it."}
+  ]
+});
+
 // ── Level 3 · Sub-level 7 (PI7) ──────────────────────────────────────────────
 STORIES[3][6] = [];
 
@@ -13537,6 +13569,7 @@ const TALK_PROMPTS = {
   'l3.6s3':{en:"Have you ever taken responsibility for something or someone outside your usual circle? What did that responsibility teach you?", ja:"ふだんの つながりの そとで、なにかや だれかの せきにんを もったことは ある？なにを まなんだ？"},
   'l3.6s4':{en:"When you make something with your hands — moulding, building, drawing — what does the making feel like compared to creating on a screen?", ja:"てで なにかを つくる とき — かたちを つくる、たてる、かく — スクリーンで つくることと くらべて、どんな かんじが する？"},
   'l3.6s5':{en:"When you are given unexpected free time in the middle of a planned day, how do you usually spend it — and does it feel different from planned free time?", ja:"よていが あった 日の まんなかで、とつぜん じゆうな じかんが できたら どうすごす？けいかくした じゆうな じかんと ちがう かんじがする？"},
+  'l3.6s6':{en:"Have you ever tried to cook or make something using an old recipe or instructions — from a family member or somewhere else? What was the result?", ja:"かぞくの ひとや ほかの ところから もらった ふるい レシピや てじゅんを つかって なにかを つくろうと したことは ある？どうだった？"},
 
   // ── Level 3 · Sub-level 7 ──
   'l3.7s1':{en:"Have you ever truly grasped how big or how distant something is — and felt small in a good way? What made you realise it?", ja:"なにかが どれだけ おおきいか、どれだけ とおいかを ほんとうに りかいして、よい いみで ちいさく かんじたことは ある？なにが きっかけだった？"},
