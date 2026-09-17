@@ -299,6 +299,10 @@
     .modal-stars{display:flex;gap:2px;margin-bottom:16px}
     .modal-start-btn{width:100%;height:50px;background:var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;color:white;font-family:var(--font-head);font-weight:800;font-size:15px;letter-spacing:.05em;margin-bottom:12px;box-shadow:0 4px 16px rgba(26,50,96,.3)}
     .modal-notes{text-align:center;font-size:12px;color:#B0C0D0}
+    .modal-bookmark-btn{width:100%;height:44px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:7px;color:var(--text-muted);font-family:var(--font-head);font-weight:700;font-size:13px;margin-bottom:10px;cursor:pointer}
+    .modal-bookmark-btn--saved{color:var(--primary);border-color:var(--primary);background:rgba(186,218,85,.12)}
+    .saved-section{margin-bottom:4px}
+    .saved-section-hdr{font-family:var(--font-head);font-weight:800;font-size:10.5px;letter-spacing:.08em;color:var(--text-muted);padding:2px 0 8px;display:flex;align-items:center;gap:5px}
 
     /* ══ FLASHCARDS — literal port, Tablet lines 595-732 ══ */
     .flash-pane{padding:16px;display:flex;flex-direction:column;gap:12px}
@@ -782,6 +786,7 @@ const ICONS = {
   'ctrl-previous': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M20.4 5.4C20.4 4.6 19.5 4.1 18.8 4.5L12 8.6V15.4L18.8 19.5C19.5 19.9 20.4 19.4 20.4 18.6V5.4Z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12.4 5.4C12.4 4.6 11.5 4.1 10.8 4.5L4 8.6V15.4L10.8 19.5C11.5 19.9 12.4 19.4 12.4 18.6V5.4Z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>`,
   'status-check': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.7L9.3 17.5L19.5 6.3"/></svg>`,
   'status-lock': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 10.5V7.3C7.5 4.9 9.5 3 12 3S16.5 4.9 16.5 7.3V10.5"/><rect x="4.8" y="10.5" width="14.4" height="10" rx="2"/><circle cx="12" cy="14.5" r="1.3" fill="currentColor" stroke="none"/><path d="M12 15.8V17.6"/></svg>`,
+  'ctrl-bookmark': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v16.6l-7-4.2-7 4.2V4a1 1 0 0 1 1-1z"/></svg>`,
   'status-streak-flame': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M12.5 2.5C10.2 5.4 7.6 7.7 8.4 10.8C8.8 12.4 7.6 12.6 7 11.6C6.1 13 6.4 15.6 8.6 16.8C6.6 17.4 6.2 19.4 7.4 20.7C9 19.7 10 20.3 10.4 21.3C11.6 20.1 11.4 18.7 10.6 17.8C13.4 18 15.4 15.8 14.6 13.2C16 13.6 16.4 12.2 15.4 11.2C17.6 10.4 17.4 7.2 12.5 2.5Z" fill="currentColor" stroke="none"/></svg>`,
   'lvl-lily-pad': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><ellipse cx="12" cy="15.5" rx="7.5" ry="3.6" fill="#EAF6EA" opacity="0.6"/><path d="M8.9 15.6c1-.8 2-.8 3 0s2 .8 3 0" stroke="#3FA6A0" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/><path d="M9.6 13.6L12.2 12A3 3 0 1 1 9.6 13.6Z" fill="#72C93A"/><circle cx="14.6" cy="10.8" r="0.9" fill="#F0AC3D"/></svg>`,
   'lvl-ocean': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1.5 5.5H22.5" stroke="#1A3260" stroke-width="1.3" stroke-linecap="round"/><circle cx="18.5" cy="5.5" r="2" fill="#F0AC3D"/><path d="M1.5 11.5c2.6-1.9 5.2-1.9 7.8 0s5.2 1.9 7.8 0" stroke="#8B6FC9" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.55"/><path d="M1.5 22V17.8C2 15.6 3 14 4.6 13.1C4 15 4.4 16.4 5.6 17C5 14.3 6.3 12 8.6 11.1C7.9 13 8.4 14.4 9.7 14.9C9 12 10.6 9.6 8.9 8.4C11.6 8.7 13.4 11 12.7 13.6C15.8 12 19 13.2 20.8 16.3C21.6 17.6 22 19 22 20.4V22Z" fill="#163A63"/><path d="M2 17.9C3 15.9 4.6 14.6 6.6 14.4" stroke="#FFFDF8" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6"/><path d="M9.6 12.4C10.6 12.9 11.6 13.6 12.4 14.6" stroke="#FFFDF8" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6"/></svg>`,
@@ -1259,6 +1264,7 @@ const state = {
   showComfort: false, // transient — comfort bar open in reader
   showGoalPicker: false, // transient — goal-picker open on home dash
   theme: localStorage.getItem('rbt_theme')||'auto', // 'auto'=respect prefers-color-scheme, 'dark'=force dark, 'light'=force light
+  readLater: JSON.parse(localStorage.getItem('rbt_readlater')||'[]'), // story ids bookmarked for later
 };
 function save(){
   localStorage.setItem('rbt_uilang', state.uiLang);
@@ -1289,6 +1295,7 @@ function save(){
   localStorage.setItem('rbt_easy_read', state.easyRead?'1':'');
   localStorage.setItem('rbt_cardbox', JSON.stringify(state.cardBox));
   localStorage.setItem('rbt_theme', state.theme);
+  localStorage.setItem('rbt_readlater', JSON.stringify(state.readLater||[]));
 }
 window.addEventListener('beforeunload', save);
 // beforeunload is unreliable on iOS Safari (backgrounding/switching apps doesn't fire it) —
@@ -1332,6 +1339,12 @@ function lastWeekStories(){
 }
 function dismissWeekRecap(){ state.lastWeekRecap=thisWeekKey(); save(); render(); }
 function toggleGoalPicker(){ state.showGoalPicker=!state.showGoalPicker; render(); }
+function toggleBookmark(storyId){
+  state.readLater=state.readLater||[];
+  const idx=state.readLater.indexOf(storyId);
+  if(idx>=0) state.readLater.splice(idx,1); else state.readLater.push(storyId);
+  save(); render();
+}
 function setGoal(n){ state.dailyGoal=n; state.showGoalPicker=false; save(); render(); }
 
 // ── ENTITLEMENT HELPERS (M2 — stub; isSubscribed() body replaced by S3) ──────
@@ -2601,6 +2614,7 @@ const UI_STRINGS = {
     tappedSaveAll:(n)=>`${n} word${n===1?'':'s'} saved! 📚`, tappedAllSaved:'All saved to your deck ✓',
     freeLeft:(n)=>`${n} free ${n===1?'story':'stories'} left this week`,
     freeExhausted:'No free stories left this week',
+    bookmarkSave:'🔖 Save for later', bookmarkSaved:'✓ Saved for later', savedSection:'READ LATER',
   },
   ja: {
     greeting:(h)=> h<12?'おはよう！':h<18?'こんにちは！':'こんばんは！',
@@ -2739,6 +2753,7 @@ const UI_STRINGS = {
     tappedSaveAll:(n)=>`${n}語を保存しました！📚`, tappedAllSaved:'全部デッキに保存ずみ ✓',
     freeLeft:(n)=>`今週あと${n}話よめます`,
     freeExhausted:'今週の無料分はおわりました',
+    bookmarkSave:'🔖 あとで読む', bookmarkSaved:'✓ 保存済み', savedSection:'あとで読む',
   },
 };
 function t(key,...args){
@@ -2826,12 +2841,43 @@ function renderLibrary(){
   return renderLibraryTierStories();
 }
 
+function renderSavedSection(){
+  const ids=state.readLater||[];
+  if(!ids.length) return '';
+  const items=ids.map(id=>{
+    const s=findStory(id); if(!s) return null;
+    const level=s.levelId?LEVELS.find(l=>l.id===s.levelId):null;
+    const dest=s.journeyId?DESTINATIONS.find(d=>d.id===s.journeyId):null;
+    return {s,level,dest};
+  }).filter(Boolean);
+  if(!items.length) return '';
+  const cards=items.map(({s,level,dest})=>{
+    const [cg1,cg2]=storyGradient(s,level?level.g1:'#E3F3FC',level?level.g2:'#70C1B3');
+    const pillColor=level?level.color:'#70C1B3';
+    const pillLabel=level?t('levelLabel',s.levelId):(dest?dest.name:'');
+    const done=storyDone(s.id);
+    const prog=state.progress[s.id];
+    const stars=done&&prog?storyStarCount(prog.score):0;
+    const starsHtml=stars>0?`<div class="story-stars">${Array(stars).fill(icon('xp-xp-star',11)).join('')}</div>`:'';
+    return `<button class="story-card" onclick="openStoryModal('${s.id}')">
+      <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
+        ${s.emoji||'📖'}
+        <div class="story-level-badge" style="background:${pillColor}">${pillLabel}</div>
+        ${done?`<div class="story-complete-badge" role="img" aria-label="${t('completed')}">${icon('status-check',14)}</div>`:''}
+      </div>
+      <div class="story-body"><div class="story-title">${s.title}</div>${starsHtml}</div>
+    </button>`;
+  }).join('');
+  return `<div class="saved-section"><div class="saved-section-hdr">${icon('ctrl-bookmark',13)} ${t('savedSection')}</div><div class="story-grid">${cards}</div></div>`;
+}
+
 function renderLibraryTierLevels(){
   const q=(state.librarySearch||'').trim().toLowerCase();
   const searchBar=`<div class="lib-search-wrap"><input class="lib-search-input" type="search" value="${escAttr(state.librarySearch||'')}" placeholder="${escAttr(t('libSearchPlaceholder'))}" oninput="setLibrarySearch(this.value)" aria-label="${escAttr(t('libSearchPlaceholder'))}"></div>`;
   if(q.length>=2) return `<div class="library-pane">${searchBar}${renderLibrarySearchResults(q)}</div>`;
   const sub=isSubscribed(), freeRem=weeklyFreeRemaining();
   const freeNotice=!sub?(freeRem>0?`<div class="lib-free-pill">📚 ${t('freeLeft',freeRem)}</div>`:`<div class="lib-free-pill lib-free-pill--empty">🔒 ${t('freeExhausted')}</div>`):'';
+  const savedSection=renderSavedSection();
   const cards=LEVELS.map(level=>{
     const doneCount=levelDoneCount(level.id);
     const accessible=sub||level.id===1||freeRem>0;
@@ -2849,7 +2895,7 @@ function renderLibraryTierLevels(){
       </div>
     </button>`;
   }).join('');
-  return `<div class="library-pane">${searchBar}${freeNotice}<div class="lvl-grid">${cards}</div></div>`;
+  return `<div class="library-pane">${searchBar}${freeNotice}${savedSection}<div class="lvl-grid">${cards}</div></div>`;
 }
 
 function renderLibrarySearchResults(q){
@@ -2956,6 +3002,7 @@ function renderModal(){
   const prog=state.progress[s.id];
   const stars=prog?storyStarCount(prog.score):0;
   const starsHtml=stars>0?`<div class="modal-stars">${Array(stars).fill(icon('xp-xp-star',15)).join('')}</div>`:'';
+  const bookmarked=(state.readLater||[]).includes(s.id);
   return `<div class="modal-overlay" onclick="closeStoryModal()">
     <div class="modal-card" onclick="event.stopPropagation()">
       <div class="modal-cover" style="background:linear-gradient(145deg,${g1},${g2})">
@@ -2967,6 +3014,7 @@ function renderModal(){
         <div class="modal-meta"><span>${t('pages',s.paragraphs?s.paragraphs.length:1)}</span><span>${t('audio')}</span></div>
         ${starsHtml}
         <button class="modal-start-btn" onclick="startReadingFromModal()"><span>${icon('ctrl-play',16)}</span><span>${stars?t('readAgainBtn'):t('start')}</span></button>
+        <button class="modal-bookmark-btn${bookmarked?' modal-bookmark-btn--saved':''}" onclick="toggleBookmark('${s.id}')" aria-label="${escAttr(bookmarked?t('bookmarkSaved'):t('bookmarkSave'))}"><span>${icon('ctrl-bookmark',15)}</span><span>${bookmarked?t('bookmarkSaved'):t('bookmarkSave')}</span></button>
         <div class="modal-notes">${t('tapWordHint')}</div>
       </div>
     </div>
