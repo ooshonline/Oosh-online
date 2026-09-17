@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 14`
+`contentSubpillarRun: 15`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **SKIPS next session** (counter = 14, even).
+Next subpillar: **FIRES next session** (counter = 15, odd).
 
 ---
 
@@ -75,6 +75,9 @@ Next subpillar: **SKIPS next session** (counter = 14, even).
 - ✅ Monetisation (2026-09-15, automated) — M6 Vercel Analytics instrumentation **DEPLOYED LIVE** (commit `bead38c`, build 20260915)
 - ✅ Bug Fixes / Implementation Check (2026-09-16, automated) — B3/B2/B1 sweep: ALL CLEAN. No console errors, no 404s, no layout overflow at 375px; images render correctly. Content subpillar: l3.6s6 "The Recipe Book" **DEPLOYED LIVE** (commit `f7a4c4f`, build 20260916)
 
+**Cycle 10 — IN PROGRESS**
+- ✅ Functionality (2026-09-17, automated) — F7 Read Later bookmarks **DEPLOYED LIVE** (commit `357c7f9`, build 20260917)
+
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
 - ✅ UI (2026-08-18, automated)
@@ -100,6 +103,31 @@ Next subpillar: **SKIPS next session** (counter = 14, even).
 ---
 
 ## Session Log
+
+### 2026-09-17 — Functionality Pillar (~45 min, automated) — Cycle 10 start
+
+**Pillar: Functionality** — Cycle 10, first pillar.
+**Content subpillar: SKIPPED** (counter was 14 = even; incremented to 15).
+
+**Commit `357c7f9` — DEPLOYED LIVE (build 20260917).**
+
+- **feature: F7 — Read Later bookmarks**
+  - 🔖 bookmark button added to every story modal (sits below the "Start" button, above the hint text).
+  - Button shows "🔖 あとで読む / 🔖 Save for later" when unsaved; "✓ 保存済み / ✓ Saved for later" with green active styling when saved.
+  - `state.readLater[]` (persisted `rbt_readlater`) — array of story IDs; world journey stories supported.
+  - `toggleBookmark(storyId)` — adds/removes id, saves, re-renders.
+  - `renderSavedSection()` — renders a "READ LATER / あとで読む" section above the level grid in the Library when `state.readLater.length > 0`; uses standard story-card template with genre gradient + level pill.
+  - Section disappears automatically when all bookmarks are removed.
+  - 6 new `UI_STRINGS` keys in en + ja: `bookmarkSave`, `bookmarkSaved`, `savedSection`.
+  - 1 new ICONS entry: `ctrl-bookmark` (ribbon SVG, `stroke="currentColor"`).
+  - 4 new CSS classes; `.modal-bookmark-btn` is 44px for child touch targets.
+  - Verified: toggle add/remove works; persistence via localStorage confirmed; "Read Later" section renders at desktop + 375px; bookmarked modal shows green saved state; zero console errors throughout. 12 identifiers confirmed LIVE.
+  - F7 ticked in TODO.md.
+
+**Cycle 10 next pillar: UI.**
+**Content subpillar fires next session** (counter = 15, odd).
+
+---
 
 ### 2026-09-16 — Bug Fixes Pillar + Content Subpillar (~55 min, automated) — Cycle 9 COMPLETE
 
