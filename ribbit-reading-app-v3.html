@@ -372,6 +372,8 @@
     .prog-stat-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
     .prog-stat-value{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text)}
     .prog-stat-label{font-size:11px;color:var(--text-muted);font-weight:600}
+    @keyframes xpLand{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+    .xp-land{animation:xpLand .3s ease;transform-origin:center}
     .activity-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:16px 14px 12px;display:flex;align-items:flex-end;justify-content:space-between;height:130px}
     .activity-col{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;gap:5px}
     .activity-value{font-size:10px;font-weight:700;color:var(--text-muted)}
@@ -3584,7 +3586,7 @@ function renderProgressSections(){
   const bestWeek=Object.values(weekCounts).length?Math.max(...Object.values(weekCounts)):0;
   const stats=[
     {icon:'status-streak-flame', tint:'#FFF0E4', value:state.streak||0, label:t('dayStreakLabel')},
-    {icon:'xp-xp-star', tint:'#FCF4D6', value:(state.xp||0).toLocaleString(), label:t('totalXpLabel')},
+    {icon:'xp-xp-star', tint:'#FCF4D6', value:'0', label:t('totalXpLabel'), id:'xp-counter-val'},
     {icon:'📖', tint:'#E3F3FC', value:Object.keys(state.progress).length, label:t('storiesReadLabel')},
     {icon:'🔤', tint:'#DFF7F2', value:knownWords, label:t('wordsKnownLabel')},
     {icon:'🏆', tint:'#F3F0FF', value:state.bestStreak||0, label:t('bestStreakLabel')},
@@ -3593,7 +3595,7 @@ function renderProgressSections(){
   const statsHtml=stats.map(s=>`
     <div class="prog-stat-card">
       <div class="prog-stat-icon" style="background:${s.tint}">${iconOrEmoji(s.icon,20)}</div>
-      <div class="prog-stat-value">${s.value}</div>
+      <div class="prog-stat-value"${s.id?` id="${s.id}"`:''}>${s.value}</div>
       <div class="prog-stat-label">${s.label}</div>
     </div>`).join('');
 
@@ -4046,6 +4048,26 @@ function renderLevelChampionCeremony(){
 
 // ── MASTER RENDER ────────────────────────────────────────────
 const FULLBLEED_SCREENS=['reader','quiz','celebration','placement','sublevelCelebration','levelChampion']; // no header/bottom-nav, matches the design's own top-level screens
+function runProfileAnims(){
+  const el=document.getElementById('xp-counter-val');
+  if(!el) return;
+  const target=state.xp||0;
+  if(prefersReducedMotion()){ el.textContent=target.toLocaleString(); return; }
+  if(target===0){ el.textContent='0'; return; }
+  const dur=600, start=performance.now();
+  function step(ts){
+    const p=Math.min((ts-start)/dur,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent=Math.round(ease*target).toLocaleString();
+    if(p<1){ requestAnimationFrame(step); }
+    else{
+      el.textContent=target.toLocaleString();
+      const card=el.closest('.prog-stat-card');
+      if(card){ card.classList.add('xp-land'); setTimeout(()=>card.classList.remove('xp-land'),300); }
+    }
+  }
+  requestAnimationFrame(step);
+}
 function render(){
   if(state.screen==='landing'){ renderLanding(); return; }
   if(state.screen==='placement'){ document.getElementById('app').innerHTML=renderPlacement(); return; }
@@ -4078,6 +4100,7 @@ function render(){
   ${renderModal()}
   ${renderTour()}`;
   runHeaderAnims();
+  if(state.screen==='profile'||state.screen==='progress') runProfileAnims();
 }
 // Streak-flame idle loop + XP-earn pulse — header re-renders every state change (full
 // innerHTML replace, no diffing), so these re-attach each render rather than mounting once.
