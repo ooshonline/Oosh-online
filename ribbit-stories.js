@@ -5379,14 +5379,14 @@ STORIES[3][2].push({
     "refolded":{def:"Folded again after being opened.",pos:"verb"}
   },
   quiz:[
-    {question:"How could you tell the letter had never been sent?",options:["It was in a locked box","The handwriting was unfinished","It had no stamp, though it was sealed and addressed","It had no address"],correct:2,
-     feedback:"The story says 'the envelope was sealed and had an address on the front but no stamp.'"},
+    {question:"When Mum described the letter to Grandma, she 'went quiet and looked out of the window for a long time.' What does this suggest?",options:["She was trying to remember who Margaret was","The memory still had meaning for her","She wanted the family to leave the room","She did not understand what the letter was"],correct:1,
+     feedback:"This is an inference — going quiet and looking away for a long time shows someone is affected by what they have heard, not that they have forgotten it."},
     {question:"Why did Mum say not to open the letter?",options:["It might be upsetting","It was in Welsh","It was not theirs to open","Grandma might not want it found"],correct:2,
      feedback:"Mum said 'it was not ours to open.'"},
     {question:"Who was Margaret according to Grandma?",options:["A cousin","A teacher","Her closest friend at school","A neighbour"],correct:2,
      feedback:"Grandma said 'Margaret had been her closest friend at school.'"},
-    {question:"Why had Grandma never posted the letter?",options:["She forgot","She thought it was too late","She lost Margaret's address","They made up before she could send it"],correct:1,
-     feedback:"Grandma said 'she had written the letter but never posted it because she thought it was too late.'"}
+    {question:"'The letter is still unsealed. Some decisions take a long time to make.' What does this ending suggest?",options:["The family has decided not to contact Margaret","They are still deciding whether to contact her","It takes a long time to find someone's address","The narrator will make the decision alone"],correct:1,
+     feedback:"This is an inference — the unsealed letter represents an unmade decision. 'Some decisions take a long time' suggests they are still weighing whether to reach out to Margaret."}
   ],
   images:['images/p3/p3_the_letter_that_was_never_sent_1.webp','images/p3/p3_the_letter_that_was_never_sent_2.webp','images/p3/p3_the_letter_that_was_never_sent_3.webp','images/p3/p3_the_letter_that_was_never_sent_4.webp','images/p3/p3_the_letter_that_was_never_sent_5.webp']
 });
@@ -5451,10 +5451,10 @@ STORIES[3][2].push({
      feedback:"'The beach looks wider... it is just that there is nobody on it.'"},
     {question:"What sound do the retreating waves make on the pebbles?",options:["A sharp crack","A long, slow exhale","A steady drumming","A whistle"],correct:1,
      feedback:"'They drag the pebbles back with them... which makes a sound like a long, slow exhale.'"},
-    {question:"What has happened to the shelter at the end of the promenade?",options:["It has been freshly painted","It is locked in winter","It has lost two roof panels in storms","It is used as a café"],correct:2,
-     feedback:"'The shelter has lost two of its roof panels in autumn storms.'"},
-    {question:"What does the writer say you cannot get in summer?",options:["Empty car parks","The sea smell in your coat for days","Sandwiches on the beach","Clear roads on the way home"],correct:1,
-     feedback:"The story ends: 'The sea smell stays in your coat for days. You cannot get that in summer.'"}
+    {question:"The other people on the January beach 'all have a look about them, a sort of quiet concentration.' What does the writer suggest they have in common?",options:["They are all regular visitors who come every week","They seem to feel that the empty beach asks something of them","They are all walking dogs or taking photographs","They look cold and are ready to leave"],correct:1,
+     feedback:"The writer says 'as if the empty beach requires something from them' — they all seem to be paying close, thoughtful attention."},
+    {question:"The father says winter at the beach is 'the real thing.' What does he mean by this?",options:["The beach is bigger in winter","Winter is better for swimming","Winter offers a more genuine, unspoilt experience of the sea","The sea smells better in cold weather"],correct:2,
+     feedback:"This is an inference — the whole story shows the father valuing the quieter, more demanding winter beach. 'Real' suggests something more genuine than the busy summer version."}
   ],
   images:['images/p3/p3_salt_1.webp','images/p3/p3_salt_2.webp','images/p3/p3_salt_3.webp','images/p3/p3_salt_4.webp','images/p3/p3_salt_5.webp']
 });
@@ -5487,8 +5487,8 @@ STORIES[3][2].push({
      feedback:"Grandfather said 'the greenhouse glass had come from a demolished school gymnasium in 1987.'"},
     {question:"What did they do each time the timer rang?",options:["Drank tea and waited","Went outside to check the greenhouse","Called the weather forecast line","Lit an extra paraffin heater"],correct:1,
      feedback:"'We would zip up our jackets and step outside... checked the temperature gauge, refilled the paraffin heater if needed.'"},
-    {question:"When did the frost arrive?",options:["At ten o'clock","Just after midnight","At four in the morning","At six, when it was over"],correct:2,
-     feedback:"'The frost came at four in the morning.'"}
+    {question:"What does 'I have been on every frost watch since' tell us about the narrator?",options:["The narrator feels responsible for the seedlings now that Grandfather is older","Grandfather is too old to do the watch any more","The experience meant enough to the narrator that they kept coming back","The narrator was worried the seedlings would die without them"],correct:2,
+     feedback:"This is an inference — the narrator was not asked to come the first time; they asked Grandfather. Returning every year suggests the night watch became something they valued, probably for the time with Grandfather as much as the task."}
   ],
   images:['images/p3/p3_the_night_watch_1.webp','images/p3/p3_the_night_watch_2.webp','images/p3/p3_the_night_watch_3.webp','images/p3/p3_the_night_watch_4.webp','images/p3/p3_the_night_watch_5.webp']
 });
