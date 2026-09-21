@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 15`
+`contentSubpillarRun: 17`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **FIRES next session** (counter = 15, odd).
+Next subpillar: **FIRES next session** (counter = 17, odd).
 
 ---
 
@@ -77,6 +77,8 @@ Next subpillar: **FIRES next session** (counter = 15, odd).
 
 **Cycle 10 — IN PROGRESS**
 - ✅ Functionality (2026-09-17, automated) — F7 Read Later bookmarks **DEPLOYED LIVE** (commit `357c7f9`, build 20260917)
+- ✅ UI (2026-09-18, automated) — U8 animated XP counter **DEPLOYED LIVE** (commit `ef6641a`, build 20260918)
+- ✅ UX (2026-09-21, automated) — X7 story-complete interstitial **DEPLOYED LIVE** (commit `5763906`)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -103,6 +105,63 @@ Next subpillar: **FIRES next session** (counter = 15, odd).
 ---
 
 ## Session Log
+
+### 2026-09-21 — UX Pillar (~45 min, automated) — Cycle 10
+
+**Pillar: UX** — Cycle 10, third pillar.
+**Content subpillar: SKIPPED** (counter was 16 = even; incremented to 17).
+
+**Commit `5763906` — DEPLOYED LIVE.**
+
+- **feature: X7 — story-complete interstitial before celebration screen**
+  - `renderStoryComplete()`: full-bleed screen (`.sc-screen`, navy background) showing 🌟 emoji + bilingual "Story complete! / お話おわり！" text.
+  - 400ms `sc-pop` scale-in animation on `.sc-inner` (`cubic-bezier(.17,.67,.42,1.2)`); `prefers-reduced-motion` disables animation (class present, instant settle).
+  - `setTimeout(900ms)` auto-transitions to `state.screen='celebration'`; transition guard `if(state.screen==='story-complete')` prevents double-firing.
+  - `story-complete` added to `FULLBLEED_SCREENS` (no header/nav) and both `navigate()` preserve lists (library drill-down + world destination context preserved through the interstitial).
+  - `advanceQuiz()` now routes to `story-complete` first instead of directly to `celebration`.
+  - 2 new `UI_STRINGS` keys en + ja: `storyDoneTitle`.
+  - Confirmed X6 (talk prompt speaker) was already shipped as part of X8 — `celeb-talk-say` button with `speakText(p.en, 0.85)` was in `renderTalkPrompt()` all along. Ticked X6 in TODO.md.
+  - Added X9–X11 replenishment ideas to UX backlog (progress milestone toasts, hint button, swipe gestures).
+  - Verified: `sc-screen` found in DOM; `🌟` emoji correct; `お話おわり！🌟` text correct; auto-transition to celebration confirmed after 1.1s; celebration screen renders correctly; golden path (home/lib/flash/rewards/profile) all clean; zero console errors. LIVE confirmed (all 3 identifiers `sc-screen`, `storyDoneTitle`, `renderStoryComplete` in served file; browser verify on live URL).
+
+**Cycle 10 next pillar: Content.**
+**Content subpillar fires next session** (counter = 17, odd).
+
+---
+
+### 2026-09-18 — UI Pillar + Content Subpillar (~55 min, automated) — Cycle 10
+
+**Pillar: UI** — Cycle 10, second pillar.
+**Content subpillar: FIRED** (counter was 15 = odd; incremented to 16).
+
+**Commits `ef6641a`, `abef784` — DEPLOYED LIVE (build 20260918).**
+
+- **style: U8 — animated XP counter on Profile**
+  - When the learner navigates to Profile, the Total XP stat counts up from 0 to `state.xp` over 600ms (ease-out cubic via `requestAnimationFrame`). Lands with a scale-1.15 pulse animation (`.xp-land`, `@keyframes xpLand`).
+  - Respects `prefers-reduced-motion()` — instant settle with no animation when enabled.
+  - Implementation: XP stat card renders with `id="xp-counter-val"` and initial value `0`; `runProfileAnims()` is called from `render()` after the profile/progress screen is injected. Purely additive — zero XP logic changes.
+  - 2 new CSS rules (`@keyframes xpLand`, `.xp-land`). Zero new UI_STRINGS (no user-facing copy).
+  - Verified: count-up fires and settles correctly (confirmed mid-animation at 50ms = 50, final = 250); pulse class fires at animation end; `prefers-reduced-motion` instant path confirmed; golden path clean; zero console errors; 375px no overflow. LIVE confirmed (commit `ef6641a`, U8 identifiers in served file).
+  - U8 ticked in TODO.md.
+
+- **content: C1 — quiz variety retro-fit L3 sub-level 3 (5 questions)**
+  - Replaced 5 trivial literal-recall questions across l3.3s1, l3.3s3, l3.3s4:
+    - l3.3s1 Q1: "how could you tell" (trivial detail) → inference on Grandma's silence ("went quiet and looked out of the window")
+    - l3.3s1 Q4: "why never posted" (literal) → inference on ending's meaning (unsealed letter = unmade decision)
+    - l3.3s3 Q3: "what happened to shelter" (trivial detail) → observation on winter visitors' "quiet concentration"
+    - l3.3s3 Q4: "what can't you get in summer" (literal) → interpretation of "the real thing"
+    - l3.3s4 Q4: "when did frost arrive" (trivial detail) → character inference on narrator returning every year
+  - All inference feedback starts with "This is an inference —" (consistent with L3.2 pass)
+  - l3.3s2 and l3.3s5 quiz quality already adequate (good observation + inference questions) — skipped
+  - l3.3s6 (Community Garden) already improved 2026-09-14 — skipped
+  - `ribbit-stories.js` cache-bust → v=20260918
+  - Verified: all 5 new questions present in loaded STORIES[3][2]; golden path clean; zero console errors. LIVE confirmed (commits `abef784`, identifiers in served file).
+  - C1 updated in TODO.md — next: L3 sub-level 4.
+
+**Cycle 10 next pillar: UX.**
+**Content subpillar counter incremented to 16 (even) — skips next session.**
+
+---
 
 ### 2026-09-17 — Functionality Pillar (~45 min, automated) — Cycle 10 start
 
