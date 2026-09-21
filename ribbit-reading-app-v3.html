@@ -699,8 +699,16 @@
     .lc-celeb-next{font-size:13px;font-weight:700;color:#72C93A;animation:fade-up .4s .5s ease both}
     .lc-celeb-btn{margin-top:14px;padding:16px 40px;background:linear-gradient(135deg,#f9ad3b,#f5c842);color:#1A3260;border:none;border-radius:16px;font-size:18px;font-family:var(--font-head);font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(249,173,59,0.45);animation:fade-up .4s .6s ease both}
 
+    /* ══ STORY-COMPLETE INTERSTITIAL ══ */
+    .sc-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--navy)}
+    .sc-inner{text-align:center;animation:sc-pop .4s cubic-bezier(.17,.67,.42,1.2) both}
+    @media(prefers-reduced-motion:reduce){.sc-inner{animation:none}}
+    .sc-emoji{font-size:80px;line-height:1}
+    .sc-text{margin-top:16px;font-size:20px;font-weight:700;color:#fff;letter-spacing:.02em}
+    @keyframes sc-pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+
     /* Tablet frame adaptation (>=768px), matching the design's native 1024x768 canvas */
-    #app:has(.app-shell),#app:has(.reader-screen),#app:has(.quiz-screen),#app:has(.celeb-screen),#app:has(.place-screen),#app:has(.sl-celeb-screen),#app:has(.lc-celeb-screen){max-width:1024px}
+    #app:has(.app-shell),#app:has(.reader-screen),#app:has(.quiz-screen),#app:has(.celeb-screen),#app:has(.place-screen),#app:has(.sl-celeb-screen),#app:has(.lc-celeb-screen),#app:has(.sc-screen){max-width:1024px}
     @media (min-width:768px){
       .app-header{height:56px;padding:0 22px;flex-wrap:nowrap}
       .app-brand{font-size:19px}
@@ -1451,8 +1459,8 @@ function navigate(screen){
   state.screen=screen; state.modalOpen=false; state.audioPlaying=false;
   // Preserve library drill-down context through the reading pipeline so "Back to Library"
   // returns to the exact sublevel the learner came from, not the root level grid.
-  if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration' && screen!=='sublevelCelebration' && screen!=='levelChampion'){ state.libraryLevel=null; state.librarySublevel=null; state.librarySearch=''; }
-  if(screen!=='world' && screen!=='celebration' && screen!=='reader' && screen!=='quiz' && screen!=='sublevelCelebration' && screen!=='levelChampion'){ state.worldSelectedId=null; }
+  if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration' && screen!=='sublevelCelebration' && screen!=='levelChampion' && screen!=='story-complete'){ state.libraryLevel=null; state.librarySublevel=null; state.librarySearch=''; }
+  if(screen!=='world' && screen!=='celebration' && screen!=='reader' && screen!=='quiz' && screen!=='sublevelCelebration' && screen!=='levelChampion' && screen!=='story-complete'){ state.worldSelectedId=null; }
   if(screen==='rewards') markBadgesSeen(); // must precede render() so the dot clears in the same frame
   // Entering Flashcards from the nav should land on the deck list, not resume a half-finished
   // study session. openDeck()/startStudy() set flashView and render() directly, so they're unaffected.
@@ -1670,8 +1678,8 @@ function advanceQuiz(){
   } else {
     state.quizElapsedSec=Math.max(1,Math.round((Date.now()-(state.quizStartTime||Date.now()))/1000));
     finishStory(story);
-    state.screen='celebration'; state.quizIndex=0; state.quizAnswered=false; state.quizSelected=null;
-    render(); // master render() spawns the confetti for the celebration screen
+    state.screen='story-complete'; state.quizIndex=0; state.quizAnswered=false; state.quizSelected=null;
+    render();
   }
 }
 function exitQuiz(){ state.showStoryPeek=false; if(_vocabRecapTimer){clearTimeout(_vocabRecapTimer);_vocabRecapTimer=null;} state.vocabRecap=false; navigate(state.worldSelectedId ? 'world' : state.libraryLevel ? 'library' : 'home'); }
@@ -2516,6 +2524,7 @@ const UI_STRINGS = {
     placeStartReading:'Start Reading →',
     placeTile:'Find My Pond', placeTileSub:'Find your reading level',
     placeTileRetake:'Re-Test', placeTileRetakeSub:(pond)=>`Now: ${pond}`,
+    storyDoneTitle:'Story complete! 🌟',
     celebStarText:(n)=>n>=80?'Amazing work! You know this story well! 🌟':n>=50?'Good job! Keep practicing to master it.':'Nice try — read it again to improve!',
     xpEarned:(n)=>`+${n} XP earned`, readAgainBtn:'Read Again', backToLibraryBtn:'Back to Library',
     talkTitle:"Let's talk!", talkHint:'Say your answer out loud — there is no wrong answer.',
@@ -2655,6 +2664,7 @@ const UI_STRINGS = {
     placeStartReading:'よみはじめる →',
     placeTile:'いけさがし', placeTileSub:'じぶんのレベルを見つけよう',
     placeTileRetake:'もう一度テスト', placeTileRetakeSub:(pond)=>`いま: ${pond}`,
+    storyDoneTitle:'お話おわり！🌟',
     celebStarText:(n)=>n>=80?'すごい！このお話をよくわかっているね！🌟':n>=50?'いいね！もっと練習しよう。':'もういちど読んでみよう！',
     xpEarned:(n)=>`+${n} XP かくとく`, readAgainBtn:'もういちど読む', backToLibraryBtn:'ライブラリへもどる',
     talkTitle:'はなしてみよう！', talkHint:'こえに だして こたえてみよう。まちがいは ないよ。',
@@ -4046,8 +4056,13 @@ function renderLevelChampionCeremony(){
   </div>`;
 }
 
+function renderStoryComplete(){
+  setTimeout(()=>{ if(state.screen==='story-complete'){ state.screen='celebration'; render(); } },900);
+  return `<div class="screen sc-screen"><div class="sc-inner"><div class="sc-emoji">🌟</div><div class="sc-text">${t('storyDoneTitle')}</div></div></div>`;
+}
+
 // ── MASTER RENDER ────────────────────────────────────────────
-const FULLBLEED_SCREENS=['reader','quiz','celebration','placement','sublevelCelebration','levelChampion']; // no header/bottom-nav, matches the design's own top-level screens
+const FULLBLEED_SCREENS=['reader','quiz','celebration','placement','sublevelCelebration','levelChampion','story-complete']; // no header/bottom-nav, matches the design's own top-level screens
 function runProfileAnims(){
   const el=document.getElementById('xp-counter-val');
   if(!el) return;
@@ -4077,6 +4092,7 @@ function render(){
     if(state.vocabRecap&&!_vocabRecapTimer){ _vocabRecapTimer=setTimeout(()=>{ _vocabRecapTimer=null; state.vocabRecap=false; render(); },3000); }
     return;
   }
+  if(state.screen==='story-complete'){ document.getElementById('app').innerHTML=renderStoryComplete(); return; }
   if(state.screen==='celebration'){ document.getElementById('app').innerHTML=renderCelebration(); playCelebrationAnims(); return; }
   if(state.screen==='sublevelCelebration'){ document.getElementById('app').innerHTML=renderSublevelCelebration(); return; }
   if(state.screen==='levelChampion'){ document.getElementById('app').innerHTML=renderLevelChampionCeremony(); return; }
