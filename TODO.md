@@ -119,9 +119,9 @@ off here as they ship, and add the commit hash.
 - [ ] **X11 · Swipe gestures in the reader.** Left swipe → next page, right swipe → previous page (supplements the existing arrow buttons). Touch-only; desktop unaffected. Use the existing `prevPage()`/`nextPage()` functions — just wire a touch handler.
 
 ### Content — ideas
-- [~] **C1 · Quiz question variety.** L3.2 done 2026-09-14 (`d28a63d`). L3.3 done 2026-09-18 (`abef784`): 5 inference/interpretation questions across l3.3s1/s3/s4. Continue — next: L3 sub-level 4, then L3 sub-levels 5–10, then L2, L4 etc.
+- [~] **C1 · Quiz question variety.** L3.2 done 2026-09-14 (`d28a63d`). L3.3 done 2026-09-18 (`abef784`). L3.4 done 2026-09-22 (`693a5ee`): 5 replacements across l3.4s1–l3.4s5 (4 inference, 1 vocab-in-context). Continue — next: L3 sub-level 5, then L3 sub-levels 6–10, then L2, L4 etc.
 - [x] **C2 · After-reading talk prompt — ALL 6 LEVELS SHIPPED (355 total prompts).** L1: 2026-07-24 commit `e15f2f9`. L2: 2026-07-29 commit `43cc844`. L3: 2026-08-05 commit `dad0610`. L4: 2026-08-11 commit `90200c2`. L5: 2026-08-21 commit `bd562b1`. L6: 2026-08-31 commit `1039e44` (50 stories, l6.1s1–l6.10s5, both en+ja, LIVE v=20260901). Complete: L1(75)+L2(80)+L3(50)+L4(50)+L5(50)+L6(50)=355.
-- [~] **C3 · Non-fiction fact files.** Started 2026-09-08 (commit `d9bf08d`): l3.1s6 "The Life of Bees" (Animals, A2) added to Level 3 sub-level 0. More non-fiction needed at Levels 2–4 to close the genre gap — continue in future content subpillar runs.
+- [~] **C3 · Non-fiction fact files.** l3.1s6 "The Life of Bees" 2026-09-08. l3.7s6 "The Tidal Pool" 2026-09-22 (`693a5ee`). More non-fiction needed at Levels 2–4 to close the genre gap — continue in future content subpillar runs.
 - [ ] **C4 · Decodable phonics set at Level 1.** Absolute beginners currently get sight-word exposure,
   not systematic decoding. Add short-vowel word-family stories (-at, -ig, -op, -en, -ug) so a child
   can actually sound them out.

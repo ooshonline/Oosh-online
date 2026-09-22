@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 17`
+`contentSubpillarRun: 18`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **FIRES next session** (counter = 17, odd).
+Next subpillar: **SKIPS next session** (counter = 18, even).
 
 ---
 
@@ -79,6 +79,7 @@ Next subpillar: **FIRES next session** (counter = 17, odd).
 - ✅ Functionality (2026-09-17, automated) — F7 Read Later bookmarks **DEPLOYED LIVE** (commit `357c7f9`, build 20260917)
 - ✅ UI (2026-09-18, automated) — U8 animated XP counter **DEPLOYED LIVE** (commit `ef6641a`, build 20260918)
 - ✅ UX (2026-09-21, automated) — X7 story-complete interstitial **DEPLOYED LIVE** (commit `5763906`)
+- ✅ Content (2026-09-22, automated) — C1 quiz variety L3.4 + content subpillar l3.7s6 **DEPLOYED LIVE** (commit `693a5ee`, build 20260922)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -105,6 +106,41 @@ Next subpillar: **FIRES next session** (counter = 17, odd).
 ---
 
 ## Session Log
+
+### 2026-09-22 — Content Pillar + Content Subpillar (~50 min, automated) — Cycle 10
+
+**Pillar: Content** — Cycle 10, fourth pillar.
+**Content subpillar: FIRED** (counter was 17 = odd; incremented to 18).
+
+**Commit `693a5ee` — DEPLOYED LIVE (build 20260922).**
+
+- **content: C1 — quiz variety retro-fit L3 sub-level 4 (5 questions)**
+  - Replaced 5 trivial literal-recall questions across l3.4s1–l3.4s5:
+    - l3.4s1 Q3: "Where exactly was the colony?" (trivial) → inference on why the family felt pleased about the bees by the end
+    - l3.4s2 Q4: "How did the teacher react?" (trivial) → inference on why the teacher's silence was "deliberate"
+    - l3.4s3 Q1: "What did the grandmother say waste was?" (trivial direct quote) → vocab-in-context: what does "sound" mean when grandmother said "the wool was still sound"?
+    - l3.4s4 Q1: "Why did they shelter under the bridge?" (trivial) → inference on what the shift from "formal to easier" shows about stranger conversations
+    - l3.4s5 Q1: "What was the map of?" (trivially obvious) → inference on familiarity making things invisible
+  - All inference feedback lines start with "This is an inference —" (consistent with L3.2 and L3.3 pass)
+  - l3.4s6 (The Mangrove Forest) quiz already has vocab-in-context (brackish) and factual comprehension questions — adequate, skipped
+  - Verified: all 5 new questions present in STORIES[3][3] in browser; 4 inference + 1 vocab-in-context confirmed; golden path clean; zero console errors.
+  - C1 updated in TODO.md — next: L3 sub-level 5.
+
+- **content subpillar: l3.7s6 — "The Tidal Pool" (Nature/Science, A2, non-fiction)**
+  - 6th story in STORIES[3][6] (L3, sub-level 6). L3 sub-level 6 now complete at 6 stories.
+  - 335 words, 4 paragraphs. Non-fiction register; explores tidal pool ecosystem at low tide.
+  - Theme: a rock pool revealed at low tide, creatures inside it (anemones, limpets, crabs, camouflage), the ecosystem as a self-contained world, the sea returning.
+  - 6 vocab items using `vocab[]` array format — activates X8 vocab recap. Words: tidal pool, anemone, limpet, encrusted, camouflage, ecosystem.
+  - 4 quiz questions: 2 factual recall (anemones at low tide; encrusted definition) + 2 inference (ecosystem size vs. completeness; "prior claim" meaning).
+  - Talk prompt l3.7s6 added (en + ja): "Have you ever found a small world hidden inside a larger one..."
+  - C3 non-fiction gap: l3.7s6 is the second non-fiction story added (after l3.1s6 "The Life of Bees"). C3 note updated in TODO.md.
+  - `ribbit-stories.js` cache-bust → v=20260922.
+  - Verified: l3.7s6 found in STORIES[3][6]; vocab[] 6 items; vocab recap (6 word rows, title "📚 単語チェック") fires correctly; 2 inference questions confirmed; talk prompt en + ja present; golden path (all 5 main screens) clean; zero console errors. LIVE confirmed (l3.7s6 + inference feedback text + v=20260922 in served file).
+
+**Cycle 10 next pillar: Gamification.**
+**Content subpillar counter incremented to 18 (even) — skips next session.**
+
+---
 
 ### 2026-09-21 — UX Pillar (~45 min, automated) — Cycle 10
 
