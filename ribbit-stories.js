@@ -5588,8 +5588,8 @@ STORIES[3][3].push({
      feedback:"'He said he thought we had bees.'"},
     {question:"Why did the father not want to call pest control?",options:["It was too expensive","He had read about declining honeybee populations","Irene advised against it","The plumber said not to"],correct:1,
      feedback:"'He had read something about honeybee populations declining and felt it would be wrong.'"},
-    {question:"Where exactly was the colony?",options:["Under the kitchen floor","In the roof","In the cavity between the inner and outer walls","Behind the kitchen cupboards"],correct:2,
-     feedback:"'There was a colony behind the plaster, in the cavity between the inner and outer walls.'"},
+    {question:"By the end of the story, the family tells visitors about the bees and says they are 'pleased' about them. What does this suggest?",options:["They found a way to collect the honey from the wall","They had come to see the bees as something remarkable rather than a problem","The bees had caused no damp, just as Irene predicted","Pest control told them the bees were harmless"],correct:1,
+     feedback:"This is an inference — the family first treated the humming as a problem to fix; by the end they were proud enough to tell visitors about the colony."},
     {question:"What did the family decide to do?",options:["Call pest control","Have Irene remove the colony","Leave the bees alone","Block the entry point"],correct:2,
      feedback:"'In the end, we left them.'"}
   ],
@@ -5624,8 +5624,8 @@ STORIES[3][3].push({
      feedback:"'The layers peeled away, and the only sound was whatever I played.'"},
     {question:"Why was practising at home difficult?",options:["The piano was out of tune","The house was too cold","Someone always needed the room or asked how much longer","The piece was too hard"],correct:2,
      feedback:"'At home, someone always needs the room or asks how much longer I am going to be.'"},
-    {question:"How did the teacher react when told it was the best practice ever?",options:["She suggested doing it every week","She smiled and said nothing","She asked what had changed","She seemed surprised"],correct:1,
-     feedback:"'She smiled and said nothing, which I think was deliberate.'"}
+    {question:"The narrator says the teacher's silence was 'deliberate'. What does this most likely mean?",options:["The teacher had not heard what was said","The teacher was too busy to respond properly","The teacher understood what had happened and chose not to break the moment with words","The teacher was surprised and did not know what to say"],correct:2,
+     feedback:"This is an inference — 'deliberate' means intentional. The teacher's choice not to speak suggests she recognised what the solo practice had meant without needing to say anything."}
   ],
   images:['images/p4/p4_the_practice_room_1.webp','images/p4/p4_the_practice_room_2.webp','images/p4/p4_the_practice_room_3.webp','images/p4/p4_the_practice_room_4.webp','images/p4/p4_the_practice_room_5.webp']
 });
@@ -5652,8 +5652,8 @@ STORIES[3][3].push({
     "uneven":{def:"Not regular or consistent; varying in quality.",pos:"adjective"}
   },
   quiz:[
-    {question:"What did the grandmother say waste was?",options:["Unavoidable","A kind of rudeness","A practical problem","Simply untidy"],correct:1,
-     feedback:"She said 'waste was a kind of rudeness — to the person who made it, to the material, to yourself.'"},
+    {question:"When the grandmother said 'the wool was still sound', what did 'sound' mean in that sentence?",options:["Loud and clear","In good condition and not damaged","Old-fashioned in style","Very soft to touch"],correct:1,
+     feedback:"'Sound' here means in good condition — the wool was not worn out or damaged, so it was worth mending rather than throwing away."},
     {question:"Why did the grandmother say the other elbow also needed attention?",options:["It had a small hole already","She wanted more practice time","The narrator leaned on their desk and it would develop a hole","The wool was weaker on that side"],correct:2,
      feedback:"She said it 'would, if I kept leaning on my desk the way I do.'"},
     {question:"What did the grandmother say about the narrator's uneven stitches?",options:["She redid them herself","She said they should practise more","She did not comment; she said they would tighten as they settled","She told them to unpick and start again"],correct:2,
@@ -5686,8 +5686,8 @@ STORIES[3][3].push({
     "formal":{def:"Careful and correct in behaviour, as in an official situation.",pos:"adjective"}
   },
   quiz:[
-    {question:"Why did they shelter under the bridge?",options:["They were tired from cycling","Sudden heavy rain started","Leo wanted to look at the canal","Their bikes needed fixing"],correct:1,
-     feedback:"'The rain started... within thirty seconds the road was dark.' They cycled to the bridge."},
+    {question:"The narrator says the conversation began 'a little formal at first, then easier'. What does this best show?",options:["The man became friendlier after they offered him food","Strangers can move from politeness into genuine connection when given time","The narrator became more confident as the rain went on","The man knew more about the canal than they had expected"],correct:1,
+     feedback:"This is an inference — the shift from 'formal' to 'easier' describes how brief, unexpected encounters between strangers can grow into real conversations."},
     {question:"What was the older man doing when they arrived?",options:["Reading a newspaper","Fishing","Listening to cricket with a flask","Painting the bridge wall"],correct:2,
      feedback:"He was 'sitting on the low wall with a flask and a small radio... listening to cricket.'"},
     {question:"What did the man say about the arch of the bridge?",options:["It was recently repaired","It needed no mortar — the stones held each other through compression","It was the oldest bridge in the area","It had been rebuilt after flooding"],correct:1,
@@ -5720,8 +5720,8 @@ STORIES[3][3].push({
     "diversion order":{def:"An official document that legally moves a footpath to a new route.",pos:"noun"}
   },
   quiz:[
-    {question:"What was the map of?",options:["The whole of Britain","A city centre","The area within about 8 kilometres of the narrator's house","A historical town that no longer exists"],correct:2,
-     feedback:"'A large-scale ordnance survey map... showing the area within roughly eight kilometres of our house.'"},
+    {question:"The narrator says they had walked past the map 'all my life without looking at it properly'. What does this suggest?",options:["We tend not to notice what we see every day until something makes us stop","Old maps are difficult to read without specialist knowledge","Children are less interested in history than adults","The map was not hung in a prominent position"],correct:0,
+     feedback:"This is an inference — familiarity can make things invisible. The narrator walked past a detailed, interesting map for years without ever really examining it."},
     {question:"What is the supermarket built on, according to the 1953 map?",options:["Nursery gardens","A car park","A factory called Perkins & Sons","An open field"],correct:2,
      feedback:"'The supermarket was a factory called Perkins & Sons (Engineers).'"},
     {question:"Why had people used the old diagonal footpath?",options:["It led to a park","It avoided the traffic","It cut ten minutes off the walk to school","It was the only paved path"],correct:2,
@@ -6312,6 +6312,37 @@ STORIES[3][6].push({
      feedback:"'Doing something important, carefully, without being asked to perform the emotion of it.'"}
   ],
   images:['images/p7/p7_the_lighthouse_keepers_logbook_1.webp','images/p7/p7_the_lighthouse_keepers_logbook_2.webp','images/p7/p7_the_lighthouse_keepers_logbook_3.webp','images/p7/p7_the_lighthouse_keepers_logbook_4.webp','images/p7/p7_the_lighthouse_keepers_logbook_5.webp']
+});
+
+STORIES[3][6].push({
+  id:"l3.7s6", levelId:3, subLevel:6,
+  title:"The Tidal Pool", emoji:"🦀", genre:"Nature / Science",
+  wordCount:335, readMins:3,
+  blurb:"A low tide reveals a different world in the rock pools at the base of the cliffs — if you get close and stay still.",
+  paragraphs:[
+    "At low tide, the pools between the rocks at the base of the cliff are revealed. They are not easy to reach — you have to scramble down a rough path and cross a stretch of wet, slippery stone — but once you are there, it is worth it. Each pool is a different size and depth, and the light hits them at different angles. From a distance they look empty. You have to get close, and still, before anything becomes visible.",
+    "The first things you notice are the anemones. When the sea is covering them, their tentacles open in a circle. At low tide, with no water to support them, they close into a tight blob that looks like a small piece of liver. A close look at the pool floor shows limpets — oval shells clamped so firmly to the rock that you cannot move them without a tool. Between them, the rock is encrusted with tiny barnacles, each one barely bigger than a grain of rice.",
+    "If you wait, the pool begins to move. A small shore crab picks its way between the weed with sideways steps. A blenny — a small brown fish — retreats under a ledge when your shadow falls across the water. Some creatures use camouflage to disappear against the rock; others, like the bright orange starfish wedged in a crevice, seem to have given up on hiding entirely. The pool is an ecosystem on its own, with predators and prey, all contained in a space smaller than a bathtub.",
+    "When the tide begins to return, the first thin sheets of water slip over the low edge of the pool and the anemones open again almost immediately. It is hard to leave, even when the water is ankle-deep and your shoes are wet. These creatures have been waiting for the sea for hours. Now it is coming back. You realise you have been a visitor to their world — and a short-stay one. The sea has prior claim."
+  ],
+  vocab:[
+    {word:"tidal pool",definition:"A pool of seawater left among rocks when the tide goes out.",partOfSpeech:"noun"},
+    {word:"anemone",definition:"A soft sea creature that looks like a flower and catches food with waving tentacles.",partOfSpeech:"noun"},
+    {word:"limpet",definition:"A shellfish with a cone-shaped shell that clings very tightly to rocks.",partOfSpeech:"noun"},
+    {word:"encrusted",definition:"Covered with a hard layer of something, such as barnacles on a rock.",partOfSpeech:"adjective"},
+    {word:"camouflage",definition:"A colouring or pattern that helps an animal blend in with its surroundings and stay hidden.",partOfSpeech:"noun"},
+    {word:"ecosystem",definition:"All the living things in one place and the way they depend on each other.",partOfSpeech:"noun"}
+  ],
+  quiz:[
+    {question:"What do anemones look like at low tide, when no seawater covers them?",options:["Their tentacles remain fully open","They close into a tight blob like a small piece of liver","They lie flat and invisible against the rock","They become transparent"],correct:1,
+     feedback:"'At low tide... they close into a tight blob that looks like a small piece of liver.'"},
+    {question:"What does 'encrusted' mean, as used in the story?",options:["Badly damaged","Covered with a hard layer of something","Very smooth and polished","Dried out in the sun"],correct:1,
+     feedback:"'Encrusted' means covered with a hard layer — in this case barnacles coating the rock surface."},
+    {question:"The narrator says the pool is 'an ecosystem on its own... contained in a space smaller than a bathtub'. What does this best show?",options:["Tidal pools are too small to sustain much life","Despite being tiny, they function as a complete, self-sufficient community of living things","Only a few very small species can survive in a tidal pool","The creatures in the pool could not survive in the open sea"],correct:1,
+     feedback:"This is an inference — even in a very small space, the pool contains a full web of life: predators, prey, and different species all depending on each other."},
+    {question:"At the end, the narrator says the sea 'has prior claim'. What does this mean?",options:["The narrator arrived at the pool before the tide did","The sea is far larger than any tidal pool","The sea's right to reclaim the space is greater — these creatures belong to the sea","The pool will be permanently covered at high tide"],correct:2,
+     feedback:"This is an inference — the narrator is the temporary visitor; the creatures and the rocks belong to the sea, which was there long before any person arrived."}
+  ]
 });
 
 // ── Level 3 · Sub-level 8 (PI8) ──────────────────────────────────────────────
@@ -13577,6 +13608,7 @@ const TALK_PROMPTS = {
   'l3.7s3':{en:"Is there something you own that is worth repairing rather than replacing? What makes it worth the effort of fixing?", ja:"あたらしいものに かえるより、なおす かちの ある もちものは ある？なぜ てまを かけて なおす かちが ある？"},
   'l3.7s4':{en:"Have you ever worked to restore or improve something that had been neglected for a long time? How did you decide where to start?", ja:"ながいあいだ ほったらかしに なっていた ものを、とりもどしたり よくしたりしたことは ある？どこから はじめた？"},
   'l3.7s5':{en:"If your ordinary days were recorded in a logbook for future people to read, what would you want them to notice about your daily life?", ja:"きみの ふだんの 日が みらいの ひとに よまれる きろくとして のこるとしたら、じぶんの くらしの どんなことを きづいてほしい？"},
+  'l3.7s6':{en:"Have you ever found a small world hidden inside a larger one — a rock pool, a garden corner, a room you had never entered? What made it feel like a separate place?", ja:"いわまのいけや にわのかど、いちども はいったことのない へやなど、おおきな 世界の なかに かくれた ちいさな 世界を みつけたことは ある？どんなところが べつの 場所みたいに かんじた？"},
 
   // ── Level 3 · Sub-level 8 ──
   'l3.8s1':{en:"Have you ever been in a situation where you had to present yourself to someone who did not know you at all? How did that feel?", ja:"まったく しらない ひとに、じぶん じしんを みせなければならない じょうきょうに あったことは ある？どんな きもちだった？"},
