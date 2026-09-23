@@ -188,7 +188,7 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   onto levels + World Journey), get Kyle's sign-off on the model before building, then implement in
   slices. When it ships, delete the two `DEV: all stories unlocked` overrides and route gating through
   the pathway instead. Bigger than one run — scope carefully.
-- [ ] **G11 · "First try" perfect-quiz bonus.** When a learner gets 100% on their first attempt at a story's quiz, show a "+10 XP First Try!" chip on the celebration screen. Track `state.firstTryPerfect[]` (persisted `rbt_ftp`). Small, motivating, zero new screens.
+- [x] **G11 · "First try" perfect-quiz bonus — SHIPPED (2026-09-23, commit `145d1cb`).** Gold gradient chip "⭐ +10 XP First Try!" / "⭐ +10XP 一発正解！" on celebration screen when 100% on first completion. `state.firstTryPerfect[]` → `rbt_ftp`. Absent on replays. LIVE (build 20260923).
 - [ ] **G13 · Streak freeze / grace day.** When the daily streak would reset because the learner missed a day, award a one-use "freeze" that holds the streak for one missed day (one free freeze granted at streak 7+). State: `state.streakFreezes` (persisted `rbt_sfreezes`). Shows as a small shield icon next to the streak pill. No XP cost — motivating, not punishing.
 
 ### Bug Fixes / Implementation Check — ideas (added 2026-08-21)

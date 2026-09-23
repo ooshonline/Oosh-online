@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 18`
+`contentSubpillarRun: 19`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **SKIPS next session** (counter = 18, even).
+Next subpillar: **FIRES next session** (counter = 19, odd).
 
 ---
 
@@ -80,6 +80,7 @@ Next subpillar: **SKIPS next session** (counter = 18, even).
 - ✅ UI (2026-09-18, automated) — U8 animated XP counter **DEPLOYED LIVE** (commit `ef6641a`, build 20260918)
 - ✅ UX (2026-09-21, automated) — X7 story-complete interstitial **DEPLOYED LIVE** (commit `5763906`)
 - ✅ Content (2026-09-22, automated) — C1 quiz variety L3.4 + content subpillar l3.7s6 **DEPLOYED LIVE** (commit `693a5ee`, build 20260922)
+- ✅ Gamification (2026-09-23, automated) — G11 first-try perfect bonus **DEPLOYED LIVE** (commit `145d1cb`, build 20260923)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -106,6 +107,29 @@ Next subpillar: **SKIPS next session** (counter = 18, even).
 ---
 
 ## Session Log
+
+### 2026-09-23 — Gamification Pillar (~45 min, automated) — Cycle 10
+
+**Pillar: Gamification** — Cycle 10, fifth pillar.
+**Content subpillar: SKIPPED** (counter was 18 = even; incremented to 19).
+
+**Commit `145d1cb` — DEPLOYED LIVE (build 20260923).**
+
+- **feature: G11 — first-try perfect bonus (+10 XP chip on celebration)**
+  - Detects when a learner achieves 100% accuracy on their first ever completion of a story (`!prev && accuracyPct===100`).
+  - Awards +10 XP (separate from the main story XP) and persists the story id to `state.firstTryPerfect[]` → `rbt_ftp`.
+  - Gold gradient chip "⭐ +10 XP First Try!" / "⭐ +10XP 一発正解！" fades in below the main XP chip on the celebration screen (`.celeb-chip--first-try`, animation-delay 0.7s to stagger from main chip).
+  - Chip correctly absent on replays — `state.lastFirstTryPerfect` (transient) set `false` when `prev` exists.
+  - `state.lastFirstTryPerfect` reset to `false` when quiz starts (in `nextPage()`) so stale flag never leaks between stories.
+  - 2 new `UI_STRINGS` keys in en + ja: `firstTryBonus`.
+  - 2 new CSS classes: `.celeb-chip--first-try`, `.celeb-chip--first-try span`.
+  - Verified: first-completion shows gold chip + correct XP gain (story 50 + bonus 10 + perfect quest 20 = 80); replay shows no chip + `lastFirstTryPerfect=false`; all 5 main screens clean; zero console errors; no overflow at 375px; 8 G11 identifiers confirmed live on GitHub Pages.
+  - G11 ticked in TODO.md.
+
+**Cycle 10 next pillar: Monetisation.**
+**Content subpillar counter incremented to 19 (odd) — fires next session.**
+
+---
 
 ### 2026-09-22 — Content Pillar + Content Subpillar (~50 min, automated) — Cycle 10
 
