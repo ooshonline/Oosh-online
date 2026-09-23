@@ -658,6 +658,8 @@
     .celeb-badge-anim-slot:empty{display:none}
     .celeb-chip{display:flex;align-items:center;gap:6px;background:#EBF9DE;border-radius:999px;padding:8px 16px;margin-bottom:14px;animation:fade-up .4s .5s ease both}
     .celeb-chip span{font-family:var(--font-head);font-weight:800;font-size:13px;color:#2D6B12}
+    .celeb-chip--first-try{background:linear-gradient(135deg,#fff3cd 0%,#ffe082 100%);animation-delay:.7s}
+    .celeb-chip--first-try span{color:#7c5200}
     .celeb-perf{font-size:12px;color:var(--text-muted);margin-bottom:26px;max-width:320px}
     /* ── Talk prompt — an open speaking question, never marked, never scored ── */
     .celeb-talk{width:100%;max-width:360px;background:#fff;border:2px solid #EBF9DE;border-radius:var(--radius);padding:14px 16px;margin:-8px 0 22px;box-shadow:var(--shadow);animation:fade-up .4s .55s ease both;text-align:left}
@@ -776,9 +778,9 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20260922"></script>
-<script src="ribbit-wordlists.js?v=20260915"></script>
-<script src="ribbit-ja-translations.js?v=20260915"></script>
+<script src="ribbit-stories.js?v=20260923"></script>
+<script src="ribbit-wordlists.js?v=20260923"></script>
+<script src="ribbit-ja-translations.js?v=20260923"></script>
 <script src="assets/vendor/lottie.min.js?v=20260804"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
@@ -1275,6 +1277,8 @@ const state = {
   showGoalPicker: false, // transient — goal-picker open on home dash
   theme: localStorage.getItem('rbt_theme')||'auto', // 'auto'=respect prefers-color-scheme, 'dark'=force dark, 'light'=force light
   readLater: JSON.parse(localStorage.getItem('rbt_readlater')||'[]'), // story ids bookmarked for later
+  firstTryPerfect: JSON.parse(localStorage.getItem('rbt_ftp')||'[]'), // story ids where 100% on first completion
+  lastFirstTryPerfect: false, // transient — set in finishStory(), read by renderCelebration()
 };
 function save(){
   localStorage.setItem('rbt_uilang', state.uiLang);
@@ -1306,6 +1310,7 @@ function save(){
   localStorage.setItem('rbt_cardbox', JSON.stringify(state.cardBox));
   localStorage.setItem('rbt_theme', state.theme);
   localStorage.setItem('rbt_readlater', JSON.stringify(state.readLater||[]));
+  localStorage.setItem('rbt_ftp', JSON.stringify(state.firstTryPerfect||[]));
 }
 window.addEventListener('beforeunload', save);
 // beforeunload is unreliable on iOS Safari (backgrounding/switching apps doesn't fire it) —
@@ -1634,7 +1639,7 @@ function nextPage(){
   } else {
     state.screen='quiz'; state.quizIndex=0; state.quizAnswered=false;
     state.quizSelected=null; state.quizCorrectCount=0; state.quizStartTime=Date.now();
-    state.comboStreak=0; state.showStoryPeek=false;
+    state.comboStreak=0; state.showStoryPeek=false; state.lastFirstTryPerfect=false;
     state.vocabRecap=!!(story.vocab&&story.vocab.length);
     render();
   }
@@ -1818,6 +1823,14 @@ function finishStory(story){
   calcTodayCount();
   checkStoriesQuest();
   if(accuracyPct===100){ markQuestDone('perfect'); state.perfectCount=(state.perfectCount||0)+1; }
+  // G11: first-try perfect — 100% on first ever completion of this story
+  const isFirstTryPerfect = !prev && accuracyPct===100;
+  if(isFirstTryPerfect){
+    state.firstTryPerfect=[...state.firstTryPerfect, story.id];
+    awardXP(10);
+    save();
+  }
+  state.lastFirstTryPerfect=isFirstTryPerfect;
   checkWeekQuests();
   // First-time sub-level completion → schedule the ceremony screen
   const _slInfo=storySubLevel(story.id);
@@ -2589,6 +2602,7 @@ const UI_STRINGS = {
     comboLabel:'COMBO!', correctLabel:'CORRECT!', wrongLabel:'WRONG!',
     comboStreakLine:(n)=>`${n} in a row!`,
     replayGoodJob:'Great practice! Beat your score to earn more XP.',
+    firstTryBonus:'⭐ +10 XP First Try!',
     appearanceTitle:'APPEARANCE',
     nightModeOn:'🌙 Night mode', nightModeOff:'☀️ Day mode',
     saveProgress:'💾 Save Progress', restoreProgress:'📂 Restore Progress',
@@ -2729,6 +2743,7 @@ const UI_STRINGS = {
     comboLabel:'コンボ！', correctLabel:'せいかい！', wrongLabel:'ざんねん！',
     comboStreakLine:(n)=>`${n}連続！`,
     replayGoodJob:'よく練習できたね！スコアを上げてXPをゲットしよう。',
+    firstTryBonus:'⭐ +10XP 一発正解！',
     appearanceTitle:'がめんのせってい',
     nightModeOn:'🌙 ナイトモード', nightModeOff:'☀️ デイモード',
     saveProgress:'💾 データを保存', restoreProgress:'📂 データを復元',
@@ -3357,6 +3372,7 @@ function renderCelebration(){
     <div class="celeb-stars" id="celeb-stars" data-earned="${earnedStars}"></div>
     <div id="celeb-badge-anim" class="celeb-badge-anim-slot"></div>
     ${xpEarned>0?`<div class="celeb-chip"><span>${t('xpEarned',xpEarned)}</span></div>`:`<div class="celeb-chip" style="background:#F0F3F7"><span style="color:var(--text-muted)">${t('replayGoodJob')}</span></div>`}
+    ${state.lastFirstTryPerfect?`<div class="celeb-chip celeb-chip--first-try"><span>${t('firstTryBonus')}</span></div>`:''}
     <div class="celeb-perf">${t('celebStarText',accuracyPct)}</div>
     ${renderTalkPrompt(story)}
     ${(()=>{
