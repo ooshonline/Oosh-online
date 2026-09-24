@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 19`
+`contentSubpillarRun: 20`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **FIRES next session** (counter = 19, odd).
+Next subpillar: **SKIPS next session** (counter = 20, even).
 
 ---
 
@@ -81,6 +81,9 @@ Next subpillar: **FIRES next session** (counter = 19, odd).
 - ✅ UX (2026-09-21, automated) — X7 story-complete interstitial **DEPLOYED LIVE** (commit `5763906`)
 - ✅ Content (2026-09-22, automated) — C1 quiz variety L3.4 + content subpillar l3.7s6 **DEPLOYED LIVE** (commit `693a5ee`, build 20260922)
 - ✅ Gamification (2026-09-23, automated) — G11 first-try perfect bonus **DEPLOYED LIVE** (commit `145d1cb`, build 20260923)
+- ✅ Monetisation (2026-09-24, automated) — M8 parent share card + content subpillar l4.1s6 **DEPLOYED LIVE** (commits `5bf9dbf`+`a5d6ebd`+`04a6634`, build 20260924)
+
+**Cycle 10 next pillar: Bug Fixes / Implementation Check.**
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -107,6 +110,37 @@ Next subpillar: **FIRES next session** (counter = 19, odd).
 ---
 
 ## Session Log
+
+### 2026-09-24 — Monetisation Pillar + Content Subpillar (~55 min, automated) — Cycle 10
+
+**Pillar: Monetisation** — Cycle 10, sixth pillar.
+**Content subpillar: FIRED** (counter was 19 = odd; incremented to 20).
+
+**Commits `5bf9dbf`, `a5d6ebd`, `04a6634` — DEPLOYED LIVE (build 20260924).**
+
+- **feature: M8 — parent progress share card**
+  - Canvas-rendered 360×480 progress card on the Profile screen.
+  - Navy background with green accent stripes; frog emoji; "Ribbit" in brand green; "My Ribbit Reading Journey" headline; level badge pill; 4-stat grid (stories read, day streak, words saved, total XP).
+  - `shareProgress()`: `navigator.canShare({files})` path for mobile (shares image file via native share sheet); `navigator.share` text-only fallback; PNG download fallback for desktop.
+  - New `SHARE PROGRESS / がんばりをシェア` section in profile, above the data row. `.profile-share-btn` (44px, brand green).
+  - 8 new UI_STRINGS keys (en + ja): `shareSection`, `shareBtn`, `shareCardTitle`, `shareCardText`, `shareDownloadDone`.
+  - Bug found and fixed: `state.progress` is an object, not an array — `Object.keys(state.progress).length` used for story count.
+  - Canvas verified in local browser: card renders correctly; stat values correct; golden path clean; zero console errors.
+  - M8 ticked in TODO.md.
+
+- **content subpillar: l4.1s6 — "The Beekeeper's Notebook" (Nature, B1)**
+  - 6th story in STORIES[4][0] (L4, sub-level 1). L4 sub-level 1 now has 6 stories.
+  - 285 words, 4 paragraphs. Theme: student discovers grandfather's forty-year beekeeping practice through a battered hive records notebook; learns from a local expert; harvests first honey; explores intergenerational knowledge transfer.
+  - 6 vocab[] items (activates X8 vocab recap): battered, diagram, detect, anxious, colony, harvest.
+  - 4 quiz questions: 2 factual recall + 2 inference (all feedback lines for inference questions start with "This is an inference —").
+  - TALK_PROMPTS l4.1s6 added (en + ja): discovering something surprising about a family member.
+  - ribbit-stories.js cache-bust → v=20260924.
+  - Verified: story in STORIES[4][0]; vocab recap fires (6 rows, battered/definition correct); golden path clean; zero console errors. LIVE confirmed (shareBtnFound, l4.1s6, generateShareCard, v=20260924 all in served file).
+
+**Cycle 10 next pillar: Bug Fixes / Implementation Check.**
+**Content subpillar counter incremented to 20 (even) — skips next session.**
+
+---
 
 ### 2026-09-23 — Gamification Pillar (~45 min, automated) — Cycle 10
 
