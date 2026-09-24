@@ -469,6 +469,8 @@
     .profile-data-btn{flex:1;height:44px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:12px;background:var(--card);border:2px solid var(--border);color:var(--text);box-shadow:var(--shadow-sm)}
     .profile-data-btn--restore{border-color:var(--primary-dark);color:var(--primary-dark)}
     .profile-data-hint{font-size:11px;color:var(--text-muted);text-align:center}
+    .profile-share-btn{width:100%;height:44px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:13px;background:var(--primary);border:none;color:#fff;box-shadow:var(--shadow-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+    .profile-share-btn:active{opacity:.85}
 
     /* ══ READING — literal port, Tablet lines 819-896. Full-bleed, no app shell. ══ */
     /* height (not min-height) + min-height:0 down the flex chain. Without this, flex items
@@ -2137,6 +2139,111 @@ function importProgress(file){
   reader.readAsText(file);
 }
 
+// ── M8 Share progress card ─────────────────────────────────────────────────
+function _roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);
+  ctx.closePath();
+}
+function generateShareCard(){
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  const W=360,H=480;
+  const canvas=document.createElement('canvas');
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+
+  // Background
+  ctx.fillStyle='#1A3260'; ctx.fillRect(0,0,W,H);
+  // Top accent stripe
+  ctx.fillStyle='#bada55'; ctx.fillRect(0,0,W,7);
+  // Bottom accent stripe
+  ctx.fillStyle='#bada55'; ctx.fillRect(0,H-7,W,7);
+
+  // Frog emoji
+  ctx.font='64px serif'; ctx.textAlign='center';
+  ctx.fillText('🐸',W/2,110);
+
+  // App name
+  ctx.fillStyle='#bada55'; ctx.font='bold 26px sans-serif';
+  ctx.fillText('Ribbit',W/2,148);
+
+  // Headline
+  ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.font='15px sans-serif';
+  ctx.fillText(t('shareCardTitle'),W/2,172);
+
+  // Level badge pill
+  const curLv=LEVELS.find(l=>l.id===currentLevelId());
+  const levelLabel=curLv.pond+' · '+curLv.cefr;
+  const bW=190,bH=32,bX=(W-bW)/2,bY=184;
+  ctx.fillStyle=curLv.color+'44';
+  _roundRect(ctx,bX,bY,bW,bH,16); ctx.fill();
+  ctx.fillStyle=curLv.color; ctx.font='bold 13px sans-serif';
+  ctx.fillText(levelLabel,W/2,bY+22);
+
+  // 4-stat grid
+  const stats=[
+    {emoji:'📖',value:Object.keys(state.progress).length,label:state.uiLang==='ja'?'読んだ話':'Stories Read'},
+    {emoji:'🔥',value:state.streak,         label:state.uiLang==='ja'?'連続日数':'Day Streak'},
+    {emoji:'💡',value:Object.keys(state.flashCards).length,label:state.uiLang==='ja'?'覚えた単語':'Words Saved'},
+    {emoji:'⭐',value:state.xp,             label:state.uiLang==='ja'?'ポイント':'Total XP'},
+  ];
+  const sW=72,sH=78,gap=8,sy=240;
+  const totalW=4*sW+3*gap;
+  const sx=(W-totalW)/2;
+  stats.forEach((s,i)=>{
+    const x=sx+i*(sW+gap);
+    ctx.fillStyle='rgba(255,255,255,0.1)';
+    _roundRect(ctx,x,sy,sW,sH,10); ctx.fill();
+    ctx.font='22px serif'; ctx.textAlign='center';
+    ctx.fillText(s.emoji,x+sW/2,sy+27);
+    ctx.fillStyle='#ffffff'; ctx.font='bold 18px sans-serif';
+    ctx.fillText(String(s.value),x+sW/2,sy+52);
+    ctx.fillStyle='rgba(255,255,255,0.55)'; ctx.font='8px sans-serif';
+    ctx.fillText(s.label,x+sW/2,sy+66);
+  });
+
+  // Tagline
+  ctx.fillStyle='rgba(255,255,255,0.7)'; ctx.font='12px sans-serif';
+  ctx.fillText(state.uiLang==='ja'?'英語リーディングアプリ':'Reading Practice App',W/2,360);
+
+  // URL
+  ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font='10px sans-serif';
+  ctx.fillText('ooshonline.github.io/Oosh-online',W/2,H-20);
+
+  return canvas;
+}
+async function shareProgress(){
+  const canvas=generateShareCard();
+  // Mobile share with image file
+  if(navigator.canShare){
+    try{
+      const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));
+      const file=new File([blob],'ribbit-progress.png',{type:'image/png'});
+      if(navigator.canShare({files:[file]})){
+        await navigator.share({title:t('shareCardTitle'),text:t('shareCardText'),files:[file]});
+        return;
+      }
+    }catch(e){if(e.name==='AbortError') return;}
+  }
+  // Text-only share fallback
+  if(navigator.share){
+    try{
+      await navigator.share({title:t('shareCardTitle'),text:t('shareCardText'),url:'https://ooshonline.github.io/Oosh-online/'});
+      return;
+    }catch(e){if(e.name==='AbortError') return;}
+  }
+  // Download fallback (desktop)
+  const a=document.createElement('a');
+  a.href=canvas.toDataURL('image/png');
+  a.download='ribbit-progress.png';
+  a.click();
+  showToast(t('shareDownloadDone'));
+}
+
 // ── XP MILESTONE CELEBRATIONS — ported from the live app, one-time toasts
 // when the player crosses key XP thresholds. All XP awards should go through
 // awardXP() rather than mutating state.xp directly, so milestones stay accurate.
@@ -2607,6 +2714,9 @@ const UI_STRINGS = {
     nightModeOn:'🌙 Night mode', nightModeOff:'☀️ Day mode',
     saveProgress:'💾 Save Progress', restoreProgress:'📂 Restore Progress',
     dataTitle:'YOUR DATA', dataHint:'Download a backup · restore on any device',
+    shareSection:'SHARE PROGRESS', shareBtn:'🎉 Share My Progress',
+    shareCardTitle:'My Ribbit Reading Journey', shareCardText:'I\'ve been reading on the Ribbit Reading App!',
+    shareDownloadDone:'Progress card downloaded!',
     saveSuccess:'Progress saved! 💾', restoreSuccess:'Progress restored! Reloading…',
     restoreError:'Could not read that file. Please try again.',
     restoreConfirm:'This will replace all your current progress with the backup file. Continue?',
@@ -2748,6 +2858,9 @@ const UI_STRINGS = {
     nightModeOn:'🌙 ナイトモード', nightModeOff:'☀️ デイモード',
     saveProgress:'💾 データを保存', restoreProgress:'📂 データを復元',
     dataTitle:'データ管理', dataHint:'バックアップをダウンロード・どのデバイスでも復元できます',
+    shareSection:'がんばりをシェア', shareBtn:'🎉 がんばりをシェアする',
+    shareCardTitle:'Ribbit読書のきろく', shareCardText:'Ribbitアプリで英語を読んでいます！',
+    shareDownloadDone:'カードを保存しました！',
     saveSuccess:'データを保存しました！💾', restoreSuccess:'データを復元しました！再読み込みします…',
     restoreError:'ファイルを読み込めませんでした。もう一度お試しください。',
     restoreConfirm:'現在の進捗データをバックアップファイルで上書きします。続けますか？',
@@ -3840,6 +3953,10 @@ function renderProfile(){
         <button class="profile-data-btn" onclick="toggleTheme()" style="width:100%;text-align:center">
           ${state.theme==='dark'?t('nightModeOff'):t('nightModeOn')}
         </button>
+      </div>
+      <div class="profile-data-row">
+        <div class="section-title">${t('shareSection')}</div>
+        <button class="profile-share-btn" onclick="shareProgress()">${t('shareBtn')}</button>
       </div>
       <div class="profile-data-row">
         <div class="section-title">${t('dataTitle')}</div>
