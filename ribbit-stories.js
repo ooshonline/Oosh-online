@@ -7027,6 +7027,38 @@ STORIES[4][0].push({
 });
 
 
+STORIES[4][0].push({
+  id:"l4.1s6", levelId:4, subLevel:1,
+  title:"The Beekeeper's Notebook", emoji:"🍯", genre:"Nature",
+  wordCount:285, readMins:3,
+  blurb:"A battered notebook leads a student to discover their grandfather's hidden passion — and a reason to continue it.",
+  paragraphs:[
+    "After my grandfather died, my mother found a battered notebook on his shelf. The cover read: 'Hive Records — 1978 to 2019.' Inside were hand-drawn diagrams, careful measurements, and observations about the weather. He had kept bees for forty years without ever mentioning it to me. I sat in the kitchen for a long time, trying to imagine the person those pages described.",
+    "I took the notebook to Mrs. Osei at the community allotments. She had been a beekeeper for fifteen years and immediately began pointing at the diagrams. 'Your grandfather understood the seasons,' she told me. She offered to teach me. That was March. By April, I had my own protective suit and gloves.",
+    "Working with the hives was nothing like I expected. You have to move slowly and quietly, or the bees detect your nervousness. Mrs. Osei explained that bees respond to changes in body chemistry — an anxious handler disrupts the whole colony. I thought about my grandfather and tried to breathe the way I imagined he had.",
+    "In June, we harvested the first jar of honey from the hive I had started. I labelled it in the notebook, the same way he had done for forty years. Mrs. Osei said something I keep thinking about: 'Your grandfather's knowledge didn't disappear when he died. It was waiting for the right person to find it.'"
+  ],
+  vocab:[
+    {word:"battered", definition:"Old and damaged from heavy use over a long period.", partOfSpeech:"adjective"},
+    {word:"diagram", definition:"A drawing that explains how something looks or works.", partOfSpeech:"noun"},
+    {word:"detect", definition:"To discover or notice something that is not obvious.", partOfSpeech:"verb"},
+    {word:"anxious", definition:"Feeling worried or nervous about something.", partOfSpeech:"adjective"},
+    {word:"colony", definition:"A large group of insects, such as bees, living together.", partOfSpeech:"noun"},
+    {word:"harvest", definition:"To collect or gather a crop or natural product when it is ready.", partOfSpeech:"verb"}
+  ],
+  quiz:[
+    {question:"Why was the narrator surprised by the notebook?",options:["Their grandfather had never learned to read","Their grandfather had never mentioned beekeeping to them","The notebook was written in another language","Their grandfather had only kept bees for a short time"],correct:1,
+     feedback:"'He had kept bees for forty years without ever mentioning it to me.'"},
+    {question:"What does the word 'battered' suggest about the notebook?",options:["It was expensive and well-protected","It had been used heavily over many years","It had been damaged in an accident","It was a cheap, mass-produced book"],correct:1,
+     feedback:"This is an inference — 'battered' means worn and damaged from long, repeated use, suggesting the notebook was worked with constantly over forty years."},
+    {question:"Why does the narrator think about their grandfather while working with the hives?",options:["They are following instructions he wrote in the notebook","They are trying to feel as calm and focused as they imagine he was","They are worried about making a mistake","They are missing him and feeling sad"],correct:1,
+     feedback:"This is an inference — 'I tried to breathe the way I imagined he had' suggests the narrator is consciously trying to adopt their grandfather's calm, patient approach."},
+    {question:"What does Mrs. Osei mean when she says the grandfather's knowledge was 'waiting for the right person to find it'?",options:["She means the notebook was hidden on purpose","She means knowledge passed down through objects and actions can outlast a person's life","She means the grandfather chose the narrator as his successor","She means beekeeping is a skill that can only be inherited"],correct:1,
+     feedback:"This is an inference — Mrs. Osei suggests that knowledge preserved in objects like the notebook is kept alive when someone new picks it up and continues the work."}
+  ]
+});
+
+
 // ── Sub-level 2 · ~215 words · varied tenses · some dialogue · richer descriptions ──
 STORIES[4][1] = [];
 
@@ -13637,6 +13669,7 @@ const TALK_PROMPTS = {
   'l4.1s3':{en:"Is there a recipe, object, or family tradition that holds a story you don't fully know yet? What would you want to find out?", ja:"じぶんの 家族の なかに、まだ よく しらない はなしが こめられた りょうり、もの、または しきたりは ある？なにを しりたいと おもう？"},
   'l4.1s4':{en:"Have you ever tried something not to win, but simply to discover what you were capable of? What did you find out about yourself?", ja:"かつためではなく、じぶんに なにが できるかを たしかめるために なにかに ちょうせんしたことは ある？じぶんについて なにを はっけんした？"},
   'l4.1s5':{en:"When something mysterious is happening around you, do you prefer to investigate or let it remain unknown? What draws you in one direction?", ja:"まわりで なぞめいたことが おきているとき、しらべたい？それとも なぞのままにしておきたい？どちらかに ひかれるのは なぜ？"},
+  'l4.1s6':{en:"Have you ever discovered something surprising about a family member that changed how you saw them? What did you do with that knowledge — and how did it make you feel?", ja:"家族や 親せきについて、おどろくような ことを はっけんして、その人への イメージが かわったことは ある？そのことを どうした？どんな気もちに なった？"},
 
   // ── Level 4 · Sub-level 2 ──
   'l4.2s1':{en:"Have you ever tried to help someone when you didn't share a language? What did the experience teach you about communication?", ja:"ことばが 通じない ひとを たすけようとしたことは ある？その 経験から、コミュニケーションについて なにを まなんだ？"},
