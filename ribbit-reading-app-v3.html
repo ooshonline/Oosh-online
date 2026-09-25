@@ -1264,8 +1264,10 @@ const state = {
   worldLockedNoticeId: null,
   celebratedSublevels: JSON.parse(localStorage.getItem('rbt_celeb_sl')||'[]'), // ["lv.sl"] keys for sub-levels that already had a ceremony
   celebratedLevels: JSON.parse(localStorage.getItem('rbt_celeb_lv')||'[]'),    // level ids that already had a champion ceremony
-  pendingSublevel: null, // transient: set in finishStory() when a new sub-level is completed first time
-  pendingLevelChampion: null, // transient: set in finishSublevelCeremony() when all 10 sub-levels done
+  // Pending ceremonies are persisted (rbt_pend_sl / rbt_pend_lc) so a reload or closed tab mid-ceremony
+  // resumes it on next launch instead of silently losing the +50 / +200 XP bonus.
+  pendingSublevel: JSON.parse(localStorage.getItem('rbt_pend_sl')||'null'), // set in finishStory() when a new sub-level is completed first time
+  pendingLevelChampion: JSON.parse(localStorage.getItem('rbt_pend_lc')||'null'), // set in finishSublevelCeremony() when all 10 sub-levels done
   seenTour: localStorage.getItem('rbt_tour')==="1",
   tourStep: 0, // transient — which tour slide is showing (0=tap word, 1=audio, 2=quests)
   autoPlay: localStorage.getItem('rbt_autoplay')==='1',
@@ -1282,6 +1284,12 @@ const state = {
   firstTryPerfect: JSON.parse(localStorage.getItem('rbt_ftp')||'[]'), // story ids where 100% on first completion
   lastFirstTryPerfect: false, // transient — set in finishStory(), read by renderCelebration()
 };
+// Resume an unfinished ceremony (tab closed / reloaded before tapping Continue). Champion first — it
+// can only be pending once its sub-level ceremony has already been completed.
+if(state.screen==='home'){
+  if(state.pendingLevelChampion) state.screen='levelChampion';
+  else if(state.pendingSublevel) state.screen='sublevelCelebration';
+}
 function save(){
   localStorage.setItem('rbt_uilang', state.uiLang);
   localStorage.setItem('rbt_prog', JSON.stringify(state.progress));
@@ -1303,6 +1311,8 @@ function save(){
   if(state.lastStoryId) localStorage.setItem('rbt_laststory', state.lastStoryId);
   localStorage.setItem('rbt_celeb_sl', JSON.stringify(state.celebratedSublevels||[]));
   localStorage.setItem('rbt_celeb_lv', JSON.stringify(state.celebratedLevels||[]));
+  localStorage.setItem('rbt_pend_sl', JSON.stringify(state.pendingSublevel||null));
+  localStorage.setItem('rbt_pend_lc', JSON.stringify(state.pendingLevelChampion||null));
   localStorage.setItem('rbt_tour', state.seenTour?'1':'');
   localStorage.setItem('rbt_autoplay', state.autoPlay?'1':'');
   localStorage.setItem('rbt_wkrecap', state.lastWeekRecap||'');
@@ -1840,6 +1850,7 @@ function finishStory(story){
     const _slKey=`${_slInfo.lv}.${_slInfo.sl}`;
     if(!(state.celebratedSublevels||[]).includes(_slKey) && subLevelDone(_slInfo.lv,_slInfo.sl)){
       state.pendingSublevel={lv:_slInfo.lv, sl:_slInfo.sl, slKey:_slKey};
+      save(); // persist now so the ceremony survives a reload before it is shown
     }
   }
   // Track weekly free-story usage for Level 2+ library content and non-Tokyo Journey stories.
@@ -1977,6 +1988,7 @@ function finishSublevelCeremony(){
     // Check if all 10 sub-levels in the level are now done → Level Champion ceremony
     if(levelDoneCount(lvId)>=10 && !(state.celebratedLevels||[]).includes(lvId)){
       state.pendingLevelChampion={lv:lvId};
+      save(); // persist so a reload during the ceremony doesn't lose the +200 XP
       state.screen='levelChampion';
       render();
       spawnConfetti();
