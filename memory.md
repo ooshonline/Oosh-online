@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 20`
+`contentSubpillarRun: 21`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **SKIPS next session** (counter = 20, even).
+Next subpillar: **FIRES next session** (counter = 21, odd).
 
 ---
 
@@ -83,7 +83,9 @@ Next subpillar: **SKIPS next session** (counter = 20, even).
 - ✅ Gamification (2026-09-23, automated) — G11 first-try perfect bonus **DEPLOYED LIVE** (commit `145d1cb`, build 20260923)
 - ✅ Monetisation (2026-09-24, automated) — M8 parent share card + content subpillar l4.1s6 **DEPLOYED LIVE** (commits `5bf9dbf`+`a5d6ebd`+`04a6634`, build 20260924)
 
-**Cycle 10 next pillar: Bug Fixes / Implementation Check.**
+- ✅ Bug Fixes (2026-09-25, automated) — B5 pending-ceremony persistence fix **DEPLOYED LIVE** (commit `72ec76a`, build 20260925)
+
+**Cycle 10 COMPLETE. Cycle 11 next pillar: Functionality.**
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -110,6 +112,18 @@ Next subpillar: **SKIPS next session** (counter = 20, even).
 ---
 
 ## Session Log
+
+### 2026-09-25 — Bug Fixes / Implementation Check (~35 min, automated) — Cycle 10
+
+**Pillar: Bug Fixes** (Cycle 10, seventh pillar, so Cycle 10 is now complete). **Content subpillar: skipped** (counter was 20, even; now 21).
+
+**Commits `72ec76a` + `ad72542` (cache-bust), DEPLOYED LIVE (build 20260925).**
+
+- **Sweep:** B2 overflow check on home/library/flashcards/rewards/world/profile/quests at 375px in EN **and** JA: all clean (scrollWidth = 375, no clipped buttons). Golden path at 820px: landing → reader → quiz → story-complete → celebration → library, zero console errors.
+- **fix (B5): pending ceremonies survive reload.** `pendingSublevel` / `pendingLevelChampion` were memory-only. Reproduced: all of L1 done, Level Champion showing, reload → ceremony gone, `celebratedLevels=[]`, and since every sub-level is already in `celebratedSublevels` nothing can ever re-trigger it, so the +200 XP was lost for good. Now persisted as `rbt_pend_sl` / `rbt_pend_lc` (in `save()`; explicit `save()` right after each is set) and resumed on launch (the resume only redirects from `home`, never from `landing`). Verified via the real reader→quiz flow: reload on celebration → sub-level ceremony resumes; Continue → Champion; reload → Champion resumes; Continue → +200 once, `celebratedLevels=["1"]`, next reload goes to Home.
+- **Infra note for Kyle:** `preview_start` was **refused** this run ("Dev servers can't be started from unattended sessions"). This contradicts the 2026-09-01 note. Workaround used: `python3 -m http.server 3459 --bind 127.0.0.1` via background Bash, then the browser pane pointed at localhost. Verification worked normally.
+- **Flag for Kyle (B1, not fixed):** at 375px portrait the reader keeps the side-by-side split, so the text column wraps to 2–3 words per line. Probably worth stacking image-over-text on narrow phones, but that's a layout redesign, so it's your call.
+- Observation (not a bug today): `pendingSublevel.lv` is stored as a string (`"1"`), so `celebratedLevels` holds strings. Consistent everywhere it's compared today; keep it in mind if anything starts comparing level ids with `===` against numbers.
 
 ### 2026-09-24 — Monetisation Pillar + Content Subpillar (~55 min, automated) — Cycle 10
 

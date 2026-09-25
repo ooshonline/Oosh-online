@@ -222,7 +222,9 @@ existing state/CSS tokens, one change per session, verify-before-deploy.
   - *Audited 2026-09-16 — full golden path + all secondary screens walked. Zero console errors, zero 404s, all assets 200 OK, v=20260915 matched served scripts. CLEAN. Re-sweep in Cycle 10.*
 - [x] **B4 · Touch targets & interaction.** Audited 2026-09-08 — two defects found and fixed (commit `3c8a93d`, DEPLOYED LIVE build 20260908): `.reader-autoplay-btn` 28px→44px; `.quiz-look-btn` 38px→44px. All other reader/quiz/nav buttons passed at 375px and 1280px. Re-sweep in Cycle 9 for new surfaces.
 - [x] **B5 · State & persistence integrity.** Audited 2026-08-27 — all 22 `rbt_*` keys have matching `save()` calls, week-boundary resets correct, TTS cancel on navigate correct, image 404 fallback acceptable. One minor edge case noted (pendingLevelChampion lost on reload during ceremony — transient by design, low probability). No concrete defect to fix; re-sweep in Cycle 8.
-  - **Edge case to watch:** if user reloads during levelChampion ceremony screen, pendingLevelChampion is lost and +200 XP is never awarded. Sub-level entry in celebratedSublevels prevents re-firing. Consider persisting pendingLevelChampion in a future Bug pillar.
+  - ~~Edge case: reload during levelChampion ceremony lost +200 XP permanently.~~ **FIXED 2026-09-25 (commit `72ec76a`, DEPLOYED LIVE build 20260925):** reproduced in browser (reload mid-ceremony → `celebratedLevels` empty, all sub-levels celebrated, nothing re-triggers). `pendingSublevel` + `pendingLevelChampion` now persist as `rbt_pend_sl` / `rbt_pend_lc` and resume on launch.
+  - *Cycle 10 re-sweep 2026-09-25: B2 overflow clean at 375px on all 7 shell screens in both EN and JA; golden path clean at 820px, zero console errors.*
+  - **New B1 candidate (not fixed, flag for Kyle):** at 375px portrait the reader uses the side-by-side split — the illustration gets ~45% width and the text column wraps to 2–3 words per line (e.g. l1.10s1). Stacking image-over-text below ~600px is likely better, but it's a layout redesign, so it needs Kyle's call rather than a Bug-pillar "fix".
 
 ---
 
