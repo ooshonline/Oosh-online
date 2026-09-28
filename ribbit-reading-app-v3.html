@@ -773,9 +773,12 @@
       .quiz-question-text{font-size:25px}
       /* Landscape: illustration left, question right — same spatial model as the reader,
          and it fills the dead centre column the old centred layout left empty. */
-      .quiz-stage{flex-direction:row;align-items:center;gap:30px}
-      .quiz-illu{width:40%;max-width:none;height:330px}
-      .quiz-question-wrap{flex:1;max-width:none}
+      /* Grid, not a flex row: the "Look Again" button sits under the picture in the left
+         column. As a third row item (flex-shrink:0, 520px) it pushed the question off-screen. */
+      .quiz-stage{display:grid;grid-template-columns:40% 1fr;align-items:center;gap:12px 30px}
+      .quiz-illu{grid-column:1;grid-row:1;width:100%;max-width:none;height:330px}
+      .quiz-look-btn{grid-column:1;grid-row:2;max-width:none}
+      .quiz-question-wrap{grid-column:2;grid-row:1 / span 2;max-width:none}
       .celeb-btns{flex-direction:row;max-width:460px}
       .flash-pane{padding:22px}
       .word-grid{grid-template-columns:repeat(4,1fr)}
