@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 21`
+`contentSubpillarRun: 22`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **FIRES next session** (counter = 21, odd).
+Next subpillar: **skips next session** (counter = 22, even).
 
 ---
 
@@ -85,7 +85,12 @@ Next subpillar: **FIRES next session** (counter = 21, odd).
 
 - ✅ Bug Fixes (2026-09-25, automated) — B5 pending-ceremony persistence fix **DEPLOYED LIVE** (commit `72ec76a`, build 20260925)
 
-**Cycle 10 COMPLETE. Cycle 11 next pillar: Functionality.**
+**Cycle 10 COMPLETE.**
+
+**Cycle 11 — IN PROGRESS**
+- ✅ Functionality (2026-09-28, automated) — F6 destination culture sections + 2 live quiz fixes + JA culture glosses **DEPLOYED LIVE** (build 20260928b)
+
+**Cycle 11 next pillar: UI.**
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -114,6 +119,18 @@ Next subpillar: **FIRES next session** (counter = 21, odd).
 ---
 
 ## Session Log
+
+### 2026-09-28 (evening) — Functionality + Content subpillar (~25 min, automated) — Cycle 11
+
+**Pillar: Functionality** (Cycle 11 opener). **Content subpillar: FIRED** (counter 21 → 22).
+**All DEPLOYED LIVE, build 20260928b** (commits `1c876b8`, `e0844d4`, `5745569`, `9698c97`, `2f549f6`).
+
+- **feature: F6** (`1c876b8`). The destination screen already existed, so F6 became: 'DID YOU KNOW?' (the 3 C5 facts; English, with a small Japanese line in ja mode) plus 'CULTURE WORDS' (6 words, 🔊 hear, ＋/✓ toggles Flash Cards with the usual undo toast), placed between the hero and the story list. The passport-stamped label moved into UI_STRINGS (it was English-only).
+- **fix: tablet quiz off-screen** (`e0844d4`). Found while running the golden path at 820px. Since X5 (2026-09-01) the Look Again button was a third item in the tablet flex row, which pushed the question and answers past the right edge, so **tablet users couldn't see quiz questions for ~4 weeks**. Earlier sweeps missed it because they drove the quiz by script, not by eye. Now a grid.
+- **fix: dark-mode quiz** (`5745569`). Theme 'auto' follows the device, and the quiz hard-coded white surfaces while its text used the dark token, which gave pale text on white. Tokenised; light mode is pixel-identical (checked the computed values).
+- **content subpillar (Option E polish):** JA glosses for the 59 culture words that had none (`9698c97`). All 78 are now covered; checked for clashes with story usage (e.g. 'monarch' = butterfly isn't used elsewhere).
+- Verified at 375 and 820, in EN and JA, dark and light. Golden path reader → quiz → story-complete → celebration → library passed with zero console errors.
+- **Lesson for future Bug runs:** take a screenshot at 820px of every full-bleed screen (reader, quiz, celebration) in **both** colour schemes. Scripted DOM checks miss off-screen and contrast bugs.
 
 ### 2026-09-28 — Kyle follow-up: fixed both flags from 2026-09-25 (manual, ~15 min)
 

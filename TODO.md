@@ -77,7 +77,7 @@ off here as they ship, and add the commit hash.
   LIVE (v=20260727).
 
 **F1–F5 all shipped. Replenishment ideas (F6–F9):**
-- [ ] **F6 · World Journey destination-detail screen.** Destinations currently open to a story list only. Build a detail screen with: flag + name, a short `facts` blurb (from C5 content), a `vocab` list of ~6 culture words (tap to hear + save to deck), and the story list below. Wire it to the existing `openDestination()` path. **C5 content now complete (2026-09-02) — this feature is unblocked.**
+- [x] **F6 · World Journey destination culture sections — SHIPPED (2026-09-28, commit `1c876b8`).** The existing destination screen now shows 'DID YOU KNOW? / しってた？' (3 C5 facts, English + small JA gloss in ja mode) and 'CULTURE WORDS / 文化のことば' (6 words: 🔊 hear, ＋/✓ save/remove to Flash Cards with undo) above the story list. JA glosses for all 78 culture words added (`9698c97`). LIVE (build 20260928b).
 - [x] **F7 · "Read Later" bookmark — SHIPPED (2026-09-17, commit `357c7f9`).** 🔖 button on story modal; `state.readLater[]` persisted `rbt_readlater`; "READ LATER / あとで読む" section at top of Library when non-empty. En + ja. LIVE.
 - [x] **F8 · Daily story recommendation — SHIPPED (2026-09-08, commit `9fe4bcb`).** `dailyRecommendation()` + `renderDailyPick()` card on Home between goal ring and Quick Links. Day-seeded determinism; falls back to next level. "TODAY'S PICK" / "今日のおすすめ". LIVE.
 - [ ] **F9 · Sentence tap-to-replay.** In the reader, tapping a sentence (not just a word) re-reads that sentence aloud at reading speed. Helps pronunciation and self-correction. Wire to the existing `speakText()` call with the sentence string extracted from the tapped element's closest paragraph. No UI chrome needed — just a subtle ripple on tap and TTS. En + ja (Japanese voice uses same mechanism).
@@ -224,6 +224,8 @@ existing state/CSS tokens, one change per session, verify-before-deploy.
 - [x] **B5 · State & persistence integrity.** Audited 2026-08-27 — all 22 `rbt_*` keys have matching `save()` calls, week-boundary resets correct, TTS cancel on navigate correct, image 404 fallback acceptable. One minor edge case noted (pendingLevelChampion lost on reload during ceremony — transient by design, low probability). No concrete defect to fix; re-sweep in Cycle 8.
   - ~~Edge case: reload during levelChampion ceremony lost +200 XP permanently.~~ **FIXED 2026-09-25 (commit `72ec76a`, DEPLOYED LIVE build 20260925):** reproduced in browser (reload mid-ceremony → `celebratedLevels` empty, all sub-levels celebrated, nothing re-triggers). `pendingSublevel` + `pendingLevelChampion` now persist as `rbt_pend_sl` / `rbt_pend_lc` and resume on launch.
   - *Cycle 10 re-sweep 2026-09-25: B2 overflow clean at 375px on all 7 shell screens in both EN and JA; golden path clean at 820px, zero console errors.*
+  - ~~B2: at ≥768px the quiz question + answers were pushed off-screen to the right by the 520px "Look Again" button (X5) sitting in the flex row.~~ **FIXED 2026-09-28 (commit `e0844d4`, DEPLOYED LIVE build 20260928b)** — 2-column grid, Look Again under the picture. Found during the F6 run; had been live since 2026-09-01.
+  - ~~Night theme: quiz was pale text on white in dark mode (hard-coded light surfaces; theme 'auto' is the default).~~ **FIXED 2026-09-28 (commit `5745569`, DEPLOYED LIVE build 20260928b)** — new `--quiz-bg` / `--correct-text` / `--wrong-text` tokens. **Next Bug run: sweep other screens for the same class** (`grep -c "background:white"` = ~13 remaining sites; check each in dark mode).
   - ~~B1: reader split on portrait phones wrapped text to 2–3 words per line.~~ **FIXED 2026-09-28 (commit `967a5f5`, Kyle-approved, DEPLOYED LIVE build 20260928):** below 768px in portrait the illustration now sits in a full-width band (`min(34dvh,100vw)`) above the text. Verified at 375×812, 375×667 (short phone), 812×375 landscape (keeps split) and 820×1100 tablet (unchanged).
 
 ---
@@ -250,7 +252,7 @@ existing state/CSS tokens, one change per session, verify-before-deploy.
   Added `.lottie-slot` CSS (20×20px, overflow:hidden) and class to `#header-xp-star`.
 - [x] **Above-level word highlighting in reader (2026-07-24, commit `a5dc7a2`).** `makeWordTappable()` now calls `getChallengeLevel(clean, currentLevelId())`. Words above the story's level get `.challenge-word` (dashed orange underline). LIVE.
 - [x] Audio speed controls — 🐢/🐸/⚡ toggle in reader audio pill, cycles 0.6×/0.9×/1.2×, persisted (2026-07-14)
-- [ ] World Journey destination detail: vocabulary words + culture quiz sections are not ported (destination screen only shows the story grid, no vocab auto-save or culture quiz)
+- [~] World Journey destination detail: vocabulary words SHIPPED 2026-09-28 via F6 (`1c876b8`). Culture quiz still not built.
 - [ ] Genre / topic browse screens — Quick Links "Explore Library" goes to the main library; genre browse tiles that v1 had are not in v3
 
 ### UI
