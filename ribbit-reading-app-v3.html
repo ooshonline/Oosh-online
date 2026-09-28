@@ -437,6 +437,17 @@
     .dest-hero-progress-fill{height:100%;background:#F5C842;border-radius:999px}
     .dest-hero-progress-text{font-size:10px;font-weight:700;color:rgba(255,255,255,.7)}
     .jstory-section-title{font-size:11px;font-weight:800;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+    .dest-facts,.dest-vocab{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+    .dest-fact{background:rgba(255,255,255,.07);border-left:3px solid #F5C842;border-radius:10px;padding:10px 12px}
+    .dest-fact-en{font-size:13px;line-height:1.5;color:rgba(255,255,255,.92);font-weight:500}
+    .dest-fact-ja{font-size:11px;line-height:1.5;color:rgba(255,255,255,.55);margin-top:4px}
+    .dest-vocab-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.07);border-radius:12px;padding:6px 6px 6px 8px}
+    .dest-vocab-speak{flex:0 0 44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);font-size:18px}
+    .dest-vocab-text{flex:1;min-width:0}
+    .dest-vocab-word{font-family:var(--font-head);font-weight:800;font-size:14px;color:white}
+    .dest-vocab-def{font-size:11px;line-height:1.4;color:rgba(255,255,255,.65)}
+    .dest-vocab-save{flex:0 0 44px;height:44px;border-radius:50%;border:2px solid var(--primary);color:var(--primary);font-size:18px;font-weight:800}
+    .dest-vocab-save.saved{background:var(--primary);color:#0F1D2A}
     .jstory-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .jstory-card{background:white;border-radius:14px;overflow:hidden;cursor:pointer;text-align:left;width:100%}
     .jstory-cover{height:90px;background:linear-gradient(135deg,#E3F3FC,#70C1B3);display:flex;align-items:center;justify-content:center;font-size:34px;position:relative}
@@ -1807,6 +1818,20 @@ function openDestination(id){
   state.worldSelectedId=d.id; render();
 }
 function goWorldRoot(){ state.worldSelectedId=null; render(); }
+// F6 — culture words on the destination screen. Index-based so words with spaces
+// or apostrophes never need escaping inside onclick.
+function cultureWord(destId,i){ const d=DESTINATIONS.find(x=>x.id===destId); return d&&d.vocab?d.vocab[i]:null; }
+function speakCultureWord(destId,i){ const v=cultureWord(destId,i); if(v) speakWord(v.word); }
+function toggleCultureWord(destId,i){
+  const v=cultureWord(destId,i); if(!v) return;
+  if(state.flashCards[v.word]){ removeWordFromDeck(v.word); return; } // undo toast comes with it
+  const oldCount=Object.keys(state.flashCards).length;
+  const ja=typeof JA_TRANSLATIONS!=='undefined'?JA_TRANSLATIONS[v.word]:null;
+  state.flashCards[v.word]={def:v.definition, pos:v.partOfSpeech||'', translation:ja?ja.w:null, translationDef:ja?ja.d:null};
+  checkVocabMilestone(oldCount,Object.keys(state.flashCards).length);
+  save(); render();
+  showToast(t('cultureWordSaved',v.word));
+}
 
 const STREAK_MILESTONES=[7,14,30];
 function checkStreakMilestone(n){
@@ -2701,6 +2726,8 @@ const UI_STRINGS = {
     worldTitle:'World Journey', placesExplored:(n)=>`${n} place${n===1?'':'s'} explored! `,
     moreToComplete:(n)=>`${n} more to complete your passport`, destLocked:(name)=>`Complete ${name} first to unlock this!`,
     inProgress:'IN PROGRESS', completed:'Completed', storiesFrom:(name)=>`STORIES FROM ${name.toUpperCase()}`, destNoStories:'Stories coming soon — check back next time!',
+    didYouKnow:'DID YOU KNOW?', cultureWords:'CULTURE WORDS', passportStamped:'✓ PASSPORT STAMPED',
+    cultureWordSaved:(w)=>`“${w}” saved to Flash Cards`, hearWord:(w)=>`Hear “${w}”`,
     profileStatsReadLabel:'Stories Read', profileStatsWordsLabel:'Words Known', profileStatsStreakLabel:'Day Streak',
     recentBadges:'RECENT BADGES', seeAll:'See all →', noBadgesYet:'No badges earned yet — keep going!',
     noDecksTitle:'No word decks yet', noDecksBody:'Tap any word while reading to save it here.',
@@ -2845,6 +2872,8 @@ const UI_STRINGS = {
     worldTitle:'ワールドジャーニー', placesExplored:(n)=>`${n}か所たんけんずみ！`,
     moreToComplete:(n)=>`あと${n}か所でパスポート完成`, destLocked:(name)=>`さきに${name}をクリアしよう！`,
     inProgress:'進行中', completed:'完了', storiesFrom:(name)=>`${name}のおはなし`, destNoStories:'まもなくおはなしが追加されます！',
+    didYouKnow:'しってた？', cultureWords:'文化のことば', passportStamped:'✓ パスポートにスタンプ！',
+    cultureWordSaved:(w)=>`「${w}」をフラッシュカードに保存しました`, hearWord:(w)=>`「${w}」をきく`,
     profileStatsReadLabel:'読んだ話', profileStatsWordsLabel:'覚えた単語', profileStatsStreakLabel:'連続日数',
     recentBadges:'さいきんのバッジ', seeAll:'すべて見る →', noBadgesYet:'まだバッジがありません。がんばろう！',
     noDecksTitle:'単語帳がまだないよ', noDecksBody:'おはなしを読みながら単語をタップして保存しよう。',
@@ -3906,18 +3935,30 @@ function renderWorldDetail(){
       <div class="jstory-body"><div class="jstory-title">${s.title}</div></div>
     </button>`;
   }).join('');
+  // Facts are always shown in English (reading practice); Japanese mode adds a small gloss line.
+  const factsHtml=(d.facts||[]).map(f=>`<div class="dest-fact"><div class="dest-fact-en" lang="en">${f.en}</div>${state.uiLang==='ja'&&f.ja?`<div class="dest-fact-ja">${f.ja}</div>`:''}</div>`).join('');
+  const vocabHtml=(d.vocab||[]).map((v,i)=>{
+    const saved=!!state.flashCards[v.word];
+    return `<div class="dest-vocab-row">
+      <button class="dest-vocab-speak" onclick="speakCultureWord('${d.id}',${i})" aria-label="${escAttr(t('hearWord',v.word))}">🔊</button>
+      <div class="dest-vocab-text" lang="en"><div class="dest-vocab-word">${v.word}</div><div class="dest-vocab-def">${v.definition}</div></div>
+      <button class="dest-vocab-save${saved?' saved':''}" onclick="toggleCultureWord('${d.id}',${i})" aria-pressed="${saved}" aria-label="${escAttr(v.word+': '+(saved?t('savedToDeck'):t('addToDeck')))}">${saved?'✓':'＋'}</button>
+    </div>`;
+  }).join('');
   return `<div class="world-pane">
     <button class="world-back-link" onclick="goWorldRoot()">← ${t('worldTitle')}</button>
     <div class="dest-hero">
       <div class="dest-hero-emoji">${d.emoji}</div>
       <div class="dest-hero-name">${d.emoji} ${d.name}</div>
       <div class="dest-hero-blurb">${d.description}</div>
-      ${doneCount>=d.storyCount?`<div class="dest-stamp">✓ PASSPORT STAMPED</div>`:`
+      ${doneCount>=d.storyCount?`<div class="dest-stamp">${t('passportStamped')}</div>`:`
         <div class="dest-hero-progress-wrap">
           <div class="dest-hero-progress-bar"><div class="dest-hero-progress-fill" style="width:${Math.round((doneCount/d.storyCount)*100)}%"></div></div>
           <div class="dest-hero-progress-text">${doneCount} / ${d.storyCount}</div>
         </div>`}
     </div>
+    ${factsHtml?`<div class="jstory-section-title">${t('didYouKnow')}</div><div class="dest-facts">${factsHtml}</div>`:''}
+    ${vocabHtml?`<div class="jstory-section-title">${t('cultureWords')}</div><div class="dest-vocab">${vocabHtml}</div>`:''}
     <div class="jstory-section-title">${t('storiesFrom',d.name)}</div>
     ${cards?`<div class="jstory-grid">${cards}</div>`:`<div class="coming-soon"><div class="coming-soon-emoji">${d.emoji}</div><div style="font-family:var(--font-head);font-weight:800;font-size:15px;color:var(--text)">${t('destNoStories')}</div></div>`}
   </div>`;
