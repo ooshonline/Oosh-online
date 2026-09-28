@@ -96,6 +96,8 @@ Next subpillar: **FIRES next session** (counter = 21, odd).
 - ✅ Monetisation (2026-08-25, automated) — M4 **DEPLOYED 2026-08-28** (commit dbeb77e, live as cdbf346)
 - ✅ Bug Fixes / Implementation Check (2026-08-27, automated) — B5 audit: state/persistence is clean (no bugs found; see session log)
 
+> **2026-09-28 — `preview_start` is REFUSED in scheduled sessions** (and in any conversation that began as one, even after Kyle joins). Use the Bash `python3 -m http.server 3459 --bind 127.0.0.1 --directory …` + `navigate http://127.0.0.1:3459/…` workaround. Now written into the routine's SKILL.md Phase 3. Verification is still mandatory.
+
 > **2026-09-01 — Browser verify IS available in automated sessions.** Kyle confirmed that `preview_start` works in scheduled/unattended runs. From now on, follow the full Phase 3 verify-then-deploy workflow: start the dev server, drive the golden path, screenshot, push if clean. Do NOT leave changes as "LOCAL ONLY" when the browser tools are available. The only valid reason to skip deploy is a genuine tool error (server won't start), not "unattended mode".
 
 > **Pillar rotation changed 2026-08-21 — SEVEN pillars now.**
@@ -112,6 +114,11 @@ Next subpillar: **FIRES next session** (counter = 21, odd).
 ---
 
 ## Session Log
+
+### 2026-09-28 — Kyle follow-up: fixed both flags from 2026-09-25 (manual, ~15 min)
+
+- **style: reader stacks image-over-text on portrait phones** (commit `967a5f5`, DEPLOYED LIVE build 20260928). Kyle approved. `@media (max-width:767px) and (orientation:portrait)`, where `.reader-content` becomes a column and `.reader-illu` is full-width at `min(34dvh,100vw)`. Landscape phones and tablets keep the split. Verified at 4 sizes, B2 long page scrolls with footer in view, zero console errors.
+- **Routine infra:** the `ribbit-app-update` SKILL.md Phase 3 now documents the local http.server workaround for the refused `preview_start`.
 
 ### 2026-09-25 — Bug Fixes / Implementation Check (~35 min, automated) — Cycle 10
 

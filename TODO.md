@@ -224,7 +224,7 @@ existing state/CSS tokens, one change per session, verify-before-deploy.
 - [x] **B5 · State & persistence integrity.** Audited 2026-08-27 — all 22 `rbt_*` keys have matching `save()` calls, week-boundary resets correct, TTS cancel on navigate correct, image 404 fallback acceptable. One minor edge case noted (pendingLevelChampion lost on reload during ceremony — transient by design, low probability). No concrete defect to fix; re-sweep in Cycle 8.
   - ~~Edge case: reload during levelChampion ceremony lost +200 XP permanently.~~ **FIXED 2026-09-25 (commit `72ec76a`, DEPLOYED LIVE build 20260925):** reproduced in browser (reload mid-ceremony → `celebratedLevels` empty, all sub-levels celebrated, nothing re-triggers). `pendingSublevel` + `pendingLevelChampion` now persist as `rbt_pend_sl` / `rbt_pend_lc` and resume on launch.
   - *Cycle 10 re-sweep 2026-09-25: B2 overflow clean at 375px on all 7 shell screens in both EN and JA; golden path clean at 820px, zero console errors.*
-  - **New B1 candidate (not fixed, flag for Kyle):** at 375px portrait the reader uses the side-by-side split — the illustration gets ~45% width and the text column wraps to 2–3 words per line (e.g. l1.10s1). Stacking image-over-text below ~600px is likely better, but it's a layout redesign, so it needs Kyle's call rather than a Bug-pillar "fix".
+  - ~~B1: reader split on portrait phones wrapped text to 2–3 words per line.~~ **FIXED 2026-09-28 (commit `967a5f5`, Kyle-approved, DEPLOYED LIVE build 20260928):** below 768px in portrait the illustration now sits in a full-width band (`min(34dvh,100vw)`) above the text. Verified at 375×812, 375×667 (short phone), 812×375 landscape (keeps split) and 820×1100 tablet (unchanged).
 
 ---
 
