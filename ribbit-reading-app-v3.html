@@ -25,6 +25,7 @@
       --font-head:'Baloo 2',sans-serif;
       --font-body:'Nunito Sans',sans-serif; /* TODO(brand): swap to Glacial Indifference once licensed file is supplied */
       --lv1:#c084fc; --lv2:#bada55; --lv3:#4ade80; --lv4:#38bdf8; --lv5:#fb923c; --lv6:#f43f5e;
+      --cover-dim:transparent; /* night theme tones story-card covers down */
     }
     /* ── NIGHT THEME — override surface tokens only; accent/level/primary colours unchanged ── */
     @media (prefers-color-scheme: dark) {
@@ -33,7 +34,7 @@
         --border:#2d4a38; --primary-light:rgba(114,201,58,.2);
         --correct-bg:rgba(34,197,94,.18); --wrong-bg:rgba(239,68,68,.18);
         --quiz-bg:#14231a; --correct-text:#4ade80; --wrong-text:#f87171;
-        --shadow-sm:0 2px 8px rgba(0,0,0,.35); --shadow:0 2px 10px rgba(0,0,0,.45); --shadow-lg:0 4px 16px rgba(0,0,0,.6);
+        --shadow-sm:0 2px 8px rgba(0,0,0,.35); --shadow:0 2px 10px rgba(0,0,0,.45); --shadow-lg:0 4px 16px rgba(0,0,0,.6); --cover-dim:rgba(20,35,26,.2);
       }
     }
     :root[data-theme="dark"] {
@@ -41,7 +42,7 @@
       --border:#2d4a38; --primary-light:rgba(114,201,58,.2);
       --correct-bg:rgba(34,197,94,.18); --wrong-bg:rgba(239,68,68,.18);
         --quiz-bg:#14231a; --correct-text:#4ade80; --wrong-text:#f87171;
-      --shadow-sm:0 2px 8px rgba(0,0,0,.35); --shadow:0 2px 10px rgba(0,0,0,.45); --shadow-lg:0 4px 16px rgba(0,0,0,.6);
+      --shadow-sm:0 2px 8px rgba(0,0,0,.35); --shadow:0 2px 10px rgba(0,0,0,.45); --shadow-lg:0 4px 16px rgba(0,0,0,.6); --cover-dim:rgba(20,35,26,.2);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth;background:var(--bg)}
@@ -941,13 +942,48 @@ const GENRE_CARD_GRADIENTS={
   'Friendship':         ['#ffe4e6','#fda4af'],
   'Travel / City Life': ['#dbeafe','#60a5fa'],
 };
+// Resolves a story's genre to a key in GENRE_CARD_GRADIENTS (or null).
+// Compound genres (e.g. "Sport / Culture") match on the primary component.
+function genreKey(story){
+  const g=story&&story.genre;
+  if(!g) return null;
+  if(GENRE_CARD_GRADIENTS[g]) return g;
+  return Object.keys(GENRE_CARD_GRADIENTS).find(k=>g.startsWith(k+' ')||g.startsWith(k+'/'))||null;
+}
 function storyGradient(story,fallbackG1,fallbackG2){
-  if(!story) return [fallbackG1,fallbackG2];
-  const g=GENRE_CARD_GRADIENTS[story.genre];
-  if(g) return g;
-  // Compound genres (e.g. "Sport / Culture") — match on the primary component
-  const key=Object.keys(GENRE_CARD_GRADIENTS).find(k=>story.genre.startsWith(k+' ')||story.genre.startsWith(k+'/'));
+  const key=genreKey(story);
   return key?GENRE_CARD_GRADIENTS[key]:[fallbackG1,fallbackG2];
+}
+
+// ── GENRE COVER TEXTURES (U7) — a faint, pure-CSS pattern layered over each
+// story card's gradient so genres read differently at a glance (notebook grid
+// for School, orbit rings for Science, gingham for Food…). Patterns are
+// white-alpha so they sit on any gradient; --cover-dim tones covers down in
+// the night theme. Unknown genres get the soft 'glow'.
+const COVER_TEXTURES={
+  glow:    'radial-gradient(circle at 22% 18%,rgba(255,255,255,.55),transparent 42%),radial-gradient(circle at 85% 90%,rgba(255,255,255,.3),transparent 38%)',
+  grid:    'repeating-linear-gradient(0deg,rgba(255,255,255,.4) 0 1px,transparent 1px 14px),repeating-linear-gradient(90deg,rgba(255,255,255,.4) 0 1px,transparent 1px 14px)',
+  dots:    'radial-gradient(circle,rgba(255,255,255,.5) 1.6px,transparent 2.2px) 0 0/14px 14px',
+  rings:   'repeating-radial-gradient(circle at 80% 20%,rgba(255,255,255,.35) 0 1.5px,transparent 1.5px 12px)',
+  stripes: 'repeating-linear-gradient(135deg,rgba(255,255,255,.28) 0 6px,transparent 6px 16px)',
+  lanes:   'repeating-linear-gradient(0deg,rgba(255,255,255,.35) 0 2px,transparent 2px 20px)',
+  gingham: 'repeating-linear-gradient(0deg,rgba(255,255,255,.3) 0 7px,transparent 7px 14px),repeating-linear-gradient(90deg,rgba(255,255,255,.3) 0 7px,transparent 7px 14px)',
+  hatch:   'repeating-linear-gradient(45deg,rgba(255,255,255,.25) 0 1px,transparent 1px 9px),repeating-linear-gradient(-45deg,rgba(255,255,255,.25) 0 1px,transparent 1px 9px)',
+  waves:   'repeating-radial-gradient(ellipse at 50% 130%,rgba(255,255,255,.32) 0 2px,transparent 2px 13px)',
+};
+const GENRE_TEXTURE={
+  'School':'grid', 'Science':'rings', 'Music':'rings', 'Art':'dots', 'Animals':'dots',
+  'Play':'dots', 'Daily Life':'dots', 'Everyday Life':'dots',
+  'Adventure':'stripes', 'Travel / City Life':'stripes', 'Sport':'lanes',
+  'Food':'gingham', 'History':'hatch', 'Culture':'hatch',
+  'Nature':'waves', 'Outdoors':'waves',
+  'Family':'glow', 'Friendship':'glow', 'Community':'glow',
+};
+// Full CSS `background` for a story card cover: dim layer, texture, gradient.
+function genreCoverStyle(story,fallbackG1,fallbackG2){
+  const [g1,g2]=storyGradient(story,fallbackG1,fallbackG2);
+  const tex=COVER_TEXTURES[GENRE_TEXTURE[genreKey(story)]||'glow'];
+  return `linear-gradient(var(--cover-dim),var(--cover-dim)),${tex},linear-gradient(145deg,${g1},${g2})`;
 }
 
 // ── BADGES — real, checkable criteria only (no fabricated placeholder badges).
@@ -3047,7 +3083,7 @@ function renderSavedSection(){
   }).filter(Boolean);
   if(!items.length) return '';
   const cards=items.map(({s,level,dest})=>{
-    const [cg1,cg2]=storyGradient(s,level?level.g1:'#E3F3FC',level?level.g2:'#70C1B3');
+    const coverBg=genreCoverStyle(s,level?level.g1:'#E3F3FC',level?level.g2:'#70C1B3');
     const pillColor=level?level.color:'#70C1B3';
     const pillLabel=level?t('levelLabel',s.levelId):(dest?dest.name:'');
     const done=storyDone(s.id);
@@ -3055,7 +3091,7 @@ function renderSavedSection(){
     const stars=done&&prog?storyStarCount(prog.score):0;
     const starsHtml=stars>0?`<div class="story-stars">${Array(stars).fill(icon('xp-xp-star',11)).join('')}</div>`:'';
     return `<button class="story-card" onclick="openStoryModal('${s.id}')">
-      <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
+      <div class="story-cover" style="background:${coverBg}">
         ${s.emoji||'📖'}
         <div class="story-level-badge" style="background:${pillColor}">${pillLabel}</div>
         ${done?`<div class="story-complete-badge" role="img" aria-label="${t('completed')}">${icon('status-check',14)}</div>`:''}
@@ -3109,12 +3145,12 @@ function renderLibrarySearchResults(q){
   const cards=results.map(({s,level})=>{
     const done=storyDone(s.id);
     const inProgress=!done&&s.id===state.lastStoryId;
-    const [cg1,cg2]=storyGradient(s,level.g1,level.g2);
+    const coverBg=genreCoverStyle(s,level.g1,level.g2);
     const prog=state.progress[s.id];
     const stars=done&&prog?storyStarCount(prog.score):0;
     const starsHtml=stars>0?`<div class="story-stars">${Array(stars).fill(icon('xp-xp-star',11)).join('')}</div>`:'';
     return `<button class="story-card${inProgress?' story-inprogress':''}" onclick="openStoryModal('${s.id}')">
-      <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
+      <div class="story-cover" style="background:${coverBg}">
         ${s.emoji||'📖'}
         <div class="story-level-badge" style="background:${level.color}">${t('levelLabel',level.id)}</div>
         ${done?`<div class="story-complete-badge" role="img" aria-label="${t('completed')}">${icon('status-check',14)}</div>`:inProgress?`<div class="story-inprogress-badge">${t('inProgress')}</div>`:''}
@@ -3166,12 +3202,12 @@ function renderLibraryTierStories(){
   const cards=stories.map(s=>{
     const done=storyDone(s.id);
     const inProgress=!done&&s.id===state.lastStoryId;
-    const [cg1,cg2]=storyGradient(s,level.g1,level.g2);
+    const coverBg=genreCoverStyle(s,level.g1,level.g2);
     const prog=state.progress[s.id];
     const stars=done&&prog?storyStarCount(prog.score):0;
     const starsHtml=stars>0?`<div class="story-stars">${Array(stars).fill(icon('xp-xp-star',11)).join('')}</div>`:'';
     return `<button class="story-card${inProgress?' story-inprogress':''}" onclick="openStoryModal('${s.id}')">
-      <div class="story-cover" style="background:linear-gradient(145deg,${cg1},${cg2})">
+      <div class="story-cover" style="background:${coverBg}">
         ${s.emoji||'📖'}
         <div class="story-level-badge" style="background:${level.color}">${t('levelLabel',level.id)}</div>
         ${done?`<div class="story-complete-badge" role="img" aria-label="${t('completed')}">${icon('status-check',14)}</div>`:inProgress?`<div class="story-inprogress-badge">${t('inProgress')}</div>`:''}
