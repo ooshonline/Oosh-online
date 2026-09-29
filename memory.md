@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 22`
+`contentSubpillarRun: 23`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **skips next session** (counter = 22, even).
+Next subpillar: **fires next session** (counter = 23, odd).
 
 ---
 
@@ -90,7 +90,9 @@ Next subpillar: **skips next session** (counter = 22, even).
 **Cycle 11 — IN PROGRESS**
 - ✅ Functionality (2026-09-28, automated) — F6 destination culture sections + 2 live quiz fixes + JA culture glosses **DEPLOYED LIVE** (build 20260928b)
 
-**Cycle 11 next pillar: UI.**
+- ✅ UI (2026-09-29, automated) — U7 genre texture covers + dark-mode celebration fix **DEPLOYED LIVE** (build 20260929)
+
+**Cycle 11 next pillar: UX.**
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -119,6 +121,16 @@ Next subpillar: **skips next session** (counter = 22, even).
 ---
 
 ## Session Log
+
+### 2026-09-29 — UI Pillar (~25 min, automated) — Cycle 11
+
+**Pillar: UI.** Content subpillar skipped (counter 22 was even, now 23, so it fires next run).
+**All DEPLOYED LIVE, build 20260929** (commits `647b229`, `9f26722`, `507e91e`).
+
+- **style: U7** (`647b229`). Story-card covers now carry a faint pure-CSS texture per genre on top of the existing genre gradient: notebook grid for School, orbit rings for Science/Music, gingham for Food, and so on. `genreCoverStyle()` is used by library, search and Read Later cards. A `--cover-dim` token tones covers down in the night theme. `genreKey()` now also stops `storyGradient()` crashing on a story with no genre (it used to call `.startsWith` on undefined).
+- **fix: celebration screen in dark mode** (`9f26722`). Found while running the golden path in dark mode. `.celeb-screen` hard-coded cream and white surfaces while its title and question text used the dark `--navy` token, so pale text sat on white. It's the same class of bug as the 2026-09-28 quiz fix. Now tokenised as `--celeb-*`, and light mode computes identically.
+- Verified at 375 (dark) and 820 (light) with a zero-error console, driving library → reader → quiz → story-complete → celebration.
+- New backlog: U9 (journey story covers), U10 (dark sweep of the sub-level/level-champion celebrations and placement).
 
 ### 2026-09-28 (evening) — Functionality + Content subpillar (~25 min, automated) — Cycle 11
 
