@@ -7217,6 +7217,44 @@ STORIES[4][1].push({
   images:['images/i2/i2_the_beehive_project_1.webp','images/i2/i2_the_beehive_project_2.webp','images/i2/i2_the_beehive_project_3.webp']
 });
 
+STORIES[4][1].push({
+  id:"l4.2s6", levelId:4, subLevel:2,
+  title:"The Escape Artist", emoji:"🐙", genre:"Animals",
+  wordCount:249, readMins:2,
+  blurb:"Crabs keep vanishing from a small aquarium at night — and Hana is sure the answer is closer than anyone thinks.",
+  paragraphs:[
+    "Every Saturday, Hana volunteered at the small aquarium near the harbour. Her favourite animal was Pip, a young octopus who lived in a tank by the entrance. One morning, the manager, Mr. Reyes, met her at the door looking puzzled. 'Something strange is happening,' he said. 'For a week now, crabs have been disappearing from the tank next to Pip's. Nothing is broken, and nothing else is missing.' He asked Hana to help him investigate.",
+    "They checked the crab tank first. The lid was closed, but there was a thin wet trail on the floor between the two tanks. Hana looked at Pip, who was watching them with large, curious eyes. 'Could an octopus do that?' she asked. Mr. Reyes laughed, but that night he left a camera recording. The next morning they could hardly believe the video. Pip pushed up her lid, squeezed through a gap no wider than a coin, slid across the floor and helped herself to a crab. Before sunrise, she was back in her own tank.",
+    "'She isn't a thief,' Hana said, smiling. 'She's bored.' Mr. Reyes agreed. Octopuses are extremely clever, and a clever animal with nothing to do will find its own entertainment. That week, Hana made Pip some puzzle jars with twist-off lids and a treat inside. Pip opened the first one in under two minutes, using three tentacles at once. The crabs have been safe ever since, and Pip's tank now has a new sign: 'Please do not underestimate me.'"
+  ],
+  vocabulary:{
+    "investigate":{def:"To look carefully at something to find out the truth.",pos:"verb"},
+    "trail":{def:"A line of marks left behind by something that has moved.",pos:"noun"},
+    "curious":{def:"Wanting to know or learn about something.",pos:"adjective"},
+    "squeezed":{def:"Pushed through a very small space with difficulty.",pos:"verb"},
+    "tentacles":{def:"The long, soft arms of an octopus, used for moving and holding things.",pos:"noun"},
+    "underestimate":{def:"To think someone is less clever or able than they really are.",pos:"verb"}
+  },
+  vocab:[
+    {word:"investigate", definition:"To look carefully at something to find out the truth.", partOfSpeech:"verb"},
+    {word:"trail", definition:"A line of marks left behind by something that has moved.", partOfSpeech:"noun"},
+    {word:"curious", definition:"Wanting to know or learn about something.", partOfSpeech:"adjective"},
+    {word:"squeeze", definition:"To push through a very small space with difficulty.", partOfSpeech:"verb"},
+    {word:"tentacle", definition:"One of the long, soft arms of an octopus, used for moving and holding things.", partOfSpeech:"noun"},
+    {word:"underestimate", definition:"To think someone is less clever or able than they really are.", partOfSpeech:"verb"}
+  ],
+  quiz:[
+    {question:"Why did Mr. Reyes ask Hana for help?",options:["Pip had stopped eating","Crabs had been disappearing from a tank","Someone had broken a window","The aquarium needed a new sign"],correct:1,
+     feedback:"'For a week now, crabs have been disappearing from the tank next to Pip's.'"},
+    {question:"What clue did they find between the two tanks?",options:["A broken lid","Crab shells on the floor","A thin wet trail","Footprints by the door"],correct:2,
+     feedback:"'There was a thin wet trail on the floor between the two tanks.'"},
+    {question:"Why do you think Mr. Reyes laughed at Hana's question?",options:["He thought the idea was too unlikely to be true","He already knew that Pip was the thief","He thought Hana was being rude","He was happy that the mystery was solved"],correct:0,
+     feedback:"This is an inference — he laughed, but still set up a camera. He didn't believe it yet, but he wasn't completely sure either."},
+    {question:"Why did the crabs stay safe after that week?",options:["Pip's tank was moved to another room","The crab tank got a heavier lid","Pip had interesting puzzles to keep her busy","Mr. Reyes watched the tanks every night"],correct:2,
+     feedback:"This is an inference — Hana thought Pip was bored, so she gave her puzzle jars. With something to do, Pip stopped hunting for her own entertainment."}
+  ]
+});
+
 
 // ── Sub-level 3 · ~230 words · past perfect introduced · richer vocabulary · stronger characters ──
 STORIES[4][2] = [];
@@ -13670,6 +13708,7 @@ const TALK_PROMPTS = {
   'l4.1s4':{en:"Have you ever tried something not to win, but simply to discover what you were capable of? What did you find out about yourself?", ja:"かつためではなく、じぶんに なにが できるかを たしかめるために なにかに ちょうせんしたことは ある？じぶんについて なにを はっけんした？"},
   'l4.1s5':{en:"When something mysterious is happening around you, do you prefer to investigate or let it remain unknown? What draws you in one direction?", ja:"まわりで なぞめいたことが おきているとき、しらべたい？それとも なぞのままにしておきたい？どちらかに ひかれるのは なぜ？"},
   'l4.1s6':{en:"Have you ever discovered something surprising about a family member that changed how you saw them? What did you do with that knowledge — and how did it make you feel?", ja:"家族や 親せきについて、おどろくような ことを はっけんして、その人への イメージが かわったことは ある？そのことを どうした？どんな気もちに なった？"},
+  'l4.2s6':{en:"Have you ever seen an animal do something cleverer than you expected? What did it do, and how do you think it worked it out?", ja:"どうぶつが おもったより かしこいことを して、びっくりしたことは ある？なにを したの？どうやって おもいついたと おもう？"},
 
   // ── Level 4 · Sub-level 2 ──
   'l4.2s1':{en:"Have you ever tried to help someone when you didn't share a language? What did the experience teach you about communication?", ja:"ことばが 通じない ひとを たすけようとしたことは ある？その 経験から、コミュニケーションについて なにを まなんだ？"},
