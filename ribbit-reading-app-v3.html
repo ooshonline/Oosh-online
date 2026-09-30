@@ -1888,6 +1888,21 @@ function checkVocabMilestone(oldCount,newCount){
   const hit=VOCAB_MILESTONES.find(m=>m>oldCount&&m<=newCount);
   if(hit){ awardXP(20); setTimeout(()=>showToast(t('vocabMilestone',hit)),600); }
 }
+// X9: reading milestones — a toast + small XP gift on the 1st/10th/25th/50th/100th story read.
+// Only fires on a first completion (replays don't change the count). Lands after the
+// story-complete interstitial, and waits for any quest/streak toast already showing to finish.
+const STORY_MILESTONES=[1,10,25,50,100];
+function checkStoryMilestone(count){
+  if(!STORY_MILESTONES.includes(count)) return;
+  awardXP(15);
+  const msg=count===1? t('storyMilestoneFirst') : t('storyMilestone',count,state.streak);
+  setTimeout(()=>showToastWhenFree(msg),1100);
+}
+// showToast() replaces whatever toast is on screen; this waits (up to ~6s) for the slot to clear.
+function showToastWhenFree(msg,tries=8){
+  if(document.querySelector('.toast') && tries>0) return setTimeout(()=>showToastWhenFree(msg,tries-1),700);
+  showToast(msg);
+}
 function updateStreak(){
   const today=new Date().toDateString();
   const yesterday=new Date(Date.now()-86400000).toDateString();
@@ -1910,6 +1925,7 @@ function finishStory(story){
   if(xpEarned>0) awardXP(xpEarned);
   state.lastXpEarned=xpEarned;
   updateStreak();
+  if(!prev) checkStoryMilestone(Object.keys(state.progress).length);
   save();
   calcTodayCount();
   checkStoriesQuest();
@@ -2347,7 +2363,7 @@ const XP_MILESTONES=[
 function checkXPMilestone(prevXP){
   const now=state.xp||0;
   XP_MILESTONES.filter(m=>prevXP<m.xp && now>=m.xp)
-    .forEach((m,i)=>setTimeout(()=>showToast(t(m.key)), 3000+i*2600));
+    .forEach((m,i)=>setTimeout(()=>showToastWhenFree(t(m.key)), 3000+i*2600));
 }
 function awardXP(n){
   const prevXP=state.xp||0;
@@ -2797,6 +2813,8 @@ const UI_STRINGS = {
     loginBonusStreak:(days,xp)=>`🔥 ${days}-day streak! Bonus +${xp} XP!`,
     streakMilestone:(days)=>`🔥 ${days}-day streak! Amazing work! 🐸`,
     vocabMilestone:(n)=>`📚 ${n} words saved! You're building your vocabulary! 🐸`,
+    storyMilestoneFirst:'🎉 Your very first story! +15 XP 🐸',
+    storyMilestone:(n,streak)=>`📖 ${n} stories read! +15 XP${streak>1?` · 🔥 ${streak}-day streak`:''} 🐸`,
     vocabRecapTitle:'📚 Quick vocab check', vocabRecapBody:'Remember these words from the story?', vocabRecapStart:'Start the quiz →',
     destStamped:(name)=>`🪪 ${name} passport stamped! +200 XP`,
     comboLabel:'COMBO!', correctLabel:'CORRECT!', wrongLabel:'WRONG!',
@@ -2943,6 +2961,8 @@ const UI_STRINGS = {
     loginBonusStreak:(days,xp)=>`🔥 ${days}日連続！ボーナス +${xp} XP！`,
     streakMilestone:(days)=>`🔥 ${days}日連続達成！すごい！🐸`,
     vocabMilestone:(n)=>`📚 ${n}語保存した！どんどん語彙が増えてるよ！🐸`,
+    storyMilestoneFirst:'🎉 はじめてのお話を読んだよ！ +15 XP 🐸',
+    storyMilestone:(n,streak)=>`📖 ${n}話読んだよ！ +15 XP${streak>1?` · 🔥 ${streak}日連続`:''} 🐸`,
     vocabRecapTitle:'📚 単語チェック', vocabRecapBody:'おはなしに出てきた単語を覚えてる？', vocabRecapStart:'クイズへ →',
     destStamped:(name)=>`🪪 ${name}のパスポートにスタンプ！ +200 XP`,
     comboLabel:'コンボ！', correctLabel:'せいかい！', wrongLabel:'ざんねん！',
