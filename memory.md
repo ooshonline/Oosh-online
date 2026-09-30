@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 23`
+`contentSubpillarRun: 24`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: **fires next session** (counter = 23, odd).
+Next subpillar: skipped next session (counter = 24, even); fires the one after.
 
 ---
 
@@ -92,7 +92,9 @@ Next subpillar: **fires next session** (counter = 23, odd).
 
 - ✅ UI (2026-09-29, automated) — U7 genre texture covers + dark-mode celebration fix **DEPLOYED LIVE** (build 20260929)
 
-**Cycle 11 next pillar: UX.**
+- ✅ UX (2026-09-30, automated) — X9 reading-milestone toasts + content subpillar l4.2s6 **DEPLOYED LIVE** (build 20260930b)
+
+**Cycle 11 next pillar: Content.**
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -121,6 +123,17 @@ Next subpillar: **fires next session** (counter = 23, odd).
 ---
 
 ## Session Log
+
+### 2026-09-30 — UX Pillar + Content Subpillar (~35 min, automated) — Cycle 11
+
+**Pillar: UX.** **Content subpillar: FIRED** (counter 23 → 24).
+**All DEPLOYED LIVE, build 20260930b** (commits `727de34`, `2a37fb4`, `5b4e680`, `6691378`).
+
+- **X11 was already built** (reader swipe handlers since `2f877f5`), so it's ticked as stale and X9 was built instead.
+- **feature: X9** (`727de34`). Toast + 15 XP on the 1st/10th/25th/50th/100th story (first completions only; replays verified to fire nothing). Added `showToastWhenFree()`: the milestone toast used to cut the 400ms quest toast short, so it now waits for the slot to clear; XP-milestone toasts use it too. Verified at 820 (EN, 10th story) and 375 (JA, 1st story) through the real reader→quiz flow, with each toast getting its full 2s in sequence and a zero-error console.
+- **content: l4.2s6 "The Escape Artist"** (`5b4e680`). A bored aquarium octopus sneaks out to take crabs, and Hana solves it with puzzle jars. Animals genre (L4 only had 2). Has both `vocabulary` (tap popups) and `vocab` (pre-quiz recap), a 4-question quiz (2 inference), a Let's Talk prompt, and 6 new JA glosses. Played end to end at 375px and it's listed in L4 › Sub-level 2.
+- Note: l4.1s6 (2026-09-24) has only a `vocab` array, no `vocabulary` object, so its key words aren't tappable in the reader. A candidate for a future Option E polish.
+- New backlog: X12 (route all toasts through the queue), X13 (padlock icons on dev-unlocked sub-levels).
 
 ### 2026-09-29 — UI Pillar (~25 min, automated) — Cycle 11
 
