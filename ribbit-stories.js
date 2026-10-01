@@ -5787,12 +5787,12 @@ STORIES[3][4].push({
     "professional":{def:"A person trained and qualified in a particular job.",pos:"noun"}
   },
   quiz:[
-    {question:"Why did most of the class choose to attend the course?",options:["It was a school requirement","It got them out of double geography","They wanted to learn first aid","Their parents encouraged them"],correct:1,
-     feedback:"'Most of us went because it got us out of double geography.'"},
+    {question:"The story says the course was 'optional'. What does 'optional' mean?",options:["Everyone in Year Eight had to go","Students could choose whether or not to go","It was only for students who wanted to be doctors","Students had to pay to go"],correct:1,
+     feedback:"'Optional' means you can choose. Most of the class went anyway — partly because 'it got us out of double geography.'"},
     {question:"Why did the instructor say compressions needed to be harder?",options:["The mannequin was unusually firm","People were instinctively afraid of hurting someone","The technique required extra force","Beginners were always too slow"],correct:1,
      feedback:"'People are instinctively afraid of hurting someone.'"},
-    {question:"What did the instructor call the time between an incident and professional help arriving?",options:["The window","The gap","The critical period","The response time"],correct:1,
-     feedback:"'He called it the gap. He said in that gap, ordinary people were all there was.'"},
+    {question:"The instructor said that in the gap, 'ordinary people were all there was'. What did he mean?",options:["Professionals are usually too slow to be useful","Until help arrives, the people nearby are the only ones who can do something","Ordinary people should never try first aid","Most accidents happen when nobody is around"],correct:1,
+     feedback:"This is an inference — before a doctor or paramedic arrives, only the people already there can help. That is why the course existed."},
     {question:"How does the narrator describe how they now look at people in public?",options:["With worry","With fear","With a kind of quiet attention","With confidence"],correct:2,
      feedback:"'You look at people differently... More with a kind of quiet attention.'"}
   ],
@@ -5821,10 +5821,10 @@ STORIES[3][4].push({
     "occupants":{def:"The people who live in or use a particular place.",pos:"noun"}
   },
   quiz:[
-    {question:"Where was the cardboard box found?",options:["Under the bed","At the back of a wardrobe","In the kitchen","In the loft"],correct:1,
-     feedback:"'We found a cardboard box at the back of a wardrobe.'"},
-    {question:"How did they work out that the coastal holiday was in Tenby?",options:["A caption on the back of the photo","It was in the family records","Through discussion","My uncle remembered"],correct:2,
-     feedback:"'A family holiday somewhere coastal that turned out, after discussion, to be Tenby.'"},
+    {question:"The woman smiles 'with a directness that suggested she knew the photographer well'. What can we guess from this?",options:["She was a famous actress","She felt relaxed with the person taking the photo — probably someone close to her","She did not want her photo taken","She had just bought the car"],correct:1,
+     feedback:"This is an inference — a direct, easy smile at the camera suggests she was comfortable with the photographer, so they were probably friends or close."},
+    {question:"At the end, the narrator writes 'Eileen — if it is Eileen'. Why do they add 'if it is Eileen'?",options:["They have forgotten her name","Nobody is sure who the woman really is","The uncle said it was definitely not Eileen","Eileen is only a nickname"],correct:1,
+     feedback:"This is an inference — the uncle only 'thought it might be' Eileen and was 'not certain', and the letter has had no reply. Her name is still a guess."},
     {question:"Who did the uncle think the unknown woman might be?",options:["A neighbour called Margaret","A woman called Eileen who worked with his father","A relative on his mother's side","A friend from school"],correct:1,
      feedback:"'He thought it might be a woman called Eileen who had worked with his father in the early 1960s.'"},
     {question:"What did the cousin do with the car's registration plate?",options:["Posted it on a genealogy website","Reported it to the licensing office","Tried to trace the car and wrote to the current house occupants","Matched it to a local newspaper archive"],correct:2,
@@ -5859,10 +5859,10 @@ STORIES[3][4].push({
      feedback:"'The arrow had faded, and the path that looked most used went slightly southeast instead.'"},
     {question:"What problem did the mother notice while they were lost?",options:["The path was too steep","They were running out of water","Mist was coming in from the northwest","Night was falling early"],correct:2,
      feedback:"'My mother said that was all very well but the mist was coming in from the northwest.'"},
-    {question:"What did they find at the corner of the field?",options:["The original stile","A shepherd's hut","A gate and a gravel track","A marker post"],correct:2,
-     feedback:"'There was a gate, and beyond it a gravel track, and the track met the ridge path.'"},
-    {question:"What was inside the metal box at the summit cairn?",options:["A map of the area","Emergency supplies","A visitor book","A compass"],correct:2,
-     feedback:"'The summit cairn was just visible. We signed the visitor book inside its metal box.'"}
+    {question:"Which of these happened LAST?",options:["They found the boggy field","The mother saw the mist coming","They signed the visitor book","They found the gravel track"],correct:2,
+     feedback:"The order was: boggy field → mist coming → gate and gravel track → summit, where they 'signed the visitor book inside its metal box.'"},
+    {question:"'My father said it was atmospheric. My mother said it was wet.' What does this ending show?",options:["The parents were having an angry argument","The parents saw the same moment in different ways — one enjoyed the mood, one noticed the discomfort","The father had not noticed the rain","The mother wanted to go home before the summit"],correct:1,
+     feedback:"This is an inference — they are both describing the same misty summit. The father enjoys how it feels; the mother notices how uncomfortable it is. It is gentle and funny, not a real fight."}
   ],
   images:['images/p5/p5_the_wrong_turn_1.webp','images/p5/p5_the_wrong_turn_2.webp','images/p5/p5_the_wrong_turn_3.webp','images/p5/p5_the_wrong_turn_4.webp','images/p5/p5_the_wrong_turn_5.webp']
 });
@@ -5891,8 +5891,8 @@ STORIES[3][4].push({
   quiz:[
     {question:"Why did the father always arrive two hours early?",options:["To get better seats","To watch the warm-up","He liked arriving early, and it helped with parking","The queue for food was shorter"],correct:2,
      feedback:"'He says arriving early is half the point... he just likes to avoid parking, which is also true.'"},
-    {question:"What were the groundsmen doing when they arrived?",options:["Cutting the grass","Rolling the pitch","Working on one of the penalty spots","Putting up the corner flags"],correct:2,
-     feedback:"'There were two groundsmen doing something to one of the penalty spots with a small hand tool.'"},
+    {question:"At noon, the pitch 'was clearly just grass'. What has changed it by ten past two?",options:["The groundsmen have finished their work","The crowd has arrived, bringing sound, smells and shared excitement","The winter sun has come out","The players have started warming up"],correct:1,
+     feedback:"This is an inference — the pitch itself has not changed. It is the crowd, the noise and 'the long collective warmth' that make the stadium feel completely different."},
     {question:"What first arrived as the crowd began to build?",options:["The players warming up","Sound — the PA system, smells, then voices","The smell of rain","The match announcer"],correct:1,
      feedback:"'Sound arrived before the crowd — the PA system playing something generic, the smell of frying onions... then voices.'"},
     {question:"What did the father do for both goals?",options:["Cheered loudly for a long time","Stood up, then sat down again quickly","High-fived the people around him","Shouted the scorer's name"],correct:1,
@@ -5923,14 +5923,14 @@ STORIES[3][4].push({
     "proportions":{def:"The relative sizes of different parts of something.",pos:"noun"}
   },
   quiz:[
-    {question:"What did the family find in the kitchen drawer?",options:["Torches","Board games","Candles","An emergency radio"],correct:2,
-     feedback:"'My parents found the candles. We have a tin of them in the kitchen drawer for exactly this purpose.'"},
+    {question:"Why did nobody 'quite know what to do for the first ten minutes'?",options:["They were frightened of the dark","They were used to spending their evenings with screens","They were waiting for the grandmother to arrive","They could not find the candles"],correct:1,
+     feedback:"This is an inference — the story says this happened 'without screens'. The family's usual evening needed electricity, so at first they did not know what else to do."},
     {question:"When was the power supposed to come back, according to the electricity company?",options:["By eight","By nine","By ten","By midnight"],correct:2,
      feedback:"The company said 'the fault... would be repaired by ten.'"},
     {question:"Who taught the family the card game?",options:["The mother","The father","The narrator","The grandmother"],correct:3,
      feedback:"'My grandmother, who was visiting, said she would teach us to play a card game called Spite and Malice.'"},
-    {question:"What happened when the power came back at ten?",options:["Everyone felt relieved and went to bed","Every screen lit up simultaneously and the kitchen felt different","They kept playing cards","They blew out the candles one by one"],correct:1,
-     feedback:"'Every screen in the house lit up simultaneously, along with the refrigerator hum and the ceiling lights.'"}
+    {question:"When the power came back, the sister said it was 'a pity'. Why?",options:["She had lost the last card game","She had enjoyed the evening playing cards together by candlelight","Her television programme had already finished","The bright lights hurt her eyes"],correct:1,
+     feedback:"This is an inference — she won three games out of five and the candlelit kitchen had become fun. When the lights came on, 'the candlelit kitchen was over in a second.'"}
   ],
   images:['images/p5/p5_the_night_the_power_went_out_1.webp','images/p5/p5_the_night_the_power_went_out_2.webp','images/p5/p5_the_night_the_power_went_out_3.webp','images/p5/p5_the_night_the_power_went_out_4.webp','images/p5/p5_the_night_the_power_went_out_5.webp']
 });
@@ -7038,6 +7038,15 @@ STORIES[4][0].push({
     "Working with the hives was nothing like I expected. You have to move slowly and quietly, or the bees detect your nervousness. Mrs. Osei explained that bees respond to changes in body chemistry — an anxious handler disrupts the whole colony. I thought about my grandfather and tried to breathe the way I imagined he had.",
     "In June, we harvested the first jar of honey from the hive I had started. I labelled it in the notebook, the same way he had done for forty years. Mrs. Osei said something I keep thinking about: 'Your grandfather's knowledge didn't disappear when he died. It was waiting for the right person to find it.'"
   ],
+  vocabulary:{
+    "battered":{def:"Old and damaged from heavy use over a long period.",pos:"adjective"},
+    "diagrams":{def:"Drawings that explain how something looks or works.",pos:"noun"},
+    "allotments":{def:"Small pieces of land that people rent to grow vegetables, fruit or flowers.",pos:"noun"},
+    "detect":{def:"To discover or notice something that is not obvious.",pos:"verb"},
+    "anxious":{def:"Feeling worried or nervous about something.",pos:"adjective"},
+    "colony":{def:"A large group of insects, such as bees, living together.",pos:"noun"},
+    "harvested":{def:"Collected a crop or natural product, like honey, when it was ready.",pos:"verb"}
+  },
   vocab:[
     {word:"battered", definition:"Old and damaged from heavy use over a long period.", partOfSpeech:"adjective"},
     {word:"diagram", definition:"A drawing that explains how something looks or works.", partOfSpeech:"noun"},
