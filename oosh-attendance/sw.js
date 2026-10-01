@@ -1,5 +1,5 @@
 // OOSH Attendance service worker — offline shell + fresh HTML when online.
-const CACHE = 'oosh-att-v2';
+const CACHE = 'oosh-att-v3';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

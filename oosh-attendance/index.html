@@ -1385,6 +1385,11 @@ function isDayExcluded(data,ds,sid){const r=getDayRecords(data,ds).find(x=>x.stu
 function daysOn(s,ds){const h=s.dayHistory;if(!h||!h.length)return s.days||[];let cur=null;for(const e of h){if(e.from<=ds)cur=e;else break;}return cur?cur.days:[];}
 function sameDays(a,b){return [...a].sort().join()===[...b].sort().join();}
 function setDaysFrom(st,days,from){let h=(st.dayHistory&&st.dayHistory.length)?st.dayHistory.slice():[{from:'0000-01-01',days:(st.days||[]).slice()}];h=h.filter(e=>e.from<from);if(!h.length||!sameDays(h[h.length-1].days,days))h.push({from,days:days.slice()});st.dayHistory=h;st.days=days.slice();}
+// ══ Left OOSH ══ st.lastDay = last day attending; schedule is emptied from the day after, history untouched.
+function nextDay(ds){const d=new Date(ds+'T12:00:00');d.setDate(d.getDate()+1);return localDateStr(d);}
+function hasLeftBy(s,ds){return !!(s.lastDay&&ds>s.lastDay);}
+function markLeft(st,lastDay){if(!st.lastDay)st.daysBeforeLeaving=daysOn(st,lastDay).slice();setDaysFrom(st,[],nextDay(lastDay));st.lastDay=lastDay;}
+function rejoin(st){const back=st.daysBeforeLeaving||[];const from=nextDay(st.lastDay)>TODAY?nextDay(st.lastDay):TODAY;setDaysFrom(st,back,from);delete st.lastDay;delete st.daysBeforeLeaving;}
 function pendingDays(s){const h=s.dayHistory;if(!h||!h.length)return null;const last=h[h.length-1];return last.from>TODAY?last:null;}
 // On the register for this date? Schedule at that date, OR an existing (non-make-up) record — so a day that was attended is never lost.
 function isScheduledOn(data,s,ds){if(isDayExcluded(data,ds,s.id))return false;if(daysOn(s,ds).includes(dateToDay(ds)))return true;return !!getDayRecords(data,ds).find(r=>r.studentId===s.id&&!r.isMakeup&&!r.excluded);}
@@ -1709,7 +1714,7 @@ function buildSummaryTable(thead,tbody,dates,statsIds){
   dates.forEach(ds=>{const d=new Date(ds+'T12:00:00'),dayShort=DAYS[d.getDay()-1],dayNum=d.getDate();const cls=[isToday(ds)?'col-today':'',weekFirstSet.has(ds)&&dates.length>5?'week-first':''].filter(Boolean).join(' ');thHtml+=`<th class="${cls}">${dayShort}<br><span style="font-weight:400;opacity:0.8">${dayNum}</span></th>`;});
   thHtml+='<th class="total-col">Total</th>';hr.innerHTML=thHtml;thead.appendChild(hr);
   tbody.innerHTML='';let gTotal=0,gAbsent=0,gMakeup=0,gExpected=0;
-  data.students.forEach(student=>{
+  data.students.filter(st=>!hasLeftBy(st,dates[0])).forEach(student=>{
     const tr=document.createElement('tr');let rowPresent=0,tdHtml=`<td>${esc(student.name)}</td>`;
     dates.forEach(ds=>{
       const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1],isScheduled=isScheduledOn(data,student,ds);
@@ -1762,7 +1767,7 @@ function collectNotesForDates(data,dates){
   });
   return notes;
 }
-function exportSummaryCsv(dates,filename){const data=load();const rows=[['Student',...dates.map(ds=>{const d=new Date(ds+'T12:00:00');return d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'});}), 'Total Present','Total Absent','Picked Up','Rate']];data.students.forEach(student=>{const row=[student.name];let totP=0,totA=0,totS=0,totPU=0;dates.forEach(ds=>{const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1],dayRecs=getDayRecords(data,ds),makeupRec=dayRecs.find(r=>r.studentId===student.id&&r.isMakeup);if(makeupRec){const t=makeupRec.checkIn?makeupRec.checkIn+(makeupRec.checkOut?'–'+makeupRec.checkOut:''):'';row.push((makeupRec.isExtra?'Extra Day':'Make-up')+(t?' ('+t+')':'')+(makeupRec.makeupFor?' for '+tinyDate(makeupRec.makeupFor):''));totP++;totS++;}else if(isScheduledOn(data,student,ds)){totS++;if(ds>TODAY){row.push('—');}else{const rec=getRecord(data,ds,student.id),present=rec?rec.present:true;if(present){const t=rec&&rec.checkIn?rec.checkIn+(rec.checkOut?'–'+rec.checkOut:''):'';const flags=[];if(rec&&isEarlyIn(student,rec.checkIn,dayName))flags.push('early in');if(rec&&isLateOut(student,rec.checkOut,dayName))flags.push('late out');const puNote=rec&&rec.pickedUp?' [Picked Up]':'';row.push('Present'+(t?' ('+t+')':'')+(flags.length?' ['+flags.join(', ')+']':'')+puNote);totP++;if(rec&&rec.pickedUp)totPU++;}else{row.push(rec&&rec.madeUpOn?'Absent → made up '+tinyDate(rec.madeUpOn):'Absent');totA++;}}}else{row.push('');}});row.push(totP,totA,totPU,totS>0?Math.round(totP/totS*100)+'%':'—');rows.push(row);});const totRow=['TOTAL'];dates.forEach(ds=>{if(ds>TODAY){totRow.push('—');return;}const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1];let cnt=0;data.students.forEach(s=>{const dr=getDayRecords(data,ds);if(dr.find(r=>r.studentId===s.id&&r.isMakeup)){cnt++;return;}if(!isScheduledOn(data,s,ds))return;const rec=getRecord(data,ds,s.id);if(rec?rec.present:true)cnt++;});totRow.push(cnt);});totRow.push('','','','');rows.push(totRow);const notes=collectNotesForDates(data,dates);if(notes.length){rows.push([]);rows.push(['Notes']);rows.push(['Date','Student','Note']);notes.forEach(n=>rows.push(n));}downloadCsv(rows,filename);}
+function exportSummaryCsv(dates,filename){const data=load();const rows=[['Student',...dates.map(ds=>{const d=new Date(ds+'T12:00:00');return d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'});}), 'Total Present','Total Absent','Picked Up','Rate']];data.students.filter(st=>!hasLeftBy(st,dates[0])).forEach(student=>{const row=[student.name];let totP=0,totA=0,totS=0,totPU=0;dates.forEach(ds=>{const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1],dayRecs=getDayRecords(data,ds),makeupRec=dayRecs.find(r=>r.studentId===student.id&&r.isMakeup);if(makeupRec){const t=makeupRec.checkIn?makeupRec.checkIn+(makeupRec.checkOut?'–'+makeupRec.checkOut:''):'';row.push((makeupRec.isExtra?'Extra Day':'Make-up')+(t?' ('+t+')':'')+(makeupRec.makeupFor?' for '+tinyDate(makeupRec.makeupFor):''));totP++;totS++;}else if(isScheduledOn(data,student,ds)){totS++;if(ds>TODAY){row.push('—');}else{const rec=getRecord(data,ds,student.id),present=rec?rec.present:true;if(present){const t=rec&&rec.checkIn?rec.checkIn+(rec.checkOut?'–'+rec.checkOut:''):'';const flags=[];if(rec&&isEarlyIn(student,rec.checkIn,dayName))flags.push('early in');if(rec&&isLateOut(student,rec.checkOut,dayName))flags.push('late out');const puNote=rec&&rec.pickedUp?' [Picked Up]':'';row.push('Present'+(t?' ('+t+')':'')+(flags.length?' ['+flags.join(', ')+']':'')+puNote);totP++;if(rec&&rec.pickedUp)totPU++;}else{row.push(rec&&rec.madeUpOn?'Absent → made up '+tinyDate(rec.madeUpOn):'Absent');totA++;}}}else{row.push('');}});row.push(totP,totA,totPU,totS>0?Math.round(totP/totS*100)+'%':'—');rows.push(row);});const totRow=['TOTAL'];dates.forEach(ds=>{if(ds>TODAY){totRow.push('—');return;}const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1];let cnt=0;data.students.forEach(s=>{const dr=getDayRecords(data,ds);if(dr.find(r=>r.studentId===s.id&&r.isMakeup)){cnt++;return;}if(!isScheduledOn(data,s,ds))return;const rec=getRecord(data,ds,s.id);if(rec?rec.present:true)cnt++;});totRow.push(cnt);});totRow.push('','','','');rows.push(totRow);const notes=collectNotesForDates(data,dates);if(notes.length){rows.push([]);rows.push(['Notes']);rows.push(['Date','Student','Note']);notes.forEach(n=>rows.push(n));}downloadCsv(rows,filename);}
 function downloadCsv(rows,filename){const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);}
 document.getElementById('exportDayBtn').addEventListener('click',()=>{const data=load(),dayName=dateToDay(currentDate);const scheduled=data.students.filter(s=>isScheduledOn(data,s,currentDate)),dayRecs=getDayRecords(data,currentDate),makeupRecs=dayRecs.filter(r=>r.isMakeup);const rows=[['Name','Type','Present','Check-In','Check-Out','Early/Late','Picked Up','Note']];scheduled.forEach(student=>{const rec=getRecord(data,currentDate,student.id);const flags=[];if(rec&&isEarlyIn(student,rec.checkIn,dayName))flags.push('Early in');if(rec&&isLateOut(student,rec.checkOut,dayName))flags.push('Late out');rows.push([student.name,'Scheduled',rec?(rec.present?'Yes':'No'):'Yes',rec?(rec.checkIn||''):'',rec?(rec.checkOut||''):'',flags.join(', '),rec&&rec.pickedUp?'Yes':'',rec&&rec.madeUpOn?'Made up on '+shortDate(rec.madeUpOn):'']);});makeupRecs.forEach(rec=>{const student=data.students.find(s=>s.id===rec.studentId);if(!student)return;const flags=[];if(isEarlyIn(student,rec.checkIn,dayName))flags.push('Early in');if(isLateOut(student,rec.checkOut,dayName))flags.push('Late out');rows.push([student.name,rec.isExtra?'Extra Day':'Make-Up','Yes',rec.checkIn||'',rec.checkOut||'',flags.join(', '),'',rec.makeupFor?'Making up '+shortDate(rec.makeupFor):(rec.isExtra?'Extra day (no linked date)':'')]);});const dayNotes=[];scheduled.forEach(student=>{const rec=getRecord(data,currentDate,student.id);if(rec&&rec.note)dayNotes.push([student.name,rec.note]);});makeupRecs.forEach(rec=>{const student=data.students.find(s=>s.id===rec.studentId);if(student&&rec.note)dayNotes.push([student.name+(rec.isExtra?' (extra day)':' (make-up)'),rec.note]);});if(dayNotes.length){rows.push([]);rows.push(['Notes']);dayNotes.forEach(n=>rows.push(n));}downloadCsv(rows,'oosh-'+currentDate+'.csv');});
 
@@ -1771,9 +1776,12 @@ function renderRoster(){
   const data=load(),list=document.getElementById('rosterList');
   list.innerHTML='';
   if(data.students.length===0){list.innerHTML='<div class="empty-state" style="padding:12px;background:var(--surface);border:none">No students yet.</div>';return;}
-  data.students.forEach(s=>{
+  const _act=data.students.filter(x=>!hasLeftBy(x,TODAY)),_left=data.students.filter(x=>hasLeftBy(x,TODAY));
+  [..._act,..._left].forEach(s=>{
+    const left=hasLeftBy(s,TODAY);
+    if(left&&s===_left[0]){const h=document.createElement('div');h.style.cssText='padding:14px 14px 6px;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--border);background:var(--bg,#f4f6f7)';h.textContent='Left OOSH ('+_left.length+')';list.appendChild(h);}
     const wrap=document.createElement('div');
-    wrap.style.cssText='border-top:1px solid var(--border);';
+    wrap.style.cssText='border-top:1px solid var(--border);'+(left?'opacity:0.6;':'');
     const expFlat=getExpected(s,null);
     const expLabel=hasByDay(s)?' · ⏰ varies by day':(expFlat.in||expFlat.out)?` · ⏰ ${expFlat.in||'—'}–${expFlat.out||'—'}`:'';
     const puLabel=s.allowPickedUp?' · 🚗':'';
@@ -1781,7 +1789,7 @@ function renderRoster(){
       <div class="roster-item" style="border-top:none">
         <div style="flex:1">
           <div class="r-name">${esc(s.name)}</div>
-          <div class="r-days" style="display:flex;align-items:center;gap:5px;margin-top:2px;">${groupBadgeHtml(s.group)}<span>${(()=>{const pd=pendingDays(s),now=daysOn(s,TODAY);return pd?(now.length?now.join(' · '):'No days')+' → '+(pd.days.length?pd.days.join(' · '):'No days')+' from '+tinyDate(pd.from):(s.days.length?s.days.join(' · '):'No days set');})()}${expLabel}${puLabel}</span></div>
+          <div class="r-days" style="display:flex;align-items:center;gap:5px;margin-top:2px;">${groupBadgeHtml(s.group)}<span>${s.lastDay?(s.lastDay>=TODAY?(daysOn(s,TODAY).join(' · ')||'No days')+' · 👋 last day '+tinyDate(s.lastDay):'👋 Left OOSH · last day '+tinyDate(s.lastDay)):(()=>{const pd=pendingDays(s),now=daysOn(s,TODAY);return pd?(now.length?now.join(' · '):'No days')+' → '+(pd.days.length?pd.days.join(' · '):'No days')+' from '+tinyDate(pd.from):(s.days.length?s.days.join(' · '):'No days set');})()}${expLabel}${puLabel}</span></div>
         </div>
         <button class="r-edit" data-id="${s.id}" title="Edit">✏️</button>
         <button class="r-del" data-id="${s.id}" title="Remove">🗑</button>
@@ -1820,6 +1828,12 @@ function renderRoster(){
           <label>Picked Up tracking</label>
           <button type="button" class="pu-toggle-btn rie-pickedup-toggle${s.allowPickedUp?' on':''}">🚗 Enable Picked Up (P) marker</button>
         </div>
+        <div class="form-group">
+          <label>Left OOSH</label>
+          ${s.lastDay?`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:0.85em"><span>👋 Last day: ${tinyDate(s.lastDay)}</span><button type="button" class="pu-toggle-btn rie-rejoin" style="width:auto">↩ Rejoin OOSH</button></div>`
+          :`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:0.85em"><span>Last day attending</span><input type="date" class="rie-lastday" value="${TODAY}" style="width:auto" /><button type="button" class="pu-toggle-btn rie-markleft" style="width:auto">👋 Mark as Left OOSH</button></div>
+          <div style="font-size:0.78em;color:var(--muted);margin-top:4px">Removes them from registers after this date. All past attendance is kept.</div>`}
+        </div>
         <div class="inline-edit-btns">
           <button class="rie-cancel" data-id="${s.id}">Cancel</button>
           <button class="rie-save" data-id="${s.id}">Save</button>
@@ -1850,8 +1864,12 @@ function renderRoster(){
     // Delete
     wrap.querySelector('.r-del').addEventListener('click',()=>{
       const data=load(),st=data.students.find(st=>st.id===s.id);
-      if(confirm('Remove '+st.name+'?')){data.students=data.students.filter(st=>st.id!==s.id);save(data);renderRoster();render();}
+      if(confirm('Delete '+st.name+' permanently?\n\nThis also removes them from ALL past registers and exports.\n\nIf they\'ve left OOSH, press Cancel and use ✏️ → "Mark as Left OOSH" instead — that keeps their history.')){data.students=data.students.filter(st=>st.id!==s.id);save(data);renderRoster();render();}
     });
+    const _ml=wrap.querySelector('.rie-markleft');
+    if(_ml)_ml.addEventListener('click',()=>{const ld=wrap.querySelector('.rie-lastday').value||TODAY;const data=load(),st=data.students.find(x=>x.id===s.id);if(!confirm(st.name+' — last day '+tinyDate(ld)+'?\n\nThey\'ll come off the register after that date. Past attendance is kept.'))return;_snap();markLeft(st,ld);save(data);renderRoster();render();_toast(st.name+' marked as Left OOSH');});
+    const _rj=wrap.querySelector('.rie-rejoin');
+    if(_rj)_rj.addEventListener('click',()=>{const data=load(),st=data.students.find(x=>x.id===s.id);rejoin(st);save(data);renderRoster();render();});
     // Cancel
     wrap.querySelector('.rie-cancel').addEventListener('click',()=>document.getElementById('rie-'+s.id).classList.remove('open'));
     // Save
@@ -1930,7 +1948,7 @@ function setMakeupType(t){
   document.getElementById('makeupConfirm').textContent=isExtra?'Add Extra Day':'Add Make-Up';
 }
 document.querySelectorAll('#makeupTypePicker .day-pill').forEach(p=>p.addEventListener('click',()=>setMakeupType(p.dataset.type)));
-document.getElementById('makeupBtn').addEventListener('click',()=>{const data=load(),dayName=dateToDay(currentDate),dayRecs=getDayRecords(data,currentDate);const scheduledIds=new Set(data.students.filter(s=>isScheduledOn(data,s,currentDate)).map(s=>s.id));const makeupIds=new Set(dayRecs.filter(r=>r.isMakeup).map(r=>r.studentId));const eligible=data.students.filter(s=>!scheduledIds.has(s.id)&&!makeupIds.has(s.id));if(eligible.length===0){alert('All students are already on today\'s register.');return;}document.getElementById('makeupStudent').innerHTML=eligible.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');const y=new Date(currentDate+'T12:00:00');y.setDate(y.getDate()-1);document.getElementById('makeupDate').value=y.toISOString().slice(0,10);setMakeupType('missed');document.getElementById('makeupModal').classList.add('open');});
+document.getElementById('makeupBtn').addEventListener('click',()=>{const data=load(),dayName=dateToDay(currentDate),dayRecs=getDayRecords(data,currentDate);const scheduledIds=new Set(data.students.filter(s=>isScheduledOn(data,s,currentDate)).map(s=>s.id));const makeupIds=new Set(dayRecs.filter(r=>r.isMakeup).map(r=>r.studentId));const eligible=data.students.filter(s=>!scheduledIds.has(s.id)&&!makeupIds.has(s.id)&&!hasLeftBy(s,currentDate));if(eligible.length===0){alert('All students are already on today\'s register.');return;}document.getElementById('makeupStudent').innerHTML=eligible.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');const y=new Date(currentDate+'T12:00:00');y.setDate(y.getDate()-1);document.getElementById('makeupDate').value=y.toISOString().slice(0,10);setMakeupType('missed');document.getElementById('makeupModal').classList.add('open');});
 document.getElementById('makeupCancel').addEventListener('click',()=>document.getElementById('makeupModal').classList.remove('open'));
 document.getElementById('makeupConfirm').addEventListener('click',()=>{
   const sid=document.getElementById('makeupStudent').value;
