@@ -1379,6 +1379,15 @@ function getRecord(data,ds,sid){return getDayRecords(data,ds).find(r=>r.studentI
 function ensureRecord(data,ds,sid){const recs=getDayRecords(data,ds);let rec=recs.find(r=>r.studentId===sid);if(!rec){rec={id:uid(),studentId:sid,present:true,checkIn:null,checkOut:null,isMakeup:false,makeupFor:null,madeUpOn:null,note:null};recs.push(rec);}return rec;}
 // One-off removal: student stays on the roster but is dropped from this single date.
 function isDayExcluded(data,ds,sid){const r=getDayRecords(data,ds).find(x=>x.studentId===sid&&!x.isMakeup);return !!(r&&r.excluded);}
+// ══ Schedule history ══
+// Day changes are date-effective: each student keeps dayHistory=[{from:'YYYY-MM-DD',days:[...]}] (ascending).
+// Past dates use the schedule that applied at the time. Students without history (pre-Oct 2026) use s.days for all dates.
+function daysOn(s,ds){const h=s.dayHistory;if(!h||!h.length)return s.days||[];let cur=null;for(const e of h){if(e.from<=ds)cur=e;else break;}return cur?cur.days:[];}
+function sameDays(a,b){return [...a].sort().join()===[...b].sort().join();}
+function setDaysFrom(st,days,from){let h=(st.dayHistory&&st.dayHistory.length)?st.dayHistory.slice():[{from:'0000-01-01',days:(st.days||[]).slice()}];h=h.filter(e=>e.from<from);if(!h.length||!sameDays(h[h.length-1].days,days))h.push({from,days:days.slice()});st.dayHistory=h;st.days=days.slice();}
+function pendingDays(s){const h=s.dayHistory;if(!h||!h.length)return null;const last=h[h.length-1];return last.from>TODAY?last:null;}
+// On the register for this date? Schedule at that date, OR an existing (non-make-up) record — so a day that was attended is never lost.
+function isScheduledOn(data,s,ds){if(isDayExcluded(data,ds,s.id))return false;if(daysOn(s,ds).includes(dateToDay(ds)))return true;return !!getDayRecords(data,ds).find(r=>r.studentId===s.id&&!r.isMakeup&&!r.excluded);}
 
 // ══ Early arrival / late departure flagging ══
 const GRACE_MIN=5;
@@ -1431,7 +1440,7 @@ function render(){
   document.getElementById('dateShort').textContent=displayDateHeading(currentDate);
   document.getElementById('sectionLbl').textContent=dayName+' Students';
 
-  const scheduled=data.students.filter(s=>s.days.includes(dayName)&&!isDayExcluded(data,currentDate,s.id));
+  const scheduled=data.students.filter(s=>isScheduledOn(data,s,currentDate));
   const dayRecs=getDayRecords(data,currentDate);
   const makeupRecs=dayRecs.filter(r=>r.isMakeup);
 
@@ -1703,7 +1712,7 @@ function buildSummaryTable(thead,tbody,dates,statsIds){
   data.students.forEach(student=>{
     const tr=document.createElement('tr');let rowPresent=0,tdHtml=`<td>${esc(student.name)}</td>`;
     dates.forEach(ds=>{
-      const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1],isScheduled=student.days.includes(dayName)&&!isDayExcluded(data,ds,student.id);
+      const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1],isScheduled=isScheduledOn(data,student,ds);
       const dayRecs=getDayRecords(data,ds),makeupRec=dayRecs.find(r=>r.studentId===student.id&&r.isMakeup);
       const rec=isScheduled?getRecord(data,ds,student.id):null;
       const cls=[isToday(ds)?'col-today':'',weekFirstSet.has(ds)&&dates.length>5?'week-first':''].filter(Boolean).join(' ');
@@ -1716,7 +1725,7 @@ function buildSummaryTable(thead,tbody,dates,statsIds){
     tdHtml+=`<td class="total-col">${rowPresent}</td>`;tr.innerHTML=tdHtml;tbody.appendChild(tr);
   });
   const totalsRow=document.createElement('tr');totalsRow.className='totals-row';let totHtml='<td>Total</td>',grandTotal=0;
-  dates.forEach(ds=>{if(isFuture(ds)){totHtml+=`<td></td>`;return;}const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1];let cnt=0;data.students.forEach(s=>{const dr=getDayRecords(data,ds);if(dr.find(r=>r.studentId===s.id&&r.isMakeup)){cnt++;return;}if(!s.days.includes(dayName)||isDayExcluded(data,ds,s.id))return;const rec=getRecord(data,ds,s.id);if(rec?rec.present:true)cnt++;});grandTotal+=cnt;const cls=[isToday(ds)?'col-today':'',weekFirstSet.has(ds)&&dates.length>5?'week-first':''].filter(Boolean).join(' ');totHtml+=`<td class="${cls}" style="font-weight:700;color:var(--teal)">${cnt}</td>`;});
+  dates.forEach(ds=>{if(isFuture(ds)){totHtml+=`<td></td>`;return;}const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1];let cnt=0;data.students.forEach(s=>{const dr=getDayRecords(data,ds);if(dr.find(r=>r.studentId===s.id&&r.isMakeup)){cnt++;return;}if(!isScheduledOn(data,s,ds))return;const rec=getRecord(data,ds,s.id);if(rec?rec.present:true)cnt++;});grandTotal+=cnt;const cls=[isToday(ds)?'col-today':'',weekFirstSet.has(ds)&&dates.length>5?'week-first':''].filter(Boolean).join(' ');totHtml+=`<td class="${cls}" style="font-weight:700;color:var(--teal)">${cnt}</td>`;});
   totHtml+=`<td class="total-col">${grandTotal}</td>`;totalsRow.innerHTML=totHtml;tbody.appendChild(totalsRow);
   if(statsIds){document.getElementById(statsIds.total).textContent=gTotal;document.getElementById(statsIds.absent).textContent=gAbsent;document.getElementById(statsIds.makeup).textContent=gMakeup;document.getElementById(statsIds.rate).textContent=gExpected>0?Math.round(gTotal/gExpected*100)+'%':'—';}
 }
@@ -1742,7 +1751,7 @@ function collectNotesForDates(data,dates){
     const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1];
     const dayRecs=getDayRecords(data,ds);
     data.students.forEach(s=>{
-      if(!s.days.includes(dayName)||isDayExcluded(data,ds,s.id))return;
+      if(!isScheduledOn(data,s,ds))return;
       const rec=dayRecs.find(r=>r.studentId===s.id&&!r.isMakeup);
       if(rec&&rec.note)notes.push([tinyDate(ds),s.name,rec.note]);
     });
@@ -1753,9 +1762,9 @@ function collectNotesForDates(data,dates){
   });
   return notes;
 }
-function exportSummaryCsv(dates,filename){const data=load();const rows=[['Student',...dates.map(ds=>{const d=new Date(ds+'T12:00:00');return d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'});}), 'Total Present','Total Absent','Picked Up','Rate']];data.students.forEach(student=>{const row=[student.name];let totP=0,totA=0,totS=0,totPU=0;dates.forEach(ds=>{const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1],dayRecs=getDayRecords(data,ds),makeupRec=dayRecs.find(r=>r.studentId===student.id&&r.isMakeup);if(makeupRec){const t=makeupRec.checkIn?makeupRec.checkIn+(makeupRec.checkOut?'–'+makeupRec.checkOut:''):'';row.push((makeupRec.isExtra?'Extra Day':'Make-up')+(t?' ('+t+')':'')+(makeupRec.makeupFor?' for '+tinyDate(makeupRec.makeupFor):''));totP++;totS++;}else if(student.days.includes(dayName)&&!isDayExcluded(data,ds,student.id)){totS++;if(ds>TODAY){row.push('—');}else{const rec=getRecord(data,ds,student.id),present=rec?rec.present:true;if(present){const t=rec&&rec.checkIn?rec.checkIn+(rec.checkOut?'–'+rec.checkOut:''):'';const flags=[];if(rec&&isEarlyIn(student,rec.checkIn,dayName))flags.push('early in');if(rec&&isLateOut(student,rec.checkOut,dayName))flags.push('late out');const puNote=rec&&rec.pickedUp?' [Picked Up]':'';row.push('Present'+(t?' ('+t+')':'')+(flags.length?' ['+flags.join(', ')+']':'')+puNote);totP++;if(rec&&rec.pickedUp)totPU++;}else{row.push(rec&&rec.madeUpOn?'Absent → made up '+tinyDate(rec.madeUpOn):'Absent');totA++;}}}else{row.push('');}});row.push(totP,totA,totPU,totS>0?Math.round(totP/totS*100)+'%':'—');rows.push(row);});const totRow=['TOTAL'];dates.forEach(ds=>{if(ds>TODAY){totRow.push('—');return;}const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1];let cnt=0;data.students.forEach(s=>{const dr=getDayRecords(data,ds);if(dr.find(r=>r.studentId===s.id&&r.isMakeup)){cnt++;return;}if(!s.days.includes(dayName)||isDayExcluded(data,ds,s.id))return;const rec=getRecord(data,ds,s.id);if(rec?rec.present:true)cnt++;});totRow.push(cnt);});totRow.push('','','','');rows.push(totRow);const notes=collectNotesForDates(data,dates);if(notes.length){rows.push([]);rows.push(['Notes']);rows.push(['Date','Student','Note']);notes.forEach(n=>rows.push(n));}downloadCsv(rows,filename);}
+function exportSummaryCsv(dates,filename){const data=load();const rows=[['Student',...dates.map(ds=>{const d=new Date(ds+'T12:00:00');return d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'});}), 'Total Present','Total Absent','Picked Up','Rate']];data.students.forEach(student=>{const row=[student.name];let totP=0,totA=0,totS=0,totPU=0;dates.forEach(ds=>{const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1],dayRecs=getDayRecords(data,ds),makeupRec=dayRecs.find(r=>r.studentId===student.id&&r.isMakeup);if(makeupRec){const t=makeupRec.checkIn?makeupRec.checkIn+(makeupRec.checkOut?'–'+makeupRec.checkOut:''):'';row.push((makeupRec.isExtra?'Extra Day':'Make-up')+(t?' ('+t+')':'')+(makeupRec.makeupFor?' for '+tinyDate(makeupRec.makeupFor):''));totP++;totS++;}else if(isScheduledOn(data,student,ds)){totS++;if(ds>TODAY){row.push('—');}else{const rec=getRecord(data,ds,student.id),present=rec?rec.present:true;if(present){const t=rec&&rec.checkIn?rec.checkIn+(rec.checkOut?'–'+rec.checkOut:''):'';const flags=[];if(rec&&isEarlyIn(student,rec.checkIn,dayName))flags.push('early in');if(rec&&isLateOut(student,rec.checkOut,dayName))flags.push('late out');const puNote=rec&&rec.pickedUp?' [Picked Up]':'';row.push('Present'+(t?' ('+t+')':'')+(flags.length?' ['+flags.join(', ')+']':'')+puNote);totP++;if(rec&&rec.pickedUp)totPU++;}else{row.push(rec&&rec.madeUpOn?'Absent → made up '+tinyDate(rec.madeUpOn):'Absent');totA++;}}}else{row.push('');}});row.push(totP,totA,totPU,totS>0?Math.round(totP/totS*100)+'%':'—');rows.push(row);});const totRow=['TOTAL'];dates.forEach(ds=>{if(ds>TODAY){totRow.push('—');return;}const dayName=DAYS[new Date(ds+'T12:00:00').getDay()-1];let cnt=0;data.students.forEach(s=>{const dr=getDayRecords(data,ds);if(dr.find(r=>r.studentId===s.id&&r.isMakeup)){cnt++;return;}if(!isScheduledOn(data,s,ds))return;const rec=getRecord(data,ds,s.id);if(rec?rec.present:true)cnt++;});totRow.push(cnt);});totRow.push('','','','');rows.push(totRow);const notes=collectNotesForDates(data,dates);if(notes.length){rows.push([]);rows.push(['Notes']);rows.push(['Date','Student','Note']);notes.forEach(n=>rows.push(n));}downloadCsv(rows,filename);}
 function downloadCsv(rows,filename){const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);}
-document.getElementById('exportDayBtn').addEventListener('click',()=>{const data=load(),dayName=dateToDay(currentDate);const scheduled=data.students.filter(s=>s.days.includes(dayName)&&!isDayExcluded(data,currentDate,s.id)),dayRecs=getDayRecords(data,currentDate),makeupRecs=dayRecs.filter(r=>r.isMakeup);const rows=[['Name','Type','Present','Check-In','Check-Out','Early/Late','Picked Up','Note']];scheduled.forEach(student=>{const rec=getRecord(data,currentDate,student.id);const flags=[];if(rec&&isEarlyIn(student,rec.checkIn,dayName))flags.push('Early in');if(rec&&isLateOut(student,rec.checkOut,dayName))flags.push('Late out');rows.push([student.name,'Scheduled',rec?(rec.present?'Yes':'No'):'Yes',rec?(rec.checkIn||''):'',rec?(rec.checkOut||''):'',flags.join(', '),rec&&rec.pickedUp?'Yes':'',rec&&rec.madeUpOn?'Made up on '+shortDate(rec.madeUpOn):'']);});makeupRecs.forEach(rec=>{const student=data.students.find(s=>s.id===rec.studentId);if(!student)return;const flags=[];if(isEarlyIn(student,rec.checkIn,dayName))flags.push('Early in');if(isLateOut(student,rec.checkOut,dayName))flags.push('Late out');rows.push([student.name,rec.isExtra?'Extra Day':'Make-Up','Yes',rec.checkIn||'',rec.checkOut||'',flags.join(', '),'',rec.makeupFor?'Making up '+shortDate(rec.makeupFor):(rec.isExtra?'Extra day (no linked date)':'')]);});const dayNotes=[];scheduled.forEach(student=>{const rec=getRecord(data,currentDate,student.id);if(rec&&rec.note)dayNotes.push([student.name,rec.note]);});makeupRecs.forEach(rec=>{const student=data.students.find(s=>s.id===rec.studentId);if(student&&rec.note)dayNotes.push([student.name+(rec.isExtra?' (extra day)':' (make-up)'),rec.note]);});if(dayNotes.length){rows.push([]);rows.push(['Notes']);dayNotes.forEach(n=>rows.push(n));}downloadCsv(rows,'oosh-'+currentDate+'.csv');});
+document.getElementById('exportDayBtn').addEventListener('click',()=>{const data=load(),dayName=dateToDay(currentDate);const scheduled=data.students.filter(s=>isScheduledOn(data,s,currentDate)),dayRecs=getDayRecords(data,currentDate),makeupRecs=dayRecs.filter(r=>r.isMakeup);const rows=[['Name','Type','Present','Check-In','Check-Out','Early/Late','Picked Up','Note']];scheduled.forEach(student=>{const rec=getRecord(data,currentDate,student.id);const flags=[];if(rec&&isEarlyIn(student,rec.checkIn,dayName))flags.push('Early in');if(rec&&isLateOut(student,rec.checkOut,dayName))flags.push('Late out');rows.push([student.name,'Scheduled',rec?(rec.present?'Yes':'No'):'Yes',rec?(rec.checkIn||''):'',rec?(rec.checkOut||''):'',flags.join(', '),rec&&rec.pickedUp?'Yes':'',rec&&rec.madeUpOn?'Made up on '+shortDate(rec.madeUpOn):'']);});makeupRecs.forEach(rec=>{const student=data.students.find(s=>s.id===rec.studentId);if(!student)return;const flags=[];if(isEarlyIn(student,rec.checkIn,dayName))flags.push('Early in');if(isLateOut(student,rec.checkOut,dayName))flags.push('Late out');rows.push([student.name,rec.isExtra?'Extra Day':'Make-Up','Yes',rec.checkIn||'',rec.checkOut||'',flags.join(', '),'',rec.makeupFor?'Making up '+shortDate(rec.makeupFor):(rec.isExtra?'Extra day (no linked date)':'')]);});const dayNotes=[];scheduled.forEach(student=>{const rec=getRecord(data,currentDate,student.id);if(rec&&rec.note)dayNotes.push([student.name,rec.note]);});makeupRecs.forEach(rec=>{const student=data.students.find(s=>s.id===rec.studentId);if(student&&rec.note)dayNotes.push([student.name+(rec.isExtra?' (extra day)':' (make-up)'),rec.note]);});if(dayNotes.length){rows.push([]);rows.push(['Notes']);dayNotes.forEach(n=>rows.push(n));}downloadCsv(rows,'oosh-'+currentDate+'.csv');});
 
 // ══ Roster modal ══
 function renderRoster(){
@@ -1772,7 +1781,7 @@ function renderRoster(){
       <div class="roster-item" style="border-top:none">
         <div style="flex:1">
           <div class="r-name">${esc(s.name)}</div>
-          <div class="r-days" style="display:flex;align-items:center;gap:5px;margin-top:2px;">${groupBadgeHtml(s.group)}<span>${s.days.length?s.days.join(' · '):'No days set'}${expLabel}${puLabel}</span></div>
+          <div class="r-days" style="display:flex;align-items:center;gap:5px;margin-top:2px;">${groupBadgeHtml(s.group)}<span>${(()=>{const pd=pendingDays(s),now=daysOn(s,TODAY);return pd?(now.length?now.join(' · '):'No days')+' → '+(pd.days.length?pd.days.join(' · '):'No days')+' from '+tinyDate(pd.from):(s.days.length?s.days.join(' · '):'No days set');})()}${expLabel}${puLabel}</span></div>
         </div>
         <button class="r-edit" data-id="${s.id}" title="Edit">✏️</button>
         <button class="r-del" data-id="${s.id}" title="Remove">🗑</button>
@@ -1792,6 +1801,8 @@ function renderRoster(){
           <div class="day-picker rie-day-picker">
             ${['Mon','Tue','Wed','Thu','Fri'].map(d=>`<button class="day-pill${s.days.includes(d)?' selected':''}" data-day="${d}">${d}</button>`).join('')}
           </div>
+          <div style="margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:0.85em;color:var(--muted,#666)"><span>Day changes apply from</span><input type="date" class="rie-from" value="${(()=>{const d=new Date(TODAY+'T12:00:00');d.setDate(d.getDate()+1);return localDateStr(d);})()}" style="width:auto" /></div>
+          <div style="font-size:0.78em;color:var(--muted,#666);margin-top:4px">Earlier dates keep the old schedule.</div>
         </div>
         <div class="form-group">
           <label>Expected Times (optional)</label>
@@ -1849,7 +1860,8 @@ function renderRoster(){
       if(!name){alert('Please enter a name.');return;}
       const days=[...wrap.querySelectorAll('.rie-day-picker .day-pill.selected')].map(p=>p.dataset.day);
       const data=load(),st=data.students.find(st=>st.id===s.id);
-      st.name=name;st.days=days;st.group=rieGroup||null;
+      st.name=name;st.group=rieGroup||null;
+      if(!sameDays(st.days||[],days)){const from=wrap.querySelector('.rie-from').value||TODAY;setDaysFrom(st,days,from);}
       st.expectedIn=wrap.querySelector('.rie-expin').value||null;
       st.expectedOut=wrap.querySelector('.rie-expout').value||null;
       st.allowPickedUp=wrap.querySelector('.rie-pickedup-toggle').classList.contains('on');
@@ -1891,7 +1903,7 @@ document.getElementById('addStudentSave').addEventListener('click',()=>{
   const days=[...document.querySelectorAll('#dayPicker .day-pill.selected')].map(p=>p.dataset.day),data=load();
   const byDay={};let anyByDay=false;
   document.querySelectorAll('#addExpByDay .exp-day-row').forEach(r=>{const i=r.querySelector('.ed-in').value,o=r.querySelector('.ed-out').value;if(i||o){byDay[r.dataset.day]={in:i||null,out:o||null};anyByDay=true;}});
-  data.students.push({id:uid(),name,days,group:selectedGroup||null,expectedIn:document.getElementById('studentExpIn').value||null,expectedOut:document.getElementById('studentExpOut').value||null,expectedByDay:anyByDay?byDay:null,allowPickedUp:document.getElementById('addPickedUpToggle').classList.contains('on')});
+  data.students.push({id:uid(),name,days,dayHistory:[{from:TODAY,days:days.slice()}],group:selectedGroup||null,expectedIn:document.getElementById('studentExpIn').value||null,expectedOut:document.getElementById('studentExpOut').value||null,expectedByDay:anyByDay?byDay:null,allowPickedUp:document.getElementById('addPickedUpToggle').classList.contains('on')});
   save(data);
   document.getElementById('addStudentForm').style.display='none';
   document.getElementById('showAddStudent').style.display='';
@@ -1918,7 +1930,7 @@ function setMakeupType(t){
   document.getElementById('makeupConfirm').textContent=isExtra?'Add Extra Day':'Add Make-Up';
 }
 document.querySelectorAll('#makeupTypePicker .day-pill').forEach(p=>p.addEventListener('click',()=>setMakeupType(p.dataset.type)));
-document.getElementById('makeupBtn').addEventListener('click',()=>{const data=load(),dayName=dateToDay(currentDate),dayRecs=getDayRecords(data,currentDate);const scheduledIds=new Set(data.students.filter(s=>s.days.includes(dayName)).map(s=>s.id));const makeupIds=new Set(dayRecs.filter(r=>r.isMakeup).map(r=>r.studentId));const eligible=data.students.filter(s=>!scheduledIds.has(s.id)&&!makeupIds.has(s.id));if(eligible.length===0){alert('All students are already on today\'s register.');return;}document.getElementById('makeupStudent').innerHTML=eligible.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');const y=new Date(currentDate+'T12:00:00');y.setDate(y.getDate()-1);document.getElementById('makeupDate').value=y.toISOString().slice(0,10);setMakeupType('missed');document.getElementById('makeupModal').classList.add('open');});
+document.getElementById('makeupBtn').addEventListener('click',()=>{const data=load(),dayName=dateToDay(currentDate),dayRecs=getDayRecords(data,currentDate);const scheduledIds=new Set(data.students.filter(s=>isScheduledOn(data,s,currentDate)).map(s=>s.id));const makeupIds=new Set(dayRecs.filter(r=>r.isMakeup).map(r=>r.studentId));const eligible=data.students.filter(s=>!scheduledIds.has(s.id)&&!makeupIds.has(s.id));if(eligible.length===0){alert('All students are already on today\'s register.');return;}document.getElementById('makeupStudent').innerHTML=eligible.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');const y=new Date(currentDate+'T12:00:00');y.setDate(y.getDate()-1);document.getElementById('makeupDate').value=y.toISOString().slice(0,10);setMakeupType('missed');document.getElementById('makeupModal').classList.add('open');});
 document.getElementById('makeupCancel').addEventListener('click',()=>document.getElementById('makeupModal').classList.remove('open'));
 document.getElementById('makeupConfirm').addEventListener('click',()=>{
   const sid=document.getElementById('makeupStudent').value;
@@ -1999,7 +2011,7 @@ function getDayItems(data,ds){
   const dayName=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dow];
   const dayRecs=getDayRecords(data,ds);
   const makeupRecs=dayRecs.filter(r=>r.isMakeup);
-  const scheduledStudents=data.students.filter(s=>s.days.includes(dayName)&&!isDayExcluded(data,ds,s.id));
+  const scheduledStudents=data.students.filter(s=>isScheduledOn(data,s,ds));
   const items=[];
   scheduledStudents.forEach(s=>{
     const rec=getRecord(data,ds,s.id);
@@ -2043,7 +2055,7 @@ function renderCalendar(){
     // Gather who's expected and what their status is
     const dayRecs=getDayRecords(data,ds);
     const makeupRecs=dayRecs.filter(r=>r.isMakeup);
-    const scheduledStudents=!isWeekend?data.students.filter(s=>s.days.includes(dayName)&&!isDayExcluded(data,ds,s.id)):[];
+    const scheduledStudents=!isWeekend?data.students.filter(s=>isScheduledOn(data,s,ds)):[];
 
     // Build display items
     const items=!isWeekend&&!isFuture?getDayItems(data,ds):[];
@@ -2202,7 +2214,7 @@ document.getElementById('rangeExportConfirm').addEventListener('click',()=>{
 function updatePrintHeader(){
   document.getElementById('printDateLine').textContent=displayDateLong(currentDate);
   const data=load(),dayName=dateToDay(currentDate);
-  const scheduled=data.students.filter(s=>s.days.includes(dayName)&&!isDayExcluded(data,currentDate,s.id));
+  const scheduled=data.students.filter(s=>isScheduledOn(data,s,currentDate));
   const dayRecs=getDayRecords(data,currentDate);
   const notesHtml=[];
   scheduled.forEach(student=>{const rec=getRecord(data,currentDate,student.id);if(rec&&rec.note)notesHtml.push(`<div style="margin-bottom:5px;"><strong>${esc(student.name)}:</strong> ${esc(rec.note)}</div>`);});
