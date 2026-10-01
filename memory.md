@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 24`
+`contentSubpillarRun: 25`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: skipped next session (counter = 24, even); fires the one after.
+Next subpillar: FIRES next session (counter = 25, odd).
 
 ---
 
@@ -94,7 +94,9 @@ Next subpillar: skipped next session (counter = 24, even); fires the one after.
 
 - ✅ UX (2026-09-30, automated) — X9 reading-milestone toasts + content subpillar l4.2s6 **DEPLOYED LIVE** (build 20260930b)
 
-**Cycle 11 next pillar: Content.**
+- ✅ Content (2026-10-01, automated) — C1 quiz variety L3.5 + l4.1s6 tappable words **DEPLOYED LIVE** (build 20261001)
+
+**Cycle 11 next pillar: Gamification.**
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -123,6 +125,17 @@ Next subpillar: skipped next session (counter = 24, even); fires the one after.
 ---
 
 ## Session Log
+
+### 2026-10-01 — Content Pillar (~25 min, automated) — Cycle 11
+
+**Pillar: Content.** Content subpillar skipped (counter 24 was even, now 25, so it fires next run).
+**DEPLOYED LIVE, build 20261001** (commits `19e160c`, `dc7ff5d`).
+
+- **content: C1 L3.5** (`19e160c`). Replaced 8 literal-recall questions across l3.5s1–s5: 6 inference ("This is an inference —" feedback), 1 vocab-in-context ("optional"), 1 sequencing ("which happened LAST"). All quizzes still 4 options with valid `correct` indexes.
+- **content: l4.1s6 tappable words** (same commit). Added the missing `vocabulary` object (battered, diagrams, allotments, detect, anxious, colony, harvested; keys match the inflected form in the text since `makeWordTappable` matches exact tokens) plus 5 new JA glosses.
+- Verified: l4.1s6 reader at 375 (tap popup shows EN def + JA gloss); l3.5s5 reader → quiz (clicked answer, inference feedback shows) → story-complete at 820; l3.5s3 Q4 at 375. Zero console errors, no horizontal overflow.
+- Note: Kyle's `Attendance:` commits (oosh-attendance/) were already on origin; untouched.
+- New backlog: C6 (audit recent stories for missing `vocabulary` objects).
 
 ### 2026-09-30 — UX Pillar + Content Subpillar (~35 min, automated) — Cycle 11
 
