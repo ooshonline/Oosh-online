@@ -112,6 +112,8 @@
     .header-stats{display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:auto}
     .stat-pill{display:flex;align-items:center;gap:5px;background:var(--bg);border-radius:8px;padding:5px 9px}
     .stat-pill .sp-val{font-size:12px;font-weight:800;color:var(--text)}
+    .stat-pill .sp-freeze{font-size:11px;line-height:1;display:inline-flex;align-items:center;gap:1px;margin-left:1px}
+    .stat-pill .sp-freeze b{font-size:10px;font-weight:800;color:var(--text-muted)}
     .stat-pill .sp-label{font-size:10px;font-weight:500;color:var(--text-muted)}
     .lottie-slot{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
     .avatar-btn{width:52px;height:52px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;overflow:hidden;border:none;cursor:pointer;padding:0}
@@ -1282,6 +1284,7 @@ const state = {
   xp: parseInt(localStorage.getItem('rbt_xp')||'0'),
   streak: parseInt(localStorage.getItem('rbt_streak')||'0'),
   bestStreak: parseInt(localStorage.getItem('rbt_best_streak')||'0'),
+  streakFreezes: parseInt(localStorage.getItem('rbt_sfreezes')||'0'), // G13: one-use shields that cover a single missed day
   perfectCount: parseInt(localStorage.getItem('rbt_perfectcount')||'0'),
   journey: JSON.parse(localStorage.getItem('rbt_journey')||'{}'), // {destId:{stamped:true}} — set once a destination's stories are all complete
   dailyGoal: parseInt(localStorage.getItem('rbt_goal')||'3'),
@@ -1361,6 +1364,7 @@ function save(){
   localStorage.setItem('rbt_xp', state.xp);
   localStorage.setItem('rbt_streak', state.streak);
   localStorage.setItem('rbt_best_streak', state.bestStreak);
+  localStorage.setItem('rbt_sfreezes', state.streakFreezes||0);
   localStorage.setItem('rbt_perfectcount', state.perfectCount);
   localStorage.setItem('rbt_journey', JSON.stringify(state.journey||{}));
   localStorage.setItem('rbt_goal', state.dailyGoal);
@@ -1906,12 +1910,22 @@ function showToastWhenFree(msg,tries=8){
 function updateStreak(){
   const today=new Date().toDateString();
   const yesterday=new Date(Date.now()-86400000).toDateString();
+  const twoDaysAgo=new Date(Date.now()-2*86400000).toDateString();
   if(state.lastRead===today) return;
-  state.streak = state.lastRead===yesterday ? state.streak+1 : 1;
+  // G13: missed exactly one day + holding a freeze → the freeze is spent and the streak carries on.
+  const usedFreeze = state.lastRead===twoDaysAgo && state.streak>0 && (state.streakFreezes||0)>0;
+  if(usedFreeze){ state.streakFreezes--; setTimeout(()=>showToastWhenFree(t('streakFreezeUsed',state.streak)),2400); }
+  state.streak = (state.lastRead===yesterday || usedFreeze) ? state.streak+1 : 1;
   state.lastRead=today;
   if(state.streak > (state.bestStreak||0)) state.bestStreak = state.streak;
   checkStreakMilestone(state.streak);
+  // G13: every 7 days of streak earns a freeze (holding max 2) — a reward, never a purchase.
+  if(state.streak%7===0 && (state.streakFreezes||0)<STREAK_FREEZE_MAX){
+    state.streakFreezes=(state.streakFreezes||0)+1;
+    setTimeout(()=>showToastWhenFree(t('streakFreezeEarned')),3000);
+  }
 }
+const STREAK_FREEZE_MAX=2;
 function finishStory(story){
   const accuracyPct=story.quiz.length? Math.round((state.quizCorrectCount/story.quiz.length)*100):0;
   const newScore=accuracyPct/100;
@@ -2812,6 +2826,9 @@ const UI_STRINGS = {
     loginBonus:(xp)=>`☀️ Welcome back! Daily bonus +${xp} XP!`,
     loginBonusStreak:(days,xp)=>`🔥 ${days}-day streak! Bonus +${xp} XP!`,
     streakMilestone:(days)=>`🔥 ${days}-day streak! Amazing work! 🐸`,
+    streakFreezeEarned:'🛡️ You earned a streak freeze! If you miss a day, it keeps your streak safe.',
+    streakFreezeUsed:(days)=>`🛡️ Your streak freeze saved your ${days}-day streak!`,
+    streakFreezeTitle:(n)=>`Streak freezes: ${n}`,
     vocabMilestone:(n)=>`📚 ${n} words saved! You're building your vocabulary! 🐸`,
     storyMilestoneFirst:'🎉 Your very first story! +15 XP 🐸',
     storyMilestone:(n,streak)=>`📖 ${n} stories read! +15 XP${streak>1?` · 🔥 ${streak}-day streak`:''} 🐸`,
@@ -2960,6 +2977,9 @@ const UI_STRINGS = {
     loginBonus:(xp)=>`☀️ おかえり！デイリーボーナス +${xp} XP！`,
     loginBonusStreak:(days,xp)=>`🔥 ${days}日連続！ボーナス +${xp} XP！`,
     streakMilestone:(days)=>`🔥 ${days}日連続達成！すごい！🐸`,
+    streakFreezeEarned:'🛡️ ストリークシールドをゲット！1日休んでも連続記録を守ってくれるよ。',
+    streakFreezeUsed:(days)=>`🛡️ シールドが${days}日連続記録を守ったよ！`,
+    streakFreezeTitle:(n)=>`ストリークシールド：${n}`,
     vocabMilestone:(n)=>`📚 ${n}語保存した！どんどん語彙が増えてるよ！🐸`,
     storyMilestoneFirst:'🎉 はじめてのお話を読んだよ！ +15 XP 🐸',
     storyMilestone:(n,streak)=>`📖 ${n}話読んだよ！ +15 XP${streak>1?` · 🔥 ${streak}日連続`:''} 🐸`,
@@ -3069,7 +3089,7 @@ function renderHeader(){
     ${middle}
     <div class="header-stats">
       ${!isLibrary?`
-      <div class="stat-pill"><span id="header-streak-flame" class="lottie-slot">${icon('status-streak-flame',16)}</span><span class="sp-val">${state.streak||0}</span></div>
+      <div class="stat-pill"><span id="header-streak-flame" class="lottie-slot">${icon('status-streak-flame',16)}</span><span class="sp-val">${state.streak||0}</span>${(state.streakFreezes||0)>0?`<span class="sp-freeze" title="${escAttr(t('streakFreezeTitle',state.streakFreezes))}" aria-label="${escAttr(t('streakFreezeTitle',state.streakFreezes))}">🛡️${state.streakFreezes>1?`<b>${state.streakFreezes}</b>`:''}</span>`:''}</div>
       <div class="stat-pill"><span id="header-xp-star" class="lottie-slot">${icon('xp-xp-star',16)}</span><span class="sp-val">${(state.xp||0).toLocaleString()}</span></div>
       <button class="avatar-btn" onclick="navigate('profile')" aria-label="Profile">🐸</button>`:''}
       <button class="lang-toggle-pill" onclick="toggleUiLang()" aria-label="Toggle language">${t('langToggle')}</button>
