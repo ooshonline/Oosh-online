@@ -5309,6 +5309,16 @@ STORIES[3][1].push({
     "'Some of those lights are not stars at all,' Dad said. 'They are planets — Jupiter and Saturn are both visible tonight. They do not make their own light. They reflect the sun's light back towards us, the same way the moon does.' I thought about that for a moment — sunlight travelling millions of kilometres, bouncing off a distant planet, and landing in my eyes.",
     "We stayed outside for almost an hour. I lay on the grass and let my eyes adjust. Slowly, more and more stars appeared. Dad said that on a clear night, far from city lights, you can see over five thousand stars with the naked eye. I counted twenty-three before I stopped. The universe felt both enormous and, somehow, very close."
   ],
+  vocabulary:{
+    "constellations":{def:"Groups of stars that make a pattern in the sky and have a name.",pos:"noun"},
+    "ancient":{def:"From a very long time ago \u2014 thousands of years in the past.",pos:"adjective"},
+    "navigate":{def:"To find your way from one place to another, especially over a long distance.",pos:"verb"},
+    "planets":{def:"Large round objects in space that move around a star, like Earth or Jupiter.",pos:"noun"},
+    "visible":{def:"Able to be seen.",pos:"adjective"},
+    "reflect":{def:"To send light back from a surface, like a mirror does.",pos:"verb"},
+    "universe":{def:"Everything that exists in space \u2014 all the stars, planets and galaxies.",pos:"noun"},
+    "enormous":{def:"Very, very big.",pos:"adjective"}
+  },
   vocab:[
     {word:"constellation", definition:"A group of stars that form a pattern in the sky and have a name.", partOfSpeech:"noun"},
     {word:"ancient", definition:"From a very long time ago — thousands of years in the past.", partOfSpeech:"adjective"},
@@ -5539,6 +5549,16 @@ STORIES[3][2].push({
     "In March, we planted seedlings — young plants that had been grown in small trays indoors, already several centimetres tall. We pressed each one gently into the earth in careful rows and watered them every morning. Watching the same patch of ground change from week to week was unexpectedly satisfying. Small green leaves appeared where there had been nothing.",
     "By July, the garden had transformed completely. Tomatoes hung in heavy clusters; bean plants climbed the wire fence in a tangle of green. We harvested everything at the end of term and cooked a simple meal together, which we ate outside on the last day of school. Two students who had barely spoken all year ended up spending the whole summer working side by side. I am still not sure whether the garden grew more food than it grew friendship."
   ],
+  vocabulary:{
+    "unpromising":{def:"Not looking likely to be good or successful.",pos:"adjective"},
+    "compost":{def:"A dark material made from rotted food scraps and plants, mixed into soil to help things grow.",pos:"noun"},
+    "crumbly":{def:"Easily breaking into small pieces.",pos:"adjective"},
+    "nutrients":{def:"Things in food or soil that living things need to grow and stay healthy.",pos:"noun"},
+    "seedlings":{def:"Very young plants that have just started to grow from seeds.",pos:"noun"},
+    "transformed":{def:"Changed completely.",pos:"verb"},
+    "clusters":{def:"Groups of things that are close together.",pos:"noun"},
+    "harvested":{def:"Collected crops when they were ready to eat.",pos:"verb"}
+  },
   vocab:[
     {word:"compost", definition:"A dark material made from rotted food scraps and plants, mixed into soil to help things grow.", partOfSpeech:"noun"},
     {word:"nutrient", definition:"A substance in food or soil that living things need to grow and stay healthy.", partOfSpeech:"noun"},
@@ -6121,6 +6141,17 @@ STORIES[3][5].push({
     "She showed me a recipe for a plain sweet dough — something between bread and a bun, she said, that her own mother used to make. We decided to try it together. We mixed the ingredients in a large bowl, left the dough to rest, then shaped it into rolls and put them in the oven. The kitchen smelled warm and slightly sweet for an hour.",
     "The rolls were not quite right — slightly too flat, possibly because the kitchen was not warm enough. But when we tasted one, my grandmother was quiet for a moment, then said: yes, that's it. She recognised the taste, even through the imperfect result. We ate them with butter and did not talk much. I photographed the recipe page before she left, in case the notebook ever got lost."
   ],
+  vocabulary:{
+    "faded":{def:"Paler than before, because it is old or has been in the sun.",pos:"adjective"},
+    "sloping":{def:"Leaning to one side instead of standing straight.",pos:"adjective"},
+    "recognise":{def:"To know someone or something because you have seen or met them before.",pos:"verb"},
+    "recognised":{def:"Knew something again because you had experienced it before.",pos:"verb"},
+    "measurements":{def:"Amounts found by measuring \u2014 here, how much of each ingredient to add.",pos:"noun"},
+    "ingredients":{def:"The foods you mix together to make a dish.",pos:"noun"},
+    "margins":{def:"The empty spaces at the sides of a page.",pos:"noun"},
+    "recipe":{def:"A set of written instructions for making a particular food.",pos:"noun"},
+    "dough":{def:"A thick mixture of flour and water that is baked into bread or rolls.",pos:"noun"}
+  },
   vocab:[
     {word:"recipe", definition:"A set of written instructions for making a particular food.", partOfSpeech:"noun"},
     {word:"ingredient", definition:"One of the foods you use when making a dish.", partOfSpeech:"noun"},
@@ -6325,6 +6356,17 @@ STORIES[3][6].push({
     "If you wait, the pool begins to move. A small shore crab picks its way between the weed with sideways steps. A blenny — a small brown fish — retreats under a ledge when your shadow falls across the water. Some creatures use camouflage to disappear against the rock; others, like the bright orange starfish wedged in a crevice, seem to have given up on hiding entirely. The pool is an ecosystem on its own, with predators and prey, all contained in a space smaller than a bathtub.",
     "When the tide begins to return, the first thin sheets of water slip over the low edge of the pool and the anemones open again almost immediately. It is hard to leave, even when the water is ankle-deep and your shoes are wet. These creatures have been waiting for the sea for hours. Now it is coming back. You realise you have been a visitor to their world — and a short-stay one. The sea has prior claim."
   ],
+  vocabulary:{
+    "anemones":{def:"Soft sea creatures that look like flowers and catch food with waving tentacles.",pos:"noun"},
+    "tentacles":{def:"Long, thin, bendy arms that some sea animals use to touch and catch food.",pos:"noun"},
+    "limpets":{def:"Small shellfish with cone-shaped shells that hold on very tightly to rocks.",pos:"noun"},
+    "encrusted":{def:"Covered with a hard layer of something, like barnacles on a rock.",pos:"adjective"},
+    "barnacles":{def:"Tiny sea animals with hard shells that stick to rocks and boats.",pos:"noun"},
+    "camouflage":{def:"Colours or patterns that help an animal hide by looking like the things around it.",pos:"noun"},
+    "crevice":{def:"A narrow crack in a rock or wall.",pos:"noun"},
+    "ecosystem":{def:"All the living things in one place and the way they depend on each other.",pos:"noun"},
+    "predators":{def:"Animals that hunt and eat other animals.",pos:"noun"}
+  },
   vocab:[
     {word:"tidal pool",definition:"A pool of seawater left among rocks when the tide goes out.",partOfSpeech:"noun"},
     {word:"anemone",definition:"A soft sea creature that looks like a flower and catches food with waving tentacles.",partOfSpeech:"noun"},
