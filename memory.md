@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 25`
+`contentSubpillarRun: 26`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: FIRES next session (counter = 25, odd).
+Next subpillar: skipped next session (counter = 26, even).
 
 ---
 
@@ -96,7 +96,9 @@ Next subpillar: FIRES next session (counter = 25, odd).
 
 - ✅ Content (2026-10-01, automated) — C1 quiz variety L3.5 + l4.1s6 tappable words **DEPLOYED LIVE** (build 20261001)
 
-**Cycle 11 next pillar: Gamification.**
+- ✅ Gamification (2026-10-02, automated) — G13 streak freeze + content subpillar C6 **DEPLOYED LIVE** (build 20261002b)
+
+**Cycle 11 next pillar: Monetisation.**
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -125,6 +127,16 @@ Next subpillar: FIRES next session (counter = 25, odd).
 ---
 
 ## Session Log
+
+### 2026-10-02 — Gamification Pillar + Content Subpillar (~30 min, automated) — Cycle 11
+
+**Pillar: Gamification.** **Content subpillar: FIRED** (counter 25 → 26).
+**All DEPLOYED LIVE, build 20261002b** (commits `dfbf4a3`, `05c2d4f`, `132a2ff`).
+
+- **feature: G13 streak freeze** (`dfbf4a3`). Every 7th streak day earns a 🛡️ (max 2 held). In `updateStreak()`, if exactly one day was missed and a freeze is held, it's spent and the streak continues instead of resetting to 1. `state.streakFreezes` → `rbt_sfreezes`. The header streak pill shows 🛡️ (plus a count when there are 2). The earned/used toasts go through `showToastWhenFree` so they queue behind the streak-milestone toast. Verified through the real reader → quiz → story-complete flow: streak 6→7 earns a freeze; one missed day at 8 → 9 spends it, and the toast was seen on screen. Edge cases checked with direct calls: the cap at 2, a missed day with no freeze (resets), 2+ missed days with a freeze (resets and keeps the freeze), and spend-then-earn on day 7. Checked at 375 and 820, EN and JA, no overflow, zero console errors.
+- **content subpillar (Option E / C6)** (`132a2ff`). Audited every story in STORIES for a missing `vocabulary` object. Only l3.2s6, l3.3s6, l3.6s6 and l3.7s6 had none (no tappable words). Added 34 entries plus 22 new JA glosses. Verified the reader tap popup (EN def + JA gloss) at 375.
+- Found while verifying: `'Ancient` after an opening quote isn't tappable because the matcher keeps the apostrophe. Logged as B-tap in TODO, not fixed (it's a code change, not content).
+- New backlog: G14 (explain freezes on Profile), G15 (stale streak number after 2+ missed days), B-tap.
 
 ### 2026-10-01 — Content Pillar (~25 min, automated) — Cycle 11
 

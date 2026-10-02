@@ -129,7 +129,7 @@ off here as they ship, and add the commit hash.
 - [x] **C2 · After-reading talk prompt — ALL 6 LEVELS SHIPPED (355 total prompts).** L1: 2026-07-24 commit `e15f2f9`. L2: 2026-07-29 commit `43cc844`. L3: 2026-08-05 commit `dad0610`. L4: 2026-08-11 commit `90200c2`. L5: 2026-08-21 commit `bd562b1`. L6: 2026-08-31 commit `1039e44` (50 stories, l6.1s1–l6.10s5, both en+ja, LIVE v=20260901). Complete: L1(75)+L2(80)+L3(50)+L4(50)+L5(50)+L6(50)=355.
 - [~] **C3 · Non-fiction fact files.** l3.1s6 "The Life of Bees" 2026-09-08. l3.7s6 "The Tidal Pool" 2026-09-22 (`693a5ee`). More non-fiction needed at Levels 2–4 to close the genre gap — continue in future content subpillar runs.
 - [x] **l4.1s6 tappable words — DONE 2026-10-01 (`19e160c`).** Added the missing `vocabulary` object (7 words) + 5 JA glosses.
-- [ ] **C6 · Audit other subpillar stories for a missing `vocabulary` object.** l4.1s6 had only `vocab` (recap) and no tap-popups; check every story added since 2026-09-08 has both.
+- [x] **C6 · Missing `vocabulary` objects — SHIPPED (2026-10-02, commit `132a2ff`).** Full audit of STORIES: only l3.2s6, l3.3s6, l3.6s6, l3.7s6 had none. Added 34 entries (keyed to the inflected form in the text) + 22 JA glosses. LIVE (build 20261002b).
 - [ ] **C4 · Decodable phonics set at Level 1.** Absolute beginners currently get sight-word exposure,
   not systematic decoding. Add short-vowel word-family stories (-at, -ig, -op, -en, -ug) so a child
   can actually sound them out.
@@ -200,9 +200,12 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   slices. When it ships, delete the two `DEV: all stories unlocked` overrides and route gating through
   the pathway instead. Bigger than one run — scope carefully.
 - [x] **G11 · "First try" perfect-quiz bonus — SHIPPED (2026-09-23, commit `145d1cb`).** Gold gradient chip "⭐ +10 XP First Try!" / "⭐ +10XP 一発正解！" on celebration screen when 100% on first completion. `state.firstTryPerfect[]` → `rbt_ftp`. Absent on replays. LIVE (build 20260923).
-- [ ] **G13 · Streak freeze / grace day.** When the daily streak would reset because the learner missed a day, award a one-use "freeze" that holds the streak for one missed day (one free freeze granted at streak 7+). State: `state.streakFreezes` (persisted `rbt_sfreezes`). Shows as a small shield icon next to the streak pill. No XP cost — motivating, not punishing.
+- [x] **G13 · Streak freeze — SHIPPED (2026-10-02, commit `dfbf4a3`).** A 🛡️ is earned each time the streak hits a multiple of 7 (max 2 held); a single missed day spends one instead of resetting the streak. `state.streakFreezes` → `rbt_sfreezes`. 🛡️ (+count) next to the header streak pill; earned/used toasts in en + ja. LIVE (build 20261002).
+- [ ] **G14 · Streak freeze on Profile.** Add a small "🛡️ Streak freezes: N — earn one every 7 days" line under the Day Streak stat card so learners understand where the header shield comes from. Real data only (`state.streakFreezes`).
+- [ ] **G15 · Stale streak display.** The header still shows yesterday's streak after 2+ missed days until the next story is read (`updateStreak()` only runs in `finishStory`). On launch, if the streak is already lost (lastRead older than yesterday, and no freeze covers it), show 0 so the number is honest. Check that the login bonus still reads the right value.
 
 ### Bug Fixes / Implementation Check — ideas (added 2026-08-21)
+- [ ] **B-tap · Words after an opening quote aren't tappable.** `makeWordTappable()` keeps apostrophes, so `'Ancient` (start of a quote in l3.2s6) cleans to `'ancient` and misses its `vocabulary` key. Strip leading/trailing `'` before lookup (keep internal ones like `don't`). Found 2026-10-02.
 
 **Audit-and-fix sweep, not a feature build.** These are *classes of implementation defect* to hunt
 through each Bug pillar run — not features to add. Sweep the live app against this list, pick the
