@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 26`
+`contentSubpillarRun: 27`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: skipped next session (counter = 26, even).
+Next subpillar: FIRES next session (counter = 27, odd).
 
 ---
 
@@ -98,7 +98,9 @@ Next subpillar: skipped next session (counter = 26, even).
 
 - ✅ Gamification (2026-10-02, automated) — G13 streak freeze + content subpillar C6 **DEPLOYED LIVE** (build 20261002b)
 
-**Cycle 11 next pillar: Monetisation.**
+- ✅ Monetisation (2026-10-05, automated) — M9 streak milestone share card **DEPLOYED LIVE** (commits `4861063`+`db5081d`, build 20261005)
+
+**Cycle 11 next pillar: Bug Fixes / Implementation Check.**
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -127,6 +129,16 @@ Next subpillar: skipped next session (counter = 26, even).
 ---
 
 ## Session Log
+
+### 2026-10-05 — Monetisation Pillar (~25 min, automated) — Cycle 11
+
+**Pillar: Monetisation.** Content subpillar: skipped (counter 26, even → now 27).
+**DEPLOYED LIVE, build 20261005** (commits `4861063`, `db5081d`).
+
+- **feature: M9 streak milestone share card** (`4861063`). Hitting a 7- or 30-day streak sets `state.streakShare` (`rbt_sshare`). Home then shows an optional card at the top ("7-day streak! Show your family…" · Share my streak / Not now) — not a popup, nothing timed. Sharing uses a new `generateShareCard('streak')` variant (big 🔥 + streak count + "days in a row") through the existing M8 share path; `shareProgress()` now returns true/false so the card only clears on a real share/save, not on cancel. The card also hides if the streak has since broken, so it never claims a streak that isn't real. Nothing gated.
+- Verified via the real reader → quiz → celebration flow (streak 6 → 7 set the card), share-cancel keeps the card, share-success clears it, "Not now" clears it, 14 days doesn't trigger, M8 Profile share unchanged. EN + JA, 375 + 768, night theme, zero console errors.
+- Found, not fixed (logged in TODO): `var(--muted)` is undefined in 5 rules (B-muted); week-recap card is light-only in night theme (B-recap-dark). New M ideas: M12 badge share, M13 Profile pricing link.
+- Pre-existing untracked files (`_review_sheet.html`, `translate_*.py`, `design_handoff_ribbit_ui/`, `research/`, `image-pipeline/HANDOFF-CLAUDE-CODE.md`) and the `.claude/launch.json` diff left untouched, as before.
 
 ### 2026-10-02 — Gamification Pillar + Content Subpillar (~30 min, automated) — Cycle 11
 
