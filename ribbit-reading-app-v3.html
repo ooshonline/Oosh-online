@@ -146,6 +146,14 @@
     .recap-stat-pill{background:#fff;border:1.5px solid #d0e8d0;border-radius:20px;padding:5px 12px;font-size:.88rem;font-weight:600;color:#1A3260;white-space:nowrap}
     .recap-stat-primary{border-color:var(--primary);color:#2d7a2d}
     .week-recap-cta{font-size:.82rem;color:#4a7a4a;font-style:italic}
+    .streak-share-card{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1.5px solid var(--accent);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow)}
+    .streak-share-flame{font-size:2rem;line-height:1}
+    .streak-share-body{flex:1;min-width:0}
+    .streak-share-title{font-family:var(--font-head);font-weight:800;font-size:1rem;color:var(--text)}
+    .streak-share-sub{font-size:.85rem;color:var(--muted);margin-top:2px}
+    .streak-share-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .streak-share-btn{min-height:44px;padding:0 16px;border-radius:12px;border:none;background:var(--primary);color:#fff;font-family:var(--font-head);font-weight:800;font-size:13px;cursor:pointer}
+    .streak-share-later{min-height:44px;padding:0 14px;border-radius:12px;border:1.5px solid var(--border);background:none;color:var(--muted);font-weight:700;font-size:13px;cursor:pointer}
     .daily-pick-label{font-weight:700;font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
     .daily-pick-btn{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:10px 14px 10px 10px;cursor:pointer;text-align:left;width:100%;box-shadow:var(--shadow)}
     .daily-pick-btn:active{transform:scale(.98)}
@@ -1285,6 +1293,7 @@ const state = {
   streak: parseInt(localStorage.getItem('rbt_streak')||'0'),
   bestStreak: parseInt(localStorage.getItem('rbt_best_streak')||'0'),
   streakFreezes: parseInt(localStorage.getItem('rbt_sfreezes')||'0'), // G13: one-use shields that cover a single missed day
+  streakShare: parseInt(localStorage.getItem('rbt_sshare')||'0'), // M9: streak milestone (7/30) waiting for an optional share; 0 = none
   perfectCount: parseInt(localStorage.getItem('rbt_perfectcount')||'0'),
   journey: JSON.parse(localStorage.getItem('rbt_journey')||'{}'), // {destId:{stamped:true}} — set once a destination's stories are all complete
   dailyGoal: parseInt(localStorage.getItem('rbt_goal')||'3'),
@@ -1365,6 +1374,7 @@ function save(){
   localStorage.setItem('rbt_streak', state.streak);
   localStorage.setItem('rbt_best_streak', state.bestStreak);
   localStorage.setItem('rbt_sfreezes', state.streakFreezes||0);
+  localStorage.setItem('rbt_sshare', state.streakShare||0);
   localStorage.setItem('rbt_perfectcount', state.perfectCount);
   localStorage.setItem('rbt_journey', JSON.stringify(state.journey||{}));
   localStorage.setItem('rbt_goal', state.dailyGoal);
@@ -1886,7 +1896,32 @@ function toggleCultureWord(destId,i){
 const STREAK_MILESTONES=[7,14,30];
 function checkStreakMilestone(n){
   if(STREAK_MILESTONES.includes(n)) setTimeout(()=>showToast(t('streakMilestone',n)),1800);
+  // M9: 7 and 30 days also leave an optional "share your streak" card on Home (never a popup).
+  if(STREAK_SHARE_DAYS.includes(n)) state.streakShare=n;
 }
+const STREAK_SHARE_DAYS=[7,30];
+// M9: Home card offering to share a streak milestone. Hidden once shared/dismissed,
+// or if the streak has since broken (the card must never claim a streak that isn't real).
+function streakShareCard(){
+  const n=state.streakShare||0;
+  if(!n || state.streak<n) return '';
+  return `<div class="streak-share-card">
+    <div class="streak-share-flame">🔥</div>
+    <div class="streak-share-body">
+      <div class="streak-share-title">${t('streakShareTitle',n)}</div>
+      <div class="streak-share-sub">${t('streakShareSub')}</div>
+      <div class="streak-share-actions">
+        <button class="streak-share-btn" onclick="shareStreak()">${t('streakShareBtn')}</button>
+        <button class="streak-share-later" onclick="dismissStreakShare()">${t('streakShareLater')}</button>
+      </div>
+    </div>
+  </div>`;
+}
+async function shareStreak(){
+  const done=await shareProgress('streak');
+  if(done){ state.streakShare=0; save(); render(); }
+}
+function dismissStreakShare(){ state.streakShare=0; save(); render(); }
 const VOCAB_MILESTONES=[10,25,50,100];
 function checkVocabMilestone(oldCount,newCount){
   const hit=VOCAB_MILESTONES.find(m=>m>oldCount&&m<=newCount);
@@ -2269,7 +2304,7 @@ function _roundRect(ctx,x,y,w,h,r){
   ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);
   ctx.closePath();
 }
-function generateShareCard(){
+function generateShareCard(variant){
   const dpr=Math.min(window.devicePixelRatio||1,2);
   const W=360,H=480;
   const canvas=document.createElement('canvas');
@@ -2294,7 +2329,19 @@ function generateShareCard(){
 
   // Headline
   ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.font='15px sans-serif';
-  ctx.fillText(t('shareCardTitle'),W/2,172);
+  ctx.fillText(variant==='streak'?t('streakCardTitle'):t('shareCardTitle'),W/2,172);
+
+  if(variant==='streak'){
+    // M9 streak variant: one big number instead of the level pill + stat grid.
+    ctx.font='72px serif'; ctx.fillText('🔥',W/2,270);
+    ctx.fillStyle='#f9ad3b'; ctx.font='bold 64px sans-serif';
+    ctx.fillText(String(state.streak),W/2,336);
+    ctx.fillStyle='#ffffff'; ctx.font='bold 16px sans-serif';
+    ctx.fillText(t('streakCardDays'),W/2,362);
+    ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font='10px sans-serif';
+    ctx.fillText('ooshonline.github.io/Oosh-online',W/2,H-20);
+    return canvas;
+  }
 
   // Level badge pill
   const curLv=LEVELS.find(l=>l.id===currentLevelId());
@@ -2337,32 +2384,38 @@ function generateShareCard(){
 
   return canvas;
 }
-async function shareProgress(){
-  const canvas=generateShareCard();
+// Returns true once the card was shared or saved, false if the learner cancelled.
+async function shareProgress(variant){
+  const canvas=generateShareCard(variant);
+  const isStreak=variant==='streak';
+  const title=isStreak?t('streakCardTitle'):t('shareCardTitle');
+  const text=isStreak?t('streakCardText',state.streak):t('shareCardText');
+  const fileName=isStreak?'ribbit-streak.png':'ribbit-progress.png';
   // Mobile share with image file
   if(navigator.canShare){
     try{
       const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));
-      const file=new File([blob],'ribbit-progress.png',{type:'image/png'});
+      const file=new File([blob],fileName,{type:'image/png'});
       if(navigator.canShare({files:[file]})){
-        await navigator.share({title:t('shareCardTitle'),text:t('shareCardText'),files:[file]});
-        return;
+        await navigator.share({title,text,files:[file]});
+        return true;
       }
-    }catch(e){if(e.name==='AbortError') return;}
+    }catch(e){if(e.name==='AbortError') return false;}
   }
   // Text-only share fallback
   if(navigator.share){
     try{
-      await navigator.share({title:t('shareCardTitle'),text:t('shareCardText'),url:'https://ooshonline.github.io/Oosh-online/'});
-      return;
-    }catch(e){if(e.name==='AbortError') return;}
+      await navigator.share({title,text,url:'https://ooshonline.github.io/Oosh-online/'});
+      return true;
+    }catch(e){if(e.name==='AbortError') return false;}
   }
   // Download fallback (desktop)
   const a=document.createElement('a');
   a.href=canvas.toDataURL('image/png');
-  a.download='ribbit-progress.png';
+  a.download=fileName;
   a.click();
   showToast(t('shareDownloadDone'));
+  return true;
 }
 
 // ── XP MILESTONE CELEBRATIONS — ported from the live app, one-time toasts
@@ -2845,6 +2898,10 @@ const UI_STRINGS = {
     shareSection:'SHARE PROGRESS', shareBtn:'🎉 Share My Progress',
     shareCardTitle:'My Ribbit Reading Journey', shareCardText:'I\'ve been reading on the Ribbit Reading App!',
     shareDownloadDone:'Progress card downloaded!',
+    streakShareTitle:(n)=>`${n}-day streak!`, streakShareSub:'Show your family how hard you\'ve been reading.',
+    streakShareBtn:'Share my streak', streakShareLater:'Not now',
+    streakCardTitle:'My Ribbit Reading Streak', streakCardDays:'days in a row',
+    streakCardText:(n)=>`I've read on Ribbit ${n} days in a row! 🔥🐸`,
     saveSuccess:'Progress saved! 💾', restoreSuccess:'Progress restored! Reloading…',
     restoreError:'Could not read that file. Please try again.',
     restoreConfirm:'This will replace all your current progress with the backup file. Continue?',
@@ -2996,6 +3053,10 @@ const UI_STRINGS = {
     shareSection:'がんばりをシェア', shareBtn:'🎉 がんばりをシェアする',
     shareCardTitle:'Ribbit読書のきろく', shareCardText:'Ribbitアプリで英語を読んでいます！',
     shareDownloadDone:'カードを保存しました！',
+    streakShareTitle:(n)=>`${n}日連続！`, streakShareSub:'がんばりをおうちの人に見せよう。',
+    streakShareBtn:'連続記録をシェア', streakShareLater:'あとで',
+    streakCardTitle:'Ribbit 連続読書記録', streakCardDays:'日連続',
+    streakCardText:(n)=>`Ribbitで${n}日連続で英語を読みました！🔥🐸`,
     saveSuccess:'データを保存しました！💾', restoreSuccess:'データを復元しました！再読み込みします…',
     restoreError:'ファイルを読み込めませんでした。もう一度お試しください。',
     restoreConfirm:'現在の進捗データをバックアップファイルで上書きします。続けますか？',
@@ -4212,7 +4273,7 @@ function renderHomeDash(){
     return `<div class="journey-node-wrap">${circle}<span class="journey-node-lbl">${i+1}</span></div>`;
   }).join('');
 
-  const recapCard=weekRecapCard();
+  const recapCard=streakShareCard()+weekRecapCard();
   const dailyPickHtml=renderDailyPick();
   return `<div class="home-dash">
     ${recapCard}
