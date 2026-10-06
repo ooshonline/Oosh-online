@@ -2061,7 +2061,8 @@ function makeWordTappable(text,vocab){
   let pos=0;
   return text.split(/(\s+)/).map(part=>{
     const start=pos; pos+=part.length;
-    const clean=part.replace(/[^a-zA-Z'-]/g,'').toLowerCase();
+    // Strip quote marks at the edges ('Ancient, talent.') but keep inner ones (don't).
+    const clean=part.replace(/[^a-zA-Z'-]/g,'').replace(/^['-]+|['-]+$/g,'').toLowerCase();
     if(!clean) return part;
     if(vocab[clean]) return `<span class="tappable-word" data-char="${start}" onclick="event.stopPropagation();showWordPopup('${clean.replace(/'/g,"\\'")}')">${part}</span>`;
     if(typeof getChallengeLevel==='function'){
