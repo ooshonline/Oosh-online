@@ -130,6 +130,16 @@ Next subpillar: FIRES next session (counter = 27, odd).
 
 ## Session Log
 
+### 2026-10-06 — Badge art + canva-image-gen skill (manual, with Kyle)
+
+**DEPLOYED LIVE, build 20261006** (commits `72862e4`, `6ee9663`). Not a pillar run, so the cycle position (next: Bug Fixes) and `contentSubpillarRun` (27) are unchanged.
+
+- **style: illustrated art for all 20 badges.** Made in Canva with the mascot as the reference, one page per badge in Kyle's Canva design "Ribbit Reading App Images" (`DAHXNdgIwvk`). The rim colour matches the badge's category or level colour. The Level Champions follow a habitat journey (lily pad → ocean). Files are `images/badges/badge-<BADGES id>.webp`, about 17 KB each and lazy-loaded. `badgeArt(b,size)` renders them on Rewards, the Profile recent-badges strip, the post-story unlock reveal (after the Lottie) and the Level Champion ceremony. If a file is missing it falls back to the SVG icon, so **any new badge needs art made with the skill, or it shows the old icon.**
+- **New skill `canva-image-gen`** (`~/.claude/skills/canva-image-gen/`, symlinked into `Documents/Claude/Skills/`). It covers the full generate → Canva page → export → WebP pipeline, with prompt templates for badges, mascot poses and destination art, plus `scripts/process_image.py`. Kyle asked for it so future art stays consistent.
+- Kyle OK'd the campfire in Streak Keeper.
+- The old `assets/icons/**/badge-*.svg` are still the fallback and the design source. Leave them in place.
+- Open for Kyle: check Canva's commercial-use terms for AI images before a paid tier ships.
+
 ### 2026-10-05 — Monetisation Pillar (~25 min, automated) — Cycle 11
 
 **Pillar: Monetisation.** Content subpillar: skipped (counter 26, even → now 27).
