@@ -418,6 +418,11 @@
     .badge-cell{position:relative}
     .badge-btn{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
     .badge-ring{width:62px;height:62px;border-radius:50%;position:relative;background:white;display:flex;align-items:center;justify-content:center;border:4px solid;box-shadow:var(--shadow-sm)}
+    .badge-ring.has-art,.recent-badge-ring.has-art{border:none;background:none;overflow:visible}
+    .badge-art{width:100%;height:100%;border-radius:50%;display:block}
+    .badge-art-lg{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+    .badge-art-lg .badge-art{box-shadow:0 6px 18px rgba(0,0,0,.18)}
+    .lc-celeb-badge .badge-art-lg{width:120px;height:120px}
     .badge-inner{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
     .badge-lock{position:absolute;bottom:-2px;right:-2px;width:19px;height:19px;border-radius:50%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-size:9px;color:white}
     .badge-name{font-family:var(--font-body);font-weight:700;font-size:10.5px;text-align:center;line-height:1.25}
@@ -1042,6 +1047,12 @@ function unseenBadgeCount(){
   return earnedBadgeIds().filter(id=>!seen.includes(id)).length;
 }
 function markBadgesSeen(){ state.seenBadges=earnedBadgeIds(); save(); }
+// Illustrated badge art (made in Canva — see the canva-image-gen skill), one WebP per badge id.
+// The image already has its own coloured rim, so the ring drops its border. If a file is ever
+// missing (e.g. a new badge without art yet), the <img> swaps itself back to the SVG icon.
+function badgeArt(b,iconSize){
+  return `<img class="badge-art" src="images/badges/badge-${b.id}.webp" alt="" loading="lazy" decoding="async" data-fb="${escAttr(icon(b.icon,iconSize))}" onerror="this.parentNode.classList.remove('has-art');this.outerHTML=this.dataset.fb">`;
+}
 function badgeProgress(b){
   const sc=Object.keys(state.progress).length;
   const wc=Object.keys(state.flashCards).length;
@@ -3747,12 +3758,14 @@ function playCelebrationAnims(){
       fetch('assets/animations/badges/badge-unlock.json').then(r=>r.json()).then(data=>{
         if(!badgeSlot.isConnected) return;
         const recolored=recolorLottieData(data,badge.color);
-        if(prefersReducedMotion()){ badgeSlot.innerHTML=icon(badge.icon,72); return; }
-        const showBadgeIcon=()=>{ if(badgeSlot.isConnected && !badgeSlot.querySelector('.ico')) badgeSlot.innerHTML=icon(badge.icon,72); };
+        // The unlock animation plays first, then settles on the badge's illustrated art.
+        const finalBadge=`<div class="badge-art-lg">${badgeArt(badge,72)}</div>`;
+        if(prefersReducedMotion()){ badgeSlot.innerHTML=finalBadge; return; }
+        const showBadgeIcon=()=>{ if(badgeSlot.isConnected && !badgeSlot.querySelector('.badge-art-lg')) badgeSlot.innerHTML=finalBadge; };
         const badgeAnim=lottie.loadAnimation({ container:badgeSlot, renderer:'svg', loop:false, autoplay:true, animationData:recolored });
         badgeAnim.addEventListener('complete',showBadgeIcon);
         setTimeout(showBadgeIcon,1500); // fallback: show icon if complete event doesn't fire
-      }).catch(()=>{ badgeSlot.innerHTML=icon(badge.icon,72); });
+      }).catch(()=>{ badgeSlot.innerHTML=`<div class="badge-art-lg">${badgeArt(badge,72)}</div>`; });
     }
   }
 }
@@ -3999,8 +4012,8 @@ function renderRewards(){
       const progPct=prog?Math.round(prog.cur/prog.tot*100):0;
       return `<div class="badge-cell">
         <button class="badge-btn" onclick="toggleBadgeTooltip('${b.id}')">
-          <div class="badge-ring" style="border-color:${earned?b.color:'#D8DEE6'};filter:${earned?'none':'grayscale(1)'}">
-            <div class="badge-inner">${icon(b.icon,28)}</div>
+          <div class="badge-ring has-art" style="border-color:${earned?b.color:'#D8DEE6'};filter:${earned?'none':'grayscale(1)'}">
+            ${badgeArt(b,28)}
             ${!earned?`<div class="badge-lock" role="img" aria-label="${t('locked')}">${icon('status-lock',16)}</div>`:''}
           </div>
           <div class="badge-name" style="color:${earned?'var(--text)':'#B0B8C1'}">${name}</div>
@@ -4126,7 +4139,7 @@ function renderProfile(){
   const badgesHtml=earned.length?earned.map(b=>{
     const name=b.levelRef?t('championName',b.levelRef):t(b.nameKey);
     return `<div class="recent-badge">
-      <div class="recent-badge-ring" style="border-color:${b.color}"><div class="recent-badge-icon">${icon(b.icon,22)}</div></div>
+      <div class="recent-badge-ring has-art" style="border-color:${b.color}">${badgeArt(b,22)}</div>
       <div class="recent-badge-name">${name}</div>
     </div>`;
   }).join(''):`<div class="no-badges-text" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 0;width:100%">${mascot(44)}<div>${t('noBadgesYet')}</div><button class="empty-mascot-cta" style="font-size:11px;padding:7px 16px" onclick="navigate('library')">${t('startReadingCta')}</button></div>`;
@@ -4384,10 +4397,11 @@ function renderLevelChampionCeremony(){
   if(!lc) return renderComingSoon();
   const lv=LEVELS.find(l=>l.id==lc.lv)||LEVELS[0];
   const badgeKey='badge-champion-'+lv.icon.replace('lvl-','');
+  const champBadge=BADGES.find(b=>b.id===`champion-${lv.id}`);
   const nextLv=LEVELS.find(l=>l.id==lv.id+1);
   return `<div class="screen lc-celeb-screen">
     <div class="lc-celeb-pond" style="background:linear-gradient(145deg,${lv.g1},${lv.g2})">${icon(lv.icon,40)}</div>
-    <div class="lc-celeb-badge">${icon(badgeKey,80)}</div>
+    <div class="lc-celeb-badge">${champBadge?`<div class="badge-art-lg">${badgeArt(champBadge,80)}</div>`:icon(badgeKey,80)}</div>
     <div class="lc-celeb-label">${t('lcSuperLabel')}</div>
     <div class="lc-celeb-title">${t('lcTitle',lv.pond)}</div>
     <div class="lc-celeb-msg">${t('lcMsg',lv.name)}</div>
