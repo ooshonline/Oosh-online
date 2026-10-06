@@ -162,6 +162,7 @@ star ratings, flashcards, placement test stay free at every level, forever), and
 - [ ] **M12 · Badge-unlock share.** When a badge unlocks, offer the same optional Home card pattern as M9 (`streakShareCard`) with a badge-variant share image. Reuses `generateShareCard(variant)`.
 - [ ] **M13 · Pricing-page link from Profile.** A quiet "Plans for families / ご家庭向けプラン" text link at the foot of Profile → `ribbit-pricing.html`. No banner, no badge, never on Home.
 - [ ] **B-muted · `var(--muted)` is undefined.** 5 rules use `var(--muted)` (e.g. `.daily-pick-label`) but `:root` only defines `--text-muted`, so those labels fall back to inherited colour. Swap to `--text-muted` and check light + night. (Found 2026-10-05.)
+- [ ] **C7 · Review JA glosses for Levels 2–6.** Level 1 had 97 wrong-sense machine translations (fixed 2026-10-06, `0592971`). Do one level per Content run, checking each gloss against the story's EN def. The table is keyed globally, so check every story that shares a key.
 - [ ] **B-recap-dark · Week-recap card ignores night theme.** `.week-recap-card` hard-codes a light gradient + `#1A3260` text, so it's a bright block in dark mode. Tokenise it. (Seen 2026-10-05.)
 
 ### Gamification — ideas
@@ -209,7 +210,8 @@ star ratings, flashcards, placement test stay free at every level, forever), and
 - [ ] **G15 · Stale streak display.** The header still shows yesterday's streak after 2+ missed days until the next story is read (`updateStreak()` only runs in `finishStory`). On launch, if the streak is already lost (lastRead older than yesterday, and no freeze covers it), show 0 so the number is honest. Check that the login bonus still reads the right value.
 
 ### Bug Fixes / Implementation Check — ideas (added 2026-08-21)
-- [ ] **B-tap · Words after an opening quote aren't tappable.** `makeWordTappable()` keeps apostrophes, so `'Ancient` (start of a quote in l3.2s6) cleans to `'ancient` and misses its `vocabulary` key. Strip leading/trailing `'` before lookup (keep internal ones like `don't`). Found 2026-10-02.
+- [x] **B-tap · Words after an opening quote aren't tappable — FIXED (2026-10-06, commit `69468cf`, LIVE build 20261006c).** Edge `'`/`-` stripped before lookup; 21 more vocab keys reachable, 0 lost.
+- [ ] **B-vocab-keys · 310 of 2,570 vocab keys can never be tapped (found 2026-10-06).** (a) 15 capitalised keys (`Brazilian`, `Midlands`, `Chuseok`…): lowercase the vocab lookup in `makeWordTappable`/`showWordPopup`. (b) ~10 accented words (`clichés`, `açaí`, `pétanque`, `papier-mâché`): the `[^a-zA-Z'-]` strip mangles them, so allow Latin-1 letters. (c) 61 inflection mismatches (key `hug`, text `hugs`): content fix, re-key to the text form and add the JA entry. (d) 202 multi-word keys (`wake up`, `board game`): needs phrase matching, so it is bigger, maybe its own F idea. (e) ~32 keys not in the text at all: content.
 
 **Audit-and-fix sweep, not a feature build.** These are *classes of implementation defect* to hunt
 through each Bug pillar run — not features to add. Sweep the live app against this list, pick the

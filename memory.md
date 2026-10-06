@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 27`
+`contentSubpillarRun: 28`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: FIRES next session (counter = 27, odd).
+Next subpillar: skipped next session (counter = 28, even).
 
 ---
 
@@ -100,7 +100,9 @@ Next subpillar: FIRES next session (counter = 27, odd).
 
 - ✅ Monetisation (2026-10-05, automated) — M9 streak milestone share card **DEPLOYED LIVE** (commits `4861063`+`db5081d`, build 20261005)
 
-**Cycle 11 next pillar: Bug Fixes / Implementation Check.**
+- ✅ Bug Fixes / Implementation Check (2026-10-06, automated) — B-tap quote-mark tappable fix + content subpillar (97 L1 JA glosses) **DEPLOYED LIVE** (build 20261006c)
+
+**Cycle 11 — COMPLETE. Next run starts Cycle 12 with Functionality.**
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -129,6 +131,16 @@ Next subpillar: FIRES next session (counter = 27, odd).
 ---
 
 ## Session Log
+
+### 2026-10-06 — Bug Fixes Pillar + Content Subpillar (~25 min, automated) — Cycle 11
+
+**Pillar: Bug Fixes / Implementation Check.** **Content subpillar: FIRED** (counter 27 → 28). Cycle 11 is now complete.
+**All DEPLOYED LIVE, build 20261006c** (commits `69468cf`, `498a349`, `0592971`, `12f2089`).
+
+- **fix: B-tap** (`69468cf`). I reproduced it first: `'Ancient` in l3.2s6 rendered as a plain `word-tok`. `makeWordTappable()` now strips leading and trailing `'`/`-` before the lookup and keeps inner apostrophes. An in-browser sweep of all 415 stories found 21 more vocab keys now reachable (31 tokens across 30 stories) and 0 keys lost. Verified at 375 (popup shows the EN def and JA gloss) and at 820 on the golden path (home → library → reader → quiz → celebration) with zero console errors. Also confirmed on the live site.
+- **content subpillar, Option E** (`0592971`). The early `ribbit-ja-translations.js` entries are machine-translated, and many Level 1 glosses used the wrong sense, e.g. fat→脂肪, like→のように, snowball→雪だるま, bank→銀行, pupil→瞳, trunk→トランク, lines→行, watch→時計. I rewrote 97 entries (both `w` and `d`) in the spaced, kana-friendly style of the hand-curated entries. The JA table is keyed globally, so each sense was checked against every story that shares the key, and all were consistent. Verified the l1.1s1 "fat" popup at 375 with a clean console.
+- **Found, not fixed:** 310 of 2,570 vocab keys can never be tapped. 202 are multi-word keys (`wake up`, `board game`). 15 are capitalised keys (`Brazilian`, `Chuseok`), which never match the lowercased token. About 10 are accented words, because the `[^a-zA-Z'-]` strip mangles `clichés`→`clichs` and `açaí`. 61 are inflection mismatches (key `hug`, text `hugs`). About 32 keys aren't in the text at all. These are logged as B-vocab-keys in TODO.
+- Levels 2–6 JA glosses are probably just as machine-made. That's logged as C7.
 
 ### 2026-10-06 — Badge art + canva-image-gen skill (manual, with Kyle)
 
