@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 28`
+`contentSubpillarRun: 29`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: skipped next session (counter = 28, even).
+Next subpillar: RUNS next session (counter = 29, odd).
 
 ---
 
@@ -104,6 +104,10 @@ Next subpillar: skipped next session (counter = 28, even).
 
 **Cycle 11 — COMPLETE. Next run starts Cycle 12 with Functionality.**
 
+**Cycle 12 — IN PROGRESS**
+- ✅ Functionality (2026-10-07, automated) — F9 sentence tap-to-replay **DEPLOYED LIVE** (commit `d6212d8`, build 20261007)
+- Next: UI
+
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
 - ✅ UI (2026-08-18, automated)
@@ -131,6 +135,14 @@ Next subpillar: skipped next session (counter = 28, even).
 ---
 
 ## Session Log
+
+### 2026-10-07 — Functionality Pillar (~25 min, automated) — Cycle 12
+- **F9 · Sentence tap-to-replay — DEPLOYED LIVE** (commit `d6212d8`, cache-bust `d4faa5c`, build 20261007). In the reader, tapping any plain (non-vocab) word re-reads its whole sentence at 0.9 with a soft orange sentence highlight plus the F4 word-by-word highlight. Vocab words keep their popup. New helpers: `sentenceAt()`, `_litSentence()`, `readerTextTap()`; `speakText()` now returns its utterance.
+- Sentence splitter only breaks when the next word is capitalised (keeps `"Hi!" said Mia.` together) and ignores Mr./Mrs./Ms./Dr./St. Checked against all 415 stories / 1,819 paragraphs: no gaps, no offset mismatches.
+- **Latent bug fixed in passing:** `speakPage()`'s onend now returns early when `state.audioPlaying` is false, so a word/sentence tap during Auto playback can no longer trigger an unwanted page advance.
+- Verified at 375 + 768, console clean, golden path to quiz; confirmed live.
+- No UI hint added (TODO said no chrome). If kids don't discover it, a one-off coach-mark is the obvious follow-up.
+- Content subpillar: skipped (counter was 28, even). Counter now 29.
 
 ### 2026-10-06 — Bug Fixes Pillar + Content Subpillar (~25 min, automated) — Cycle 11
 
