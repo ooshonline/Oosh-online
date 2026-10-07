@@ -567,6 +567,8 @@
     .tappable-word{background:var(--primary-light);border-radius:4px;padding:0 2px;cursor:pointer}
     .challenge-word{border-bottom:1.5px dashed #F9AD3B;cursor:default}
     .word-tok{display:inline}
+    .reader-page-text .word-tok,.reader-page-text .challenge-word{cursor:pointer}
+    .sentence-lit{background:rgba(249,173,59,.2);box-shadow:.28em 0 0 rgba(249,173,59,.2);transition:background .15s}
     .word-lit{background:rgba(186,218,85,.45);border-radius:3px;padding:0 2px;margin:0 -2px;transition:background .08s}
     .word-popup-overlay{position:fixed;inset:0;background:rgba(8,16,36,.5);display:flex;align-items:center;justify-content:center;z-index:250;padding:20px}
     .word-popup-card{width:100%;max-width:340px;background:var(--card);border-radius:18px;padding:22px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3);animation:modal-in .2s ease both;position:relative}
@@ -1637,6 +1639,8 @@ function speakPage(){
   if(voice) utter.voice=voice;
   utter.onend=()=>{
     _litWord(-1);
+    // Playback was stopped by the user (pause, word or sentence tap) — don't advance.
+    if(!state.audioPlaying) return;
     if(state.autoPlay && state.screen==='reader'){
       const s=findStory(state.lastStoryId);
       if(s && state.currentPage < s.paragraphs.length-1){
@@ -1693,6 +1697,7 @@ function speakText(text, rate){
   const voice=pickEnglishVoice();
   if(voice) utter.voice=voice;
   speechSynthesis.speak(utter);
+  return utter;
 }
 // Slower than story playback: an isolated word carries no prosodic context, so L2
 // learners need the extra time to catch the vowel.
@@ -1713,6 +1718,52 @@ function _litWord(charIdx){
     if(c<=charIdx){ const d=charIdx-c; if(d<bestDelta){bestDelta=d;best=s;} }
   });
   if(best&&bestDelta<30) best.classList.add('word-lit');
+}
+// F9 · Sentence tap-to-replay. Tapping a plain (non-vocab) word re-reads its whole sentence;
+// vocab words keep their own popup (they stopPropagation before reaching here).
+// Returns {start,end,text} for the sentence in `text` that contains charIdx.
+function sentenceAt(text,charIdx){
+  // A sentence ends at . ! ? (plus closing quotes) only when the next word starts with a capital,
+  // so dialogue like '"Hi!" said Mia.' stays one sentence.
+  const re=/[.!?]+['"\u201D\u2019)]*(?=\s+['"\u201C\u2018(]?[A-Z]|\s*$)/g;
+  let start=0, m;
+  while(true){
+    m=re.exec(text);
+    if(m && /\b(Mr|Mrs|Ms|Dr|St)$/.test(text.slice(0,m.index))) continue; // 'Mr. Tan' isn't a sentence end
+    const endText=m?m.index+m[0].length:text.length;
+    const ws=text.slice(endText).match(/^\s*/)[0].length;
+    const end=endText+ws;
+    if(charIdx>=start && charIdx<end){
+      const raw=text.slice(start,endText);
+      const lead=raw.length-raw.trimStart().length;
+      return {start,end,text:raw.trim(),textStart:start+lead};
+    }
+    if(!m||end>=text.length) return null;
+    start=end;
+  }
+}
+let _sentenceTok=0; // stops a cancelled replay's onend from clearing the next one's highlight
+function _litSentence(start,end){
+  const el=document.querySelector('.reader-page-text');
+  if(!el) return;
+  el.querySelectorAll('.sentence-lit').forEach(s=>s.classList.remove('sentence-lit'));
+  if(start<0) return;
+  el.querySelectorAll('[data-char]').forEach(s=>{ const c=+s.dataset.char; if(c>=start&&c<end) s.classList.add('sentence-lit'); });
+}
+function readerTextTap(e){
+  const tok=e.target.closest&&e.target.closest('[data-char]');
+  const story=findStory(state.lastStoryId);
+  if(!tok||!story) return;
+  const sen=sentenceAt(story.paragraphs[state.currentPage], +tok.dataset.char);
+  if(!sen) return;
+  if(state.audioPlaying){ state.audioPlaying=false; render(); } // replay replaces page playback
+  _litWord(-1);
+  _litSentence(sen.start,sen.end);
+  const myTok=++_sentenceTok;
+  const utter=speakText(sen.text,0.9);
+  if(!utter){ _litSentence(-1); return; }
+  utter.onboundary=function(ev){ if(ev.name==='word'&&myTok===_sentenceTok&&state.screen==='reader') _litWord(sen.textStart+ev.charIndex); };
+  utter.onend=utter.onerror=function(){ if(myTok===_sentenceTok){ _litSentence(-1); _litWord(-1); } };
 }
 // Escapes a word for interpolation into an inline onclick="..." JS string literal.
 function jsStr(word){ return String(word).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
@@ -3459,7 +3510,7 @@ function renderReader(){
       </div>
       <div class="reader-text-area${state.easyRead?' easy-read':''}" onclick="event.stopPropagation()" ontouchstart="readerSwipeStart(event)" ontouchend="readerSwipeEnd(event)">
         <div class="reader-progress-bar"><div class="reader-progress-fill" style="width:${progressPct}%"></div></div>
-        <div class="reader-page-text${state.pageDir?' page-enter-'+state.pageDir:''}" lang="en">${makeWordTappable(story.paragraphs[state.currentPage],story.vocabulary||{})}</div>
+        <div class="reader-page-text${state.pageDir?' page-enter-'+state.pageDir:''}" lang="en" onclick="readerTextTap(event)">${makeWordTappable(story.paragraphs[state.currentPage],story.vocabulary||{})}</div>
         <div id="page-turn-anim" class="page-turn-anim-slot"></div>
       </div>
     </div>
