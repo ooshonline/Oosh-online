@@ -38,8 +38,8 @@ sessions with Kyle, phase by phase. **The routine doesn't build these items.** D
 - [ ] S5 · Server-side story split: next after Phase 4.
 - [ ] Phase 6: "We've moved" banner on the old github.io address only, using `exportProgress` /
   `importProgress` on Profile.
-- [ ] **Kyle to decide:** `ribbit-pricing.html` still shows ¥850/month and ¥6,800/year. The real
-  subscription is the webstore's $2.99/month or $28.99/year with a 7-day trial.
+- [x] **Pricing page (Kyle, 2026-10-08):** yen prices dropped. `ribbit-pricing.html` now shows the webstore
+  subscription ($2.99/month or $28.99/year, 7-day trial) and links to ribbitpond.com/pricing. No separate app price.
 - [ ] **Kyle to decide:** `oosh-attendance/` is still in this repo, so it will also be reachable at
   `ribbitpond.com/read/oosh-attendance/` once the rewrite is live (unless Phase 3 blocks that path).
 

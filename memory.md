@@ -23,8 +23,8 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
   M7 and M13 are on hold.
 - Phase 2 changes are on branch `chore/ribbitpond-links` (share links, card footers, pricing CTAs, meta/OG,
   docs). Merge only after the rewrite is live.
-- Open for Kyle: the yen prices on `ribbit-pricing.html` vs the $2.99/$28.99 subscription; `oosh-attendance/`
-  being reachable under /read/.
+- Kyle, 2026-10-08: the pricing page shows $2.99/$28.99 (no yen, no separate app price); `oosh-attendance/` is
+  being moved to its own repo, and Phase 3 blocks `/read/oosh-attendance/`.
 
 ---
 

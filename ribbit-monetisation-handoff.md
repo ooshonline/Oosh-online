@@ -205,7 +205,7 @@ One JSONB blob per child profile holding the twenty `rbt_*` keys. localStorage s
 | | Original plan | Now |
 |---|---|---|
 | S1 | New Vercel project + own domain | **Replaced.** The app stays on GitHub Pages; the webstore serves it at `ribbitpond.com/read/` with an external rewrite (consolidation Phase 3). No second Vercel project. |
-| S2 | Yen prices (¥850 / ¥6,800) | **Replaced.** The webstore's existing subscription covers the app: $2.99/month or $28.99/year, 7-day trial. No new price IDs. `ribbit-pricing.html` still shows yen; Kyle to decide (flagged 2026-10-08). |
+| S2 | Yen prices (¥850 / ¥6,800) | **Replaced.** The webstore's existing subscription covers the app: $2.99/month or $28.99/year, 7-day trial. No new price IDs. `ribbit-pricing.html` switched to these dollar prices (Kyle, 2026-10-08). |
 | S3 | New tables + real entitlement read | **Replaced.** `isSubscribed()` makes one call to the webstore's `/api/me` on load (cached in memory, fails safe to the free tier). Login is the webstore's `/login`, same origin. No new tables (consolidation Phase 4). M3's upgrade screen becomes the gentle "Log in / Subscribe" prompt built in that phase. |
 | S4 | Cloud progress sync | Later. It would need a webstore endpoint and a table, so it stays supervised. |
 | S5 | Content bundle split | **Next after Phase 4** (in `TODO.md`). Levels 2–6 would come from a webstore endpoint that checks `/api/me`'s session. |
