@@ -14,7 +14,11 @@ written to be followed literally, not interpreted.
 
 - **The live app is `ribbit-reading-app-v3.html`.** `index.html` just redirects to it.
   `ribbit-reading-app.html` (no `-v3`) is a retired v1 file — never touch it.
-- **Live URL:** https://ooshonline.github.io/Oosh-online/
+- **Live URL:** https://ribbitpond.com/read/ (since the 2026-10 consolidation). GitHub Pages still
+  publishes the app at https://ooshonline.github.io/Oosh-online/, and the webstore (ribbitpond.com)
+  proxies it at `/read/` with a Vercel rewrite, so the browser only sees ribbitpond.com. Check
+  ribbitpond.com first after a deploy; github.io is the secondary check. See "Served at
+  ribbitpond.com/read/" below.
 - **Deploying is now just `git push origin master`** (after committing) — GitHub Pages publishes `master`.
   There is no copy-between-folders step anymore. Bump the `?v=YYYYMMDD` cache-bust on the three `<script>`
   tags each deploy so stale JS can't be served. (The `ribbit-deploy` skill still describes the old
@@ -28,6 +32,30 @@ written to be followed literally, not interpreted.
 - **The webstore is a different product.** `Projects/OOSH Online/oosh-online/` — Next.js on Vercel,
   sells printable PDFs to teachers. This app sells reading to Japanese parents. They share a Supabase
   project and a Stripe account, and nothing else. Don't edit one while working on the other.
+
+## Served at ribbitpond.com/read/ (2026-10-08)
+
+The app still deploys to GitHub Pages exactly as before. What changed is where people open it.
+
+- **Relative paths only.** The app lives under `/read/`, so never write a root-absolute URL
+  (`src="/images/..."`, `fetch('/assets/...')`). The only intended exceptions are the webstore's own
+  endpoints, such as `/api/me` and `/login`.
+- **Allowlist on ribbitpond.com.** Only these files are served under `/read/`: `index.html`,
+  `ribbit-reading-app-v3.html`, `ribbit-pricing.html`, `ribbit-*.js`, `OOSH_Logo_Square.png`, and
+  anything under `assets/` or `images/`. Everything else (notes, docs, tooling) redirects to `/read/`.
+  If the app ever needs a new top-level file, the webstore's `vercel.json` routes and `next.config.mjs`
+  allowlist must be updated first (supervised, webstore repo), or it will work on github.io and break on
+  ribbitpond.com.
+- **Never hard-code github.io** in anything a user sees. Share links say `https://ribbitpond.com/read/`.
+- **One shared localStorage.** The webstore, Wordlist Wonders and Decodable Check now share this
+  origin and its ~5 MB quota. Keep every key under the `rbt_` prefix, never call `localStorage.clear()`,
+  and never read or write another app's keys.
+- **No ads, ever.** The webstore's AdSense must never load under `/read/`.
+- **Subscriptions come from the webstore.** `isSubscribed()` reads the webstore's `/api/me` (same
+  origin, session cookie). There's no separate Supabase or Stripe setup for the app. Treat that call,
+  the login prompt and anything touching cookies or auth as supervised work, not routine work.
+- **Cache:** Vercel caches proxied pages for ~10 minutes, so add a cache-busting query
+  (`?cb=$(date +%s)`) to post-deploy checks.
 
 ---
 
@@ -71,7 +99,7 @@ Not a deploy gate; just a tidy-up so nothing rots:
 
 - [ ] `git status` in both folders — anything uncommitted? Commit or discard it deliberately.
 - [ ] `git branch` — delete merged/stale branches; make sure `main`/`master` reflects what's live.
-- [ ] Confirm the live site (https://ooshonline.github.io/Oosh-online/) loads and looks right.
+- [ ] Confirm the live site (https://ribbitpond.com/read/) loads and looks right.
 - [ ] Update `TODO.md` and the project memory with anything that changed.
 - [ ] Note anything half-finished so next week's session has context.
 

@@ -9,6 +9,25 @@ Next subpillar: RUNS next session (counter = 29, odd).
 
 ---
 
+## ribbitpond.com consolidation (2026-10-08, supervised session with Kyle)
+
+**Read this before deploying.** Kyle is bringing the Reading App, Wordlist Wonders and Decodable Check
+under the webstore's domain. The app is served at **https://ribbitpond.com/read/** (webstore rewrite of
+this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
+- Post-deploy checks: ribbitpond.com/read/ first, with `?cb=<timestamp>` (Vercel caches ~10 min);
+  github.io second. Until the rewrite is live, a 404 at ribbitpond.com/read/ is expected.
+- Relative paths only; `rbt_` keys only (localStorage is shared with the webstore and two other apps);
+  no ads ever under /read/.
+- The S-series is approved, with one change: subscriber status comes from the webstore's `/api/me`, with no
+  separate Supabase/Stripe setup. Supervised only; the routine doesn't touch it. M3 → Phase 4 prompt;
+  M7 and M13 are on hold.
+- Phase 2 changes are on branch `chore/ribbitpond-links` (share links, card footers, pricing CTAs, meta/OG,
+  docs). Merge only after the rewrite is live.
+- Kyle, 2026-10-08: the pricing page shows $2.99/$28.99 (no yen, no separate app price); `oosh-attendance/` is
+  being moved to its own repo, and Phase 3 blocks `/read/oosh-attendance/`.
+
+---
+
 ## Current Cycle
 
 **Cycle 1 — COMPLETE**
