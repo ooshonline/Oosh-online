@@ -3,6 +3,13 @@
 **Written:** 2026-08-04
 **Strategy source:** `ribbit-monetisation-plan.md` (same folder) — read it before starting any task here.
 
+> **Update 2026-10-08 (ribbitpond consolidation): the S-series is approved, with one change.**
+> Subscriber status comes from the webstore's `/api/me`, not a separate Supabase/Stripe setup, and
+> hosting stays on GitHub Pages behind the webstore's rewrite at `ribbitpond.com/read/`. The app's
+> subscription *is* the webstore subscription ($2.99/month or $28.99/year, 7-day trial). The free
+> taster stays: Level 1, Tokyo and the weekly free-story allowance. See "S-series status" below; the
+> original S1–S5 text is kept for history.
+
 ## Scope: this is the APP, not the webstore
 
 Every task in this document changes the **Ribbit Reading App**. They are two separate products in two
@@ -54,7 +61,7 @@ These are the existing project conventions — they are not new, and they apply 
 - Real data only — never fabricate a number shown to a user.
 - Browser-verify before committing: dev server is `.claude/launch.json` → `ribbit-live` on port 3459. Check at 375px width, confirm zero console errors, walk the golden path.
 - Bump the `?v=YYYYMMDD` cache-bust on the three `<script>` tags when deploying.
-- Stage files by name. Never `git add -A` — this repo also hosts the webstore.
+- Stage files by name. Never `git add -A` — untracked local files (notes, scripts) would be swept in.
 - Update `TODO.md` and `memory.md` with the commit hash when an item ships.
 
 **Two additional rules specific to monetisation work:**
@@ -192,6 +199,18 @@ One JSONB blob per child profile holding the twenty `rbt_*` keys. localStorage s
 **Deliberately deprioritised.** The realistic threat model for a children's reading app is not piracy, and shipping the paywall weeks earlier is worth more than closing a hole almost no parent will exploit. Do this after the first paying subscribers exist, not before.
 
 ---
+
+### S-series status (2026-10-08)
+
+| | Original plan | Now |
+|---|---|---|
+| S1 | New Vercel project + own domain | **Replaced.** The app stays on GitHub Pages; the webstore serves it at `ribbitpond.com/read/` with an external rewrite (consolidation Phase 3). No second Vercel project. |
+| S2 | Yen prices (¥850 / ¥6,800) | **Replaced.** The webstore's existing subscription covers the app: $2.99/month or $28.99/year, 7-day trial. No new price IDs. `ribbit-pricing.html` still shows yen; Kyle to decide (flagged 2026-10-08). |
+| S3 | New tables + real entitlement read | **Replaced.** `isSubscribed()` makes one call to the webstore's `/api/me` on load (cached in memory, fails safe to the free tier). Login is the webstore's `/login`, same origin. No new tables (consolidation Phase 4). M3's upgrade screen becomes the gentle "Log in / Subscribe" prompt built in that phase. |
+| S4 | Cloud progress sync | Later. It would need a webstore endpoint and a table, so it stays supervised. |
+| S5 | Content bundle split | **Next after Phase 4** (in `TODO.md`). Levels 2–6 would come from a webstore endpoint that checks `/api/me`'s session. |
+
+All S work is still done in supervised sessions with Kyle, never by the unattended routine.
 
 ## Sequencing
 

@@ -23,6 +23,26 @@
   source jpgs. (The other 4 rejected scenes from that same QC pass — `l3.2s4_1`, `l3.3s5_3`, `l3.5s5_1`,
   `l3.5s5_2` — are genuinely still wanted; ingest those normally.)
 
+## ribbitpond.com consolidation (supervised, 2026-10-08)
+The app is being served at **https://ribbitpond.com/read/** through the webstore (a Vercel rewrite of
+this GitHub Pages site), and the webstore subscription unlocks it. This work is done in supervised
+sessions with Kyle, phase by phase. **The routine doesn't build these items.** Details:
+`ribbit-monetisation-handoff.md` → "S-series status".
+- [x] Phase 2 (2026-10-08): routines and briefs updated; share links, share-card footers and pricing CTAs
+  point to ribbitpond.com/read; meta/OG tags added (branch `chore/ribbitpond-links`, merge after the
+  rewrite is live).
+- [ ] Phase 3: webstore rewrite `/read/` → this Pages site (webstore repo).
+- [ ] Phase 4: `isSubscribed()` makes one call to `/api/me` on load (in-memory cache, fails safe to free);
+  a gentle "Log in / Subscribe" prompt (en + ja) shown only on locked content, linking to the webstore's
+  `/login` and back to `/read/`.
+- [ ] S5 · Server-side story split: next after Phase 4.
+- [ ] Phase 6: "We've moved" banner on the old github.io address only, using `exportProgress` /
+  `importProgress` on Profile.
+- [ ] **Kyle to decide:** `ribbit-pricing.html` still shows ¥850/month and ¥6,800/year. The real
+  subscription is the webstore's $2.99/month or $28.99/year with a 7-day trial.
+- [ ] **Kyle to decide:** `oosh-attendance/` is still in this repo, so it will also be reachable at
+  `ribbitpond.com/read/oosh-attendance/` once the rewrite is live (unless Phase 3 blocks that path).
+
 ## Pending Kyle's decision (do NOT auto-ship)
 - [x] **Redesigned icon set SHIPPED (2026-07-15, commit `c5f152e`).** All 41 registry icons inlined + live.
 - [ ] **3 icons flagged for a Design tweak** (legible but weakest — optional polish): `status/streak-flame`
@@ -50,7 +70,9 @@ off here as they ship, and add the commit hash.
 > Monetisation's backlog is the M-series below. Two extra rules apply to that pillar only: **never gate
 > gamification** and **never commit a secret** — both are spelled out in the Monetisation section. The
 > routine takes **M-series items only**; the S-series in `ribbit-monetisation-handoff.md` requires Kyle
-> present and must never run unattended.
+> present and must never run unattended. (2026-10-08: the S-series is approved and is being delivered
+> as the ribbitpond.com consolidation; subscriber status comes from the webstore's `/api/me`. See the
+> consolidation block at the top.)
 > **Bug Fixes / Implementation Check** is the new seventh pillar (added 2026-08-21); its backlog is the
 > B-series below. It is an audit-and-fix sweep, not a feature build — the B-series is a checklist of
 > failure classes to hunt through. Reproduce a defect in the browser before fixing it, re-check the
@@ -150,19 +172,19 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   「英検◯級の読解レベル相当」, never 「対策」. Levels 5–6 carry no grade claim. **Kyle to sign off on the
   proposed level→grade table in the handoff spec before building.**
 - [x] **M2 · Entitlement stub + gate helpers — SHIPPED (2026-08-14, commit `fbb8ab5`).** `isSubscribed()` (dev flag `rbt_dev_sub='1'`), `canAccessLevel(id)` (L1 free; 2–6 need sub or allowance), `canAccessDestination(id)` (Tokyo free; others need sub or allowance), `weeklyFreeRemaining()` (3 − storyIds in current week), `recordFreeStoryUse(storyId)` (called in `finishStory()`, idempotent). `state.wkFree` persisted as `rbt_wkfree`; auto-resets at week boundary using `thisWeekKey()`. No gamification path calls a gate. No user-visible change. LIVE (v=20260814).
-- [ ] **M3 · Upgrade screen.** Shown *only* on tapping locked content. Never an interstitial, never
+- [ ] **M3 · Upgrade screen.** *(2026-10-08: delivered by consolidation Phase 4 as the "Log in / Subscribe" prompt. Routine: skip.)* Shown *only* on tapping locked content. Never an interstitial, never
   mid-story, never on home, never timed. Lists what's included + both prices + an easy, honest dismiss.
   No countdown, no "limited offer", no guilt copy. Blocked on M2; best built after S2/S3 exist.
 - [x] **M4 · Locked-state affordances — COMMITTED, pending browser verify + deploy (2026-08-25, commit `dbeb77e`).** `lib-free-pill` notice above level grid shows real `weeklyFreeRemaining()` count (blue pill) or exhausted state (red pill), hidden for subscribers. Level cards L2–L6: when quota=0 and not subscribed, card gets `.locked` class (opacity .75) + lock badge replaces ring badge + `lvl-locked-text` "Locked/ロック中" in body. Level 1 always accessible; all levels open while freeRem>0. 4 new UI_STRINGS keys en+ja. No behaviour change on tap (M3 adds upgrade screen). **Kyle: verify in browser then push (3 commits pending: `91135d7`, `e22d140`, `dbeb77e`).**
 - [x] **M5 · Pricing page (Japanese-first) — SHIPPED (2026-09-04, commit `ba30faa`).** `ribbit-pricing.html`: standalone page, Japanese-primary; 6-level Eiken ladder, free-vs-paid compare table, ¥850/month + ¥6,800/year pricing cards, 6-item FAQ. CTA → live app. No fake data. Mobile-first, 375px clean. LIVE.
 - [x] **M6 · Analytics instrumentation — SHIPPED (2026-09-15, commit `bead38c`).** `trackEvent(name,props)` wrapper around `window.va`; no-ops on GitHub Pages; activates on Vercel (S1). 4 events wired: placementCompleted, firstStoryCompleted, level1Completed, lockedContentTap. Upgrade/checkout events pending M3 + S-series. LIVE (build 20260915).
-- [ ] **M7 · Onboarding email capture.** After the placement test result is shown (not before, not as a modal), display an optional email field: "Get a weekly reading report for your child (optional)". Sends to a Mailchimp/Resend list. No consent dark patterns; skip button prominent. No child email, parent only. Blocked on S1 (needs a serverless endpoint). Flag for Kyle.
+- [ ] **M7 · Onboarding email capture.** *(2026-10-08: no longer blocked on a separate S1; it would need a webstore endpoint, so it's still Kyle's call. Routine: skip.)* After the placement test result is shown (not before, not as a modal), display an optional email field: "Get a weekly reading report for your child (optional)". Sends to a Mailchimp/Resend list. No consent dark patterns; skip button prominent. No child email, parent only. Blocked on S1 (needs a serverless endpoint). Flag for Kyle.
 - [x] **M8 · Parent report share card — SHIPPED (2026-09-24, commit `5bf9dbf`).** Canvas 360×480 card (frog, level badge, 4-stat grid: stories, streak, words, XP). `shareProgress()`: native share w/ image (mobile), text-only fallback, PNG download (desktop). 'SHARE PROGRESS / がんばりをシェア' section on Profile (44px green button). LIVE (build 20260924).
 - [x] **M9 · Streak milestone share prompt — SHIPPED (2026-10-05, commit `4861063`, build 20261005).** 7/30-day milestones set `state.streakShare` (`rbt_sshare`) → optional Home card (Share / Not now), `generateShareCard('streak')` variant (big 🔥 + count). Hidden if the streak breaks. Original spec: When a learner hits a 7-day or 30-day streak milestone, show an optional prompt: "Share your streak!" — reuses `generateShareCard()` from M8 but draws a streak-focused variant (flame emoji, streak count prominent). Pure client-side; no new infrastructure. Good viral acquisition hook.
 - [ ] **M10 · Level completion certificate.** When a learner completes all stories in a level, offer a downloadable canvas-rendered certificate: child's name input (optional), level name, date, Ribbit branding. `canvas.toDataURL()` → download. Pure client-side. Shareable trophy moment for parents.
 - [ ] **M11 · Free-tier story counter on Home.** Small pill or text near the Home continue-card showing "X of 3 free stories used this week" for non-subscribed users — mild upsell awareness without interrupting the experience. Reuses `weeklyFreeRemaining()` from M2. 1–2 UI_STRINGS keys only.
 - [ ] **M12 · Badge-unlock share.** When a badge unlocks, offer the same optional Home card pattern as M9 (`streakShareCard`) with a badge-variant share image. Reuses `generateShareCard(variant)`.
-- [ ] **M13 · Pricing-page link from Profile.** A quiet "Plans for families / ご家庭向けプラン" text link at the foot of Profile → `ribbit-pricing.html`. No banner, no badge, never on Home.
+- [ ] **M13 · Pricing-page link from Profile.** *(2026-10-08: on hold until Kyle decides the pricing page's prices; see the consolidation block.)* A quiet "Plans for families / ご家庭向けプラン" text link at the foot of Profile → `ribbit-pricing.html`. No banner, no badge, never on Home.
 - [ ] **B-muted · `var(--muted)` is undefined.** 5 rules use `var(--muted)` (e.g. `.daily-pick-label`) but `:root` only defines `--text-muted`, so those labels fall back to inherited colour. Swap to `--text-muted` and check light + night. (Found 2026-10-05.)
 - [ ] **C7 · Review JA glosses for Levels 2–6.** Level 1 had 97 wrong-sense machine translations (fixed 2026-10-06, `0592971`). Do one level per Content run, checking each gloss against the story's EN def. The table is keyed globally, so check every story that shares a key.
 - [ ] **B-recap-dark · Week-recap card ignores night theme.** `.week-recap-card` hard-codes a light gradient + `#1A3260` text, so it's a bright block in dark mode. Tokenise it. (Seen 2026-10-05.)

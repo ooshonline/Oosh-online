@@ -1,5 +1,12 @@
 # Ribbit — Monetisation & Deployment Plan
 
+> **Superseded in part (2026-10-08).** Hosting, auth and payments no longer follow this plan. The app
+> stays on GitHub Pages and is served at `ribbitpond.com/read/` by the webstore; the webstore's
+> existing subscription ($2.99/month or $28.99/year, 7-day trial) unlocks it, and the app reads
+> subscriber status from the webstore's `/api/me`. The yen prices below are no longer the plan
+> (Kyle to decide what `ribbit-pricing.html` shows). The freemium shape, the no-nagging rules and
+> "no ads in the child app" still stand. See `ribbit-monetisation-handoff.md` → "S-series status".
+
 **Written:** 2026-08-04
 **Supersedes:** `Projects/OOSH Online/ribbit-monetisation-brief.md` (2026-08-02) — see the correction below.
 **Decisions taken as given:** B2C first, school/juku licensing second · web app now, native later · zero current traffic · heavy build effort available.
