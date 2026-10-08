@@ -40,8 +40,13 @@ sessions with Kyle, phase by phase. **The routine doesn't build these items.** D
   `importProgress` on Profile.
 - [x] **Pricing page (Kyle, 2026-10-08):** yen prices dropped. `ribbit-pricing.html` now shows the webstore
   subscription ($2.99/month or $28.99/year, 7-day trial) and links to ribbitpond.com/pricing. No separate app price.
-- [ ] **Kyle to decide:** `oosh-attendance/` is still in this repo, so it will also be reachable at
-  `ribbitpond.com/read/oosh-attendance/` once the rewrite is live (unless Phase 3 blocks that path).
+- [ ] **OOSH Attendance is moving out (Kyle, 2026-10-08).** New repo `ooshonline/oosh-attendance` (local folder
+  `Projects/OOSH Attendance Tracker`, already committed), served at https://ooshonline.github.io/oosh-attendance/.
+  Kyle creates the GitHub repo and turns on Pages; then branch `chore/move-oosh-attendance` (draft PR) swaps
+  `oosh-attendance/` for a redirect. Phase 3 blocks `/read/oosh-attendance/` either way.
+- [ ] **Kyle to decide: convert existing stories to American spelling?** Routines switched to American English on
+  2026-10-08, but most of the 355 stories use British spelling (e.g. ~250 × mum, ~140 × colour, ~70 × organis-).
+  A one-off conversion pass (stories + UI strings, quizzes and vocab glosses kept in step) needs Kyle's go-ahead.
 
 ## Pending Kyle's decision (do NOT auto-ship)
 - [x] **Redesigned icon set SHIPPED (2026-07-15, commit `c5f152e`).** All 41 registry icons inlined + live.
