@@ -40,7 +40,7 @@ sessions with Kyle, phase by phase. **The routine doesn't build these items.** D
   `importProgress` on Profile.
 - [x] **Pricing page (Kyle, 2026-10-08):** yen prices dropped. `ribbit-pricing.html` now shows the webstore
   subscription ($2.99/month or $28.99/year, 7-day trial) and links to ribbitpond.com/pricing. No separate app price.
-- [ ] **OOSH Attendance is moving out (Kyle, 2026-10-08).** New repo `ooshonline/oosh-attendance` (local folder
+- [x] **OOSH Attendance moved out (2026-10-08, PR #2 merged `427971c`; old address redirects).** New repo `ooshonline/oosh-attendance` (local folder
   `Projects/OOSH Attendance Tracker`, already committed), served at https://ooshonline.github.io/oosh-attendance/.
   Kyle creates the GitHub repo and turns on Pages; then branch `chore/move-oosh-attendance` (draft PR) swaps
   `oosh-attendance/` for a redirect. Phase 3 blocks `/read/oosh-attendance/` either way.
