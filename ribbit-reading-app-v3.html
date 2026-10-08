@@ -28,7 +28,7 @@
       --primary:#72C93A; --primary-dark:#599D2D; --primary-light:rgba(114,201,58,.15);
       --accent:#f9ad3b; --accent-dark:#d4831a;
       --correct:#22c55e; --correct-bg:#dcfce7; --wrong:#ef4444; --wrong-bg:#fee2e2;
-      --bg:#eef7e8; --card:#ffffff; --text:#1A2340; --text-muted:#8FA0B5; --navy:#1A3260;
+      --bg:#eef7e8; --card:#ffffff; --text:#1A2340; --text-muted:#8FA0B5; --navy:#1A3260; --on-navy:#ffffff;
       --border:#EEF1F5;
       --quiz-bg:#F5F9EF; --correct-text:#15803d; --wrong-text:#dc2626;
       --shadow-sm:0 2px 8px rgba(0,0,0,.07); --shadow:0 2px 10px rgba(0,0,0,.08); --shadow-lg:0 4px 16px rgba(0,0,0,.12);
@@ -43,7 +43,7 @@
     /* ── NIGHT THEME — override surface tokens only; accent/level/primary colours unchanged ── */
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
-        --bg:#14231a; --card:#1e3325; --text:#dde8e1; --text-muted:#7a9e8a; --navy:#94c4b0;
+        --bg:#14231a; --card:#1e3325; --text:#dde8e1; --text-muted:#7a9e8a; --navy:#94c4b0; --on-navy:#14231a;
         --border:#2d4a38; --primary-light:rgba(114,201,58,.2);
         --correct-bg:rgba(34,197,94,.18); --wrong-bg:rgba(239,68,68,.18);
         --quiz-bg:#14231a; --correct-text:#4ade80; --wrong-text:#f87171;
@@ -52,7 +52,7 @@
       }
     }
     :root[data-theme="dark"] {
-      --bg:#14231a; --card:#1e3325; --text:#dde8e1; --text-muted:#7a9e8a; --navy:#94c4b0;
+      --bg:#14231a; --card:#1e3325; --text:#dde8e1; --text-muted:#7a9e8a; --navy:#94c4b0; --on-navy:#14231a;
       --border:#2d4a38; --primary-light:rgba(114,201,58,.2);
       --correct-bg:rgba(34,197,94,.18); --wrong-bg:rgba(239,68,68,.18);
         --quiz-bg:#14231a; --correct-text:#4ade80; --wrong-text:#f87171;
@@ -326,8 +326,12 @@
     .modal-meta{display:flex;gap:14px;margin-bottom:12px}
     .modal-meta span{font-size:12px;color:var(--text-muted);font-weight:500}
     .modal-stars{display:flex;gap:2px;margin-bottom:16px}
-    .modal-start-btn{width:100%;height:50px;background:var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;color:white;font-family:var(--font-head);font-weight:800;font-size:15px;letter-spacing:.05em;margin-bottom:12px;box-shadow:0 4px 16px rgba(26,50,96,.3)}
+    .modal-start-btn{width:100%;height:50px;background:var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--on-navy);font-family:var(--font-head);font-weight:800;font-size:15px;letter-spacing:.05em;margin-bottom:12px;box-shadow:0 4px 16px rgba(26,50,96,.3)}
     .modal-notes{text-align:center;font-size:12px;color:#B0C0D0}
+    .sub-prompt .modal-body{text-align:center;padding-top:26px}
+    .sub-prompt-emoji{font-size:44px;line-height:1;margin-bottom:10px}
+    .sub-prompt-text{font-size:14px;line-height:1.6;color:var(--text-muted);margin:0 0 18px}
+    .sub-prompt-dismiss{width:100%;height:44px;background:none;border:none;color:var(--text);font-family:var(--font-head);font-weight:800;font-size:14px;cursor:pointer}
     .modal-bookmark-btn{width:100%;height:44px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:7px;color:var(--text-muted);font-family:var(--font-head);font-weight:700;font-size:13px;margin-bottom:10px;cursor:pointer}
     .modal-bookmark-btn--saved{color:var(--primary);border-color:var(--primary);background:rgba(186,218,85,.12)}
     .saved-section{margin-bottom:4px}
@@ -838,9 +842,9 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20261008"></script>
-<script src="ribbit-wordlists.js?v=20261008"></script>
-<script src="ribbit-ja-translations.js?v=20261008"></script>
+<script src="ribbit-stories.js?v=20261008b"></script>
+<script src="ribbit-wordlists.js?v=20261008b"></script>
+<script src="ribbit-ja-translations.js?v=20261008b"></script>
 <script src="assets/vendor/lottie.min.js?v=20260804"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
@@ -1363,6 +1367,7 @@ const state = {
   openBadgeTooltip: null,
   worldSelectedId: null,
   worldLockedNoticeId: null,
+  subPrompt: false,
   celebratedSublevels: JSON.parse(localStorage.getItem('rbt_celeb_sl')||'[]'), // ["lv.sl"] keys for sub-levels that already had a ceremony
   celebratedLevels: JSON.parse(localStorage.getItem('rbt_celeb_lv')||'[]'),    // level ids that already had a champion ceremony
   // Pending ceremonies are persisted (rbt_pend_sl / rbt_pend_lc) so a reload or closed tab mid-ceremony
@@ -1477,11 +1482,28 @@ function toggleBookmark(storyId){
 }
 function setGoal(n){ state.dailyGoal=n; state.showGoalPicker=false; save(); render(); }
 
-// ── ENTITLEMENT HELPERS (M2 — stub; isSubscribed() body replaced by S3) ──────
-// Dev toggle: set localStorage 'rbt_dev_sub'='1' in the browser console to simulate
-// a paid subscription. S3 replaces the body of isSubscribed() with a real Supabase
-// read; nothing else in this file changes.
-function isSubscribed(){ return localStorage.getItem('rbt_dev_sub')==='1'; }
+// ── ENTITLEMENT ──────────────────────────────────────────────────────────────
+// Subscriber status comes from the webstore's /api/me (same origin on
+// ribbitpond.com/read/, sent with the session cookie). Checked once per page load
+// and kept in memory only, never in localStorage, so it can't be faked by editing
+// storage. Anything that goes wrong (offline, github.io, a slow server) leaves the
+// learner on the free tier.
+const _me={checked:false, loggedIn:false, subscribed:false};
+function loadEntitlement(){
+  const ctrl=typeof AbortController!=='undefined'?new AbortController():null;
+  const timer=setTimeout(()=>{ if(ctrl) ctrl.abort(); },6000);
+  fetch('/api/me',{credentials:'same-origin',cache:'no-store',signal:ctrl?ctrl.signal:undefined})
+    .then(r=>r.ok?r.json():null)
+    .then(d=>{
+      if(!d) return;
+      const wasSub=_me.subscribed;
+      _me.loggedIn=d.loggedIn===true; _me.subscribed=d.subscribed===true;
+      if(_me.subscribed!==wasSub) render();
+    })
+    .catch(()=>{})
+    .finally(()=>{ clearTimeout(timer); _me.checked=true; });
+}
+function isSubscribed(){ return _me.subscribed; }
 // How many of the 3 weekly free story allowances remain for this calendar week.
 function weeklyFreeRemaining(){
   const wk=thisWeekKey();
@@ -1496,6 +1518,21 @@ function trackEvent(name,props){ if(typeof window.va==='function') window.va('ev
 function canAccessLevel(levelId){ return levelId===1 || isSubscribed() || weeklyFreeRemaining()>0; }
 // Free tier: Tokyo free; all other Journey destinations gated.
 function canAccessDestination(destId){ return destId==='tokyo' || isSubscribed() || weeklyFreeRemaining()>0; }
+// Can this story be started? Level 1 and Tokyo are always free; a story already
+// counted in this week's allowance stays open for the rest of the week.
+function canStartStory(id){
+  if(isSubscribed() || weeklyFreeRemaining()>0) return true;
+  const sl=storySubLevel(id); if(sl) return parseInt(sl.lv)===1 || (state.wkFree&&(state.wkFree.storyIds||[]).includes(id));
+  if(typeof JOURNEY_STORIES!=='undefined' && JOURNEY_STORIES.tokyo && JOURNEY_STORIES.tokyo.some(s=>s.id===id)) return true;
+  return !!(state.wkFree&&(state.wkFree.storyIds||[]).includes(id));
+}
+// Gentle "Log in / Subscribe" prompt, shown only when a learner taps locked
+// content (never on a timer, never mid-story). Grown-ups go to the webstore's
+// own pages with a full page load; login brings them back to /read/.
+function showSubPrompt(kind,id){ trackEvent('lockedContentTap',{type:kind,id:String(id)}); state.modalOpen=false; state.subPrompt=true; render(); }
+function closeSubPrompt(){ state.subPrompt=false; render(); }
+function webstoreUrl(path){ return /github\.io$/.test(location.hostname)?'https://ribbitpond.com'+path:path; }
+function goWebstore(path){ window.location.assign(webstoreUrl(path)); }
 // Records one use of the weekly free allowance for a non-L1/non-Tokyo story.
 // Called from finishStory() — idempotent, only counts each storyId once per week.
 function recordFreeStoryUse(storyId){
@@ -1536,6 +1573,7 @@ document.addEventListener('keydown', function handleKeyDown(e){
 
   if(e.key==='Escape'){
     if(state.wordPopup){ e.preventDefault(); closeWordPopup(); return; }
+    if(state.subPrompt){ e.preventDefault(); closeSubPrompt(); return; }
     if(state.modalOpen){ e.preventDefault(); closeStoryModal(); return; }
     return;
   }
@@ -1576,7 +1614,7 @@ function navigate(screen){
   if(screen==='progress') screen='profile'; // Progress merged into Profile; keep old call sites working
   const prevScreen=state.screen; // state.screen is overwritten below — capture before comparing
   if(state.screen==='reader' && screen!=='reader' && typeof speechSynthesis!=='undefined') speechSynthesis.cancel();
-  state.screen=screen; state.modalOpen=false; state.audioPlaying=false;
+  state.screen=screen; state.modalOpen=false; state.subPrompt=false; state.audioPlaying=false;
   // Preserve library drill-down context through the reading pipeline so "Back to Library"
   // returns to the exact sublevel the learner came from, not the root level grid.
   if(screen!=='library' && screen!=='reader' && screen!=='quiz' && screen!=='celebration' && screen!=='sublevelCelebration' && screen!=='levelChampion' && screen!=='story-complete'){ state.libraryLevel=null; state.librarySublevel=null; state.librarySearch=''; }
@@ -1592,7 +1630,7 @@ function enterFromLanding(){
   navigate('home');
   setTimeout(checkDailyLoginBonus, 600); // boot-time call was skipped while on the splash
 }
-function openLibraryLevel(id){ if(!canAccessLevel(id)) trackEvent('lockedContentTap',{type:'level',levelId:id}); state.libraryLevel=id; state.librarySublevel=null; state.librarySearch=''; render(); }
+function openLibraryLevel(id){ if(!canAccessLevel(id)){ showSubPrompt('level',id); return; } state.libraryLevel=id; state.librarySublevel=null; state.librarySearch=''; render(); }
 function openLibrarySublevel(levelId,sub,locked){ if(locked) return; state.librarySublevel=sub; render(); }
 // "View path" belongs on the lily-pad sub-level track, not the stats screen. navigate() clears
 // libraryLevel for non-library screens, so set the drill-down after switching.
@@ -1623,6 +1661,7 @@ function resumePage(storyId){
   return Math.max(0, Math.min(saved, story.paragraphs.length-1));
 }
 function startReadingFromModal(){
+  if(!canStartStory(state.selectedStory)){ showSubPrompt('story',state.selectedStory); return; }
   state.lastStoryId=state.selectedStory; state.modalOpen=false;
   state.currentPage=resumePage(state.selectedStory); state.audioPlaying=false; state.audioEverPlayed=false;
   _sessionTappedWords=[]; navigate('reader');
@@ -1631,7 +1670,7 @@ function readAgain(){
   delete state.readingPos[state.lastStoryId]; save();
   state.currentPage=0; state.audioPlaying=false; state.audioEverPlayed=false; _sessionTappedWords=[]; navigate('reader');
 }
-function startReadingDirect(id){ state.lastStoryId=id; state.currentPage=resumePage(id); state.audioPlaying=false; state.audioEverPlayed=false; _sessionTappedWords=[]; navigate('reader'); }
+function startReadingDirect(id){ if(!canStartStory(id)){ showSubPrompt('story',id); return; } state.lastStoryId=id; state.currentPage=resumePage(id); state.audioPlaying=false; state.audioEverPlayed=false; _sessionTappedWords=[]; navigate('reader'); }
 
 // ── READING ──────────────────────────────────────────────
 // Stories are always English, regardless of UI language — without an explicit
@@ -1948,6 +1987,7 @@ function toggleBadgeTooltip(id){ state.openBadgeTooltip = state.openBadgeTooltip
 function openDestination(id){
   const d=DESTINATIONS.find(x=>x.id===id); if(!d) return;
   if(destLocked(d)){ trackEvent('lockedContentTap',{type:'destination',destId:id}); state.worldLockedNoticeId=d.id; render(); setTimeout(()=>{ state.worldLockedNoticeId=null; render(); },2500); return; }
+  if(!canAccessDestination(d.id)){ showSubPrompt('destination',d.id); return; }
   state.worldSelectedId=d.id; render();
 }
 function goWorldRoot(){ state.worldSelectedId=null; render(); }
@@ -2875,7 +2915,9 @@ const UI_STRINGS = {
     libraryTitle:'Library', levelLabel:(id)=>`Level ${id}`, ages:(a)=>`Ages ${a}`, locked:'Locked',
     libSearchPlaceholder:'Search stories…', libSearchResults:(n)=>`${n} result${n===1?'':'s'}`, libSearchEmpty:'No stories found — try a different word.',
     subLevelOf:(n)=>`Sub-level ${n} of 10`, subLevel:'Sub-level',
-    pages:(n)=>`📄 ${n} pages`, audio:'🔊 Audio', start:'START', tapWordHint:'👆 Tap any word to see its definition',
+    pages:(n)=>`📄 ${n} pages`, audio:'🔊 Audio', start:'START',
+    subTitle:'This story is for members', subBody:'Level 1, Tokyo and 3 more stories every week are free. Ask a grown-up to log in or subscribe to open every level.', subBodyFree:'Level 1, Tokyo and 3 more stories every week are free. A Ribbit subscription opens every level and destination.', subLogin:'Log in', subPlans:'See plans', subNotNow:'Not now',
+    tapWordHint:'👆 Tap any word to see its definition',
     exit:'Exit', previous:'Previous', next:'Next', toQuiz:'To Quiz',
     quickQuiz:'📝 Quick Quiz', question:'QUESTION',
     nextQuestion:'Next Question →', seeResults:'See Results →',
@@ -3030,7 +3072,9 @@ const UI_STRINGS = {
     libraryTitle:'ライブラリ', levelLabel:(id)=>`レベル ${id}`, ages:(a)=>`対象年齢 ${a}`, locked:'ロック中',
     libSearchPlaceholder:'おはなしをさがす…', libSearchResults:(n)=>`${n}件のおはなし`, libSearchEmpty:'みつかりませんでした。ちがうことばでためしてね。',
     subLevelOf:(n)=>`サブレベル ${n} / 10`, subLevel:'サブレベル',
-    pages:(n)=>`📄 ${n}ページ`, audio:'🔊 音声あり', start:'はじめる', tapWordHint:'👆 単語をタップすると意味が見られるよ',
+    pages:(n)=>`📄 ${n}ページ`, audio:'🔊 音声あり', start:'はじめる',
+    subTitle:'このおはなしはメンバー向けです', subBody:'レベル1と東京、そして毎週3話は無料で読めます。すべてのレベルを読むには、おうちの人にログインまたは登録をしてもらってね。', subBodyFree:'レベル1と東京、そして毎週3話は無料で読めます。Ribbitの会員プランで、すべてのレベルと国が読めるようになります。', subLogin:'ログイン', subPlans:'プランを見る', subNotNow:'あとで',
+    tapWordHint:'👆 単語をタップすると意味が見られるよ',
     exit:'とじる', previous:'まえへ', next:'つぎへ', toQuiz:'クイズへ',
     quickQuiz:'📝 クイズタイム', question:'もんだい',
     nextQuestion:'つぎのもんだい →', seeResults:'けっかを見る →',
@@ -3400,6 +3444,22 @@ function renderLibraryTierStories(){
   return `<div class="library-pane"><div class="story-grid">${cards}</div></div>`;
 }
 
+function renderSubPrompt(){
+  if(!state.subPrompt) return '';
+  const loginBtn=_me.loggedIn?'':`<button class="modal-start-btn" onclick="goWebstore('/login?next=%2Fread%2F')">${t('subLogin')}</button>`;
+  return `<div class="modal-overlay" onclick="closeSubPrompt()">
+    <div class="modal-card sub-prompt" role="dialog" aria-modal="true" aria-labelledby="sub-prompt-title" onclick="event.stopPropagation()">
+      <div class="modal-body">
+        <div class="sub-prompt-emoji">🐸</div>
+        <div class="modal-title" id="sub-prompt-title">${t('subTitle')}</div>
+        <p class="sub-prompt-text">${t(_me.loggedIn?'subBodyFree':'subBody')}</p>
+        ${loginBtn}
+        <button class="modal-bookmark-btn" onclick="goWebstore('/pricing')">${t('subPlans')}</button>
+        <button class="sub-prompt-dismiss" onclick="closeSubPrompt()">${t('subNotNow')}</button>
+      </div>
+    </div>
+  </div>`;
+}
 function renderModal(){
   if(!state.modalOpen||!state.selectedStory) return '';
   const s=findStory(state.selectedStory);
@@ -4532,6 +4592,7 @@ function render(){
     ${renderBottomNav()}
   </div>
   ${renderModal()}
+  ${renderSubPrompt()}
   ${renderTour()}`;
   runHeaderAnims();
   if(state.screen==='profile'||state.screen==='progress') runProfileAnims();
@@ -4550,6 +4611,7 @@ function runHeaderAnims(){
 
 applyUiLang();
 render();
+loadEntitlement();
 setTimeout(checkDailyLoginBonus, 600);
 </script>
 </body>
