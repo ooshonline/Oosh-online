@@ -40,6 +40,12 @@ The app still deploys to GitHub Pages exactly as before. What changed is where p
 - **Relative paths only.** The app lives under `/read/`, so never write a root-absolute URL
   (`src="/images/..."`, `fetch('/assets/...')`). The only intended exceptions are the webstore's own
   endpoints, such as `/api/me` and `/login`.
+- **Allowlist on ribbitpond.com.** Only these files are served under `/read/`: `index.html`,
+  `ribbit-reading-app-v3.html`, `ribbit-pricing.html`, `ribbit-*.js`, `OOSH_Logo_Square.png`, and
+  anything under `assets/` or `images/`. Everything else (notes, docs, tooling) redirects to `/read/`.
+  If the app ever needs a new top-level file, the webstore's `vercel.json` routes and `next.config.mjs`
+  allowlist must be updated first (supervised, webstore repo), or it will work on github.io and break on
+  ribbitpond.com.
 - **Never hard-code github.io** in anything a user sees. Share links say `https://ribbitpond.com/read/`.
 - **One shared localStorage.** The webstore, Wordlist Wonders and Decodable Check now share this
   origin and its ~5 MB quota. Keep every key under the `rbt_` prefix, never call `localStorage.clear()`,
