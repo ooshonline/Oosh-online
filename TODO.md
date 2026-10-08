@@ -32,10 +32,15 @@ sessions with Kyle, phase by phase. **The routine doesn't build these items.** D
   point to ribbitpond.com/read; meta/OG tags added (branch `chore/ribbitpond-links`, merge after the
   rewrite is live).
 - [ ] Phase 3: webstore rewrite `/read/` → this Pages site (webstore repo).
-- [ ] Phase 4: `isSubscribed()` makes one call to `/api/me` on load (in-memory cache, fails safe to free);
+- [x] Phase 4 (2026-10-08, branch `feat/webstore-subscription`): `isSubscribed()` makes one call to `/api/me` on load (in-memory cache, fails safe to free);
   a gentle "Log in / Subscribe" prompt (en + ja) shown only on locked content, linking to the webstore's
   `/login` and back to `/read/`.
-- [ ] S5 · Server-side story split: next after Phase 4.
+- [ ] **NEXT · S5 · Server-side story split.** Today every story ships in `ribbit-stories.js`, so the gate is
+  client-side only (DevTools can bypass it). Plan: keep Level 1 + Tokyo in the public bundle and serve Levels 2–6
+  and the other destinations from a webstore endpoint that checks the session (same check as `/api/me`). Supervised.
+- Note (Phase 4): the gates live in `openLibraryLevel`, `openDestination`, `startReadingDirect` and
+  `startReadingFromModal` (`canStartStory`). Gamification is never gated. `rbt_dev_sub` no longer exists; to test as a
+  subscriber, log in on ribbitpond.com with a subscribed account.
 - [ ] Phase 6: "We've moved" banner on the old github.io address only, using `exportProgress` /
   `importProgress` on Profile.
 - [x] **Pricing page (Kyle, 2026-10-08):** yen prices dropped. `ribbit-pricing.html` now shows the webstore
