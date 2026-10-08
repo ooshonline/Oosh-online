@@ -3,7 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ribbit v3 — OOSH ESL Reading</title>
+  <title>Ribbit Reading App — English stories for kids</title>
+  <!-- Canonical home is ribbitpond.com/read/ (proxied from GitHub Pages by the webstore since 2026-10). -->
+  <meta name="description" content="Illustrated, levelled English stories for children, with read-aloud audio, quizzes and flashcards. Levels run from Pre-A1 to C1, with Eiken reading-level labels in Japanese.">
+  <link rel="canonical" href="https://ribbitpond.com/read/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ribbit">
+  <meta property="og:title" content="Ribbit Reading App — English stories for kids">
+  <meta property="og:description" content="Illustrated, levelled English stories for children, with read-aloud audio, quizzes and flashcards. Start free with Level 1.">
+  <meta property="og:url" content="https://ribbitpond.com/read/">
+  <meta property="og:image" content="https://ribbitpond.com/read/assets/brand/ribbit-logo.png">
+  <meta property="og:image:alt" content="Ribbit the frog">
+  <meta name="twitter:card" content="summary">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -2402,7 +2413,7 @@ function generateShareCard(variant){
     ctx.fillStyle='#ffffff'; ctx.font='bold 16px sans-serif';
     ctx.fillText(t('streakCardDays'),W/2,362);
     ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font='10px sans-serif';
-    ctx.fillText('ooshonline.github.io/Oosh-online',W/2,H-20);
+    ctx.fillText('ribbitpond.com/read',W/2,H-20);
     return canvas;
   }
 
@@ -2443,7 +2454,7 @@ function generateShareCard(variant){
 
   // URL
   ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font='10px sans-serif';
-  ctx.fillText('ooshonline.github.io/Oosh-online',W/2,H-20);
+  ctx.fillText('ribbitpond.com/read',W/2,H-20);
 
   return canvas;
 }
@@ -2468,7 +2479,7 @@ async function shareProgress(variant){
   // Text-only share fallback
   if(navigator.share){
     try{
-      await navigator.share({title,text,url:'https://ooshonline.github.io/Oosh-online/'});
+      await navigator.share({title,text,url:'https://ribbitpond.com/read/'});
       return true;
     }catch(e){if(e.name==='AbortError') return false;}
   }
