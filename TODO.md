@@ -44,9 +44,8 @@ sessions with Kyle, phase by phase. **The routine doesn't build these items.** D
   `Projects/OOSH Attendance Tracker`, already committed), served at https://ooshonline.github.io/oosh-attendance/.
   Kyle creates the GitHub repo and turns on Pages; then branch `chore/move-oosh-attendance` (draft PR) swaps
   `oosh-attendance/` for a redirect. Phase 3 blocks `/read/oosh-attendance/` either way.
-- [ ] **Kyle to decide: convert existing stories to American spelling?** Routines switched to American English on
-  2026-10-08, but most of the 355 stories use British spelling (e.g. ~250 × mum, ~140 × colour, ~70 × organis-).
-  A one-off conversion pass (stories + UI strings, quizzes and vocab glosses kept in step) needs Kyle's go-ahead.
+- [x] **Existing stories stay as they are (Kyle, 2026-10-08).** New copy and stories are American English; there's
+  no conversion pass for the existing (mostly British-spelled) stories. Don't "fix" them.
 
 ## Pending Kyle's decision (do NOT auto-ship)
 - [x] **Redesigned icon set SHIPPED (2026-07-15, commit `c5f152e`).** All 41 registry icons inlined + live.
