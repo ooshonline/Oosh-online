@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 29`
+`contentSubpillarRun: 30`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: RUNS next session (counter = 29, odd).
+Next subpillar: skips next session (counter = 30, even).
 
 ---
 
@@ -125,7 +125,8 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 
 **Cycle 12 — IN PROGRESS**
 - ✅ Functionality (2026-10-07, automated) — F9 sentence tap-to-replay **DEPLOYED LIVE** (commit `d6212d8`, build 20261007)
-- Next: UI
+- ✅ UI (2026-10-09, automated) — U9 journey cover textures + night-theme card fix + content subpillar C7 Level 2 JA glosses **DEPLOYED LIVE** (build 20261009)
+- Next: UX
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -162,6 +163,16 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 - Verified at 375 + 768, console clean, golden path to quiz; confirmed live.
 - No UI hint added (TODO said no chrome). If kids don't discover it, a one-off coach-mark is the obvious follow-up.
 - Content subpillar: skipped (counter was 28, even). Counter now 29.
+
+### 2026-10-09 — UI Pillar + Content Subpillar (~35 min, automated) — Cycle 12
+
+**Pillar: UI.** **Content subpillar: FIRED** (counter 29 → 30).
+**All DEPLOYED LIVE, build 20261009** (commits `803381c`, `bfda172`, `50e769c`).
+
+- **style: U9** (`803381c`). World Journey story covers now use `genreCoverStyle()` like library cards. `genreKey()` falls back to a later known part of a compound genre ("Place / History" → History), which only changes stories that previously got no genre colour. 3 journey stories (Festivals/Place primaries with no known secondary) still use the old teal; logged as U11. While verifying I found `.jstory-card` hard-coded `background:white` with `var(--text)` titles, so titles were near-invisible in night theme; now `var(--card)`. Verified at 375 (dark) and 768 (light), no overflow; golden path reader → quiz fine.
+- **content subpillar, Option E / C7 Level 2** (`bfda172`). Rewrote 117 wrong-sense Level 2 glosses (`w` + `d`), e.g. banks 銀行→岸, batter 打者→生地, torch トーチ→懐中電灯, judges 裁判官→審査員, current 現在→流れ, sideline 副業→サイドライン. Shared keys checked against every story: butterflies/wings/professional left alone (L1/L3 senses are the existing glosses); pacing, entry, commission, terrace got dual-sense glosses. Verified the l2.5s2 "banks" popup in JA mode at 375. Many old `d` lines were already right; only `w` was wrong.
+- Console: only `/api/me` 404s locally (expected, webstore endpoint).
+- Next: UX pillar. C7 continues with Level 3 on the next Content run.
 
 ### 2026-10-06 — Bug Fixes Pillar + Content Subpillar (~25 min, automated) — Cycle 11
 
