@@ -2010,7 +2010,7 @@ function toggleCultureWord(destId,i){
 
 const STREAK_MILESTONES=[7,14,30];
 function checkStreakMilestone(n){
-  if(STREAK_MILESTONES.includes(n)) setTimeout(()=>showToast(t('streakMilestone',n)),1800);
+  if(STREAK_MILESTONES.includes(n)) setTimeout(()=>showToastWhenFree(t('streakMilestone',n)),1800);
   // M9: 7 and 30 days also leave an optional "share your streak" card on Home (never a popup).
   if(STREAK_SHARE_DAYS.includes(n)) state.streakShare=n;
 }
@@ -2040,7 +2040,7 @@ function dismissStreakShare(){ state.streakShare=0; save(); render(); }
 const VOCAB_MILESTONES=[10,25,50,100];
 function checkVocabMilestone(oldCount,newCount){
   const hit=VOCAB_MILESTONES.find(m=>m>oldCount&&m<=newCount);
-  if(hit){ awardXP(20); setTimeout(()=>showToast(t('vocabMilestone',hit)),600); }
+  if(hit){ awardXP(20); setTimeout(()=>showToastWhenFree(t('vocabMilestone',hit)),600); }
 }
 // X9: reading milestones — a toast + small XP gift on the 1st/10th/25th/50th/100th story read.
 // Only fires on a first completion (replays don't change the count). Lands after the
@@ -2052,10 +2052,21 @@ function checkStoryMilestone(count){
   const msg=count===1? t('storyMilestoneFirst') : t('storyMilestone',count,state.streak);
   setTimeout(()=>showToastWhenFree(msg),1100);
 }
-// showToast() replaces whatever toast is on screen; this waits (up to ~6s) for the slot to clear.
-function showToastWhenFree(msg,tries=8){
-  if(document.querySelector('.toast') && tries>0) return setTimeout(()=>showToastWhenFree(msg,tries-1),700);
-  showToast(msg);
+// X12: celebration toasts (quests, streaks, milestones, login bonus, stamps) queue up and
+// play one after another, so none cuts another short. showToast() is still used directly for
+// instant feedback on a tap (word saved, restored…); the queue waits for that to clear too.
+const _toastQueue=[];
+let _toastPumping=false;
+function showToastWhenFree(msg){
+  _toastQueue.push(msg);
+  if(!_toastPumping) _pumpToastQueue();
+}
+function _pumpToastQueue(){
+  if(!_toastQueue.length){ _toastPumping=false; return; }
+  _toastPumping=true;
+  if(document.querySelector('.toast')) return setTimeout(_pumpToastQueue,400);
+  showToast(_toastQueue.shift());
+  setTimeout(_pumpToastQueue,2400); // 2s on screen + exit animation + a short gap
 }
 function updateStreak(){
   const today=new Date().toDateString();
@@ -2568,7 +2579,7 @@ function checkDailyLoginBonus(){
   if(streak>=30) bonus=35; else if(streak>=14) bonus=25; else if(streak>=7) bonus=20;
   awardXP(bonus);
   save();
-  setTimeout(()=>showToast(streak>=7?t('loginBonusStreak',streak,bonus):t('loginBonus',bonus)),700);
+  setTimeout(()=>showToastWhenFree(streak>=7?t('loginBonusStreak',streak,bonus):t('loginBonus',bonus)),700);
 }
 
 // ── DAILY + WEEKLY QUESTS — ported from the live app ──
@@ -2600,10 +2611,10 @@ function markQuestDone(type){
   awardXP(20);
   const names={stories:t('questStories',state.dailyGoal),perfect:t('questPerfect'),fc:t('questFlashcard')};
   save();
-  setTimeout(()=>showToast(t('questDoneToast',names[type]||'',20)),400);
+  setTimeout(()=>showToastWhenFree(t('questDoneToast',names[type]||'',20)),400);
   if(!q.bonus && q.stories && q.perfect && q.fc){
     q.bonus=true; awardXP(30); save();
-    setTimeout(()=>showToast(t('questAllDoneToast',30)),2800);
+    setTimeout(()=>showToastWhenFree(t('questAllDoneToast',30)),2800);
   }
 }
 function markWeekQuestDone(type){
@@ -2613,10 +2624,10 @@ function markWeekQuestDone(type){
   awardXP(30);
   const names={levels3:t('questLevels3'),journey1:t('questJourney1'),fc10:t('questFc10')};
   save();
-  setTimeout(()=>showToast(t('questDoneToast',names[type]||'',30)),400);
+  setTimeout(()=>showToastWhenFree(t('questDoneToast',names[type]||'',30)),400);
   if(!q.bonus && q.levels3 && q.journey1 && q.fc10){
     q.bonus=true; awardXP(50); save();
-    setTimeout(()=>showToast(t('questAllDoneToast',50)),2800);
+    setTimeout(()=>showToastWhenFree(t('questAllDoneToast',50)),2800);
   }
 }
 function checkStoriesQuest(){
@@ -4204,7 +4215,7 @@ function checkJourneyStamp(d){
     awardXP(200);
     markWeekQuestDone('journey1');
     save();
-    setTimeout(()=>showToast(t('destStamped',d.name)),400);
+    setTimeout(()=>showToastWhenFree(t('destStamped',d.name)),400);
   }
 }
 function renderWorldDetail(){
