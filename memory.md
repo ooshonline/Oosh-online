@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 30`
+`contentSubpillarRun: 31`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: skips next session (counter = 30, even).
+Next subpillar: FIRES next session (counter = 31, odd).
 
 ---
 
@@ -126,7 +126,8 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 **Cycle 12 — IN PROGRESS**
 - ✅ Functionality (2026-10-07, automated) — F9 sentence tap-to-replay **DEPLOYED LIVE** (commit `d6212d8`, build 20261007)
 - ✅ UI (2026-10-09, automated) — U9 journey cover textures + night-theme card fix + content subpillar C7 Level 2 JA glosses **DEPLOYED LIVE** (build 20261009)
-- Next: UX
+- ✅ UX (2026-10-12, automated) — X12 celebration-toast queue **DEPLOYED LIVE** (commit `dc661fe`, build 20261012)
+- Next: Content
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -155,6 +156,14 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 ---
 
 ## Session Log
+
+### 2026-10-12 — UX Pillar (~20 min, automated) — Cycle 12
+- **X12 · Celebration-toast queue — DEPLOYED LIVE** (commit `dc661fe`, cache-bust `d8f82b0`, build 20261012). `showToastWhenFree()` was a poll (8 tries × 700ms) that could still let two waiting toasts land in the same tick and clobber each other; it is now a FIFO queue (`_toastQueue`, `_pumpToastQueue()`, one toast per 2.4s, waits for any visible toast incl. the 5s undo toast). Routed through it: quest done, all-quests bonus (daily + weekly), streak milestone, vocab milestone, login bonus, World Journey stamp. Tap feedback (word saved, backup/restore, undo) still shows immediately via `showToast()`.
+- Verified: firing 3 quests + vocab + streak milestones at once now plays all 6 toasts in order (before, only fragments survived); queue waits out the undo toast; golden path library → reader → quiz → celebration at 375 (no h-scroll) and home at 768. Console: only the expected local `/api/me` 404s.
+- Confirmed live: github.io had the change after ~1 min; ribbitpond.com/read/ v=20261012 loads it with a clean console. The bare `/read/?cb=` URL still redirected to the old `?v=20261009` for the first minutes (cached index.html redirect, the expected Vercel cache) — not redeployed.
+- New backlog: X14 (clear the queue when a story opens), X15 (F9 coach-mark).
+- Content subpillar: skipped (counter was 30, even). Counter now 31 → fires next run.
+
 
 ### 2026-10-07 — Functionality Pillar (~25 min, automated) — Cycle 12
 - **F9 · Sentence tap-to-replay — DEPLOYED LIVE** (commit `d6212d8`, cache-bust `d4faa5c`, build 20261007). In the reader, tapping any plain (non-vocab) word re-reads its whole sentence at 0.9 with a soft orange sentence highlight plus the F4 word-by-word highlight. Vocab words keep their popup. New helpers: `sentenceAt()`, `_litSentence()`, `readerTextTap()`; `speakText()` now returns its utterance.
