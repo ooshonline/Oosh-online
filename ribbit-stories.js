@@ -5980,14 +5980,14 @@ STORIES[3][5].push({
     "barring":{def:"Except for; unless something specific happens.",pos:"preposition"}
   },
   quiz:[
-    {question:"When was the clock made, and by whom?",options:["1821, by a Bristol furniture maker","1721, by a clockmaker called James Harding","1871, by a Bristol company","1721, by an unknown craftsman"],correct:1,
-     feedback:"'The clock in the hallway was made in 1721 by a clockmaker in Bristol... James Harding, Bristoll.'"},
+    {question:"The narrator says the clock 'will outlast me'. Why do they think this?",options:["The narrator is very old","The family is planning to sell it soon","A well-made mechanical clock can keep working for hundreds of years","The clock is newer than the narrator"],correct:2,
+     feedback:"This is an inference — the clock has already worked for about 300 years with only winding and small corrections, so it will probably keep going long after the narrator."},
     {question:"Why did the father not correct the clock's slow rate permanently?",options:["The adjustment was too expensive","The mechanism was too fragile","His grandfather had set it this way and he did not want to undo it","The correct tools were no longer available"],correct:2,
      feedback:"'His grandfather had adjusted it to lose at this rate... and he did not want to undo it.'"},
     {question:"How long does the midnight chime take?",options:["About ten seconds","About thirty seconds","About forty seconds","Nearly a minute"],correct:3,
      feedback:"'At midnight... the chime and strike together last nearly a minute.'"},
-    {question:"How often does the clock need winding?",options:["Every day","Twice a week","Once a week","Once a fortnight"],correct:1,
-     feedback:"'It needs winding twice a week.'"}
+    {question:"'Barring accident, it will probably still be ticking in 2150.' What does 'barring accident' mean here?",options:["Unless an accident happens","Because an accident happened","After an accident is repaired","Only if there is an accident"],correct:0,
+     feedback:"'Barring' means 'except for'. The clock will keep ticking unless something unexpected, like an accident, stops it."}
   ],
   images:['images/p6/p6_the_oldest_clock_1.webp','images/p6/p6_the_oldest_clock_2.webp','images/p6/p6_the_oldest_clock_3.webp','images/p6/p6_the_oldest_clock_4.webp','images/p6/p6_the_oldest_clock_5.webp']
 });
@@ -6016,12 +6016,12 @@ STORIES[3][5].push({
   quiz:[
     {question:"Why did the narrator start running?",options:["To lose weight","To train for a race","To have somewhere to put a difficult feeling","Their doctor recommended it"],correct:2,
      feedback:"'I had nowhere to put a particular kind of feeling that arrived in winter and did not leave.'"},
-    {question:"Why did they go at five-thirty in the morning for the first run?",options:["The weather was cooler","It was quieter on the roads","They did not want anyone they knew to see them","They had school at eight"],correct:2,
-     feedback:"'I went at five-thirty in the morning so that nobody I knew would see me.'"},
+    {question:"By May, the narrator ran at seven o'clock instead of five-thirty. What does this change show?",options:["They had become more confident and no longer felt embarrassed","The sun came up later in May","Their doctor told them to run later","The canal path was closed early in the morning"],correct:0,
+     feedback:"This is an inference — they first ran at five-thirty 'so that nobody I knew would see me'. Moving to seven 'because I no longer cared if anyone saw me' shows their confidence had grown."},
     {question:"What does running do to the low background pressure, according to the narrator?",options:["Removes it entirely","Compresses it, or gives it a different shape","Makes it worse for a short time","Has no reliable effect"],correct:1,
      feedback:"'An hour spent moving... compresses it, perhaps, or gives it a different shape.'"},
-    {question:"What does the narrator say about their running performance?",options:["They are working toward a race","They track their times carefully","They are not fast and do not run races","They run with a friend most days"],correct:2,
-     feedback:"'I am not fast. I do not run races. I do not track my times or wear anything with sensors.'"}
+    {question:"Which of these happened FIRST?",options:["They could run three kilometers","They ran a full kilometer without stopping","They moved their runs to seven in the morning","They walked part of the circuit and came home to make toast"],correct:3,
+     feedback:"On the very first run they managed about eight hundred meters, walked the rest and 'made toast'. The kilometer came by the end of March, and three kilometers by May."}
   ],
   images:['images/p6/p6_the_runner_1.webp','images/p6/p6_the_runner_2.webp','images/p6/p6_the_runner_3.webp','images/p6/p6_the_runner_4.webp','images/p6/p6_the_runner_5.webp']
 });
@@ -6053,10 +6053,10 @@ STORIES[3][5].push({
      feedback:"'Her daughter came to stay but could not take Bramble because of a severe allergy.'"},
     {question:"What caused 'a conversation' in the family?",options:["Bramble chewed something in the house","The mother said yes without fully consulting the father","The father wanted to keep Bramble permanently","The cost of feeding a dog"],correct:1,
      feedback:"'My mother said yes before fully consulting my father, which caused a conversation.'"},
-    {question:"How long was Mrs Osei in hospital or away from home?",options:["Two weeks","Four weeks","Six weeks","Two months"],correct:2,
-     feedback:"'Mrs Osei came home after six weeks.'"},
-    {question:"What does the father say about losing six kilograms?",options:["He attributes it to the morning walks with Bramble","He says it is nothing to do with the dog","He says it is due to a change in diet","He refuses to discuss it"],correct:1,
-     feedback:"'He has lost six kilograms. He says it is nothing to do with the dog.'"}
+    {question:"At the end, the narrator says 'the same is probably true in the other direction'. What do they mean?",options:["Mrs Osei lives in the other direction","The family would also miss Mrs Osei and Bramble — helping has been good for them too","The dog prefers to walk the other way along the canal","The narrator would like Mrs Osei to move away"],correct:1,
+     feedback:"This is an inference — Mrs Osei needs the family, but the family now needs her and Bramble too: new routines, walks together, and a father who has lost six kilograms."},
+    {question:"The father 'says it is nothing to do with the dog.' What does the narrator probably think?",options:["The father is right — the dog did not help","The father is ill and should see a doctor","The father should stop walking Bramble","The long walks with Bramble probably did help him lose weight"],correct:3,
+     feedback:"This is an inference — the father walks Bramble for forty minutes every morning. The narrator tells us what he says, but the facts suggest the dog helped a lot."}
   ],
   images:['images/p6/p6_the_neighbours_dog_1.webp','images/p6/p6_the_neighbours_dog_2.webp','images/p6/p6_the_neighbours_dog_3.webp','images/p6/p6_the_neighbours_dog_4.webp','images/p6/p6_the_neighbours_dog_5.webp','images/p6/p6_the_neighbours_dog_6.webp']
 });
@@ -6083,14 +6083,14 @@ STORIES[3][5].push({
     "informative":{def:"Providing useful information or insight.",pos:"adjective"}
   },
   quiz:[
-    {question:"What happened to the narrator's first bowl?",options:["It cracked in the kiln","It turned out too small","It collapsed into a shape that was more of an oval","Miss Parkes used it as an example of good work"],correct:2,
-     feedback:"'Something that was supposed to be a bowl and turned out to be more of a collapsed oval.'"},
+    {question:"Miss Parkes said collapsing was 'informative'. What did she mean?",options:["A collapsed pot can teach you what went wrong","Collapsing is a mistake you should hide","Collapsing makes the clay stronger","Only beginners' pots ever collapse"],correct:0,
+     feedback:"'Informative' means it gives you useful information. By feeling the clay again, the narrator could 'understand where the pressure had gone wrong'."},
     {question:"Why does ceramics take two to four weeks from clay to finished object?",options:["The kiln is only on once a month","Each stage requires drying, firing, and glazing time","Miss Parkes limits how many sessions you can use","The clay must be ordered specially"],correct:1,
      feedback:"Building, drying to leather-hard, bisque firing, glazing, then glaze firing all take time."},
     {question:"What does the narrator say they find a relief about ceramics?",options:["It is quiet in the room","The results are always visible","It requires full concentration, leaving no room for other thoughts","You can listen to music while working"],correct:2,
      feedback:"'You have to be there, in the room, paying attention with your hands. I find that a relief.'"},
-    {question:"How many of the eleven pots did the narrator give to relatives at Christmas?",options:["Two","Three","Four","Five"],correct:1,
-     feedback:"'Three went to relatives at Christmas.'"}
+    {question:"Miss Parkes 'did not correct it for me.' Why did she probably let the narrator fix the bowl alone?",options:["She was too busy with other students","She did not know how to fix it","She wanted the narrator to learn by feeling the clay and finding the problem","She thought the bowl was already perfect"],correct:2,
+     feedback:"This is an inference — she told the narrator to 'feel the clay again' and understand the mistake. People often learn more when they find the problem themselves."}
   ],
   images:['images/p6/p6_the_ceramics_room_1.webp','images/p6/p6_the_ceramics_room_2.webp','images/p6/p6_the_ceramics_room_3.webp','images/p6/p6_the_ceramics_room_4.webp','images/p6/p6_the_ceramics_room_5.webp']
 });
@@ -6119,12 +6119,12 @@ STORIES[3][5].push({
   quiz:[
     {question:"Why was school cancelled for the afternoon?",options:["A heating fault","Heavy snowfall","A named storm was forecast","A fire alarm test"],correct:2,
      feedback:"'Due to the forecast, the afternoon sessions were cancelled' — Storm Elin was arriving."},
-    {question:"What did the narrator do with the plastic guttering in the road?",options:["Reported it to the council","Left it where it was","Moved it to the pavement so cars could pass","Took it home"],correct:2,
-     feedback:"'I moved it to the pavement so cars could pass.'"},
-    {question:"What damage did the narrator discover the morning after the storm?",options:["A roof tile had fallen","The garden shed had collapsed","A section of fence between the gardens had come down","A tree had fallen across the driveway"],correct:2,
-     feedback:"'A large section of fence between our garden and the Hargreaves' next door came down completely.'"},
-    {question:"What does the narrator say about the following Friday?",options:["More storm damage was found","The rowan tree still blocked the pavement","Most of the evidence had been cleared","School was closed again"],correct:2,
-     feedback:"'By Friday, most of it had been cleared. You would not have known, unless you had been there.'"}
+    {question:"Why did the narrator's mother move the bins and bring the garden furniture inside?",options:["She was cleaning the garden","So the strong wind would not blow them around","The school asked every family to do it","She wanted more space in the kitchen"],correct:1,
+     feedback:"This is an inference — a storm was coming, and the wind had already blown guttering off a house. Loose things outside could be blown away or cause damage."},
+    {question:"Which of these happened LAST?",options:["The power went off for twenty minutes","The family ate soup at three in the afternoon","The narrator moved the guttering off the road","The council cut through the fallen rowan branch"],correct:3,
+     feedback:"The council cut through the branch 'the following day'. The guttering, the soup and the power cut all happened on the day of the storm."},
+    {question:"'You would not have known, unless you had been there.' What does the narrator mean?",options:["The storm was not very strong","Nobody else in town saw the storm","After the cleanup, there was little sign of how bad the storm had been","The town was still badly damaged on Friday"],correct:2,
+     feedback:"This is an inference — by Friday most of the damage 'had been cleared', so someone arriving then would never guess a big storm had passed through."}
   ],
   images:['images/p6/p6_storm_day_1.webp','images/p6/p6_storm_day_2.webp','images/p6/p6_storm_day_3.webp','images/p6/p6_storm_day_4.webp','images/p6/p6_storm_day_5.webp']
 });
