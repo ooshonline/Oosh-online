@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 31`
+`contentSubpillarRun: 32`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: FIRES next session (counter = 31, odd).
+Next subpillar: skipped next session (counter = 32, even).
 
 ---
 
@@ -127,7 +127,8 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 - ✅ Functionality (2026-10-07, automated) — F9 sentence tap-to-replay **DEPLOYED LIVE** (commit `d6212d8`, build 20261007)
 - ✅ UI (2026-10-09, automated) — U9 journey cover textures + night-theme card fix + content subpillar C7 Level 2 JA glosses **DEPLOYED LIVE** (build 20261009)
 - ✅ UX (2026-10-12, automated) — X12 celebration-toast queue **DEPLOYED LIVE** (commit `dc661fe`, build 20261012)
-- Next: Content
+- ✅ Content (2026-10-13, automated) — C1 L3.6 quiz variety + subpillar C7 Level 3 JA glosses **DEPLOYED LIVE** (build 20261013)
+- Next: Gamification
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -156,6 +157,16 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 ---
 
 ## Session Log
+
+### 2026-10-13 — Content Pillar + Content Subpillar (~25 min, automated) — Cycle 12
+
+**Pillar: Content.** **Content subpillar: FIRED** (counter 31 → 32).
+**All DEPLOYED LIVE, build 20261013** (commits `53b6971`, `c5cfee7`, cache-bust `f5a7d86`).
+
+- **content: C1 L3.6** (`53b6971`). Replaced 11 literal-recall questions across l3.6s1–s5: 7 inference ("This is an inference —" feedback), 2 vocab-in-context (barring, informative), 2 sequencing (FIRST / LAST). Correct answers now sit at A/B/C/D rather than mostly C. New copy in American spelling (kilometer, meters).
+- **content subpillar, Option E / C7 Level 3** (`c5cfee7`). Rewrote 135 wrong-sense or katakana-only L3 glosses (`w` + `d`), e.g. rota ロタ語→当番表, rushes 急ぐ→イグサ, stile かまち→踏み越し段, prove 証明する→発酵させる, hoarding 溜め込む→工事用の囲い, riffle beetle ルリハムシ→ヒメドロムシ. Shared keys checked against L2/L4/L5/L6 senses; dual glosses where they differ (solution 解決策・溶液, concentration, shelter, gutters, agency 派遣会社・主体性, passage, trail). 9 L3 keys (hive, nectar, pollen, pollination, cell, estuary, aerial root, brackish, erode) had no JA entry at all; added. "Spite and Malice" only existed lowercased; added the exact-case key (the lowercase one is harmless and left in place).
+- Verified locally at 375 (JA mode: "debris" popup shows the new gloss; l3.6s5 reader → all 4 quiz questions → celebration, no h-scroll) and 768 (l3.6s3 Q3). Console: only the expected local `/api/me` 404.
+- Next: Gamification pillar. C1 continues at L3.7; C7 continues at Level 4.
 
 ### 2026-10-12 — UX Pillar (~20 min, automated) — Cycle 12
 - **X12 · Celebration-toast queue — DEPLOYED LIVE** (commit `dc661fe`, cache-bust `d8f82b0`, build 20261012). `showToastWhenFree()` was a poll (8 tries × 700ms) that could still let two waiting toasts land in the same tick and clobber each other; it is now a FIFO queue (`_toastQueue`, `_pumpToastQueue()`, one toast per 2.4s, waits for any visible toast incl. the 5s undo toast). Routed through it: quest done, all-quests bonus (daily + weekly), streak milestone, vocab milestone, login bonus, World Journey stamp. Tap feedback (word saved, backup/restore, undo) still shows immediately via `showToast()`.
