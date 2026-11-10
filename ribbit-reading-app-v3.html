@@ -328,6 +328,7 @@
     .modal-level-pill{border-radius:999px;padding:4px 14px;font-size:11px;font-weight:700;color:#fff}
     .modal-body{padding:22px}
     .modal-title{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text);margin-bottom:10px}
+    .modal-blurb{font-size:14px;line-height:1.5;color:var(--text-muted);margin:-4px 0 12px}
     .modal-meta{display:flex;gap:14px;margin-bottom:12px}
     .modal-meta span{font-size:12px;color:var(--text-muted);font-weight:500}
     .modal-stars{display:flex;gap:2px;margin-bottom:16px}
@@ -862,9 +863,9 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20261110b"></script>
-<script src="ribbit-wordlists.js?v=20261110b"></script>
-<script src="ribbit-ja-translations.js?v=20261110b"></script>
+<script src="ribbit-stories.js?v=20261110c"></script>
+<script src="ribbit-wordlists.js?v=20261110c"></script>
+<script src="ribbit-ja-translations.js?v=20261110c"></script>
 <script src="assets/vendor/lottie.min.js?v=20260804"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
@@ -3098,7 +3099,7 @@ const UI_STRINGS = {
     tappedSaveAll:(n)=>`${n} word${n===1?'':'s'} saved! 📚`, tappedAllSaved:'All saved to your deck ✓',
     freeLeft:(n)=>`${n} free ${n===1?'story':'stories'} left this week`,
     freeExhausted:'No free stories left this week',
-    bookmarkSave:'🔖 Save for later', bookmarkSaved:'✓ Saved for later', savedSection:'READ LATER',
+    bookmarkSave:'Save for later', bookmarkSaved:'✓ Saved for later', savedSection:'READ LATER',
   },
   ja: {
     greeting:(h)=> h<12?'おはよう！':h<18?'こんにちは！':'こんばんは！',
@@ -3256,7 +3257,7 @@ const UI_STRINGS = {
     tappedSaveAll:(n)=>`${n}語を保存しました！📚`, tappedAllSaved:'全部デッキに保存ずみ ✓',
     freeLeft:(n)=>`今週あと${n}話よめます`,
     freeExhausted:'今週の無料分はおわりました',
-    bookmarkSave:'🔖 あとで読む', bookmarkSaved:'✓ 保存済み', savedSection:'あとで読む',
+    bookmarkSave:'あとで読む', bookmarkSaved:'✓ 保存済み', savedSection:'あとで読む',
   },
 };
 function t(key,...args){
@@ -3530,6 +3531,7 @@ function renderModal(){
       </div>
       <div class="modal-body">
         <div class="modal-title">${s.title}</div>
+        ${s.blurb?`<div class="modal-blurb">${escAttr(s.blurb)}</div>`:''}
         <div class="modal-meta"><span>${t('pages',s.paragraphs?s.paragraphs.length:1)}</span><span>${t('audio')}</span></div>
         ${starsHtml}
         <button class="modal-start-btn" onclick="startReadingFromModal()"><span>${icon('ctrl-play',16)}</span><span>${stars?t('readAgainBtn'):t('start')}</span></button>
@@ -4551,7 +4553,7 @@ function renderLanding(){
     </div>
     <!-- BUILD_ID is bumped on every deploy. It is shown here so a stale cached copy can be
          identified at a glance without opening devtools. -->
-    <div class="landing-footer">OOSH Online · v3.0 · build 20261110b</div>
+    <div class="landing-footer">OOSH Online · v3.0 · build 20261110c</div>
   </div>`;
 }
 
