@@ -580,8 +580,13 @@
        Landscape phones and tablets (>=768px) keep the split layout. */
     @media (max-width:767px) and (orientation:portrait){
       .reader-content{flex-direction:column}
-      .reader-illu{width:100%;min-width:0;height:min(34vh,100vw);height:min(34dvh,100vw)}
+      .reader-illu{width:100%;min-width:0;height:min(34vh,100vw);height:min(34dvh,100vw);transition:height .25s ease}
+      /* Scrolled a long page: picture shrinks to a banner (tap it to expand). */
+      .reader-content.illu-compact .reader-illu{height:88px;cursor:pointer}
+      .reader-content.illu-compact .reader-illu-backdrop + img{max-width:calc(100% - 16px);max-height:calc(100% - 16px);border-radius:10px}
+      .reader-content.illu-compact .reader-illu-emoji{font-size:40px}
     }
+    @media (prefers-reduced-motion:reduce){ .reader-illu{transition:none} }
     .reader-comfort-bar{background:var(--navy);border-top:1px solid rgba(255,255,255,.14);padding:8px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
     .reader-font-steps{display:flex;align-items:center;gap:3px;background:rgba(255,255,255,.12);border-radius:8px;padding:3px}
     .rcb-btn{height:34px;padding:0 12px;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,.6);transition:background .15s,color .15s;white-space:nowrap}
@@ -3594,6 +3599,8 @@ function renderReader(){
   const isFirst=state.currentPage===0, isLast=state.currentPage===total-1;
   const progressPct=Math.round(((state.currentPage+1)/total)*100);
   const img=story.images&&story.images[state.currentPage];
+  const viewKey=story.id+':'+state.currentPage;
+  if(_readerView.key!==viewKey) _readerView={key:viewKey,top:0,compact:false};
   const comfortBar=state.showComfort?`
     <div class="reader-comfort-bar">
       <div class="reader-font-steps">
@@ -3615,13 +3622,13 @@ function renderReader(){
       <button class="reader-exit-btn" onclick="exitReading()"><span>${icon('ctrl-close',14)}</span><span>${t('exit')}</span></button>
     </div>
     ${comfortBar}
-    <div class="reader-content">
-      <div class="reader-illu" style="background:linear-gradient(135deg,${levelG1},${levelG2})">
+    <div class="reader-content${_readerView.compact?' illu-compact':''}">
+      <div class="reader-illu" style="background:linear-gradient(135deg,${levelG1},${levelG2})" onclick="readerExpandIllu()">
         <div class="reader-illu-emoji"${img?' style="display:none"':''}>${story.emoji||'📖'}</div>
         ${img?`<div class="reader-illu-backdrop" style="background-image:url('${escAttr(img)}')"></div>`:''}
         ${img?`<img src="${img}" alt="" onerror="var p=this.parentElement;this.remove();var e=p.querySelector('.reader-illu-emoji');if(e)e.style.display='';var b=p.querySelector('.reader-illu-backdrop');if(b)b.remove();">`:''}
       </div>
-      <div class="reader-text-area${state.easyRead?' easy-read':''}" onclick="event.stopPropagation()" ontouchstart="readerSwipeStart(event)" ontouchend="readerSwipeEnd(event)">
+      <div class="reader-text-area${state.easyRead?' easy-read':''}" onclick="event.stopPropagation()" ontouchstart="readerSwipeStart(event)" ontouchend="readerSwipeEnd(event)" onscroll="readerTextScroll(this)">
         <div class="reader-progress-bar"><div class="reader-progress-fill" style="width:${progressPct}%"></div></div>
         <div class="reader-page-text${state.pageDir?' page-enter-'+state.pageDir:''}" lang="en" onclick="readerTextTap(event)">${makeWordTappable(story.paragraphs[state.currentPage],story.vocabulary||{})}</div>
         <div id="page-turn-anim" class="page-turn-anim-slot"></div>
@@ -3634,6 +3641,33 @@ function renderReader(){
       <button class="reader-next-btn" onclick="nextPage()">${isLast?t('toQuiz'):t('next')} ${icon('ctrl-next',14)}</button>
     </div>
   </div>`;
+}
+
+// ── READER VIEW MEMORY ──
+// Long pages scroll. Two jobs: (1) on portrait phones, shrink the illustration to a
+// banner once the learner scrolls, so the text gets the screen (CSS does nothing at
+// other sizes); (2) keep the scroll position when a word tap re-renders the reader,
+// which used to snap the page back to the top. Keyed by story+page, so a new page
+// always starts at the top with the full picture.
+let _readerView={key:'',top:0,compact:false};
+function readerTextScroll(el){
+  _readerView.top=el.scrollTop;
+  // Collapse only (no auto-expand): expanding shrinks the text area, which changes
+  // scrollTop and would flicker. Tapping the banner brings the full picture back.
+  if(!_readerView.compact && el.scrollTop>16){
+    _readerView.compact=true;
+    const c=el.closest('.reader-content'); if(c) c.classList.add('illu-compact');
+  }
+}
+function readerExpandIllu(){
+  if(!_readerView.compact) return;
+  _readerView.compact=false; _readerView.top=0;
+  const c=document.querySelector('.reader-content'); if(c) c.classList.remove('illu-compact');
+  const ta=document.querySelector('.reader-text-area'); if(ta) ta.scrollTop=0;
+}
+function restoreReaderScroll(){
+  if(!_readerView.top) return;
+  const ta=document.querySelector('.reader-text-area'); if(ta) ta.scrollTop=_readerView.top;
 }
 
 // ── VOCAB RECAP — shown for 3 s before quiz questions; auto-dismissed or tapped to skip ──
@@ -4606,7 +4640,7 @@ function runProfileAnims(){
 function render(){
   if(state.screen==='landing'){ renderLanding(); return; }
   if(state.screen==='placement'){ document.getElementById('app').innerHTML=renderPlacement(); return; }
-  if(state.screen==='reader'){ document.getElementById('app').innerHTML=renderReader(); return; }
+  if(state.screen==='reader'){ document.getElementById('app').innerHTML=renderReader(); restoreReaderScroll(); return; }
   if(state.screen==='quiz'){
     document.getElementById('app').innerHTML=renderQuiz();
     if(state.vocabRecap&&!_vocabRecapTimer){ _vocabRecapTimer=setTimeout(()=>{ _vocabRecapTimer=null; state.vocabRecap=false; render(); },3000); }
