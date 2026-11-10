@@ -99,7 +99,7 @@
     .landing-screen::after{width:240px;height:140px;bottom:-60px;right:-60px}
     .landing-lang-pill{position:absolute;top:18px;right:18px;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);color:rgba(255,255,255,.9);font-family:var(--font-head);font-size:.75rem;font-weight:700;border-radius:22px;padding:10px 16px;z-index:2}
     .landing-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:340px}
-    .landing-frog{width:130px;height:130px;margin-bottom:20px;filter:drop-shadow(0 12px 28px rgba(0,0,0,.4));animation:float 3.5s ease-in-out infinite}
+    .landing-frog{width:150px;height:150px;object-fit:contain;margin-bottom:20px;filter:drop-shadow(0 12px 28px rgba(0,0,0,.4));animation:float 3.5s ease-in-out infinite}
     .landing-title{font-family:var(--font-head);font-size:54px;font-weight:900;color:var(--primary);letter-spacing:-1px;line-height:1}
     .landing-tagline{font-family:var(--font-body);font-size:17px;color:rgba(255,255,255,.88);margin-top:12px;font-weight:400}
     .landing-subtag{font-family:var(--font-body);font-size:12px;color:rgba(255,255,255,.45);margin-top:6px}
@@ -127,8 +127,6 @@
     .stat-pill .sp-freeze b{font-size:10px;font-weight:800;color:var(--text-muted)}
     .stat-pill .sp-label{font-size:10px;font-weight:500;color:var(--text-muted)}
     .lottie-slot{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
-    .avatar-btn{width:52px;height:52px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;overflow:hidden;border:none;cursor:pointer;padding:0}
-    .lang-toggle-pill{flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:4px;min-height:44px;background:var(--bg);border-radius:22px;padding:10px 14px;font-size:12px;font-weight:700;color:var(--text)}
 
     .content-area{flex:1;overflow-y:auto;padding-bottom:8px}
 
@@ -503,6 +501,9 @@
     /* ══ PROFILE — literal port, Tablet lines 289-362 ══ */
     .profile-pane{padding:18px 16px;display:flex;flex-direction:column;gap:20px}
     .profile-identity{display:flex;flex-direction:row;align-items:center;gap:14px}
+    .profile-lang-switch{display:flex;gap:4px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:4px}
+    .profile-lang-btn{flex:1;min-height:44px;border-radius:9px;font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--text-muted);background:transparent}
+    .profile-lang-btn.active{background:var(--card);color:var(--text);box-shadow:var(--shadow-sm)}
     .profile-avatar{width:64px;height:64px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0;overflow:hidden}
     .profile-level-badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 14px;font-family:var(--font-head);font-weight:800;font-size:13px}
     .profile-main{display:flex;flex-direction:column;gap:20px}
@@ -3054,6 +3055,7 @@ const UI_STRINGS = {
     replayGoodJob:'Great practice! Beat your score to earn more XP.',
     firstTryBonus:'⭐ +10 XP First Try!',
     appearanceTitle:'APPEARANCE',
+    languageTitle:'LANGUAGE',
     nightModeOn:'🌙 Night mode', nightModeOff:'☀️ Day mode',
     saveProgress:'💾 Save Progress', restoreProgress:'📂 Restore Progress',
     dataTitle:'YOUR DATA', dataHint:'Download a backup · restore on any device',
@@ -3211,6 +3213,7 @@ const UI_STRINGS = {
     replayGoodJob:'よく練習できたね！スコアを上げてXPをゲットしよう。',
     firstTryBonus:'⭐ +10XP 一発正解！',
     appearanceTitle:'がめんのせってい',
+    languageTitle:'ことば / Language',
     nightModeOn:'🌙 ナイトモード', nightModeOff:'☀️ デイモード',
     saveProgress:'💾 データを保存', restoreProgress:'📂 データを復元',
     dataTitle:'データ管理', dataHint:'バックアップをダウンロード・どのデバイスでも復元できます',
@@ -3265,6 +3268,7 @@ function t(key,...args){
 // Story text is always English and is marked lang="en" at the reader instead.
 function applyUiLang(){ document.documentElement.lang = state.uiLang; }
 function toggleUiLang(){ state.uiLang = state.uiLang==='en'?'ja':'en'; applyUiLang(); save(); render(); }
+function setUiLang(lang){ if(state.uiLang===lang) return; toggleUiLang(); }
 
 // ── APP SHELL (header + bottom nav) — literal port, Tablet lines 37-106, 730-752 ──
 const TAB_DEFS=[
@@ -3316,8 +3320,7 @@ function renderHeader(){
       ${!isLibrary?`
       <div class="stat-pill"><span id="header-streak-flame" class="lottie-slot">${icon('status-streak-flame',16)}</span><span class="sp-val">${state.streak||0}</span>${(state.streakFreezes||0)>0?`<span class="sp-freeze" title="${escAttr(t('streakFreezeTitle',state.streakFreezes))}" aria-label="${escAttr(t('streakFreezeTitle',state.streakFreezes))}">🛡️${state.streakFreezes>1?`<b>${state.streakFreezes}</b>`:''}</span>`:''}</div>
       <div class="stat-pill"><span id="header-xp-star" class="lottie-slot">${icon('xp-xp-star',16)}</span><span class="sp-val">${(state.xp||0).toLocaleString()}</span></div>
-      <button class="avatar-btn" onclick="navigate('profile')" aria-label="Profile">🐸</button>`:''}
-      <button class="lang-toggle-pill" onclick="toggleUiLang()" aria-label="Toggle language">${t('langToggle')}</button>
+`:''}
     </div>
   </div>`;
 }
@@ -4345,7 +4348,7 @@ function renderProfile(){
 
   return `<div class="profile-pane">
     <div class="profile-identity">
-      <div class="profile-avatar">🐸</div>
+      <div class="profile-avatar"><img src="assets/brand/ribbit-avatar.png" alt="Ribbit" style="width:100%;height:100%;object-fit:cover;object-position:50% 34%"></div>
       <div class="profile-level-badge" style="background:${curLv.color}26;color:${curLv.color}"><span>${icon(curLv.icon,18)}</span><span>${curLv.pond}</span></div>
     </div>
     <div class="profile-main">
@@ -4367,6 +4370,13 @@ function renderProfile(){
           <button class="see-all-link" onclick="navigate('rewards')">${t('seeAll')}</button>
         </div>
         <div class="recent-badges-card">${badgesHtml}</div>
+      </div>
+      <div class="profile-data-row">
+        <div class="section-title">${t('languageTitle')}</div>
+        <div class="profile-lang-switch" role="group" aria-label="${escAttr(t('languageTitle'))}">
+          <button class="profile-lang-btn${state.uiLang==='en'?' active':''}" onclick="setUiLang('en')" aria-pressed="${state.uiLang==='en'}">English</button>
+          <button class="profile-lang-btn${state.uiLang==='ja'?' active':''}" onclick="setUiLang('ja')" aria-pressed="${state.uiLang==='ja'}">日本語</button>
+        </div>
       </div>
       <div class="profile-data-row">
         <div class="section-title">${t('appearanceTitle')}</div>
@@ -4531,7 +4541,7 @@ function renderLanding(){
   <div class="screen landing-screen">
     <button class="landing-lang-pill" onclick="toggleUiLang()" aria-label="Language">🌐 ${state.uiLang==='en'?'English':'日本語'}</button>
     <div class="landing-content">
-      <img class="landing-frog" src="OOSH_Logo_Square.png" alt="Ribbit">
+      <img class="landing-frog" src="assets/brand/ribbit-logo-512.webp" alt="Ribbit">
       <div class="landing-title">Ribbit</div>
       <div class="landing-tagline">${state.uiLang==='en'?'Learn English the fun way!':'えいごをたのしくまなぼう！'}</div>
       <div class="landing-subtag">${state.uiLang==='en'?`${LEVELS.length} levels · ${DESTINATIONS.length} countries to explore`:`${LEVELS.length}レベル · 世界${DESTINATIONS.length}か国をたんけん`}</div>
