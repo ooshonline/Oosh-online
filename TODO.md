@@ -52,6 +52,18 @@ sessions with Kyle, phase by phase. **The routine doesn't build these items.** D
 - [x] **Existing stories stay as they are (Kyle, 2026-10-08).** New copy and stories are American English; there's
   no conversion pass for the existing (mostly British-spelled) stories. Don't "fix" them.
 
+## Consultant review — Phase 1 (2026-11-10)
+Full action list: `docs/consultant-review-2026-11-10.md`. Phase 1 is committed on `master`
+(`62ffe81`, `34a3453`, `e4b429d`) and browser-verified at 375/820/1280 px, light and night, but
+**not yet deployed** (needs the cache-bust bump + push).
+- [x] 1.1 Story covers use the first illustration everywhere a cover shows; no-art stories keep emoji.
+- [x] 1.2 `images/thumbs/` (245 × 480px, ~37 KB). **Re-run `node image-pipeline/make-thumbs.js` after every
+  image ingest** so new art gets a thumb (cards fall back to the full image if you forget).
+- [x] 1.3 Reader art sits as a framed print on a blurred copy of itself (no more flat gradient bands).
+- [x] 1.4 Portrait phones: long pages shrink the picture to a tappable banner. Also fixed: tapping a word
+  on a long page no longer jumps the text back to the top.
+- [ ] Next: Phase 2 (see the review doc's "Suggested order").
+
 ## Pending Kyle's decision (do NOT auto-ship)
 - [x] **Redesigned icon set SHIPPED (2026-07-15, commit `c5f152e`).** All 41 registry icons inlined + live.
 - [ ] **3 icons flagged for a Design tweak** (legible but weakest — optional polish): `status/streak-flame`
