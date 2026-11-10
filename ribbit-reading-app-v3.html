@@ -47,7 +47,7 @@
         --border:#2d4a38; --primary-light:rgba(114,201,58,.2);
         --correct-bg:rgba(34,197,94,.18); --wrong-bg:rgba(239,68,68,.18);
         --quiz-bg:#14231a; --correct-text:#4ade80; --wrong-text:#f87171;
-        --shadow-sm:0 2px 8px rgba(0,0,0,.35); --shadow:0 2px 10px rgba(0,0,0,.45); --shadow-lg:0 4px 16px rgba(0,0,0,.6); --cover-dim:rgba(20,35,26,.2); --cover-img-bright:.88;
+        --shadow-sm:0 2px 8px rgba(0,0,0,.35); --shadow:0 2px 10px rgba(0,0,0,.45); --shadow-lg:0 4px 16px rgba(0,0,0,.6); --cover-dim:rgba(20,35,26,.2); --cover-img-bright:.88; --reader-backdrop-bright:.7;
       --celeb-bg:var(--bg); --celeb-surface:var(--card); --celeb-tint:rgba(114,201,58,.2); --celeb-green:#8fd66a; --celeb-pill-bg:rgba(114,201,58,.12); --celeb-pill-border:#3f6b2c; --celeb-muted-bg:var(--card);
       }
     }
@@ -56,7 +56,7 @@
       --border:#2d4a38; --primary-light:rgba(114,201,58,.2);
       --correct-bg:rgba(34,197,94,.18); --wrong-bg:rgba(239,68,68,.18);
         --quiz-bg:#14231a; --correct-text:#4ade80; --wrong-text:#f87171;
-      --shadow-sm:0 2px 8px rgba(0,0,0,.35); --shadow:0 2px 10px rgba(0,0,0,.45); --shadow-lg:0 4px 16px rgba(0,0,0,.6); --cover-dim:rgba(20,35,26,.2); --cover-img-bright:.88;
+      --shadow-sm:0 2px 8px rgba(0,0,0,.35); --shadow:0 2px 10px rgba(0,0,0,.45); --shadow-lg:0 4px 16px rgba(0,0,0,.6); --cover-dim:rgba(20,35,26,.2); --cover-img-bright:.88; --reader-backdrop-bright:.7;
       --celeb-bg:var(--bg); --celeb-surface:var(--card); --celeb-tint:rgba(114,201,58,.2); --celeb-green:#8fd66a; --celeb-pill-bg:rgba(114,201,58,.12); --celeb-pill-border:#3f6b2c; --celeb-muted-bg:var(--card);
     }
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -550,6 +550,13 @@
        square image in a square frame, so nothing is ever cropped whatever shape the window is.
        The column keeps its level gradient, which shows above/below the art in tall windows. */
     .reader-illu img{position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain}
+    /* Blurred copy of the same page art fills the letterbox either side of the square
+       picture, so the frame matches the scene instead of showing flat gradient bands. */
+    .reader-illu{overflow:hidden}
+    .reader-illu-backdrop{position:absolute;inset:-30px;z-index:0;background-size:cover;background-position:center;filter:blur(22px) saturate(1.15) brightness(var(--reader-backdrop-bright,.95))}
+    /* On the backdrop the art sits as an inset print: square, rounded, soft shadow. The
+       sources have a white watercolour margin, so a framed card reads as deliberate. */
+    .reader-illu-backdrop + img{width:auto;height:auto;max-width:calc(100% - 24px);max-height:calc(100% - 24px);aspect-ratio:1/1;object-fit:contain;border-radius:14px;box-shadow:0 6px 22px rgba(0,0,0,.28)}
     /* `safe center` centres the page when it fits but falls back to flex-start when it doesn't.
        Plain `center` overflows equally in both directions on a scroll container, putting the
        first line above scrollTop:0 where it can never be scrolled back into view.
@@ -3611,7 +3618,8 @@ function renderReader(){
     <div class="reader-content">
       <div class="reader-illu" style="background:linear-gradient(135deg,${levelG1},${levelG2})">
         <div class="reader-illu-emoji"${img?' style="display:none"':''}>${story.emoji||'📖'}</div>
-        ${img?`<img src="${img}" alt="" onerror="var p=this.parentElement;this.remove();var e=p.querySelector('.reader-illu-emoji');if(e)e.style.display='';">`:''}
+        ${img?`<div class="reader-illu-backdrop" style="background-image:url('${escAttr(img)}')"></div>`:''}
+        ${img?`<img src="${img}" alt="" onerror="var p=this.parentElement;this.remove();var e=p.querySelector('.reader-illu-emoji');if(e)e.style.display='';var b=p.querySelector('.reader-illu-backdrop');if(b)b.remove();">`:''}
       </div>
       <div class="reader-text-area${state.easyRead?' easy-read':''}" onclick="event.stopPropagation()" ontouchstart="readerSwipeStart(event)" ontouchend="readerSwipeEnd(event)">
         <div class="reader-progress-bar"><div class="reader-progress-fill" style="width:${progressPct}%"></div></div>
