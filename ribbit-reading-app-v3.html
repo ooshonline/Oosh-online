@@ -863,9 +863,9 @@
 <body>
 <div id="app"></div>
 
-<script src="ribbit-stories.js?v=20261110c"></script>
-<script src="ribbit-wordlists.js?v=20261110c"></script>
-<script src="ribbit-ja-translations.js?v=20261110c"></script>
+<script src="ribbit-stories.js?v=20261110d"></script>
+<script src="ribbit-wordlists.js?v=20261110d"></script>
+<script src="ribbit-ja-translations.js?v=20261110d"></script>
 <script src="assets/vendor/lottie.min.js?v=20260804"></script>
 <script>
 // Auto-generated inline SVG registry from assets/icons/ — see docs/design-implementation-brief.md
@@ -4462,12 +4462,9 @@ function renderHomeDash(){
 
   const quickLinks=[
     placeTile,
-    {icon:'📚', tint:'#E3F3FC', title:t('exploreLibrary'), sub:t('storiesWaiting',storiesWaitingCount), screen:'library'},
     {icon:'🔤', tint:'#DFF7F2', title:t('flashCards'), sub:(()=>{ const d=dueCardsCount(); return d>0?t('cardsDue',d):t('practiceVocab'); })(), screen:'flashcards'},
     {icon:'🌍', tint:'#E7E9FB', title:t('worldJourney'), sub:t('placesFound',placesFoundCount,placesTotalCount), screen:'world'},
     {icon:'🎯', tint:'#FCF4D6', title:t('quests'), sub:t('questsToday',questsTodayCount), screen:'quests'},
-    {icon:'📈', tint:'#FFF0E4', title:t('myProgress'), sub:t('trackLevels'), screen:'profile'},
-    {icon:'🏆', tint:'#F1E8FF', title:t('rewards'), sub:t('checkBadges'), screen:'rewards'},
   ];
   const quickLinksHtml=quickLinks.map(l=>`
     <button class="ql-tile" onclick="${l.fn||`navigate('${l.screen}')`}">
@@ -4520,11 +4517,6 @@ function renderHomeDash(){
     ${dailyPickHtml}
 
     <div>
-      <div class="section-title">${t('quickLinks')}</div>
-      <div class="ql-grid">${quickLinksHtml}</div>
-    </div>
-
-    <div>
       <div class="journey-title-row">
         <span class="journey-title">${t('yourJourney',lvObj)} <span class="journey-progress-count">${t('pondProgress',subLevelsDone,10)}</span></span>
         <button class="journey-viewpath" onclick="viewPath()">${t('viewPath')}</button>
@@ -4534,6 +4526,12 @@ function renderHomeDash(){
         <div class="journey-nodes">${nodesHtml}</div>
       </div>
     </div>
+
+    <div>
+      <div class="section-title">${t('quickLinks')}</div>
+      <div class="ql-grid">${quickLinksHtml}</div>
+    </div>
+
   </div>`;
 }
 
@@ -4553,7 +4551,7 @@ function renderLanding(){
     </div>
     <!-- BUILD_ID is bumped on every deploy. It is shown here so a stale cached copy can be
          identified at a glance without opening devtools. -->
-    <div class="landing-footer">OOSH Online · v3.0 · build 20261110c</div>
+    <div class="landing-footer">OOSH Online · v3.0 · build 20261110d</div>
   </div>`;
 }
 
