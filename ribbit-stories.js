@@ -6199,12 +6199,12 @@ STORIES[3][6].push({
   quiz:[
     {question:"Why did the observatory use red lighting?",options:["It used less energy","It made the equipment easier to see","Red light did not destroy night vision as white light did","It was an astronomy tradition"],correct:2,
      feedback:"'White light destroyed night vision but red light did not.'"},
-    {question:"What did the narrator look at through the main telescope?",options:["The Moon","Jupiter","Saturn","A distant galaxy"],correct:2,
-     feedback:"'I looked at Saturn. The rings are real.'"},
+    {question:"Why did Dr Whitfield ask everyone to avoid using their phones?",options:["Phones were not allowed in the building","She wanted them to listen to her talk","Phone signals affected the telescope","The bright screens would spoil their night vision"],correct:3,
+     feedback:"This is an inference — phone screens give off white light, and she said white light destroyed night vision."},
     {question:"What fact about Saturn's light did Dr Whitfield share?",options:["It takes 4.2 years to reach Earth","It takes 1.3 hours to reach Earth","It travels faster than light from other stars","It appears different from what it really looks like"],correct:1,
      feedback:"'The light from Saturn takes approximately 1.3 hours to reach us.'"},
-    {question:"What thought occurred to the narrator when looking at a distant star afterwards?",options:["The star might not be real","The telescope was not powerful enough","This is the past — they were seeing old light","Stars look very different up close"],correct:2,
-     feedback:"'I looked at a star through the telescope afterwards and thought: this is the past.'"}
+    {question:"When the narrator thinks 'this is the past', what do they mean?",options:["The light left the star years ago, so they saw the star as it used to be","The star had died a long time ago","Old telescopes can only show old pictures","They were remembering an earlier school trip"],correct:0,
+     feedback:"This is an inference — light from the nearest star takes 4.2 years to reach us, so you see the star as it was years before."}
   ],
   images:['images/p7/p7_the_observatory_1.webp','images/p7/p7_the_observatory_2.webp','images/p7/p7_the_observatory_3.webp','images/p7/p7_the_observatory_4.webp','images/p7/p7_the_observatory_5.webp']
 });
@@ -6233,12 +6233,12 @@ STORIES[3][6].push({
   quiz:[
     {question:"Why did the narrator say 'Delayed' with no time was worse than a specific number?",options:["It suggested the train was cancelled","A specific number could be planned around","It meant the delay would be very long","No one would help with the question"],correct:1,
      feedback:"'A specific number can be planned around. \"Delayed\" just means: we are not telling you.'"},
-    {question:"What was the woman opposite doing on the concourse four times a month?",options:["Waiting for a friend","Watching trains for a hobby","It was her commute and she was often delayed","She was a station employee"],correct:2,
-     feedback:"'She said it was her commute. She said she had been delayed on this concourse four times in the last month.'"},
+    {question:"The woman says the delays happen on her 'commute'. What is a commute?",options:["A regular journey between home and work","A long vacation trip","A complaint to the train company","A kind of train ticket"],correct:0,
+     feedback:"A commute is the trip you make again and again between home and work. That is why she has been delayed four times in one month."},
     {question:"How had the woman changed her attitude to delays?",options:["She always complained to the rail company","She switched to a different route","She stopped being annoyed and started thinking of it as reading time","She travelled at different times"],correct:2,
      feedback:"'She had stopped being annoyed about it and started thinking of it as reading time.'"},
-    {question:"What was the toddler doing when the narrator's train finally arrived?",options:["Running around the concourse","Crying","Asleep in his pushchair with a half-eaten biscuit","Watching the departure board"],correct:2,
-     feedback:"'A toddler fell asleep in his pushchair with a half-eaten biscuit in his hand.'"}
+    {question:"What is the narrator's main message at the end?",options:["Trains in this country are always late","You should always bring food to a station","Departure boards should give more information","Waiting is not wasted time if you stop fighting it"],correct:3,
+     feedback:"'It was not a wasted afternoon. Waiting rarely is, if you stop fighting it.'"}
   ],
   images:['images/p7/p7_the_departure_board_1.webp','images/p7/p7_the_departure_board_2.webp','images/p7/p7_the_departure_board_3.webp','images/p7/p7_the_departure_board_4.webp','images/p7/p7_the_departure_board_5.webp']
 });
@@ -6265,14 +6265,14 @@ STORIES[3][6].push({
     "methodically":{def:"In a careful, systematic, and ordered way.",pos:"adverb"}
   },
   quiz:[
-    {question:"What was wrong with the lamp the narrator brought?",options:["The bulb had blown","The wiring was faulty","The brass stand had come away from the base","The switch was broken"],correct:2,
-     feedback:"'The brass stand had come away from the base.'"},
-    {question:"What did the engineer say had caused the original failure?",options:["The wrong type of adhesive had been used","The adhesive had been applied incorrectly and transferred stress to the wrong joint","The ceramic had cracked from heat","The stand was the wrong size for the base"],correct:1,
-     feedback:"'The original adhesive had been applied incorrectly... and had transferred the stress to the wrong part of the joint.'"},
+    {question:"The narrator says 'I have some ideas' about what Harold gets out of the Repair Café. What is the most likely idea?",options:["He is paid well by the church","He enjoys being useful and saving things from being thrown away","He wants to sell the things he fixes","He has to come because it is his job"],correct:1,
+     feedback:"This is an inference — Harold is retired, has come for six years for free, and his repairs save things people love."},
+    {question:"What did the engineer do LAST with the lamp?",options:["Clamped it","Reattached it with epoxy","Told the narrator to leave it for twenty-four hours","Looked at the old adhesive"],correct:2,
+     feedback:"He looked at it, reattached it with epoxy, clamped it, and LAST told the narrator to leave it for twenty-four hours."},
     {question:"What had caused the blender to stop working?",options:["A broken blade","A faulty motor","A burnt-out fuse","A single failed capacitor"],correct:3,
      feedback:"'The electronics volunteer opened it and found that a single capacitor had failed.'"},
-    {question:"How much did the replacement part for the blender cost?",options:["About fifteen pence","About five pounds","About fifty pence","Nothing — it was donated"],correct:0,
-     feedback:"'The replacement cost roughly fifteen pence.'"}
+    {question:"Why does the narrator mention that the new part cost about fifteen pence?",options:["To show how close a working blender came to being thrown away for a tiny problem","To show that the Repair Café charges for parts","To complain about the price of electronics","To explain why the man was angry"],correct:0,
+     feedback:"This is an inference — a part that cost only pennies was all that stood between the blender and the trash."}
   ],
   images:['images/p7/p7_the_repair_caf_1.webp','images/p7/p7_the_repair_caf_2.webp','images/p7/p7_the_repair_caf_3.webp','images/p7/p7_the_repair_caf_4.webp','images/p7/p7_the_repair_caf_5.webp']
 });
@@ -6299,14 +6299,14 @@ STORIES[3][6].push({
     "compost bay":{def:"A section or container for storing and making compost.",pos:"noun"}
   },
   quiz:[
-    {question:"Why had no one taken on Plot 14 for nine or ten years?",options:["The rent was too high","It was in the wrong part of the site","It looked too daunting because it was overgrown","The soil was too poor"],correct:2,
-     feedback:"'Nobody had taken it on since because it looked so daunting.'"},
-    {question:"Why could you not rotavate couch grass?",options:["The machine could not cut through the roots","Rotavating would damage the soil structure","You just create more pieces that each regrow","The roots were too deep for the machine"],correct:2,
+    {question:"Nobody took on the plot because it looked 'daunting'. What does daunting mean?",options:["Beautiful and calm","Small and easy to manage","So big or hard that you feel nervous about starting","Dirty and smelly"],correct:2,
+     feedback:"Daunting means so big or difficult that it worries you. Head-high brambles and weeds everywhere made the plot look like too much work."},
+    {question:"Why could you not rotavate couch grass?",options:["You just create more pieces that each regrow","The machine could not cut through the roots","Rotavating would damage the soil structure","The roots were too deep for the machine"],correct:0,
      feedback:"'You cannot rotavate couch grass because you just create more pieces.'"},
     {question:"What did the narrator's mother say about the old rhubarb crown?",options:["It needed to be removed to plant vegetables","It was worth more than anything they could plant","They should try to sell it","It was too old to produce good rhubarb"],correct:1,
      feedback:"'A rhubarb crown that old was worth more than anything we could plant.'"},
-    {question:"How did the rhubarb taste when they finally harvested it?",options:["Too bitter after years without care","Reasonable but needed sweetening","The best rhubarb any of them had ever tasted","They were unsure — it was their first time eating rhubarb"],correct:2,
-     feedback:"'Nine years of neglect, and it was the best rhubarb any of us had ever tasted.'"}
+    {question:"What does the ending suggest about the plot?",options:["All their hard work was wasted","Rhubarb only grows well if people care for it every day","They should have chosen a different plot","Something valuable had survived under the mess"],correct:3,
+     feedback:"This is an inference — under the brambles, the gooseberry bushes and the old rhubarb kept growing, and the rhubarb turned out to be the best they had ever tasted."}
   ],
   images:['images/p7/p7_the_last_allotment_plot_1.webp','images/p7/p7_the_last_allotment_plot_2.webp','images/p7/p7_the_last_allotment_plot_3.webp','images/p7/p7_the_last_allotment_plot_4.webp','images/p7/p7_the_last_allotment_plot_5.webp']
 });
@@ -6335,10 +6335,10 @@ STORIES[3][6].push({
   quiz:[
     {question:"Why did the attendant explain the lighthouse was automated?",options:["Visitors needed to pay a different price","It was important context — otherwise people expected drama and were disappointed","Health and safety rules required the explanation","The light was not working that day"],correct:1,
      feedback:"'She said it was important context, because otherwise visitors expected something dramatic... and were sometimes disappointed.'"},
-    {question:"What were lighthouse keepers required to do every day?",options:["Signal to passing ships","Write a logbook entry, regardless of whether anything happened","Maintain the light mechanism","Check the weather instruments at noon"],correct:1,
-     feedback:"'Lighthouse keepers were required to write an entry every day, regardless of whether anything happened.'"},
-    {question:"What does a force 9 sea state indicate?",options:["Calm conditions","Light winds and gentle swell","Severe gale with very high waves","Fog and poor visibility"],correct:2,
-     feedback:"'Force 9, which is severe — the kind of conditions where waves can be nine metres high.'"},
+    {question:"Why didn't the keepers write about their feelings in the logbook?",options:["They did not know how to write well","They did not feel anything during storms","They wrote their feelings in a different book","The logbook was for the ships that used the light, not for the keepers"],correct:3,
+     feedback:"This is an inference — the narrator says the logbook 'was for ships that might use the light. It was not for them.'"},
+    {question:"The storm 'was recorded in the same register as cleaning the glass.' What does this mean?",options:["The keeper wrote about the dangerous storm in the same calm, plain way as an ordinary job","The storm and the cleaning were written in the same book","The keeper was too frightened to write much","The storm was not really very bad"],correct:0,
+     feedback:"Here 'register' means tone. The keeper used the same calm, plain words for a terrible storm as for cleaning the glass."},
     {question:"What does the narrator find moving about the keepers' way of recording?",options:["The beautiful handwriting","That they worked so long without seeing other people","Doing something important carefully, without performing the emotion of it","The fact that the logbooks survived so long"],correct:2,
      feedback:"'Doing something important, carefully, without being asked to perform the emotion of it.'"}
   ],
