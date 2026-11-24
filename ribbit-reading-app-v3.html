@@ -158,11 +158,13 @@
     .streak-share-card{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1.5px solid var(--accent);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow)}
     .streak-share-flame{font-size:2rem;line-height:1}
     .streak-share-body{flex:1;min-width:0}
+    .badge-share-art{width:48px;height:48px;flex-shrink:0;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .badge-share-art .badge-art{width:100%;height:100%;object-fit:cover}
     .streak-share-title{font-family:var(--font-head);font-weight:800;font-size:1rem;color:var(--text)}
-    .streak-share-sub{font-size:.85rem;color:var(--muted);margin-top:2px}
+    .streak-share-sub{font-size:.85rem;color:var(--text-muted);margin-top:2px}
     .streak-share-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
     .streak-share-btn{min-height:44px;padding:0 16px;border-radius:12px;border:none;background:var(--primary);color:#fff;font-family:var(--font-head);font-weight:800;font-size:13px;cursor:pointer}
-    .streak-share-later{min-height:44px;padding:0 14px;border-radius:12px;border:1.5px solid var(--border);background:none;color:var(--muted);font-weight:700;font-size:13px;cursor:pointer}
+    .streak-share-later{min-height:44px;padding:0 14px;border-radius:12px;border:1.5px solid var(--border);background:none;color:var(--text-muted);font-weight:700;font-size:13px;cursor:pointer}
     .daily-pick-label{font-weight:700;font-size:.75rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
     .daily-pick-btn{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:10px 14px 10px 10px;cursor:pointer;text-align:left;width:100%;box-shadow:var(--shadow)}
     .daily-pick-btn:active{transform:scale(.98)}
@@ -1364,6 +1366,8 @@ const state = {
   bestStreak: parseInt(localStorage.getItem('rbt_best_streak')||'0'),
   streakFreezes: parseInt(localStorage.getItem('rbt_sfreezes')||'0'), // G13: one-use shields that cover a single missed day
   streakShare: parseInt(localStorage.getItem('rbt_sshare')||'0'), // M9: streak milestone (7/30) waiting for an optional share; 0 = none
+  badgeShare: localStorage.getItem('rbt_bshare')||'', // M12: id of a newly earned badge waiting for an optional share; '' = none
+  badgeSharePrompted: JSON.parse(localStorage.getItem('rbt_bsprompted')||'null'), // M12: badge ids already offered (null until first sync, so old badges never prompt)
   perfectCount: parseInt(localStorage.getItem('rbt_perfectcount')||'0'),
   journey: JSON.parse(localStorage.getItem('rbt_journey')||'{}'), // {destId:{stamped:true}} — set once a destination's stories are all complete
   dailyGoal: parseInt(localStorage.getItem('rbt_goal')||'3'),
@@ -1446,6 +1450,8 @@ function save(){
   localStorage.setItem('rbt_best_streak', state.bestStreak);
   localStorage.setItem('rbt_sfreezes', state.streakFreezes||0);
   localStorage.setItem('rbt_sshare', state.streakShare||0);
+  localStorage.setItem('rbt_bshare', state.badgeShare||'');
+  if(state.badgeSharePrompted) localStorage.setItem('rbt_bsprompted', JSON.stringify(state.badgeSharePrompted));
   localStorage.setItem('rbt_perfectcount', state.perfectCount);
   localStorage.setItem('rbt_journey', JSON.stringify(state.journey||{}));
   localStorage.setItem('rbt_goal', state.dailyGoal);
@@ -2077,6 +2083,45 @@ async function shareStreak(){
   if(done){ state.streakShare=0; save(); render(); }
 }
 function dismissStreakShare(){ state.streakShare=0; save(); render(); }
+
+// M12: when a badge is newly earned, leave an optional "share your badge" card on Home.
+// Earned badges are derived from live state, so we remember which ids have already been
+// offered. The first sync just records whatever is already earned (no card for old badges).
+function syncBadgeShare(){
+  const earned=earnedBadgeIds();
+  if(!Array.isArray(state.badgeSharePrompted)){ state.badgeSharePrompted=earned; save(); return; }
+  const fresh=earned.filter(id=>!state.badgeSharePrompted.includes(id));
+  if(!fresh.length) return;
+  state.badgeShare=fresh[fresh.length-1]; // newest wins if several unlocked at once
+  state.badgeSharePrompted=[...state.badgeSharePrompted, ...fresh];
+  save();
+}
+function badgeDisplayName(b){ return b.levelRef?t('championName',b.levelRef):t(b.nameKey); }
+function badgeShareCard(){
+  const b=BADGES.find(x=>x.id===state.badgeShare);
+  // Hide if the badge is no longer earned (e.g. a streak badge after the streak broke).
+  if(!b || !earnedBadgeIds().includes(b.id)) return '';
+  return `<div class="streak-share-card">
+    <div class="badge-share-art has-art" style="background:${b.color}22">${badgeArt(b,28)}</div>
+    <div class="streak-share-body">
+      <div class="streak-share-title">${t('badgeShareTitle',badgeDisplayName(b))}</div>
+      <div class="streak-share-sub">${t('badgeShareSub')}</div>
+      <div class="streak-share-actions">
+        <button class="streak-share-btn" onclick="shareBadge()">${t('badgeShareBtn')}</button>
+        <button class="streak-share-later" onclick="dismissBadgeShare()">${t('streakShareLater')}</button>
+      </div>
+    </div>
+  </div>`;
+}
+async function shareBadge(){
+  const b=BADGES.find(x=>x.id===state.badgeShare);
+  if(!b) return;
+  // Preload the badge art so the canvas can draw it; falls back to a medal emoji if it fails.
+  const img=await new Promise(res=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=()=>res(null); im.src=`images/badges/badge-${b.id}.webp`; });
+  const done=await shareProgress('badge',{badge:b, img});
+  if(done){ state.badgeShare=''; save(); render(); }
+}
+function dismissBadgeShare(){ state.badgeShare=''; save(); render(); }
 const VOCAB_MILESTONES=[10,25,50,100];
 function checkVocabMilestone(oldCount,newCount){
   const hit=VOCAB_MILESTONES.find(m=>m>oldCount&&m<=newCount);
@@ -2471,7 +2516,7 @@ function _roundRect(ctx,x,y,w,h,r){
   ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);
   ctx.closePath();
 }
-function generateShareCard(variant){
+function generateShareCard(variant,extra){
   const dpr=Math.min(window.devicePixelRatio||1,2);
   const W=360,H=480;
   const canvas=document.createElement('canvas');
@@ -2496,7 +2541,26 @@ function generateShareCard(variant){
 
   // Headline
   ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.font='15px sans-serif';
-  ctx.fillText(variant==='streak'?t('streakCardTitle'):t('shareCardTitle'),W/2,172);
+  ctx.fillText(variant==='streak'?t('streakCardTitle'):variant==='badge'?t('badgeCardTitle'):t('shareCardTitle'),W/2,172);
+
+  if(variant==='badge' && extra && extra.badge){
+    // M12 badge variant: the badge art in a coloured ring, then its name.
+    const b=extra.badge, cx=W/2, cy=268, r=62;
+    ctx.fillStyle=b.color; ctx.beginPath(); ctx.arc(cx,cy,r+6,0,Math.PI*2); ctx.fill();
+    if(extra.img){
+      ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.clip();
+      ctx.drawImage(extra.img,cx-r,cy-r,r*2,r*2); ctx.restore();
+    } else {
+      ctx.font='72px serif'; ctx.fillText('🏅',cx,cy+25);
+    }
+    ctx.fillStyle='#f9ad3b'; ctx.font='bold 24px sans-serif';
+    ctx.fillText(badgeDisplayName(b),W/2,372,W-40);
+    ctx.fillStyle='#ffffff'; ctx.font='bold 15px sans-serif';
+    ctx.fillText(t('badgeCardEarned'),W/2,398);
+    ctx.fillStyle='rgba(255,255,255,0.35)'; ctx.font='10px sans-serif';
+    ctx.fillText('ribbitpond.com/read',W/2,H-20);
+    return canvas;
+  }
 
   if(variant==='streak'){
     // M9 streak variant: one big number instead of the level pill + stat grid.
@@ -2552,12 +2616,13 @@ function generateShareCard(variant){
   return canvas;
 }
 // Returns true once the card was shared or saved, false if the learner cancelled.
-async function shareProgress(variant){
-  const canvas=generateShareCard(variant);
+async function shareProgress(variant,extra){
+  const canvas=generateShareCard(variant,extra);
   const isStreak=variant==='streak';
-  const title=isStreak?t('streakCardTitle'):t('shareCardTitle');
-  const text=isStreak?t('streakCardText',state.streak):t('shareCardText');
-  const fileName=isStreak?'ribbit-streak.png':'ribbit-progress.png';
+  const isBadge=variant==='badge' && extra && extra.badge;
+  const title=isStreak?t('streakCardTitle'):isBadge?t('badgeCardTitle'):t('shareCardTitle');
+  const text=isStreak?t('streakCardText',state.streak):isBadge?t('badgeCardText',badgeDisplayName(extra.badge)):t('shareCardText');
+  const fileName=isStreak?'ribbit-streak.png':isBadge?'ribbit-badge.png':'ribbit-progress.png';
   // Mobile share with image file
   if(navigator.canShare){
     try{
@@ -3072,6 +3137,9 @@ const UI_STRINGS = {
     shareDownloadDone:'Progress card downloaded!',
     streakShareTitle:(n)=>`${n}-day streak!`, streakShareSub:'Show your family how hard you\'ve been reading.',
     streakShareBtn:'Share my streak', streakShareLater:'Not now',
+    badgeShareTitle:(name)=>`New badge: ${name}!`, badgeShareSub:'Show your family what you earned.',
+    badgeShareBtn:'Share my badge', badgeCardTitle:'My Ribbit Reading Badge', badgeCardEarned:'badge earned',
+    badgeCardText:(name)=>`I earned the "${name}" badge on Ribbit! 🏅🐸`,
     streakCardTitle:'My Ribbit Reading Streak', streakCardDays:'days in a row',
     streakCardText:(n)=>`I've read on Ribbit ${n} days in a row! 🔥🐸`,
     saveSuccess:'Progress saved! 💾', restoreSuccess:'Progress restored! Reloading…',
@@ -3232,6 +3300,9 @@ const UI_STRINGS = {
     shareDownloadDone:'カードを保存しました！',
     streakShareTitle:(n)=>`${n}日連続！`, streakShareSub:'がんばりをおうちの人に見せよう。',
     streakShareBtn:'連続記録をシェア', streakShareLater:'あとで',
+    badgeShareTitle:(name)=>`新しいバッジ：${name}！`, badgeShareSub:'もらったバッジをおうちの人に見せよう。',
+    badgeShareBtn:'バッジをシェア', badgeCardTitle:'Ribbit 読書バッジ', badgeCardEarned:'バッジをゲット',
+    badgeCardText:(name)=>`Ribbitで「${name}」バッジをもらいました！🏅🐸`,
     streakCardTitle:'Ribbit 連続読書記録', streakCardDays:'日連続',
     streakCardText:(n)=>`Ribbitで${n}日連続で英語を読みました！🔥🐸`,
     saveSuccess:'データを保存しました！💾', restoreSuccess:'データを復元しました！再読み込みします…',
@@ -4430,6 +4501,7 @@ function renderComingSoon(){
 // ── HOME DASHBOARD — literal port, Tablet lines 111-185 ────
 function renderHomeDash(){
   calcTodayCount();
+  syncBadgeShare();
   const lv=currentLevelId();
   const lvObj=LEVELS.find(l=>l.id===lv);
   const goalTotal=state.dailyGoal, goalDone=Math.min(state.todayCount,goalTotal);
@@ -4510,7 +4582,8 @@ function renderHomeDash(){
     return `<div class="journey-node-wrap">${circle}<span class="journey-node-lbl">${i+1}</span></div>`;
   }).join('');
 
-  const recapCard=streakShareCard()+weekRecapCard();
+  // One share card at a time: a streak milestone takes priority over a badge.
+  const recapCard=(streakShareCard()||badgeShareCard())+weekRecapCard();
   const dailyPickHtml=renderDailyPick();
   return `<div class="home-dash">
     ${recapCard}
