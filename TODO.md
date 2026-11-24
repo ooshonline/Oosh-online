@@ -254,7 +254,7 @@ star ratings, flashcards, placement test stay free at every level, forever), and
   the pathway instead. Bigger than one run — scope carefully.
 - [x] **G11 · "First try" perfect-quiz bonus — SHIPPED (2026-09-23, commit `145d1cb`).** Gold gradient chip "⭐ +10 XP First Try!" / "⭐ +10XP 一発正解！" on celebration screen when 100% on first completion. `state.firstTryPerfect[]` → `rbt_ftp`. Absent on replays. LIVE (build 20260923).
 - [x] **G13 · Streak freeze — SHIPPED (2026-10-02, commit `dfbf4a3`).** A 🛡️ is earned each time the streak hits a multiple of 7 (max 2 held); a single missed day spends one instead of resetting the streak. `state.streakFreezes` → `rbt_sfreezes`. 🛡️ (+count) next to the header streak pill; earned/used toasts in en + ja. LIVE (build 20261002).
-- [ ] **G14 · Streak freeze on Profile.** Add a small "🛡️ Streak freezes: N — earn one every 7 days" line under the Day Streak stat card so learners understand where the header shield comes from. Real data only (`state.streakFreezes`).
+- [x] **G14 · Streak freeze on Profile — SHIPPED (2026-11-24, commit `fadb19d`, build 20261124).** Add a small "🛡️ Streak freezes: N — earn one every 7 days" line under the Day Streak stat card so learners understand where the header shield comes from. Real data only (`state.streakFreezes`).
 - [ ] **G15 · Stale streak display.** The header still shows yesterday's streak after 2+ missed days until the next story is read (`updateStreak()` only runs in `finishStory`). On launch, if the streak is already lost (lastRead older than yesterday, and no freeze covers it), show 0 so the number is honest. Check that the login bonus still reads the right value.
 
 ### Bug Fixes / Implementation Check — ideas (added 2026-08-21)

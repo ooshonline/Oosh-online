@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 32`
+`contentSubpillarRun: 33`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: skipped next session (counter = 32, even).
+Next subpillar: FIRES next session (counter = 33, odd).
 
 ---
 
@@ -128,7 +128,8 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 - ✅ UI (2026-10-09, automated) — U9 journey cover textures + night-theme card fix + content subpillar C7 Level 2 JA glosses **DEPLOYED LIVE** (build 20261009)
 - ✅ UX (2026-10-12, automated) — X12 celebration-toast queue **DEPLOYED LIVE** (commit `dc661fe`, build 20261012)
 - ✅ Content (2026-10-13, automated) — C1 L3.6 quiz variety + subpillar C7 Level 3 JA glosses **DEPLOYED LIVE** (build 20261013)
-- Next: Gamification
+- ✅ Gamification (2026-11-24, automated) — G14 streak freezes on Profile **DEPLOYED LIVE** (commit `fadb19d`, build 20261124)
+- Next: Monetisation (M-series only)
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -157,6 +158,13 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 ---
 
 ## Session Log
+
+### 2026-11-24 — Gamification Pillar (~15 min, automated) — Cycle 12
+- **G14 · Streak freezes explained on Profile — DEPLOYED LIVE** (commit `fadb19d`, cache-bust `976798a`, build 20261124). A card under the Profile stats grid: "Streak freezes: N of 2" + "Read 7 days in a row to earn one. If you miss a day, it keeps your streak safe." (ja: ストリークシールド：N / 2 …). Shown at 0 too, so kids learn the rule before they earn one. Real data only (`state.streakFreezes`, `STREAK_FREEZE_MAX`).
+- Verified locally at 375 + 768, en + ja, light + night (night: `var(--card)` bg, muted body text), no h-scroll; reader still opens. Console: only the expected local `/api/me` 404. Confirmed live at ribbitpond.com/read/ (build 20261124, note present, console clean) after github.io picked it up (~1 min).
+- `index.html` redirects were still at `?v=20261013` (the 2026-11-10 supervised session bumped only the script tags); now `?v=20261124` with the rest.
+- Content subpillar: skipped (counter was 32, even). Counter now 33, so it fires next run.
+- Next: Monetisation (M-series), then Bug Fixes. G15 (stale streak display) is the obvious next Gamification item.
 
 ### 2026-10-13 — Content Pillar + Content Subpillar (~25 min, automated) — Cycle 12
 
