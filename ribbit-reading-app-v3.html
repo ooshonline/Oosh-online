@@ -411,6 +411,11 @@
     .prog-stat-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px}
     .prog-stat-value{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--text)}
     .prog-stat-label{font-size:11px;color:var(--text-muted);font-weight:600}
+    /* G14: explains where the header 🛡️ comes from */
+    .prog-freeze-note{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:12px 14px;display:flex;align-items:center;gap:12px}
+    .prog-freeze-note .pfn-icon{width:34px;height:34px;flex:none;border-radius:50%;background:#E3F3FC;display:flex;align-items:center;justify-content:center;font-size:17px}
+    .prog-freeze-note .pfn-title{font-family:var(--font-head);font-weight:800;font-size:14px;color:var(--text)}
+    .prog-freeze-note .pfn-body{font-size:12px;color:var(--text-muted);font-weight:600;line-height:1.35}
     @keyframes xpLand{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
     .xp-land{animation:xpLand .3s ease;transform-origin:center}
     .activity-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow-sm);padding:16px 14px 12px;display:flex;align-items:flex-end;justify-content:space-between;height:130px}
@@ -3046,6 +3051,8 @@ const UI_STRINGS = {
     streakFreezeEarned:'🛡️ You earned a streak freeze! If you miss a day, it keeps your streak safe.',
     streakFreezeUsed:(days)=>`🛡️ Your streak freeze saved your ${days}-day streak!`,
     streakFreezeTitle:(n)=>`Streak freezes: ${n}`,
+    streakFreezeProfileTitle:(n,max)=>`Streak freezes: ${n} of ${max}`,
+    streakFreezeProfileBody:'Read 7 days in a row to earn one. If you miss a day, it keeps your streak safe.',
     vocabMilestone:(n)=>`📚 ${n} words saved! You're building your vocabulary! 🐸`,
     storyMilestoneFirst:'🎉 Your very first story! +15 XP 🐸',
     storyMilestone:(n,streak)=>`📖 ${n} stories read! +15 XP${streak>1?` · 🔥 ${streak}-day streak`:''} 🐸`,
@@ -3204,6 +3211,8 @@ const UI_STRINGS = {
     streakFreezeEarned:'🛡️ ストリークシールドをゲット！1日休んでも連続記録を守ってくれるよ。',
     streakFreezeUsed:(days)=>`🛡️ シールドが${days}日連続記録を守ったよ！`,
     streakFreezeTitle:(n)=>`ストリークシールド：${n}`,
+    streakFreezeProfileTitle:(n,max)=>`ストリークシールド：${n} / ${max}`,
+    streakFreezeProfileBody:'7日連続で読むと1つもらえるよ。1日休んでも連続記録を守ってくれるよ。',
     vocabMilestone:(n)=>`📚 ${n}語保存した！どんどん語彙が増えてるよ！🐸`,
     storyMilestoneFirst:'🎉 はじめてのお話を読んだよ！ +15 XP 🐸',
     storyMilestone:(n,streak)=>`📖 ${n}話読んだよ！ +15 XP${streak>1?` · 🔥 ${streak}日連続`:''} 🐸`,
@@ -4193,6 +4202,13 @@ function renderProgressSections(){
 
   return `
     <div class="prog-stats-grid">${statsHtml}</div>
+    <div class="prog-freeze-note">
+      <div class="pfn-icon" aria-hidden="true">🛡️</div>
+      <div>
+        <div class="pfn-title">${t('streakFreezeProfileTitle',state.streakFreezes||0,STREAK_FREEZE_MAX)}</div>
+        <div class="pfn-body">${t('streakFreezeProfileBody')}</div>
+      </div>
+    </div>
     <div>
       <div class="section-title">${t('thisWeek')}</div>
       <div class="activity-card">${activityHtml}</div>
