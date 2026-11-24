@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 33`
+`contentSubpillarRun: 34`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: FIRES next session (counter = 33, odd).
+Next subpillar: skipped next session (counter = 34, even).
 
 ---
 
@@ -129,7 +129,8 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 - ✅ UX (2026-10-12, automated) — X12 celebration-toast queue **DEPLOYED LIVE** (commit `dc661fe`, build 20261012)
 - ✅ Content (2026-10-13, automated) — C1 L3.6 quiz variety + subpillar C7 Level 3 JA glosses **DEPLOYED LIVE** (build 20261013)
 - ✅ Gamification (2026-11-24, automated) — G14 streak freezes on Profile **DEPLOYED LIVE** (commit `fadb19d`, build 20261124)
-- Next: Monetisation (M-series only)
+- ✅ Monetisation (2026-11-24 evening, automated) — M12 badge-unlock share card + content subpillar C1 L3.7 **DEPLOYED LIVE** (build 20261124c)
+- Next: Bug Fixes / Implementation Check
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -158,6 +159,17 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 ---
 
 ## Session Log
+
+### 2026-11-24 (evening) — Monetisation Pillar + Content Subpillar (~25 min, automated) — Cycle 12
+
+**Pillar: Monetisation.** **Content subpillar: FIRED** (counter 33 → 34).
+**All DEPLOYED LIVE** (M12 `d1a5852` + cache-bust `c7b4244`, build 20261124b; content `a513557` + cache-bust `dace896`, build 20261124c).
+
+- **M12 · Badge-unlock share card.** A newly earned badge leaves an optional Home card ("New badge: Quiz Ace!" · Share my badge / Not now), same pattern as M9. `generateShareCard('badge',{badge,img})` draws the badge's WebP art in its colour ring plus the name ("badge earned"); falls back to 🏅 if the art fails. New state: `badgeShare` (`rbt_bshare`) and `badgeSharePrompted` (`rbt_bsprompted`). Because "earned" is derived, the first sync just records whatever is already earned, so existing learners never get a card for old badges. A streak card (M9) takes priority; the card hides if the badge is no longer earned (e.g. a streak badge after the streak broke). en + ja strings.
+- In passing: `.streak-share-sub` / `.streak-share-later` now use `--text-muted` (they used the undefined `--muted`; part of B-muted, 3 other rules still use it).
+- Verified locally at 375 + 768, light + night, en + ja; share image drawn and checked; dismiss, streak priority and unearned-hide all checked; golden path library → reader → quiz → celebration → home. Console: only the expected local `/api/me` 404s. Confirmed live at ribbitpond.com/read/ (build 20261124b, clean console).
+- **Content subpillar, C1 L3.7** (`a513557`). 12 literal-recall questions across l3.7s1–s5 replaced: 7 inference, 3 vocab-in-context (commute, daunting, register), 1 sequencing (LAST), 1 main idea. Correct answers now spread A–D (were nearly all C). American spelling in new copy (vacation, trash). Verified in the quiz at 375.
+- Next: Bug Fixes / Implementation Check (finishes Cycle 12). C1 continues at L3.8.
 
 ### 2026-11-24 — Gamification Pillar (~15 min, automated) — Cycle 12
 - **G14 · Streak freezes explained on Profile — DEPLOYED LIVE** (commit `fadb19d`, cache-bust `976798a`, build 20261124). A card under the Profile stats grid: "Streak freezes: N of 2" + "Read 7 days in a row to earn one. If you miss a day, it keeps your streak safe." (ja: ストリークシールド：N / 2 …). Shown at 0 too, so kids learn the rule before they earn one. Real data only (`state.streakFreezes`, `STREAK_FREEZE_MAX`).
