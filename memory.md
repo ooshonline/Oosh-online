@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 34`
+`contentSubpillarRun: 35`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: skipped next session (counter = 34, even).
+Next subpillar: FIRES next session (counter = 35, odd).
 
 ---
 
@@ -130,7 +130,9 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 - ✅ Content (2026-10-13, automated) — C1 L3.6 quiz variety + subpillar C7 Level 3 JA glosses **DEPLOYED LIVE** (build 20261013)
 - ✅ Gamification (2026-11-24, automated) — G14 streak freezes on Profile **DEPLOYED LIVE** (commit `fadb19d`, build 20261124)
 - ✅ Monetisation (2026-11-24 evening, automated) — M12 badge-unlock share card + content subpillar C1 L3.7 **DEPLOYED LIVE** (build 20261124c)
-- Next: Bug Fixes / Implementation Check
+- ✅ Bug Fixes / Implementation Check (2026-11-25, automated) — B-recap-dark + B-muted night-theme colour fixes **DEPLOYED LIVE** (build 20261125)
+
+**Cycle 12 — COMPLETE. Next run starts Cycle 13 with Functionality.**
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -159,6 +161,14 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 ---
 
 ## Session Log
+
+### 2026-11-25 — Bug Fixes / Implementation Check Pillar (~20 min, automated) — Cycle 12 (completes it)
+- **B-recap-dark — DEPLOYED LIVE** (commit `9435d03`). Reproduced at 375 in night theme: the Home "Last week" recap card was a bright white/blue block (hard-coded gradient, white pills, #1A3260 text). Now token-based (`--primary-light` tint over `--card`, `--border`, `--navy`, `--text`, `--correct-text`); light mode looks the same as before (soft green tint).
+- **B-muted — DEPLOYED LIVE** (commit `f0e64f4`). The last 3 `var(--muted)` rules (Today's Pick label/meta/arrow) now use `--text-muted`, so they read as muted instead of full ink. Zero `var(--muted)` left.
+- Verified locally at 375 (night) and 768 (light); no h-scroll; golden path library → reader → quiz. Console: only the expected local `/api/me` 404s. Cache-bust `84465ff`, build 20261125.
+- Found, logged: B-recap-tap (recap ✕ ~20px tap target). Level cards on the Library level grid show very small centred icons at 768; looked intentional, not investigated.
+- Content subpillar: skipped (counter was 34, even). Counter now 35, so it fires next run.
+- Next: Cycle 13, Functionality.
 
 ### 2026-11-24 (evening) — Monetisation Pillar + Content Subpillar (~25 min, automated) — Cycle 12
 
