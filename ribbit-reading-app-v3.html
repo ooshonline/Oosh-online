@@ -2262,9 +2262,12 @@ function makeWordTappable(text,vocab){
   return text.split(/(\s+)/).map(part=>{
     const start=pos; pos+=part.length;
     // Strip quote marks at the edges ('Ancient, talent.') but keep inner ones (don't).
-    const clean=part.replace(/[^a-zA-Z'-]/g,'').replace(/^['-]+|['-]+$/g,'').toLowerCase();
+    // Keep Latin-1/Latin Extended letters so accented words (clichés, açaí) still match.
+    const clean=part.replace(/[^a-zA-Z\u00C0-\u024F'-]/g,'').replace(/^['-]+|['-]+$/g,'').toLowerCase();
     if(!clean) return part;
-    if(vocab[clean]) return `<span class="tappable-word" data-char="${start}" onclick="event.stopPropagation();showWordPopup('${clean.replace(/'/g,"\\'")}')">${part}</span>`;
+    // Some vocab keys are capitalised ("Brazilian"); match case-insensitively and use the stored key.
+    const key=vocab[clean]?clean:Object.keys(vocab).find(k=>k.toLowerCase()===clean);
+    if(key) return `<span class="tappable-word" data-char="${start}" onclick="event.stopPropagation();showWordPopup('${key.replace(/'/g,"\\'")}')">${part}</span>`;
     if(typeof getChallengeLevel==='function'){
       const lvl=getChallengeLevel(clean,appLevel);
       if(lvl) return `<span class="challenge-word" data-char="${start}">${part}</span>`;
@@ -3626,7 +3629,7 @@ function renderWordPopup(story){
   if(!state.wordPopup) return '';
   const word=state.wordPopup;
   const vocab=story.vocabulary&&story.vocabulary[word];
-  const ja=typeof JA_TRANSLATIONS!=='undefined'?JA_TRANSLATIONS[word]:null;
+  const ja=typeof JA_TRANSLATIONS!=='undefined'?(JA_TRANSLATIONS[word]||JA_TRANSLATIONS[word.toLowerCase()]):null;
   const saved=!!state.flashCards[word];
   // At Pre-A1/A1 the English gloss is reliably harder than the word it defines
   // ("cat" -> "A small, soft animal that people keep at home as a pet"). For a
