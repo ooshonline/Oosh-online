@@ -2691,12 +2691,19 @@ function checkDailyLoginBonus(){
 }
 
 // ── DAILY + WEEKLY QUESTS — ported from the live app ──
+// Keep only the newest `max` date-keyed entries. Keys are toDateString() ("Fri Nov 27 2026"), so they
+// must be sorted by real date: an alphabetical sort deleted today's entry on Fridays (and the current
+// week's in some months), which crashed Home. The current key is never pruned.
+function pruneDateKeys(obj,max,keep){
+  const keys=Object.keys(obj);
+  if(keys.length<=max) return;
+  keys.sort((a,b)=>(Date.parse(a)||0)-(Date.parse(b)||0)).slice(0,-max).forEach(k=>{ if(k!==keep) delete obj[k]; });
+}
 function getTodayQuests(){
   const key=new Date().toDateString();
   if(!state.questProgress) state.questProgress={};
   if(!state.questProgress[key]) state.questProgress[key]={stories:false,perfect:false,fc:false,bonus:false};
-  const keys=Object.keys(state.questProgress);
-  if(keys.length>10) keys.sort().slice(0,-10).forEach(k=>delete state.questProgress[k]);
+  pruneDateKeys(state.questProgress,10,key);
   return state.questProgress[key];
 }
 function getWeekQuestKey(){
@@ -2708,8 +2715,7 @@ function getWeekQuests(){
   const key=getWeekQuestKey();
   if(!state.weekQuestProgress) state.weekQuestProgress={};
   if(!state.weekQuestProgress[key]) state.weekQuestProgress[key]={levels3:false,journey1:false,fc10:false,bonus:false};
-  const keys=Object.keys(state.weekQuestProgress);
-  if(keys.length>5) keys.sort().slice(0,-5).forEach(k=>delete state.weekQuestProgress[k]);
+  pruneDateKeys(state.weekQuestProgress,5,key);
   return state.weekQuestProgress[key];
 }
 function markQuestDone(type){
