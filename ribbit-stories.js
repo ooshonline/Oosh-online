@@ -6414,12 +6414,12 @@ STORIES[3][7].push({
   quiz:[
     {question:"What did the bookshop advertisement say was more important than experience?",options:["Good timekeeping","Enthusiasm for books","Previous retail work","Being available on weekdays"],correct:1,
      feedback:"'Enthusiasm for books being more important than experience.'"},
-    {question:"Why had the narrator prepared an answer about strengths and weaknesses?",options:["The advertisement asked for one","It was a common interview question","Niall had emailed to say he would ask it","Their mother suggested it"],correct:1,
-     feedback:"The narrator had 'prepared an answer to' the classic strengths/weaknesses question, though it was never asked."},
-    {question:"What does the narrator describe as strange about interviews?",options:["The waiting room atmosphere","You are both yourself and a version of yourself you are presenting","The questions are always the same","Interviewers rarely listen properly"],correct:1,
-     feedback:"'You are both yourself and a version of yourself you are presenting.'"},
-    {question:"Why did Niall say they needed someone like the narrator?",options:["Their timetable was flexible","Someone who had read things and cared about them was harder to find than it should be","They had strong retail experience","They were available immediately"],correct:1,
-     feedback:"'They needed someone who had read things and cared about them, and that was harder to find than it should be.'"}
+    {question:"Why did the prepared answer about strengths and weaknesses feel 'wasted'?",options:["Niall never asked that question","The narrator forgot what to say","The other candidate gave the same answer","Niall did not like the answer"],correct:0,
+     feedback:"Niall 'did not ask me to describe my strengths and weaknesses' — so all that preparation was never used."},
+    {question:"How did the narrator feel when they found out there was another candidate?",options:["Pleased to have some company","Angry with the woman at the till","Sure they would get the job","Surprised, and trying hard to look calm"],correct:3,
+     feedback:"They 'had not considered' another candidate, then 'tried to look calm' — so they were surprised and nervous."},
+    {question:"The narrator still feels 'slightly fraudulent some mornings.' What does this mean?",options:["They have broken a rule at work","They often arrive late","They sometimes feel they don't really deserve the job","They plan to leave the bookshop soon"],correct:2,
+     feedback:"Feeling 'fraudulent' here means feeling like a fake — as if they don't quite deserve to be there yet."}
   ],
   images:['images/p8/p8_the_interview_1.webp','images/p8/p8_the_interview_2.webp','images/p8/p8_the_interview_3.webp','images/p8/p8_the_interview_4.webp','images/p8/p8_the_interview_5.webp']
 });
@@ -6448,12 +6448,12 @@ STORIES[3][7].push({
   quiz:[
     {question:"What is the narrator's mother's job?",options:["A doctor","A nurse","A hospital administrator","A paramedic"],correct:1,
      feedback:"'She is a nurse, and nights are part of the rotation.'"},
-    {question:"What struck the narrator about the house at two in the morning?",options:["It was too cold","It felt completely unfamiliar — just walls and space, without daily life running through it","It was noisier than expected","They heard someone outside"],correct:1,
-     feedback:"'Without the structure of daily life running through them, they were just rooms. Walls and space.'"},
-    {question:"How did the narrator recognise their mother's post-night-shift tiredness?",options:["She always went straight to bed","She did not speak when she arrived home","A specific flatness around the eyes","She moved more slowly than usual"],correct:2,
-     feedback:"'A specific flatness around the eyes that I recognised from other mornings.'"},
-    {question:"What does the narrator say about overnight work at the end?",options:["They think night work should be better paid","Most of it stays invisible, which is partly what makes it work","More people should try working at night","Night shifts are only necessary in hospitals"],correct:1,
-     feedback:"'Most of it stays invisible, which is partly what makes it work.'"}
+    {question:"Which of these happened FIRST?",options:["The mother came home and made tea","The narrator made toast in the kitchen","The narrator sat at the kitchen table with a glass of water","They sat together for twenty minutes"],correct:2,
+     feedback:"At two in the morning the narrator sat with a glass of water. Toast, tea and the twenty minutes together all came later that morning."},
+    {question:"How did the narrator know their mother's tiredness was not ordinary?",options:["They had seen the same look on other mornings after night shifts","Their father had described it to them","Their mother told them she was very tired","They had read about it in a book"],correct:0,
+     feedback:"The 'flatness around the eyes' was a look the narrator knew 'from other mornings.'"},
+    {question:"What is the main idea of the story?",options:["Nurses should not work at night","Children should not get up in the night","Night shifts are easy once you get used to them","A lot of important work happens at night, mostly unseen"],correct:3,
+     feedback:"The narrator realizes that 'ordinary life runs on work done while most people are asleep' — and most of it stays invisible."}
   ],
   images:['images/p8/p8_the_night_shift_1.webp','images/p8/p8_the_night_shift_2.webp','images/p8/p8_the_night_shift_3.webp','images/p8/p8_the_night_shift_4.webp','images/p8/p8_the_night_shift_5.webp']
 });
@@ -6482,12 +6482,12 @@ STORIES[3][7].push({
   quiz:[
     {question:"Why is September the best time for invertebrate surveys?",options:["The river is at its lowest level","Populations peak and water temperature keeps creatures active","Rainfall is lowest so the water is clearest","Rare species migrate to the river"],correct:1,
      feedback:"'The populations are at their peak and the water temperature means the creatures are active.'"},
-    {question:"What made the rare riffle beetle significant?",options:["It was an endangered species","Mira photographed it and entered it into a national database","It was the first found in the river","It was only found at one survey point"],correct:1,
-     feedback:"'A rare riffle beetle that she took three photographs of and entered into a national database.'"},
-    {question:"What do stonefly larvae indicate about water quality?",options:["They can survive pollution better than other species","They indicate high levels of nitrates","They cannot survive above a certain pollution threshold, so finding them means the water is clean","They thrive in both clean and polluted water"],correct:2,
-     feedback:"'Stonefly larvae cannot survive in water above a certain pollution threshold. Finding them in good numbers means the water is clean.'"},
-    {question:"What could data from one volunteer group's survey potentially do?",options:["Replace professional monitoring","Allow the group to manage the land directly","Trigger an investigation that changed how nearby land was managed","Prove the river was safe for swimming"],correct:2,
-     feedback:"'One day's data from one volunteer group could trigger an investigation that changed how land nearby was managed.'"}
+    {question:"Why did Mira take three photographs of the riffle beetle?",options:["It was rare, so it was worth recording carefully","She wanted a picture for her wall","It was the biggest creature they found","The beetle was hurt"],correct:0,
+     feedback:"It was 'a rare riffle beetle', and she entered it into a national database — rare finds need good records."},
+    {question:"'Stonefly larvae cannot survive above a certain pollution threshold.' What does 'threshold' mean here?",options:["A door into a building","A level at which something changes","A type of river insect","A kind of fishing net"],correct:1,
+     feedback:"A threshold is a limit: above that level of pollution, the larvae cannot live."},
+    {question:"What can you guess about the river near the old farm track?",options:["It had the most stonefly larvae","It was the cleanest point on the river","It was probably more polluted than the other points","Nobody surveyed there"],correct:2,
+     feedback:"The results were 'worse at the section near the old farm track' — fewer sensitive creatures means more pollution."}
   ],
   images:['images/p8/p8_what_the_river_knows_1.webp','images/p8/p8_what_the_river_knows_2.webp','images/p8/p8_what_the_river_knows_3.webp','images/p8/p8_what_the_river_knows_4.webp','images/p8/p8_what_the_river_knows_5.webp']
 });
@@ -6518,10 +6518,10 @@ STORIES[3][7].push({
      feedback:"'You are not allowed to use pens — pencils only.'"},
     {question:"Why had St Columba's school come to the town?",options:["It had been closed down permanently","The building was being renovated","It had been evacuated from London at the start of the war","The headmaster had moved to the area"],correct:2,
      feedback:"'A school called St Columba's, which had been evacuated from London to our town in September 1939.'"},
-    {question:"How did the two schools share the one building?",options:["Different wings for each school","Using it in shifts","London children in the morning, local in the afternoon","Alternate days of the week"],correct:1,
-     feedback:"'Two schools sharing one building, using it in shifts.'"},
-    {question:"What did the teacher say in her note at the end of the project?",options:["Only that the word count was too long","That the research was poor","That the word count was too long, but also that the St Columba's discovery was genuinely interesting","That the narrator should visit the archive again"],correct:2,
-     feedback:"She noted the brief was not followed, but added 'the discovery about St Columba's was genuinely interesting.'"}
+    {question:"'You could read the strain underneath.' What does 'strain' mean here?",options:["Worry and pressure","Bad spelling","A type of ink","Anger at the children"],correct:0,
+     feedback:"The headmaster was asking for money for basic supplies. Under the careful handwriting, you could feel his worry."},
+    {question:"The narrator has been back to the archive four times. What does this suggest?",options:["The teacher made them go back","They lost something there","The project wasn't finished","They became really interested in local history"],correct:3,
+     feedback:"Nobody made them go back. Choosing to return four times shows the archive really caught their interest."}
   ],
   images:['images/p8/p8_the_archive_1.webp','images/p8/p8_the_archive_2.webp','images/p8/p8_the_archive_3.webp','images/p8/p8_the_archive_4.webp','images/p8/p8_the_archive_5.webp']
 });
@@ -6550,12 +6550,12 @@ STORIES[3][7].push({
   quiz:[
     {question:"Where did the narrator's starter originally come from?",options:["They made it from scratch","A specialist bakery","A portion of their grandmother's eleven-year-old starter","A kit bought online"],correct:2,
      feedback:"'My grandmother kept hers alive for eleven years before she gave me a portion of it in a jar.'"},
-    {question:"What was wrong with the second loaf?",options:["It was too flat from under-folding","It had a burnt crust","It was gummy in the middle from being proved too long","It had too strong a sour flavour"],correct:2,
-     feedback:"'The second was gummy in the middle — it had been proved too long and the yeast had exhausted its food.'"},
-    {question:"What does the bread teach about timing?",options:["Exact timings must be followed to the minute","Timing is less important than the type of flour used","You must watch the dough, not the clock","A shorter prove always produces a better loaf"],correct:2,
-     feedback:"'You have to watch the dough, not the clock. If it looks ready, it is ready.'"},
-    {question:"How does the narrator track the starter's growth between feedings?",options:["A temperature gauge","A rubber band marking the level after each feeding","A daily photograph","Weighing the jar"],correct:1,
-     feedback:"'A jar with a rubber band marking where it was after the last feeding.'"}
+    {question:"Why did the third loaf turn out better?",options:["The narrator had learned from the mistakes in the first two","They used a new oven","Their grandmother baked it","They used a different starter"],correct:0,
+     feedback:"The first loaf was under-folded and the second was proved too long. By the third, the narrator had fixed both problems."},
+    {question:"'If you neglect it for too long, it dies.' What does 'neglect' mean?",options:["Feed it too often","Forget to look after it","Keep it in the fridge","Give some of it away"],correct:1,
+     feedback:"To neglect something is to not take care of it. A starter needs feeding every day."},
+    {question:"Why does the family talk about the starter 'as if it is a person'?",options:["It has a name on the jar","The grandmother cannot remember its name","It makes noises in the jar","It is alive and has been part of the family for years"],correct:3,
+     feedback:"The starter is a living culture, and it 'has lived in our family longer than I have.'"}
   ],
   images:['images/p8/p8_slow_bread_1.webp','images/p8/p8_slow_bread_2.webp','images/p8/p8_slow_bread_3.webp','images/p8/p8_slow_bread_4.webp','images/p8/p8_slow_bread_5.webp']
 });
