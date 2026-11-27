@@ -391,6 +391,10 @@
     .study-card-hint{font-size:11px;font-weight:700;color:var(--primary-dark);margin-top:4px}
     .study-card-word-back{font-family:var(--font-head);font-weight:900;font-size:19px;color:var(--navy);text-transform:capitalize}
     .study-card-def{font-size:14px;color:var(--text);font-weight:600;line-height:1.5}
+    /* F12 · example sentence from the story, on the card back */
+    .study-card-example{display:flex;align-items:center;gap:6px;background:var(--primary-light);border-radius:12px;padding:6px 6px 6px 12px;margin-top:2px;max-width:100%;text-align:left}
+    .study-card-example-text{font-size:13px;line-height:1.4;color:var(--text);font-style:italic;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .study-card-example-text b{font-style:normal;font-weight:800;color:var(--primary-dark)}
     .study-card-translation{font-size:12px;color:var(--text-muted);font-style:italic}
     .study-actions{width:100%;max-width:340px;display:flex;gap:12px;margin-top:6px}
     .study-unknown-btn{flex:1;height:50px;background:var(--wrong-bg);border-radius:14px;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--wrong);font-family:var(--font-head);font-weight:800;font-size:13px}
@@ -2295,6 +2299,7 @@ function addWordToDeck(word){
   state.flashCards[word]={
     def: vocab?vocab.def:'', pos: vocab?vocab.pos:'',
     translation: ja?ja.w:null, translationDef: ja?ja.d:null,
+    src: state.lastStoryId||null, // F12: story the word was saved from
   };
   checkVocabMilestone(oldCount,Object.keys(state.flashCards).length);
   save();
@@ -2326,10 +2331,41 @@ function saveAllTappedWords(){
     if(state.flashCards[word]) return; // already saved — skip
     const v=vocab[word];
     const ja=typeof JA_TRANSLATIONS!=='undefined'?JA_TRANSLATIONS[word]:null;
-    state.flashCards[word]={def:v?v.def:'', pos:v?v.pos:'', translation:ja?ja.w:null, translationDef:ja?ja.d:null};
+    state.flashCards[word]={def:v?v.def:'', pos:v?v.pos:'', translation:ja?ja.w:null, translationDef:ja?ja.d:null, src:state.lastStoryId||null};
     added++;
   });
   if(added>0){ checkVocabMilestone(oldCount,Object.keys(state.flashCards).length); save(); showToast(t('tappedSaveAll',added)); render(); }
+}
+// F12 · Flashcard example sentence. Finds the sentence a saved word appeared in: first in the
+// story it was saved from (card.src), else (cards saved before F12, culture words) the first
+// story in the library that uses it. Cached, since the library scan is ~300 stories.
+const _exampleCache={};
+function exampleSentence(word,src){
+  const key=word+'|'+(src||'');
+  if(key in _exampleCache) return _exampleCache[key];
+  const safe=word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const re=new RegExp('(^|[^A-Za-z\u00C0-\u024F\'])('+safe+')(?![A-Za-z\u00C0-\u024F])','i');
+  const fromStory=st=>{
+    if(!st||!st.paragraphs) return null;
+    for(const p of st.paragraphs){
+      const m=re.exec(p); if(!m) continue;
+      const sen=sentenceAt(p,m.index+m[1].length);
+      if(sen&&sen.text.length<=100) return sen.text; // longer ones would be clipped on the card
+    }
+    return null;
+  };
+  let out=src?fromStory(findStory(src)):null;
+  if(!out) scan: for(const lv in STORIES) for(const sl in STORIES[lv]) for(const st of STORIES[lv][sl]){ out=fromStory(st); if(out) break scan; }
+  return (_exampleCache[key]=out||null);
+}
+// The sentence as HTML with the studied word bolded.
+function exampleSentenceHtml(sentence,word){
+  const safe=word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const re=new RegExp('(^|[^A-Za-z\u00C0-\u024F\'])('+safe+')(?![A-Za-z\u00C0-\u024F])','i');
+  const m=re.exec(sentence);
+  if(!m) return escAttr(sentence);
+  const at=m.index+m[1].length;
+  return escAttr(sentence.slice(0,at))+'<b>'+escAttr(m[2])+'</b>'+escAttr(sentence.slice(at+m[2].length));
 }
 function levelDoneCount(lv){ let c=0; for(let sl=0;sl<10;sl++) if(subLevelDone(lv,sl)) c++; return c; }
 function backFromCelebration(){
@@ -3099,7 +3135,7 @@ const UI_STRINGS = {
     moreToComplete:(n)=>`${n} more to complete your passport`, destLocked:(name)=>`Complete ${name} first to unlock this!`,
     inProgress:'IN PROGRESS', completed:'Completed', storiesFrom:(name)=>`STORIES FROM ${name.toUpperCase()}`, destNoStories:'Stories coming soon — check back next time!',
     didYouKnow:'DID YOU KNOW?', cultureWords:'CULTURE WORDS', passportStamped:'✓ PASSPORT STAMPED',
-    cultureWordSaved:(w)=>`“${w}” saved to Flash Cards`, hearWord:(w)=>w?`Hear “${w}”`:'Hear this word',
+    cultureWordSaved:(w)=>`“${w}” saved to Flash Cards`, hearExample:'Hear the sentence', hearWord:(w)=>w?`Hear “${w}”`:'Hear this word',
     profileStatsReadLabel:'Stories Read', profileStatsWordsLabel:'Words Known', profileStatsStreakLabel:'Day Streak',
     recentBadges:'RECENT BADGES', seeAll:'See all →', noBadgesYet:'No badges earned yet — keep going!',
     noDecksTitle:'No word decks yet', noDecksBody:'Tap any word while reading to save it here.',
@@ -3262,7 +3298,7 @@ const UI_STRINGS = {
     moreToComplete:(n)=>`あと${n}か所でパスポート完成`, destLocked:(name)=>`さきに${name}をクリアしよう！`,
     inProgress:'進行中', completed:'完了', storiesFrom:(name)=>`${name}のおはなし`, destNoStories:'まもなくおはなしが追加されます！',
     didYouKnow:'しってた？', cultureWords:'文化のことば', passportStamped:'✓ パスポートにスタンプ！',
-    cultureWordSaved:(w)=>`「${w}」をフラッシュカードに保存しました`, hearWord:(w)=>w?`「${w}」をきく`:'この単語を聞く',
+    cultureWordSaved:(w)=>`「${w}」をフラッシュカードに保存しました`, hearExample:'文をきく', hearWord:(w)=>w?`「${w}」をきく`:'この単語を聞く',
     profileStatsReadLabel:'読んだ話', profileStatsWordsLabel:'覚えた単語', profileStatsStreakLabel:'連続日数',
     recentBadges:'さいきんのバッジ', seeAll:'すべて見る →', noBadgesYet:'まだバッジがありません。がんばろう！',
     noDecksTitle:'単語帳がまだないよ', noDecksBody:'おはなしを読みながら単語をタップして保存しよう。',
@@ -4183,6 +4219,10 @@ function renderFlashStudy(){
           </div>
           <div class="study-card-def">${w.def||''}</div>
           ${w.translation?`<div class="study-card-translation">${w.translation}${w.translationDef?' — '+w.translationDef:''}</div>`:''}
+          ${(()=>{ const ex=wordId?exampleSentence(wordId,w.src):null; return ex?`<div class="study-card-example">
+            <span class="study-card-example-text" lang="en">“${exampleSentenceHtml(ex,wordId)}”</span>
+            <button class="word-speak-btn" onclick="event.stopPropagation();speakText('${escAttr(jsStr(ex))}',0.9)" aria-label="${t('hearExample')}" title="${t('hearExample')}">${icon('ctrl-audio',16)}</button>
+          </div>`:''; })()}
         `}
       </div>
     </div>
