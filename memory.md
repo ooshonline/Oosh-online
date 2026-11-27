@@ -2,10 +2,10 @@
 
 ## Content Subpillar Counter
 
-`contentSubpillarRun: 35`
+`contentSubpillarRun: 36`
 
 Runs every 2nd session. Subpillar fires when counter is ODD at session start; always increment at wrap-up.
-Next subpillar: FIRES next session (counter = 35, odd).
+Next subpillar: SKIPPED next session (counter = 36, even); fires the one after.
 
 ---
 
@@ -133,6 +133,10 @@ this Pages site, from Phase 3 on). Deploys still go to GitHub Pages, as before.
 - ✅ Bug Fixes / Implementation Check (2026-11-25, automated) — B-recap-dark + B-muted night-theme colour fixes **DEPLOYED LIVE** (build 20261125)
 
 **Cycle 12 — COMPLETE. Next run starts Cycle 13 with Functionality.**
+
+**Cycle 13 — IN PROGRESS**
+- ✅ Functionality (2026-11-27, automated) — F12 flashcard example sentence + 2 bug fixes (Friday Home crash, "Hear “undefined”") + content subpillar C1 L3.8 **DEPLOYED LIVE** (build 20261127b)
+- Next: UI
 
 **Cycle 7 — COMPLETE**
 - ✅ Functionality (2026-08-17, automated)
@@ -2171,3 +2175,26 @@ commit) but were verified against real code before any fix landed.
 | `memory.md` | This file |
 | `TODO.md` | Outstanding work |
 | `ribbit-summary.md` | Old v1 architecture reference (partially outdated) |
+
+---
+
+### 2026-11-27 — Functionality Pillar + Content Subpillar (~25 min, automated) — Cycle 13
+
+**All DEPLOYED LIVE** (build 20261127 for code, 20261127b for content).
+- **B-quest-prune — Home crashed on Fridays for regular learners** (`ffa6b11`). Found while verifying, reproduced locally. `getTodayQuests()` pruned quest history by sorting `toDateString()` keys *alphabetically*; once a learner had 10+ days of history, "Fri …" sorted first, so today's entry was deleted the moment it was created and `renderHomeDash` threw on `q.stories` (blank Home, every Friday, for exactly the learners who use the app most). Weekly keys had the same risk ("Mon Dec …" sorts before "Mon Nov …"). New `pruneDateKeys()` sorts by real date and never drops the current key. This was live; worth knowing if Kyle had any "app is blank" reports.
+- **hearWord fix** (`75c717a`). `hearWord` was defined twice per language and the later function form won, so the reader/flashcard/placement 🔊 buttons had tooltip/aria "Hear “undefined”". One key now, with a plain fallback.
+- **F12 · Flashcard example sentence** (`7303985`). The card back shows the sentence the word came from (word bolded, 🔊 reads it at 0.9). New reader saves remember their story (`src` on the card); older cards and culture words fall back to the first library story using the word. Sentences over 100 characters are skipped so nothing clips on the fixed 240px card (swept 150 of the longest cases in ja + night: no clipping). Covers 1474/2222 library vocab words.
+- **Content subpillar, C1 L3.8** (`863f2fe`). 14 questions across l3.8s1–s5 replaced: 6 inference, 4 vocab-in-context (fraudulent, threshold, strain, neglect), 1 sequencing (FIRST), 1 main idea, 2 cause/effect. Correct answers now spread A–D (were mostly B). (The commit message miscounts these as 5 vocab; this line is right.)
+- Verified locally at 375 + 768, light + night, en + ja; golden path home → library → reader → quiz → celebration; l3.8s2 quiz played through by keyboard. Console: only the expected local `/api/me` 404s. Live check at ribbitpond.com/read/ (build 20261127, clean console).
+- Also: the 2026-11-26 cache-bust commit (`acadc9a`) missed `index.html`; fixed in this run's bump.
+- Spotted, not fixed: JA gloss for "premises" (l5.1s1) is 敷地内 ("on the grounds"), but the story means premises of an argument. Logged as B-ja-premises.
+- Next: Cycle 13, UI. Subpillar skipped next run (counter 36, even). C1 continues at L3.9.
+
+## 2026-11-26 19:14 JST — scheduled run STOOD DOWN (concurrency check)
+
+The `ribbit-app-update` run found commit `64e04cd` ("fix: vocab taps match accented words and capitalised
+keys", Claude Haiku co-author) committed at 19:13:08, one minute before the run started, unpushed
+(`master` ahead of origin by 1). Another session was evidently live, so this run made no code changes,
+no commits and no push, per the one-session-at-a-time rule. `contentSubpillarRun` left at 35 (the
+subpillar still fires next run); the pillar cycle position is unchanged. Kyle: please confirm `64e04cd`
+was verified and push/deploy it (or tell the next run to). **Resolved:** the other session pushed `64e04cd` + `acadc9a` itself at 19:17 that day.
